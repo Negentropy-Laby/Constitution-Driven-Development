@@ -1,0 +1,11 @@
+# CODEOWNERS — auto-assigns reviewers to PRs by path
+# Format: <pattern> <@github-username or @org/team>
+# Last match wins. Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# No active code owner is configured yet.
+# Add rules with a real Negentropy-Laby team slug before enabling reviewer automation.
+#
+# Example:
+# *                           @Negentropy-Laby/<team-slug>
+# CLAUDE.md                   @Negentropy-Laby/<team-slug>
+# .claude/                    @Negentropy-Laby/<team-slug>

@@ -1,0 +1,436 @@
+# Workflow Catalog
+# Used by /help to determine where a user is and what comes next.
+#
+# Artifact checks:
+#   glob: file glob pattern — complete if ≥1 file matches (or min_count)
+#   pattern: text pattern that must appear in the file (checked after glob)
+#   min_count: minimum matching files required (default: 1)
+#   note: human-readable fallback when completion can't be auto-detected
+#
+# required: true → blocks progression to next phase (shown as REQUIRED)
+# required: false → optional enhancement (shown as OPTIONAL)
+# repeatable: true → runs multiple times (one per system, story, etc.)
+# applies_to: [game] or [product] → /help filters the step by detected domain.
+# Shared steps omit applies_to so they remain visible for both domains.
+#
+# Phase gates (/gate-check): verdicts are ADVISORY — they guide the decision
+# but never hard-block advancement. The user always decides whether to proceed.
+
+phases:
+
+  concept:
+    label: "Concept"
+    description: "Develop your idea into a documented concept"
+    next_phase: systems-design
+    steps:
+      - id: constitute
+        name: "Constitution Legislation"
+        command: /constitute
+        required: true
+        artifact:
+          glob: "memory_bank/t0_core/basic_law_index.md"
+        description: "Establish project governing principles, core thesis, and T0-T1 memory bank. Domain-agnostic onboarding."
+
+      - id: constitute-check
+        name: "Constitution Health Check"
+        command: /constitute-check
+        required: false
+        description: "Audit whether the constitution, active context, concept, module index, and workflow state still align. Works for both game and product projects."
+
+      - id: brainstorm
+        name: "Brainstorm"
+        command: /brainstorm
+        required: false
+        description: "Explore concepts using ideation frameworks. Supports both game (MDA, verb-first, player psychology) and general product (action-first, JTBD, user psychology) domains."
+
+      - id: concept
+        name: "Concept Document"
+        command: /brainstorm
+        required: true
+        artifact:
+          glob: "design/cdd/*-concept.md"
+          min_count: 1
+        description: "Formalize concept with pillars, MDA analysis, and scope tiers. Game projects write game-concept.md; product projects write product-concept.md. Run this FIRST — /setup-engine requires a concept doc for domain-aware guidance."
+
+      - id: engine-setup
+        name: "Technology Setup"
+        command: /setup-engine
+        required: true
+        artifact:
+          glob: ".claude/docs/technical-preferences.md"
+          pattern: "Engine: [^[]|Language: [^[]"
+        description: "Configure engine (game) or technology stack (product). Pin version, set naming conventions and performance budgets."
+
+      - id: design-review-concept
+        name: "Concept Review"
+        command: /design-review
+        required: false
+        description: "Validate the concept document (recommended before proceeding)"
+
+      - id: art-bible-game
+        name: "Game Art Bible"
+        command: /art-bible
+        required: true
+        applies_to: [game]
+        artifact:
+          glob: "design/art/art-bible.md"
+        description: "Author the game visual identity specification: art bible, shape language, asset standards, HUD visual language, and production art constraints."
+
+      - id: product-style-guide
+        name: "Product Style Guide"
+        command: /art-bible
+        required: false
+        applies_to: [product]
+        artifact:
+          glob: "design/art/art-bible.md"
+        description: "Optional Product branch of /art-bible for projects that need brand/UI style guide, design tokens, docs imagery rules, and accessibility-constrained visual standards. API/CLI/backend-only products may skip it unless user-facing visuals or docs artifacts require a style guide."
+
+      - id: map-systems
+        name: "Systems Map"
+        command: /map-systems
+        required: true
+        artifact:
+          glob: "design/cdd/module-index.md"
+        description: "Decompose concept into systems with dependency ordering and priority tiers"
+
+  systems-design:
+    label: "Systems Design"
+    description: "Author a CDD for each system or module in the module index"
+    next_phase: technical-setup
+    steps:
+      - id: design-system
+        name: "System CDDs"
+        command: /design-system
+        required: true
+        repeatable: true
+        artifact:
+          note: "Check design/cdd/module-index.md — each MVP system needs Status: Approved"
+        description: "Author per-system CDDs (guided, section-by-section). Run once per system."
+
+      - id: design-review
+        name: "Per-System Design Review"
+        command: /design-review
+        required: true
+        repeatable: true
+        description: "Validate each CDD (8 required sections, no MAJOR REVISION verdict). Run per system."
+
+      - id: review-all-gdds
+        name: "Cross-CDD Review"
+        command: /review-all-gdds
+        description: "Holistic consistency check + design theory review across all CDDs simultaneously. Command name /review-all-gdds is historical — this skill reviews CDDs, not GDDs."
+        required: true
+        artifact:
+          glob: "design/cdd/cross-review-*.md"
+
+      - id: consistency-check
+        name: "Consistency Check"
+        command: /consistency-check
+        required: false
+        repeatable: true
+        description: "Scan all CDDs for contradictions, undefined references, and cross-module conflicts. Run after /review-all-gdds, and again any time a CDD is added or revised mid-project."
+
+  technical-setup:
+    label: "Technical Setup"
+    description: "Architecture decisions, visual identity specification, accessibility foundations, technology validation"
+    next_phase: pre-production
+    steps:
+      - id: create-architecture
+        name: "Architecture Document"
+        command: /create-architecture
+        required: true
+        artifact:
+          glob: "docs/architecture/architecture.md"
+        description: "Author the master architecture document covering all systems"
+
+      - id: architecture-decision
+        name: "Architecture Decisions (ADRs)"
+        command: /architecture-decision
+        required: true
+        repeatable: true
+        artifact:
+          glob: "docs/architecture/adr-*.md"
+          min_count: 3
+        description: "Document key technical decisions as ADRs. Minimum 3 Foundation-layer ADRs required."
+
+      - id: architecture-review
+        name: "Architecture Review"
+        command: /architecture-review
+        required: true
+        artifact:
+          glob: "docs/architecture/architecture-review-*.md"
+        description: "Validate completeness, dependency ordering, and technology compatibility"
+
+      - id: control-manifest
+        name: "Control Manifest"
+        command: /create-control-manifest
+        required: true
+        artifact:
+          glob: "docs/architecture/control-manifest.md"
+        description: "Flat programmer rules sheet generated from all Accepted ADRs"
+
+      - id: accessibility-doc
+        name: "Accessibility Requirements"
+        required: true
+        artifact:
+          glob: "design/accessibility-requirements.md"
+        description: "Commit accessibility tier (Basic/Standard/Comprehensive/Exemplary) and feature matrix. UX specs (Phase 4) reference this tier."
+
+  pre-production:
+    label: "Pre-Production / Pre-Implementation"
+    description: "UX specs, prototype the riskiest assumption, define stories, and validate the core hypothesis. Game: validate feel and core mechanics. Product: validate user value and core workflows."
+    next_phase: production
+    steps:
+      - id: asset-spec
+        name: "Asset Specs"
+        command: /asset-spec
+        required: false
+        repeatable: true
+        artifact:
+          glob: "design/assets/asset-manifest.md"
+        description: "Generate artifact specifications. Game: visual/audio/VFX asset specs from CDDs and level docs. Product: API schema, CLI help, docs asset, config sample, migration, deployment/package artifact specs."
+
+      - id: ux-design
+        name: "UX Specs (key screens)"
+        command: /ux-design
+        required: true
+        description: "Author UX specs for key screens, workflows, interaction patterns, or HUD. Game: menus and gameplay HUD. Product: user flows, UI screens, CLI flows, or API consumer interactions."
+        repeatable: true
+        artifact:
+          glob: "design/ux/*.md"
+          min_count: 1
+
+      - id: ux-review
+        name: "UX Review"
+        command: /ux-review
+        required: true
+        description: "Validate all key UX specs for CDD alignment and accessibility tier compliance. Works for both game and product projects."
+
+      - id: prototype
+        name: "Prototype"
+        command: /prototype
+        required: true
+        description: "Build throwaway prototypes in an isolated worktree to validate the riskiest assumption. Game: core mechanic. Product: core workflow, API contract, CLI flow, or data pipeline behavior."
+        artifact:
+          glob: "prototypes/*/README.md"
+          min_count: 1
+
+      - id: create-epics
+        name: "Create Epics"
+        command: /create-epics
+        required: true
+        repeatable: true
+        artifact:
+          glob: "production/epics/*/EPIC.md"
+          min_count: 1
+        description: "Translate CDDs + ADRs into epics — one per architectural module. Run per layer: /create-epics layer: foundation, then /create-epics layer: core"
+
+      - id: create-stories
+        name: "Create Stories"
+        command: /create-stories
+        required: true
+        repeatable: true
+        artifact:
+          glob: "production/epics/**/*.md"
+          min_count: 2
+        description: "Break each epic into implementable story files. Run per epic: /create-stories [epic-slug]"
+
+      - id: test-setup
+        name: "Test Framework Setup"
+        command: /test-setup
+        required: false
+        artifact:
+          note: "Check tests/ directory for engine- or stack-specific test framework scaffold"
+        description: "Scaffold the test framework and CI pipeline once before the first sprint. Leads to /test-helpers for fixture generation (engine-specific for game; stack-appropriate for product), /qa-plan per epic, and /smoke-check per sprint."
+
+      - id: sprint-plan
+        name: "First Sprint Plan"
+        command: /sprint-plan
+        required: true
+        artifact:
+          glob: "production/sprints/sprint-*.md"
+          min_count: 1
+        description: "Plan the first sprint with prioritized stories from epics"
+
+      - id: vertical-slice-playtest
+        name: "Vertical Slice Playtest"
+        command: /playtest-report
+        required: true
+        applies_to: [game]
+        artifact:
+          glob: "production/**/playtest*.md"
+          min_count: 1
+        description: "Document a game vertical-slice playtest of the core loop using /playtest-report. Run at least once before production."
+
+      - id: product-workflow-validation
+        name: "Product Workflow Validation"
+        command: /playtest-report
+        required: true
+        applies_to: [product]
+        artifact:
+          glob: "production/validation/*.md"
+          min_count: 1
+        description: "Document a product user-test or workflow validation session for API/CLI/web/data flow using /playtest-report. Run at least once before implementation."
+
+  production:
+    label: "Production / Implementation"
+    description: "Sprint-based feature development — pick, implement, close stories. Game: playtesting. Product: user testing."
+    next_phase: polish
+    steps:
+      - id: sprint-plan
+        name: "Sprint Plan"
+        command: /sprint-plan
+        required: true
+        repeatable: true
+        artifact:
+          glob: "production/sprints/sprint-*.md"
+        description: "Plan the current sprint with prioritized, ready stories"
+
+      - id: story-readiness
+        name: "Story Readiness Check"
+        command: /story-readiness
+        required: false
+        description: "Validate a story is implementation-ready before a developer picks it up"
+
+      - id: implement
+        name: "Implement Stories"
+        command: /dev-story
+        required: true
+        repeatable: true
+        artifact:
+          note: "Check src/ for active code and production/epics/**/*.md for In Progress stories"
+        description: "Pick the next ready story and implement it with /dev-story [story-path]. Routes to the correct programmer agent."
+
+      - id: code-review
+        name: "Code Review"
+        command: /code-review
+        required: false
+        description: "Architectural code review after each story implementation. Works for both game and product projects."
+        repeatable: true
+
+      - id: story-done
+        name: "Story Done Review"
+        command: /story-done
+        required: true
+        repeatable: true
+        description: "Verify all acceptance criteria, check CDD/ADR deviations, close the story"
+
+      - id: qa-plan
+        name: "QA Plan"
+        command: /qa-plan
+        required: false
+        description: "Generate a QA test plan per epic or sprint. Game: playtest-based. Product: contract/integration/smoke test-based."
+        repeatable: true
+
+      - id: bug-report
+        name: "Bug Report / Triage"
+        command: /bug-report
+        required: false
+        repeatable: true
+        description: "Log and prioritize bugs found during implementation. /bug-report creates a structured report; /bug-triage prioritizes the open backlog."
+
+      - id: retrospective
+        name: "Sprint Retrospective"
+        command: /retrospective
+        required: false
+        repeatable: true
+        description: "Post-sprint review to capture what worked and what to change. Run at the end of each sprint, before planning the next."
+
+      - id: team-feature
+        name: "Team Orchestration (optional)"
+        required: false
+        repeatable: true
+        description: "Coordinate multiple agents on a complex feature. Game: /team-combat, /team-narrative, /team-ui, /team-audio, /team-level, /team-live-ops, /team-qa. Product: use the product branch inside the same team commands, or coordinate /code-review with lead-programmer, language specialist, architect, devops, security, and QA as needed."
+
+      - id: scope-check
+        name: "Scope Check"
+        command: /scope-check
+        required: false
+        repeatable: true
+        artifact:
+          glob: "production/sprints/sprint-*.md"
+          note: "Run when stories are added mid-sprint, or before sprint retrospectives"
+        description: "Detect scope creep by comparing current sprint scope to original epic scope. Run (a) when stories are added mid-sprint, or (b) before sprint retrospectives."
+
+      - id: sprint-status
+        name: "Sprint Status"
+        command: /sprint-status
+        required: false
+        description: "Quick 30-line snapshot of sprint progress without a full report"
+
+  polish:
+    label: "Polish / Verification"
+    description: "Final quality validation before release. Game: performance, balance, playtesting, bug fixing. Product: test evidence, user testing, reliability, operational readiness."
+    next_phase: release
+    steps:
+      - id: perf-profile
+        name: "Performance Profile"
+        command: /perf-profile
+        required: false
+        description: "Profile and optimize performance. Game: CPU/GPU/frame-time. Product: API latency, DB queries, memory, throughput."
+
+      - id: balance-check
+        name: "Balance Check"
+        command: /balance-check
+        required: false
+        description: "Analyze balance constraints. Game: formulas, economy, damage, progression, difficulty. Product: quotas, rate limits, pricing tiers, permissions, workflow friction, retry/backoff, and operational budgets."
+
+      - id: asset-audit
+        name: "Asset Audit"
+        command: /asset-audit
+        required: false
+        description: "Verify artifact compliance. Game: art/audio/VFX/shader/data asset naming, formats, import readiness, and size budgets. Product: API schemas, OpenAPI/SDK artifacts, CLI help snapshots, docs assets, package/build output, migration files, config examples, generated clients, release bundles, and data fixtures."
+
+      - id: playtest-polish
+        name: "Playtest Sessions (x3)"
+        command: /playtest-report
+        required: true
+        applies_to: [game]
+        artifact:
+          glob: "production/**/playtest*.md"
+          min_count: 3
+        description: "Cover new player experience, mid-game systems, difficulty curve, and core loop regressions."
+
+      - id: product-validation-polish
+        name: "Product Validation Sessions (x3)"
+        command: /playtest-report
+        required: true
+        applies_to: [product]
+        artifact:
+          glob: "production/validation/*.md"
+          min_count: 3
+        description: "Cover new-user workflow, core API/CLI/web flow, error recovery, migration/deployment confidence, and adoption blockers."
+
+      - id: team-polish
+        name: "Polish Team Pass"
+        command: /team-polish
+        required: true
+        description: "Coordinated polish pass. Game: performance, audio, visual, UX, gameplay behavior. Product: UX clarity, API/CLI ergonomics, docs accuracy, observability, error messages, accessibility, deployment readiness, and reliability."
+
+  release:
+    label: "Release"
+    description: "Launch preparation, certification, and ship"
+    next_phase: null
+    steps:
+      - id: release-checklist
+        name: "Release Checklist"
+        command: /release-checklist
+        required: true
+        description: "Pre-release validation across all departments. Game: store/certification. Product: deployment, migrations, monitoring, security."
+
+      - id: patch-notes
+        name: "Patch Notes"
+        command: /patch-notes
+        required: false
+        description: "Generate release notes. Game: player-facing. Product: developer-facing with API/CLI/UI categories."
+
+      - id: changelog
+        name: "Changelog"
+        command: /changelog
+        required: false
+        description: "Auto-generate internal changelog. Game: commit/sprint-based. Product: API changes, migrations, dependency updates."
+
+      - id: launch-checklist
+        name: "Launch Checklist"
+        command: /launch-checklist
+        required: true
+        description: "Final launch readiness. Game: platform certification. Product: deployment strategy, rollback plan, on-call."
