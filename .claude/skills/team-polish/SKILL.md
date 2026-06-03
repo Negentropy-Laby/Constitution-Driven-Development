@@ -13,7 +13,18 @@ Detect the project domain before the polish pass:
 - `design/cdd/product-concept.md` -> **[Product]** run a product polish pass across UX clarity, API/CLI ergonomics, docs accuracy, performance, observability, error messages, accessibility, deployment readiness, and reliability.
 - If unclear, ask whether this polish target is game feel/content or product usability/reliability.
 
-Do not delete game polish checks. Product polish checks are a parallel branch.If no argument is provided, output usage guidance and exit without spawning any agents:
+Do not delete game polish checks. Product polish checks are a parallel branch.
+
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, target CDDs, art bible, UX/HUD specs, performance budgets, playtest/bug reports, QA evidence | Product Concept, target CDDs, interaction patterns, optional style/design system docs, ADRs, performance budgets, docs/examples, QA/deployment evidence |
+| Steps | Assess, optimize, polish visuals/audio/feel/UX, test edge cases, produce release-quality verdict | Assess, polish UX/API/CLI/docs/errors/observability/reliability/security/deployment readiness, test regressions, produce release-quality verdict |
+| Outputs | Prioritized polish backlog, code/content fixes, profiler/evidence notes, QA retest list, READY/NEEDS MORE WORK verdict | Prioritized product polish backlog, contract/docs/deploy/test impact, hardening checklist, evidence paths, READY/NEEDS MORE WORK verdict |
+| Next steps | `/asset-audit`, `/team-qa`, `/release-checklist`, `/team-release` | `/content-audit`, `/security-audit` when available or manual security review, `/team-qa`, `/release-checklist`, `/team-release` |
+
+If no argument is provided, output usage guidance and exit without spawning any agents:
 > Usage: `/team-polish [feature or area]` — specify the feature or area to polish (e.g., `combat`, `main menu`, `inventory system`, `level-1`). Do not use `AskUserQuestion` here; output the guidance directly.
 
 When this skill is invoked with an argument, orchestrate the polish team through a structured pipeline.

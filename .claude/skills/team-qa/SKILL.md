@@ -15,6 +15,16 @@ Detect the project domain before QA orchestration:
 - If unclear, ask whether QA should follow game playtest gates or product test evidence gates.
 
 Game QA workflow remains intact. Product QA orchestration is added beside it.
+
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, sprint/story files, game CDDs, QA plan, smoke tests, playtest reports, platform/input requirements | Product Concept, sprint/story files, product CDDs, QA plan, API/CLI/workflow/migration/auth evidence, deployment smoke, user-test reports |
+| Steps | Strategy, test plan, game test cases, smoke gate, manual QA/playtest execution, bug reporting, sign-off | Strategy, test plan, contract/CLI/migration/permission/workflow test cases, smoke gate, manual/user-test/deployment evidence, bug reporting, sign-off |
+| Outputs | QA package under `production/qa/`, playtest/evidence entries, bug reports, sign-off verdict | QA package under `production/qa/`, product evidence entries, contract/migration/deployment/user-test gaps, bug reports, sign-off verdict |
+| Next steps | Fix blockers, rerun `/smoke-check`, run `/test-evidence-review`, proceed to `/gate-check` or `/team-polish` | Fix blockers, rerun `/smoke-check`, run `/test-evidence-review`, proceed to `/gate-check`, `/team-polish`, or `/release-checklist` |
+
 When this skill is invoked, orchestrate the QA team through a structured testing cycle.
 
 **Decision Points:** At each phase transition, use `AskUserQuestion` to present

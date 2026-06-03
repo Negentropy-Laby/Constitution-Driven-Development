@@ -741,6 +741,15 @@ etc.) and product-specific patterns (forms, tables, command help, API error
 payloads, empty states, import/export flows, auth prompts, destructive actions)
 with animation, sound, copy, accessibility, and feedback standards.
 
+For product projects, design artifacts are split by surface:
+- `design/brand/style-guide.md` is optional for brand tone, docs imagery,
+  screenshots, diagrams, and public release material standards.
+- `design/ux/interaction-patterns.md` is required when the product has an API,
+  CLI, SDK/library, web UI, admin console, docs-driven consumer journey, or other
+  user/integrator-facing surface.
+- `design/design-system.md` is required only for UI-heavy products such as web
+  apps, desktop/mobile apps, admin consoles, and component-heavy docs sites.
+
 **UX Review:**
 
 ```
@@ -1677,7 +1686,7 @@ conflicts go to `producer`.
 
 | Command | Purpose | Phase |
 |---------|---------|-------|
-| `/art-bible` | Game art bible or Product brand/UI style guide | 1-3 |
+| `/art-bible` | Game art bible or Product brand style guide at `design/brand/style-guide.md` | 1-3 |
 | `/asset-spec` | Game visual/audio/VFX asset specs or Product API/CLI/docs/config/migration/package artifact specs | 4 |
 | `/asset-audit` | Game asset compliance or Product schema/build/docs/migration/config/package artifact audit | 6 |
 

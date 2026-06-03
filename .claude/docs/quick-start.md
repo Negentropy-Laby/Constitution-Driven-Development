@@ -175,6 +175,8 @@ Templates are in `.claude/docs/templates/`:
 - `level-design-document.md` -- for new levels
 - `game-pillars.md` -- game-specific core design pillars
 - `art-bible.md` -- for visual style reference
+- `style-guide.md` -- for product brand, docs imagery, screenshots, diagrams, and release material standards
+- `design-system.md` -- for UI-heavy product component rules and implementation handoff
 - `technical-design-document.md` -- for per-system technical designs
 - `post-mortem.md` -- for project/milestone retrospectives
 - `sound-bible.md` -- for audio style reference

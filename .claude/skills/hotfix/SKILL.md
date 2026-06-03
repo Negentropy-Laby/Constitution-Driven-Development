@@ -14,6 +14,16 @@ Detect the project domain before running the hotfix workflow:
 - If unclear, ask whether this is a game build hotfix or a product/service hotfix.
 
 Do not remove game hotfix guidance. Product incident/hotfix guidance is added beside it.
+
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, bug report, release tag/build, affected CDD/ADR, tests, crash/playtest/session evidence | Product Concept, incident/bug report, release tag/deploy, affected CDD/ADR, logs/alerts, API/CLI/workflow/migration/config/deployment/package evidence |
+| Steps | Assess severity, create hotfix record/branch, implement minimal fix, run targeted tests/regression, collect approvals, deploy/backport | Assess severity, create incident/hotfix record/branch, implement minimal fix, validate contract/workflow/migration/config/deploy/package recovery, collect approvals, deploy/backport |
+| Outputs | `production/hotfixes/hotfix-[date]-[short-name].md`, branch, test evidence, rollback plan, backport notes | Same hotfix record plus product incident context, monitoring signal, compatibility risk, deployment/rollback evidence |
+| Next steps | Verify via `/bug-report verify`, monitor player reports, backport to main, add regression coverage | Verify monitoring/customer recovery, run `/test-evidence-review`, update release notes/docs, backport, add regression/contract coverage |
+
 > **Explicit invocation only**: This skill should only run when the user explicitly requests it with `/hotfix`. Do not auto-invoke based on context matching.
 
 ## Phase 1: Assess Severity

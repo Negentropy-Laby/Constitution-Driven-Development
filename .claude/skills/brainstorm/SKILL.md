@@ -334,7 +334,9 @@ Collect both verdicts, present together using a two-tab `AskUserQuestion`:
 The user's selected visual anchor (the named direction or their custom
 description) is stored as the **Visual Identity Anchor** — it will be written
 into the concept document. **游戏专用**: becomes the foundation of the
-**art bible**. **通用产品**: becomes the foundation of the **design system**.
+**art bible**. **通用产品**: becomes the foundation for the product
+**brand style guide**, `design/ux/interaction-patterns.md`, and, only for
+UI-heavy products, `design/design-system.md`.
 
 If creative-director returns CONCERNS or REJECT, resolve before visual selection.
 

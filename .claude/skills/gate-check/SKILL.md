@@ -158,7 +158,7 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 - [ ] Accessibility tier is defined and documented (even "Basic" is acceptable — undefined is not)
 - [ ] All ADRs have an **Engine Compatibility section** with engine version stamped
 - [ ] All ADRs have a **CDD Requirements Addressed section** with explicit CDD linkage
-- [ ] No ADR references APIs listed in `docs/engine-reference/[engine]/deprecated-apis.md`
+- [ ] No ADR references APIs listed in the engine deprecated APIs reference under `docs/engine-reference/[engine]/`
 - [ ] All HIGH RISK engine domains (per VERSION.md) have been explicitly addressed
       in the architecture document or flagged as open questions
 - [ ] Architecture traceability matrix has **zero Foundation layer gaps**
@@ -180,10 +180,20 @@ A depends on B). If any cycle is detected (e.g. A→B→A, or A→B→C→A):
 
 **[通用产品] Product: Architecture → Pre-Implementation**
 
+Before checking design artifacts, classify the product surface from
+`design/cdd/product-concept.md` and `.claude/docs/technical-preferences.md`:
+API-only, CLI-only, SDK/library, Web UI, desktop/mobile/admin UI, internal
+headless service, or multi-surface product. Apply the conditional artifact rules
+below. Do not fail an API-only, CLI-only, SDK/library, or internal headless
+product for missing `design/design-system.md`.
+
 **Required Artifacts:**
 - [ ] Technology stack configured (CLAUDE.md Technology Stack is not `[CHOOSE]`)
 - [ ] Technical preferences configured (`.claude/docs/technical-preferences.md` populated)
-- [ ] Design system foundation documented at `design/design-system.md` with at least: visual identity principles, component patterns, and interaction guidelines
+- [ ] Product surface profile is recorded in the gate report (API-only, CLI-only, SDK/library, UI-heavy, internal headless, or multi-surface)
+- [ ] `design/ux/interaction-patterns.md` exists when the product has an API, CLI, SDK/library, web UI, desktop/mobile/admin UI, docs-driven consumer journey, or other user/integrator-facing surface. Internal headless services may mark this N/A with justification
+- [ ] `design/design-system.md` exists only for UI-heavy products (web app, desktop/mobile UI, admin console, component-heavy docs/site, or multi-surface product with a UI)
+- [ ] `design/brand/style-guide.md` is optional unless the product has public brand, documentation imagery, screenshots, diagrams, marketing/release visuals, or visual tone requirements
 - [ ] At least 3 Architecture Decision Records in `docs/architecture/` covering Foundation-layer modules (data storage, auth framework, error handling)
 - [ ] Stack reference docs exist in `docs/reference/[stack]/`
 - [ ] Test framework initialized: `tests/unit/` and `tests/integration/` directories exist
@@ -199,9 +209,13 @@ A depends on B). If any cycle is detected (e.g. A→B→A, or A→B→C→A):
 - [ ] Architecture decisions cover core modules (auth, data access, API framework, logging)
 - [ ] Technical preferences have naming conventions and performance budgets set
 - [ ] Accessibility tier is defined and documented
+- [ ] API-only products validate API consumer interaction patterns: auth, errors, pagination, idempotency, rate limits, examples, and docs handoff
+- [ ] CLI-only products validate CLI interaction patterns: help text, prompts, stdout/stderr boundaries, exit codes, destructive confirmations, and scripted usage
+- [ ] SDK/library products validate integrator interaction patterns: typed errors, examples, versioning, deprecation behavior, and docs snippets
+- [ ] UI-heavy products validate design-system coverage: component patterns, states, responsive behavior, accessibility integration, localization/text expansion, and implementation handoff
 - [ ] All ADRs have a **Technology Compatibility section** with stack version stamped
 - [ ] All ADRs have a **CDD Requirements Addressed section** with explicit CDD linkage
-- [ ] No ADR references APIs listed in `docs/reference/[stack]/deprecated-apis.md`
+- [ ] No ADR references APIs listed in the stack deprecated APIs reference under `docs/reference/[stack]/`
 - [ ] All HIGH RISK stack domains (per VERSION.md) have been explicitly addressed in the architecture document or flagged as open questions
 - [ ] Architecture traceability matrix has **zero Foundation layer gaps** (all Foundation requirements must have ADR coverage before Pre-Implementation)
 
@@ -269,10 +283,16 @@ A depends on B). If any cycle is detected (e.g. A→B→A, or A→B→C→A):
 
 **[通用产品] Product: Pre-Implementation → Implementation**
 
+Apply the same product surface profile used by the Architecture gate. API-only,
+CLI-only, SDK/library, and internal headless products are not blocked by missing
+`design/design-system.md`; UI-heavy and multi-surface UI products are.
+
 **Required Artifacts:**
 - [ ] At least 1 prototype in `prototypes/` with a README
 - [ ] First sprint plan exists in `production/sprints/`
-- [ ] Design system is complete at `design/design-system.md` with all sections (visual identity principles, component patterns, interaction guidelines, accessibility integration)
+- [ ] `design/ux/interaction-patterns.md` exists for every API, CLI, SDK/library, web UI, desktop/mobile/admin UI, docs-driven consumer journey, or other user/integrator-facing surface; internal headless services may mark this N/A with justification
+- [ ] `design/design-system.md` is complete only for UI-heavy products, with component patterns, interaction states, accessibility integration, responsive behavior, and implementation handoff
+- [ ] `design/brand/style-guide.md` exists only when public brand, documentation imagery, screenshots, diagrams, marketing/release visuals, or visual tone requirements are in scope
 - [ ] All MVP-tier CDDs from module index are complete
 - [ ] Master architecture document exists at `docs/architecture/architecture.md`
 - [ ] At least 3 ADRs covering Foundation-layer decisions exist in `docs/architecture/`
@@ -287,8 +307,9 @@ A depends on B). If any cycle is detected (e.g. A→B→A, or A→B→C→A):
 
 **Quality Checks:**
 - [ ] **Core interaction validated** — user testing data confirms the central workflow solves the user's job, not just functional
-- [ ] UX specs cover all UI Requirements sections from MVP-tier CDDs
-- [ ] Interaction pattern library documents patterns used in key screens
+- [ ] UX specs cover all product surface requirements from MVP-tier CDDs: API consumer journeys, CLI flows, SDK integration paths, web/UI screens, or internal operator workflows as applicable
+- [ ] Interaction pattern library documents patterns used in key screens, commands, endpoint examples, SDK snippets, or workflow handoffs as applicable
+- [ ] UI-heavy products have design-system coverage for reusable components and states; API-only, CLI-only, SDK/library, and internal headless products record this as N/A rather than FAIL
 - [ ] Accessibility tier is addressed in all key screen UX specs
 - [ ] Sprint plan references real story file paths from `production/epics/` (not just CDDs — stories must embed CDD req ID + ADR reference)
 - [ ] **MVP is COMPLETE**, not just scoped — the build demonstrates the full core user journey end-to-end. At least one complete [task → completion → value] cycle works.
@@ -813,9 +834,9 @@ Based on the verdict, suggest specific next steps from the domain-appropriate li
 - **Not localized?
 
 ** → `/localize`
-- **Missing design system?
+- **Missing product design artifact?
 
-** → expand the Visual Identity Anchor in the concept document
+** → API/CLI/SDK products need `design/ux/interaction-patterns.md`; UI-heavy products also need `design/design-system.md`; brand/docs visuals use `design/brand/style-guide.md`
 - **No deployment strategy?
 
 ** → document deployment and rollback plan

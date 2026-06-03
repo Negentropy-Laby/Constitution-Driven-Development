@@ -75,7 +75,7 @@ The result: you still make every decision, but now you have a team that asks the
 | **Skills** | 73 | Slash commands for every workflow phase (`/constitute`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
 | **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
 | **Rules** | 16 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network, API, CLI, services, config, migrations, data, and infrastructure code |
-| **Templates** | 39 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility — covering both game and product project types |
+| **Templates** | 41 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product style guides, and UI-heavy design systems |
 
 ## Studio Hierarchy
 
@@ -185,7 +185,7 @@ src/                                # Game source code or product source code
   app/ or web/                      # Product web/mobile/desktop UI surface
   data/                             # Product data pipelines and transforms
 assets/                             # Game assets or product-facing assets/artifacts
-design/                             # CDDs, product specs, narrative docs, level designs, UX
+design/                             # CDDs, product specs, brand/style docs, narrative docs, level designs, UX
 docs/                               # Technical documentation and ADRs
   engine-reference/                 # Game engine reference snapshots
   reference/<stack>/                # Product stack/framework reference snapshots

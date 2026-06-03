@@ -15,6 +15,15 @@ Detect the project domain before release orchestration:
 
 Do not remove game release examples. Product release orchestration is a parallel branch.
 
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, milestone, release checklist, QA sign-off, regression suite, build artifacts, platform/store/community requirements | Product Concept, milestone, release checklist, QA sign-off, regression suite, deployment/migration/package artifacts, monitoring/on-call/docs/customer communication |
+| Steps | Release planning, candidate branch/build, QA/platform/security/netcode gates, localization/performance/analytics, go/no-go, deploy/store/community launch, post-release monitoring | Release planning, candidate branch/build, QA/security/deployment gates, migrations/rollback/monitoring/docs/customer comms, go/no-go, staged deploy, production deploy, post-release monitoring |
+| Outputs | Release authorization, branch/checklist, quality sign-offs, player-facing comms, deployment status, release report | Release authorization, branch/checklist, deployment/migration/rollback sign-offs, release notes/docs/customer comms, monitoring status, release report |
+| Next steps | Monitor dashboards/community, `/retrospective`, hotfix via `/hotfix` if needed | Monitor dashboards/on-call/support, `/retrospective`, incident or hotfix via `/hotfix` if needed |
+
 **Argument check:** If no version number is provided:
 1. Read `production/session-state/active.md` and the most recent file in `production/milestones/` (if they exist) to infer the target version.
 2. If a version is found: report "No version argument provided — inferred [version] from milestone data. Proceeding." Then confirm with `AskUserQuestion`: "Releasing [version]. Is this correct?"

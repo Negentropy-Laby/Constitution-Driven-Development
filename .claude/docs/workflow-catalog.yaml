@@ -83,8 +83,8 @@ phases:
         required: false
         applies_to: [product]
         artifact:
-          glob: "design/art/art-bible.md"
-        description: "Optional Product branch of /art-bible for projects that need brand/UI style guide, design tokens, docs imagery rules, and accessibility-constrained visual standards. API/CLI/backend-only products may skip it unless user-facing visuals or docs artifacts require a style guide."
+          glob: "design/brand/style-guide.md"
+        description: "Optional Product branch of /art-bible for projects that need brand, docs imagery, visual tone, screenshot/diagram rules, or public release materials. Product projects do not write to the game art bible path."
 
   systems-design:
     label: "Systems Design"
@@ -216,6 +216,16 @@ phases:
         artifact:
           glob: "design/ux/*.md"
           min_count: 1
+
+      - id: product-interaction-patterns
+        name: "Product Interaction Patterns"
+        command: /ux-design
+        required: true
+        required_when: "Product has an API, CLI, SDK/library, web UI, desktop/mobile UI, admin console, docs-driven consumer journey, or other user/integrator-facing surface. Mark not applicable only for internal headless services with no consumer workflow."
+        applies_to: [product]
+        artifact:
+          glob: "design/ux/interaction-patterns.md"
+        description: "Canonical product interaction behavior. API-only products document errors, auth, pagination, examples, and docs handoff; CLI products document help, prompts, stdout/stderr, confirmations, and exit codes; UI-heavy products document reusable UI behavior."
 
       - id: ux-review
         name: "UX Review"

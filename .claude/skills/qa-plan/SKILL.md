@@ -31,6 +31,15 @@ Detect the project domain by checking for concept documents in `design/cdd/`:
 - **Product**: `design/cdd/product-concept.md` exists → use `[Product]` paths below
 - **Neither**: default to game paths (preserves backward compatibility)
 
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, module index, story files, CDD formulas/acceptance, engine notes, control manifest | Product Concept, module index, story files, CDD data/contracts/acceptance, API/CLI/workflow/auth/migration notes, control manifest |
+| Steps | Classify Logic, Integration, Visual/Feel, UI, Config/Data stories; assign automated/manual/playtest evidence; define smoke scope | Classify API, CLI, Data/Migration, Auth/Permission, Workflow, UI, Integration, Ops/Deployment, Config stories; assign contract/migration/permission/workflow/manual evidence; define smoke scope |
+| Outputs | `production/qa/qa-plan-[scope]-[date].md` with automated tests, manual playtest/evidence requirements, smoke list, sign-offs | `production/qa/qa-plan-[scope]-[date].md` with contract tests, CLI smoke, migration dry-run, auth/permission checks, integration traces, user-test/manual evidence, deployment smoke, sign-offs |
+| Next steps | `/smoke-check sprint`, `/team-qa`, `/test-evidence-review`, `/regression-suite` | `/smoke-check sprint`, `/team-qa`, `/test-evidence-review`, `/regression-suite`, `/release-checklist` for deployment/package risk |
+
 ---
 
 ## Phase 1: Parse Scope
@@ -43,7 +52,7 @@ Determine scope from the argument:
   every story file path referenced. If `production/sprint-status.yaml` exists,
   use it as the primary story list and fall back to the sprint plan for story
   metadata.
-- **`feature: [system-name]`** — glob `production/epics/*/story-*.md`, filter
+- **`feature: [system-name]`** — glob story files under `production/epics/`, filter
   to stories whose file path or title contains the system name. Also check the
   epic index file (`EPIC.md`) in that system's directory.
 - **`story: [path]`** — validate that the path exists and load that single file.

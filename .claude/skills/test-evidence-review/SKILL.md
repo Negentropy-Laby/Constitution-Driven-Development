@@ -14,6 +14,16 @@ Detect the project domain before reviewing evidence:
 - If unclear, ask whether evidence should prove game playability or product workflow/API/CLI correctness.
 
 Preserve playtest evidence lookup. Product evidence lookup is a parallel branch.
+
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Story files, CDD acceptance, unit/integration tests, playtest/session logs, screenshots, smoke reports | Story files, CDD acceptance/contracts, contract/API tests, CLI smoke output, migration dry-run logs, auth/permission evidence, integration traces, deployment smoke, user-test notes |
+| Steps | Locate evidence by story type, read tests/docs, assess assertions, edge cases, naming, manual evidence completeness, sign-off | Locate evidence by product story type, read tests/logs/docs, assess contract coverage, CLI outputs, migration safety, permission matrix, observability/deployment evidence, sign-off |
+| Outputs | In-conversation verdicts and optional `production/qa/evidence-review-[date].md` with ADEQUATE/INCOMPLETE/MISSING per story | Same report path with product-specific ADEQUATE/INCOMPLETE/MISSING verdicts and evidence gaps by contract/workflow/ops category |
+| Next steps | Add missing tests/evidence, rerun `/smoke-check`, coordinate `/team-qa` | Add missing contract/CLI/migration/auth/deployment/user-test evidence, rerun `/smoke-check`, coordinate `/team-qa` |
+
 # Test Evidence Review
 
 `/smoke-check` verifies that test files **exist** and **pass**. This skill
@@ -50,7 +60,7 @@ Evidence section, story slug, system name.
 **Sprint**: Read the most recently modified file in `production/sprints/`.
 Extract the list of story file paths from the sprint plan. Read each story file.
 
-**System**: Glob `production/epics/[system-name]/story-*.md`. Read each.
+**System**: Glob story files under the matching system directory in `production/epics/`. Read each.
 
 For each story, collect:
 - `Type:` field (Logic / Integration / Visual/Feel / UI / Config/Data)

@@ -16,6 +16,15 @@ Detect the project domain by checking for concept documents in `design/cdd/`:
 - **Product**: `design/cdd/product-concept.md` exists → use `[Product]` paths below
 - **Neither**: default to game paths (preserves backward compatibility)
 
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, CLAUDE/version/platform targets, milestone, QA evidence, build/test outputs, store/platform requirements | Product Concept, CLAUDE/version/deployment target, milestone, QA evidence, CI/deploy outputs, migrations, monitoring, security/privacy/docs/package requirements |
+| Steps | Scan code health, build readiness, quality gates, content completion, platform/store/legal readiness, sign-offs | Scan code health, build/deploy readiness, quality gates, security, API/web/CLI/package/migration readiness, monitoring/rollback/support readiness, sign-offs |
+| Outputs | `production/releases/release-checklist-[version].md` with game platform checklist and go/no-go rationale | Same path with product release checklist by target: web/API/CLI/all plus deployment/migration/monitoring/security readiness |
+| Next steps | `/gate-check`, `/team-release`, fix blockers, rerun checklist | `/gate-check`, `/team-release`, fix blockers, rerun checklist, run `/launch-checklist` for launch readiness |
+
 ---
 
 ## Phase 1: Parse Arguments

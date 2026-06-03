@@ -1,7 +1,7 @@
 ---
 name: asset-spec
 description: "Generate artifact specifications from CDDs and related docs. Game: visual/audio/VFX asset specs and AI prompts. Product: API schema, CLI help, docs asset, config sample, migration, deployment, or package artifact specs."
-argument-hint: "[system:<name> | level:<name> | character:<name>] [--review full|lean|solo]"
+argument-hint: "[system:<name> | level:<name> | character:<name> | api:<name> | cli:<name> | sdk:<name> | docs:<name> | config:<name> | migration:<name> | deployment:<name> | package:<name>] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 ---
@@ -14,6 +14,18 @@ Detect the project domain before generating specs:
 - If unclear, ask which artifact family is being specified.
 
 Do not remove game asset examples. Product artifacts are an additional spec family.
+
+## Dual-Domain Parity Contract
+
+Keep both branches inside this command:
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | `design/cdd/game-concept.md`, target CDD/level/character doc, `design/art/art-bible.md`, `.claude/docs/technical-preferences.md`, existing asset manifest/specs | `design/cdd/product-concept.md`, module CDD, `design/ux/interaction-patterns.md`, optional `design/brand/style-guide.md`, optional `design/design-system.md`, `.claude/docs/technical-preferences.md`, architecture/ADR docs, existing artifact manifest/specs |
+| Steps | Identify visual/audio/VFX/UI/3D assets, confirm list, generate art and technical specs, resolve art/tech conflicts, write specs and manifest | Identify API/CLI/SDK/docs/config/migration/deployment/package/UI artifacts, confirm list, generate contract and operational specs, resolve implementation/docs/deploy conflicts, write specs and manifest |
+| Outputs | `design/assets/specs/[target]-assets.md` plus `design/assets/asset-manifest.md` entries | `design/assets/specs/[target]-artifacts.md` plus `design/assets/asset-manifest.md` entries for product artifacts |
+| Next steps | `/asset-spec [next-context]`, `/asset-audit`, `/team-polish` for asset quality | `/asset-spec [next-artifact]`, `/asset-audit`, `/test-evidence-review`, `/release-checklist` |
+
 If no argument is provided, check whether `design/assets/asset-manifest.md` exists:
 - If it exists: read it, find the first context (system/level/character) with any asset at status "Needed" but no spec file written yet, and use `AskUserQuestion`:
   - Prompt: "The next unspecced context is **[target]**. Generate asset specs for it?"
@@ -21,21 +33,25 @@ If no argument is provided, check whether `design/assets/asset-manifest.md` exis
 - If no manifest: fail with:
   > "Usage: `/asset-spec system:<name>` — e.g., `/asset-spec system:tower-defense`
   > Or: `/asset-spec level:iron-gate-fortress` / `/asset-spec character:frost-warden`
-  > Run after your art bible and CDDs are approved."
+  > Product examples: `/asset-spec api:billing` / `/asset-spec cli:import` / `/asset-spec migration:accounts-v2`
+  > Run after the relevant concept, CDD, and domain standards are approved."
 
 ---
 
 ## Phase 0: Parse Arguments
 
 Extract:
-- **Target type**: `system`, `level`, or `character`
+- **Target type**: `system`, `level`, `character`, `api`, `cli`, `sdk`, `docs`, `config`, `migration`, `deployment`, `package`, or `ui`
 - **Target name**: the name after the colon (normalize to kebab-case)
 - **Review mode**: `--review [full|lean|solo]` if present
 
 **Mode behavior:**
-- `full` (default): spawn both `art-director` and `technical-artist` in parallel
-- `lean`: spawn `art-director` only — faster, skips technical constraint pass
-- `solo`: no agent spawning — main session writes specs from art bible rules alone. Use for simple asset categories or when speed matters more than depth.
+- **Game full** (default): spawn both `art-director` and `technical-artist` in parallel
+- **Game lean**: spawn `art-director` only — faster, skips technical constraint pass
+- **Game solo**: no agent spawning — main session writes specs from art bible rules alone. Use for simple asset categories or when speed matters more than depth
+- **Product full** (default): spawn `lead-programmer`, `devops-engineer` when deployment/package/migration is involved, and `ux-designer` when API/CLI/UI/docs consumer behavior is involved
+- **Product lean**: spawn only the primary owner (`lead-programmer` for contracts/code artifacts, `devops-engineer` for deployment/package/migration, `ux-designer` for docs/help/UI artifacts)
+- **Product solo**: derive specs from CDD, architecture, interaction patterns, and technical preferences; flag missing specialist review in the output
 
 ---
 
@@ -43,12 +59,19 @@ Extract:
 
 Read all source material **before** asking the user anything.
 
-### Required reads:
+### Game Required Reads:
 - **Art bible**: Read `design/art/art-bible.md` — fail if missing:
   > "No art bible found. Run `/art-bible` first — asset specs are anchored to the art bible's visual rules and asset standards."
   Extract: Visual Identity Statement, Color System (semantic colors), Shape Language, Asset Standards (Section 8 — dimensions, formats, polycount budgets, texture resolution tiers).
 
 - **Technical preferences**: Read `.claude/docs/technical-preferences.md` — extract performance budgets and naming conventions.
+
+### Product Required Reads:
+- **Product concept**: Read `design/cdd/product-concept.md` — extract core promise, users, product surface profile, MVP scope, anti-goals, and public artifact categories.
+- **Interaction patterns**: Read `design/ux/interaction-patterns.md` when the artifact affects API consumers, CLI users, SDK integrators, docs readers, or UI workflows. If missing, warn and recommend `/ux-design interaction-patterns`; do not fail internal headless artifacts solely for this.
+- **Product style references**: Read `design/brand/style-guide.md` if present. For UI-heavy artifacts, read `design/design-system.md` if present.
+- **Technical preferences**: Read `.claude/docs/technical-preferences.md` — extract language, framework, build system, package manager, naming conventions, deployment target, and test framework.
+- **Architecture and ADRs**: Read `docs/architecture/architecture.md` and relevant `docs/architecture/adr-*.md` files when the artifact affects contracts, deployment, migrations, auth, data, or packaging.
 
 ### Source doc reads (by target type):
 - **system**: Read `design/cdd/[target-name].md`. Extract the **Visual/Audio Requirements** section. If it doesn't exist or reads `[To be designed]`:
@@ -56,6 +79,15 @@ Read all source material **before** asking the user anything.
   Use `AskUserQuestion`: `[A] Describe needs manually` / `[B] Stop — complete the CDD first`
 - **level**: Read `design/levels/[target-name].md`. Extract art requirements, asset list, VFX needs, and the art-director's production concept specs from Step 4.
 - **character**: Read `design/narrative/characters/[target-name].md` or search `design/narrative/` for the character profile. Extract visual description, role, and any specified distinguishing features.
+- **api**: Read the owning module CDD and existing `docs/api/**/*`, `openapi.*`, `schema/**/*`, or API source contracts. Extract endpoint names, request/response bodies, error envelopes, auth, pagination, rate limits, idempotency, and examples.
+- **cli**: Read the owning module CDD and existing CLI docs/source. Extract commands, flags, positional arguments, stdin/stdout/stderr behavior, prompts, exit codes, help text, config/env interactions, and examples.
+- **sdk**: Read module CDD, architecture, package docs, and example snippets. Extract public functions/classes, typed errors, versioning, deprecation behavior, install/import shape, examples, and compatibility promises.
+- **docs**: Read Product Concept, CDDs, UX specs, README/docs tree, and release notes. Extract pages, diagrams, screenshots, examples, tutorials, reference docs, and support/onboarding handoff.
+- **config**: Read technical preferences, architecture, sample config files, and deployment docs. Extract required keys, defaults, validation rules, secrets policy, environment overrides, and examples.
+- **migration**: Read data CDDs, architecture, ADRs, and existing migrations. Extract schema changes, forward/reverse behavior, dry-run requirements, data safety checks, rollback plan, and release sequencing.
+- **deployment**: Read architecture, CI/CD config, infrastructure files, and release docs. Extract artifacts, environments, health checks, rollback, monitoring, secrets, smoke checks, and on-call handoff.
+- **package**: Read package manifests, build config, release docs, and module CDDs. Extract package names, versioning, contents, install/upgrade behavior, signing, checksums, license files, and distribution targets.
+- **ui**: Read UI module CDDs, UX specs, `design/ux/interaction-patterns.md`, and `design/design-system.md` if present. Extract screens, components, states, responsive constraints, accessibility, localization, and screenshot/docs artifacts.
 
 ### Optional reads:
 - **Existing manifest**: Read `design/assets/asset-manifest.md` if it exists — extract already-specced assets for this target to avoid duplicates.
@@ -79,6 +111,13 @@ From the source doc, extract every asset type mentioned — explicit and implied
 **For levels**: look for unique environment props, atmospheric VFX, lighting setups, ambient audio, skybox/background, and any area-specific materials.
 
 **For characters**: look for sprite sheets (idle, walk, attack, death), portrait/avatar, VFX attached to abilities, UI representation (icon, health bar skin).
+
+**For product artifacts**:
+- API: schema files, request/response examples, error examples, auth docs, OpenAPI fragments, contract tests, generated clients.
+- CLI: help output, command examples, shell completion, manpage/reference docs, install scripts, config samples, golden output snapshots.
+- SDK/library: package metadata, typed examples, docs snippets, compatibility matrix, deprecation notes, generated docs, test fixtures.
+- Docs/onboarding: diagrams, screenshots, tutorials, reference pages, release note snippets, support handoff docs.
+- Config/migration/deployment/package: sample files, migration scripts, rollback notes, health checks, package manifests, checksums, release bundles.
 
 Group assets into categories:
 - **Sprite / 2D Art** — character sprites, UI icons, tile sheets
@@ -116,6 +155,24 @@ Spawn specialist agents based on review mode. **Issue all Task calls simultaneou
 ### Lean mode — spawn art-director only (skip technical-artist).
 
 ### Solo mode — skip both. Derive specs from art bible rules alone, noting that technical constraints were not validated.
+
+### Product full mode — spawn applicable owners in parallel:
+
+**`lead-programmer`** via Task:
+- Provide: product artifact list, module CDD requirements, architecture/ADR constraints, interaction patterns, technical preferences, and any existing contracts.
+- Ask: "For each product artifact, produce an implementation-ready contract specification: file path, public shape, schema/help/example requirements, validation behavior, compatibility/versioning notes, tests required, and traceability to CDD/ADR requirements. Flag contradictions between docs, code, and architecture."
+
+**`devops-engineer`** via Task when target type is `deployment`, `package`, `migration`, `config`, or release bundle:
+- Provide: artifact list, deployment target, CI/CD/build system, architecture constraints, rollback requirements, and release checklist expectations.
+- Ask: "For each operational artifact, specify exact file/output shape, environment assumptions, secrets policy, health/smoke checks, rollback or dry-run behavior, packaging/signing/checksum requirements, and evidence required before release."
+
+**`ux-designer`** via Task when target type is `api`, `cli`, `sdk`, `docs`, or `ui`:
+- Provide: interaction patterns, product concept, target user/integrator, artifact list, and docs/help requirements.
+- Ask: "For each consumer-facing artifact, specify examples, help/error copy, onboarding path, empty/error/recovery states, accessibility/docs handoff, and how a user or integrator validates success."
+
+### Product lean mode — spawn only the most relevant owner for the selected target type.
+
+### Product solo mode — skip agents and derive the artifact specs from CDDs, architecture, interaction patterns, and technical preferences. Mark missing specialist review explicitly.
 
 **Collect both responses before Phase 4.
 
@@ -160,11 +217,37 @@ If [B]: ask which asset and what to change. Revise inline and re-present. Do NOT
 
 If [C]: ask what direction to change. Re-spawn the relevant agent with the updated brief.
 
+For product artifacts, use this equivalent draft format:
+
+```markdown
+## ARTIFACT-[NNN] — [Artifact Name]
+
+| Field | Value |
+|-------|-------|
+| Category | [API schema / CLI help / SDK example / Docs asset / Config sample / Migration / Deployment / Package / UI screenshot] |
+| Output Path | [expected path] |
+| Owner | [lead-programmer / devops-engineer / ux-designer / docs owner] |
+| Source Requirement | [CDD/ADR/story ID] |
+| Validation Evidence | [contract test / CLI golden output / migration dry-run / deployment smoke / docs review] |
+| Compatibility Notes | [versioning, deprecation, rollback, platform, package manager] |
+
+**Specification:**
+[Implementation-ready artifact requirements.]
+
+**Acceptance Checks:**
+- [check 1]
+- [check 2]
+
+**Status:** Needed
+```
+
 ---
 
 ## Phase 5: Write Spec File
 
-After approval, ask: "May I write the spec to `design/assets/specs/[target-name]-assets.md`?"
+After approval, ask:
+- Game: "May I write the spec to `design/assets/specs/[target-name]-assets.md`?"
+- Product: "May I write the spec to `design/assets/specs/[target-name]-artifacts.md`?"
 
 Write the file with:
 
@@ -177,6 +260,20 @@ Write the file with:
 > **Status**: [N] assets specced / [N] approved / [N] in production / [N] done
 
 [all asset specs in ASSET-NNN format]
+```
+
+For product projects, write:
+
+```markdown
+# Product Artifact Specs — [Target Type]: [Target Name]
+
+> **Source**: [path to source CDD/ADR/UX/release doc]
+> **Interaction Patterns**: design/ux/interaction-patterns.md if applicable
+> **Technical Preferences**: .claude/docs/technical-preferences.md
+> **Generated**: [date]
+> **Status**: [N] artifacts specced / [N] approved / [N] implemented / [N] verified
+
+[all artifact specs in ARTIFACT-NNN format]
 ```
 
 Then update `design/assets/asset-manifest.md`. If it doesn't exist, create it:
@@ -214,8 +311,10 @@ Use `AskUserQuestion`:
   - `[A] Spec another system — /asset-spec system:[next-system]`
   - `[B] Spec a level — /asset-spec level:[level-name]`
   - `[C] Spec a character — /asset-spec character:[character-name]`
-  - `[D] Run /asset-audit — validate delivered assets against specs`
-  - `[E] Stop here`
+  - `[D] Spec a product artifact — /asset-spec api:[name] or /asset-spec cli:[name]`
+  - `[E] Run /asset-audit — validate delivered assets/artifacts against specs`
+  - `[F] Run /test-evidence-review — verify contract, migration, package, or docs evidence`
+  - `[G] Stop here`
 
 ---
 
@@ -263,7 +362,8 @@ If any spawned agent returns BLOCKED or cannot complete:
 Every phase follows: **Identify → Confirm → Generate → Review → Approve → Write**
 
 - Never spec assets without first confirming the asset list with the user
-- Always anchor specs to the art bible — a spec that contradicts the art bible is wrong
+- Always anchor game specs to the art bible — a game asset spec that contradicts the art bible is wrong
+- Always anchor product specs to the Product Concept, interaction patterns, architecture/ADRs, and technical preferences — a product artifact spec that contradicts those sources is wrong
 - Surface all agent disagreements — do not silently pick one
 - Write the spec file only after explicit approval
 - Update the manifest immediately after writing the spec
@@ -273,4 +373,6 @@ Every phase follows: **Identify → Confirm → Generate → Review → Approve 
 ## Recommended Next Steps
 
 - Run `/asset-spec [next-context]` to continue speccing remaining systems, levels, or characters
-- Run `/asset-audit` to validate delivered assets against the written specs and identify gaps or mismatches
+- Run `/asset-spec api:[name]`, `/asset-spec cli:[name]`, `/asset-spec migration:[name]`, or another product target to continue product artifact coverage
+- Run `/asset-audit` to validate delivered assets/artifacts against the written specs and identify gaps or mismatches
+- Run `/test-evidence-review` for product contract, migration, package, deployment, and docs evidence before release

@@ -14,6 +14,16 @@ Detect the project domain before mapping regression coverage:
 - If unclear, ask whether coverage should be organized around game critical paths or product workflows/contracts.
 
 Keep game regression examples. Product regression mapping is added beside them.
+
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, module index, CDD acceptance/formulas/edge cases, closed bugs, unit/integration tests, playtest-derived issues | Product Concept, module index, CDD acceptance/contracts/data/edge cases, closed bugs, unit/integration/contract/CLI/migration tests, deployment smoke records |
+| Steps | Map mechanics, save/load, combat, levels, UI/HUD, formulas, and known bugs to regression coverage | Map endpoints, commands, workflows, migrations, auth/permissions, config, data integrity, deployment smoke, and known bugs to regression coverage |
+| Outputs | `tests/regression-suite.md` entries for critical game paths and fixed bugs | `tests/regression-suite.md` entries for product contracts/workflows/ops paths and fixed bugs |
+| Next steps | Add missing tests, update `/qa-plan`, run `/smoke-check` | Add missing contract/CLI/migration/permission/deployment tests, update `/qa-plan`, run `/smoke-check` |
+
 # Regression Suite
 
 This skill ensures that every bug fix is backed by a test that would have

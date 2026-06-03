@@ -7,9 +7,11 @@
 > **Engine**: [Godot 4.6 / Unity 6 / Unreal Engine 5]
 > **UI Framework**: [Godot Control nodes / Unity UI Toolkit / Unreal UMG]
 > **Related Documents**:
-> - `docs/art-bible.md` — visual standards (colors, typography, iconography)
-> - `docs/accessibility-requirements.md` — accessibility commitments per feature
-> - `docs/ux/ux-spec-[screen].md` — individual screen specs that reference patterns
+> - `design/art/art-bible.md` — game visual standards, if this is a game project
+> - `design/brand/style-guide.md` — product brand/docs visual standards, if applicable
+> - `design/design-system.md` — UI-heavy product component rules, if applicable
+> - `design/accessibility-requirements.md` — accessibility commitments per feature
+> - `design/ux/ux-spec-[screen].md` — individual screen specs that reference patterns
 
 > **Why this document exists**: Every UI screen spec should be able to say
 > "uses Button (Primary) pattern" rather than re-specifying hover states,

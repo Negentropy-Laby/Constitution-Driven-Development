@@ -28,7 +28,7 @@
 
 | Command | Purpose |
 |---------|---------|
-| `/art-bible` | Game art bible or product brand/UI style guide with visual standards, tokens, docs imagery, and accessibility constraints |
+| `/art-bible` | Game art bible or product brand style guide at `design/brand/style-guide.md`; UI-heavy products use `design/design-system.md` separately |
 | `/asset-spec` | Game visual/audio/VFX asset specs or product API schema, CLI help, docs asset, config, migration, deployment, and package specs |
 | `/asset-audit` | Game asset compliance or product artifact compliance for schemas, build outputs, docs assets, migrations, config samples, and package artifacts |
 

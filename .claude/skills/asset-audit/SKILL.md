@@ -15,6 +15,16 @@ Detect the project domain before auditing:
 - If unclear, ask whether the audit target is a game asset pipeline or a product artifact/release pipeline.
 
 Keep all existing game asset checks. Add product artifact checks only when the product branch is selected.
+
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, art bible, asset manifest/specs, technical preferences, CLAUDE naming conventions, asset directories | Product Concept, module index, product artifact specs, technical preferences, architecture/ADRs, release docs, API/CLI/docs/package/migration/deployment directories |
+| Steps | Scan art/audio/VFX/shader/data assets, check naming/formats/budgets, find orphaned and missing assets | Scan schemas, CLI help, docs assets, config samples, migrations, build/package outputs, release bundles; check contracts, examples, packaging, secrets, orphaned/missing artifacts |
+| Outputs | Asset Audit Report with COMPLIANT/WARNINGS/NON-COMPLIANT verdict | Product Artifact Audit Report with contract/package/docs/config/migration verdicts |
+| Next steps | Fix naming/format/size gaps, review orphaned assets, `/content-audit`, `/asset-spec` | Fix contract/package/docs/config/migration gaps, `/code-review`, `/test-evidence-review`, `/release-checklist` |
+
 ## Phase 1: Read Standards
 
 Read the art bible or asset standards from the relevant design docs and the CLAUDE.md naming conventions.
@@ -65,8 +75,8 @@ this branch is the product-equivalent artifact audit.
 - `production/releases/` for expected release bundle shape, if present
 
 **Product directories to scan:**
-- API schemas and contracts: `docs/api/**/*`, `openapi.*`, `schema/**/*`, `src/**/schema*`, `src/**/contracts/**`
-- CLI artifacts: `docs/cli/**/*`, `src/**/commands/**`, `src/**/cli/**`, generated help/manpage files
+- API schemas and contracts: docs API folders, OpenAPI files, schema folders, source files named like schema, and source contract folders
+- CLI artifacts: docs CLI folders, source command folders, source CLI folders, generated help/manpage files
 - Build/package outputs: `dist/**/*`, `build/**/*`, `target/**/*`, `packages/**/*`, `release/**/*`
 - Config samples: `*.example`, `*.sample`, `.env.example`, `config/**/*`
 - Migrations and seed data: `migrations/**/*`, `db/migrations/**/*`, `seeds/**/*`

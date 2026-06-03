@@ -99,10 +99,17 @@ If `design/ux/interaction-patterns.md` exists, read the pattern catalog index
 pattern details — just the catalog. This tells you which patterns already exist
 so you can reference them rather than reinvent them.
 
-### 2f: Art Bible
+### 2f: Visual / Product Style References
 
-Check for `design/art/art-bible.md`. If found, read the visual direction
-section. UX layout must align with the aesthetic commitments already made.
+For game projects, check for `design/art/art-bible.md`. If found, read the
+visual direction section. UX layout must align with the aesthetic commitments
+already made.
+
+For product projects, check for `design/brand/style-guide.md`. If found, read
+brand tone, visual standards, docs imagery rules, and accessibility-constrained
+color/typography commitments. For UI-heavy products, also check
+`design/design-system.md`; if it exists, read component patterns and state
+standards before writing screen or workflow specs.
 
 ### 2g: Accessibility Requirements
 

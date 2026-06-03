@@ -22,6 +22,17 @@ Handing a broken build to QA wastes their time and demoralises the team.
 
 ---
 
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Engine from technical preferences, current QA plan, sprint stories, smoke tests, test directories, recent build/test output | Language/framework from technical preferences, current QA plan, API/CLI/workflow/deployment smoke tests, sprint stories, CI/test output, package/deploy config |
+| Steps | Run engine tests, verify playable critical path, validate platform/input batches, confirm build ready for QA | Run product test command, verify API/CLI/web/core workflow batches, validate migration/config/deployment/package smoke checks, confirm release candidate ready for QA |
+| Outputs | `production/qa/smoke-[date].md` with PASS/FAIL, failed tests, platform batches, manual checks, QA hand-off decision | `production/qa/smoke-[date].md` with PASS/FAIL, contract/CLI/workflow/migration/deployment smoke results, manual checks, QA hand-off decision |
+| Next steps | Fix blockers or run `/team-qa`; update regression suite for failures | Fix blockers or run `/team-qa`; run `/test-evidence-review` for contract/migration/package evidence and `/release-checklist` when release-bound |
+
+---
+
 ## Parse Arguments
 
 Arguments can be combined: `/smoke-check sprint --platform console`
@@ -107,7 +118,7 @@ path for your test framework."
 Unity tests require the editor and cannot be run headlessly via shell in most
 environments. Check for recent test result artifacts:
 ```bash
-ls -t test-results/ 2>/dev/null | head -5
+ls -t test-results/ 2>&1 | head -5
 ```
 If test result files exist (XML or JSON), read the most recent one and parse
 PASS/FAIL counts. If no artifacts exist: "Unity tests must be run from the
@@ -115,7 +126,7 @@ editor or CI pipeline. Please confirm test status manually before proceeding."
 
 **[游戏专用] Unreal Engine:**
 ```bash
-ls -t Saved/Logs/ 2>/dev/null | grep -i "test\|automation" | head -5
+ls -t Saved/Logs/ 2>&1 | grep -i "test\|automation" | head -5
 ```
 If no matching log found: "UE automation tests must be run via the Session
 Frontend or CI pipeline. Please confirm test status manually."

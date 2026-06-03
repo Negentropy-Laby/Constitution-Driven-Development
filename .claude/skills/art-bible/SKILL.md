@@ -1,6 +1,6 @@
 ---
 name: art-bible
-description: "Guided, section-by-section visual identity authoring. Game: Art Bible for asset production. Product: brand/UI style guide for design tokens, docs imagery, and product-facing visual standards."
+description: "Guided, section-by-section visual identity authoring. Game: Art Bible for asset production. Product: brand style guide for docs imagery, public visuals, and product-facing visual standards."
 argument-hint: "[--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
@@ -10,10 +10,86 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 
 Detect the project domain before running the workflow:
 - `design/cdd/game-concept.md` -> **[Game]** keep the existing art bible workflow: visual identity, shape language, color, character direction, asset standards, and engine-aware constraints.
-- `design/cdd/product-concept.md` -> **[Product]** use this same command as a product brand / UI style guide workflow: brand promise, visual system, UI component tone, documentation imagery, accessibility constraints, and implementation-ready design tokens.
+- `design/cdd/product-concept.md` -> **[Product]** use this same command as a product brand style guide workflow. Product outputs go to `design/brand/style-guide.md`; they do not use the game art bible path.
 - If both exist, ask which domain to run. If neither exists, ask whether this is a game art bible or a product style guide.
 
 Never delete or replace the game art bible guidance below. Product guidance is an additional branch beside it.
+
+If the selected domain is **Product**, run the Product Branch below, then skip the Game Branch.
+
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, art bible if resuming, technical preferences, visual identity anchor, engine/platform constraints | Product Concept, optional existing style/design docs, interaction patterns, accessibility requirements, technical preferences, surface profile |
+| Steps | Frame references, author visual identity, mood, shape, color, character/environment/UI/HUD/VFX/asset standards, sign-off | Classify product surface, author brand style guide, optionally author UI-heavy design system foundation, route interaction behavior to `/ux-design interaction-patterns` |
+| Outputs | `design/art/art-bible.md` with game visual production constraints | `design/brand/style-guide.md`; optionally `design/design-system.md` only for UI-heavy products |
+| Next steps | `/map-systems`, `/setup-engine`, `/design-system`, `/asset-spec`, `/consistency-check`, `/create-architecture` | `/ux-design interaction-patterns`, `/ux-design [workflow]`, `/create-architecture`, `/asset-spec` for docs/schema/package artifacts |
+
+## Product Branch: Brand / Surface Style Guide
+
+Use this branch for product projects: APIs, CLIs, SDKs, web apps, admin tools, data products, and documentation-heavy releases.
+
+### Product Context Reads
+
+Read:
+- `design/cdd/product-concept.md` for core promise, JTBD, personas, MVP scope, anti-goals, and product principles.
+- `.claude/docs/technical-preferences.md` if it exists for product type, target platform, framework, UI stack, docs toolchain, deployment target, and accessibility commitments.
+- `design/accessibility-requirements.md` if it exists for accessibility tier and feature matrix.
+- `design/ux/interaction-patterns.md` if it exists so visual standards do not contradict interaction behavior.
+- `design/design-system.md` if it exists for UI-heavy products; update only missing sections unless the user explicitly asks for a revision.
+
+Classify the product surface before authoring:
+
+| Surface profile | Required design artifact behavior |
+|-----------------|-----------------------------------|
+| API-only | Do not require a UI design system. Brand style guide is optional; interaction patterns should cover API consumer behavior such as errors, pagination, auth prompts, examples, and docs handoff. |
+| CLI-only | Do not require a UI design system. Brand style guide is optional; interaction patterns should cover command help, prompts, stdout/stderr, errors, destructive confirmations, and scripted usage. |
+| SDK / library | Do not require a UI design system. Brand style guide is optional; interaction patterns should cover examples, typed errors, docs snippets, and integration workflows. |
+| Web UI / desktop / mobile / admin console | UI-heavy. `design/design-system.md` is required before implementation; `design/brand/style-guide.md` is recommended when brand or docs visuals matter. |
+| Multi-surface product | Apply the strictest relevant rule: UI-heavy surfaces need `design/design-system.md`; API/CLI/SDK surfaces need `design/ux/interaction-patterns.md`. |
+
+### Product Outputs
+
+Product `/art-bible` never writes `design/art/art-bible.md`.
+
+Write or update:
+- `design/brand/style-guide.md` when the product needs brand, documentation imagery, visual tone, illustration/screenshot rules, colors, typography, logo usage, or public-facing release materials.
+- `design/design-system.md` only when the product is UI-heavy and the user chooses to create or update component-level UI rules in this session.
+
+Route interaction behavior to `/ux-design interaction-patterns`, which writes `design/ux/interaction-patterns.md`. Do not duplicate API/CLI/web interaction rules inside `design/brand/style-guide.md` except as visual/copy tone constraints.
+
+### Product Authoring Steps
+
+1. Confirm the surface profile and scope with `AskUserQuestion`.
+   - Options: `Brand style guide only` / `UI-heavy design system foundation` / `Resume existing product style docs`
+   - Ask whether public docs, screenshots, diagrams, or release materials need visual standards.
+2. If writing `design/brand/style-guide.md`, cover:
+   - Brand promise and visual thesis tied to the Product Concept.
+   - Voice and visual tone for product UI, docs, examples, screenshots, and release materials.
+   - Color and typography rules, including accessibility minimums.
+   - Iconography, diagrams, screenshots, and documentation imagery rules.
+   - Explicit style prohibitions: what the product should not look or sound like.
+3. If writing `design/design-system.md` for a UI-heavy product, cover:
+   - Component pattern inventory and ownership boundaries.
+   - Layout density, spacing, responsive behavior, and state design.
+   - Form, table, navigation, modal, toast, loading, empty, error, and permission states.
+   - Accessibility integration and localization/text expansion constraints.
+   - Handoff rules to implementation and `/ux-review`.
+4. If the product has any API, CLI, SDK, or UI consumer surface and `design/ux/interaction-patterns.md` does not exist, close with `/ux-design interaction-patterns` as the recommended next step.
+
+### Product Close
+
+Offer next steps based on the detected surface:
+- `/ux-design interaction-patterns` — required for API, CLI, SDK, web UI, and multi-surface products with user or integrator interactions.
+- `/ux-design [workflow-name]` — write a key workflow, API consumer journey, CLI flow, or screen spec.
+- `/create-architecture` — continue Technical Setup once concept and CDD coverage are ready.
+- `Stop here`.
+
+---
+
+## Game Branch: Art Bible
+
 ## Phase 0: Parse Arguments and Context Check
 
 Resolve the review mode (once, store for all gate spawns this run):

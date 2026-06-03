@@ -16,6 +16,15 @@ Detect the project domain by checking for concept documents in `design/cdd/`:
 - **Product**: `design/cdd/product-concept.md` exists → use `[Product]` paths below
 - **Neither**: default to game paths (preserves backward compatibility)
 
+## Dual-Domain Parity Contract
+
+| Area | Game branch | Product branch |
+|------|-------------|----------------|
+| Context reads | Game Concept, milestone, release checklist, content calendar, build/store/legal/community/QA artifacts | Product Concept, milestone, release checklist, deployment config/IaC, migration/rollback docs, monitoring/on-call/support/security/docs artifacts |
+| Steps | Validate code, content, platform certification, store metadata, localization, analytics, community/support, team readiness | Validate code, data/migrations, deployment strategy, rollback, monitoring/alerts, on-call/support, security/privacy, docs/customer communication, team readiness |
+| Outputs | `production/releases/launch-checklist-[date].md` or dry-run report with game launch readiness and sign-offs | Same path/report with product launch readiness, deployment/rollback/on-call/monitoring support sign-offs |
+| Next steps | `/team-release`, final store/platform submission, monitor launch, hotfix if needed | `/team-release`, staged production deployment, monitor/on-call, incident or hotfix if needed |
+
 ---
 
 ## Phase 1: Parse Arguments
