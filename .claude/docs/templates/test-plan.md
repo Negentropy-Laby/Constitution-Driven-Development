@@ -159,7 +159,7 @@ If no playtest sessions required: *No playtest sessions required for this sprint
 |-------|-----------------|---------------------|-----------------------|
 | [story] | [What user/workflow/adoption question must be answered?] | [N] | [new user / integrator / operator / CI pipeline / migration dry-run] |
 
-Sign-off requirement: Product validation notes -> `production/validation/[sprint]-[story-slug].md`
+Sign-off requirement: Product validation notes -> `production/qa/evidence/user-tests/[sprint]-[story-slug].md`
 
 If no product validation sessions are required: *No product validation required for this sprint.*
 

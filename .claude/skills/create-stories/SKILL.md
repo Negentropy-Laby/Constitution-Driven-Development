@@ -17,7 +17,7 @@ define.
 **Run this skill per epic**, not per layer. Run it for Foundation epics first,
 then Core, and so on — matching the dependency order.
 
-**Output:** `production/epics/[epic-slug]/story-NNN-[slug].md` files
+**Output:** story files under `production/epics/[epic-slug]/`, named `story-NNN-[slug].md`
 
 **Previous step:** `/create-epics [system]`
 **Next step after stories exist:** `/story-readiness [story-path]` then `/dev-story [story-path]`
@@ -193,7 +193,7 @@ Use `AskUserQuestion`:
 
 ## 6. Write Story Files
 
-For each story, write `production/epics/[epic-slug]/story-[NNN]-[slug].md`:
+For each story, write a file under `production/epics/[epic-slug]/` named `story-[NNN]-[slug].md`:
 
 ```markdown
 # Story [NNN]: [title]
@@ -285,7 +285,7 @@ change meaning. This is what the programmer reads instead of the ADR.]
 
 **[通用产品] Product evidence**
 - API: contract test in `tests/api/[story-slug]_test.[ext]` — must exist and pass
-- CLI: command smoke evidence in `tests/evidence/[story-slug].md`
+- CLI: command smoke evidence in `production/qa/evidence/smoke/[story-slug].md`
 - Data/Migration: migration test in `tests/integration/[story-slug]_test.[ext]` — must exist and pass
 - Auth/Permission: permission test in `tests/unit/auth/` or `tests/api/` — must exist and pass
 - Workflow: integration test in `tests/integration/[module]/[story-slug]_test.[ext]` — must exist and pass

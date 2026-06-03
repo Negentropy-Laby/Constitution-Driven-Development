@@ -62,7 +62,7 @@ For Product prompts, pass:
 - UX/workflow specs from `design/ux/` when user-facing
 - ADRs and stack reference under `docs/architecture/` and `docs/reference/<stack>/`
 - Existing source paths (`src/api`, `src/cli`, `src/services`, `src/app`, `migrations`, config, package/build files)
-- Required tests and validation targets under `tests/` and `production/validation/`
+- Required tests and validation targets under `tests/` and `production/qa/evidence/user-tests/`
 
 ## Pipeline
 
@@ -133,7 +133,7 @@ Delegate to the **language specialist** with lead-programmer coordination:
 ### Product Phase 4: Validation
 Delegate to **qa-tester**:
 - Write or update contract, CLI, e2e, migration, smoke, and regression tests
-- Produce evidence in `production/qa/evidence/` or `production/validation/`
+- Produce evidence in the matching subdirectory under `production/qa/evidence/`
 - Verify error recovery, accessibility, observability, and docs examples
 
 ### Product Phase 5: Sign-off

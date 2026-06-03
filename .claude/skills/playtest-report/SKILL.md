@@ -205,7 +205,7 @@ Route Product findings:
 - **Product/design changes:** "Run `/propagate-design-change [path]` on the affected Product CDD or quick spec before changing stories."
 - **Implementation defects:** "Use `/bug-report` to formally track these."
 - **Reliability/operations issues:** "Run `/perf-profile`, `/security-audit`, or `/team-release` depending on the risk."
-- **Adoption blockers:** "Add to `production/validation/` follow-up notes and run `/content-audit` or `/team-ui` if the blocker is docs or interaction clarity."
+- **Adoption blockers:** "Add to `production/qa/evidence/user-tests/` follow-up notes and run `/content-audit` or `/team-ui` if the blocker is docs or interaction clarity."
 
 ---
 
@@ -226,9 +226,9 @@ Present the creative director's assessment before saving the report. If CONCERNS
 
 ## Phase 4: Save Report
 
-For Game, ask: "May I write this playtest report to `production/qa/playtests/playtest-[date]-[tester].md`?"
+For Game, ask: "May I write this playtest report to `production/qa/evidence/playtests/playtest-[date]-[tester].md`?"
 
-For Product, ask: "May I write this validation report to `production/validation/validation-[date]-[surface].md`?"
+For Product, ask: "May I write this validation report to `production/qa/evidence/user-tests/validation-[date]-[surface].md`?"
 
 If yes, write the file, creating the directory if needed.
 

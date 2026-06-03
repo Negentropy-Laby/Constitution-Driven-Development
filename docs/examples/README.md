@@ -13,6 +13,28 @@ This directory contains realistic, end-to-end session transcripts showing how Co
 
 ## 📚 **Available Examples**
 
+### CLOSED-LOOP ARTIFACT EXAMPLES
+
+### [Tiny Game Closed Loop](tiny-game/)
+**Type:** Artifact Set
+**Complexity:** Low
+
+Minimal file tree that traces a tiny game from concept to release checklist:
+concept, module index, CDD, architecture, ADR, control manifest, epic, story,
+sprint, playtest evidence, and release checklist.
+
+---
+
+### [Tiny Product Closed Loop](tiny-product/)
+**Type:** Artifact Set
+**Complexity:** Low
+
+Minimal file tree that traces a CLI product from concept to release checklist:
+product concept, module index, CDD, interaction patterns, architecture, ADR,
+control manifest, epic, story, sprint, user-test evidence, and release checklist.
+
+---
+
 ### CORE WORKFLOW
 
 ### [Skill Flow Diagrams](skill-flow-diagrams.md)

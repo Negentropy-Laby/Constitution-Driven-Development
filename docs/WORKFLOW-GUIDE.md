@@ -855,8 +855,8 @@ first end-to-end slice:
 - Failure-state evidence for invalid input, auth/permission, partial failure,
   rollback/dry-run, retry, or data recovery paths
 - Docs/help evidence for the path a real user or integrator would follow
-- Validation report written in `production/validation/` or QA evidence captured
-  in `production/qa/evidence/`
+- Validation report written in `production/qa/evidence/user-tests/` or QA
+  evidence captured in the matching `production/qa/evidence/` subdirectory
 
 This is a governed advisory gate condition: `/gate-check` returns FAIL if a game
 has not been played unguided or a product has not completed an end-to-end
@@ -1170,8 +1170,8 @@ playtests:
 - Failure/recovery path such as invalid input, permission error, migration
   rollback, API timeout, CLI misuse, or partial data failure
 
-Store product validation reports in `production/validation/` or
-`production/qa/evidence/` and link contract, CLI, E2E, migration, docs, and
+Store product validation reports in `production/qa/evidence/user-tests/` and
+link contract, CLI, E2E, migration, docs, and
 observability evidence.
 
 ### Step 6.5: Technical Debt Assessment

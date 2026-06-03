@@ -225,7 +225,7 @@ This epic is complete when:
 - All stories are implemented, reviewed, and closed via `/story-done`
 - All acceptance criteria from `design/cdd/[filename].md` are verified
 - All blocking test evidence required by each story type passes
-- Advisory manual, smoke, or walkthrough evidence is captured in `production/qa/evidence/`, `tests/evidence/`, or `production/qa/smoke-*.md`
+- Advisory manual, smoke, or walkthrough evidence is captured in the matching subdirectory under `production/qa/evidence/` or in `production/qa/smoke-*.md`
 
 Add only the relevant domain-specific completion row:
 

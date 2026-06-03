@@ -293,7 +293,7 @@ phases:
         required: true
         applies_to: [game]
         artifact:
-          glob: "production/**/playtest*.md"
+          glob: "production/qa/evidence/playtests/playtest*.md"
           min_count: 1
         description: "Document a game vertical-slice playtest of the core loop using /playtest-report. Run at least once before production."
 
@@ -303,7 +303,7 @@ phases:
         required: true
         applies_to: [product]
         artifact:
-          glob: "production/validation/*.md"
+          glob: "production/qa/evidence/user-tests/*.md"
           min_count: 1
         description: "Document a product user-test or workflow validation session for API/CLI/web/data flow using /playtest-report. Run at least once before implementation."
 
@@ -422,7 +422,7 @@ phases:
         required: true
         applies_to: [game]
         artifact:
-          glob: "production/**/playtest*.md"
+          glob: "production/qa/evidence/playtests/playtest*.md"
           min_count: 3
         description: "Cover new player experience, mid-game systems, difficulty curve, and core loop regressions."
 
@@ -432,7 +432,7 @@ phases:
         required: true
         applies_to: [product]
         artifact:
-          glob: "production/validation/*.md"
+          glob: "production/qa/evidence/user-tests/*.md"
           min_count: 3
         description: "Cover new-user workflow, core API/CLI/web flow, error recovery, migration/deployment confidence, and adoption blockers."
 

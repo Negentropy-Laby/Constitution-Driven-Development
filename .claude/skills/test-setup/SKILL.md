@@ -119,8 +119,8 @@ After approval, create the following files:
 |---|---|---|
 | Logic | Automated unit test — must pass | `tests/unit/[system]/` |
 | Integration | Integration test OR playtest doc | `tests/integration/[system]/` |
-| Visual/Feel | Screenshot + lead sign-off | `tests/evidence/` |
-| UI | Manual walkthrough OR interaction test | `tests/evidence/` |
+| Visual/Feel | Screenshot + lead sign-off | `production/qa/evidence/manual/` |
+| UI | Manual walkthrough OR interaction test | `production/qa/evidence/manual/` |
 | Config/Data | Smoke check pass | `production/qa/smoke-*.md` |
 
 [Product] Product evidence:
@@ -128,8 +128,8 @@ After approval, create the following files:
 |---|---|---|
 | Logic | Automated unit test | `tests/unit/[module]/` |
 | Integration | Integration test OR API contract test | `tests/integration/[module]/` |
-| UI | Screenshot OR interaction test | `tests/evidence/` |
-| CLI | Smoke command output | `tests/evidence/` |
+| UI | Screenshot OR interaction test | `production/qa/evidence/manual/` |
+| CLI | Smoke command output | `production/qa/evidence/smoke/` |
 | API | Contract test | `tests/api/` |
 | Config/Data | Migration test OR smoke check | `production/qa/smoke-*.md` |
 
@@ -162,7 +162,7 @@ Create `tests/gdunit4_runner.gd`:
 extends SceneTree
 
 func _init() -> void:
-    var runner := load("res://addons/gdunit4/GdUnitRunner.gd")
+    var runner := load("res://" + "addons/gdunit4/GdUnitRunner.gd")
     if runner == null:
         push_error("GdUnit4 not found. Install via AssetLib or addons/.")
         quit(1)
@@ -183,7 +183,7 @@ Note in the README: **Installing GdUnit4**
 1. Open Godot → AssetLib → search "GdUnit4" → Download & Install
 2. Enable the plugin: Project → Project Settings → Plugins → GdUnit4 ✓
 3. Restart the editor
-4. Verify: res://addons/gdunit4/ exists
+4. Verify that the Godot addons directory contains `gdunit4/`
 ```
 
 #### Unity (`Engine: Unity`)
@@ -575,7 +575,7 @@ Files created:
 - tests/integration/ (directory)
 - tests/api/ (directory, for product API contract tests)
 - tests/smoke/critical-paths.md
-- tests/evidence/ (directory)
+- production/qa/evidence/ (canonical evidence schema)
 [technology-specific files]
 - .github/workflows/tests.yml
 

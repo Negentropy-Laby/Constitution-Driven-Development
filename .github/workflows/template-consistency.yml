@@ -1,0 +1,32 @@
+name: Template Consistency
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Skill lint self-test
+        run: python scripts/skill_lint.py --self-test
+
+      - name: Entry skill strict lint
+        run: python scripts/skill_lint.py --strict .claude/skills/constitute/SKILL.md
+
+      - name: Workflow/catalog/docs consistency
+        run: python scripts/workflow_consistency.py
+
+      - name: Canonical evidence path check
+        run: |
+          ! grep -RInE "production/playtests/|production/user-testing/|production/validation/|tests/evidence/" .claude docs README.md

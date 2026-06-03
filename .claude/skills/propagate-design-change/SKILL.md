@@ -94,11 +94,11 @@ Read all ADRs in `docs/architecture/`:
 Read `docs/architecture/architecture-traceability.md` if it exists.
 
 For Product changes, also read if present:
-- API specs and schemas: `docs/api/`, `openapi.*`, `src/**/schema*`, `src/**/contracts*`
-- CLI specs/help: `docs/cli/`, `src/**/commands/`, generated help snapshots
+- API specs and schemas: docs API folders, OpenAPI files, source schema files, and source contract files
+- CLI specs/help: docs CLI folders, source command folders, generated help snapshots
 - Config and migrations: `config/`, `.env.example`, `migrations/`, `db/`, `prisma/`
 - Product docs/examples: `docs/`, `README.md`, `docs/examples/`
-- Tests and validation evidence: `tests/contract/`, `tests/cli/`, `tests/e2e/`, `tests/migration/`, `production/validation/`
+- Tests and validation evidence: `tests/contract/`, `tests/cli/`, `tests/e2e/`, `tests/migration/`, `production/qa/evidence/user-tests/`
 - Release/rollout artifacts: `production/releases/`, deployment manifests, package metadata
 
 Report: "Loaded [N] ADRs. [M] reference [gdd filename]."
@@ -271,7 +271,7 @@ Based on the resolution decisions, suggest:
 - **If Product contracts changed**: "Update API/CLI/schema/config/migration/docs artifacts,
   then run `/content-audit` and the relevant contract, CLI, e2e, or migration tests."
 - **If workflow validation changed**: "Write a follow-up validation note in
-  `production/validation/` and re-run `/playtest-report` in Product validation mode."
+  `production/qa/evidence/user-tests/` and re-run `/playtest-report` in Product validation mode."
 
 ---
 

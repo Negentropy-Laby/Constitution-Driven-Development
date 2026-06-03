@@ -87,7 +87,7 @@ appropriate design or architecture documentation. Use this when:
 - Extract user workflow, User Promise served, JTBD, data model, permission rules, error states, and acceptance criteria
 - Detect API/CLI contracts: request/response shape, flags, stdout/stderr, exit codes, idempotency, retries, pagination, auth, and rate limits
 - Detect operational behavior: deployment assumptions, observability, rollback, migration dry-run, package/build artifacts
-- Map dependencies to ADRs, tests, docs, and `production/validation/` evidence
+- Map dependencies to ADRs, tests, docs, and `production/qa/evidence/user-tests/` evidence
 
 ## Phase 3: Ask Clarifying Questions
 
@@ -245,7 +245,7 @@ Would you like me to tackle any of these now?
 | `src/networking/*` | architecture-doc-from-code.md | Technical systems → ADR |
 | `src/ui/*` | design-doc-from-implementation.md | UI/UX → design spec |
 | `src/api/*`, `src/services/*` | Product CDD skeleton | API/service module → Product CDD |
-| `src/cli/*`, `src/**/commands/*` | Product CDD skeleton | CLI workflow → Product CDD |
+| `src/cli/*`, source command folders | Product CDD skeleton | CLI workflow → Product CDD |
 | `migrations/*`, `db/*`, `prisma/*` | architecture-doc-from-code.md or Product CDD skeleton | Data model/migration → ADR or Product CDD |
 | `config/*`, `.env.example` | Product CDD skeleton | Configuration surface → Product CDD |
 

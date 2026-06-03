@@ -66,7 +66,7 @@ Always provide full context in each agent's prompt (target feature/area, perform
 For Product prompts, include `design/cdd/product-concept.md`, relevant Product CDDs,
 UX/workflow specs, ADRs, `docs/reference/<stack>/`, existing test evidence, docs
 examples, build artifacts, migration/config files, and known validation issues from
-`production/validation/`.
+`production/qa/evidence/user-tests/`.
 
 ## Pipeline
 
@@ -145,7 +145,7 @@ Delegate to **security-engineer** and **devops-engineer** when relevant:
 ### Product Phase 4: Validation
 Delegate to **qa-tester**:
 - Run smoke, contract, CLI, e2e, migration, regression, load/endurance, and docs-example checks as applicable
-- Write evidence to `production/qa/evidence/` or `production/validation/`
+- Write evidence to the matching subdirectory under `production/qa/evidence/`
 - Output: READY FOR RELEASE / NEEDS MORE WORK with blockers and owners
 
 ## Error Recovery Protocol

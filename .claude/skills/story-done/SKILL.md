@@ -171,7 +171,7 @@ user which domain applies.
 | Story Type | Required Evidence | Gate Level |
 |---|---|---|
 | **API** | Contract test (pytest/Vitest/cargo/go) in `tests/api/` — must pass | BLOCKING |
-| **CLI** | Smoke command output in `tests/evidence/` — `--help` + core command | ADVISORY |
+| **CLI** | Smoke command output in `production/qa/evidence/smoke/` — `--help` + core command | ADVISORY |
 | **Data/Migration** | Migration test against fresh instance in `tests/integration/` | BLOCKING |
 | **Auth/Permission** | Permission test in `tests/unit/auth/` or `tests/api/` — must pass | BLOCKING |
 | **Workflow** | Integration test in `tests/integration/[module]/` — must pass | BLOCKING |
@@ -185,7 +185,7 @@ user which domain applies.
 - **API**: read the story's Test Evidence path first. If absent or missing,
   search `tests/api/` for a contract test referencing the story slug, endpoint,
   or TR-ID. If none found, flag **BLOCKING**.
-- **CLI**: check `tests/evidence/`, `production/qa/evidence/`, or
+- **CLI**: check `production/qa/evidence/smoke/`, `production/qa/evidence/manual/`, or
   `production/qa/smoke-*.md` for command output covering `--help` and the core
   command path. If none found, flag **ADVISORY**.
 - **Data/Migration**: read the exact Test Evidence path first, then search
@@ -219,7 +219,7 @@ slightly different location). If no test file is found at either location:
 **For game Integration stories**: read the story's **Test Evidence** section for the exact
 required path. Use `Glob` to check that exact path first, then search
 `tests/integration/[system]/` broadly, then check `production/session-logs/`,
-`production/playtests/`, and `production/qa/evidence/` for a playtest or session
+`production/qa/evidence/playtests/`, and `production/qa/evidence/` for a playtest or session
 log record referencing this story.
 If none found: flag as **BLOCKING** (same rule as Logic).
 
