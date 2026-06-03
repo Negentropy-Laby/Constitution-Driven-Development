@@ -95,7 +95,7 @@
 >
 > 5. **`/create-control-manifest`** — Converts Accepted ADRs into a flat programmer rules sheet. This is what implementation agents will consult during coding.
 >
-> 6. **Accessibility requirements** — Run `/ux-design accessibility` or capture the project accessibility tier in `design/ux/` so implementation stories inherit it.
+> 6. **Accessibility requirements** — Create `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md`, choose the project accessibility tier, and record the feature matrix so implementation stories inherit it.
 >
 > 7. **`/test-setup`** — Create the required baseline: `tests/unit/`, `tests/integration/`, `.github/workflows/tests.yml`, and one example test file. `/test-helpers` is optional later.
 >

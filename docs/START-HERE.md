@@ -18,7 +18,8 @@ Phase gates use the governed advisory policy from `.claude/docs/workflow-catalog
 |-------|----------------------|
 | Concept | `/constitute` -> concept document -> `/design-review` -> `/gate-check concept` |
 | Systems Design / Specification | `/map-systems` -> `/design-system` per MVP module -> `/design-review` -> `/review-all-gdds` -> `/gate-check systems-design` |
-| Technical Setup / Architecture | `/setup-engine` -> `/create-architecture` -> `/architecture-decision` -> `/architecture-review` -> `/create-control-manifest` -> `/test-setup` -> `/gate-check technical-setup` |
-| Pre-Production / Pre-Implementation | `/ux-design` -> `/prototype` -> `/create-epics` -> `/create-stories` -> `/sprint-plan` -> `/story-readiness` -> `/gate-check pre-production` |
+| Technical Setup / Architecture A | `/setup-engine` -> `/create-architecture` -> `/architecture-decision` -> `/architecture-review` -> `/create-control-manifest` |
+| Technical Setup / Architecture B | Create `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md` -> `/test-setup` -> `/gate-check technical-setup` |
+| Pre-Production / Pre-Implementation | `/ux-design` -> `/ux-review` -> `/prototype` -> `/create-epics` -> `/create-stories` -> `/sprint-plan` -> `/story-readiness` -> `/gate-check pre-production` |
 
 Use `/help` at any time for the next required command based on the files that already exist.

@@ -29,11 +29,11 @@ PHASE 2: SYSTEMS DESIGN
         ▼
 PHASE 3: TECHNICAL SETUP
   /setup-engine ────────────────────────────────────────────────► CLAUDE.md + technical-preferences.md
-  /create-architecture ────────────────────────────────────────► docs/architecture/master.md
+  /create-architecture ────────────────────────────────────────► docs/architecture/architecture.md
   /architecture-decision (×N) ─────────────────────────────────► docs/architecture/[adr-nnn].md
   /architecture-review ────────────────────────────────────────► review report + docs/architecture/tr-registry.yaml
   /create-control-manifest ────────────────────────────────────► docs/architecture/control-manifest.md
-  /ux-design accessibility ────────────────────────────────────► accessibility requirements in design/ux/
+  create accessibility requirements from template ─────────────► design/accessibility-requirements.md
   /test-setup ─────────────────────────────────────────────────► test baseline + CI + example test
   /gate-check ─────────────────────────────────────────────────► PASS → advance to pre-production
         │
@@ -99,11 +99,11 @@ PHASE 6: POLISH
         │
         ▼
 PHASE 7: RELEASE
-  /launch-checklist ───────────────────────────────────────────► launch readiness report
   /release-checklist ──────────────────────────────────────────► platform-specific checklist
+  /launch-checklist ───────────────────────────────────────────► launch readiness report
+  /team-release ───────────────────────────────────────────────► release pipeline orchestrated
   /changelog ──────────────────────────────────────────────────► CHANGELOG.md
   /patch-notes ────────────────────────────────────────────────► player-facing notes
-  /team-release ───────────────────────────────────────────────► release pipeline orchestrated
         │
         ▼ (post-launch, ongoing)
   /hotfix ─────────────────────────────────────────────────────► emergency fix with audit trail

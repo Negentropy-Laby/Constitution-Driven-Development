@@ -235,12 +235,17 @@ If you already know what you need, jump directly to the relevant path:
 5. **Design each system** — Run `/design-system [system-name]` (or `/map-systems next`)
    to write CDDs in dependency order
 6. **Run the Systems Design gate** — `/review-all-gdds`, then `/gate-check systems-design`
-7. **Create technology, architecture, and tests** — Run `/setup-engine`,
-   `/create-architecture`, core ADRs, `/create-control-manifest`, and `/test-setup`
-8. **Test the core loop** — Run `/prototype [core-mechanic]`
-9. **Playtest it** — Run `/playtest-report` to validate the hypothesis
-10. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
-11. Start building
+7. **Create technology and architecture** — Run `/setup-engine`,
+   `/create-architecture`, core ADRs, and `/create-control-manifest`
+8. **Commit accessibility and tests** — Create `design/accessibility-requirements.md`
+   from `.claude/docs/templates/accessibility-requirements.md`, then run `/test-setup`
+9. **Design the core UX** — Run `/ux-design [core-screen-or-hud]`, then `/ux-review`
+10. **Test the core loop** — Run `/prototype [core-mechanic]`
+11. **Playtest it** — Run `/playtest-report` to validate the hypothesis
+12. **Create epics and stories** — Run `/create-epics layer: foundation`, then
+   `/create-stories [epic-slug]` for the first implementation epic
+13. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+14. Start building
 
 ### Path B: "I know what I want to build"
 
@@ -255,10 +260,16 @@ Setup:
 5. **Run the Systems Design gate** — `/review-all-gdds`, then `/gate-check systems-design`
 6. **Set up the engine** — Run `/setup-engine [engine] [version]`
    (e.g., `/setup-engine godot 4.6`) — also creates technical preferences
-7. **Create architecture, ADRs, and the test baseline** — Run `/create-architecture`,
-   `/architecture-decision`, `/create-control-manifest`, and `/test-setup`
-8. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
-9. Start building
+7. **Create architecture and ADRs** — Run `/create-architecture`,
+   `/architecture-decision`, and `/create-control-manifest`
+8. **Commit accessibility and tests** — Create `design/accessibility-requirements.md`
+   from `.claude/docs/templates/accessibility-requirements.md`, then run `/test-setup`
+9. **Design and review the core UX** — Run `/ux-design [core-screen-or-hud]`,
+   then `/ux-review`
+10. **Create epics and stories** — Run `/create-epics layer: foundation`, then
+   `/create-stories [epic-slug]`
+11. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+12. Start building
 
 ### Path C: "I know the game but not the engine"
 
@@ -299,12 +310,20 @@ The paths above cover game projects. For product projects, use these equivalents
 4. **Decompose into modules** — Run `/map-systems` to map all modules and dependencies
 5. **Design each module** — Run `/design-system [module-name]` to write CDDs in dependency order
 6. **Run the Specification gate** — `/review-all-gdds`, then `/gate-check systems-design`
-7. **Create technology, architecture, and tests** — Run `/setup-engine`,
-   `/create-architecture`, core ADRs, `/create-control-manifest`, and `/test-setup`
-8. **Prototype the riskiest assumption** — Run `/prototype [core-workflow]` (API spike, CLI spike, data pipeline spike, or workflow prototype)
-9. **Smoke test / user test** — Validate the hypothesis with real usage data
-10. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
-11. Start building
+7. **Create technology and architecture** — Run `/setup-engine`,
+   `/create-architecture`, core ADRs, and `/create-control-manifest`
+8. **Commit accessibility and tests** — Create `design/accessibility-requirements.md`
+   from `.claude/docs/templates/accessibility-requirements.md`, then run `/test-setup`
+9. **Design and review the core UX** — Run `/ux-design [core-workflow]`,
+   then `/ux-review`
+10. **Prototype the riskiest assumption** — Run `/prototype [core-workflow]`
+    (API spike, CLI spike, data pipeline spike, or workflow prototype)
+11. **Validate the workflow** — Run `/playtest-report` for product user-test or
+    workflow validation evidence
+12. **Create epics and stories** — Run `/create-epics layer: foundation`, then
+    `/create-stories [epic-slug]`
+13. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+14. Start building
 
 ### Product Path B: "I know what I want to build"
 
@@ -318,11 +337,16 @@ early, but normal gate order is still Concept → Specification → Architecture
 5. **Run the Specification gate** — `/review-all-gdds`, then `/gate-check systems-design`
 6. **Set up the stack** — Run `/setup-engine [lang] [framework]`
    (e.g., `/setup-engine python 3.13 flask`) — also creates technical preferences
-7. **Create architecture, ADRs, and the test baseline** — Run `/create-architecture`,
-   `/architecture-decision`, `/create-control-manifest`, and `/test-setup`
-8. **Create epics and stories** — Run `/create-epics layer: foundation`, then `layer: core`
-9. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
-10. Start building
+7. **Create architecture and ADRs** — Run `/create-architecture`,
+   `/architecture-decision`, and `/create-control-manifest`
+8. **Commit accessibility and tests** — Create `design/accessibility-requirements.md`
+   from `.claude/docs/templates/accessibility-requirements.md`, then run `/test-setup`
+9. **Design and review the core UX** — Run `/ux-design [core-workflow]`,
+   then `/ux-review`
+10. **Create epics and stories** — Run `/create-epics layer: foundation`, then
+    `/create-stories [epic-slug]`
+11. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+12. Start building
 
 ### Product Path C: "I know the product but not the stack"
 

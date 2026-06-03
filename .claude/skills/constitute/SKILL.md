@@ -649,10 +649,11 @@ Show the user the full journey ahead based on their detected stage and domain.
 `/map-systems` → `/design-system [system]` → `/design-review` → `/review-all-gdds` → `/gate-check systems-design`
 
 **Technical Setup Phase:**
-`/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest` → `/test-setup` → `/gate-check technical-setup`
+`/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest`
+Then create `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
 
 **Pre-Production Phase:**
-`/ux-design` → `/prototype` → `/playtest-report` → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`
+`/ux-design` → `/ux-review` → `/prototype` → `/playtest-report` → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`
 
 **Production Phase:**
 `/dev-story` (repeat) → `/story-done` → `/code-review` → `/sprint-status`
@@ -672,10 +673,11 @@ Show the user the full journey ahead based on their detected stage and domain.
 `/map-systems` → `/design-system [module]` → `/design-review` → `/review-all-gdds` → `/gate-check systems-design`
 
 **Architecture Phase:**
-`/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest` → `/test-setup` → `/gate-check technical-setup`
+`/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest`
+Then create `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
 
 **Pre-Implementation Phase:**
-`/ux-design` → `/prototype` → `/playtest-report` (Product workflow validation) → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`
+`/ux-design` → `/ux-review` → `/prototype` → `/playtest-report` (Product workflow validation) → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`
 
 **Implementation Phase:**
 `/story-readiness` → implement → `/story-done` → `/code-review` → `/sprint-status`
