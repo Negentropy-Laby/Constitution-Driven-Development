@@ -469,40 +469,44 @@ solo)" or "Large (X–Y months, team of N)".
 
    **[游戏专用]** Game pipeline:
    1. "Run `/constitute` — derive your constitution from this concept (if you haven't already). It reads your concept doc, extracts core thesis and principles, and writes them to the memory bank."
-   2. "Run `/setup-engine` to configure the engine"
-   3. "Run `/art-bible` to define visual identity before CDDs"
-   4. "Run `/design-review design/cdd/game-concept.md` to validate"
+   2. "Run `/design-review design/cdd/game-concept.md` to validate the Concept gate artifact"
+   3. "Run `/gate-check concept` — normal advancement to Systems Design starts here"
+   4. "Optional: run `/art-bible` to expand visual identity before CDDs"
    5. "Refine pillars with `creative-director` agent"
    6. "Run `/map-systems` — decompose into systems with dependencies"
    7. "Run `/design-system` — per-system CDDs"
    8. "Run `/design-review design/cdd/[system].md` after each CDD"
    9. "Run `/review-all-gdds` — holistic cross-CDD review before architecture"
-   10. "Run `/gate-check` — validate Systems Design readiness"
-   11. "Run `/create-architecture` — master architecture blueprint"
-   12. "Run `/architecture-decision (×N)` — record technical decisions"
-   13. "Run `/create-control-manifest` — extract implementation rules from accepted ADRs"
+   10. "Run `/gate-check systems-design` — validates module-index, MVP CDDs, design-review, and cross-review"
+   11. "Run `/setup-engine` — required Technical Setup step for engine/version/specialist routing"
+   12. "Run `/create-architecture` — master architecture blueprint"
+   13. "Run `/architecture-decision (×N)` — record technical decisions"
    14. "Run `/architecture-review` — validate traceability and technology compatibility"
-   15. "Run `/prototype [core-mechanic]` — validate the core loop before full implementation"
-   16. "Run `/playtest-report` after the prototype to validate the core hypothesis"
-   17. "If validated, plan the first sprint with `/sprint-plan new`"
+   15. "Run `/create-control-manifest` — extract implementation rules from accepted ADRs"
+   16. "Run `/test-setup` — establish the required test baseline"
+   17. "Run `/prototype [core-mechanic]` — validate the core loop before full implementation"
+   18. "Run `/playtest-report` after the prototype to validate the core hypothesis"
+   19. "If validated, plan the first sprint with `/sprint-plan new` and run `/story-readiness`"
 
    **[通用产品]** Product pipeline:
    1. "Run `/constitute` — derive your constitution from this concept (if you haven't already)"
-   2. "Run `/setup-engine [framework]` to configure your technology stack"
-   3. "Run `/design-review design/cdd/product-concept.md` to validate"
+   2. "Run `/design-review design/cdd/product-concept.md` to validate the Concept gate artifact"
+   3. "Run `/gate-check concept` — normal advancement to Specification starts here"
    4. "Refine principles with `creative-director` agent"
    5. "Run `/map-systems` — decompose into modules with dependencies"
    6. "Run `/design-system [module]` — per-module specs"
    7. "Run `/design-review design/cdd/[module].md` after each CDD"
    8. "Run `/review-all-gdds` — holistic cross-CDD review before architecture"
-   9. "Run `/gate-check` — validate Specification readiness"
-   10. "Run `/create-architecture` — master architecture blueprint"
-   11. "Run `/architecture-decision (×N)` — record technical decisions"
-   12. "Run `/create-control-manifest` — extract implementation rules from accepted ADRs"
+   9. "Run `/gate-check systems-design` — validates module-index, MVP CDDs, design-review, and cross-review"
+   10. "Run `/setup-engine [framework]` — required Architecture step for stack/version/specialist routing"
+   11. "Run `/create-architecture` — master architecture blueprint"
+   12. "Run `/architecture-decision (×N)` — record technical decisions"
    13. "Run `/architecture-review` — validate traceability and technology compatibility"
-   14. "Run `/prototype [core-interaction]` — validate the core user journey before full implementation"
-   15. "Run user testing sessions after the prototype to validate the core hypothesis"
-   16. "If validated, plan the first sprint with `/sprint-plan new`"
+   14. "Run `/create-control-manifest` — extract implementation rules from accepted ADRs"
+   15. "Run `/test-setup` — establish the required test baseline"
+   16. "Run `/prototype [core-interaction]` — validate the core user journey before full implementation"
+   17. "Run user testing sessions after the prototype to validate the core hypothesis"
+   18. "If validated, plan the first sprint with `/sprint-plan new` and run `/story-readiness`"
 
 7. **Output a summary** with the chosen concept's elevator pitch, principles,
    primary audience, biggest risk, and file path.
@@ -530,29 +534,32 @@ append this notice:
 
 **[游戏专用]** After the game concept is written:
 1. `/constitute` — derive your constitution from this concept
-2. `/setup-engine` — configure the engine
-3. `/art-bible` — establish visual identity before CDDs
-4. `/design-review design/cdd/game-concept.md` — validate concept completeness
-5. `/map-systems` — decompose into systems
-6. `/design-system [first-system]` — per-system CDDs
-7. `/design-review design/cdd/[system].md` — validate each completed CDD
-8. `/review-all-gdds` — holistic cross-CDD review before architecture
-9. `/gate-check` — validate Systems Design readiness
+2. `/design-review design/cdd/game-concept.md` — validate concept completeness
+3. `/gate-check concept` — normal advancement to Systems Design
+4. `/map-systems` — decompose into systems
+5. `/design-system [first-system]` — per-system CDDs
+6. `/design-review design/cdd/[system].md` — validate each completed CDD
+7. `/review-all-gdds` — holistic cross-CDD review before architecture
+8. `/gate-check systems-design` — validate module-index, MVP CDDs, design-review, and cross-review
+9. `/setup-engine` — configure the engine in Technical Setup
 10. `/create-architecture` — master architecture blueprint
 11. `/architecture-decision (×N)` — record technical decisions
-12. `/create-control-manifest` — extract implementation rules from accepted ADRs
-13. `/architecture-review` — validate traceability and compatibility
+12. `/architecture-review` — validate traceability and compatibility
+13. `/create-control-manifest` — extract implementation rules from accepted ADRs
+14. `/test-setup` — create the required test baseline
 
 **[通用产品]** After the product concept is written:
 1. `/constitute` — derive your constitution from this concept
-2. `/setup-engine [framework]` — configure the technology stack
-3. `/design-review design/cdd/product-concept.md` — validate concept completeness
+2. `/design-review design/cdd/product-concept.md` — validate concept completeness
+3. `/gate-check concept` — normal advancement to Specification
 4. `/map-systems` — decompose into modules
 5. `/design-system [first-module]` — per-module specs
 6. `/design-review design/cdd/[module].md` — validate each completed CDD
 7. `/review-all-gdds` — holistic cross-CDD review before architecture
-8. `/gate-check` — validate Specification readiness
-9. `/create-architecture` — master architecture blueprint
-10. `/architecture-decision (×N)` — record technical decisions
-11. `/create-control-manifest` — extract implementation rules from accepted ADRs
+8. `/gate-check systems-design` — validate module-index, MVP CDDs, design-review, and cross-review
+9. `/setup-engine [framework]` — configure the technology stack in Architecture
+10. `/create-architecture` — master architecture blueprint
+11. `/architecture-decision (×N)` — record technical decisions
 12. `/architecture-review` — validate traceability and compatibility
+13. `/create-control-manifest` — extract implementation rules from accepted ADRs
+14. `/test-setup` — create the required test baseline

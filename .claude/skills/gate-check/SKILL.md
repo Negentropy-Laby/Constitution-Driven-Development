@@ -45,8 +45,10 @@ Sections below are marked **[通用场景]** (both domains), **[游戏专用]** 
 6. **Verification** — Performance, user testing, bug fixing
 7. **Release** — Launch prep, deployment validation
 
-**When a gate passes**, write the new stage name to `production/stage.txt`
-(single line, e.g. `Implementation`). This updates the status line immediately.
+**Gate policy**: governed advisory. The gate must run before normal
+advancement; PASS may update `production/stage.txt` after user confirmation,
+CONCERNS may update it only with a recorded risk note, and FAIL does not update
+it unless the user explicitly overrides with a risk note.
 
 ---
 
@@ -84,29 +86,27 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 **[游戏专用] Game: Concept → Systems Design**
 
 **Required Artifacts:**
+- [ ] Constitution established (T0 core at `memory_bank/t0_core/basic_law_index.md`)
 - [ ] concept document exists (`design/cdd/game-concept.md`)
 - [ ] Game pillars defined (in concept doc or `design/cdd/game-pillars.md`)
-- [ ] Visual Identity Anchor section exists in the concept document (from brainstorm Phase 4 art-director output)
 
 **Quality Checks:**
 - [ ] Game concept has been reviewed (`/design-review` verdict not MAJOR REVISION NEEDED)
 - [ ] Core loop is described and understood
 - [ ] Target audience is identified
-- [ ] Visual Identity Anchor contains a one-line visual rule and at least 2 supporting visual principles
+- [ ] Core thesis captures what the game IS and is NOT
 
 **[通用产品] Product: Concept → Specification**
 
 **Required Artifacts:**
 - [ ] Concept document exists at `design/cdd/product-concept.md`
 - [ ] Project principles defined (in concept doc or `design/cdd/principles.md`)
-- [ ] Visual Identity Anchor section exists in the concept document (from brainstorm Phase 4 art-director output)
 - [ ] Constitution established (T0 core at `memory_bank/t0_core/basic_law_index.md`)
 
 **Quality Checks:**
 - [ ] Product concept has been reviewed (`/design-review` verdict not MAJOR REVISION NEEDED)
 - [ ] User journey is described and understood
 - [ ] Target audience is identified (primary user persona + JTBD statement)
-- [ ] Visual Identity Anchor contains a one-line visual rule and at least 2 supporting visual principles
 - [ ] Core thesis captures what the product IS and is NOT
 
 ---
@@ -114,8 +114,6 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 ### Gate: Systems Design → Technical Setup / Specification → Architecture
 
 **[通用场景]** This gate validates readiness to move from design to architecture. Checks are shared across both game and product domains.
-
-**
 
 **Required Artifacts:**
 - [ ] Module index exists at `design/cdd/module-index.md` with at least MVP systems enumerated
@@ -148,17 +146,16 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 - [ ] Test framework initialized: `tests/unit/` and `tests/integration/` directories exist
 - [ ] CI/CD test workflow exists at `.github/workflows/tests.yml` (or equivalent)
 - [ ] At least one example test file exists to confirm the framework is functional
+- [ ] `/test-helpers` coverage is treated as optional; missing helpers are not a blocker
 - [ ] Master architecture document exists at `docs/architecture/architecture.md`
 - [ ] Architecture traceability index exists at `docs/architecture/architecture-traceability.md`
 - [ ] `/architecture-review` has been run (a review report file exists in `docs/architecture/`)
 - [ ] `design/accessibility-requirements.md` exists with accessibility tier committed
-- [ ] `design/ux/interaction-patterns.md` exists (pattern library initialized, even if minimal)
 
 **Quality Checks:**
 - [ ] Architecture decisions cover core systems (rendering, input, state management)
 - [ ] Technical preferences have naming conventions and performance budgets set
 - [ ] Accessibility tier is defined and documented (even "Basic" is acceptable — undefined is not)
-- [ ] At least one screen's UX spec started (often the main menu or core HUD is designed during Technical Setup)
 - [ ] All ADRs have an **Engine Compatibility section** with engine version stamped
 - [ ] All ADRs have a **CDD Requirements Addressed section** with explicit CDD linkage
 - [ ] No ADR references APIs listed in `docs/engine-reference/[engine]/deprecated-apis.md`
@@ -192,17 +189,16 @@ A depends on B). If any cycle is detected (e.g. A→B→A, or A→B→C→A):
 - [ ] Test framework initialized: `tests/unit/` and `tests/integration/` directories exist
 - [ ] CI/CD test workflow exists at `.github/workflows/tests.yml` (or equivalent)
 - [ ] At least one example test file exists to confirm the framework is functional
+- [ ] `/test-helpers` coverage is treated as optional; missing helpers are not a blocker
 - [ ] Master architecture document exists at `docs/architecture/architecture.md`
 - [ ] Architecture traceability index exists at `docs/architecture/architecture-traceability.md`
 - [ ] `/architecture-review` has been run (a review report file exists in `docs/architecture/`)
 - [ ] `design/accessibility-requirements.md` exists with accessibility tier committed (even "Basic" is acceptable)
-- [ ] `design/ux/interaction-patterns.md` exists (pattern library initialized, even if minimal — for UI projects)
 
 **Quality Checks:**
 - [ ] Architecture decisions cover core modules (auth, data access, API framework, logging)
 - [ ] Technical preferences have naming conventions and performance budgets set
 - [ ] Accessibility tier is defined and documented
-- [ ] At least one key screen's UX spec started (for UI projects)
 - [ ] All ADRs have a **Technology Compatibility section** with stack version stamped
 - [ ] All ADRs have a **CDD Requirements Addressed section** with explicit CDD linkage
 - [ ] No ADR references APIs listed in `docs/reference/[stack]/deprecated-apis.md`
@@ -242,6 +238,7 @@ A depends on B). If any cycle is detected (e.g. A→B→A, or A→B→C→A):
 - [ ] UX specs exist for key screens: main menu, core gameplay HUD (at `design/ux/`), pause menu
 - [ ] HUD design document exists at `design/ux/hud.md` (if game has in-game HUD)
 - [ ] All key screen UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
+- [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
 
 **Quality Checks:**
 - [ ] **Core loop fun is validated** — playtest data confirms the central mechanic is enjoyable, not just functional. Explicitly check the Vertical Slice playtest report.
@@ -286,6 +283,7 @@ A depends on B). If any cycle is detected (e.g. A→B→A, or A→B→C→A):
 - [ ] User testing report exists at `production/user-testing/` or equivalent
 - [ ] UX specs exist for key screens: onboarding, core workflow, settings (at `design/ux/`)
 - [ ] All key screen UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
+- [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
 
 **Quality Checks:**
 - [ ] **Core interaction validated** — user testing data confirms the central workflow solves the user's job, not just functional
@@ -546,9 +544,9 @@ Art Director:       [READY / CONCERNS / NOT READY]
 - [Optional improvements that aren't blocking]
 
 ### Verdict: [PASS / CONCERNS / FAIL]
-- **PASS**: All required artifacts present, all quality checks passing
-- **CONCERNS**: Minor gaps exist but can be addressed during the next phase
-- **FAIL**: Critical blockers must be resolved before advancing
+- **PASS**: All required artifacts present, all quality checks passing; normal stage update allowed after user confirmation
+- **CONCERNS**: Minor gaps exist but can be addressed during the next phase; stage update allowed only with a risk note
+- **FAIL**: Critical blockers exist; no stage update unless the user explicitly overrides with a risk note
 ```
 
 ---
@@ -593,7 +591,7 @@ Do NOT reference the draft verdict text — re-check specific files or ask the u
 
 ---
 
-## 6. Update Stage on PASS
+## 6. Update Stage Under Governed Advisory Policy
 
 When the verdict is **PASS** and the user confirms they want to advance:
 
@@ -606,6 +604,19 @@ echo -n "Production" > production/stage.txt
 ```
 
 **Always ask before writing**: "Gate passed. May I update `production/stage.txt` to 'Production'?"
+
+When the verdict is **CONCERNS**:
+
+1. Ask whether the user wants to advance with acknowledged risk.
+2. If yes, capture a short risk note in the gate report before updating `production/stage.txt`.
+3. If no, leave `production/stage.txt` unchanged and list the smallest remediation path.
+
+When the verdict is **FAIL**:
+
+1. Leave `production/stage.txt` unchanged by default.
+2. Ask whether the user wants to override the FAIL verdict.
+3. If the user overrides, capture the override decision and risk note in the gate report before updating `production/stage.txt`.
+4. If the user does not override, leave `production/stage.txt` unchanged and list the blockers.
 
 ---
 
@@ -827,8 +838,9 @@ This skill follows the collaborative design principle:
 1. **Scan first**: Check all artifacts and quality gates
 2. **Ask about unknowns**: Don't assume PASS for things you can't verify
 3. **Present findings**: Show the full checklist with status
-4. **User decides**: The verdict is a recommendation — the user makes the final call
+4. **User decides**: The verdict guides the stage decision; user override is allowed only when risks are recorded
 5. **Get approval**: "May I write this gate check report to production/gate-checks/?"
 
-**Never** block a user from advancing — the verdict is advisory. Document the risks
-and let the user decide whether to proceed despite concerns.
+Do not silently advance on CONCERNS or FAIL. Document the risks, capture an
+explicit override when needed, and leave `production/stage.txt` unchanged unless
+the governed advisory policy allows the stage update.

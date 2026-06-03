@@ -867,13 +867,12 @@ Agent Config:    [verified]
 
 Next Steps:
 1. Review docs/engine-reference/<engine>/VERSION.md
-2. [If from /brainstorm] Run /art-bible to establish visual identity before CDDs
-3. [If from /brainstorm] Run /design-review design/cdd/game-concept.md to validate concept completeness before going downstream
-4. [If from /brainstorm] Run /map-systems to decompose your concept into individual systems
-5. [If from /brainstorm] Run /design-system to author per-system CDDs (guided, section-by-section)
-6. [If from /brainstorm] Run /prototype [core-mechanic] to test the core loop
-7. [If fresh start] Run /brainstorm to discover your game concept
-8. Create your first milestone: /sprint-plan new
+2. Continue Technical Setup: run /create-architecture
+3. Run /architecture-decision for Foundation-layer decisions
+4. Run /architecture-review, then /create-control-manifest
+5. Run /test-setup to create the required test baseline
+6. Run /gate-check technical-setup before normal advancement to Pre-Production
+7. If this was run early from Concept or Systems Design, return to the current phase boundary first: /gate-check concept or /gate-check systems-design as appropriate
 ```
 
 **[通用产品]** Product summary:
@@ -891,12 +890,12 @@ Agent Config:    [verified]
 
 Next Steps:
 1. Review docs/reference/<stack>/VERSION.md
-2. [If from /brainstorm] Run /design-review design/cdd/product-concept.md to validate concept completeness
-3. [If from /brainstorm] Run /map-systems to decompose your concept into modules
-4. [If from /brainstorm] Run /design-system to author per-module specs
-5. [If from /brainstorm] Run /prototype to test the riskiest assumption
-6. [If fresh start] Run /brainstorm to discover your product concept
-7. Create your first iteration: /sprint-plan new
+2. Continue Architecture: run /create-architecture
+3. Run /architecture-decision for Foundation-layer decisions
+4. Run /architecture-review, then /create-control-manifest
+5. Run /test-setup to create the required test baseline
+6. Run /gate-check technical-setup before normal advancement to Pre-Implementation
+7. If this was run early from Concept or Specification, return to the current phase boundary first: /gate-check concept or /gate-check systems-design as appropriate
 ```
 
 Verdict: **COMPLETE** — stack configured and reference docs populated.

@@ -7,8 +7,10 @@
 > have Claude Code installed and are working from the project root.
 >
 > The pipeline has 7 phases. Each phase has a formal gate (`/gate-check`)
-> that must pass before you advance. The authoritative phase sequence is
-> defined in `.claude/docs/workflow-catalog.yaml` and read by `/help`.
+> that must run before normal advancement. A FAIL verdict requires an explicit
+> user override with a risk note before advancing. The authoritative phase
+> sequence and gate policy are defined in `.claude/docs/workflow-catalog.yaml`
+> and read by `/help`.
 
 ---
 
@@ -170,16 +172,10 @@ MVP workflow. This is where you figure out **what** you are making and **why**.
   MDA/JTBD analysis        with pillars/principles         derived from the concept
   motivation mapping                  |                              |
                                       v                              v
-                              /setup-engine  -->  /art-bible
+                              /design-review  -->  /gate-check concept
                                       |                 |
                                       v                 v
-                              /design-review  -->  /map-systems
-                                                        |
-                                                        v
-                                                  module-index.md
-                                                  (all systems/modules,
-                                                   dependencies,
-                                                   priority tiers)
+                              reviewed concept     ready for Systems Design
 ```
 
 ### Step 1.1: Brainstorm With /brainstorm
@@ -232,56 +228,7 @@ After `/brainstorm` writes the concept document, return to `/constitute`.
 It derives the project constitution from the concept, sets review mode if
 needed, and hands off to the next stage-aware workflow step.
 
-### Step 1.3: Choose Your Engine or Stack
-
-```
-/setup-engine
-```
-
-Or with a specific engine:
-
-```
-/setup-engine godot 4.6
-```
-
-Or with a specific product stack:
-
-```
-/setup-engine python 3.13 flask
-```
-
-**What /setup-engine does:**
-
-- Populates `.claude/docs/technical-preferences.md` with naming conventions,
-  performance budgets, and engine- or stack-specific defaults
-- Detects knowledge gaps (engine or framework version newer than LLM training
-  data) and advises cross-referencing `docs/engine-reference/` for games or
-  `docs/reference/<stack>/` for products
-- Creates version-pinned reference docs in `docs/engine-reference/` for games
-  or `docs/reference/<stack>/` for products
-
-**Why this matters:** Once you set the engine or stack, the system knows which
-specialist agents to use. If you pick Godot, agents like
-`godot-specialist`, `godot-gdscript-specialist`, and `godot-shader-specialist`
-become your go-to experts. If you pick a product stack, language specialists
-such as `python-specialist`, `typescript-specialist`, `rust-specialist`, or
-`go-specialist` become the implementation handoff.
-
-### Step 1.4: Author Visual Identity Standards
-
-```
-/art-bible
-```
-
-For game projects, run this after `/setup-engine` and before CDD authoring. It
-turns the Visual Identity Anchor from `/brainstorm` into production-ready visual
-standards.
-
-For product projects, use the Product branch of the same command when the
-product needs a brand/UI style guide, documentation imagery rules, design
-tokens, or accessibility-constrained visual standards.
-
-### Step 1.5: Review the Concept (Optional but Recommended)
+### Step 1.3: Review the Concept
 
 ```
 /design-review design/cdd/game-concept.md
@@ -296,7 +243,58 @@ For product projects, use:
 Validates structure and completeness before you decompose the concept into
 systems or modules.
 
-### Step 1.6: Decompose Your Concept Into Systems or Modules
+Technology setup and module mapping are deliberately not Concept gate
+requirements. `/setup-engine` is required in Technical Setup. `/map-systems` is
+the first required Systems Design / Specification step.
+
+### Phase 1 Gate
+
+```
+/gate-check concept
+```
+
+**Requirements to pass:**
+
+- Constitution exists in `memory_bank/t0_core/basic_law_index.md`
+- `design/cdd/game-concept.md` or `design/cdd/product-concept.md` exists
+- Pillars/principles are defined in the concept document or companion file
+- Concept review has been run and is not `MAJOR REVISION NEEDED`
+
+**Verdict:** PASS / CONCERNS / FAIL. CONCERNS is passable with acknowledged
+risks. FAIL leaves `production/stage.txt` unchanged unless the user records an
+explicit override and risk note.
+
+---
+
+## Phase 2: Systems Design
+
+### What Happens in This Phase
+
+You create all the design documents that define how your game systems or
+product modules work. Nothing gets coded yet -- this is pure design. Each
+system/module identified in the module index gets its own CDD, authored section
+by section, reviewed individually, and then all CDDs are cross-checked for
+consistency.
+
+### Phase 2 Pipeline
+
+```
+/map-systems  -->  module-index.md  -->  /map-systems next  -->  /design-system  -->  /design-review
+      |                  |                     |                     |                     |
+      v                  v                     v                     v                     v
+ system/module      dependencies,         Picks next system    Section-by-section     Validates required
+ decomposition      priorities, order     from module-index    CDD authoring          sections
+                                                           (repeat for each MVP system)
+                                                                 |
+                                                                 v
+/review-all-gdds
+       |
+       v
+  Cross-CDD consistency + design theory review
+  PASS / CONCERNS / FAIL
+```
+
+### Step 2.1: Map Systems or Modules
 
 Before writing individual CDDs, enumerate all the systems or modules your
 project needs:
@@ -318,58 +316,7 @@ This creates `design/cdd/module-index.md` -- a master tracking document that:
   - **Product**: MVP Workflow, Internal Beta, Public Beta, GA, Full Vision
 - Determines design order (Foundation > Core > Feature > Presentation > Polish)
 
-This step is **required** before proceeding to Phase 2. For games, it prevents
-late discovery of missing mechanics and dependencies. For products, it prevents
-late discovery of missing contracts, migrations, permissions, operational
-requirements, or user workflow states.
-
-### Phase 1 Gate
-
-```
-/gate-check concept
-```
-
-**Requirements to pass:**
-
-- Engine configured in `technical-preferences.md`
-- `design/cdd/game-concept.md` or `design/cdd/product-concept.md` exists with pillars/principles
-- `design/cdd/module-index.md` exists with dependency ordering
-
-**Verdict:** PASS / CONCERNS / FAIL. CONCERNS is passable with acknowledged
-risks. FAIL blocks advancement.
-
----
-
-## Phase 2: Systems Design
-
-### What Happens in This Phase
-
-You create all the design documents that define how your game systems or
-product modules work. Nothing gets coded yet -- this is pure design. Each
-system/module identified in the module index gets its own CDD, authored section
-by section, reviewed individually, and then all CDDs are cross-checked for
-consistency.
-
-### Phase 2 Pipeline
-
-```
-/map-systems next  -->  /design-system  -->  /design-review
-       |                     |                     |
-       v                     v                     v
-   Picks next system    Section-by-section     Validates required
-   from module-index    CDD authoring          required sections
-                       (incremental writes)   APPROVED/NEEDS REVISION
-       |
-       |  (repeat for each MVP system)
-       v
-/review-all-gdds
-       |
-       v
-  Cross-CDD consistency + design theory review
-  PASS / CONCERNS / FAIL
-```
-
-### Step 2.1: Author System CDDs
+### Step 2.2: Author System CDDs
 
 Design each system or module in dependency order using the guided workflow:
 
@@ -538,34 +485,57 @@ If your game has story, lore, or dialogue, this is when you build it:
 ### What Happens in This Phase
 
 You make key technical decisions, document them as Architecture Decision Records
-(ADRs), validate them through review, and produce a control manifest that
-gives programmers flat, actionable rules. You also establish UX foundations.
+(ADRs), validate them through review, produce a control manifest that gives
+programmers flat, actionable rules, and establish the test baseline. You also
+establish UX foundations.
 
 ### Phase 3 Pipeline
 
 ```
-/create-architecture  -->  /architecture-decision (x N)  -->  /architecture-review
-        |                          |                                   |
-        v                          v                                   v
-  Master architecture       Per-decision ADRs              Validates completeness,
-  document covering         in docs/architecture/          dependency ordering,
-  all systems/modules       adr-*.md                       engine/stack compatibility
-                                                                      |
-                                                                      v
-                                                         /create-control-manifest
-                                                                      |
-                                                                      v
-                                                         Flat programmer rules
-                                                         docs/architecture/
-                                                         control-manifest.md
+ /setup-engine  -->  /create-architecture  -->  /architecture-decision (x N)  -->  /architecture-review
+       |                    |                          |                                   |
+       v                    v                          v                                   v
+ technical prefs      Master architecture       Per-decision ADRs              Validates completeness,
+ engine/stack refs    document covering         in docs/architecture/          dependency ordering,
+                      all systems/modules       adr-*.md                       engine/stack compatibility
+                                                                                         |
+                                                                                         v
+                                                                            /create-control-manifest
+                                                                                         |
+                                                                                         v
+                                                                            Flat programmer rules
+                                                                            docs/architecture/
+                                                                            control-manifest.md
         Also in this phase:
         -------------------
-        /ux-design  -->  /ux-review
         Accessibility requirements doc
-        Interaction pattern library
+        /test-setup baseline
 ```
 
-### Step 3.1: Master Architecture Document
+### Step 3.1: Choose Your Engine or Stack
+
+```
+/setup-engine
+```
+
+Or with a specific engine:
+
+```
+/setup-engine godot 4.6
+```
+
+Or with a specific product stack:
+
+```
+/setup-engine python 3.13 flask
+```
+
+`/setup-engine` populates `.claude/docs/technical-preferences.md`, pins the
+engine or stack version, routes specialist agents, records naming conventions
+and performance budgets, and creates version reference docs when the selected
+technology is knowledge-risky.
+
+### Step 3.2: Master Architecture Document
 
 ```
 /create-architecture
@@ -653,6 +623,23 @@ workflow recovery, and supported device/browser/terminal contexts.
 This document is required in Phase 3 because UX specs (written in Phase 4)
 reference this tier — it is a design prerequisite, not a UX deliverable.
 
+### Step 3.6: Test Framework Baseline
+
+```
+/test-setup
+```
+
+Scaffolds the minimum test baseline before Pre-Production:
+
+- `tests/unit/`
+- `tests/integration/`
+- `.github/workflows/tests.yml`
+- At least one example test file proving the selected runner works
+
+This baseline is required at the Technical Setup gate. `/test-helpers` remains
+optional and should not be treated as a blocker; use it later for fixtures,
+factories, mocks, engine-specific helpers, or stack-specific helper libraries.
+
 ### Phase 3 Gate
 
 ```
@@ -666,6 +653,8 @@ reference this tier — it is a design prerequisite, not a UX deliverable.
 - Architecture review report exists
 - `docs/architecture/control-manifest.md` exists
 - `design/accessibility-requirements.md` exists
+- Test baseline exists: `tests/unit/`, `tests/integration/`,
+  `.github/workflows/tests.yml`, and at least one example test file
 - Game projects have current `docs/engine-reference/<engine>/` references when
   engine APIs are used; Product projects have current `docs/reference/<stack>/`
   references when framework, package, SDK, database, or cloud APIs are used
@@ -838,9 +827,9 @@ Provides effort estimates with risk assessment.
 - Creates `production/sprints/sprint-01.md`
 - Populates `production/sprint-status.yaml` (machine-readable story tracking)
 
-### Step 4.7: Vertical Slice or MVP Workflow Validation (Hard Gate)
+### Step 4.7: Vertical Slice or MVP Workflow Validation
 
-Before advancing to Production/Implementation, you must build and validate the
+Before normal advancement to Production/Implementation, build and validate the
 first end-to-end slice:
 
 **Game vertical slice:**
@@ -860,9 +849,10 @@ first end-to-end slice:
 - Validation report written in `production/validation/` or QA evidence captured
   in `production/qa/evidence/`
 
-This is a **hard gate** -- `/gate-check` will auto-FAIL if a game has not been
-played unguided or a product has not completed an end-to-end workflow validation
-with evidence.
+This is a governed advisory gate condition: `/gate-check` returns FAIL if a game
+has not been played unguided or a product has not completed an end-to-end
+workflow validation with evidence. FAIL does not update `production/stage.txt`
+unless the user records an explicit override and risk note.
 
 ### Phase 4 Gate
 
@@ -1540,13 +1530,13 @@ Phase gates are formal checkpoints. Run `/gate-check` with the transition name:
 /gate-check polish               # Polish -> Release
 ```
 
-**Verdicts:**
-- **PASS** -- all requirements met, advance to next phase
-- **CONCERNS** -- requirements met with acknowledged risks, passable
-- **FAIL** -- requirements not met, blocks advancement with specific remediation
+**Verdicts under governed advisory gate policy:**
+- **PASS** -- all required artifacts and checks are satisfied; normal stage update is allowed after user confirmation.
+- **CONCERNS** -- advancement is allowed only with an explicit risk note attached to the gate report.
+- **FAIL** -- default behavior is no `production/stage.txt` update; advancement requires a user override and risk note.
 
-When a gate passes, `production/stage.txt` is updated (only then), which
-controls the status line and `/help` behavior.
+When a gate allows advancement, `production/stage.txt` is updated after user
+confirmation. The stage file controls the status line and `/help` behavior.
 
 ### Reverse Documentation
 
@@ -1743,8 +1733,8 @@ conflicts go to `producer`.
 | `/smoke-check` | Critical path smoke test gate before QA hand-off | 5-6 |
 | `/soak-test` | Game extended play-session soak or Product endurance/load/reliability soak protocol | 6 |
 | `/regression-suite` | Map test coverage, identify fixed bugs lacking regression tests | 5-6 |
-| `/test-setup` | Scaffold test framework and CI/CD pipeline for the game engine or product stack | 4 |
-| `/test-helpers` | Generate engine- or language/stack-specific test helper libraries | 4-5 |
+| `/test-setup` | Scaffold required test baseline and CI/CD pipeline for the game engine or product stack | 3 |
+| `/test-helpers` | Optional engine- or language/stack-specific fixtures, factories, mocks, and helper libraries | 4-5 |
 | `/test-evidence-review` | Quality review of test files and manual evidence | 5 |
 | `/test-flakiness` | Detect non-deterministic tests from CI logs | 5-6 |
 | `/skill-test` | Validate skill files for structural and behavioral correctness | Any |
@@ -1803,11 +1793,12 @@ conflicts go to `producer`.
 ```
 1. /constitute (routes you based on where you are and what kind of project)
 2. /brainstorm (collaborative ideation, pick a concept)
-3. /setup-engine (pin game engine or product stack and version)
-4. /design-review on concept doc (optional, recommended)
+3. /design-review on concept doc
+4. /gate-check concept (verify you're ready for Systems Design / Specification)
 5. /map-systems (decompose concept into systems/modules with deps and priorities)
-6. /gate-check concept (verify you're ready for Systems Design / Specification)
-7. /design-system per system/module (guided CDD authoring)
+6. /design-system per system/module (guided CDD authoring)
+7. /review-all-gdds, then /gate-check systems-design
+8. /setup-engine + architecture + ADRs + test baseline
 ```
 
 ### Workflow 2: "I have designs and want to start coding"

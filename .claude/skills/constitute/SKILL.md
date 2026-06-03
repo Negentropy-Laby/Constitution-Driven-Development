@@ -513,9 +513,9 @@ next phase based on the detected stage.
 
 | Stage | Detected Artifacts | Next Steps |
 |-------|-------------------|------------|
-| **1a. Concept only, no tech** | Concept doc exists, tech prefs not configured | `/setup-engine` → then continue with Stage 1b |
-| **1b. Concept + tech** | Concept doc + tech prefs configured | `/design-review` on concept. Game: then `/art-bible`. Then `/map-systems` to decompose. |
-| **2. Designed** | Module index + CDDs exist | `/gate-check` to validate Systems Design phase. Then `/create-architecture`. |
+| **1. Concept** | Concept doc exists, module index missing | `/design-review` on concept → `/gate-check concept` → `/map-systems` |
+| **2a. Mapped** | Module index exists, MVP CDDs incomplete | `/map-systems next` or `/design-system [module]` → `/design-review` |
+| **2b. Designed** | Module index + MVP CDDs exist | `/review-all-gdds` → `/gate-check systems-design` → `/setup-engine` |
 | **3. Architected** | ADRs exist | `/gate-check` to validate current phase. Next incomplete phase from pipeline. |
 | **4a. Source only** | Source code exists, no production artifacts | "You have source code but no production tracking. Run `/project-stage-detect` to assess your current phase, or `/gate-check` if you know where you are." |
 | **4b. Implemented** | Source + production artifacts exist | `/gate-check` to validate current phase. Next incomplete phase from pipeline. |
@@ -651,16 +651,16 @@ Show the user the full journey ahead based on their detected stage and domain.
 **[游戏专用] Game Pipeline:**
 
 **Concept Phase:**
-`/brainstorm` → `/setup-engine` → `/art-bible` → `/map-systems`
+`/brainstorm` → `/constitute` → `/design-review` → `/gate-check concept`
 
 **Systems Design Phase:**
-`/design-system [system]` → `/design-review` → `/review-all-gdds` → `/gate-check`
+`/map-systems` → `/design-system [system]` → `/design-review` → `/review-all-gdds` → `/gate-check systems-design`
 
-**Architecture Phase:**
-`/create-architecture` → `/architecture-decision (×N)` → `/create-control-manifest` → `/architecture-review`
+**Technical Setup Phase:**
+`/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest` → `/test-setup` → `/gate-check technical-setup`
 
 **Pre-Production Phase:**
-`/ux-design` → `/prototype` → `/playtest-report` → `/create-epics` → `/create-stories` → `/sprint-plan`
+`/ux-design` → `/prototype` → `/playtest-report` → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`
 
 **Production Phase:**
 `/dev-story` (repeat) → `/story-done` → `/code-review` → `/sprint-status`
@@ -673,17 +673,17 @@ Show the user the full journey ahead based on their detected stage and domain.
 
 **[通用产品] Product Pipeline:**
 
-**Discovery Phase:**
-`/brainstorm` → `/setup-engine` → `/map-systems`
+**Concept Phase:**
+`/brainstorm` → `/constitute` → `/design-review` → `/gate-check concept`
 
 **Specification Phase:**
-`/design-system [module]` → `/design-review` → `/review-all-gdds` → `/gate-check`
+`/map-systems` → `/design-system [module]` → `/design-review` → `/review-all-gdds` → `/gate-check systems-design`
 
 **Architecture Phase:**
-`/create-architecture` → `/architecture-decision (×N)` → `/create-control-manifest` → `/architecture-review`
+`/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest` → `/test-setup` → `/gate-check technical-setup`
 
 **Pre-Implementation Phase:**
-`/ux-design` → `/prototype` → `/playtest-report` (Product workflow validation) → `/create-epics` → `/create-stories` → `/sprint-plan`
+`/ux-design` → `/prototype` → `/playtest-report` (Product workflow validation) → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`
 
 **Implementation Phase:**
 `/story-readiness` → implement → `/story-done` → `/code-review` → `/sprint-status`
@@ -694,34 +694,34 @@ Show the user the full journey ahead based on their detected stage and domain.
 **Release Phase:**
 `/release-checklist` → `/launch-checklist` → `/changelog` → `/patch-notes` → `/hotfix`
 
-### Stage 1a Pipeline (Concept only — no tech stack, after /brainstorm)
+### Stage 1 Pipeline (Concept only, after /brainstorm)
 
-The user has a concept doc from `/brainstorm` but tech prefs are not configured.
+The user has a concept doc from `/brainstorm` but no module index.
 
 **[游戏专用] Game:**
-`/setup-engine` → `/art-bible` → `/design-review` (on concept) → `/map-systems`
+`/design-review` (on concept) → `/gate-check concept` → `/map-systems`
 Then continue with Systems Design phase from Stage 0 pipeline.
 
 **[通用产品] Product:**
-`/setup-engine` → `/design-review` (on concept) → `/map-systems`
+`/design-review` (on concept) → `/gate-check concept` → `/map-systems`
 Then continue with Specification phase from Stage 0 pipeline.
 
-### Stage 1b Pipeline (Concept + tech stack)
+### Stage 2a Pipeline (Module index exists, MVP CDDs incomplete)
 
-The user has a concept doc AND configured tech prefs. Skip `/setup-engine`.
+The user has a module index. Continue Systems Design / Specification.
 
 **[游戏专用] Game:**
-`/design-review` (on concept) → `/art-bible` → `/map-systems`
+`/map-systems next` → `/design-system [system]` → `/design-review`
 Then continue with Systems Design phase.
 
 **[通用产品] Product:**
-`/design-review` (on concept) → `/map-systems`
+`/map-systems next` → `/design-system [module]` → `/design-review`
 Then continue with Specification phase.
 
 ### Stage 2 Pipeline (Designed — module index + CDDs exist)
 
 The user has CDDs. Next steps depend on whether architecture work has begun:
-If no ADRs: run `/gate-check` → `/create-architecture`
+If no ADRs: run `/review-all-gdds` → `/gate-check systems-design` → `/setup-engine`
 If some ADRs exist: continue with next architecture step from Stage 0 pipeline.
 
 ### Stage 3-5 Pipeline

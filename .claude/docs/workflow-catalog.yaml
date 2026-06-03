@@ -7,14 +7,22 @@
 #   min_count: minimum matching files required (default: 1)
 #   note: human-readable fallback when completion can't be auto-detected
 #
-# required: true → blocks progression to next phase (shown as REQUIRED)
+# required: true → required before normal progression to next phase (shown as REQUIRED)
 # required: false → optional enhancement (shown as OPTIONAL)
 # repeatable: true → runs multiple times (one per system, story, etc.)
 # applies_to: [game] or [product] → /help filters the step by detected domain.
 # Shared steps omit applies_to so they remain visible for both domains.
 #
-# Phase gates (/gate-check): verdicts are ADVISORY — they guide the decision
-# but never hard-block advancement. The user always decides whether to proceed.
+# Phase gates (/gate-check): governed advisory. Gates must run before normal
+# advancement; FAIL does not update production/stage.txt unless the user makes
+# an explicit override with a risk note.
+
+gate_policy:
+  mode: governed_advisory
+  stage_update_on_fail: false
+  stage_update_on_concerns: allowed_with_risk_note
+  user_override_allowed: true
+  override_requires_risk_note: true
 
 phases:
 
@@ -50,31 +58,24 @@ phases:
         artifact:
           glob: "design/cdd/*-concept.md"
           min_count: 1
-        description: "Formalize concept with pillars, MDA analysis, and scope tiers. Game projects write game-concept.md; product projects write product-concept.md. Run this FIRST — /setup-engine requires a concept doc for domain-aware guidance."
-
-      - id: engine-setup
-        name: "Technology Setup"
-        command: /setup-engine
-        required: true
-        artifact:
-          glob: ".claude/docs/technical-preferences.md"
-          pattern: "Engine: [^[]|Language: [^[]"
-        description: "Configure engine (game) or technology stack (product). Pin version, set naming conventions and performance budgets."
+        description: "Formalize concept with pillars/principles, MDA or JTBD analysis, scope tiers, and target audience. Game projects write game-concept.md; product projects write product-concept.md."
 
       - id: design-review-concept
         name: "Concept Review"
         command: /design-review
-        required: false
-        description: "Validate the concept document (recommended before proceeding)"
+        required: true
+        artifact:
+          note: "Concept document has been reviewed and does not have a MAJOR REVISION NEEDED verdict."
+        description: "Validate the concept document before normal advancement to Systems Design / Specification."
 
       - id: art-bible-game
         name: "Game Art Bible"
         command: /art-bible
-        required: true
+        required: false
         applies_to: [game]
         artifact:
           glob: "design/art/art-bible.md"
-        description: "Author the game visual identity specification: art bible, shape language, asset standards, HUD visual language, and production art constraints."
+        description: "Recommended game visual identity specification: art bible, shape language, asset standards, HUD visual language, and production art constraints. Not a Concept gate blocker."
 
       - id: product-style-guide
         name: "Product Style Guide"
@@ -85,19 +86,19 @@ phases:
           glob: "design/art/art-bible.md"
         description: "Optional Product branch of /art-bible for projects that need brand/UI style guide, design tokens, docs imagery rules, and accessibility-constrained visual standards. API/CLI/backend-only products may skip it unless user-facing visuals or docs artifacts require a style guide."
 
+  systems-design:
+    label: "Systems Design"
+    description: "Map systems/modules, author CDDs, and cross-review MVP design coverage"
+    next_phase: technical-setup
+    steps:
       - id: map-systems
         name: "Systems Map"
         command: /map-systems
         required: true
         artifact:
           glob: "design/cdd/module-index.md"
-        description: "Decompose concept into systems with dependency ordering and priority tiers"
+        description: "Decompose the approved concept into systems/modules with dependency ordering and MVP priority tiers."
 
-  systems-design:
-    label: "Systems Design"
-    description: "Author a CDD for each system or module in the module index"
-    next_phase: technical-setup
-    steps:
       - id: design-system
         name: "System CDDs"
         command: /design-system
@@ -131,9 +132,18 @@ phases:
 
   technical-setup:
     label: "Technical Setup"
-    description: "Architecture decisions, visual identity specification, accessibility foundations, technology validation"
+    description: "Technology setup, architecture decisions, accessibility foundations, test baseline, and validation"
     next_phase: pre-production
     steps:
+      - id: engine-setup
+        name: "Technology Setup"
+        command: /setup-engine
+        required: true
+        artifact:
+          glob: ".claude/docs/technical-preferences.md"
+          pattern: "Engine: [^[]|Language: [^[]"
+        description: "Configure engine (game) or technology stack (product). Pin version, set naming conventions, route specialists, and establish performance budgets."
+
       - id: create-architecture
         name: "Architecture Document"
         command: /create-architecture
@@ -174,6 +184,14 @@ phases:
         artifact:
           glob: "design/accessibility-requirements.md"
         description: "Commit accessibility tier (Basic/Standard/Comprehensive/Exemplary) and feature matrix. UX specs (Phase 4) reference this tier."
+
+      - id: test-setup
+        name: "Test Framework Baseline"
+        command: /test-setup
+        required: true
+        artifact:
+          note: "Minimum baseline: tests/unit/, tests/integration/, .github/workflows/tests.yml, and at least one example test file."
+        description: "Scaffold the required test framework baseline and CI pipeline before entering Pre-Production. Applies to both game engines and product stacks. Optional helpers are handled by /test-helpers later."
 
   pre-production:
     label: "Pre-Production / Pre-Implementation"
@@ -234,13 +252,13 @@ phases:
           min_count: 2
         description: "Break each epic into implementable story files. Run per epic: /create-stories [epic-slug]"
 
-      - id: test-setup
-        name: "Test Framework Setup"
-        command: /test-setup
+      - id: test-helpers
+        name: "Test Helper Libraries"
+        command: /test-helpers
         required: false
         artifact:
-          note: "Check tests/ directory for engine- or stack-specific test framework scaffold"
-        description: "Scaffold the test framework and CI pipeline once before the first sprint. Leads to /test-helpers for fixture generation (engine-specific for game; stack-appropriate for product), /qa-plan per epic, and /smoke-check per sprint."
+          note: "Optional fixtures, factories, mocks, engine helpers, and stack-specific helper libraries."
+        description: "Optional enhancement after the baseline test framework exists. Generate reusable test helpers without making helper coverage a gate blocker."
 
       - id: sprint-plan
         name: "First Sprint Plan"
@@ -250,6 +268,14 @@ phases:
           glob: "production/sprints/sprint-*.md"
           min_count: 1
         description: "Plan the first sprint with prioritized stories from epics"
+
+      - id: story-readiness
+        name: "Story Readiness Baseline"
+        command: /story-readiness
+        required: true
+        artifact:
+          note: "At least one first-sprint story has a READY verdict before normal advancement to Production / Implementation."
+        description: "Validate first-sprint stories before implementation begins. Re-run throughout Production for each story before pickup."
 
       - id: vertical-slice-playtest
         name: "Vertical Slice Playtest"

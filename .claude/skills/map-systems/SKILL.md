@@ -393,7 +393,7 @@ After the modules index is created (or after designing some modules), present ne
 
 After any individual CDD is completed:
 - "Run `/design-review design/cdd/[module].md` in a fresh session to validate quality"
-- "Run `/gate-check modules-design` when all MVP CDDs are complete"
+- "Run `/review-all-gdds`, then `/gate-check systems-design` when all MVP CDDs are complete and reviewed"
 
 ---
 
@@ -436,4 +436,4 @@ If context reaches or exceeds 70% at any point, append this notice:
 - Run `/design-system [first-module-in-order]` to author the first CDD (use design order from the index)
 - Run `/map-systems next` to always pick the highest-priority undesigned module automatically
 - Run `/design-review design/cdd/[module].md` in a fresh session after each CDD is authored
-- Run `/gate-check pre-production` when all MVP CDDs are authored and reviewed
+- Run `/review-all-gdds`, then `/gate-check systems-design` when all MVP CDDs are authored and reviewed

@@ -123,7 +123,7 @@ Ask yourself: "What department would handle this in a real studio?"
 | `/scope-check` | Detect scope creep against plan |
 | `/perf-profile` | Performance profiling and bottleneck ID |
 | `/tech-debt` | Scan, track, and prioritize tech debt |
-| `/gate-check` | Validate phase readiness (PASS/CONCERNS/FAIL) |
+| `/gate-check` | Validate phase readiness under governed advisory policy: PASS, CONCERNS with risk note, or FAIL with explicit override |
 | `/consistency-check` | Scan all CDDs for cross-document inconsistencies (conflicting stats, names, rules) |
 | `/reverse-document` | Generate design/architecture docs from existing code |
 | `/milestone-review` | Reviews milestone progress |
@@ -152,8 +152,8 @@ Ask yourself: "What department would handle this in a real studio?"
 | `/smoke-check` | Run critical path smoke test gate before QA hand-off (PASS/FAIL) |
 | `/soak-test` | Game extended play-session soak test; product endurance/load/reliability soak protocol |
 | `/regression-suite` | Map coverage to CDD critical paths, flag gaps, maintain regression suite |
-| `/test-setup` | Scaffold test framework + CI pipeline for the project's game engine or product stack (run once) |
-| `/test-helpers` | Generate game engine-specific or product language/stack-specific test helper libraries and factory functions |
+| `/test-setup` | Scaffold the required Technical Setup test baseline: `tests/unit/`, `tests/integration/`, `.github/workflows/tests.yml`, and one example test |
+| `/test-helpers` | Optional game engine-specific or product language/stack-specific fixtures, factories, mocks, and helper libraries |
 | `/test-flakiness` | Detect flaky tests from CI history, flag for quarantine or fix |
 | `/test-evidence-review` | Quality review of test files and manual evidence — ADEQUATE/INCOMPLETE/MISSING |
 | `/skill-test` | Validate skill files for compliance and correctness (static / spec / audit) |
@@ -227,34 +227,36 @@ If you already know what you need, jump directly to the relevant path:
    what you want to build, your constraints, your governing principles
    - Establishes your project constitution, then routes to concept exploration
    - For games: produces a game concept document and recommends an engine
-2. **Set up the engine** — Run `/setup-engine` (uses the brainstorm recommendation)
-   - Configures CLAUDE.md, detects knowledge gaps, populates reference docs
-   - Creates `.claude/docs/technical-preferences.md` with naming conventions,
-     performance budgets, and engine-specific defaults
-   - If the engine version is newer than the LLM's training data, it fetches
-     current docs from the web so agents suggest correct APIs
-3. **Validate the concept** — Run `/design-review` on your concept document
+2. **Validate the concept** — Run `/design-review` on your concept document
+3. **Run the Concept gate** — `/gate-check concept`
 4. **Decompose into systems** — Run `/map-systems` to map all systems and dependencies
 5. **Design each system** — Run `/design-system [system-name]` (or `/map-systems next`)
    to write CDDs in dependency order
-6. **Test the core loop** — Run `/prototype [core-mechanic]`
-7. **Playtest it** — Run `/playtest-report` to validate the hypothesis
-8. **Plan the first sprint** — Run `/sprint-plan new`
-9. Start building
+6. **Run the Systems Design gate** — `/review-all-gdds`, then `/gate-check systems-design`
+7. **Create technology, architecture, and tests** — Run `/setup-engine`,
+   `/create-architecture`, core ADRs, `/create-control-manifest`, and `/test-setup`
+8. **Test the core loop** — Run `/prototype [core-mechanic]`
+9. **Playtest it** — Run `/playtest-report` to validate the hypothesis
+10. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+11. Start building
 
 ### Path B: "I know what I want to build"
 
-If you already have a game concept and engine choice:
+If you already have a game concept and engine choice, you may record the engine
+early, but normal gate order is still Concept → Systems Design → Technical
+Setup:
 
-1. **Set up the engine** — Run `/setup-engine [engine] [version]`
-   (e.g., `/setup-engine godot 4.6`) — also creates technical preferences
-2. **Write the Game Pillars** — delegate to `creative-director`
+1. **Validate the concept** — Run `/design-review` on your concept document
+2. **Run the Concept gate** — `/gate-check concept`
 3. **Decompose into systems** — Run `/map-systems` to enumerate systems and dependencies
 4. **Design each system** — Run `/design-system [system-name]` for CDDs in dependency order
-5. **Create the initial ADR** — Run `/architecture-decision`
-6. **Create the first milestone** in `production/milestones/`
-7. **Plan the first sprint** — Run `/sprint-plan new`
-8. Start building
+5. **Run the Systems Design gate** — `/review-all-gdds`, then `/gate-check systems-design`
+6. **Set up the engine** — Run `/setup-engine [engine] [version]`
+   (e.g., `/setup-engine godot 4.6`) — also creates technical preferences
+7. **Create architecture, ADRs, and the test baseline** — Run `/create-architecture`,
+   `/architecture-decision`, `/create-control-manifest`, and `/test-setup`
+8. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+9. Start building
 
 ### Path C: "I know the game but not the engine"
 
@@ -262,8 +264,9 @@ If you have a concept but don't know which engine fits:
 
 1. **Run `/setup-engine`** with no arguments — it will ask about your game's
    needs (2D/3D, platforms, team size, language preferences) and recommend
-   an engine based on your answers
-2. Follow Path B from step 2 onward
+   an engine based on your answers. This records the Technical Setup decision
+   early; return to the Concept or Systems Design gate if those are not done.
+2. Follow Path B from the current missing gate onward
 
 ### Path D: "I have an existing project"
 
@@ -289,30 +292,35 @@ The paths above cover game projects. For product projects, use these equivalents
 1. **Run `/constitute`** (or `/brainstorm open`) — guided onboarding:
    choose product domain (API, CLI, web, data pipeline), establish principles
    - Produces a product concept document (JTBD, user psychology, MVP scope)
-2. **Set up the stack** — Run `/setup-engine` to pick language + framework
-   (e.g., `python 3.13 flask`, `typescript 5 node express`, `rust axum`, `go chi`)
-   - Creates technical-preferences.md with naming conventions, performance budgets
-3. **Validate the concept** — Run `/design-review` on your product concept
+2. **Validate the concept** — Run `/design-review` on your product concept
+3. **Run the Concept gate** — `/gate-check concept`
 4. **Decompose into modules** — Run `/map-systems` to map all modules and dependencies
 5. **Design each module** — Run `/design-system [module-name]` to write CDDs in dependency order
-6. **Prototype the riskiest assumption** — Run `/prototype [core-workflow]` (API spike, CLI spike, data pipeline spike, or workflow prototype)
-7. **Smoke test / user test** — Validate the hypothesis with real usage data
-8. **Plan the first sprint** — Run `/sprint-plan new`
-9. Start building
+6. **Run the Specification gate** — `/review-all-gdds`, then `/gate-check systems-design`
+7. **Create technology, architecture, and tests** — Run `/setup-engine`,
+   `/create-architecture`, core ADRs, `/create-control-manifest`, and `/test-setup`
+8. **Prototype the riskiest assumption** — Run `/prototype [core-workflow]` (API spike, CLI spike, data pipeline spike, or workflow prototype)
+9. **Smoke test / user test** — Validate the hypothesis with real usage data
+10. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+11. Start building
 
 ### Product Path B: "I know what I want to build"
 
-If you already have a product concept and stack choice:
+If you already have a product concept and stack choice, you may record the stack
+early, but normal gate order is still Concept → Specification → Architecture:
 
-1. **Set up the stack** — Run `/setup-engine [lang] [framework]`
+1. **Validate the concept** — Run `/design-review` on your product concept
+2. **Run the Concept gate** — `/gate-check concept`
+3. **Decompose into modules** — Run `/map-systems` to enumerate modules and dependencies
+4. **Design each module** — Run `/design-system [module-name]` for CDDs in dependency order
+5. **Run the Specification gate** — `/review-all-gdds`, then `/gate-check systems-design`
+6. **Set up the stack** — Run `/setup-engine [lang] [framework]`
    (e.g., `/setup-engine python 3.13 flask`) — also creates technical preferences
-2. **Decompose into modules** — Run `/map-systems` to enumerate modules and dependencies
-3. **Design each module** — Run `/design-system [module-name]` for CDDs in dependency order
-4. **Create the architecture** — Run `/create-architecture` for the master blueprint
-5. **Create initial ADRs** — Run `/architecture-decision` for Foundation-layer decisions
-6. **Create epics and stories** — Run `/create-epics layer: foundation`, then `layer: core`
-7. **Plan the first sprint** — Run `/sprint-plan new`
-8. Start building
+7. **Create architecture, ADRs, and the test baseline** — Run `/create-architecture`,
+   `/architecture-decision`, `/create-control-manifest`, and `/test-setup`
+8. **Create epics and stories** — Run `/create-epics layer: foundation`, then `layer: core`
+9. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+10. Start building
 
 ### Product Path C: "I know the product but not the stack"
 
@@ -320,8 +328,9 @@ If you have a concept but don't know which stack fits:
 
 1. **Run `/setup-engine`** with no arguments — it will ask about your product's
    needs (API/CLI/web, scale expectations, team language preferences) and recommend
-   a stack based on your answers
-2. Follow Product Path B from step 2 onward
+   a stack based on your answers. This records the Architecture decision early;
+   return to the Concept or Specification gate if those are not done.
+2. Follow Product Path B from the current missing gate onward
 
 ### Product Path D: Shared
 

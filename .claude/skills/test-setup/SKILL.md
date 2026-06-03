@@ -590,7 +590,10 @@ Gate note: /gate-check Technical Setup → Pre-Production now requires:
 - tests/ directory with unit/ and integration/ subdirectories
 - .github/workflows/tests.yml
 - At least one example test file
-Run /test-setup and write one example test before advancing.
+Run /test-setup and write one example test before normal advancement.
+`/test-helpers` is an optional enhancement for fixtures, factories, mocks, and
+engine/stack helper libraries after this baseline exists; missing helpers are
+not a gate blocker.
 
 Verdict: **COMPLETE** — test framework scaffolded and CI/CD wired up.
 ```

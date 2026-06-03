@@ -1168,4 +1168,4 @@ shows context at or above 70%. If so, append this notice to the response:
 - Run `/design-review design/cdd/[system-name].md` in a **fresh session** to validate the completed CDD independently
 - Run `/consistency-check` to verify this CDD's values don't conflict with other CDDs
 - Run `/map-systems next` to move to the next highest-priority undesigned system
-- Run `/gate-check pre-production` when all MVP CDDs are authored and reviewed
+- Run `/review-all-gdds`, then `/gate-check systems-design` when all MVP CDDs are authored and reviewed
