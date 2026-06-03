@@ -1138,7 +1138,7 @@ If the user picks "Design another screen first", add a note: "Reminder: run
 
 ### 6c: Cross-Link Related Specs
 
-If other UX specs link to or from this screen, note which ones should reference
+When other UX specs link to or from this screen, note which ones should reference
 this spec. Do not edit those files without asking — just name them.
 
 ---

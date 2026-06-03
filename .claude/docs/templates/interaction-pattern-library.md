@@ -100,7 +100,7 @@ update this document before or simultaneously with any implementation change.
 | Empty State | Feedback | How empty lists and grids are presented. | [Empty inventory, no quests, no saves] | Draft |
 | Error State | Feedback | How errors are communicated. | [Save failed, network error, invalid input] | Draft |
 | Success Confirmation | Feedback | How completed actions are confirmed. | [Settings saved, item crafted, quest turned in] | Draft |
-| Optimistic UI | Feedback | Showing assumed success before system confirmation. | [If online features are present] | Draft |
+| Optimistic UI | Feedback | Showing assumed success before system confirmation. | [When online features are present] | Draft |
 
 ---
 

@@ -159,7 +159,7 @@ Keep the total output to 30 lines or fewer. Use this format:
 *(Omit this section entirely if no IN PROGRESS stories are stale or have timestamp concerns.)*
 
 ### Burndown: [On Track / At Risk / Behind]
-[1-2 sentences. If behind: which Must Haves are at risk. If on track: confirm
+[1-2 sentences. If behind: which Must Haves are at risk. When on track: confirm
 and note any Should Haves the team could pull.]
 
 ### Must-Haves at Risk

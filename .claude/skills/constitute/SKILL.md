@@ -121,14 +121,10 @@ Question 1 — do not ask again.
    their domain). If the user answered "I'm not sure yet" for domain, show both
    game and product pipelines and note that the domain will be clarified during
    `/brainstorm`.
-6. **Phase 3d — Review Mode.
-
-** Check if `production/review-mode.txt` exists.
+6. **Phase 3d — Review Mode.** Check if `production/review-mode.txt` exists.
    If not, use `AskUserQuestion`: Full / Lean (recommended) / Solo. Write choice.
-   oreate `production/` directory if needed.
-7. **Phase 7 — oonfirmation.
-
-** Use `AskUserQuestion`: "Which step would you like
+   Create `production/` directory if needed.
+7. **Phase 7 — Confirmation.** Use `AskUserQuestion`: "Which step would you like
    to start with?" Options: `Run /brainstorm open (recommended)` / `Something else
    — I'll tell you`.
 8. When confirmed: "Type `/brainstorm open` to begin."
@@ -143,17 +139,13 @@ Domain was already established in Question 1 — do not ask again.
 3. Recommend running `/brainstorm [their hint]` to develop it
 4. Note: "Return to `/constitute` after `/brainstorm`."
 5. Show the pipeline from Phase 7 (full pipeline with all commands for their domain).
-6. **Phase 3d — Review Mode.
-
-** Check `production/review-mode.txt`. If not set,
+6. **Phase 3d — Review Mode.** Check `production/review-mode.txt`. If not set,
    use `AskUserQuestion`: Full / Lean (recommended) / Solo. Write choice.
-7. **Phase 7 — oonfirmation.
-
-** Use `AskUserQuestion`: "Which step would you like
+7. **Phase 7 — Confirmation.** Use `AskUserQuestion`: "Which step would you like
    to start with?" Options: `Run /brainstorm [hint] (recommended)` / `Something else`.
 8. When confirmed: "Type `/brainstorm [hint]` to begin."
 
-#### If o: Clear spec
+#### If C: Clear spec
 
 1. Ask them to describe the project in one sentence — what it does and for whom.
    Use plain text, not AskUserQuestion (it's an open response).

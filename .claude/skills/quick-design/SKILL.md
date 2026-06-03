@@ -121,7 +121,7 @@ Produce a single table:
 
 Maps to CDD Tuning Knob: [knob name and its documented range].
 New value is [within / at the edge of / outside] the documented range.
-[If outside: explain why the range should be extended.]
+[When outside: explain why the range should be extended.]
 
 ## Acceptance Criteria
 

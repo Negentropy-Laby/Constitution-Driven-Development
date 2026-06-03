@@ -34,6 +34,7 @@ fi
 
 echo "=== Skill Modified: $SKILL_NAME ===" >&2
 echo "Run /skill-test static $SKILL_NAME to validate structural compliance." >&2
+echo "Run python scripts/skill_lint.py .claude/skills/$SKILL_NAME/SKILL.md for non-blocking markdown/frontmatter checks." >&2
 echo "====================================" >&2
 
 exit 0
