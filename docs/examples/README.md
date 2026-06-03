@@ -47,6 +47,21 @@ design-system, story lifecycle, UX pipeline, and brownfield onboarding.
 
 ---
 
+### PAIRED GAME / PRODUCT TEACHING SESSIONS
+
+Use this table when you want the same workflow shown in both domains.
+
+| Game session | Product counterpart |
+|--------------|---------------------|
+| [Authoring a CDD with /design-system](session-design-system-skill.md) | [Product CDD Authoring - CLI CSV Import Module](session-design-system-product-cli-import.md) |
+| [Full Story Lifecycle](session-story-lifecycle.md) | [Product Story Lifecycle - CLI Dry-Run Import](session-story-lifecycle-product-cli.md) |
+| [UX Pipeline](session-ux-pipeline.md) | [Product UX Pipeline - API, CLI, and Web Import Review](session-ux-pipeline-product-api-cli-web.md) |
+| [Brownfield Onboarding with /adopt](session-adopt-brownfield.md) | [Product Brownfield Adoption - Existing Python CLI](session-adopt-brownfield-product.md) |
+| [Implementing Combat Damage Calculation](session-implement-combat-damage.md) | [Implementing a Product Contract Test](session-implement-product-contract-test.md) |
+| [Scope Crisis - Strategic Decision Making](session-scope-crisis-decision.md) | [Product Scope Crisis - CLI Import vs. Web Dashboard](session-product-scope-crisis-decision.md) |
+
+---
+
 ### [Session: Authoring a CDD with /design-system](session-design-system-skill.md)
 **Type:** Design (skill-driven)
 **Skill:** `/design-system`
@@ -71,6 +86,18 @@ Dev runs `/design-system movement` after `/map-systems` produced the systems ind
 
 ---
 
+### [Product Session: CLI CSV Import CDD](session-design-system-product-cli-import.md)
+**Type:** Product Design (skill-driven)
+**Skill:** `/design-system`
+**Duration:** ~50 minutes (10 turns)
+**Complexity:** Medium
+
+Product counterpart to the movement CDD session. Shows a CLI module CDD with
+User Promise, Detailed Behavior, Contracts/Data Model, Edge Cases, Dependencies,
+Configuration Knobs, Acceptance Criteria, and Workflow Validation.
+
+---
+
 ### [Session: Full Story Lifecycle](session-story-lifecycle.md)
 **Type:** Full Workflow
 **Skills:** `/story-readiness` → implementation → `/story-done`
@@ -92,6 +119,18 @@ Dev picks up a story from the sprint backlog. `/story-readiness` catches a roll-
 - How deferred criteria work (COMPLETE WITH NOTES vs. BLOCKED)
 - How TR-ID references prevent false deviation flags
 - The full loop from backlog → implemented → closed
+
+---
+
+### [Product Session: CLI Dry-Run Story Lifecycle](session-story-lifecycle-product-cli.md)
+**Type:** Product Full Workflow
+**Skills:** `/story-readiness` -> `/dev-story` -> `/story-done`
+**Duration:** ~45 minutes (11 turns)
+**Complexity:** Medium
+
+Product counterpart to the movement story lifecycle. Shows canonical story path
+usage under `production/epics/`, automated contract tests, and user-test
+evidence under `production/qa/evidence/user-tests/`.
 
 ---
 
@@ -143,6 +182,18 @@ Dev designs the HUD and inventory screen. `/ux-design` reads the player journey 
 
 ---
 
+### [Product Session: API, CLI, and Web UX Pipeline](session-ux-pipeline-product-api-cli-web.md)
+**Type:** Product UX Pipeline
+**Skills:** `/ux-design`, `/ux-review`
+**Duration:** ~70 minutes (12 turns)
+**Complexity:** Medium-High
+
+Product counterpart to the HUD/inventory UX session. Shows when
+`design/ux/interaction-patterns.md` is required, when `design/design-system.md`
+is not yet required, and how CLI/API/web surfaces share one interaction model.
+
+---
+
 ### [Session: Brownfield Onboarding with /adopt](session-adopt-brownfield.md)
 **Type:** Brownfield Adoption
 **Skill:** `/adopt`
@@ -164,6 +215,17 @@ Dev has 3 months of existing code and rough design notes but nothing in the righ
 - How format compliance is checked (section detection, not just file presence)
 - How brownfield projects can onboard without losing existing work
 - When to use retrofit mode vs. full authoring
+
+---
+
+### [Product Session: Brownfield Python CLI Adoption](session-adopt-brownfield-product.md)
+**Type:** Product Brownfield Adoption
+**Skill:** `/adopt`
+**Duration:** ~35 minutes (8 turns)
+**Complexity:** Low-Medium
+
+Product counterpart to the Godot brownfield session. Shows source/module
+inference for an existing Python CLI without overwriting code.
 
 ---
 
@@ -220,6 +282,18 @@ User has a complete design doc and wants the damage calculation implemented. Age
 
 ---
 
+### [Product Session: Implementing a Product Contract Test](session-implement-product-contract-test.md)
+**Type:** Product Implementation
+**Skills:** `/dev-story`, `/test-evidence-review`
+**Duration:** ~35 minutes (9 turns)
+**Complexity:** Low-Medium
+
+Product counterpart to the combat implementation session. Shows API contract
+implementation, unit and integration tests, and evidence review for an API-only
+story.
+
+---
+
 ### [Session: Scope Crisis - Strategic Decision Making](session-scope-crisis-decision.md)
 **Type:** Strategic Decision
 **Agent:** creative-director
@@ -243,6 +317,17 @@ Solo dev faces crisis: Alpha milestone in 2 weeks, crafting system needs 3 weeks
 - How to use game dev precedent and theory in recommendations
 - How to document decisions (ADRs)
 - How to cascade decisions to affected departments
+
+---
+
+### [Product Session: CLI Import vs. Web Dashboard Scope Crisis](session-product-scope-crisis-decision.md)
+**Type:** Product Strategic Decision
+**Agent:** product lead
+**Duration:** ~25 minutes (8 turns)
+**Complexity:** High
+
+Product counterpart to the game scope crisis. Shows how to protect a validated
+CLI/API MVP workflow while documenting a dashboard deferral ADR.
 
 ---
 
@@ -311,13 +396,19 @@ Read these examples BEFORE your first session. They show realistic expectations 
 ### For Understanding Specific Workflows:
 - **New to the system?** → Read skill-flow-diagrams.md first
 - **Running /design-system for the first time?** → Read session-design-system-skill.md
+- **Running /design-system for a product module?** → Read session-design-system-product-cli-import.md
 - **Picking up a story?** → Read session-story-lifecycle.md
+- **Picking up a product story?** → Read session-story-lifecycle-product-cli.md
 - **Finishing a phase?** → Read session-gate-check-phase-transition.md
 - **Starting UI work?** → Read session-ux-pipeline.md
+- **Designing API/CLI/Web product UX?** → Read session-ux-pipeline-product-api-cli-web.md
 - **Have an existing project?** → Read session-adopt-brownfield.md
+- **Have an existing product codebase?** → Read session-adopt-brownfield-product.md
 - **Designing a system (agent-driven)?** → Read session-design-crafting-system.md
 - **Implementing code?** → Read session-implement-combat-damage.md
+- **Implementing product contracts?** → Read session-implement-product-contract-test.md
 - **Making strategic decisions?** → Read session-scope-crisis-decision.md
+- **Managing product scope crisis?** → Read session-product-scope-crisis-decision.md
 
 ### For Training:
 If you're teaching someone to use this system, walk through one example turn-by-turn to show:
