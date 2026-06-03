@@ -28,6 +28,12 @@ fi
 
 WARNINGS=""
 
+add_finding() {
+    severity="$1"
+    message="$2"
+    WARNINGS="$WARNINGS\n${severity}: ${message}"
+}
+
 PROJECT_DOMAIN="unknown"
 if [ -f "design/cdd/product-concept.md" ] && [ ! -f "design/cdd/game-concept.md" ]; then
     PROJECT_DOMAIN="product"
@@ -50,7 +56,7 @@ if [ -n "$DESIGN_FILES" ]; then
 
             for section in "${REQUIRED_SECTIONS[@]}"; do
                 if ! grep -qi "$section" "$file"; then
-                    WARNINGS="$WARNINGS\nDESIGN: $file missing required section: $section"
+                    add_finding "HIGH" "$file missing required design section: $section"
                 fi
             done
         fi
@@ -73,11 +79,11 @@ if [ -n "$DATA_FILES" ]; then
         if [ -f "$file" ]; then
             if [ -n "$PYTHON_CMD" ]; then
                 if ! "$PYTHON_CMD" -m json.tool "$file" > /dev/null 2>&1; then
-                    echo "BLOCKED: $file is not valid JSON" >&2
+                    echo "BLOCKING: $file is not valid JSON" >&2
                     exit 2
                 fi
             else
-                echo "WARNING: Cannot validate JSON (python not found): $file" >&2
+                echo "MEDIUM: Cannot validate JSON (python not found): $file" >&2
             fi
         fi
     done <<< "$DATA_FILES"
@@ -90,7 +96,7 @@ if [ -n "$CODE_FILES" ]; then
     while IFS= read -r file; do
         if [ -f "$file" ]; then
             if grep -nE '(damage|health|speed|rate|chance|cost|duration)[[:space:]]*[:=][[:space:]]*[0-9]+' "$file" 2>/dev/null; then
-                WARNINGS="$WARNINGS\nCODE: $file may contain hardcoded gameplay values. Use data files."
+                add_finding "HIGH" "$file may contain hardcoded gameplay values. Use data files."
             fi
         fi
     done <<< "$CODE_FILES"
@@ -102,7 +108,7 @@ if [ -n "$SRC_FILES" ]; then
     while IFS= read -r file; do
         if [ -f "$file" ]; then
             if grep -nE '(TODO|FIXME|HACK)[^(]' "$file" 2>/dev/null; then
-                WARNINGS="$WARNINGS\nSTYLE: $file has TODO/FIXME without owner tag. Use TODO(name) format."
+                add_finding "MEDIUM" "$file has TODO/FIXME without owner tag. Use TODO(name) format."
             fi
         fi
     done <<< "$SRC_FILES"
@@ -110,7 +116,7 @@ fi
 
 # Print warnings (non-blocking) and allow commit
 if [ -n "$WARNINGS" ]; then
-    echo -e "=== Commit Validation Warnings ===$WARNINGS\n================================" >&2
+    echo -e "=== Commit Validation Findings ===$WARNINGS\nSeverity: BLOCKING blocks; HIGH/MEDIUM/LOW are advisory unless promoted by policy.\n===================================" >&2
 fi
 
 exit 0

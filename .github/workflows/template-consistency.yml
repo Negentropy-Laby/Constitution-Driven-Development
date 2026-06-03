@@ -24,8 +24,12 @@ jobs:
       - name: Entry skill strict lint
         run: python scripts/skill_lint.py --strict .claude/skills/constitute/SKILL.md
 
-      - name: Workflow/catalog/docs consistency
+      - name: Workflow/catalog/docs/examples consistency
         run: python scripts/workflow_consistency.py
+
+      - name: Canonical story path check
+        run: |
+          ! grep -RInE "production/stories/" .claude docs README.md
 
       - name: Canonical evidence path check
         run: |

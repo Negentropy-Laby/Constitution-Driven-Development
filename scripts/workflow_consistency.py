@@ -19,10 +19,17 @@ SKILLS_DIR = REPO_ROOT / ".claude" / "skills"
 TEMPLATES_DIR = REPO_ROOT / ".claude" / "docs" / "templates"
 CATALOG = REPO_ROOT / ".claude" / "docs" / "workflow-catalog.yaml"
 GATE_CHECK = REPO_ROOT / ".claude" / "skills" / "gate-check" / "SKILL.md"
+FLOW_DIAGRAMS = REPO_ROOT / "docs" / "examples" / "skill-flow-diagrams.md"
 DOC_COMMAND_FILES = [
     REPO_ROOT / "README.md",
     REPO_ROOT / "docs" / "START-HERE.md",
     REPO_ROOT / ".claude" / "docs" / "quick-start.md",
+]
+DRIFT_SCAN_ROOTS = [
+    REPO_ROOT / "README.md",
+    REPO_ROOT / "docs",
+    REPO_ROOT / ".claude" / "skills",
+    REPO_ROOT / ".claude" / "docs",
 ]
 
 COMMAND_REF = re.compile(r"(?<![\w.:-])/[a-z][a-z0-9-]*\b")
@@ -43,6 +50,8 @@ IGNORED_COMMAND_LIKE = {
     "/tests",
     "/tmp",
 }
+
+TEXT_SUFFIXES = {".md", ".txt", ".yaml", ".yml"}
 
 
 @dataclass
@@ -229,6 +238,67 @@ def check_gate_artifact_trace(steps: list[CatalogStep]) -> list[Finding]:
     return findings
 
 
+def iter_text_files(paths: list[Path]) -> list[Path]:
+    files: list[Path] = []
+    for path in paths:
+        if path.is_file() and path.suffix.lower() in TEXT_SUFFIXES:
+            files.append(path)
+        elif path.is_dir():
+            files.extend(
+                candidate
+                for candidate in path.rglob("*")
+                if candidate.is_file() and candidate.suffix.lower() in TEXT_SUFFIXES
+            )
+    return files
+
+
+def check_story_path_drift() -> list[Finding]:
+    findings: list[Finding] = []
+    pattern = re.compile(r"production/stories(?:/|\b)")
+    for path in iter_text_files(DRIFT_SCAN_ROOTS):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if pattern.search(line):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(path)}:{line_no} uses legacy production/stories path; use production/epics/[epic-slug]/story-NNN-[slug].md",
+                    )
+                )
+    return findings
+
+
+def block_between(text: str, start: str, end: str) -> str:
+    start_index = text.find(start)
+    if start_index == -1:
+        return ""
+    end_index = text.find(end, start_index)
+    if end_index == -1:
+        return text[start_index:]
+    return text[start_index:end_index]
+
+
+def check_example_phase_boundaries() -> list[Finding]:
+    findings: list[Finding] = []
+    if not FLOW_DIAGRAMS.exists():
+        findings.append(Finding("ERROR", f"missing examples flow diagram: {rel(FLOW_DIAGRAMS)}"))
+        return findings
+
+    text = FLOW_DIAGRAMS.read_text(encoding="utf-8", errors="replace")
+    concept = block_between(text, "PHASE 1: CONCEPT", "PHASE 2: SYSTEMS DESIGN")
+    pre_production = block_between(text, "PHASE 4: PRE-PRODUCTION", "PHASE 5: PRODUCTION")
+
+    if "/setup-engine" in concept:
+        findings.append(
+            Finding("ERROR", "docs/examples/skill-flow-diagrams.md places /setup-engine in Concept; it belongs in Technical Setup")
+        )
+    if "/test-setup" in pre_production:
+        findings.append(
+            Finding("ERROR", "docs/examples/skill-flow-diagrams.md places /test-setup in Pre-Production; it belongs in Technical Setup")
+        )
+    return findings
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--warnings-as-errors", action="store_true", help="Treat WARN findings as errors.")
@@ -241,6 +311,8 @@ def main() -> int:
     findings.extend(check_doc_commands(known_commands))
     findings.extend(check_required_catalog_artifacts(steps, known_commands))
     findings.extend(check_gate_artifact_trace(steps))
+    findings.extend(check_story_path_drift())
+    findings.extend(check_example_phase_boundaries())
 
     errors = sum(1 for item in findings if item.severity == "ERROR")
     warnings = sum(1 for item in findings if item.severity == "WARN")
