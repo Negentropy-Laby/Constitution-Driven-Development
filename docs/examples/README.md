@@ -342,6 +342,20 @@ Developer built a skill tree system but never wrote a design doc. Agent reads th
 
 ---
 
+### [Product Reverse Documentation Workflow](reverse-document-product-workflow-example.md)
+**Type:** Product Brownfield Documentation
+**Agent:** product-aware reverse-document flow
+**Duration:** ~20 minutes
+**Complexity:** Low
+
+**Scenario:**
+Developer built a CLI/API CSV import workflow before writing CDD or architecture
+docs. Agent uses `/reverse-document` to infer product behavior from code,
+separate observed behavior from intended policy, draft `design/cdd/csv-import.md`,
+and capture the import job boundary in an ADR.
+
+---
+
 ## 🎯 **What These Examples Demonstrate**
 
 All examples follow the **collaborative workflow pattern:**
