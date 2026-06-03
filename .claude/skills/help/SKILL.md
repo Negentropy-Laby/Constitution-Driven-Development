@@ -265,9 +265,7 @@ Only show this if the user's input suggested confusion (e.g. "I don't know", "st
 
 ## Collaborative Protocol
 
-- **Never auto-run the next skill.
-
-** Recommend it, let the user invoke it.
+- **Never auto-run the next skill.** Recommend it, let the user invoke it.
 - **Ask about MANUAL steps** rather than assuming complete or incomplete.
 - **Match the user's tone** — if they sound stressed ("I'm totally lost"), be
   reassuring and give one action, not a list of six.

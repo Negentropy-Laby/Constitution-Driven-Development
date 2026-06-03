@@ -696,9 +696,7 @@ Verdict: **COMPLETE** — test framework scaffolded and CI/CD wired up.
   product projects require `Language:` and should use `Framework:` when available.
   If the relevant technology is not configured, stop and redirect to
   `/setup-engine`. Do not guess.
-- **`force` flag skips the "already exists" early-exit but never overwrites.
-
-**
+- **`force` flag skips the "already exists" early-exit but never overwrites.**
   It means "create any missing files even if the directory already exists."
 - **[游戏专用]** For Unity CI, note that the `UNITY_LICENSE` secret must be configured
   manually. Do not attempt to automate license management.

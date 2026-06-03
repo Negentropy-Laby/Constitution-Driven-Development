@@ -125,8 +125,7 @@ Question 1 — do not ask again.
    If not, use `AskUserQuestion`: Full / Lean (recommended) / Solo. Write choice.
    Create `production/` directory if needed.
 7. **Phase 7 — Confirmation.** Use `AskUserQuestion`: "Which step would you like
-   to start with?" Options: `Run /brainstorm open (recommended)` / `Something else
-   — I'll tell you`.
+   to start with?" Options: `Run /brainstorm open (recommended)` / `Something else — I'll tell you`.
 8. When confirmed: "Type `/brainstorm open` to begin."
 
 #### If B: Rough idea
@@ -336,9 +335,7 @@ with no concept doc to derive from.
 
 ### Phase 3a: Domain + Core Thesis
 
-**Domain question — only ask if not already established.
-
-** If the user arrived
+**Domain question — only ask if not already established.** If the user arrived
 from Stage 0 (Question 1 was already answered) or the domain was detected from
 a concept doc, skip this. Only ask when entering Phase 3 from Stage 1 "Start
 from scratch" where no domain context exists.
@@ -349,10 +346,7 @@ If domain is unknown, use `AskUserQuestion`:
   - `A game` — 2D/3D interactive experience (any genre, any engine)
   - `A general product` — web app, CLI tool, API, library, mobile app, data pipeline
 
-Record the domain. Then: "We'll start with one sentence: **what is this project,
-and what is it NOT?
-
-**"
+Record the domain. Then: "We'll start with one sentence: **what is this project, and what is it NOT?**"
 
 Guide the user to produce: Project Name, Core Thesis (BL-01), Anti-Thesis.
 

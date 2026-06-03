@@ -104,6 +104,12 @@ def line_number(lines: list[str], offset: int) -> int:
     return max(1, count)
 
 
+def strip_inline_code(line: str) -> str:
+    if line.count("`") % 2 != 0:
+        return line
+    return re.sub(r"`[^`]*`", "", line)
+
+
 def template_exists_for(path_text: str) -> bool:
     if not TEMPLATES_DIR.exists():
         return False
@@ -134,6 +140,22 @@ def lint_file(path: Path, known_commands: set[str]) -> list[Finding]:
     if fence_count % 2 != 0:
         findings.append(Finding("ERROR", path, len(lines), "unbalanced markdown code fences"))
 
+    in_fence = False
+    for idx, line in enumerate(lines, start=1):
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        if stripped == "**":
+            findings.append(Finding("ERROR", path, idx, "standalone bold marker"))
+        line_without_code = strip_inline_code(line)
+        if line_without_code.count("**") % 2 != 0:
+            findings.append(Finding("ERROR", path, idx, "unbalanced bold markers on line"))
+        if line.count("`") % 2 != 0:
+            findings.append(Finding("ERROR", path, idx, "unbalanced inline code markers on line"))
+
     heading_count = 0
     for idx, line in enumerate(lines, start=1):
         if BAD_HEADING.match(line):
@@ -143,7 +165,7 @@ def lint_file(path: Path, known_commands: set[str]) -> list[Finding]:
     if heading_count == 0:
         findings.append(Finding("WARN", path, 1, "no markdown headings found after frontmatter"))
 
-    ignored = {"/api", "/docs", "/src", "/tests", "/tmp"}
+    ignored = {"/api", "/command", "/dev", "/docs", "/skill-name", "/src", "/story", "/tests", "/tmp"}
     for match in COMMAND_REF.finditer(text):
         command = match.group(0)
         if command in ignored:
@@ -190,6 +212,9 @@ description: Broken test skill
 ---
 #Broken
 
+**Unclosed bold
+**
+This line has `broken inline code
 Run /missing-command after you """ + "or" + """eate the file.
 ```
 unterminated
@@ -210,6 +235,9 @@ def run_self_test() -> int:
         "unknown slash command reference: /missing-command",
         "unbalanced markdown code fences",
         "markdown heading missing a space after #",
+        "standalone bold marker",
+        "unbalanced bold markers on line",
+        "unbalanced inline code markers on line",
     ]
     missing = [item for item in expected if item not in messages]
     if missing:

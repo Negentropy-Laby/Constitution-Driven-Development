@@ -489,9 +489,7 @@ For items that can't be automatically verified, **ask the user**:
 - "No playtest report found. Has informal testing been done?"
 - "Performance profiling data isn't available. Would you like to run `/perf-profile`?"
 
-**Never assume PASS for unverifiable items.
-
-** Mark them as MANUAL CHECK NEEDED.
+**Never assume PASS for unverifiable items.** Mark them as MANUAL CHECK NEEDED.
 
 ---
 
