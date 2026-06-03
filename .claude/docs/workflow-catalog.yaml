@@ -308,7 +308,7 @@ phases:
         artifact:
           glob: "production/qa/evidence/playtests/playtest*.md"
           min_count: 1
-        description: "Document a game vertical-slice playtest of the core loop using /playtest-report. Run at least once before production."
+        description: "Document one game vertical-slice playtest report containing at least one unguided core-loop session. Run at least once before production; cumulative 3-session validation belongs to Polish / Verification."
 
       - id: product-workflow-validation
         name: "Product Workflow Validation"
@@ -318,7 +318,7 @@ phases:
         artifact:
           glob: "production/qa/evidence/user-tests/*.md"
           min_count: 1
-        description: "Document a product user-test or workflow validation session for API/CLI/web/data flow using /playtest-report. Run at least once before implementation."
+        description: "Document one product user-test or workflow validation report containing at least one unguided core-workflow session. Run at least once before implementation; cumulative 3-session validation belongs to Polish / Verification."
 
   production:
     label: "Production / Implementation"

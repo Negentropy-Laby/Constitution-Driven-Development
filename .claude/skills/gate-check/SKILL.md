@@ -258,7 +258,7 @@ product for missing `design/design-system.md`.
 - [ ] Story files exist under `production/epics/[epic-slug]/story-*.md`
 - [ ] First sprint plan exists in `production/sprints/`
 - [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
-- [ ] Vertical Slice playtest report exists in `production/qa/evidence/playtests/`
+- [ ] Vertical Slice playtest report exists in `production/qa/evidence/playtests/` and contains at least 1 unguided core-loop session
 
 **Quality / Risk Checks:**
 - [ ] **Core loop fun is validated** — playtest data confirms the central mechanic is enjoyable, not just functional. Explicitly check the Vertical Slice playtest report.
@@ -303,7 +303,7 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 - [ ] Story files exist under `production/epics/[epic-slug]/story-*.md`
 - [ ] First sprint plan exists in `production/sprints/`
 - [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
-- [ ] User testing report exists in `production/qa/evidence/user-tests/`
+- [ ] User testing report exists in `production/qa/evidence/user-tests/` and contains at least 1 unguided core-workflow session
 
 **Quality / Risk Checks:**
 - [ ] **Core interaction validated** — user testing data confirms the central workflow solves the user's job, not just functional
@@ -390,23 +390,19 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 
 **[游戏专用] Game: Polish → Release**
 
-**Required Artifacts:**
-- [ ] All features from milestone plan are implemented
-- [ ] Content is complete (all levels, assets, dialogue referenced in design docs exist)
-- [ ] Localization strings are externalized (no hardcoded player-facing text in `src/`)
-- [ ] QA test plan exists (`/qa-plan` output in `production/qa/`)
-- [ ] QA sign-off report exists (`/team-qa` output — APPROVED or APPROVED WITH CONDITIONS)
-- [ ] All Must Have story test evidence is present (Logic/Integration: test files pass; Visual/Feel/UI: sign-off docs in `production/qa/evidence/`)
-- [ ] Smoke check passes cleanly (PASS verdict) on the release candidate build
-- [ ] No test regressions from previous sprint (test suite passes fully)
-- [ ] Balance data has been reviewed (`/balance-check` run)
-- [ ] Release checklist completed (`/release-checklist` run before `/launch-checklist`)
-- [ ] Store metadata prepared (if applicable)
-- [ ] Changelog / patch notes drafted
+**Catalog Required Step Evidence:**
+- [ ] At least 3 playtest reports exist in `production/qa/evidence/playtests/`
+- [ ] `/team-polish` has completed and recorded the coordinated polish verdict
 
-**Quality Checks:**
-- [ ] Full QA pass signed off by `qa-lead`
-- [ ] All tests passing
+**Quality / Risk Checks:**
+- [ ] All features from the milestone plan are implemented or explicitly deferred
+- [ ] Content is complete (all levels, assets, dialogue referenced in design docs exist) or explicitly deferred
+- [ ] Localization strings are externalized (no hardcoded player-facing text in `src/`)
+- [ ] All Must Have story test evidence is present (Logic/Integration: test files pass; Visual/Feel/UI: sign-off docs in `production/qa/evidence/`)
+- [ ] No test regressions from previous sprint (test suite passes fully)
+- [ ] QA plan, `/team-qa` sign-off, smoke check, balance review, store metadata, changelog, and patch notes are recorded as Release-phase follow-up or CONCERNS unless strict QA is explicitly enabled
+- [ ] If strict QA is explicitly enabled, missing QA plan, missing QA sign-off, or failing smoke check is a blocker
+- [ ] Next Release-phase step is `/release-checklist`, followed by `/launch-checklist` and `/team-release`
 - [ ] Performance targets met across all target platforms
 - [ ] No known critical, high, or medium-severity bugs
 - [ ] Accessibility basics covered (remapping, text scaling if applicable)
@@ -418,22 +414,19 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 
 **[通用产品] Product: Verification → Release**
 
-**Required Artifacts:**
-- [ ] All features from milestone plan are implemented
-- [ ] Content is complete (all integrations, APIs, screens referenced in design docs exist)
-- [ ] Localization strings are externalized (no hardcoded user-facing text in `src/`)
-- [ ] QA test plan exists (`/qa-plan` output in `production/qa/`)
-- [ ] QA sign-off report exists (APPROVED or APPROVED WITH CONDITIONS)
-- [ ] All Must Have story test evidence is present (Logic/Integration: test files pass; Visual/UI: sign-off docs in `production/qa/evidence/`)
-- [ ] Smoke check passes cleanly (PASS verdict) on the release candidate build
-- [ ] No test regressions from previous sprint (test suite passes fully)
-- [ ] Release checklist completed (`/release-checklist` run before `/launch-checklist`)
-- [ ] Deployment strategy documented and tested
-- [ ] Changelog / release notes drafted
+**Catalog Required Step Evidence:**
+- [ ] At least 3 product validation reports exist in `production/qa/evidence/user-tests/`
+- [ ] `/team-polish` has completed and recorded the coordinated verification verdict
 
-**Quality Checks:**
-- [ ] Full QA pass signed off by `qa-lead`
-- [ ] All tests passing
+**Quality / Risk Checks:**
+- [ ] All features from the milestone plan are implemented or explicitly deferred
+- [ ] Content is complete (all integrations, APIs, screens referenced in design docs exist) or explicitly deferred
+- [ ] Localization strings are externalized (no hardcoded user-facing text in `src/`)
+- [ ] All Must Have story test evidence is present (Logic/Integration: test files pass; Visual/UI: sign-off docs in `production/qa/evidence/`)
+- [ ] No test regressions from previous sprint (test suite passes fully)
+- [ ] QA plan, `/team-qa` sign-off, smoke check, deployment strategy, changelog, release notes, and rollback plan are recorded as Release-phase follow-up or CONCERNS unless strict QA is explicitly enabled
+- [ ] If strict QA is explicitly enabled, missing QA plan, missing QA sign-off, or failing smoke check is a blocker
+- [ ] Next Release-phase step is `/release-checklist`, followed by `/launch-checklist` and `/team-release`
 - [ ] Performance targets met across all target platforms
 - [ ] No known critical, high, or medium-severity bugs
 - [ ] Accessibility basics covered (keyboard navigation, text scaling, screen reader support if applicable)
@@ -441,7 +434,6 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 - [ ] Legal requirements met (privacy policy, terms of service, GDPR if applicable)
 - [ ] Build compiles and packages cleanly
 - [ ] Database migrations run cleanly against a fresh instance
-- [ ] Rollback plan documented and tested
 
 ## 3. Run the Gate Check
 

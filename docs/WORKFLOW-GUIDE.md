@@ -687,16 +687,15 @@ intended API/CLI/web/data path.
  /ux-review                                          /story-readiness
  (validates specs                                    (validates each story
   before epics)                                       before pickup)
-                                                           |
-                                                           v
-                                                       /dev-story
-                                                     (implements the story,
-                                                      routes to right agent)
                          |
                          v
                     Vertical Slice or MVP Workflow Validation
-                    (Game: playable build, 3 unguided sessions)
+                    (Game: playable build, 1 unguided session)
                     (Product: end-to-end workflow, contract/docs evidence)
+                         |
+                         v
+                    /gate-check pre-production
+                    (normal advancement before implementation)
 ```
 
 ### Step 4.1: UX Specs for Key Screens
@@ -803,8 +802,10 @@ implementable story files in `production/epics/[slug]/`. Each story embeds:
 - Engine- or stack-specific implementation notes
 - Acceptance criteria from the CDD
 
-Once stories exist, run `/dev-story [story-path]` to implement one — it routes
-automatically to the correct programmer agent.
+Once stories exist, do not implement them in Phase 4. Run `/story-readiness`
+first, validate the Vertical Slice or MVP workflow, then run
+`/gate-check pre-production`. Formal story implementation begins in Phase 5
+after the gate passes or the user records an explicit override with risk note.
 
 ### Step 4.4: Validate Stories Before Pickup
 
@@ -845,12 +846,14 @@ first end-to-end slice:
 
 - One complete end-to-end core loop, playable from start to finish
 - Representative quality (not placeholder everything)
-- Played unguided in at least 3 sessions
+- Played unguided in at least 1 session
 - Playtest report written (`/playtest-report`)
+- Cumulative 3-session validation is required later in Polish / Verification
 
 **Product MVP workflow validation:**
 
 - One complete core user job from start to finish (API/CLI/web/app/data path)
+- At least 1 unguided core-workflow session
 - Contract evidence for public APIs, CLI flags/output, schemas, or migrations
 - Failure-state evidence for invalid input, auth/permission, partial failure,
   rollback/dry-run, retry, or data recovery paths
@@ -876,9 +879,11 @@ unless the user records an explicit override and risk note.
 - At least 1 prototype with README
 - Story files exist in `production/epics/[epic-slug]/story-NNN-[slug].md`
 - At least 1 sprint plan exists
-- Game: at least 1 playtest report exists (Vertical Slice played in 3+ sessions)
+- Game: at least 1 playtest report exists with at least 1 unguided
+  vertical-slice session
 - Product: at least 1 workflow validation report or QA evidence bundle exists
-  for the MVP path, including contract/docs/error-state evidence
+  for the MVP path, including at least 1 unguided core-workflow session plus
+  contract/docs/error-state evidence
 
 ---
 
@@ -895,7 +900,7 @@ implementation-complete.
 ### Phase 5 Pipeline (Per Sprint)
 
 ```
-/sprint-plan new  -->  /story-readiness  -->  implement  -->  /story-done
+/sprint-plan new  -->  /story-readiness  -->  /dev-story  -->  /story-done
        |                     |                    |                |
        v                     v                    v                v
   Sprint created       Story validated      Code written     8-phase review:
@@ -915,7 +920,7 @@ implementation-complete.
 The production phase centers on the **story lifecycle**:
 
 ```
-/story-readiness  -->  implement  -->  /story-done  -->  next story
+/story-readiness  -->  /dev-story  -->  /story-done  -->  next story
 ```
 
 **1. Story Readiness:** Before picking up a story, validate it:
@@ -932,6 +937,13 @@ migration, docs, observability, and rollback criteria. Verdict: READY / NEEDS
 WORK / BLOCKED.
 
 **2. Implementation:** Work with the appropriate agents.
+
+```
+/dev-story production/epics/combat/story-001-damage-calc.md
+```
+
+`/dev-story [story-path]` implements one READY story and routes automatically
+to the correct programmer or specialist agent for the project domain.
 
 **Game implementation routing:**
 

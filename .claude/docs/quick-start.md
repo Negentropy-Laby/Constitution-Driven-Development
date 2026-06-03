@@ -236,10 +236,13 @@ If you already know what you need, jump directly to the relevant path:
    to write CDDs in dependency order
 6. **Run the Systems Design gate** — `/review-all-gdds`, then `/gate-check systems-design`
 7. **Create technology and architecture** — Run `/setup-engine`,
-   `/create-architecture`, core ADRs, and `/create-control-manifest`
+   `/create-architecture`, core ADRs, `/architecture-review`, and
+   `/create-control-manifest`
 8. **Commit accessibility and tests** — Create `design/accessibility-requirements.md`
-   from `.claude/docs/templates/accessibility-requirements.md`, then run `/test-setup`
-9. **Design the core UX** — Run `/ux-design [core-screen-or-hud]`, then `/ux-review`
+   from `.claude/docs/templates/accessibility-requirements.md`, run `/test-setup`,
+   then run `/gate-check technical-setup`
+9. **Design the core UX** — After the Technical Setup gate, run
+   `/ux-design [core-screen-or-hud]`, then `/ux-review`
 10. **Test the core loop** — Run `/prototype [core-mechanic]`
 11. **Playtest it** — Run `/playtest-report` to validate the hypothesis
 12. **Create epics and stories** — Run `/create-epics layer: foundation`, then
@@ -261,11 +264,12 @@ Setup:
 6. **Set up the engine** — Run `/setup-engine [engine] [version]`
    (e.g., `/setup-engine godot 4.6`) — also creates technical preferences
 7. **Create architecture and ADRs** — Run `/create-architecture`,
-   `/architecture-decision`, and `/create-control-manifest`
+   `/architecture-decision`, `/architecture-review`, and `/create-control-manifest`
 8. **Commit accessibility and tests** — Create `design/accessibility-requirements.md`
-   from `.claude/docs/templates/accessibility-requirements.md`, then run `/test-setup`
-9. **Design and review the core UX** — Run `/ux-design [core-screen-or-hud]`,
-   then `/ux-review`
+   from `.claude/docs/templates/accessibility-requirements.md`, run `/test-setup`,
+   then run `/gate-check technical-setup`
+9. **Design and review the core UX** — After the Technical Setup gate, run
+   `/ux-design [core-screen-or-hud]`, then `/ux-review`
 10. **Create epics and stories** — Run `/create-epics layer: foundation`, then
    `/create-stories [epic-slug]`
 11. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
@@ -311,11 +315,13 @@ The paths above cover game projects. For product projects, use these equivalents
 5. **Design each module** — Run `/design-system [module-name]` to write CDDs in dependency order
 6. **Run the Specification gate** — `/review-all-gdds`, then `/gate-check systems-design`
 7. **Create technology and architecture** — Run `/setup-engine`,
-   `/create-architecture`, core ADRs, and `/create-control-manifest`
+   `/create-architecture`, core ADRs, `/architecture-review`, and
+   `/create-control-manifest`
 8. **Commit accessibility and tests** — Create `design/accessibility-requirements.md`
-   from `.claude/docs/templates/accessibility-requirements.md`, then run `/test-setup`
-9. **Design and review the core UX** — Run `/ux-design [core-workflow]`,
-   then `/ux-review`
+   from `.claude/docs/templates/accessibility-requirements.md`, run `/test-setup`,
+   then run `/gate-check technical-setup`
+9. **Design and review the core UX** — After the Technical Setup gate, run
+   `/ux-design [core-workflow]`, then `/ux-review`
 10. **Prototype the riskiest assumption** — Run `/prototype [core-workflow]`
     (API spike, CLI spike, data pipeline spike, or workflow prototype)
 11. **Validate the workflow** — Run `/playtest-report` for product user-test or
@@ -338,11 +344,12 @@ early, but normal gate order is still Concept → Specification → Architecture
 6. **Set up the stack** — Run `/setup-engine [lang] [framework]`
    (e.g., `/setup-engine python 3.13 flask`) — also creates technical preferences
 7. **Create architecture and ADRs** — Run `/create-architecture`,
-   `/architecture-decision`, and `/create-control-manifest`
+   `/architecture-decision`, `/architecture-review`, and `/create-control-manifest`
 8. **Commit accessibility and tests** — Create `design/accessibility-requirements.md`
-   from `.claude/docs/templates/accessibility-requirements.md`, then run `/test-setup`
-9. **Design and review the core UX** — Run `/ux-design [core-workflow]`,
-   then `/ux-review`
+   from `.claude/docs/templates/accessibility-requirements.md`, run `/test-setup`,
+   then run `/gate-check technical-setup`
+9. **Design and review the core UX** — After the Technical Setup gate, run
+   `/ux-design [core-workflow]`, then `/ux-review`
 10. **Create epics and stories** — Run `/create-epics layer: foundation`, then
     `/create-stories [epic-slug]`
 11. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
