@@ -377,7 +377,7 @@ Use `AskUserQuestion` to present draft principles. Each law gets:
 Once approved, write `memory_bank/t0_core/basic_law_index.md`.
 All laws start as `Status: Proposed`.
 
-### Phase 3c: Technology & oonstraints
+### Phase 3c: Technology & Constraints
 
 Ask for broad technology preferences. Detailed configuration is deferred to
 `/setup-engine`. Write `memory_bank/t1_axioms/tech_context.md`,

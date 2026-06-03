@@ -11,7 +11,6 @@ These show what runs before and after each skill, and what artifacts flow betwee
 PHASE 1: CONCEPT
   /constitute ──────────────────────────────────────────────────► routes to A/B/C/D/E
   /brainstorm ──────────────────────────────────────────────────► design/cdd/*-concept.md
-  /setup-engine ────────────────────────────────────────────────► CLAUDE.md + technical-preferences.md
   /design-review [*-concept.md] ───────────────────────────────► concept validated
   /gate-check ─────────────────────────────────────────────────► PASS → advance to systems-design
         │
@@ -29,10 +28,13 @@ PHASE 2: SYSTEMS DESIGN
         │
         ▼
 PHASE 3: TECHNICAL SETUP
+  /setup-engine ────────────────────────────────────────────────► CLAUDE.md + technical-preferences.md
   /create-architecture ────────────────────────────────────────► docs/architecture/master.md
   /architecture-decision (×N) ─────────────────────────────────► docs/architecture/[adr-nnn].md
   /architecture-review ────────────────────────────────────────► review report + docs/architecture/tr-registry.yaml
   /create-control-manifest ────────────────────────────────────► docs/architecture/control-manifest.md
+  /ux-design accessibility ────────────────────────────────────► accessibility requirements in design/ux/
+  /test-setup ─────────────────────────────────────────────────► test baseline + CI + example test
   /gate-check ─────────────────────────────────────────────────► PASS → advance to pre-production
         │
         ▼
@@ -41,16 +43,13 @@ PHASE 4: PRE-PRODUCTION
   /ux-design [screen/hud/patterns] ────────────────────────────► design/ux/*.md
   /ux-review ──────────────────────────────────────────────────► UX specs approved (HARD gate for /team-ui)
 
-  [Test infrastructure — scaffold before stories reference tests]
-  /test-setup ─────────────────────────────────────────────────► test framework + CI/CD pipeline
-  /test-helpers ───────────────────────────────────────────────► tests/helpers/[engine-specific].gd
-
   [Stories + prototype]
+  /prototype [core-mechanic or workflow] ──────────────────────► prototypes/[name]/
   /create-epics [layer] ───────────────────────────────────────► production/epics/*/EPIC.md
   /create-stories [epic-slug] ─────────────────────────────────► production/epics/*/story-*.md
-  /prototype [core-mechanic] ──────────────────────────────────► prototypes/[name]/
-  /playtest-report ────────────────────────────────────────────► tests/playtest/vertical-slice.md
+  /playtest-report or product validation ──────────────────────► production/qa/evidence/[playtests|user-tests]/
   /sprint-plan new ────────────────────────────────────────────► production/sprints/sprint-01.md
+  /story-readiness [story] ────────────────────────────────────► first stories READY
   /gate-check ─────────────────────────────────────────────────► PASS → advance to production
         │
         ▼
@@ -246,9 +245,11 @@ How a story gets from backlog to closed (summary view):
 ## Skill Chain: QA Pipeline in Detail
 
 ```
-[Phase 4 — one-time infrastructure setup]
+[Phase 3 — required Technical Setup baseline]
 /test-setup ────────────────────────────────────────────────────► test framework scaffolded + CI/CD wired
-/test-helpers ──────────────────────────────────────────────────► tests/helpers/[engine].gd (GDUnit4, NUnit, etc.)
+
+[Phase 4-5 — optional helper enhancement]
+/test-helpers ──────────────────────────────────────────────────► fixtures, factories, mocks, or engine helpers
 
 [Phase 5 — per-sprint QA cycle]
 /qa-plan [sprint or feature]
@@ -371,13 +372,13 @@ For projects with existing work (use `/constitute` existing-project path or run 
 | Where you are | Run this |
 |---------------|---------|
 | Brand new, no idea | `/constitute` → `/brainstorm` |
-| Have a concept, no engine | `/setup-engine` |
-| Have concept + engine | `/map-systems` |
+| Have a concept, not mapped | `/design-review [concept]` → `/gate-check concept` → `/map-systems` |
+| Systems design complete, no engine or stack | `/gate-check systems-design` → `/setup-engine` |
 | Mid-systems design | `/design-system [next system]` or `/map-systems next` |
 | All CDDs done | `/review-all-gdds` → `/gate-check` |
-| In technical setup | `/create-architecture` → `/architecture-decision` |
+| In technical setup | `/setup-engine` → `/create-architecture` → `/architecture-decision` |
 | Starting UX design | `/ux-design screen [name]` or `/ux-design hud` |
-| Scaffolding tests | `/test-setup` → `/test-helpers` |
+| Scaffolding tests | `/test-setup` in Technical Setup; `/test-helpers` later if useful |
 | Have stories, ready to code | `/story-readiness [story]` → `/dev-story [story]` |
 | Story done | `/story-done [story]` |
 | Running QA for a sprint | `/qa-plan` → `/smoke-check` → `/regression-suite` |

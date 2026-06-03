@@ -102,7 +102,7 @@ Check in this order:
 
 2. **If stage.txt is missing**, infer phase from artifacts (most-advanced match wins):
    - `src/` has 10+ source files → `production`
-   - `production/stories/*.md` exists → `pre-production`
+   - `production/epics/**/*.md` story files exist (excluding `EPIC.md`) → `pre-production`
    - `docs/architecture/adr-*.md` exists → `technical-setup`
    - `design/cdd/module-index.md` exists → `systems-design`
    - `design/cdd/game-concept.md` or `design/cdd/product-concept.md` exists → `concept`

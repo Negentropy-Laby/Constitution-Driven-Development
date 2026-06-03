@@ -115,7 +115,7 @@ project/
       ClassDB::register_class<MyCustomNode>();
   }
   ```
-- Use `GDCLASS(MyCustomNode, Node3D)` macro in class declarations
+- Use Godot's class declaration macro to pair each custom class with its base type
 - Bind methods with `ClassDB::bind_method(D_METHOD("method_name", "param"), &Class::method_name)`
 - Expose properties with `ADD_PROPERTY(PropertyInfo(...), "set_method", "get_method")`
 

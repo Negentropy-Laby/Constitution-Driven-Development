@@ -152,8 +152,8 @@ Ask yourself: "What department would handle this in a real studio?"
 | `/smoke-check` | Run critical path smoke test gate before QA hand-off (PASS/FAIL) |
 | `/soak-test` | Game extended play-session soak test; product endurance/load/reliability soak protocol |
 | `/regression-suite` | Map coverage to CDD critical paths, flag gaps, maintain regression suite |
-| `/test-setup` | Scaffold the required Technical Setup test baseline: `tests/unit/`, `tests/integration/`, `.github/workflows/tests.yml`, and one example test |
-| `/test-helpers` | Optional game engine-specific or product language/stack-specific fixtures, factories, mocks, and helper libraries |
+| `/test-setup` | Scaffold the required Technical Setup test baseline: `tests/unit/`, `tests/integration/`, `.github/workflows/tests.yml`, and one runnable example test |
+| `/test-helpers` | Optional enhancement after the baseline: game engine-specific or product language/stack-specific fixtures, factories, mocks, and helper libraries |
 | `/test-flakiness` | Detect flaky tests from CI history, flag for quarantine or fix |
 | `/test-evidence-review` | Quality review of test files and manual evidence — ADEQUATE/INCOMPLETE/MISSING |
 | `/skill-test` | Validate skill files for compliance and correctness (static / spec / audit) |

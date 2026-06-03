@@ -6,7 +6,7 @@
 - `design/cdd/movement-system.md` — complete, all 8 sections
 - `docs/architecture/movement-adr-001.md` — Status: Accepted
 - `production/sprints/sprint-03.md` — lists STORY-MOV-001 in backlog
-- `production/stories/STORY-MOV-001.md` — exists but not yet validated
+- `production/epics/movement/story-001-core-movement.md` — exists but not yet validated
 - No implementation code yet
 
 **Session Duration:** ~50 minutes
@@ -20,12 +20,12 @@
 ### Turn 1: User Runs Readiness Check
 
 **User:**
-> /story-readiness production/stories/STORY-MOV-001.md
+> /story-readiness production/epics/movement/story-001-core-movement.md
 
 ### Turn 2: Agent Validates the Story
 
 **Agent (via /story-readiness):**
-> Reading `production/stories/STORY-MOV-001.md`...
+> Reading `production/epics/movement/story-001-core-movement.md`...
 >
 > **STORY-MOV-001: Implement CharacterBody2D movement with terrain modifiers**
 >
@@ -68,7 +68,7 @@
 >
 > > Roll direction: last movement direction. If velocity is zero at roll input, roll uses current facing direction.
 >
-> May I write this to `production/stories/STORY-MOV-001.md` and set Status to `ready-for-dev`?
+> May I write this to `production/epics/movement/story-001-core-movement.md` and set Status to `ready-for-dev`?
 
 **User:**
 > Yes
@@ -90,7 +90,7 @@
 ### Turn 6: Agent Reads Story and ADR
 
 **Agent (gameplay-programmer):**
-> Reading `production/stories/STORY-MOV-001.md`, `design/cdd/movement-system.md`, and `docs/architecture/movement-adr-001.md`...
+> Reading `production/epics/movement/story-001-core-movement.md`, `design/cdd/movement-system.md`, and `docs/architecture/movement-adr-001.md`...
 >
 > **Architecture (from ADR-001):**
 > - `MovementComponent.gd` — attached to player scene, not a singleton
@@ -166,14 +166,14 @@
 ### Turn 10: User Tests Manually and Runs /story-done
 
 **User:**
-> I've tested it in the scene — everything works. /story-done production/stories/STORY-MOV-001.md
+> I've tested it in the scene — everything works. /story-done production/epics/movement/story-001-core-movement.md
 
 ### Turn 11: Agent Runs Completion Review
 
 **Agent (via /story-done):**
 > Reading story, CDD, ADRs...
 >
-> **Phase 1: Story Located** ✅ `production/stories/STORY-MOV-001.md`
+> **Phase 1: Story Located** ✅ `production/epics/movement/story-001-core-movement.md`
 >
 > **Phase 2: Acceptance Criteria Verification**
 >

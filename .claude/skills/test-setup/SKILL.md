@@ -17,7 +17,7 @@ Run this once during the Technical Setup phase, before any implementation
 begins. A test framework installed at sprint start costs 30 minutes.
 A test framework installed at sprint four costs 3 sprints.
 
-**Output:** `tests/` directory structure + `.github/workflows/tests.yml`
+**Output:** `tests/` directory structure + `.github/workflows/tests.yml` + one runnable example test file
 
 ---
 
@@ -62,12 +62,13 @@ tests/
   integration/    — Cross-module and end-to-end tests
   api/            — Product API contract tests (product projects)
   smoke/          — Critical path test list (15-minute manual gate)
-  evidence/       — Screenshot and manual test sign-off records
   README.md       — Test framework documentation
 
 [Technology-specific files — see per-technology details below]
 
 .github/workflows/tests.yml  — CI: run tests on every push to main
+[Technology-specific example test — created so the baseline is runnable]
+production/qa/evidence/      — Canonical manual/automated evidence schema
 
 Estimated time: ~5 minutes to create all files.
 ```
@@ -100,7 +101,7 @@ After approval, create the following files:
       integration/    # Cross-system and save/load tests
       api/            # Product API contract tests (product projects)
       smoke/          # Critical path test list for /smoke-check gate
-      evidence/       # Screenshot logs and manual test sign-off records
+      # Manual and release evidence lives in production/qa/evidence/
 
 ## Running Tests
 
@@ -178,6 +179,14 @@ Create `tests/unit/.gdignore_placeholder` with content:
 Create `tests/integration/.gdignore_placeholder` with content:
 `# Integration tests go here — one subdirectory per system`
 
+Create `tests/unit/example_movement_test.gd`:
+```gdscript
+extends GdUnitTestSuite
+
+func test_example_vector_length() -> void:
+    assert_float(Vector2(3, 4).length()).is_equal_approx(5.0, 0.001)
+```
+
 Note in the README: **Installing GdUnit4**
 ```
 1. Open Godot → AssetLib → search "GdUnit4" → Download & Install
@@ -204,6 +213,20 @@ Use for cross-system interactions, physics, and coroutines.
 Assembly definition required: `tests/PlayMode/PlayModeTests.asmdef`
 ```
 
+Create `tests/EditMode/ExampleTests.cs`:
+```csharp
+using NUnit.Framework;
+
+public class ExampleTests
+{
+    [Test]
+    public void Example_Addition_Works()
+    {
+        Assert.AreEqual(4, 2 + 2);
+    }
+}
+```
+
 Note in the README: **Enabling Unity Test Framework**
 ```
 Window → General → Test Runner
@@ -221,6 +244,23 @@ Or headlessly: UnrealEditor -nullrhi -ExecCmds="Automation RunTests MyGame.; Qui
 
 Test class naming: F[SystemName]Test
 Test category naming: "MyGame.[System].[Feature]"
+```
+
+Create `Source/Tests/ExampleAutomationTest.cpp`:
+```cpp
+ #include "Misc/AutomationTest.h"
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(
+    FExampleAutomationTest,
+    "MyGame.Example.Baseline",
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter
+)
+
+bool FExampleAutomationTest::RunTest(const FString& Parameters)
+{
+    TestEqual(TEXT("Example arithmetic baseline"), 2 + 2, 4);
+    return true;
+}
 ```
 
 ---
@@ -402,6 +442,12 @@ def test_env():
     os.environ.pop("TESTING", None)
 ```
 
+Create `tests/unit/test_example.py`:
+```python
+def test_example_baseline():
+    assert 2 + 2 == 4
+```
+
 CI template (`Language: Python`):
 ```yaml
 # .github/workflows/tests.yml
@@ -432,6 +478,17 @@ export default defineConfig({
 })
 ```
 
+Create `tests/unit/example.test.ts`:
+```typescript
+import { describe, expect, it } from 'vitest'
+
+describe('example baseline', () => {
+  it('runs the test harness', () => {
+    expect(2 + 2).toBe(4)
+  })
+})
+```
+
 CI template (`Language: TypeScript`):
 ```yaml
 # .github/workflows/tests.yml
@@ -450,6 +507,20 @@ jobs:
 
 #### Rust / cargo test (`Language: Rust`)
 
+Create `tests/unit/example_test.rs`:
+```rust
+ #[test]
+fn example_baseline() {
+    assert_eq!(2 + 2, 4);
+}
+```
+
+Create `tests/unit.rs` so `cargo test` discovers the nested baseline file:
+```rust
+ #[path = "unit/example_test.rs"]
+mod example_test;
+```
+
 CI template:
 ```yaml
 # .github/workflows/tests.yml
@@ -465,6 +536,19 @@ jobs:
 ```
 
 #### Go / go test (`Language: Go`)
+
+Create `tests/unit/example_test.go`:
+```go
+package unit
+
+import "testing"
+
+func TestExampleBaseline(t *testing.T) {
+	if 2+2 != 4 {
+		t.Fatal("example baseline failed")
+	}
+}
+```
 
 CI template:
 ```yaml
@@ -577,20 +661,23 @@ Files created:
 - tests/smoke/critical-paths.md
 - production/qa/evidence/ (canonical evidence schema)
 [technology-specific files]
+- [technology-specific example test file]
 - .github/workflows/tests.yml
 
 Next steps:
 1. [Technology-specific setup step: Game — install/configure engine test plugin; Product — run the stack test command locally]
-2. Write your first test: create tests/unit/[first-module]/[module]_test.[ext]
-3. Run `/qa-plan sprint` before your first sprint to classify stories and set
+2. Run the generated example test locally to confirm the harness works.
+3. Replace or extend the example with your first module test when implementation starts: `tests/unit/[first-module]/[module]_test.[ext]`
+4. Run `/qa-plan sprint` before your first sprint to classify stories and set
    test evidence requirements
-4. `/smoke-check` before every QA hand-off
+5. `/smoke-check` before every QA hand-off
 
 Gate note: /gate-check Technical Setup → Pre-Production now requires:
 - tests/ directory with unit/ and integration/ subdirectories
 - .github/workflows/tests.yml
 - At least one example test file
-Run /test-setup and write one example test before normal advancement.
+This `/test-setup` baseline creates the example test; no separate hand-written
+test is required for the setup gate.
 `/test-helpers` is an optional enhancement for fixtures, factories, mocks, and
 engine/stack helper libraries after this baseline exists; missing helpers are
 not a gate blocker.

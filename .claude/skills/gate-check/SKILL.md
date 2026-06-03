@@ -15,9 +15,7 @@ phase. It checks for required artifacts, quality standards, and blockers.
 **Distinct from `/project-stage-detect`**: That skill is diagnostic ("where are we?").
 This skill is prescriptive ("are we ready to advance?" with a formal verdict).
 
-**Domain detection.
-
-** The concept document at `design/cdd/` reveals the domain:
+**Domain detection.** The concept document at `design/cdd/` reveals the domain:
 - **游戏专用**: `game-concept.md` exists — game stage names and game-specific checks
 - **通用产品**: `product-concept.md` exists — product stage names and product-specific checks
 
@@ -276,8 +274,8 @@ product for missing `design/design-system.md`.
 - [ ] The core mechanic feels good to interact with (this is a subjective check — ask the user)
 
 > **Note**: If any Vertical Slice Validation item is FAIL, the verdict is automatically FAIL
-> regardless of other checks. Advancing without a validated Vertical Slice is the #1 cause of
-> production failure in game development (per GDC postmortem data from 155 projects).
+> regardless of other checks. Advancing without a validated Vertical Slice creates high
+> rework risk because later features are built on an unproven core loop.
 
 ---
 
@@ -325,7 +323,7 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 - [ ] No critical "workflow blocker" bugs exist in the MVP build
 - [ ] The core interaction feels satisfying to use (this is a subjective check — ask the user)
 
-> **Note**: If any MVP Validation item is FAIL, the verdict is automatically FAIL regardless of other checks. Advancing without a validated MVP is the most common cause of implementation failure — building features on an unvalidated core leads to rework that scales with every feature added (per Standish Group CHAOS report data).
+> **Note**: If any MVP Validation item is FAIL, the verdict is automatically FAIL regardless of other checks. Advancing without a validated MVP creates high implementation risk because later features are built on an unproven core workflow and rework grows with each dependent feature.
 
 ### Gate: Production → Polish / Implementation → Verification
 
@@ -675,180 +673,64 @@ Based on the verdict, suggest specific next steps from the domain-appropriate li
 
 **[游戏专用]** Game-specific follow-up actions:
 
-- **No art bible?
-
-** → `/art-bible` to create the visual identity specification
-- **Art bible exists but no asset specs?
-
-** → `/asset-spec system:[name]` to generate per-asset visual specs and generation prompts from approved CDDs
-- **No concept document?
-
-** → `/brainstorm` to create one
-- **No module index?
-
-** → `/map-systems` to decompose the concept into systems
-- **Missing design docs?
-
-** → `/reverse-document` or delegate to `game-designer`
-- **Small design change needed?
-
-** → `/quick-design` for changes under ~4 hours (bypasses full CDD pipeline)
-- **No UX specs?
-
-** → `/ux-design [screen name]` to author specs, or `/team-ui [feature]` for full pipeline
-- **UX specs not reviewed?
-
-** → `/ux-review [file]` or `/ux-review all` to validate
-- **No accessibility requirements doc?
-
-** → Use `AskUserQuestion` to offer to create it now:
-  - Prompt: "The gate requires `design/accessibility-requirements.md`. Shall I create it from the template?"
-  - Options: `Create it now — I'll choose an accessibility tier`, `I'll create it myself`, `Skip for now`
-  - If "Create it now": use a second `AskUserQuestion` to ask for the tier:
-    - Prompt: "Which accessibility tier fits this project?"
-    - Options: `Basic — remapping + subtitles only (lowest effort)`, `Standard — Basic + colorblind modes + scalable UI`, `Comprehensive — Standard + motor accessibility + full settings menu`, `Exemplary — Comprehensive + external audit + full customization`
-  - Then write `design/accessibility-requirements.md` using the template at `.claude/docs/templates/accessibility-requirements.md`, filling in the chosen tier. Confirm: "May I write `design/accessibility-requirements.md`?"
-- **No interaction pattern library?
-
-** → `/ux-design patterns` to initialize it
-- **CDDs not cross-reviewed?
-
-** → `/review-all-gdds` (run after all MVP CDDs are individually approved)
-- **Cross-CDD consistency issues?
-
-** → fix flagged CDDs, then re-run `/review-all-gdds`
-- **No test framework?
-
-** → `/test-setup` to scaffold the framework for your engine
-- **No QA plan for current sprint?
-
-** → `/qa-plan sprint` to generate one before implementation begins
-- **Missing ADRs?
-
-** → `/architecture-decision` for individual decisions
-- **No master architecture doc?
-
-** → `/create-architecture` for the full blueprint
-- **ADRs missing technology compatibility sections?
-
-** → Re-run `/architecture-decision`
-  or manually add Technology Compatibility sections to existing ADRs
-- **Missing control manifest?
-
-** → `/create-control-manifest` (requires Accepted ADRs)
-- **Missing epics?
-
-** → `/create-epics layer: foundation` then `/create-epics layer: core` (requires control manifest)
-- **Missing stories for an epic?
-
-** → `/create-stories [epic-slug]` (run after each epic is created)
-- **Stories not implementation-ready?
-
-** → `/story-readiness` to validate stories before developers pick them up
-- **Tests failing?
-
-** → delegate to `lead-programmer` or `qa-tester`
-- **No playtest data?
-
-** → `/playtest-report`
-- **Less than 3 playtest sessions?
-
-** → Run more playtests before advancing. Use `/playtest-report` to structure findings.
-- **No Difficulty Curve doc?
-
-** → Consider creating one at `design/difficulty-curve.md` before polish
-- **No player journey document?
-
-** → create `design/player-journey.md` using the player journey template
-- **Need a quick sprint check?
-
-** → `/sprint-status` for current sprint progress snapshot
-- **Performance unknown?
-
-** → `/perf-profile`
-- **Not localized?
-
-** → `/localize`
-- **Ready for release?
-
-** → `/launch-checklist`
+- **No art bible?** -> `/art-bible` to create the visual identity specification.
+- **Art bible exists but no asset specs?** -> `/asset-spec system:[name]` to generate per-asset visual specs and generation prompts from approved CDDs.
+- **No concept document?** -> `/brainstorm` to create one.
+- **No module index?** -> `/map-systems` to decompose the concept into systems.
+- **Missing design docs?** -> `/reverse-document` or delegate to `game-designer`.
+- **Small design change needed?** -> `/quick-design` for changes under about 4 hours.
+- **No UX specs?** -> `/ux-design [screen name]` to author specs, or `/team-ui [feature]` for the full pipeline.
+- **UX specs not reviewed?** -> `/ux-review [file]` or `/ux-review all` to validate.
+- **No accessibility requirements doc?** -> Use `AskUserQuestion` to offer `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md`, then ask for the tier before writing.
+- **No interaction pattern library?** -> `/ux-design patterns` to initialize it.
+- **CDDs not cross-reviewed?** -> `/review-all-gdds` after all MVP CDDs are individually approved.
+- **Cross-CDD consistency issues?** -> Fix flagged CDDs, then re-run `/review-all-gdds`.
+- **No test framework or example baseline test?** -> `/test-setup` to scaffold the required framework, CI workflow, and example test for your engine. `/test-helpers` is optional after that baseline exists.
+- **No QA plan for current sprint?** -> `/qa-plan sprint` before implementation begins.
+- **Missing ADRs?** -> `/architecture-decision` for individual decisions.
+- **No master architecture doc?** -> `/create-architecture` for the full blueprint.
+- **ADRs missing technology compatibility sections?** -> Re-run `/architecture-decision` or manually add Technology Compatibility sections to existing ADRs.
+- **Missing control manifest?** -> `/create-control-manifest` after the governing ADRs are Accepted.
+- **Missing epics?** -> `/create-epics layer: foundation`, then `/create-epics layer: core`.
+- **Missing stories for an epic?** -> `/create-stories [epic-slug]`.
+- **Stories not implementation-ready?** -> `/story-readiness` before developers pick them up.
+- **Tests failing?** -> Delegate to `lead-programmer` or `qa-tester`.
+- **No playtest data?** -> `/playtest-report`.
+- **Less than 3 playtest sessions?** -> Run more playtests before advancing, using `/playtest-report` to structure findings.
+- **No Difficulty Curve doc?** -> Consider `design/difficulty-curve.md` before polish.
+- **No player journey document?** -> Create `design/player-journey.md` using the player journey template.
+- **Need a quick sprint check?** -> `/sprint-status`.
+- **Performance unknown?** -> `/perf-profile`.
+- **Not localized?** -> `/localize`.
+- **Ready for release?** -> `/launch-checklist`.
 
 **[通用产品]** Product-specific follow-up actions:
-- **No product concept?
 
-** → `/brainstorm` to create one
-- **No constitution?
-
-** → `/constitute` to establish governing principles
-- **No module index?
-
-** → `/map-systems` to decompose the concept into modules
-- **Missing design docs?
-
-** → `/reverse-document src/[module]` to generate specs from existing code
-- **Small design change needed?
-
-** → `/quick-design` for changes under ~4 hours
-- **No UX specs?
-
-** → `/ux-design [screen name]` to author specs (for UI projects)
-- **UX specs not reviewed?
-
-** → `/ux-review [file]` or `/ux-review all` to validate
-- **CDDs not cross-reviewed?
-
-** → `/review-all-gdds` (run after all MVP CDDs are individually approved)
-- **No test framework?
-
-** → `/test-setup` to scaffold the framework for your stack
-- **No QA plan?
-
-** → `/qa-plan sprint` to generate one before implementation
-- **Missing ADRs?
-
-** → `/architecture-decision` for individual decisions
-- **No master architecture doc?
-
-** → `/create-architecture` for the full blueprint
-- **ADRs missing technology compatibility sections?
-
-** → Run `/architecture-decision` to add Technology Compatibility sections
-- **Missing control manifest?
-
-** → `/create-control-manifest` (requires Accepted ADRs)
-- **Missing epics?
-
-** → `/create-epics layer: foundation` then `/create-epics layer: core`
-- **Missing stories?
-
-** → `/create-stories [epic-slug]`
-- **Tests failing?
-
-** → delegate to `lead-programmer` or `qa-tester`
-- **No user testing data?
-
-** → run user testing sessions and document findings
-- **Performance unknown?
-
-** → `/perf-profile`
-- **Not localized?
-
-** → `/localize`
-- **Missing product design artifact?
-
-** → API/CLI/SDK products need `design/ux/interaction-patterns.md`; UI-heavy products also need `design/design-system.md`; brand/docs visuals use `design/brand/style-guide.md`
-- **No deployment strategy?
-
-** → document deployment and rollback plan
-- **Missing database migrations?
-
-** → run migrations against a fresh instance
-- **Integration contracts undefined?
-
-** → `/architecture-decision [integration-name]`
-- **Ready for release?
-
-** → `/launch-checklist`
+- **No product concept?** -> `/brainstorm` to create one.
+- **No constitution?** -> `/constitute` to establish governing principles.
+- **No module index?** -> `/map-systems` to decompose the concept into modules.
+- **Missing design docs?** -> `/reverse-document src/[module]` to generate specs from existing code.
+- **Small design change needed?** -> `/quick-design` for changes under about 4 hours.
+- **No UX specs?** -> `/ux-design [screen name]` for UI projects, or `/ux-design interaction-patterns` for API/CLI/SDK surfaces.
+- **UX specs not reviewed?** -> `/ux-review [file]` or `/ux-review all` to validate.
+- **CDDs not cross-reviewed?** -> `/review-all-gdds` after all MVP CDDs are individually approved.
+- **No test framework or example baseline test?** -> `/test-setup` to scaffold the required framework, CI workflow, and example test for your stack. `/test-helpers` is optional after that baseline exists.
+- **No QA plan?** -> `/qa-plan sprint` before implementation.
+- **Missing ADRs?** -> `/architecture-decision` for individual decisions.
+- **No master architecture doc?** -> `/create-architecture` for the full blueprint.
+- **ADRs missing technology compatibility sections?** -> Run `/architecture-decision` to add Technology Compatibility sections.
+- **Missing control manifest?** -> `/create-control-manifest` after the governing ADRs are Accepted.
+- **Missing epics?** -> `/create-epics layer: foundation`, then `/create-epics layer: core`.
+- **Missing stories?** -> `/create-stories [epic-slug]`.
+- **Tests failing?** -> Delegate to `lead-programmer` or `qa-tester`.
+- **No user testing data?** -> Run user testing sessions and document findings in `production/qa/evidence/user-tests/`.
+- **Performance unknown?** -> `/perf-profile`.
+- **Not localized?** -> `/localize`.
+- **Missing product design artifact?** -> API/CLI/SDK products need `design/ux/interaction-patterns.md`; UI-heavy products also need `design/design-system.md`; brand/docs visuals use `design/brand/style-guide.md`.
+- **No deployment strategy?** -> Document deployment and rollback plan.
+- **Missing database migrations?** -> Run migrations against a fresh instance.
+- **Integration contracts undefined?** -> `/architecture-decision [integration-name]`.
+- **Ready for release?** -> `/launch-checklist`.
 
 ---
 

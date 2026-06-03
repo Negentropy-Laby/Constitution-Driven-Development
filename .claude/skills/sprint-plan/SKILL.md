@@ -151,7 +151,7 @@ updated: "[YYYY-MM-DD]"
 stories:
   - id: "[epic-story, e.g. 1-1]"
     name: "[story name]"
-    file: "[production/stories/path.md]"
+    file: "[production/epics/[epic-slug]/story-NNN-[slug].md]"
     priority: must-have        # must-have | should-have | nice-to-have
     status: ready-for-dev      # backlog | ready-for-dev | in-progress | review | done | blocked
     owner: ""

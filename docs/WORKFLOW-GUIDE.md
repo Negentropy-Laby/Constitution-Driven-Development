@@ -809,7 +809,7 @@ automatically to the correct programmer agent.
 ### Step 4.4: Validate Stories Before Pickup
 
 ```
-/story-readiness production/stories/combat-damage-calc.md
+/story-readiness production/epics/combat/story-001-damage-calc.md
 ```
 
 Checks: Design completeness, Architecture coverage, Scope clarity, Definition
@@ -818,7 +818,7 @@ of Done. Verdict: READY / NEEDS WORK / BLOCKED.
 ### Step 4.5: Effort Estimation
 
 ```
-/estimate production/stories/combat-damage-calc.md
+/estimate production/epics/combat/story-001-damage-calc.md
 ```
 
 Provides effort estimates with risk assessment.
@@ -874,7 +874,7 @@ unless the user records an explicit override and risk note.
 - At least 1 UX spec reviewed in `design/ux/`
 - UX review completed (APPROVED or NEEDS REVISION with documented risks)
 - At least 1 prototype with README
-- Story files exist in `production/stories/`
+- Story files exist in `production/epics/[epic-slug]/story-NNN-[slug].md`
 - At least 1 sprint plan exists
 - Game: at least 1 playtest report exists (Vertical Slice played in 3+ sessions)
 - Product: at least 1 workflow validation report or QA evidence bundle exists
@@ -921,7 +921,7 @@ The production phase centers on the **story lifecycle**:
 **1. Story Readiness:** Before picking up a story, validate it:
 
 ```
-/story-readiness production/stories/combat-damage-calc.md
+/story-readiness production/epics/combat/story-001-damage-calc.md
 ```
 
 This checks design completeness, architecture coverage, ADR status (blocks
@@ -961,7 +961,7 @@ implement.
 **3. Story Completion:** When a story is done:
 
 ```
-/story-done production/stories/combat-damage-calc.md
+/story-done production/epics/combat/story-001-damage-calc.md
 ```
 
 This runs an 8-phase completion review:
@@ -1668,7 +1668,7 @@ conflicts go to `producer`.
 | `/constitute-check` | Constitutional health audit for principles, active context, and project artifacts | Any |
 | `/help` | Context-aware "what do I do next?" | Any |
 | `/project-stage-detect` | Full project audit to determine current phase | Any |
-| `/setup-engine` | Configure game engine or product language/framework stack, pin version, set preferences | 1 |
+| `/setup-engine` | Configure game engine or product language/framework stack, pin version, set preferences | 3 |
 | `/adopt` | Brownfield audit and migration plan | Any (existing projects) |
 
 #### Concept and Systems Design (6)

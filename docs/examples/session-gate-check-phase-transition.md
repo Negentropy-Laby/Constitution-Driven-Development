@@ -1,13 +1,13 @@
 # Example Session: /gate-check Phase Transition — Systems Design → Technical Setup
 
-**Context:** Solo indie dev, end of week 5. The Systems Design phase feels complete — 6 MVP CDDs written, cross-review done, engine set up. User wants to formally advance to Technical Setup.
+**Context:** Solo indie dev, end of week 5. The Systems Design phase feels complete — 6 MVP CDDs written and cross-review done. The engine is not configured yet because `/setup-engine` belongs to Technical Setup. User wants to formally advance to Technical Setup.
 
 **Starting State:**
 - `production/stage.txt` — currently `systems-design`
 - `design/cdd/module-index.md` — 6 MVP systems listed, all marked `Status: CDD Complete`
 - `design/cdd/` — 6 CDD files present
 - `design/cdd/cross-review-2026-03-10.md` — cross-review report, verdict: CONCERNS (1 low-priority note)
-- Engine configured (Godot 4.6, `/setup-engine` complete)
+- No configured engine yet; `/setup-engine` is the first required Technical Setup step
 
 **Session Duration:** ~20 minutes
 **Turns:** 7
@@ -37,7 +37,6 @@
 > | `/design-review` per CDD | Each CDD reviewed | ✅ (6/6 review comments found) |
 > | Cross-CDD review report | `design/cdd/cross-review-*.md` exists | ✅ |
 > | Cross-review verdict | PASS or CONCERNS (not FAIL) | ✅ CONCERNS |
-> | Engine configured | `production/stage.txt` or CLAUDE.md engine entry | ✅ Godot 4.6 |
 >
 > ---
 > **Content Scan:**
@@ -78,29 +77,35 @@
 > ---
 > **You are now in: Technical Setup**
 >
-> This phase establishes the technical foundation before production coding starts. Your goal is a complete, approved architecture so that every story written in Pre-Production has clear, unambiguous technical guidance.
+> This phase establishes the technical foundation before production coding starts. Your goal is a configured engine or stack, a complete and approved architecture, and the required test baseline so that every story written in Pre-Production has clear, unambiguous technical guidance.
 >
 > **Required steps this phase (in order):**
 >
-> 1. **`/create-architecture`** — Author the master architecture document. Covers system decomposition, data flow, layer boundaries, and module responsibilities.
+> 1. **`/setup-engine`** — Configure the engine and version, then populate `.claude/docs/technical-preferences.md` and reference docs.
 >
-> 2. **`/architecture-decision` (one per significant technical choice)** — At minimum:
+> 2. **`/create-architecture`** — Author the master architecture document. Covers system decomposition, data flow, layer boundaries, and module responsibilities.
+>
+> 3. **`/architecture-decision` (one per significant technical choice)** — At minimum:
 >    - Rendering approach (2D camera, viewport, etc.)
 >    - Save/load strategy
 >    - Audio bus architecture
 >    - The "item stack size authority" issue from cross-review (crafting vs inventory)
 >
-> 3. **`/architecture-review`** — Validates all ADRs for completeness, dependency ordering, and CDD traceability. Produces the TR-registry.
+> 4. **`/architecture-review`** — Validates all ADRs for completeness, dependency ordering, and CDD traceability. Produces the TR-registry.
 >
-> 4. **`/create-control-manifest`** — Converts Accepted ADRs into a flat programmer rules sheet. This is what implementation agents will consult during coding.
+> 5. **`/create-control-manifest`** — Converts Accepted ADRs into a flat programmer rules sheet. This is what implementation agents will consult during coding.
 >
-> 5. **`/gate-check`** — Technical Setup → Pre-Production gate. Requires: architecture doc, all ADRs Accepted, control manifest, and dependency ordering resolved.
+> 6. **Accessibility requirements** — Run `/ux-design accessibility` or capture the project accessibility tier in `design/ux/` so implementation stories inherit it.
+>
+> 7. **`/test-setup`** — Create the required baseline: `tests/unit/`, `tests/integration/`, `.github/workflows/tests.yml`, and one example test file. `/test-helpers` is optional later.
+>
+> 8. **`/gate-check technical-setup`** — Technical Setup → Pre-Production gate. Requires: configured engine/stack, architecture doc, Accepted ADRs, control manifest, accessibility requirements, and the test baseline.
 >
 > **Optional but recommended:**
 > - `/tech-debt` scan if you have any prototype code you plan to carry forward
-> - `/setup-engine` re-run if you haven't yet fetched Godot 4.6 API snapshots
+> - `/test-helpers` after the baseline exists, if fixtures, factories, mocks, or engine helpers would reduce sprint friction
 >
-> **Tip:** Start with `/architecture-decision` for the item stack size conflict. It's a quick win that closes an open question before it creates ambiguity in two ADRs later.
+> **Tip:** Start with `/setup-engine` so architecture decisions can reference the actual Godot version and API surface. Then create the ADR for the item stack size conflict before writing implementation stories.
 
 ## Turn 5: User Asks About the Cross-Review Concern
 
@@ -128,15 +133,15 @@
 >
 > Most studios go with B (shared resource) once they have >2 systems touching item data. But either is valid for a solo project.
 >
-> Run `/architecture-decision` and it will guide you through the ADR format, including the Dependencies section that links this ADR back to the two CDDs.
+> After `/setup-engine` pins the engine version, run `/architecture-decision` and it will guide you through the ADR format, including the Dependencies section that links this ADR back to the two CDDs.
 
 ## Turn 7: User Wraps Up
 
 **User:**
-> Got it. I'll start with /architecture-decision for this.
+> Got it. I'll start with /setup-engine, then create the ADR for this.
 
 **Agent:**
-> Good starting point. The ADR will document the decision, the reasoning, and the CDD requirements it addresses — so when you write code months from now, the rationale is preserved.
+> Good starting point. The engine setup will make the architecture work concrete, and the ADR will document the decision, the reasoning, and the CDD requirements it addresses — so when you write code months from now, the rationale is preserved.
 >
 > Your phase gate is logged. Run `/help` at any time during Technical Setup to see your current progress against the required checklist.
 
@@ -147,6 +152,6 @@
 - **Gate check is automated, not manual**: agent reads artifacts and checks them — user doesn't fill out a form
 - **CONCERNS ≠ FAIL**: the cross-review concern is LOW severity and passes the gate. A FAIL would require resolution before advancing.
 - **Stage.txt is the authority**: the status line, `/help`, and all skills read from `production/stage.txt` — updating it here changes what every subsequent skill sees
-- **Next steps are phase-specific**: the agent doesn't give a generic "good luck" — it gives the ordered checklist for Technical Setup specifically
+- **Next steps are phase-specific**: the agent doesn't give a generic "good luck" — it gives the ordered Technical Setup checklist, starting with `/setup-engine`
 - **Gate check surfaces carry-forward work**: the stack size conflict was a cross-review note; the gate check ensures it becomes a concrete ADR rather than getting lost
 - **One advance per gate**: the user confirmed advancement explicitly. The gate doesn't auto-advance; human confirmation is required.
