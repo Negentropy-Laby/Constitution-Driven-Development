@@ -48,6 +48,25 @@ advancement; PASS may update `production/stage.txt` after user confirmation,
 CONCERNS may update it only with a recorded risk note, and FAIL does not update
 it unless the user explicitly overrides with a risk note.
 
+**Required source of truth**: `.claude/docs/workflow-catalog.yaml` is the only
+source for normal-progression blockers. A `required: true` catalog step can be a
+missing-artifact blocker. Optional steps, later-phase steps, and
+`required_when` steps outside the active gate can only appear as CONCERNS or
+follow-up actions unless a quality failure directly invalidates the current
+phase goal.
+
+**Boundary clarifications**:
+- [Game] `design/art/art-bible.md` is a Concept optional artifact, not a
+  Technical Setup blocker.
+- [Product] `design/ux/interaction-patterns.md` is a Pre-Production
+  `required_when` artifact, not an Architecture blocker.
+- `/qa-plan` is optional during Production by default; missing QA plans or
+  `/team-qa` sign-off become release-readiness concerns unless the project has
+  explicitly opted into strict QA.
+- [Product] one user-test/workflow validation is required before
+  Implementation; three cumulative product validation sessions are required
+  before Release during Polish / Verification.
+
 ---
 
 ## 1. Parse Arguments
@@ -134,33 +153,32 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 
 **[游戏专用] Game: Technical Setup → Pre-Production**
 
-**Required Artifacts:**
+**Catalog Required Artifacts:**
 - [ ] Engine chosen (CLAUDE.md Technology Stack is not `[CHOOSE]`)
 - [ ] Technical preferences configured (`.claude/docs/technical-preferences.md` populated)
-- [ ] Art bible exists at `design/art/art-bible.md` with at least Sections 1–4 (Visual Identity Foundation)
 - [ ] At least 3 Architecture Decision Records in `docs/architecture/` covering
       Foundation-layer systems (scene management, event architecture, save/load)
-- [ ] Engine reference docs exist in `docs/engine-reference/[engine]/`
 - [ ] Test framework initialized: `tests/unit/` and `tests/integration/` directories exist
 - [ ] CI/CD test workflow exists at `.github/workflows/tests.yml` (or equivalent)
 - [ ] At least one example test file exists to confirm the framework is functional
 - [ ] `/test-helpers` coverage is treated as optional; missing helpers are not a blocker
 - [ ] Master architecture document exists at `docs/architecture/architecture.md`
-- [ ] Architecture traceability index exists at `docs/architecture/architecture-traceability.md`
 - [ ] `/architecture-review` has been run (a review report file exists in `docs/architecture/`)
+- [ ] Control manifest exists at `docs/architecture/control-manifest.md`
 - [ ] `design/accessibility-requirements.md` exists with accessibility tier committed
 
-**Quality Checks:**
+**Quality / Risk Checks:**
 - [ ] Architecture decisions cover core systems (rendering, input, state management)
 - [ ] Technical preferences have naming conventions and performance budgets set
 - [ ] Accessibility tier is defined and documented (even "Basic" is acceptable — undefined is not)
+- [ ] Game art bible status is recorded as optional Concept follow-up if `design/art/art-bible.md` is missing
 - [ ] All ADRs have an **Engine Compatibility section** with engine version stamped
 - [ ] All ADRs have a **CDD Requirements Addressed section** with explicit CDD linkage
 - [ ] No ADR references APIs listed in the engine deprecated APIs reference under `docs/engine-reference/[engine]/`
 - [ ] All HIGH RISK engine domains (per VERSION.md) have been explicitly addressed
       in the architecture document or flagged as open questions
-- [ ] Architecture traceability matrix has **zero Foundation layer gaps**
-      (all Foundation requirements must have ADR coverage before Pre-Production)
+- [ ] Architecture traceability gaps are recorded as CONCERNS unless they make a
+      Foundation ADR impossible to implement safely
 
 **ADR Circular Dependency Check**: For all ADRs in `docs/architecture/`, read each ADR's
 "ADR Dependencies" / "Depends On" section. Build a dependency graph (ADR-A → ADR-B means
@@ -185,37 +203,36 @@ headless service, or multi-surface product. Apply the conditional artifact rules
 below. Do not fail an API-only, CLI-only, SDK/library, or internal headless
 product for missing `design/design-system.md`.
 
-**Required Artifacts:**
+**Catalog Required Artifacts:**
 - [ ] Technology stack configured (CLAUDE.md Technology Stack is not `[CHOOSE]`)
 - [ ] Technical preferences configured (`.claude/docs/technical-preferences.md` populated)
-- [ ] Product surface profile is recorded in the gate report (API-only, CLI-only, SDK/library, UI-heavy, internal headless, or multi-surface)
-- [ ] `design/ux/interaction-patterns.md` exists when the product has an API, CLI, SDK/library, web UI, desktop/mobile/admin UI, docs-driven consumer journey, or other user/integrator-facing surface. Internal headless services may mark this N/A with justification
-- [ ] `design/design-system.md` exists only for UI-heavy products (web app, desktop/mobile UI, admin console, component-heavy docs/site, or multi-surface product with a UI)
-- [ ] `design/brand/style-guide.md` is optional unless the product has public brand, documentation imagery, screenshots, diagrams, marketing/release visuals, or visual tone requirements
 - [ ] At least 3 Architecture Decision Records in `docs/architecture/` covering Foundation-layer modules (data storage, auth framework, error handling)
-- [ ] Stack reference docs exist in `docs/reference/[stack]/`
 - [ ] Test framework initialized: `tests/unit/` and `tests/integration/` directories exist
 - [ ] CI/CD test workflow exists at `.github/workflows/tests.yml` (or equivalent)
 - [ ] At least one example test file exists to confirm the framework is functional
 - [ ] `/test-helpers` coverage is treated as optional; missing helpers are not a blocker
 - [ ] Master architecture document exists at `docs/architecture/architecture.md`
-- [ ] Architecture traceability index exists at `docs/architecture/architecture-traceability.md`
 - [ ] `/architecture-review` has been run (a review report file exists in `docs/architecture/`)
+- [ ] Control manifest exists at `docs/architecture/control-manifest.md`
 - [ ] `design/accessibility-requirements.md` exists with accessibility tier committed (even "Basic" is acceptable)
 
-**Quality Checks:**
+**Quality / Risk Checks:**
 - [ ] Architecture decisions cover core modules (auth, data access, API framework, logging)
 - [ ] Technical preferences have naming conventions and performance budgets set
 - [ ] Accessibility tier is defined and documented
-- [ ] API-only products validate API consumer interaction patterns: auth, errors, pagination, idempotency, rate limits, examples, and docs handoff
-- [ ] CLI-only products validate CLI interaction patterns: help text, prompts, stdout/stderr boundaries, exit codes, destructive confirmations, and scripted usage
-- [ ] SDK/library products validate integrator interaction patterns: typed errors, examples, versioning, deprecation behavior, and docs snippets
-- [ ] UI-heavy products validate design-system coverage: component patterns, states, responsive behavior, accessibility integration, localization/text expansion, and implementation handoff
+- [ ] Product surface profile is recorded in the gate report (API-only, CLI-only, SDK/library, UI-heavy, internal headless, or multi-surface)
+- [ ] Product interaction patterns are recorded as a Pre-Production `required_when`
+      follow-up for API, CLI, SDK/library, UI, docs-driven, or other consumer surfaces
+- [ ] UI-heavy products record `design/design-system.md` as a Pre-Production or
+      UX handoff concern, not an Architecture blocker
+- [ ] Product style guide remains optional unless public brand, docs imagery,
+      screenshots, diagrams, marketing/release visuals, or visual tone are in scope
 - [ ] All ADRs have a **Technology Compatibility section** with stack version stamped
 - [ ] All ADRs have a **CDD Requirements Addressed section** with explicit CDD linkage
 - [ ] No ADR references APIs listed in the stack deprecated APIs reference under `docs/reference/[stack]/`
 - [ ] All HIGH RISK stack domains (per VERSION.md) have been explicitly addressed in the architecture document or flagged as open questions
-- [ ] Architecture traceability matrix has **zero Foundation layer gaps** (all Foundation requirements must have ADR coverage before Pre-Implementation)
+- [ ] Architecture traceability gaps are recorded as CONCERNS unless they make a
+      Foundation ADR impossible to implement safely
 
 **ADR Circular Dependency Check**: For all ADRs in `docs/architecture/`, build a dependency graph. If any cycle is detected, flag as **FAIL**.
 
@@ -230,33 +247,25 @@ product for missing `design/design-system.md`.
 
 **[游戏专用] Game: Pre-Production → Production**
 
-**Required Artifacts:**
+**Catalog Required Artifacts:**
 - [ ] At least 1 prototype in `prototypes/` with a README
-- [ ] First sprint plan exists in `production/sprints/`
-- [ ] Art bible is complete (all 9 sections) and AD-ART-BIBLE sign-off verdict is recorded in `design/art/art-bible.md`
-- [ ] Character visual profiles exist for key characters referenced in narrative docs
-- [ ] All MVP-tier CDDs from module index are complete
-- [ ] Master architecture document exists at `docs/architecture/architecture.md`
-- [ ] At least 3 ADRs covering Foundation-layer decisions exist in `docs/architecture/`
-- [ ] Control manifest exists at `docs/architecture/control-manifest.md`
-      (generated by `/create-control-manifest` from Accepted ADRs)
+- [ ] UX specs exist for key screens: main menu, core gameplay HUD (at `design/ux/`), pause menu
+- [ ] All key screen UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
 - [ ] Epics defined in `production/epics/` with at least Foundation and Core
       layer epics present (use `/create-epics layer: foundation` and
       `/create-epics layer: core` to create them, then `/create-stories [epic-slug]`
       for each epic)
-- [ ] Vertical Slice build exists and is playable (not just scope-defined)
-- [ ] Vertical Slice has been playtested with at least 3 sessions (internal OK)
-- [ ] Vertical Slice playtest report exists in `production/qa/evidence/playtests/`
-- [ ] UX specs exist for key screens: main menu, core gameplay HUD (at `design/ux/`), pause menu
-- [ ] HUD design document exists at `design/ux/hud.md` (if game has in-game HUD)
-- [ ] All key screen UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
+- [ ] Story files exist under `production/epics/[epic-slug]/story-*.md`
+- [ ] First sprint plan exists in `production/sprints/`
 - [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
+- [ ] Vertical Slice playtest report exists in `production/qa/evidence/playtests/`
 
-**Quality Checks:**
+**Quality / Risk Checks:**
 - [ ] **Core loop fun is validated** — playtest data confirms the central mechanic is enjoyable, not just functional. Explicitly check the Vertical Slice playtest report.
 - [ ] UX specs cover all UI Requirements sections from MVP-tier CDDs
 - [ ] Interaction pattern library documents patterns used in key screens
 - [ ] Accessibility tier from `design/accessibility-requirements.md` is addressed in all key screen UX specs
+- [ ] Game art bible, character visual profiles, and HUD-specific docs are recorded as optional or feature-specific follow-up unless the current CDDs require them
 - [ ] Sprint plan references real story file paths from `production/epics/`
       (not just CDDs — stories must embed CDD req ID + ADR reference)
 - [ ] **Vertical Slice is COMPLETE**, not just scoped — the build demonstrates the full core loop end-to-end. At least one complete [start → challenge → resolution] cycle works.
@@ -285,29 +294,23 @@ Apply the same product surface profile used by the Architecture gate. API-only,
 CLI-only, SDK/library, and internal headless products are not blocked by missing
 `design/design-system.md`; UI-heavy and multi-surface UI products are.
 
-**Required Artifacts:**
+**Catalog Required Artifacts:**
 - [ ] At least 1 prototype in `prototypes/` with a README
-- [ ] First sprint plan exists in `production/sprints/`
 - [ ] `design/ux/interaction-patterns.md` exists for every API, CLI, SDK/library, web UI, desktop/mobile/admin UI, docs-driven consumer journey, or other user/integrator-facing surface; internal headless services may mark this N/A with justification
-- [ ] `design/design-system.md` is complete only for UI-heavy products, with component patterns, interaction states, accessibility integration, responsive behavior, and implementation handoff
-- [ ] `design/brand/style-guide.md` exists only when public brand, documentation imagery, screenshots, diagrams, marketing/release visuals, or visual tone requirements are in scope
-- [ ] All MVP-tier CDDs from module index are complete
-- [ ] Master architecture document exists at `docs/architecture/architecture.md`
-- [ ] At least 3 ADRs covering Foundation-layer decisions exist in `docs/architecture/`
-- [ ] Control manifest exists at `docs/architecture/control-manifest.md` (generated by `/create-control-manifest` from Accepted ADRs)
+- [ ] UX specs exist for key product surfaces: onboarding, core workflow, settings, API consumer journey, CLI flow, SDK integration path, or operator workflow as applicable
+- [ ] All key UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
 - [ ] Epics defined in `production/epics/` with at least Foundation and Core layer epics present (use `/create-epics layer: foundation` and `/create-epics layer: core` to create them, then `/create-stories [epic-slug]` for each epic)
-- [ ] MVP build exists and is functional (not just scope-defined)
-- [ ] MVP has been tested with at least 3 user sessions (internal OK)
-- [ ] User testing report exists in `production/qa/evidence/user-tests/`
-- [ ] UX specs exist for key screens: onboarding, core workflow, settings (at `design/ux/`)
-- [ ] All key screen UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
+- [ ] Story files exist under `production/epics/[epic-slug]/story-*.md`
+- [ ] First sprint plan exists in `production/sprints/`
 - [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
+- [ ] User testing report exists in `production/qa/evidence/user-tests/`
 
-**Quality Checks:**
+**Quality / Risk Checks:**
 - [ ] **Core interaction validated** — user testing data confirms the central workflow solves the user's job, not just functional
 - [ ] UX specs cover all product surface requirements from MVP-tier CDDs: API consumer journeys, CLI flows, SDK integration paths, web/UI screens, or internal operator workflows as applicable
 - [ ] Interaction pattern library documents patterns used in key screens, commands, endpoint examples, SDK snippets, or workflow handoffs as applicable
 - [ ] UI-heavy products have design-system coverage for reusable components and states; API-only, CLI-only, SDK/library, and internal headless products record this as N/A rather than FAIL
+- [ ] Product brand/style guide is recorded as optional follow-up unless public brand, documentation imagery, screenshots, diagrams, marketing/release visuals, or visual tone are explicitly in scope
 - [ ] Accessibility tier is addressed in all key screen UX specs
 - [ ] Sprint plan references real story file paths from `production/epics/` (not just CDDs — stories must embed CDD req ID + ADR reference)
 - [ ] **MVP is COMPLETE**, not just scoped — the build demonstrates the full core user journey end-to-end. At least one complete [task → completion → value] cycle works.
@@ -331,25 +334,23 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 
 **[游戏专用] Game: Production → Polish**
 
-**Required Artifacts:**
+**Catalog Required Artifacts:**
 - [ ] `src/` has active code organized into subsystems
 - [ ] All core mechanics from CDD are implemented (cross-reference `design/cdd/` with `src/`)
 - [ ] Main gameplay path is playable end-to-end
 - [ ] Test files exist in `tests/unit/` and `tests/integration/` covering Logic and Integration stories
 - [ ] All Logic stories from this sprint have corresponding unit test files in `tests/unit/`
-- [ ] Smoke check has been run with a PASS or PASS WITH WARNINGS verdict — report exists in `production/qa/`
-- [ ] QA plan exists in `production/qa/` (generated by `/qa-plan`) covering this sprint or final production sprint
-- [ ] QA sign-off report exists in `production/qa/` (generated by `/team-qa`) with verdict APPROVED or APPROVED WITH CONDITIONS
-- [ ] At least 3 distinct playtest sessions documented in `production/qa/evidence/playtests/`
-- [ ] Playtest reports cover: new player experience, mid-game systems, and difficulty curve
-- [ ] Fun hypothesis from Game Concept has been explicitly validated or revised
+- [ ] Implemented story files in `production/epics/` have `/story-done` closure evidence
+- [ ] Blocking automated/manual story evidence exists in `tests/` or `production/qa/evidence/`
 
-**Quality Checks:**
+**Quality / Risk Checks:**
 - [ ] Tests are passing (run test suite via Bash)
 - [ ] No critical/blocker bugs in any bug tracker or known issues
 - [ ] Core loop plays as designed (compare to CDD acceptance criteria)
+- [ ] Fun hypothesis from Game Concept has been explicitly validated or revised
 - [ ] Performance is within budget (check technical-preferences.md targets)
 - [ ] Playtest findings have been reviewed and critical fun issues addressed (not just documented)
+- [ ] Smoke check, `/qa-plan`, `/team-qa`, and additional playtest sessions are recorded as Production or Polish follow-up unless strict QA is explicitly enabled
 - [ ] No "confusion loops" identified — no point in the game where >50% of playtesters got stuck without knowing why
 - [ ] Difficulty curve matches the Difficulty Curve design doc (if one exists at `design/difficulty-curve.md`)
 - [ ] All implemented screens have corresponding UX specs (no "designed in-code" screens)
@@ -360,25 +361,23 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 
 **[通用产品] Product: Implementation → Verification**
 
-**Required Artifacts:**
+**Catalog Required Artifacts:**
 - [ ] `src/` has active code organized into modules
 - [ ] All core functionality from CDDs is implemented (cross-reference `design/cdd/` with `src/`)
 - [ ] Main user journey is functional end-to-end
 - [ ] Test files exist in `tests/unit/` and `tests/integration/` covering Logic and Integration stories
 - [ ] All Logic stories from this sprint have corresponding unit test files
-- [ ] Smoke check has been run with a PASS or PASS WITH WARNINGS verdict — report exists in `production/qa/`
-- [ ] QA plan exists in `production/qa/` (generated by `/qa-plan`)
-- [ ] QA sign-off report exists in `production/qa/` (verdict APPROVED or APPROVED WITH CONDITIONS)
-- [ ] At least 3 distinct user testing sessions documented in `production/qa/evidence/user-tests/`
-- [ ] User testing reports cover: new user experience, core workflows, and edge cases
-- [ ] Core promise from Product Concept has been explicitly validated or revised
+- [ ] Implemented story files in `production/epics/` have `/story-done` closure evidence
+- [ ] Blocking automated/manual story evidence exists in `tests/` or `production/qa/evidence/`
 
-**Quality Checks:**
+**Quality / Risk Checks:**
 - [ ] Tests are passing (run test suite via Bash)
 - [ ] No critical/blocker bugs in any bug tracker or known issues
 - [ ] Core workflow functions as designed (compare to CDD acceptance criteria)
+- [ ] Core promise from Product Concept has been explicitly validated or revised
 - [ ] Performance is within budget (check technical-preferences.md targets — latency, memory, throughput)
 - [ ] User testing findings have been reviewed and critical UX issues addressed
+- [ ] Smoke check, `/qa-plan`, `/team-qa`, and cumulative product validation sessions are recorded as Production or Polish follow-up unless strict QA is explicitly enabled
 - [ ] No "confusion loops" identified — no point where >50% of users got stuck without knowing why
 - [ ] All implemented screens have corresponding UX specs (no "designed in-code" screens)
 - [ ] Interaction pattern library is up-to-date with all patterns used in implementation
@@ -401,7 +400,7 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 - [ ] Smoke check passes cleanly (PASS verdict) on the release candidate build
 - [ ] No test regressions from previous sprint (test suite passes fully)
 - [ ] Balance data has been reviewed (`/balance-check` run)
-- [ ] Release checklist completed (`/release-checklist` or `/launch-checklist` run)
+- [ ] Release checklist completed (`/release-checklist` run before `/launch-checklist`)
 - [ ] Store metadata prepared (if applicable)
 - [ ] Changelog / patch notes drafted
 
@@ -428,7 +427,7 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 - [ ] All Must Have story test evidence is present (Logic/Integration: test files pass; Visual/UI: sign-off docs in `production/qa/evidence/`)
 - [ ] Smoke check passes cleanly (PASS verdict) on the release candidate build
 - [ ] No test regressions from previous sprint (test suite passes fully)
-- [ ] Release checklist completed (`/release-checklist` or `/launch-checklist` run)
+- [ ] Release checklist completed (`/release-checklist` run before `/launch-checklist`)
 - [ ] Deployment strategy documented and tested
 - [ ] Changelog / release notes drafted
 

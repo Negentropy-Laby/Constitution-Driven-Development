@@ -8,6 +8,10 @@
 #   note: human-readable fallback when completion can't be auto-detected
 #
 # required: true → required before normal progression to next phase (shown as REQUIRED)
+#   This is the single source of truth for normal-progression blockers.
+#   /gate-check may add quality/risk checks, but it must not promote optional
+#   or later-phase artifacts into FAIL blockers unless a quality failure
+#   directly invalidates the current phase goal.
 # required: false → optional enhancement (shown as OPTIONAL)
 # repeatable: true → runs multiple times (one per system, story, etc.)
 # applies_to: [game] or [product] → /help filters the step by detected domain.
@@ -16,6 +20,15 @@
 # Phase gates (/gate-check): governed advisory. Gates must run before normal
 # advancement; FAIL does not update production/stage.txt unless the user makes
 # an explicit override with a risk note.
+#
+# Phase boundary clarifications:
+#   - Game art bible is Concept optional, not a Technical Setup blocker.
+#   - Product interaction patterns are Pre-Production required_when, not a
+#     Technical Setup blocker.
+#   - /qa-plan is Production optional by default, not an Implementation →
+#     Verification blocker unless the project explicitly opts into strict QA.
+#   - Product validation requires at least one Pre-Production user-test and
+#     three cumulative Polish validation sessions.
 
 gate_policy:
   mode: governed_advisory
