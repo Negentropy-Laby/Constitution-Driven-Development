@@ -20,10 +20,12 @@ TEMPLATES_DIR = REPO_ROOT / ".claude" / "docs" / "templates"
 CATALOG = REPO_ROOT / ".claude" / "docs" / "workflow-catalog.yaml"
 GATE_CHECK = REPO_ROOT / ".claude" / "skills" / "gate-check" / "SKILL.md"
 FLOW_DIAGRAMS = REPO_ROOT / "docs" / "examples" / "skill-flow-diagrams.md"
+WORKFLOW_GUIDE = REPO_ROOT / "docs" / "WORKFLOW-GUIDE.md"
+QUICK_START = REPO_ROOT / ".claude" / "docs" / "quick-start.md"
 DOC_COMMAND_FILES = [
     REPO_ROOT / "README.md",
     REPO_ROOT / "docs" / "START-HERE.md",
-    REPO_ROOT / ".claude" / "docs" / "quick-start.md",
+    QUICK_START,
 ]
 DRIFT_SCAN_ROOTS = [
     REPO_ROOT / "README.md",
@@ -52,6 +54,11 @@ IGNORED_COMMAND_LIKE = {
 }
 
 TEXT_SUFFIXES = {".md", ".txt", ".yaml", ".yml"}
+REQUIRED_GATE_HEADINGS = {
+    "**Required Artifacts:**",
+    "**Catalog Required Artifacts:**",
+    "**Catalog Required Step Evidence:**",
+}
 
 
 @dataclass
@@ -186,10 +193,10 @@ def extract_required_gate_paths() -> set[str]:
     in_required = False
     for raw in GATE_CHECK.read_text(encoding="utf-8", errors="replace").splitlines():
         line = raw.strip()
-        if line in {"**Required Artifacts:**", "**Catalog Required Artifacts:**"}:
+        if line in REQUIRED_GATE_HEADINGS:
             in_required = True
             continue
-        if in_required and line.startswith("**") and line not in {"**Required Artifacts:**", "**Catalog Required Artifacts:**"}:
+        if in_required and line.startswith("**") and line not in REQUIRED_GATE_HEADINGS:
             in_required = False
         if not in_required:
             continue
@@ -330,6 +337,39 @@ def check_accessibility_entry_paths() -> list[Finding]:
     return findings
 
 
+def check_quick_start_technical_setup_paths() -> list[Finding]:
+    findings: list[Finding] = []
+    text = QUICK_START.read_text(encoding="utf-8", errors="replace")
+    path_blocks = [
+        ("Game Path A", "### Path A:", "### Path B:"),
+        ("Game Path B", "### Path B:", "### Path C:"),
+        ("Product Path A", "### Product Path A:", "### Product Path B:"),
+        ("Product Path B", "### Product Path B:", "### Product Path C:"),
+    ]
+    required_commands = ["/architecture-review", "/gate-check technical-setup"]
+
+    for label, start, end in path_blocks:
+        block = block_between(text, start, end)
+        if not block:
+            findings.append(Finding("ERROR", f".claude/docs/quick-start.md missing {label} block"))
+            continue
+        for command in required_commands:
+            if command not in block:
+                findings.append(Finding("ERROR", f".claude/docs/quick-start.md {label} omits {command}"))
+        gate_index = block.find("/gate-check technical-setup")
+        ux_index = block.find("/ux-design")
+        if gate_index == -1 or ux_index == -1:
+            continue
+        if not gate_index < ux_index:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f".claude/docs/quick-start.md {label} starts UX before /gate-check technical-setup",
+                )
+            )
+    return findings
+
+
 def check_old_workflow_drift() -> list[Finding]:
     findings: list[Finding] = []
     banned = [
@@ -345,6 +385,57 @@ def check_old_workflow_drift() -> list[Finding]:
     return findings
 
 
+def check_workflow_guide_phase_boundaries() -> list[Finding]:
+    findings: list[Finding] = []
+    text = WORKFLOW_GUIDE.read_text(encoding="utf-8", errors="replace")
+    phase4 = block_between(text, "## Phase 4: Pre-Production", "## Phase 5: Production")
+    phase5 = block_between(text, "## Phase 5: Production", "## Phase 6:")
+
+    if "/dev-story" in phase4:
+        findings.append(Finding("ERROR", "docs/WORKFLOW-GUIDE.md Phase 4 contains /dev-story; implementation belongs in Phase 5"))
+    if "/dev-story" not in phase5:
+        findings.append(Finding("ERROR", "docs/WORKFLOW-GUIDE.md Phase 5 must document /dev-story implementation"))
+    return findings
+
+
+def check_validation_quantity_boundaries() -> list[Finding]:
+    findings: list[Finding] = []
+    guide_text = WORKFLOW_GUIDE.read_text(encoding="utf-8", errors="replace")
+    phase4 = block_between(guide_text, "## Phase 4: Pre-Production", "## Phase 5: Production")
+    phase5_plus = block_between(guide_text, "## Phase 5: Production", "## Quick Reference:")
+
+    banned_phase4_patterns = [
+        r"Played unguided in at least 3 sessions",
+        r"Vertical Slice played in 3\+ sessions",
+        r"3\+ sessions",
+        r"3 unguided sessions",
+        r"at least 3 [^\n]*sessions",
+    ]
+    for pattern in banned_phase4_patterns:
+        if re.search(pattern, phase4, flags=re.IGNORECASE):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    "docs/WORKFLOW-GUIDE.md Phase 4 makes 3 sessions a Pre-Production gate condition",
+                )
+            )
+            break
+
+    catalog_text = CATALOG.read_text(encoding="utf-8", errors="replace")
+    if catalog_text.count("min_count: 3") < 2:
+        findings.append(Finding("ERROR", "workflow-catalog.yaml must keep cumulative 3-session validation in Polish / Verification"))
+    if "3 sessions" not in phase5_plus and "3-session" not in phase5_plus:
+        findings.append(Finding("ERROR", "docs/WORKFLOW-GUIDE.md must keep cumulative 3-session validation after Pre-Production"))
+
+    gate_text = GATE_CHECK.read_text(encoding="utf-8", errors="replace")
+    release_gate = block_between(gate_text, "### Gate: Polish → Release", "## 3. Run the Gate Check")
+    if "At least 3 playtest reports" not in release_gate:
+        findings.append(Finding("ERROR", "gate-check Polish → Release gate must require cumulative 3 game playtest reports"))
+    if "At least 3 product validation reports" not in release_gate:
+        findings.append(Finding("ERROR", "gate-check Verification → Release gate must require cumulative 3 product validation reports"))
+    return findings
+
+
 def check_gate_required_semantics() -> list[Finding]:
     findings: list[Finding] = []
     in_required = False
@@ -353,13 +444,19 @@ def check_gate_required_semantics() -> list[Finding]:
         "At least 3 distinct user testing sessions",
         "QA plan exists in `production/qa/` (generated by `/qa-plan`)",
         "QA sign-off report exists in `production/qa/`",
+        "QA test plan exists",
+        "QA sign-off report exists",
+        "Smoke check passes cleanly",
+        "Release checklist completed",
+        "Launch checklist completed",
+        "`/release-checklist` run before `/launch-checklist`",
     ]
     for line_no, raw in enumerate(GATE_CHECK.read_text(encoding="utf-8", errors="replace").splitlines(), start=1):
         line = raw.strip()
-        if line in {"**Required Artifacts:**", "**Catalog Required Artifacts:**"}:
+        if line in REQUIRED_GATE_HEADINGS:
             in_required = True
             continue
-        if in_required and line.startswith("**") and line not in {"**Required Artifacts:**", "**Catalog Required Artifacts:**"}:
+        if in_required and line.startswith("**") and line not in REQUIRED_GATE_HEADINGS:
             in_required = False
         if not in_required:
             continue
@@ -384,7 +481,10 @@ def main() -> int:
     findings.extend(check_story_path_drift())
     findings.extend(check_example_phase_boundaries())
     findings.extend(check_accessibility_entry_paths())
+    findings.extend(check_quick_start_technical_setup_paths())
     findings.extend(check_old_workflow_drift())
+    findings.extend(check_workflow_guide_phase_boundaries())
+    findings.extend(check_validation_quantity_boundaries())
     findings.extend(check_gate_required_semantics())
 
     errors = sum(1 for item in findings if item.severity == "ERROR")

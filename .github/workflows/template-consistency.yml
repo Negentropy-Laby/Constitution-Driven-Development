@@ -29,7 +29,7 @@ jobs:
           python scripts/skill_lint.py --strict .claude/skills/project-stage-detect/SKILL.md
           python scripts/skill_lint.py --strict .claude/skills/help/SKILL.md
 
-      - name: Workflow/catalog/docs/examples consistency
+      - name: Workflow/catalog/docs/examples boundary consistency
         run: python scripts/workflow_consistency.py
 
       - name: Canonical story path check
