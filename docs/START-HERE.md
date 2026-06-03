@@ -1,0 +1,24 @@
+# Start Here
+
+This page answers the first decision only: what kind of project are you starting, which command should you run first, what file will appear, and what comes next.
+
+Phase gates use the governed advisory policy from `.claude/docs/workflow-catalog.yaml`: run the gate before normal advancement. `FAIL` does not update `production/stage.txt` unless you explicitly override it and record a risk note.
+
+## Choose Your Path
+
+| You are... | First command | Expected output | Next step |
+|------------|---------------|-----------------|-----------|
+| Starting a new game | `/constitute` | `memory_bank/t0_core/basic_law_index.md`, `production/review-mode.txt`, and project principles | If your idea is still fuzzy, run `/brainstorm game ideas`; then run `/design-review` and `/gate-check concept` before `/map-systems`. |
+| Starting a new product, API, CLI, web app, SDK, or data pipeline | `/constitute` | `memory_bank/t0_core/basic_law_index.md`, `production/review-mode.txt`, and product principles | If the problem or workflow is still fuzzy, run `/brainstorm product ideas`; then run `/design-review` and `/gate-check concept` before `/map-systems`. |
+| Bringing in an existing project | `/project-stage-detect` | A current-stage diagnosis based on existing `design/`, `docs/architecture/`, `src/`, `tests/`, and `production/` artifacts | Run `/adopt` or `/constitute` in existing-project mode, then retrofit only the missing artifacts for the detected stage. |
+
+## What Happens After The First Command
+
+| Stage | Normal required path |
+|-------|----------------------|
+| Concept | `/constitute` -> concept document -> `/design-review` -> `/gate-check concept` |
+| Systems Design / Specification | `/map-systems` -> `/design-system` per MVP module -> `/design-review` -> `/review-all-gdds` -> `/gate-check systems-design` |
+| Technical Setup / Architecture | `/setup-engine` -> `/create-architecture` -> `/architecture-decision` -> `/architecture-review` -> `/create-control-manifest` -> `/test-setup` -> `/gate-check technical-setup` |
+| Pre-Production / Pre-Implementation | `/ux-design` -> `/prototype` -> `/create-epics` -> `/create-stories` -> `/sprint-plan` -> `/story-readiness` -> `/gate-check pre-production` |
+
+Use `/help` at any time for the next required command based on the files that already exist.

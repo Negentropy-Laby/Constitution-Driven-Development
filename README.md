@@ -22,6 +22,20 @@
 
 ---
 
+## Start Here
+
+Choose the path that matches your situation. For the short version with only first command, outputs, and next step, read [docs/START-HERE.md](docs/START-HERE.md).
+
+| Path | First command | What it starts | Next normal checkpoint |
+|------|---------------|----------------|------------------------|
+| **New game project** | `/constitute` | Governing principles, project memory, review mode, and game concept direction | `/brainstorm game ideas` if needed, then `/design-review` and `/gate-check concept` |
+| **New product / API / CLI / Web App** | `/constitute` | Governing principles, product promise, user workflow, and stack-neutral planning | `/brainstorm product ideas` if needed, then `/design-review` and `/gate-check concept` |
+| **Existing project adoption** | `/project-stage-detect` | Stage diagnosis from existing design, architecture, source, tests, and production artifacts | `/adopt` or `/constitute` in existing-project mode, then retrofit missing artifacts |
+
+Run `/help` at any time to see the next required step. Gates are governed advisory: they must run before normal advancement; a `FAIL` requires explicit override and a risk note before `production/stage.txt` advances.
+
+---
+
 ## Why This Exists
 
 Building a game solo with AI is powerful — but a single chat session has no structure. No one stops you from hardcoding magic numbers, skipping design docs, or writing spaghetti code. There's no QA pass, no design review, no one asking "does this actually fit the game's vision?"
@@ -36,12 +50,13 @@ The result: you still make every decision, but now you have a team that asks the
 
 ## Table of Contents
 
+- [Start Here](#start-here)
 - [What's Included](#whats-included)
 - [Studio Hierarchy](#studio-hierarchy)
-- [Slash Commands](#slash-commands)
 - [Getting Started](#getting-started)
 - [Upgrading](#upgrading)
 - [Project Structure](#project-structure)
+- [Reference: Slash Commands](#reference-slash-commands)
 - [How It Works](#how-it-works)
 - [Design Philosophy](#design-philosophy)
 - [Customization](#customization)
@@ -108,46 +123,6 @@ Product projects use language-specialist agents for stack-specific implementatio
 | **TypeScript** | `typescript-specialist` |
 | **Rust** | `rust-specialist` |
 | **Go** | `go-specialist` |
-
-## Slash Commands
-
-Type `/` in Claude Code to access all 73 skills:
-
-**Onboarding & Navigation**
-`/constitute` `/help` `/project-stage-detect` `/setup-engine` `/adopt`
-
-**Concept & Systems Design**
-`/brainstorm` `/map-systems` `/design-system` `/quick-design` `/review-all-gdds` `/propagate-design-change`
-
-**Art, Assets & Product Artifacts**
-`/art-bible` `/asset-spec` `/asset-audit`
-
-**UX & Interface Design**
-`/ux-design` `/ux-review`
-
-**Architecture**
-`/create-architecture` `/architecture-decision` `/architecture-review` `/create-control-manifest`
-
-**Stories & Sprints**
-`/create-epics` `/create-stories` `/dev-story` `/sprint-plan` `/sprint-status` `/story-readiness` `/story-done` `/estimate`
-
-**Reviews & Analysis**
-`/design-review` `/code-review` `/balance-check` `/content-audit` `/scope-check` `/perf-profile` `/tech-debt` `/gate-check` `/consistency-check`
-
-**QA & Testing**
-`/qa-plan` `/smoke-check` `/soak-test` `/regression-suite` `/test-setup` `/test-helpers` `/test-evidence-review` `/test-flakiness` `/skill-test` `/skill-improve`
-
-**Production / Implementation**
-`/milestone-review` `/retrospective` `/bug-report` `/bug-triage` `/reverse-document` `/playtest-report`
-
-**Release**
-`/release-checklist` `/launch-checklist` `/changelog` `/patch-notes` `/hotfix`
-
-**Prototyping & Content**
-`/prototype` `/onboard` `/localize`
-
-**Team Orchestration (Game/Product)**
-`/team-combat` `/team-narrative` `/team-ui` `/team-release` `/team-polish` `/team-audio` `/team-level` `/team-live-ops` `/team-qa`
 
 ## Getting Started
 
@@ -219,6 +194,46 @@ tools/                              # Build and pipeline tools
 prototypes/                         # Throwaway prototypes (isolated from src/)
 production/                         # Sprint plans, milestones, release tracking
 ```
+
+## Reference: Slash Commands
+
+Type `/` in Claude Code to access all 73 skills:
+
+**Onboarding & Navigation**
+`/constitute` `/help` `/project-stage-detect` `/setup-engine` `/adopt`
+
+**Concept & Systems Design**
+`/brainstorm` `/map-systems` `/design-system` `/quick-design` `/review-all-gdds` `/propagate-design-change`
+
+**Art, Assets & Product Artifacts**
+`/art-bible` `/asset-spec` `/asset-audit`
+
+**UX & Interface Design**
+`/ux-design` `/ux-review`
+
+**Architecture**
+`/create-architecture` `/architecture-decision` `/architecture-review` `/create-control-manifest`
+
+**Stories & Sprints**
+`/create-epics` `/create-stories` `/dev-story` `/sprint-plan` `/sprint-status` `/story-readiness` `/story-done` `/estimate`
+
+**Reviews & Analysis**
+`/design-review` `/code-review` `/balance-check` `/content-audit` `/scope-check` `/perf-profile` `/tech-debt` `/gate-check` `/consistency-check`
+
+**QA & Testing**
+`/qa-plan` `/smoke-check` `/soak-test` `/regression-suite` `/test-setup` `/test-helpers` `/test-evidence-review` `/test-flakiness` `/skill-test` `/skill-improve`
+
+**Production / Implementation**
+`/milestone-review` `/retrospective` `/bug-report` `/bug-triage` `/reverse-document` `/playtest-report`
+
+**Release**
+`/release-checklist` `/launch-checklist` `/changelog` `/patch-notes` `/hotfix`
+
+**Prototyping & Content**
+`/prototype` `/onboard` `/localize`
+
+**Team Orchestration (Game/Product)**
+`/team-combat` `/team-narrative` `/team-ui` `/team-release` `/team-polish` `/team-audio` `/team-level` `/team-live-ops` `/team-qa`
 
 ## How It Works
 
