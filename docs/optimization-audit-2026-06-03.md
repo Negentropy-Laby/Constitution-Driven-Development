@@ -38,3 +38,42 @@ artifact-path warnings for generated project files such as
 - Optional test enhancement: `/test-helpers`.
 - Gate policy: governed advisory; FAIL does not update `production/stage.txt`
   without explicit override and risk note.
+
+## Final Consistency Pass - 2026-06-04
+
+This pass closes the remaining gate/catalog drift found after the initial
+optimization batches:
+
+1. `quick-start.md` now includes `/architecture-review` and
+   `/gate-check technical-setup` before UX work in both Game and Product paths.
+2. The Polish / Verification gate now treats `/qa-plan`, `/team-qa`, smoke
+   checks, balance review, and Release checklists as strict-QA blockers only
+   when strict QA is explicitly enabled; otherwise they are CONCERNS or
+   Release-phase follow-up.
+3. Pre-Production validation now requires one report containing at least one
+   unguided core-loop or core-workflow session. Cumulative three-session
+   validation remains a Polish / Verification requirement.
+4. Workflow Guide Phase 4 now stops at `/story-readiness` and
+   `/gate-check pre-production`; formal `/dev-story` implementation begins in
+   Phase 5.
+5. `scripts/workflow_consistency.py` now guards quick-start Technical Setup
+   closure, Phase 4 `/dev-story` drift, Release gate required-section drift,
+   and validation quantity drift.
+
+Final verification commands passed:
+
+```powershell
+git diff --check
+python scripts\skill_lint.py --self-test
+python scripts\workflow_consistency.py
+python scripts\skill_lint.py --strict .claude\skills\constitute\SKILL.md
+python scripts\skill_lint.py --strict .claude\skills\gate-check\SKILL.md
+python scripts\skill_lint.py --strict .claude\skills\test-setup\SKILL.md
+python scripts\skill_lint.py --strict .claude\skills\project-stage-detect\SKILL.md
+python scripts\skill_lint.py --strict .claude\skills\help\SKILL.md
+```
+
+Legacy story-path, old architecture-path, old accessibility-command, and old
+Release Required Artifact phrase scans also passed. The strict skill lint
+commands still report artifact-path warnings for generated project files, but
+all reported summaries contain zero errors.
