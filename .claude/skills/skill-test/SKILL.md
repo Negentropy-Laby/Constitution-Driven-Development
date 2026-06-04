@@ -147,7 +147,7 @@ Recommended: Add a "Follow-Up Actions" section at the end of the skill.
 
 For `static all`, produce a summary table then list any non-compliant skills:
 ```
-=== Skill Static Check: All 73 Skills ===
+=== Skill Static Check: All 74 Skills ===
 
 Skill                  | Result       | Issues
 -----------------------|--------------|-------

@@ -240,6 +240,16 @@ phases:
           glob: "design/ux/interaction-patterns.md"
         description: "Canonical product interaction behavior. API-only products document errors, auth, pagination, examples, and docs handoff; CLI products document help, prompts, stdout/stderr, confirmations, and exit codes; UI-heavy products document reusable UI behavior."
 
+      - id: product-surface-profile
+        name: "Product Surface Profile"
+        command: /ux-design
+        required: true
+        required_when: "Product surface applicability is ambiguous, or the project marks interaction patterns, design system, brand/style guide, or other user/integrator-facing surface artifacts as not applicable."
+        applies_to: [product]
+        artifact:
+          glob: "design/ux/surface-profile.md"
+        description: "Record product surfaces, required UX artifacts, and accepted N/A decisions using .claude/docs/templates/surface-profile.md."
+
       - id: ux-review
         name: "UX Review"
         command: /ux-review

@@ -1,6 +1,6 @@
 # Available Skills (Slash Commands)
 
-73 slash commands organized by phase. Type `/` in Claude Code to access any of them.
+74 slash commands organized by phase. Type `/` in Claude Code to access any of them.
 
 ## Onboarding & Navigation
 
@@ -9,6 +9,7 @@
 | `/constitute` | CDD onboarding — asks where you are, establishes governing principles, then routes to the right workflow. Supports both game and product projects. |
 | `/constitute-check` | Constitutional health audit — checks whether governing principles, active context, and project artifacts are still aligned |
 | `/help` | Context-aware "what do I do next?" — reads current stage and surfaces the required next step |
+| `/cdd-status` | Catalog-driven project dashboard — writes `production/project-roadmap.md` after approval |
 | `/project-stage-detect` | Full project audit — detect phase, identify existence gaps, recommend next steps |
 | `/setup-engine` | Configure game engine + version or product language/framework stack; detect knowledge gaps and populate version-aware reference docs |
 | `/adopt` | Brownfield format audit — checks internal structure of existing CDDs/ADRs/stories, produces migration plan |

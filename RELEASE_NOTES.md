@@ -1,9 +1,9 @@
 # Release Notes
 
-## Customer Delivery Candidate
+## Customer Delivery Ready Candidate
 
 This hardening pass moves the template from technical preview toward a mature
-customer delivery candidate.
+customer delivery baseline.
 
 ### What Is Included
 
@@ -29,7 +29,9 @@ customer delivery candidate.
 
 ### Current Limits
 
-- CI currently verifies Ubuntu.
-- Windows Git Bash is manually tested.
-- macOS/Linux are designed to work with POSIX-compatible shell tools, but full
-  matrix CI is not yet enabled.
+- Template Consistency CI is configured for Ubuntu, macOS, and Windows runners.
+- Windows local hook execution requires Git Bash; Windows toast notifications
+  are optional and fall back to plain hook output when unavailable.
+- Validation status: PASS for commit `a334d7c` in GitHub Actions run
+  `26934894349` (`ubuntu-latest`, `macos-latest`, and `windows-latest`).
+- Customer acceptance checklist: `docs/CUSTOMER-ACCEPTANCE.md`.

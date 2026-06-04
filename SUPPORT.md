@@ -30,10 +30,10 @@ The supported workflow contract is defined by:
 
 ## Platform Support
 
-- CI currently verifies the repository on Ubuntu.
-- Windows 10/11 with Git Bash has been manually tested.
-- macOS and Linux are designed to work with POSIX-compatible shell tools, but
-  full matrix CI is not yet enabled.
+- Template Consistency CI is configured for Ubuntu, macOS, and Windows runners.
+- Windows 10/11 local hook execution requires Git Bash on PATH.
+- Hook scripts use POSIX-compatible shell patterns and are smoke-tested through Bash.
+- Windows toast notifications are optional and fall back to plain hook output when unavailable.
 
 ## Getting Help
 

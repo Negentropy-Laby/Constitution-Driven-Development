@@ -60,6 +60,8 @@ phase goal.
   Technical Setup blocker.
 - [Product] `design/ux/interaction-patterns.md` is a Pre-Production
   `required_when` artifact, not an Architecture blocker.
+- [Product] `design/ux/surface-profile.md` records N/A decisions for product
+  surface artifacts when applicability is ambiguous.
 - `/qa-plan` is optional during Production by default; missing QA plans or
   `/team-qa` sign-off become release-readiness concerns unless the project has
   explicitly opted into strict QA.
@@ -248,13 +250,10 @@ product for missing `design/design-system.md`.
 **[游戏专用] Game: Pre-Production → Production**
 
 **Catalog Required Artifacts:**
+- [ ] At least 1 UX spec exists in `design/ux/`
+- [ ] All key UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
 - [ ] At least 1 prototype in `prototypes/` with a README
-- [ ] UX specs exist for key screens: main menu, core gameplay HUD (at `design/ux/`), pause menu
-- [ ] All key screen UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
-- [ ] Epics defined in `production/epics/` with at least Foundation and Core
-      layer epics present (use `/create-epics layer: foundation` and
-      `/create-epics layer: core` to create them, then `/create-stories [epic-slug]`
-      for each epic)
+- [ ] At least 1 EPIC exists in `production/epics/*/EPIC.md`
 - [ ] Story files exist under `production/epics/[epic-slug]/story-*.md`
 - [ ] First sprint plan exists in `production/sprints/`
 - [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
@@ -262,10 +261,12 @@ product for missing `design/design-system.md`.
 
 **Quality / Risk Checks:**
 - [ ] **Core loop fun is validated** — playtest data confirms the central mechanic is enjoyable, not just functional. Explicitly check the Vertical Slice playtest report.
+- [ ] UX specs cover key screens such as main menu, core gameplay HUD, and pause menu when those surfaces are in the current CDD scope
 - [ ] UX specs cover all UI Requirements sections from MVP-tier CDDs
 - [ ] Interaction pattern library documents patterns used in key screens
 - [ ] Accessibility tier from `design/accessibility-requirements.md` is addressed in all key screen UX specs
 - [ ] Game art bible, character visual profiles, and HUD-specific docs are recorded as optional or feature-specific follow-up unless the current CDDs require them
+- [ ] Epics cover Foundation and Core layers when those layers are in the current CDD/architecture scope
 - [ ] Sprint plan references real story file paths from `production/epics/`
       (not just CDDs — stories must embed CDD req ID + ADR reference)
 - [ ] **Vertical Slice is COMPLETE**, not just scoped — the build demonstrates the full core loop end-to-end. At least one complete [start → challenge → resolution] cycle works.
@@ -290,16 +291,18 @@ product for missing `design/design-system.md`.
 
 **[通用产品] Product: Pre-Implementation → Implementation**
 
-Apply the same product surface profile used by the Architecture gate. API-only,
-CLI-only, SDK/library, and internal headless products are not blocked by missing
+Apply `design/ux/surface-profile.md` when a product surface requirement is
+ambiguous or when any product UX artifact is marked N/A. API-only, CLI-only,
+SDK/library, and internal headless products are not blocked by missing
 `design/design-system.md`; UI-heavy and multi-surface UI products are.
 
 **Catalog Required Artifacts:**
+- [ ] At least 1 UX spec exists in `design/ux/`
 - [ ] At least 1 prototype in `prototypes/` with a README
 - [ ] `design/ux/interaction-patterns.md` exists for every API, CLI, SDK/library, web UI, desktop/mobile/admin UI, docs-driven consumer journey, or other user/integrator-facing surface; internal headless services may mark this N/A with justification
-- [ ] UX specs exist for key product surfaces: onboarding, core workflow, settings, API consumer journey, CLI flow, SDK integration path, or operator workflow as applicable
+- [ ] `design/ux/surface-profile.md` exists when interaction patterns, design system, brand/style guide, or other product-surface artifacts are marked N/A
 - [ ] All key UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
-- [ ] Epics defined in `production/epics/` with at least Foundation and Core layer epics present (use `/create-epics layer: foundation` and `/create-epics layer: core` to create them, then `/create-stories [epic-slug]` for each epic)
+- [ ] At least 1 EPIC exists in `production/epics/*/EPIC.md`
 - [ ] Story files exist under `production/epics/[epic-slug]/story-*.md`
 - [ ] First sprint plan exists in `production/sprints/`
 - [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
@@ -307,12 +310,15 @@ CLI-only, SDK/library, and internal headless products are not blocked by missing
 
 **Quality / Risk Checks:**
 - [ ] **Core interaction validated** — user testing data confirms the central workflow solves the user's job, not just functional
+- [ ] UX specs cover key product surfaces such as onboarding, core workflow, settings, API consumer journey, CLI flow, SDK integration path, or operator workflow when those surfaces are in scope
 - [ ] UX specs cover all product surface requirements from MVP-tier CDDs: API consumer journeys, CLI flows, SDK integration paths, web/UI screens, or internal operator workflows as applicable
 - [ ] Interaction pattern library documents patterns used in key screens, commands, endpoint examples, SDK snippets, or workflow handoffs as applicable
 - [ ] UI-heavy products have design-system coverage for reusable components and states; API-only, CLI-only, SDK/library, and internal headless products record this as N/A rather than FAIL
+- [ ] Product N/A decisions include surface evidence, reason, accepted-by, and date in `design/ux/surface-profile.md`
 - [ ] Product brand/style guide is recorded as optional follow-up unless public brand, documentation imagery, screenshots, diagrams, marketing/release visuals, or visual tone are explicitly in scope
 - [ ] Accessibility tier is addressed in all key screen UX specs
 - [ ] Sprint plan references real story file paths from `production/epics/` (not just CDDs — stories must embed CDD req ID + ADR reference)
+- [ ] Epics cover Foundation and Core layers when those layers are in the current CDD/architecture scope
 - [ ] **MVP is COMPLETE**, not just scoped — the build demonstrates the full core user journey end-to-end. At least one complete [task → completion → value] cycle works.
 - [ ] Architecture document has no unresolved open questions in Foundation or Core layers
 - [ ] All ADRs have Technology Compatibility sections stamped with the stack version

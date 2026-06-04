@@ -22,8 +22,9 @@ Skills and agents are assigned to model tiers based on task complexity:
 | **Sonnet** | `claude-sonnet-4-6` | Implementation, design authoring, analysis of individual systems — default for most work |
 | **Opus** | `claude-opus-4-6` | Multi-document synthesis, high-stakes phase gate verdicts, cross-system holistic review |
 
-Skills with `model: haiku`: `/help`, `/sprint-status`, `/story-readiness`, `/scope-check`,
-`/project-stage-detect`, `/changelog`, `/patch-notes`, `/onboard`
+Skills with `model: haiku`: `/help`, `/cdd-status`, `/sprint-status`,
+`/story-readiness`, `/scope-check`, `/project-stage-detect`, `/changelog`,
+`/patch-notes`, `/onboard`
 
 Skills with `model: opus`: `/review-all-gdds`, `/architecture-review`, `/gate-check`
 

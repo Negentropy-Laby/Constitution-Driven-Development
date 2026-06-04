@@ -92,6 +92,7 @@ Ask yourself: "What department would handle this in a real studio?"
 |---------|-------------|
 | `/constitute` | CDD onboarding — asks where you are, establishes governing principles, routes to the right workflow |
 | `/help` | Context-aware "what do I do next?" — reads your current phase and artifacts |
+| `/cdd-status` | Generate a saved project dashboard at `production/project-roadmap.md` |
 | `/project-stage-detect` | Analyze project state, detect stage, identify gaps |
 | `/setup-engine` | Configure engine + version for games, or language/framework stack for products; populate reference docs |
 | `/adopt` | Brownfield audit and migration plan for existing projects |
@@ -168,6 +169,7 @@ Templates are in `.claude/docs/templates/`:
 - `architecture-decision-record.md` -- for technical decisions
 - `architecture-traceability.md` -- maps CDD requirements to ADRs to story IDs
 - `risk-register-entry.md` -- for new risks
+- `surface-profile.md` -- for product surface and N/A applicability decisions
 - `narrative-character-sheet.md` -- for new characters
 - `test-plan.md` -- for feature test plans
 - `sprint-plan.md` -- for sprint planning
@@ -377,7 +379,7 @@ CLAUDE.md                          -- Master config (read this first, ~60 lines)
 .claude/
   settings.json                    -- Claude Code hooks and project settings
   agents/                          -- 53 agent definitions (YAML frontmatter)
-  skills/                          -- 73 slash command definitions (YAML frontmatter)
+  skills/                          -- 74 slash command definitions (YAML frontmatter)
   hooks/                           -- 12 hook scripts (.sh) wired by settings.json
   rules/                           -- 16 path-specific rule files
   docs/
@@ -390,5 +392,9 @@ CLAUDE.md                          -- Master config (read this first, ~60 lines)
     workflow-catalog.yaml          -- 7-phase pipeline definition (read by /help)
     setup-requirements.md          -- System prerequisites (Git Bash, jq, Python)
     settings-local-template.md     -- Personal settings.local.json guide
-    templates/                     -- 49 document templates
+    templates/                     -- 50 document templates
 ```
+
+For the generated artifact checklist by phase, see
+`docs/PHASE-CHECKLISTS.md`. For delivery validation, see
+`docs/CUSTOMER-ACCEPTANCE.md`.

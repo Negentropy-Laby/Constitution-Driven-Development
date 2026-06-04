@@ -3,7 +3,7 @@
 > **How to go from zero to a shipped game or product using Constitution Driven Development.**
 >
 > This guide walks you through every phase of game or product development using the
-> 53-agent system, 73 slash commands, and 12 automated hooks. It assumes you
+> 53-agent system, 74 slash commands, and 12 automated hooks. It assumes you
 > have Claude Code installed and are working from the project root.
 >
 > The pipeline has 7 phases. Each phase has a formal gate (`/gate-check`)
@@ -11,6 +11,9 @@
 > user override with a risk note before advancing. The authoritative phase
 > sequence and gate policy are defined in `.claude/docs/workflow-catalog.yaml`
 > and read by `/help`.
+>
+> For a saved project progress dashboard, run `/cdd-status`. For a generated
+> artifact map by phase, read `docs/PHASE-CHECKLISTS.md`.
 
 ---
 
@@ -1091,11 +1094,15 @@ recommendation.
 **Requirements to pass:**
 
 - All MVP stories complete
-- Game: playtesting has 3 sessions covering new player, mid-game, and difficulty curve
-- Game: fun hypothesis validated and no confusion loops in playtest data
+- Sprint and story implementation evidence is complete for the current core scope
+- Story completion evidence covers acceptance criteria, CDD/ADR deviations, and review status
+- Game: at least one vertical-slice playtest confirms the core loop is understandable and not blocked by confusion loops
 - Product: MVP workflow validation evidence covers primary path, errors,
   permissions, docs/help, contracts, and operational readiness
 - Product: no blocking contract, migration, security, deployment, or support gaps
+
+Cumulative multi-session game playtest or product validation evidence belongs
+to Phase 6 Polish / Verification.
 
 ---
 
@@ -1670,15 +1677,16 @@ conflicts go to `producer`.
 
 ## Appendix B: Slash Command Quick-Reference
 
-### All 73 Commands by Category
+### All 74 Commands by Category
 
-#### Onboarding and Navigation (6)
+#### Onboarding and Navigation (7)
 
 | Command | Purpose | Phase |
 |---------|---------|-------|
 | `/constitute` | CDD onboarding, routes to the right game or product workflow | Any (first session) |
 | `/constitute-check` | Constitutional health audit for principles, active context, and project artifacts | Any |
 | `/help` | Context-aware "what do I do next?" | Any |
+| `/cdd-status` | Saved catalog-driven project dashboard and next-command roadmap | Any |
 | `/project-stage-detect` | Full project audit to determine current phase | Any |
 | `/setup-engine` | Configure game engine or product language/framework stack, pin version, set preferences | 3 |
 | `/adopt` | Brownfield audit and migration plan | Any (existing projects) |

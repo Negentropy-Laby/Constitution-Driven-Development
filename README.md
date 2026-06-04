@@ -5,7 +5,7 @@
     <br />
     Also supports product development: APIs, CLIs, web apps, data pipelines.
     <br />
-    53 agents. 73 skills. One coordinated AI team.
+    53 agents. 74 skills. One coordinated AI team.
   </p>
 </p>
 
@@ -13,7 +13,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <img src="https://img.shields.io/badge/version-0.1.0-informational" alt="Version 0.1.0">
   <a href=".claude/agents"><img src="https://img.shields.io/badge/agents-53-blueviolet" alt="53 Agents"></a>
-  <a href=".claude/skills"><img src="https://img.shields.io/badge/skills-73-green" alt="73 Skills"></a>
+  <a href=".claude/skills"><img src="https://img.shields.io/badge/skills-74-green" alt="74 Skills"></a>
   <a href=".claude/hooks"><img src="https://img.shields.io/badge/hooks-12-orange" alt="12 Hooks"></a>
   <a href=".claude/rules"><img src="https://img.shields.io/badge/rules-16-red" alt="16 Rules"></a>
   <a href="https://docs.anthropic.com/en/docs/claude-code"><img src="https://img.shields.io/badge/built%20for-Claude%20Code-f5f5f5?logo=anthropic" alt="Built for Claude Code"></a>
@@ -32,7 +32,10 @@ Choose the path that matches your situation. For the short version with only fir
 | **New product / API / CLI / Web App** | `/constitute` | Governing principles, product promise, user workflow, and stack-neutral planning | `/brainstorm product ideas` if needed, then `/design-review` and `/gate-check concept` |
 | **Existing project adoption** | `/project-stage-detect` | Stage diagnosis from existing design, architecture, source, tests, and production artifacts | `/adopt` or `/constitute` in existing-project mode, then retrofit missing artifacts |
 
-Run `/help` at any time to see the next required step. Gates are governed advisory: they must run before normal advancement; a `FAIL` requires explicit override and a risk note before `production/stage.txt` advances.
+Run `/help` at any time to see the next required step. Run `/cdd-status` when you
+want a saved progress dashboard at `production/project-roadmap.md`. Gates are
+governed advisory: they must run before normal advancement; a `FAIL` requires
+explicit override and a risk note before `production/stage.txt` advances.
 
 ---
 
@@ -72,10 +75,10 @@ The result: you still make every decision, but now you have a team that asks the
 | Category | Count | Description |
 |----------|-------|-------------|
 | **Agents** | 53 | Specialized subagents across design, programming, art, audio, narrative, QA, production, and language-specific product implementation |
-| **Skills** | 73 | Slash commands for every workflow phase (`/constitute`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
+| **Skills** | 74 | Slash commands for every workflow phase (`/constitute`, `/help`, `/cdd-status`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
 | **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
 | **Rules** | 16 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network, API, CLI, services, config, migrations, data, and infrastructure code |
-| **Templates** | 49 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product style guides, and UI-heavy design systems |
+| **Templates** | 50 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, and UI-heavy design systems |
 
 ## Studio Hierarchy
 
@@ -169,13 +172,13 @@ CLAUDE.md                           # Master configuration
 .claude/
   settings.json                     # Hooks, permissions, safety rules
   agents/                           # 53 agent definitions (markdown + YAML frontmatter)
-  skills/                           # 73 slash commands (subdirectory per skill)
+  skills/                           # 74 slash commands (subdirectory per skill)
   hooks/                            # 12 hook scripts (bash, cross-platform)
   rules/                            # 16 path-scoped coding standards
   statusline.sh                     # Status line script (context%, model, stage, epic breadcrumb)
   docs/
     workflow-catalog.yaml           # 7-phase pipeline definition (read by /help)
-    templates/                      # 49 document templates
+    templates/                      # 50 document templates
 src/                                # Game source code or product source code
   gameplay/                         # Game mechanics and playable systems
   core/                             # Engine/framework/core domain code
@@ -197,10 +200,10 @@ production/                         # Sprint plans, milestones, release tracking
 
 ## Reference: Slash Commands
 
-Type `/` in Claude Code to access all 73 skills:
+Type `/` in Claude Code to access all 74 skills:
 
 **Onboarding & Navigation**
-`/constitute` `/help` `/project-stage-detect` `/setup-engine` `/adopt`
+`/constitute` `/constitute-check` `/help` `/cdd-status` `/project-stage-detect` `/setup-engine` `/adopt`
 
 **Concept & Systems Design**
 `/brainstorm` `/map-systems` `/design-system` `/quick-design` `/review-all-gdds` `/propagate-design-change`
@@ -218,7 +221,7 @@ Type `/` in Claude Code to access all 73 skills:
 `/create-epics` `/create-stories` `/dev-story` `/sprint-plan` `/sprint-status` `/story-readiness` `/story-done` `/estimate`
 
 **Reviews & Analysis**
-`/design-review` `/code-review` `/balance-check` `/content-audit` `/scope-check` `/perf-profile` `/tech-debt` `/gate-check` `/consistency-check`
+`/design-review` `/code-review` `/balance-check` `/content-audit` `/scope-check` `/perf-profile` `/tech-debt` `/gate-check` `/consistency-check` `/security-audit`
 
 **QA & Testing**
 `/qa-plan` `/smoke-check` `/soak-test` `/regression-suite` `/test-setup` `/test-helpers` `/test-evidence-review` `/test-flakiness` `/skill-test` `/skill-improve`
@@ -227,7 +230,7 @@ Type `/` in Claude Code to access all 73 skills:
 `/milestone-review` `/retrospective` `/bug-report` `/bug-triage` `/reverse-document` `/playtest-report`
 
 **Release**
-`/release-checklist` `/launch-checklist` `/changelog` `/patch-notes` `/hotfix`
+`/release-checklist` `/launch-checklist` `/changelog` `/patch-notes` `/hotfix` `/day-one-patch`
 
 **Prototyping & Content**
 `/prototype` `/onboard` `/localize`

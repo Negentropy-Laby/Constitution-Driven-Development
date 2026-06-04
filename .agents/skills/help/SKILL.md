@@ -70,6 +70,10 @@ Check which concept document exists to determine the project domain:
 - `design/cdd/product-concept.md` exists → **product** domain
 - Neither → unknown; show both game and product guidance where applicable
 
+For product projects, also check `design/ux/surface-profile.md` if present. It
+records which API, CLI, SDK, UI, admin, operator, docs-driven, or headless
+surfaces exist and which UX artifacts are accepted as N/A.
+
 The domain affects which catalog steps are shown as required. Steps with an
 `applies_to` field in `workflow-catalog.yaml` are filtered:
 - `applies_to: [game]` → only shown for game projects
@@ -148,6 +152,19 @@ If the step has `artifact.note` (no glob):
 
 If the step has no `artifact` field:
 - Mark as **UNKNOWN** — completion not trackable (e.g. repeatable implementation work)
+
+### Special case: product `required_when`
+
+When a product step has `required_when`, evaluate applicability before marking
+it incomplete:
+- If the required artifact exists, mark the step **Complete**.
+- If `design/ux/surface-profile.md` explicitly marks the artifact N/A with a
+  reason, mark the step **N/A** and show the rationale.
+- If the artifact is missing and there is no surface profile, mark the step
+  **Incomplete** and recommend creating `design/ux/surface-profile.md` from
+  `.claude/docs/templates/surface-profile.md`.
+- Never silently skip `design/ux/interaction-patterns.md` for API, CLI,
+  SDK/library, UI, admin, operator, or docs-driven consumer surfaces.
 
 ### Special case: production phase — read `sprint-status.yaml`
 

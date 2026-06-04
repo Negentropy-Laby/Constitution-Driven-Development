@@ -29,6 +29,9 @@ GATE_CHECK = REPO_ROOT / ".claude" / "skills" / "gate-check" / "SKILL.md"
 FLOW_DIAGRAMS = REPO_ROOT / "docs" / "examples" / "skill-flow-diagrams.md"
 WORKFLOW_GUIDE = REPO_ROOT / "docs" / "WORKFLOW-GUIDE.md"
 QUICK_START = REPO_ROOT / ".claude" / "docs" / "quick-start.md"
+SKILLS_REFERENCE = REPO_ROOT / ".claude" / "docs" / "skills-reference.md"
+PHASE_CHECKLISTS = REPO_ROOT / "docs" / "PHASE-CHECKLISTS.md"
+CUSTOMER_ACCEPTANCE = REPO_ROOT / "docs" / "CUSTOMER-ACCEPTANCE.md"
 DOC_COMMAND_FILES = [
     REPO_ROOT / "README.md",
     REPO_ROOT / "docs" / "START-HERE.md",
@@ -464,7 +467,7 @@ def check_validation_quantity_boundaries() -> list[Finding]:
     catalog_text = CATALOG.read_text(encoding="utf-8", errors="replace")
     if catalog_text.count("min_count: 3") < 2:
         findings.append(Finding("ERROR", "workflow-catalog.yaml must keep cumulative 3-session validation in Polish / Verification"))
-    if "3 sessions" not in phase5_plus and "3-session" not in phase5_plus:
+    if not re.search(r"(?:3 sessions|3-session|Three sessions)", phase5_plus):
         findings.append(Finding("ERROR", "docs/WORKFLOW-GUIDE.md must keep cumulative 3-session validation after Pre-Production"))
 
     gate_text = GATE_CHECK.read_text(encoding="utf-8", errors="replace")
@@ -503,6 +506,268 @@ def check_gate_required_semantics() -> list[Finding]:
         for pattern in banned_required_patterns:
             if pattern in line:
                 findings.append(Finding("ERROR", f"{rel(GATE_CHECK)}:{line_no} keeps old non-catalog blocker: {pattern}"))
+    return findings
+
+
+def check_customer_delivery_contract() -> list[Finding]:
+    findings: list[Finding] = []
+
+    platform_docs = [
+        REPO_ROOT / "SUPPORT.md",
+        REPO_ROOT / "RELEASE_NOTES.md",
+    ]
+    stale_platform_patterns = [
+        "CI currently verifies",
+        "full matrix CI is not yet enabled",
+    ]
+    for path in platform_docs:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for pattern in stale_platform_patterns:
+            if pattern in text:
+                findings.append(Finding("ERROR", f"{rel(path)} keeps stale platform support wording: {pattern}"))
+        if "Ubuntu, macOS, and Windows" not in text:
+            findings.append(Finding("ERROR", f"{rel(path)} must describe Ubuntu, macOS, and Windows CI configuration"))
+
+    release_notes = (REPO_ROOT / "RELEASE_NOTES.md").read_text(encoding="utf-8", errors="replace")
+    if "Validation status:" not in release_notes:
+        findings.append(Finding("ERROR", "RELEASE_NOTES.md must include explicit validation status"))
+    if "Validation status: Pending" in release_notes:
+        findings.append(Finding("ERROR", "RELEASE_NOTES.md must not leave validation status pending after CI success is confirmed"))
+    if "26934894349" not in release_notes or "PASS" not in release_notes:
+        findings.append(Finding("ERROR", "RELEASE_NOTES.md must record the passing customer-delivery validation run"))
+
+    setup_requirements = (REPO_ROOT / ".claude" / "docs" / "setup-requirements.md").read_text(
+        encoding="utf-8",
+        errors="replace",
+    )
+    if re.search(r"Hooks \(\d+ of \d+\)", setup_requirements):
+        findings.append(Finding("ERROR", ".claude/docs/setup-requirements.md must not hard-code hook count fractions"))
+
+    guide_text = WORKFLOW_GUIDE.read_text(encoding="utf-8", errors="replace")
+    phase5_gate = block_between(guide_text, "### Phase 5 Gate", "---")
+    if re.search(r"\b3\s*(?:sessions|-session)|three sessions", phase5_gate, flags=re.IGNORECASE):
+        findings.append(Finding("ERROR", "docs/WORKFLOW-GUIDE.md Phase 5 gate must not require 3 validation sessions"))
+
+    gate_text = GATE_CHECK.read_text(encoding="utf-8", errors="replace")
+    gate_sections = [
+        (
+            "game",
+            block_between(
+                gate_text,
+                "**[游戏专用] Game: Pre-Production → Production**",
+                "---\n\n**[通用产品] Product: Pre-Implementation → Implementation**",
+            ),
+        ),
+        (
+            "product",
+            block_between(
+                gate_text,
+                "**[通用产品] Product: Pre-Implementation → Implementation**",
+                "### Gate: Production → Polish / Implementation → Verification",
+            ),
+        ),
+    ]
+    banned_required_terms = [
+        "main menu",
+        "core gameplay HUD",
+        "pause menu",
+        "Foundation and Core",
+        "Foundation/Core",
+        "Foundation layer epics",
+        "Core layer epics",
+    ]
+    for label, section in gate_sections:
+        required = block_between(section, "**Catalog Required Artifacts:**", "**Quality / Risk Checks:**")
+        for term in banned_required_terms:
+            if term in required:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"gate-check {label} Pre-Production catalog requirements are stricter than workflow catalog: {term}",
+                    )
+                )
+
+    return findings
+
+
+def check_customer_acceptance_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    if not CUSTOMER_ACCEPTANCE.exists():
+        return [Finding("ERROR", f"missing customer acceptance checklist: {rel(CUSTOMER_ACCEPTANCE)}")]
+
+    text = CUSTOMER_ACCEPTANCE.read_text(encoding="utf-8", errors="replace")
+    required_snippets = [
+        "python scripts/skill_lint.py --self-test",
+        "python scripts/skill_lint.py --strict .claude/skills",
+        "python scripts/skill_lint.py --strict .agents/skills",
+        "python scripts/workflow_consistency.py",
+        "ubuntu-latest",
+        "macos-latest",
+        "windows-latest",
+        "/cdd-status --dry-run",
+        "design/ux/surface-profile.md",
+    ]
+    for snippet in required_snippets:
+        if snippet not in text:
+            findings.append(Finding("ERROR", f"{rel(CUSTOMER_ACCEPTANCE)} omits acceptance check: {snippet}"))
+    return findings
+
+
+def check_status_dashboard_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    required_paths = [
+        SKILLS_DIR / "cdd-status" / "SKILL.md",
+        CODEX_SKILLS_DIR / "cdd-status" / "SKILL.md",
+    ]
+    for path in required_paths:
+        if not path.exists():
+            findings.append(Finding("ERROR", f"missing cdd-status skill: {rel(path)}"))
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for snippet in [
+            "production/project-roadmap.md",
+            ".claude/docs/workflow-catalog.yaml",
+            "design/ux/surface-profile.md",
+        ]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(path)} omits cdd-status requirement: {snippet}"))
+
+    docs_to_check = [
+        REPO_ROOT / "README.md",
+        REPO_ROOT / "docs" / "START-HERE.md",
+        WORKFLOW_GUIDE,
+        QUICK_START,
+        SKILLS_REFERENCE,
+    ]
+    for path in docs_to_check:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if "/cdd-status" not in text:
+            findings.append(Finding("ERROR", f"{rel(path)} must mention /cdd-status"))
+    return findings
+
+
+def check_surface_profile_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    template = TEMPLATES_DIR / "surface-profile.md"
+    if not template.exists():
+        findings.append(Finding("ERROR", f"missing surface profile template: {rel(template)}"))
+
+    checks = [
+        (CATALOG, "product-surface-profile"),
+        (CATALOG, "design/ux/surface-profile.md"),
+        (GATE_CHECK, "design/ux/surface-profile.md"),
+        (CODEX_SKILLS_DIR / "gate-check" / "SKILL.md", "design/ux/surface-profile.md"),
+        (SKILLS_DIR / "help" / "SKILL.md", "design/ux/surface-profile.md"),
+        (CODEX_SKILLS_DIR / "help" / "SKILL.md", "design/ux/surface-profile.md"),
+        (SKILLS_DIR / "cdd-status" / "SKILL.md", "design/ux/surface-profile.md"),
+        (CODEX_SKILLS_DIR / "cdd-status" / "SKILL.md", "design/ux/surface-profile.md"),
+    ]
+    for path, snippet in checks:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if snippet not in text:
+            findings.append(Finding("ERROR", f"{rel(path)} must reference {snippet}"))
+    return findings
+
+
+def check_phase_checklist_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    if not PHASE_CHECKLISTS.exists():
+        return [Finding("ERROR", f"missing generated phase checklist: {rel(PHASE_CHECKLISTS)}")]
+
+    try:
+        from generate_phase_checklists import parse_catalog as parse_phase_catalog
+        from generate_phase_checklists import render as render_phase_checklists
+    except Exception as exc:  # pragma: no cover - reported through script output
+        return [Finding("ERROR", f"cannot import phase checklist generator: {exc}")]
+
+    expected = render_phase_checklists(parse_phase_catalog(CATALOG))
+    actual = PHASE_CHECKLISTS.read_text(encoding="utf-8", errors="replace")
+    if actual != expected:
+        findings.append(
+            Finding(
+                "ERROR",
+                "docs/PHASE-CHECKLISTS.md is stale; run python scripts/generate_phase_checklists.py --write",
+            )
+        )
+    return findings
+
+
+def check_skill_count_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    known_commands = collect_known_commands()
+    actual_claude = sum(1 for path in SKILLS_DIR.glob("*/SKILL.md") if path.is_file())
+    actual_codex = sum(1 for path in CODEX_SKILLS_DIR.glob("*/SKILL.md") if path.is_file())
+    if actual_claude != actual_codex:
+        findings.append(
+            Finding(
+                "ERROR",
+                f".claude skills ({actual_claude}) and .agents skills ({actual_codex}) must have matching counts",
+            )
+        )
+    actual = actual_claude
+
+    checks = [
+        (
+            REPO_ROOT / "README.md",
+            [
+                re.compile(r"(\d+)\s+skills"),
+                re.compile(r"skills-(\d+)"),
+                re.compile(r"\|\s*\*\*Skills\*\*\s*\|\s*(\d+)\s*\|"),
+                re.compile(r"all\s+(\d+)\s+skills"),
+                re.compile(r"skills/\s+#\s+(\d+)\s+slash commands"),
+            ],
+        ),
+        (
+            QUICK_START,
+            [
+                re.compile(r"skills/\s+--\s+(\d+)\s+slash command definitions"),
+            ],
+        ),
+        (
+            WORKFLOW_GUIDE,
+            [
+                re.compile(r"(\d+)-agent system,\s+(\d+)\s+slash commands"),
+                re.compile(r"All\s+(\d+)\s+Commands by Category"),
+            ],
+        ),
+        (
+            SKILLS_REFERENCE,
+            [
+                re.compile(r"^(\d+)\s+slash commands", re.MULTILINE),
+            ],
+        ),
+    ]
+    for path, patterns in checks:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for pattern in patterns:
+            matches = list(pattern.finditer(text))
+            if not matches:
+                findings.append(Finding("ERROR", f"{rel(path)} must state the current skill count ({actual})"))
+                continue
+            for match in matches:
+                numbers = [int(value) for value in match.groups() if value and value.isdigit()]
+                if not numbers:
+                    continue
+                documented = numbers[-1]
+                if documented != actual:
+                    findings.append(
+                        Finding(
+                            "ERROR",
+                            f"{rel(path)} documents {documented} skills, but .claude/skills contains {actual}",
+                        )
+                    )
+
+    for path in [REPO_ROOT / "README.md", SKILLS_REFERENCE]:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        commands = {match.group(0) for match in COMMAND_REF.finditer(text)}
+        missing = sorted(known_commands - commands)
+        if missing:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f"{rel(path)} omits installed skill command(s): {', '.join(missing)}",
+                )
+            )
     return findings
 
 
@@ -718,7 +983,13 @@ def main() -> int:
     findings.extend(check_workflow_guide_phase_boundaries())
     findings.extend(check_validation_quantity_boundaries())
     findings.extend(check_gate_required_semantics())
+    findings.extend(check_customer_delivery_contract())
+    findings.extend(check_customer_acceptance_contract())
+    findings.extend(check_status_dashboard_contract())
+    findings.extend(check_surface_profile_contract())
+    findings.extend(check_phase_checklist_contract())
     findings.extend(check_release_phase_contract())
+    findings.extend(check_skill_count_contract())
     findings.extend(check_template_count_contract())
     findings.extend(check_codex_adapter_contract())
 

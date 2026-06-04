@@ -21,5 +21,13 @@ Phase gates use the governed advisory policy from `.claude/docs/workflow-catalog
 | Technical Setup / Architecture A | `/setup-engine` -> `/create-architecture` -> `/architecture-decision` -> `/architecture-review` -> `/create-control-manifest` |
 | Technical Setup / Architecture B | Create `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md` -> `/test-setup` -> `/gate-check technical-setup` |
 | Pre-Production / Pre-Implementation | `/ux-design` -> `/ux-review` -> `/prototype` -> `/create-epics` -> `/create-stories` -> `/sprint-plan` -> `/story-readiness` -> `/gate-check pre-production` |
+| Production / Implementation | `/sprint-plan` -> `/story-readiness` -> `/dev-story` -> `/story-done` -> `/gate-check production` |
+| Polish / Verification | `/playtest-report x3` or product validation x3 -> `/team-polish` -> `/gate-check polish` |
+| Release | `/release-checklist` -> `/launch-checklist` -> `/team-release` |
 
-Use `/help` at any time for the next required command based on the files that already exist.
+Use `/help` at any time for the next required command based on the files that
+already exist. Use `/cdd-status` when you want a saved progress dashboard at
+`production/project-roadmap.md`.
+
+For a generated phase artifact map, see `docs/PHASE-CHECKLISTS.md`. For customer
+delivery validation, see `docs/CUSTOMER-ACCEPTANCE.md`.
