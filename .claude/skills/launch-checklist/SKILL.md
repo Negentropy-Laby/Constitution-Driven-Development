@@ -233,7 +233,7 @@ Generated: [Date]
 **Overall Status**: [READY / NOT READY / CONDITIONAL]
 
 ### Blocking Items
-[List any items that must be resolved before launch]
+[List any items that must be resolved prior to launch]
 
 ### Conditional Items
 [List items that have documented workarounds or accepted risk]
@@ -399,7 +399,7 @@ Generated: [Date]
 **Overall Status**: [READY / NOT READY / CONDITIONAL]
 
 ### Blocking Items
-[List any items that must be resolved before launch]
+[List any items that must be resolved prior to launch]
 
 ### Conditional Items
 [List items that have documented workarounds or accepted risk]
@@ -425,6 +425,6 @@ If yes, write the file, creating directories as needed.
 
 ## Phase 6: Next Steps
 
-- Run `/gate-check` to get a formal PASS/CONCERNS/FAIL verdict before launch.
-- **[Game]** Coordinate sign-offs via `/team-release`.
-- **[Product]** Coordinate final deployment sign-offs with lead-programmer and ops.
+- Run `/team-release` for final release orchestration and sign-offs.
+- **[Game]** Complete final store/platform submission, then monitor launch and use `/hotfix` if needed.
+- **[Product]** Complete the staged production deployment, then monitor on-call signals and use incident response or `/hotfix` if needed.

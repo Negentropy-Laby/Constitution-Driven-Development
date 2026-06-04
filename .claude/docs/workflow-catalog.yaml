@@ -466,6 +466,18 @@ phases:
         required: true
         description: "Pre-release validation across all departments. Game: store/certification. Product: deployment, migrations, monitoring, security."
 
+      - id: launch-checklist
+        name: "Launch Checklist"
+        command: /launch-checklist
+        required: true
+        description: "Final launch readiness. Game: platform certification. Product: deployment strategy, rollback plan, on-call."
+
+      - id: team-release
+        name: "Release Orchestration"
+        command: /team-release
+        required: true
+        description: "Coordinated release orchestration for game certification or product deployment."
+
       - id: patch-notes
         name: "Patch Notes"
         command: /patch-notes
@@ -477,9 +489,3 @@ phases:
         command: /changelog
         required: false
         description: "Auto-generate internal changelog. Game: commit/sprint-based. Product: API changes, migrations, dependency updates."
-
-      - id: launch-checklist
-        name: "Launch Checklist"
-        command: /launch-checklist
-        required: true
-        description: "Final launch readiness. Game: platform certification. Product: deployment strategy, rollback plan, on-call."

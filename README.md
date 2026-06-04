@@ -75,7 +75,7 @@ The result: you still make every decision, but now you have a team that asks the
 | **Skills** | 73 | Slash commands for every workflow phase (`/constitute`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
 | **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
 | **Rules** | 16 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network, API, CLI, services, config, migrations, data, and infrastructure code |
-| **Templates** | 41 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product style guides, and UI-heavy design systems |
+| **Templates** | 49 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product style guides, and UI-heavy design systems |
 
 ## Studio Hierarchy
 
@@ -175,7 +175,7 @@ CLAUDE.md                           # Master configuration
   statusline.sh                     # Status line script (context%, model, stage, epic breadcrumb)
   docs/
     workflow-catalog.yaml           # 7-phase pipeline definition (read by /help)
-    templates/                      # 39 document templates
+    templates/                      # 49 document templates
 src/                                # Game source code or product source code
   gameplay/                         # Game mechanics and playable systems
   core/                             # Engine/framework/core domain code

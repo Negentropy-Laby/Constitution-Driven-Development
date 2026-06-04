@@ -29,6 +29,7 @@ DOC_COMMAND_FILES = [
 ]
 DRIFT_SCAN_ROOTS = [
     REPO_ROOT / "README.md",
+    REPO_ROOT / "UPGRADING.md",
     REPO_ROOT / "docs",
     REPO_ROOT / ".claude" / "skills",
     REPO_ROOT / ".claude" / "docs",
@@ -375,6 +376,10 @@ def check_old_workflow_drift() -> list[Finding]:
     banned = [
         ("docs/architecture/master.md", "use docs/architecture/architecture.md"),
         ("/ux-design accessibility", "create design/accessibility-requirements.md from the template"),
+        ("production/validation/", "use production/qa/evidence/"),
+        ("production/user-testing/", "use production/qa/evidence/user-tests/"),
+        ("production/playtests/", "use production/qa/evidence/playtests/"),
+        ("tests/evidence/", "use production/qa/evidence/"),
     ]
     for path in iter_text_files(DRIFT_SCAN_ROOTS):
         text = path.read_text(encoding="utf-8", errors="replace")
@@ -382,6 +387,25 @@ def check_old_workflow_drift() -> list[Finding]:
             for needle, replacement in banned:
                 if needle in line:
                     findings.append(Finding("ERROR", f"{rel(path)}:{line_no} uses {needle}; {replacement}"))
+    return findings
+
+
+def check_art_bible_phase_drift() -> list[Finding]:
+    findings: list[Finding] = []
+    pattern = re.compile(
+        r"(?:art-bible.*Technical Setup.*(?:required|blocker)|Technical Setup.*art-bible)",
+        re.IGNORECASE,
+    )
+    for path in iter_text_files(DRIFT_SCAN_ROOTS):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if pattern.search(line):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(path)}:{line_no} treats /art-bible as a Technical Setup requirement; it is Concept optional",
+                    )
+                )
     return findings
 
 
@@ -466,6 +490,92 @@ def check_gate_required_semantics() -> list[Finding]:
     return findings
 
 
+def check_release_phase_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    catalog_text = CATALOG.read_text(encoding="utf-8", errors="replace")
+    release_block = block_between(catalog_text, "  release:", "\n\nquality_gates:")
+    required_commands: dict[str, bool] = {}
+    current_command: str | None = None
+    for raw in release_block.splitlines():
+        line = raw.strip()
+        if line.startswith("command: "):
+            current_command = line.split(":", 1)[1].strip()
+            continue
+        if line.startswith("required: ") and current_command:
+            required_commands[current_command] = line.endswith("true")
+            current_command = None
+
+    expected = ["/release-checklist", "/launch-checklist", "/team-release"]
+    for command in expected:
+        if required_commands.get(command) is not True:
+            findings.append(Finding("ERROR", f"workflow-catalog.yaml Release phase must require {command}"))
+
+    order_positions = [release_block.find(command) for command in expected]
+    if not all(position >= 0 for position in order_positions) or order_positions != sorted(order_positions):
+        findings.append(
+            Finding(
+                "ERROR",
+                "workflow-catalog.yaml must order Release as /release-checklist -> /launch-checklist -> /team-release",
+            )
+        )
+
+    phase_gate_phrases = [
+        "before proceeding to release",
+        "before launch",
+    ]
+    for skill_path in [
+        SKILLS_DIR / "release-checklist" / "SKILL.md",
+        SKILLS_DIR / "launch-checklist" / "SKILL.md",
+    ]:
+        text = skill_path.read_text(encoding="utf-8", errors="replace")
+        for phrase in phase_gate_phrases:
+            if phrase in text:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(skill_path)} must not require a repeated phase gate {phrase}",
+                    )
+                )
+    return findings
+
+
+def check_template_count_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    actual = sum(1 for path in TEMPLATES_DIR.rglob("*") if path.is_file())
+    checks = [
+        (
+            REPO_ROOT / "README.md",
+            [
+                re.compile(r"\|\s*\*\*Templates\*\*\s*\|\s*(\d+)\s*\|"),
+                re.compile(r"(\d+)\s+document templates"),
+            ],
+        ),
+        (
+            QUICK_START,
+            [
+                re.compile(r"(\d+)\s+document templates"),
+            ],
+        ),
+    ]
+    for path, patterns in checks:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for pattern in patterns:
+            matches = list(pattern.finditer(text))
+            if not matches:
+                findings.append(Finding("ERROR", f"{rel(path)} must state the current template count ({actual})"))
+                continue
+            for match in matches:
+                documented = int(match.group(1))
+                if documented != actual:
+                    findings.append(
+                        Finding(
+                            "ERROR",
+                            f"{rel(path)} documents {documented} templates, but .claude/docs/templates contains {actual}",
+                        )
+                    )
+    return findings
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--warnings-as-errors", action="store_true", help="Treat WARN findings as errors.")
@@ -483,9 +593,12 @@ def main() -> int:
     findings.extend(check_accessibility_entry_paths())
     findings.extend(check_quick_start_technical_setup_paths())
     findings.extend(check_old_workflow_drift())
+    findings.extend(check_art_bible_phase_drift())
     findings.extend(check_workflow_guide_phase_boundaries())
     findings.extend(check_validation_quantity_boundaries())
     findings.extend(check_gate_required_semantics())
+    findings.extend(check_release_phase_contract())
+    findings.extend(check_template_count_contract())
 
     errors = sum(1 for item in findings if item.severity == "ERROR")
     warnings = sum(1 for item in findings if item.severity == "WARN")

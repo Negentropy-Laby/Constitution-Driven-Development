@@ -23,7 +23,7 @@ Detect the project domain by checking for concept documents in `design/cdd/`:
 | Context reads | Game Concept, CLAUDE/version/platform targets, milestone, QA evidence, build/test outputs, store/platform requirements | Product Concept, CLAUDE/version/deployment target, milestone, QA evidence, CI/deploy outputs, migrations, monitoring, security/privacy/docs/package requirements |
 | Steps | Scan code health, build readiness, quality gates, content completion, platform/store/legal readiness, sign-offs | Scan code health, build/deploy readiness, quality gates, security, API/web/CLI/package/migration readiness, monitoring/rollback/support readiness, sign-offs |
 | Outputs | `production/releases/release-checklist-[version].md` with game platform checklist and go/no-go rationale | Same path with product release checklist by target: web/API/CLI/all plus deployment/migration/monitoring/security readiness |
-| Next steps | `/gate-check`, `/team-release`, fix blockers, rerun checklist | `/gate-check`, `/team-release`, fix blockers, rerun checklist, run `/launch-checklist` for launch readiness |
+| Next steps | `/launch-checklist`, then `/team-release`; fix blockers and rerun checklist when needed | `/launch-checklist`, then `/team-release`; fix blockers and rerun checklist when needed |
 
 ---
 
@@ -174,7 +174,7 @@ Add platform-specific sections based on the argument:
 
 **Rationale:**
 [Summary of readiness assessment. List any blocking items that must be
-resolved before launch. If NOT READY, list the specific items that need
+resolved prior to launch. If NOT READY, list the specific items that need
 resolution and estimated time to address them.]
 
 **Sign-offs Required:**
@@ -267,5 +267,6 @@ If yes, write the file, creating the directory if needed.
 
 ## Phase 6: Next Steps
 
-- Run `/gate-check` for a formal phase gate verdict before proceeding to release.
-- Coordinate final sign-offs via `/team-release`.
+- Run `/launch-checklist` for final launch readiness.
+- Coordinate final sign-offs and release execution via `/team-release`.
+- Fix blockers and rerun `/release-checklist` if the report is NOT READY.
