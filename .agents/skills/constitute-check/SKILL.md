@@ -1,12 +1,12 @@
 ---
 name: constitute-check
-description: "Lightweight constitutional audit — checks whether the project constitution exists, whether principles are aligned with current code and docs, and identifies gaps. Read-only."
+description: "Memory-bank governance audit — checks whether T0 laws/current state, T1 supporting context, T2 execution mirrors, and T3 archive indexes exist and align with current code and docs. Read-only."
 argument-hint: "[optional: 'full' for verbose report, or a specific principle number]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep
 model: haiku
 context: |
-  !echo "=== Constitution Status ===" && echo "T0: $(ls memory_bank/t0_core/ 2>/dev/null | wc -l) files" && echo "T1: $(ls memory_bank/t1_axioms/ 2>/dev/null | wc -l) files" && echo "Review mode: $(cat production/review-mode.txt 2>/dev/null || echo 'not set')"
+  !echo "=== Memory Bank Status ===" && echo "T0: $(ls memory_bank/t0_core/ 2>/dev/null | wc -l) files" && echo "T1: $(ls memory_bank/t1_axioms/ 2>/dev/null | wc -l) files" && echo "T2: $(ls memory_bank/t2_execution/ 2>/dev/null | wc -l) files" && echo "T3: $(ls memory_bank/t3_archive/ 2>/dev/null | wc -l) files" && echo "Review mode: $(cat production/review-mode.txt 2>/dev/null || echo 'not set')"
 ---
 
 ## Phase 0: Domain Routing
@@ -17,37 +17,50 @@ Detect the project domain before checking constitution compliance:
 - If neither exists, check only the constitution and report that domain-specific validation is pending.
 
 Do not remove game constitution examples. Product checks are an added validation path.
-# Constitution Check — Constitutional Health Audit
+# Constitution Check — T0-T3 Memory Health Audit
 
 This skill is read-only — it reports findings but writes no files.
 
-This skill checks the health of a project's constitution: whether it exists,
-whether the principles are still aligned with the codebase, and what gaps
-need attention. It is lightweight — not a full 4-gate CDD audit. For a
-complete project scan, use `/project-stage-detect`.
+This skill checks the health of a project's memory-bank governance plane:
+whether T0 laws/current state exist, whether T1 supporting context is present,
+whether T2 execution mirrors exist when the project has been initialized, and
+whether T3 archive indexes exist once evidence is produced. It is lightweight —
+not a full 4-gate CDD audit. For a complete project scan, use
+`/project-stage-detect`.
 
 ---
 
 ## Step 1: Verify Constitution Exists
 
-Check for the minimum constitutional artifacts:
+Check for the minimum memory-bank artifacts:
 
 | Artifact | Required? | How to check |
 |----------|-----------|--------------|
 | `memory_bank/t0_core/basic_law_index.md` | **Yes** | Read if exists |
 | `memory_bank/t0_core/active_context.md` | **Yes** | Read if exists |
+| `memory_bank/t0_core/current_state.md` | **Yes** | Read if exists |
 | `memory_bank/t1_axioms/tech_context.md` | **Yes** | Read if exists |
-| `memory_bank/t1_axioms/system_patterns.md` | Recommended | Read if exists |
-| `memory_bank/t1_axioms/behavior_context.md` | Recommended | Read if exists |
-| `memory_bank/t0_core/knowledge_graph.md` | Optional | Read if exists |
+| `memory_bank/t1_axioms/system_patterns.md` | **Yes** | Read if exists |
+| `memory_bank/t1_axioms/behavior_context.md` | **Yes** | Read if exists |
+| `memory_bank/t1_axioms/architecture_context.md` | Recommended | Read if exists |
+| `memory_bank/t1_axioms/ux_accessibility_context.md` | Recommended | Read if exists |
+| `memory_bank/t1_axioms/qa_context.md` | Recommended | Read if exists |
+| `memory_bank/t1_axioms/knowledge_graph.md` | Recommended | Read if exists |
+| `memory_bank/t1_axioms/module_support_map.yaml` | Recommended | Read if exists |
+| `memory_bank/t2_execution/workflow_contract.md` | Recommended | Read if exists |
+| `memory_bank/t2_execution/current_roadmap.md` | Recommended | Read if exists |
+| `memory_bank/t3_archive/README.md` | Recommended | Read if exists |
 | `memory_bank/README.md` | Recommended | Read if exists |
-| `memory_bank/module_support_map.yaml` | Optional | Read if exists |
 
 If `basic_law_index.md` is missing: "No constitution detected. Run `/constitute`
 to establish one." Stop here — nothing else to check.
 
-If `basic_law_index.md` exists but `active_context.md` or `tech_context.md`
-is missing: flag as a gap. "Your constitution exists but is incomplete."
+If `basic_law_index.md` exists but older projects only have T0/T1 files, report
+`NEEDS ATTENTION` with a migration recommendation. Do not mark old T0/T1-only
+projects `CRITICAL` unless a required T0 file or `tech_context.md` is missing.
+
+If `memory_bank/t0_core/knowledge_graph.md` exists, report it as a deprecated compatibility path. The canonical path is now
+`memory_bank/t1_axioms/knowledge_graph.md`.
 
 ---
 
@@ -63,10 +76,24 @@ Read `memory_bank/t0_core/active_context.md` and extract:
 - Module status summaries
 - Active risks and open decisions
 
+Read `memory_bank/t0_core/current_state.md` when present and extract:
+- Current phase
+- Current blocker
+- Next command
+- Stage source
+
 Read `memory_bank/t1_axioms/tech_context.md` and extract:
 - Language, framework, platform
 - Performance budgets
 - External dependencies
+
+Read T2 files when present:
+- `memory_bank/t2_execution/workflow_contract.md`
+- `memory_bank/t2_execution/current_roadmap.md`
+
+Read T3 indexes when present:
+- `memory_bank/t3_archive/qa_evidence_index.md`
+- `memory_bank/t3_archive/release_evidence/`
 
 ---
 
@@ -108,12 +135,17 @@ Identify what's missing or stale:
 
 | Gap | Detection |
 |-----|-----------|
-| **Missing T1 docs** | `t1_axioms/` has fewer than 3 files |
-| **Missing knowledge graph** | `knowledge_graph.md` does not exist |
+| **Missing T0 current state** | `memory_bank/t0_core/current_state.md` does not exist |
+| **Missing T1 required docs** | `tech_context.md`, `system_patterns.md`, or `behavior_context.md` missing |
+| **Missing T1 recommended docs** | `architecture_context.md`, `ux_accessibility_context.md`, `qa_context.md`, `knowledge_graph.md`, or `module_support_map.yaml` missing |
+| **Deprecated knowledge graph path** | `memory_bank/t0_core/knowledge_graph.md` exists |
+| **Missing T2 workflow contract** | `memory_bank/t2_execution/workflow_contract.md` does not exist |
+| **Missing T2 current roadmap** | Project has roadmap evidence but `memory_bank/t2_execution/current_roadmap.md` is missing |
+| **Missing T3 archive README** | `memory_bank/t3_archive/README.md` does not exist |
+| **Missing QA evidence index** | QA evidence exists but `memory_bank/t3_archive/qa_evidence_index.md` is missing |
 | **Missing README** | `memory_bank/README.md` does not exist |
 | **Stale tech context** | Tech context mentions old versions or unused dependencies |
 | **Drifted principles** | Law says X, code does Y |
-| **Missing module support map** | No `module_support_map.yaml` but T2 docs exist |
 | **No review mode set** | `production/review-mode.txt` does not exist |
 
 ---
@@ -123,12 +155,33 @@ Identify what's missing or stale:
 Keep it concise. Use this format:
 
 ```
-## Constitutional Health: [Project Name]
+## Memory Bank Health: [Project Name]
 
 **Core thesis:** [from BL-01, one line]
 **Constitution established:** [date from active_context.md or file timestamp]
+**Current phase:** [from current_state.md or production/stage.txt]
 
-### ✓ Principles (N/M aligned)
+### T0 Current Truth
+- Laws: [present/missing/stale]
+- Active context: [present/missing/stale]
+- Current state: [present/missing/stale]
+
+### T1 Supporting Context
+- Tech context: [present/missing/stale]
+- System patterns: [present/missing/stale]
+- Behavior context: [present/missing/stale]
+- Recommended context: [summary]
+
+### T2 Execution Control
+- Workflow contract: [present/missing]
+- Current roadmap: [present/missing/not started]
+
+### T3 Archive Indexes
+- Archive README: [present/missing]
+- QA evidence index: [present/missing/not applicable yet]
+- Release evidence: [present/missing/not applicable yet]
+
+### Principles (N/M aligned)
 - [Support ID]: ALIGNED — [brief evidence]
 - [Support ID]: ALIGNED — [brief evidence]
 - [Support ID]: CONCERN — [what's wrong, suggestion]
@@ -152,9 +205,9 @@ Keep it concise. Use this format:
 ```
 
 **Severity levels:**
-- **HEALTHY**: All required artifacts present, all checkable laws ALIGNED
-- **NEEDS ATTENTION**: 1-2 CONCERNs or minor gaps
-- **CRITICAL**: Missing required artifacts, 3+ CONCERNs, or stale constitution
+- **HEALTHY**: Required T0/T1 artifacts present, T2/T3 indexes appropriate for stage, all checkable laws ALIGNED
+- **NEEDS ATTENTION**: Old T0/T1-only memory bank, 1-2 CONCERNs, or missing recommended T1/T2/T3 indexes
+- **CRITICAL**: Missing `basic_law_index.md`, missing required T0/T1 files, 3+ CONCERNs, or stale constitution
 
 If verbosity argument is `full`, add a detailed per-law analysis section with
 the specific evidence found for each alignment check.
@@ -164,6 +217,7 @@ the specific evidence found for each alignment check.
 ## Edge Cases
 
 - **No constitution**: "No constitution detected. Run `/constitute` to establish your project's governing principles." Stop.
+- **Old T0/T1-only memory bank**: "Your constitution exists, but the T2/T3 governance control plane is not initialized. Run `/constitute` to refresh the memory-bank skeleton." Continue with `NEEDS ATTENTION`.
 - **Constitution exists but is very old**: Note the date — "Your constitution was established [N months] ago. Much may have changed. Consider running `/constitute` to refresh it."
 - **Path D project (existing code, new constitution)**: Flag likely drift — "Your constitution was recently established. Some existing code may not yet align. This is normal for brownfield adoption — prioritize alignment iteratively."
 - **All laws are abstract (can't auto-check)**: "Your principles are abstract — they can't be automatically verified. Consider adding falsifiable current-state requirements to each law for future audits."

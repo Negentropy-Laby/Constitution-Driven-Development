@@ -26,6 +26,7 @@ CODEX_AGENTS_DIR = CODEX_DIR / "agents"
 CODEX_HOOKS_DIR = CODEX_DIR / "hooks"
 CLAUDE_HOOKS_DIR = REPO_ROOT / ".claude" / "hooks"
 TEMPLATES_DIR = REPO_ROOT / ".claude" / "docs" / "templates"
+MEMORY_BANK_TEMPLATE_DIR = TEMPLATES_DIR / "memory-bank"
 CATALOG = REPO_ROOT / ".claude" / "docs" / "workflow-catalog.yaml"
 GATE_CHECK = REPO_ROOT / ".claude" / "skills" / "gate-check" / "SKILL.md"
 CODEX_GATE_CHECK = REPO_ROOT / ".agents" / "skills" / "gate-check" / "SKILL.md"
@@ -38,6 +39,8 @@ GATE_REQUIRED_ARTIFACTS = REPO_ROOT / ".claude" / "docs" / "generated" / "gate-r
 CUSTOMER_ACCEPTANCE = REPO_ROOT / "docs" / "CUSTOMER-ACCEPTANCE.md"
 USER_MANUAL = REPO_ROOT / "docs" / "USER-MANUAL.md"
 PROJECT_ROADMAP_EXAMPLE = REPO_ROOT / "docs" / "examples" / "project-roadmap.example.md"
+GENERATE_PHASE_CHECKLISTS = REPO_ROOT / "scripts" / "generate_phase_checklists.py"
+GENERATE_GATE_REQUIRED = REPO_ROOT / "scripts" / "generate_gate_required_sections.py"
 DOC_COMMAND_FILES = [
     REPO_ROOT / "README.md",
     REPO_ROOT / "docs" / "START-HERE.md",
@@ -821,6 +824,139 @@ def check_status_dashboard_contract() -> list[Finding]:
     return findings
 
 
+def check_memory_bank_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    required_templates = [
+        "README.md",
+        "document_map.yaml",
+        "t0_core/basic_law_index.md",
+        "t0_core/active_context.md",
+        "t0_core/current_state.md",
+        "t0_core/release_state.md",
+        "t0_core/amendment_log.md",
+        "t1_axioms/tech_context.md",
+        "t1_axioms/system_patterns.md",
+        "t1_axioms/behavior_context.md",
+        "t1_axioms/architecture_context.md",
+        "t1_axioms/ux_accessibility_context.md",
+        "t1_axioms/qa_context.md",
+        "t1_axioms/knowledge_graph.md",
+        "t1_axioms/module_support_map.yaml",
+        "t2_execution/README.md",
+        "t2_execution/workflow_contract.md",
+        "t2_execution/phase_checklists.md",
+        "t2_execution/gate_required_artifacts.md",
+        "t2_execution/current_roadmap.md",
+        "t3_archive/README.md",
+        "t3_archive/qa_evidence_index.md",
+        "t3_archive/release_evidence/README.md",
+    ]
+    if not MEMORY_BANK_TEMPLATE_DIR.exists():
+        findings.append(Finding("ERROR", f"missing memory-bank template directory: {rel(MEMORY_BANK_TEMPLATE_DIR)}"))
+    for path_text in required_templates:
+        path = MEMORY_BANK_TEMPLATE_DIR / path_text
+        if not path.exists():
+            findings.append(Finding("ERROR", f"missing memory-bank template: {rel(path)}"))
+
+    template_readme = (MEMORY_BANK_TEMPLATE_DIR / "README.md")
+    if template_readme.exists():
+        text = template_readme.read_text(encoding="utf-8", errors="replace")
+        for snippet in ["T0 Core", "T1 Axioms", "T2 Execution", "T3 Archive", "canonical", "mirror", "index", "archive"]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(template_readme)} omits memory-bank layer contract: {snippet}"))
+
+    document_map = MEMORY_BANK_TEMPLATE_DIR / "document_map.yaml"
+    if document_map.exists():
+        text = document_map.read_text(encoding="utf-8", errors="replace")
+        for snippet in [
+            "role: canonical",
+            "role: source",
+            "role: mirror",
+            "role: index",
+            "role: archive",
+            "memory_bank/t0_core/basic_law_index.md",
+            "memory_bank/t1_axioms/knowledge_graph.md",
+            ".claude/docs/workflow-catalog.yaml",
+            "docs/PHASE-CHECKLISTS.md",
+            ".claude/docs/generated/gate-required-artifacts.md",
+            "memory_bank/t2_execution/phase_checklists.md",
+            "memory_bank/t2_execution/gate_required_artifacts.md",
+            "production/project-roadmap.md",
+            "memory_bank/t2_execution/current_roadmap.md",
+            "production/qa/evidence/**",
+            "memory_bank/t3_archive/qa_evidence_index.md",
+        ]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(document_map)} omits document map entry: {snippet}"))
+
+    for path in [SKILLS_DIR / "constitute" / "SKILL.md", CODEX_SKILLS_DIR / "constitute" / "SKILL.md"]:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for snippet in [
+            "T0 core",
+            "T1 supporting",
+            "T2 execution",
+            "T3 archive",
+            "memory_bank/document_map.yaml",
+            "memory_bank/t0_core/current_state.md",
+            "memory_bank/t1_axioms/knowledge_graph.md",
+            "memory_bank/t2_execution/workflow_contract.md",
+            "memory_bank/t3_archive/README.md",
+            "deprecated compatibility pointer",
+        ]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank constitute contract: {snippet}"))
+
+    for path in [SKILLS_DIR / "constitute-check" / "SKILL.md", CODEX_SKILLS_DIR / "constitute-check" / "SKILL.md"]:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for snippet in [
+            "T0-T3 Memory Health Audit",
+            "memory_bank/t0_core/current_state.md",
+            "memory_bank/t1_axioms/knowledge_graph.md",
+            "memory_bank/t2_execution/workflow_contract.md",
+            "memory_bank/t2_execution/current_roadmap.md",
+            "memory_bank/t3_archive/qa_evidence_index.md",
+            "NEEDS ATTENTION",
+            "deprecated compatibility path",
+        ]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank health contract: {snippet}"))
+
+    for path in [SKILLS_DIR / "cdd-status" / "SKILL.md", CODEX_SKILLS_DIR / "cdd-status" / "SKILL.md"]:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for snippet in [
+            "memory_bank/t2_execution/current_roadmap.md",
+            "Governance memory mirror generated by `/cdd-status`",
+            "--dry-run",
+            "Run `/constitute` to establish the memory_bank governance control plane",
+        ]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank cdd-status contract: {snippet}"))
+
+    for path, mirror in [
+        (GENERATE_PHASE_CHECKLISTS, "memory_bank/t2_execution/phase_checklists.md"),
+        (GENERATE_GATE_REQUIRED, "memory_bank/t2_execution/gate_required_artifacts.md"),
+    ]:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for snippet in ["--memory-bank", mirror, "memory_bank/t2_execution does not exist"]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank generator support: {snippet}"))
+
+    stale_path = "memory_bank/t0_core/" + "knowledge_graph.md"
+    allowed_markers = ["deprecated", "compatibility"]
+    for path in iter_text_files([REPO_ROOT / ".claude", REPO_ROOT / ".agents", REPO_ROOT / "docs", REPO_ROOT / "scripts"]):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if stale_path in line and not any(marker in line.lower() for marker in allowed_markers):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(path)}:{line_no} uses {stale_path} outside deprecated/compatibility wording; use memory_bank/t1_axioms/knowledge_graph.md",
+                    )
+                )
+
+    return findings
+
+
 def check_help_status_escalation_contract() -> list[Finding]:
     findings: list[Finding] = []
     for path in [
@@ -1259,6 +1395,7 @@ def main() -> int:
     findings.extend(check_customer_acceptance_contract())
     findings.extend(check_user_manual_contract())
     findings.extend(check_status_dashboard_contract())
+    findings.extend(check_memory_bank_contract())
     findings.extend(check_help_status_escalation_contract())
     findings.extend(check_surface_profile_contract())
     findings.extend(check_phase_checklist_contract())

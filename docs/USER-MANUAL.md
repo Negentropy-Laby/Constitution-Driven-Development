@@ -172,6 +172,28 @@ Common generated or maintained artifacts include:
 Generated files should remain consistent with the workflow catalog. If a
 generated document drifts, regenerate it using the script or skill that owns it.
 
+## memory_bank Governance Layers
+
+`memory_bank` is the project governance control plane, not a replacement for
+the working directories. Keep full CDDs in `design/`, architecture in
+`docs/architecture/`, workflow contracts in `.claude/docs/`, and execution
+artifacts in `production/`. The memory bank indexes, mirrors, and summarizes
+those sources.
+
+The layers are:
+
+| Layer | Purpose |
+|-------|---------|
+| `t0_core/` | Current laws, active state, release state, and amendments. |
+| `t1_axioms/` | Supporting technical, architecture, UX, QA, behavior, and module context. |
+| `t2_execution/` | Workflow contract, phase/gate mirrors, and current roadmap. |
+| `t3_archive/` | Historical indexes for QA, release, gate, review, and amendment evidence. |
+
+Run `/constitute` to initialize or refresh the memory-bank skeleton. Run
+`/constitute-check` to audit T0-T3 health. Run `/cdd-status` to update
+`production/project-roadmap.md` and, when `memory_bank/` exists,
+`memory_bank/t2_execution/current_roadmap.md`.
+
 ## Release And Acceptance
 
 The release path is:

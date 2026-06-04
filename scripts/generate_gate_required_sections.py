@@ -10,6 +10,7 @@ from generate_phase_checklists import CATALOG, REPO_ROOT, Phase, Step, evidence_
 
 
 OUTPUT = REPO_ROOT / ".claude" / "docs" / "generated" / "gate-required-artifacts.md"
+MEMORY_BANK_OUTPUT = REPO_ROOT / "memory_bank" / "t2_execution" / "gate_required_artifacts.md"
 
 TARGET_LABELS = {
     "concept": {"game": "Systems Design", "product": "Specification"},
@@ -99,15 +100,42 @@ def render(phases: list[Phase]) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--write", action="store_true", help=f"Write {OUTPUT.relative_to(REPO_ROOT)}")
+    parser.add_argument(
+        "--memory-bank",
+        action="store_true",
+        help="When used with --write, also write memory_bank/t2_execution/gate_required_artifacts.md if that directory exists.",
+    )
     args = parser.parse_args()
 
     content = render(parse_catalog(CATALOG))
     if args.write:
         OUTPUT.parent.mkdir(parents=True, exist_ok=True)
         OUTPUT.write_text(content, encoding="utf-8")
+        if args.memory_bank:
+            if MEMORY_BANK_OUTPUT.parent.exists():
+                MEMORY_BANK_OUTPUT.write_text(
+                    memory_bank_render(content, ".claude/docs/generated/gate-required-artifacts.md"),
+                    encoding="utf-8",
+                )
+            else:
+                print(
+                    f"Skipping {MEMORY_BANK_OUTPUT.relative_to(REPO_ROOT)} because memory_bank/t2_execution does not exist.",
+                )
     else:
         print(content, end="")
     return 0
+
+
+def memory_bank_render(content: str, source: str) -> str:
+    header = [
+        "# Gate Required Artifacts",
+        "",
+        f"> Governance memory mirror generated from `{source}`.",
+        "> Do not edit by hand; update `.claude/docs/workflow-catalog.yaml` and regenerate.",
+        "",
+    ]
+    body = content.split("\n", 1)[1] if "\n" in content else content
+    return "\n".join(header) + body
 
 
 if __name__ == "__main__":

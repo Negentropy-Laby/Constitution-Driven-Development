@@ -8,8 +8,9 @@ allowed-tools: Read, Glob, Grep, Write, AskUserQuestion
 
 # Constitution Legislation — Stage-Aware Project Governance
 
-This skill writes up to 6 files under `memory_bank/` (T0 core laws + T1 axiom
-support) and 1 file `production/review-mode.txt`.
+This skill initializes the `memory_bank/` governance control plane: T0 core
+laws and current state, T1 supporting axioms, T2 execution mirrors/indexes, and
+T3 archive indexes. It also writes `production/review-mode.txt`.
 
 Unlike the legacy first-session-only onboarding flow, this skill can be
 invoked at **any project stage**. It detects what you've already built and
@@ -405,6 +406,33 @@ If "Ratify": update all law statuses to `Accepted ([date])`.
 Write version 1.0 to `active_context.md` with changelog entry and sign-off.
 Write `memory_bank/README.md`.
 
+### Phase 3e.1: Memory Bank Control Plane Skeleton
+
+After ratification, create the project memory-bank skeleton from
+`.claude/docs/templates/memory-bank/`. Do not move detailed work files out of
+`design/`, `docs/`, `.claude/docs/`, or `production/`; the memory bank indexes
+and mirrors those paths.
+
+Create or update these files:
+
+- `memory_bank/document_map.yaml`
+- `memory_bank/t0_core/current_state.md`
+- `memory_bank/t0_core/release_state.md`
+- `memory_bank/t0_core/amendment_log.md`
+- `memory_bank/t1_axioms/architecture_context.md`
+- `memory_bank/t1_axioms/ux_accessibility_context.md`
+- `memory_bank/t1_axioms/qa_context.md`
+- `memory_bank/t1_axioms/knowledge_graph.md`
+- `memory_bank/t1_axioms/module_support_map.yaml`
+- `memory_bank/t2_execution/README.md`
+- `memory_bank/t2_execution/workflow_contract.md`
+- `memory_bank/t3_archive/README.md`
+- `memory_bank/t3_archive/qa_evidence_index.md`
+- `memory_bank/t3_archive/release_evidence/README.md`
+
+Canonical knowledge graph path is `memory_bank/t1_axioms/knowledge_graph.md`.
+If an older project has `memory_bank/t0_core/knowledge_graph.md`, treat it as a deprecated compatibility pointer and migrate future updates to the T1 path.
+
 ### Phase 3f: Handoff After Interactive Legislation
 
 Constitution written from scratch. Now route to the correct next step.
@@ -462,6 +490,12 @@ Present each section with `AskUserQuestion`:
 Write each approved section to the appropriate `memory_bank/` file immediately.
 Create directories as needed. All derived laws start as `Status: Accepted`
 since they come from already-approved concept documents.
+
+Also create the T0-T3 memory-bank control plane skeleton listed in Phase 3e.1.
+For derived projects, populate `document_map.yaml`, `current_state.md`,
+`workflow_contract.md`, and T1 index files from the source artifacts when
+evidence exists; otherwise leave template placeholders with clear `missing` or
+`not started` status.
 
 ### Step 4d: Alignment Report (if CDDs or ADRs exist)
 

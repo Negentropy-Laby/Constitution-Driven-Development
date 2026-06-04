@@ -1,0 +1,13 @@
+# T3 Archive
+
+T3 is the historical evidence layer. It should be append-only in ordinary use.
+Do not treat T3 as current truth; T0 current state should link to T3 evidence
+when past decisions, gates, QA results, or release proof matter.
+
+Recommended indexes:
+
+- `qa_evidence_index.md`
+- `release_evidence/`
+- `gate_runs/`
+- `reviews/`
+- `amendments/`

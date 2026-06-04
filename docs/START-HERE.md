@@ -30,6 +30,11 @@ already exist. Use `/cdd-status` when you want a saved progress dashboard at
 `production/project-roadmap.md`; see
 `docs/examples/project-roadmap.example.md` for a sample roadmap shape.
 
+`memory_bank/` is the governance control plane created by `/constitute`: T0
+current laws/state, T1 supporting context, T2 execution mirrors, and T3 evidence
+indexes. It does not replace detailed work files in `design/`, `docs/`,
+`.claude/docs/`, or `production/`; it indexes and mirrors them.
+
 For the full user manual, see `docs/USER-MANUAL.md`. For a generated phase
 artifact map, see `docs/PHASE-CHECKLISTS.md`. For customer delivery validation,
 see `docs/CUSTOMER-ACCEPTANCE.md`.

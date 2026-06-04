@@ -191,8 +191,9 @@ Templates are in `.claude/docs/templates/`:
 - `economy-model.md` -- for virtual economy design (sink/faucet model)
 - `faction-design.md` -- for faction identity, lore, and gameplay role
 - `module-index.md` -- for systems/modules decomposition and dependency mapping
-- `t0/` -- T0 constitutional memory bank templates
-- `t1/` -- T1 context and pattern memory bank templates
+- `t0/` -- legacy T0 constitutional memory bank templates
+- `t1/` -- legacy T1 context and pattern memory bank templates
+- `memory-bank/` -- T0-T3 governance control-plane templates for new projects
 - `project-stage-report.md` -- for project stage detection output
 - `design-doc-from-implementation.md` -- for reverse-documenting existing code into CDDs
 - `architecture-doc-from-code.md` -- for reverse-documenting code into architecture docs
@@ -418,9 +419,14 @@ CLAUDE.md                          -- Master config (read this first, ~60 lines)
     workflow-catalog.yaml          -- 7-phase pipeline definition (read by /help)
     setup-requirements.md          -- System prerequisites (Git Bash, jq, Python)
     settings-local-template.md     -- Personal settings.local.json guide
-    templates/                     -- 50 document templates
+    templates/                     -- 73 document templates
 ```
 
 For the full user manual, see `docs/USER-MANUAL.md`. For the generated artifact
 checklist by phase, see `docs/PHASE-CHECKLISTS.md`. For delivery validation, see
 `docs/CUSTOMER-ACCEPTANCE.md`.
+
+`memory_bank/` is created by `/constitute` as a governance control plane: T0
+current laws/state, T1 supporting context, T2 execution mirrors, and T3 evidence
+indexes. It indexes existing `design/`, `docs/`, `.claude/docs/`, and
+`production/` files rather than moving those detailed work files.
