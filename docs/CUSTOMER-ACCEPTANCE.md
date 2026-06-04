@@ -42,16 +42,22 @@ Confirm the `Template Consistency` workflow has passed on:
 - `macos-latest`
 - `windows-latest`
 
-For the 2026-06-04 customer-delivery candidate, the validation run is:
+For the release candidate commit being accepted, identify the matching workflow
+run:
 
 ```bash
-gh run view 26954895153 --json jobs
+git rev-parse HEAD
+gh run list --workflow "Template Consistency" --branch main --limit 20 --json databaseId,headSha,status,conclusion,workflowName,createdAt
+gh run view <run-id> --json jobs,headSha,conclusion
 ```
 
 Expected result:
+- The selected run's `headSha` matches the release candidate commit.
 - `consistency (ubuntu-latest)` is `success`.
 - `consistency (macos-latest)` is `success`.
 - `consistency (windows-latest)` is `success`.
+- The final GitHub Release or annotated tag records the release commit SHA,
+  workflow run ID, and PASS result for all three platforms.
 
 ## 4. New Project Smoke Path
 

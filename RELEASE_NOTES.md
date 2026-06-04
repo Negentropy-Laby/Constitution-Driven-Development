@@ -1,6 +1,6 @@
 # Release Notes
 
-## Customer Delivery Ready Candidate
+## Customer Delivery Ready Release Candidate
 
 This hardening pass moves the template from technical preview toward a mature
 customer delivery baseline.
@@ -27,11 +27,14 @@ customer delivery baseline.
 - Release now follows `/release-checklist` -> `/launch-checklist` ->
   `/team-release`.
 
-### Current Limits
+### Validation Model
 
 - Template Consistency CI is configured for Ubuntu, macOS, and Windows runners.
 - Windows local hook execution requires Git Bash; Windows toast notifications
   are optional and fall back to plain hook output when unavailable.
-- Validation status: PASS for commit `b6939c0c26ecf904094833680868a89d7baf669e` in GitHub Actions run
-  `26954895153` (`ubuntu-latest`, `macos-latest`, and `windows-latest`).
+- Validation status: recorded on the GitHub Release or annotated tag for the
+  immutable release commit, not self-referenced from this committed Markdown file.
+- Required workflow: `Template Consistency`.
+- Required release evidence: release commit SHA, GitHub Actions run ID, and PASS
+  result for `ubuntu-latest`, `macos-latest`, and `windows-latest`.
 - Customer acceptance checklist: `docs/CUSTOMER-ACCEPTANCE.md`.

@@ -604,22 +604,35 @@ def check_customer_delivery_contract() -> list[Finding]:
         findings.append(Finding("ERROR", "RELEASE_NOTES.md must include explicit validation status"))
     if "Validation status: Pending" in release_notes:
         findings.append(Finding("ERROR", "RELEASE_NOTES.md must not leave validation status pending after CI success is confirmed"))
-    validation_match = re.search(
-        r"Validation status:\s*PASS for commit `(?P<sha>[0-9a-f]{7,40})` in GitHub Actions run\s*`(?P<run_id>\d+)`",
-        release_notes,
-        flags=re.DOTALL,
-    )
-    if not validation_match:
-        findings.append(Finding("ERROR", "RELEASE_NOTES.md must record PASS, commit SHA, and GitHub Actions run ID"))
-    else:
-        run_id = validation_match.group("run_id")
-        if f"gh run view {run_id} --json jobs" not in customer_acceptance:
-            findings.append(
-                Finding(
-                    "ERROR",
-                    "docs/CUSTOMER-ACCEPTANCE.md must reference the same validation run as RELEASE_NOTES.md",
-                )
+    if re.search(r"PASS for commit `[0-9a-f]{7,40}` in GitHub Actions run\s*`\d+`", release_notes):
+        findings.append(
+            Finding(
+                "ERROR",
+                "RELEASE_NOTES.md must not hard-code a historical PASS commit/run; record immutable evidence on the GitHub Release or tag",
             )
+        )
+    for snippet in [
+        "GitHub Release or annotated tag",
+        "Required workflow: `Template Consistency`",
+        "Required release evidence: release commit SHA, GitHub Actions run ID",
+    ]:
+        if snippet not in release_notes:
+            findings.append(Finding("ERROR", f"RELEASE_NOTES.md omits release validation contract: {snippet}"))
+    if re.search(r"gh run view \d+", customer_acceptance):
+        findings.append(
+            Finding(
+                "ERROR",
+                "docs/CUSTOMER-ACCEPTANCE.md must not hard-code a GitHub Actions run ID; select the run matching the release commit",
+            )
+        )
+    for snippet in [
+        'gh run list --workflow "Template Consistency"',
+        "gh run view <run-id> --json jobs,headSha,conclusion",
+        "The selected run's `headSha` matches the release candidate commit",
+        "GitHub Release or annotated tag records the release commit SHA",
+    ]:
+        if snippet not in customer_acceptance:
+            findings.append(Finding("ERROR", f"{rel(CUSTOMER_ACCEPTANCE)} omits release validation step: {snippet}"))
 
     setup_requirements = (REPO_ROOT / ".claude" / "docs" / "setup-requirements.md").read_text(
         encoding="utf-8",
