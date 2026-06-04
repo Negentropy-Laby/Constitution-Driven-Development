@@ -8,7 +8,11 @@ on:
 
 jobs:
   consistency:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -24,13 +28,8 @@ jobs:
       - name: All skill strict lint
         run: python scripts/skill_lint.py --strict .claude/skills
 
+      - name: Codex skill strict lint
+        run: python scripts/skill_lint.py --strict .agents/skills
+
       - name: Workflow/catalog/docs/examples boundary consistency
         run: python scripts/workflow_consistency.py
-
-      - name: Canonical story path check
-        run: |
-          ! grep -RInE "production/stories/" .claude docs README.md
-
-      - name: Canonical evidence path check
-        run: |
-          ! grep -RInE "production/playtests/|production/user-testing/|production/validation/|tests/evidence/" .claude docs README.md

@@ -337,7 +337,7 @@ This is a **template**, not a locked framework. Everything is meant to be custom
 
 ## Platform Support
 
-Tested on **Windows 10** with Git Bash. All hooks use POSIX-compatible patterns (`grep -E`, not `grep -P`) and include fallbacks for missing tools. Works on macOS and Linux without modification.
+Template consistency CI verifies **Ubuntu**, **macOS**, and **Windows** runners. Local hook execution on Windows requires **Git Bash**; hook scripts use POSIX-compatible shell patterns and are smoke-tested through Bash. Windows toast notifications are optional and fall back to plain hook output when unavailable.
 
 ## Community
 

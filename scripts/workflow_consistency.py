@@ -8,14 +8,21 @@ template repository without installing PyYAML.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
+import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SKILLS_DIR = REPO_ROOT / ".claude" / "skills"
+CODEX_SKILLS_DIR = REPO_ROOT / ".agents" / "skills"
+CODEX_DIR = REPO_ROOT / ".codex"
+CODEX_AGENTS_DIR = CODEX_DIR / "agents"
+CODEX_HOOKS_DIR = CODEX_DIR / "hooks"
+CLAUDE_HOOKS_DIR = REPO_ROOT / ".claude" / "hooks"
 TEMPLATES_DIR = REPO_ROOT / ".claude" / "docs" / "templates"
 CATALOG = REPO_ROOT / ".claude" / "docs" / "workflow-catalog.yaml"
 GATE_CHECK = REPO_ROOT / ".claude" / "skills" / "gate-check" / "SKILL.md"
@@ -33,6 +40,15 @@ DRIFT_SCAN_ROOTS = [
     REPO_ROOT / "docs",
     REPO_ROOT / ".claude" / "skills",
     REPO_ROOT / ".claude" / "docs",
+]
+DELIVERY_SCAN_ROOTS = [
+    REPO_ROOT / "AGENTS.md",
+    REPO_ROOT / ".agents",
+    REPO_ROOT / ".codex",
+    REPO_ROOT / ".github",
+    REPO_ROOT / "scripts",
+    REPO_ROOT / "README.md",
+    REPO_ROOT / "docs",
 ]
 
 COMMAND_REF = re.compile(r"(?<![\w.:-])/[a-z][a-z0-9-]*\b")
@@ -54,7 +70,7 @@ IGNORED_COMMAND_LIKE = {
     "/tmp",
 }
 
-TEXT_SUFFIXES = {".md", ".txt", ".yaml", ".yml"}
+TEXT_SUFFIXES = {".json", ".md", ".py", ".sh", ".toml", ".txt", ".yaml", ".yml"}
 REQUIRED_GATE_HEADINGS = {
     "**Required Artifacts:**",
     "**Catalog Required Artifacts:**",
@@ -572,7 +588,112 @@ def check_template_count_contract() -> list[Finding]:
                             "ERROR",
                             f"{rel(path)} documents {documented} templates, but .claude/docs/templates contains {actual}",
                         )
+                )
+    return findings
+
+
+def iter_hook_commands(value: object) -> list[str]:
+    commands: list[str] = []
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if key == "command" and isinstance(item, str):
+                commands.append(item)
+            else:
+                commands.extend(iter_hook_commands(item))
+    elif isinstance(value, list):
+        for item in value:
+            commands.extend(iter_hook_commands(item))
+    return commands
+
+
+def normalized_hook_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n").replace("\r", "\n")
+
+
+def check_codex_adapter_contract() -> list[Finding]:
+    findings: list[Finding] = []
+
+    required_paths = [
+        REPO_ROOT / "AGENTS.md",
+        CODEX_SKILLS_DIR,
+        CODEX_AGENTS_DIR,
+        CODEX_HOOKS_DIR,
+        CODEX_DIR / "hooks.json",
+    ]
+    for path in required_paths:
+        if not path.exists():
+            findings.append(Finding("ERROR", f"missing Codex adapter asset: {rel(path)}"))
+
+    legacy_prefix = "." + "Codex"
+    legacy_path_fragments = [legacy_prefix + "/", legacy_prefix + "\\"]
+    local_prefix = "D:" + "\\Users\\Administrator\\Desktop\\Constitution-Driven-Development"
+    for path in iter_text_files(DELIVERY_SCAN_ROOTS):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if any(fragment in line for fragment in legacy_path_fragments):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(path)}:{line_no} uses a non-existent uppercase Codex adapter path",
                     )
+                )
+            if local_prefix in line:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(path)}:{line_no} contains a machine-specific absolute path",
+                    )
+                )
+
+    hooks_json_path = CODEX_DIR / "hooks.json"
+    if hooks_json_path.exists():
+        try:
+            hooks_config = json.loads(hooks_json_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            findings.append(Finding("ERROR", f"{rel(hooks_json_path)} is not valid JSON: {exc}"))
+            hooks_config = {}
+        for command in iter_hook_commands(hooks_config):
+            normalized = command.replace("\\", "/")
+            if local_prefix.replace("\\", "/") in normalized or ":/" in normalized:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(hooks_json_path)} contains non-portable hook command: {command}",
+                    )
+                )
+            if " .codex/hooks/" not in normalized and not normalized.startswith("bash .codex/hooks/"):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(hooks_json_path)} hook command must use relative .codex/hooks path: {command}",
+                    )
+                )
+
+    if CODEX_AGENTS_DIR.exists():
+        for agent_file in sorted(CODEX_AGENTS_DIR.glob("*.toml")):
+            try:
+                tomllib.loads(agent_file.read_text(encoding="utf-8"))
+            except tomllib.TOMLDecodeError as exc:
+                findings.append(Finding("ERROR", f"{rel(agent_file)} is not valid TOML: {exc}"))
+
+    if CLAUDE_HOOKS_DIR.exists() and CODEX_HOOKS_DIR.exists():
+        claude_hooks = {path.name: path for path in CLAUDE_HOOKS_DIR.glob("*.sh")}
+        codex_hooks = {path.name: path for path in CODEX_HOOKS_DIR.glob("*.sh")}
+        for name, claude_hook in sorted(claude_hooks.items()):
+            codex_hook = codex_hooks.get(name)
+            if codex_hook is None:
+                findings.append(Finding("ERROR", f"missing Codex hook counterpart for .claude/hooks/{name}"))
+                continue
+            if normalized_hook_text(claude_hook) != normalized_hook_text(codex_hook):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f".codex/hooks/{name} must match .claude/hooks/{name}",
+                    )
+                )
+        for name in sorted(set(codex_hooks) - set(claude_hooks)):
+            findings.append(Finding("ERROR", f".codex/hooks/{name} has no .claude/hooks counterpart"))
+
     return findings
 
 
@@ -599,6 +720,7 @@ def main() -> int:
     findings.extend(check_gate_required_semantics())
     findings.extend(check_release_phase_contract())
     findings.extend(check_template_count_contract())
+    findings.extend(check_codex_adapter_contract())
 
     errors = sum(1 for item in findings if item.severity == "ERROR")
     warnings = sum(1 for item in findings if item.severity == "WARN")
