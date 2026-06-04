@@ -13,9 +13,7 @@ hand-off". It runs the automated test suite, checks for test coverage gaps,
 batch-verifies critical paths with the developer, and produces a PASS/FAIL
 report.
 
-The rule is simple: **a build that fails smoke check does not go to QA.
-
-**
+The rule is simple: **a build that fails smoke check does not go to QA.**
 Handing a broken build to QA wastes their time and demoralises the team.
 
 **Output:** `production/qa/smoke-[date].md`

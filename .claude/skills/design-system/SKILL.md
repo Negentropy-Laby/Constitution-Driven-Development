@@ -8,9 +8,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion, TodoWrite
 
 When this skill is invoked:
 
-**Domain detection.
-
-** The concept document reveals the domain:
+**Domain detection.** The concept document reveals the domain:
 - **游戏专用**: Read `design/cdd/game-concept.md` — concept contains game-specific sections (Core Loop, MDA analysis, player types) → use game CDD section names (Player Fantasy, Detailed Rules, Formulas, Tuning Knobs, Visual/Audio)
 - **通用产品**: Read `design/cdd/product-concept.md` — concept contains product-specific sections (User Journey, JTBD, user personas) → use product CDD section names (User Promise, Detailed Design, Data Model, Configuration, Integration)
 
@@ -65,9 +63,7 @@ existing `.md` file in `design/cdd/`, enter **retrofit mode**:
    skip creating the skeleton (file already exists) and in **Phase 4** skip
    sections that are already complete. Only run the section cycle for missing/
    incomplete sections.
-7. **Never overwrite existing section content.
-
-** Use Edit tool to replace only
+7. **Never overwrite existing section content.** Use Edit tool to replace only
    `[To be designed]` placeholders or empty section bodies.
 
 If NOT in retrofit mode, normalize the system name to kebab-case for the
@@ -427,17 +423,15 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
    provisional assumptions about undesigned dependencies.
 
 6. **Approval**: Immediately after the draft — in the SAME response — use
-   `AskUserQuestion`. **NEVER use plain text. NEVER skip this step.
-
-**
+   `AskUserQuestion`. **NEVER use plain text. NEVER skip this step.**
    - Prompt: "Approve the [Section Name] section?"
    - Options: `[A] Approve — write it to file` / `[B] Make changes — describe what to fix` / `[C] Start over`
 
-   **The draft and the approval widget MUST appear together in one response.
+   **The draft and the approval widget MUST appear together in one response.**
    If the draft appears without the widget, the user is left at a blank prompt
    with no path forward — this is a protocol violation.
 
-**
+****
 
 7. **Write**: Use the Edit tool to replace the placeholder with the approved content.
    **CRITICAL**: Always include the section heading in the `old_string` to ensure
@@ -499,27 +493,27 @@ multi-tab widget selected by domain:
 
 **[游戏专用] Game widget:**
 - Tab "Framing" — "How should the overview frame this system?" Options:
-  `[A] As a data/infrastructure layer (technical framing)` / `[B] Through its
-  player-facing effect (design framing)` / `[C] Both — describe the data layer
-  and its player impact`
+  [A] As a data/infrastructure layer (technical framing) / [B] Through its
+  player-facing effect (design framing) / [C] Both — describe the data layer
+  and its player impact
 - Tab "ADR ref" — "Should the overview reference the existing ADR for this
-  system?" Options: `[A] Yes — cite the ADR for implementation details` /
-  `[B] No — keep the CDD at pure design level`
+  system?" Options: [A] Yes — cite the ADR for implementation details /
+  [B] No — keep the CDD at pure design level
 - Tab "Fantasy" — "Does this system have a player fantasy worth stating?"
-  Options: `[A] Yes — players feel it directly` / `[B] No — pure
-  infrastructure, players feel what it enables`
+  Options: [A] Yes — players feel it directly / [B] No — pure
+  infrastructure, players feel what it enables
 
 **[通用产品] Product widget:**
 - Tab "Framing" — "How should the overview frame this module?" Options:
-  `[A] As a data/infrastructure layer (technical framing)` / `[B] Through its
-  user-facing value (product framing)` / `[C] Both — describe the data layer
-  and the user value it enables`
+  [A] As a data/infrastructure layer (technical framing) / [B] Through its
+  user-facing value (product framing) / [C] Both — describe the data layer
+  and the user value it enables
 - Tab "ADR ref" — "Should the overview reference the existing ADR for this
-  module?" Options: `[A] Yes — cite the ADR for implementation details` /
-  `[B] No — keep the CDD at pure design level`
+  module?" Options: [A] Yes — cite the ADR for implementation details /
+  [B] No — keep the CDD at pure design level
 - Tab "User Promise" — "Does this module have a user promise worth stating?"
-  Options: `[A] Yes — users experience it directly` / `[B] No — pure
-  infrastructure, users experience what it enables`
+  Options: [A] Yes — users experience it directly / [B] No — pure
+  infrastructure, users experience what it enables
 
 Use the user's answers to shape the draft. Do NOT answer these questions yourself and auto-draft.
 
@@ -574,9 +568,7 @@ spawn `creative-director` via Task:
 - Ask: "Shape the Player Fantasy for this system. What emotion or power fantasy should it serve? What player moment should we anchor to? What tone and language fits the game's established feeling? Be specific — give me 2-3 candidate framings."
 - Collect the creative-director's framings and present them to the user alongside the draft.
 
-**Do NOT draft Section B without first consulting `creative-director`.
-
-** The framing
+**Do NOT draft Section B without first consulting `creative-director`.** The framing
 answer tells us *what kind* of fantasy it is; the creative-director shapes *how it's
 described* — tone, language, the specific player moment to anchor to.
 
@@ -608,9 +600,7 @@ spawn `creative-director` via Task:
 - Ask: "Shape the User Promise for this module. What value or experience should it deliver? What user moment should we anchor to? Be specific — give me 2-3 candidate framings."
 - Collect the creative-director's framings and present them to the user alongside the draft.
 
-**Do NOT draft Section B (User Promise) without first consulting `creative-director`.
-
-**
+**Do NOT draft Section B (User Promise) without first consulting `creative-director`.**
 
 ---
 
@@ -647,9 +637,7 @@ This is usually the largest section. Break it into sub-sections:
 
 **[通用产品]** Look up the module category in the product routing table (Section 6 of this skill). Spawn the Primary Agent (`lead-programmer`) AND the appropriate language specialist. Provide each agent: module name, product concept summary, principle set, dependency CDD excerpts. Collect their findings before drafting. Surface any disagreements between agents to the user via `AskUserQuestion`. Draft only after receiving specialist input.
 
-**Do NOT draft Section C without first consulting the appropriate specialists.
-
-**
+**Do NOT draft Section C without first consulting the appropriate specialists.**
 
 **Cross-reference**: For each interaction listed, verify it matches what the
 dependency CDD specifies. If a dependency defines a value or data structure and this
@@ -691,9 +679,7 @@ table. A formula without defined variables cannot be implemented without guesswo
 - **For economy/cost systems, also spawn `economy-designer`**: provide placement costs, upgrade cost intent, and progression goals. Ask them to validate cost curves and ratios.
 - Present the specialists' proposals to the user for review via `AskUserQuestion`
 - The user decides; the main session writes to file
-- **Do NOT invent formula values or balance numbers without specialist input.
-
-** A user without balance design expertise cannot evaluate raw numbers — they need the specialists' reasoning.
+- **Do NOT invent formula values or balance numbers without specialist input.** A user without balance design expertise cannot evaluate raw numbers — they need the specialists' reasoning.
 
 **Cross-reference**: If a dependency CDD defines a formula whose output feeds into
 this system, reference it explicitly. Don't reinvent — connect.
@@ -738,9 +724,7 @@ without guesswork — the same principle as the game Formulas section.
 - **For data-heavy modules, also spawn `performance-analyst`**: provide the proposed schema. Ask them to flag potential performance issues (N+1 queries, missing indexes, denormalization needs, query patterns against the schema).
 - Present the specialists' proposals to the user for review via `AskUserQuestion`
 - The user decides; the main session writes to file
-- **Do NOT invent data models without specialist input.
-
-** Schema design has long-term consequences — the specialist's reasoning about types, constraints, and performance is essential.
+- **Do NOT invent data models without specialist input.** Schema design has long-term consequences — the specialist's reasoning about types, constraints, and performance is essential.
 
 **Cross-reference**: If a dependency CDD defines a data structure whose output feeds
 into this module, reference it explicitly. Connect, don't reinvent. If this module
@@ -1019,15 +1003,11 @@ Present a completion summary:
 > **To validate this CDD, open a fresh Claude Code session and run:**
 > `/design-review design/cdd/[system-name].md`
 >
-> **Never run `/design-review` in the same session as `/design-system`.
-
-** The reviewing
+> **Never run `/design-review` in the same session as `/design-system`.** The reviewing
 > agent must be independent of the authoring context. Running it here would inherit
 > the full design history, making independent critique impossible.
 
-**NEVER offer to run `/design-review` inline.
-
-** Always direct the user to a fresh window.
+**NEVER offer to run `/design-review` inline.** Always direct the user to a fresh window.
 
 ### 5d: Update Module Index
 
@@ -1154,9 +1134,7 @@ This skill follows the collaborative design principle at every step:
 This is a long-running skill. After writing each section, check if the status line
 shows context at or above 70%. If so, append this notice to the response:
 
-> **Context is approaching the limit (≥70%).
-
-** Your progress is saved — all approved
+> **Context is approaching the limit (≥70%).** Your progress is saved — all approved
 > sections are written to `design/cdd/[system-name].md`. When you're ready to continue,
 > open a fresh Claude Code session and run `/design-system [system-name]` — it will
 > detect which sections are complete and resume from the next one.

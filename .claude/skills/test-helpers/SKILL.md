@@ -672,9 +672,7 @@ System helpers ([mode]):
 
 Ask: "May I write these helper files to `tests/helpers/`?"
 
-**Never overwrite existing files.
-
-** If a file already exists, report:
+**Never overwrite existing files.** If a file already exists, report:
 "Skipping `[path]` — already exists. Remove the file manually if you want it
 regenerated."
 

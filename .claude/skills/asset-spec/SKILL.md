@@ -138,9 +138,7 @@ Do NOT proceed to Phase 3 without user confirmation of the asset list.
 
 ## Phase 3: Spec Generation
 
-Spawn specialist agents based on review mode. **Issue all Task calls simultaneously — do not wait for one before starting the next.
-
-**
+Spawn specialist agents based on review mode. **Issue all Task calls simultaneously — do not wait for one before starting the next.**
 
 ### Full mode — spawn in parallel:
 
@@ -174,9 +172,7 @@ Spawn specialist agents based on review mode. **Issue all Task calls simultaneou
 
 ### Product solo mode — skip agents and derive the artifact specs from CDDs, architecture, interaction patterns, and technical preferences. Mark missing specialist review explicitly.
 
-**Collect both responses before Phase 4.
-
-** If any conflict exists between art-director and technical-artist (e.g., art-director specifies 4K textures but technical-artist flags the engine budget requires 512px), surface it explicitly — do NOT silently resolve.
+**Collect both responses before Phase 4.** If any conflict exists between art-director and technical-artist (e.g., art-director specifies 4K textures but technical-artist flags the engine budget requires 512px), surface it explicitly — do NOT silently resolve.
 
 ---
 

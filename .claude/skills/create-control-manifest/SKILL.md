@@ -19,9 +19,7 @@ reference docs. Where ADRs explain *why*, the manifest tells you *what*.
 **When to run:** After `/architecture-review` passes and ADRs are in Accepted
 status. Re-run whenever new ADRs are accepted or existing ADRs are revised.
 
-**Domain detection.
-
-** The concept document at `design/cdd/` reveals the domain.
+**Domain detection.** The concept document at `design/cdd/` reveals the domain.
 Sections below are marked **[通用场景]**, **[游戏专用]**, or **[通用产品]**.
 
 ---

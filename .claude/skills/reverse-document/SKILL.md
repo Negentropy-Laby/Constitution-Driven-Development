@@ -303,6 +303,4 @@ This skill follows the collaborative design principle:
 7. **Get Approval**: "May I write to [filepath]?" On approval: Verdict: **COMPLETE** — document generated. On decline: Verdict: **BLOCKED** — user declined write.
 8. **Flag Follow-Up**: Suggest related work, don't auto-execute
 
-**Never assume intent. Always ask before documenting "why".
-
-**
+**Never assume intent. Always ask before documenting "why".**

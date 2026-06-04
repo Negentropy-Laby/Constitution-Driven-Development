@@ -81,13 +81,9 @@ Evaluate against the CDD Standard checklist. [Game] Game CDD sections:
 
 ## Phase 3b: Adversarial Specialist Review (full mode only)
 
-**Skip this phase in `lean` or `solo` mode.
+**Skip this phase in `lean` or `solo` mode.**
 
-**
-
-**This phase is MANDATORY in full mode.
-
-** Do not skip it.
+**This phase is MANDATORY in full mode.** Do not skip it.
 
 **Before spawning any agents**, print this notice:
 > "Full review: spawning specialist agents in parallel. This typically takes 8–15 minutes. Use `--review lean` for faster single-session analysis."
@@ -124,22 +120,18 @@ Read the CDD and identify every domain present. A CDD can touch multiple domains
 | Performance-critical paths | `performance-analyst` |
 | Third-party integrations, APIs | `lead-programmer` |
 | Acceptance criteria, test coverage | `qa-lead` |
-**[游戏专用]** **Always spawn `game-designer` and `systems-designer` as a baseline minimum.
+**[游戏专用]** **Always spawn `game-designer` and `systems-designer` as a baseline minimum.** Every game CDD touches their domain.
 
-** Every game CDD touches their domain.
-
-**[通用产品]** **Always spawn `lead-programmer` and the appropriate language specialist as a baseline minimum for product CDDs.
-
-**
+**[通用产品]** **Always spawn `lead-programmer` and the appropriate language specialist as a baseline minimum for product CDDs.**
 
 ### Step 2 — Spawn all relevant specialists in parallel
 
-**CRITICAL: Task in this skill spawns a SUBAGENT — a separate independent Claude session
+**CRITICAL: Task in this skill spawns a SUBAGENT — a separate independent Claude session**
 with its own context window. It is NOT task tracking. Do NOT simulate specialist
 perspectives internally. Do NOT reason through domain views yourself. You MUST issue
 actual Task calls. A simulated review is not a specialist review.
 
-**
+****
 
 Issue all Task calls simultaneously. Do NOT spawn one at a time.
 

@@ -23,9 +23,7 @@ will have changed.
 
 **When to run:** After `/create-control-manifest` and `/architecture-review` pass.
 
-**Domain detection.
-
-** Before loading CDDs, determine the project domain from
+**Domain detection.** Before loading CDDs, determine the project domain from
 `design/cdd/`:
 - **[游戏专用]** `game-concept.md` exists -> use player/system language,
   Engine Compatibility, engine risk, playtest/feel/UI evidence expectations.

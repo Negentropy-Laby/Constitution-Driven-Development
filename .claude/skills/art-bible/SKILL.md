@@ -155,9 +155,7 @@ If the concept.md has a Visual Identity Anchor section, note it:
 
 ## Phase 2: Visual Identity Foundation (Sections 1–4)
 
-These four sections define the core visual language. **All other sections flow from them.
-
-** Author and write each to file before moving to the next.
+These four sections define the core visual language. **All other sections flow from them.** Author and write each to file before moving to the next.
 
 ### Section 1: Visual Identity Statement
 

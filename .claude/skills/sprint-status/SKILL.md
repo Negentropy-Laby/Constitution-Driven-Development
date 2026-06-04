@@ -22,9 +22,7 @@ current sprint plan and story files, scans for status markers, and produces a
 concise snapshot in under 30 lines. For detailed sprint management, use
 `/sprint-plan update` or `/milestone-review`.
 
-**This skill is read-only.
-
-** It never proposes changes, never asks to write
+**This skill is read-only.** It never proposes changes, never asks to write
 files, and makes at most one concrete recommendation.
 
 ---
@@ -64,9 +62,7 @@ found — burndown assessment skipped."
 
 ## 3. Scan Story Status
 
-**First: check for `production/sprint-status.yaml`.
-
-**
+**First: check for `production/sprint-status.yaml`.**
 
 If it exists, read it directly — it is the authoritative source of truth.
 Extract status for each story from the `status` field. No markdown scanning needed.

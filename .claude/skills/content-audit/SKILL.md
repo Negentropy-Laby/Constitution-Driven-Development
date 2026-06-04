@@ -49,9 +49,7 @@ Parse the argument:
 3. **Full-read in-scope CDD files** (or the single system CDD if a system
    name was given).
 
-4. **For each CDD, extract explicit content counts or lists.
-
-** Look for patterns
+4. **For each CDD, extract explicit content counts or lists.** Look for patterns
    like:
    - "N enemies" / "enemy types:" / list of named enemies
    - "N levels" / "N areas" / "N maps" / "N stages"

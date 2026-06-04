@@ -40,9 +40,7 @@ If not found, ask: "Which story are we implementing?" Glob
 
 ## Phase 2: Load Full Context
 
-**Before loading any context, verify required files exist.
-
-** Extract the ADR path from the story's `ADR Governing Implementation` field, then check:
+**Before loading any context, verify required files exist.** Extract the ADR path from the story's `ADR Governing Implementation` field, then check:
 
 | File | Path | If missing |
 |------|------|------------|

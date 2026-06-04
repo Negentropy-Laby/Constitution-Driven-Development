@@ -129,9 +129,7 @@ Spawn `qa-lead` via Task with:
 - List of bugs fixed (with verification status from Phase 4)
 - The smoke check scope for the affected systems
 
-Ask qa-lead to determine: **Is a targeted smoke check sufficient, or do any fixes touch systems that require a broader regression?
-
-**
+Ask qa-lead to determine: **Is a targeted smoke check sufficient, or do any fixes touch systems that require a broader regression?**
 
 Run the required QA scope:
 - **Targeted smoke check** — run `/smoke-check [affected-systems]`

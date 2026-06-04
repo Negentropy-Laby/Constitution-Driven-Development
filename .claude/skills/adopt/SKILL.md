@@ -12,9 +12,7 @@ agent: technical-director
 This skill audits an existing project's artifacts for **format compliance** with
 the template's skill pipeline, then produces a prioritised migration plan.
 
-**This is not `/project-stage-detect`.
-
-**
+**This is not `/project-stage-detect`.**
 `/project-stage-detect` answers: *what exists?*
 `/adopt` answers: *will what exists actually work with the template's skills?*
 
@@ -146,9 +144,7 @@ If `design/cdd/module-index.md` exists:
 1. **Parenthetical status values** — Grep for any Status cell containing
    parentheses: `"Needs Revision ("`, `"In Progress ("`, etc.
    These break exact-string matching in `/gate-check`, `/create-stories`,
-   and `/architecture-review`. **BLOCKING.
-
-**
+   and `/architecture-review`. **BLOCKING.**
 
 2. **Valid status values** — check that Status column values are only from:
    `Not Started`, `In Progress`, `In Review`, `Designed`, `Approved`, `Needs Revision`

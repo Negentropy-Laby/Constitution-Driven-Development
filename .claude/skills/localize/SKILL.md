@@ -371,7 +371,7 @@ When `extract` mode finds new or modified strings and `freeze-status.md` shows S
 ## Phase 2J: QA Mode
 
 Localization QA is a dedicated pass that runs after translations are delivered but
-before any locale ships. This is not the same as `/validate` (which checks completeness)
+before any locale ships. This is not the same as `/localize validate` (which checks completeness)
 — this is a structured playthrough-based quality check.
 
 Spawn `localization-lead` via Task with:

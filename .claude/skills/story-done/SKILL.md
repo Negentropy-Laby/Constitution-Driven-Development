@@ -257,8 +257,8 @@ Run these checks automatically:
    current `docs/architecture/control-manifest.md` header.
    - If they match → pass silently.
    - If the story's version is older → flag as ADVISORY:
-     `ADVISORY: Story was written against manifest v[story-date]; current manifest
-     is v[current-date]. New rules may apply. Run /story-readiness to check.`
+     "ADVISORY: Story was written against manifest v[story-date]; current manifest
+     is v[current-date]. New rules may apply. Run /story-readiness to check."
    - If control-manifest.md does not exist → skip this check.
 
 3. **ADR constraints check**: Read the referenced ADR's Decision section. Check

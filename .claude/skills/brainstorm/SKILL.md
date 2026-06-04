@@ -18,9 +18,7 @@ When this skill is invoked:
 
    See `.claude/docs/director-gates.md` for the full check pattern.
 
-2. **Detect domain context.
-
-** The hint usually reveals the domain — game-specific hints
+2. **Detect domain context.** The hint usually reveals the domain — game-specific hints
    (roguelike, platformer, RPG, FPS, puzzle, farming sim) suggest game mode; general
    hints (SaaS, CLI tool, developer tool, mobile app, data pipeline) suggest product
    mode. If ambiguous, ask during Phase 1. The domain choice affects which frameworks
@@ -33,8 +31,8 @@ When this skill is invoked:
    - Read `design/cdd/game-pillars.md` or `design/cdd/principles.md` if either exists
 
 4. **Run through ideation phases** interactively, asking the user questions at
-   each phase. Do NOT generate everything silently — the goal is **collaborative
-   exploration** where the AI acts as a creative facilitator, not a replacement
+   each phase. Do NOT generate everything silently — the goal is **collaborative**
+   exploration** where the AI acts as a creative facilitator, not a replacement**
    for the human's vision.
 
    **Use `AskUserQuestion`** at key decision points:
@@ -313,9 +311,7 @@ Repeat until the user selects [A] Lock these in.
 - `lean` → skip both (not PHASE-GATEs). Proceed to Phase 5.
 - `full` → spawn as normal.
 
-**After principles are agreed, spawn BOTH `creative-director` AND `art-director` via Task in parallel.
-
-**
+**After principles are agreed, spawn BOTH `creative-director` AND `art-director` via Task in parallel.**
 
 - **`creative-director`** — gate **CD-PILLARS** (`.claude/docs/director-gates.md`)
   - **游戏专用**: Pass: full pillar set, anti-pillars, core fantasy, unique hook.
@@ -418,9 +414,7 @@ Ground the concept in reality.
 - `lean` → skip (not a PHASE-GATE). Note: "TD-FEASIBILITY skipped — Lean mode." Proceed directly to scope tier definition.
 - `full` → spawn as normal.
 
-**After identifying biggest technical risks, spawn `technical-director` via Task using gate TD-FEASIBILITY (`.claude/docs/director-gates.md`) before scope tiers are defined.
-
-**
+**After identifying biggest technical risks, spawn `technical-director` via Task using gate TD-FEASIBILITY (`.claude/docs/director-gates.md`) before scope tiers are defined.**
 
 - **游戏专用**: Pass core loop description, platform, engine choice, technical risks.
 - **通用产品**: Pass core user journey, platform, tech stack choice, technical risks.
@@ -432,9 +426,7 @@ Present the assessment to the user. If HIGH RISK, offer to revisit scope before 
 - `lean` → skip (not a PHASE-GATE). Note: "PR-SCOPE skipped — Lean mode." Proceed to document generation.
 - `full` → spawn as normal.
 
-**After scope tiers are defined, spawn `producer` via Task using gate PR-SCOPE (`.claude/docs/director-gates.md`).
-
-**
+**After scope tiers are defined, spawn `producer` via Task using gate PR-SCOPE (`.claude/docs/director-gates.md`).**
 
 Pass: full vision scope, MVP definition, timeline estimate, team size.
 
@@ -524,9 +516,7 @@ Verdict: **COMPLETE** — concept created and handed off for next steps.
 This is a multi-phase skill. If context reaches or exceeds 70% during any phase,
 append this notice:
 
-> **Context is approaching the limit (≥70%).
-
-** The concept document is saved
+> **Context is approaching the limit (≥70%).** The concept document is saved
 > to disk. **游戏专用**: `design/cdd/game-concept.md`. **通用产品**: `design/cdd/product-concept.md`.
 > Open a fresh Claude Code session to continue — progress is not lost.
 

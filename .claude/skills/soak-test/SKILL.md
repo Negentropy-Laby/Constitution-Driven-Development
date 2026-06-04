@@ -18,8 +18,8 @@ Preserve all engine-specific game soak instructions. Product reliability soak ch
 
 A soak test (also called an endurance test) is an extended play session run
 with specific observation goals. Unlike a smoke check (broad critical path,
-~10 min) or a single-feature playtest (~30 min), a soak test runs for **30
-minutes to several hours** to surface:
+~10 min) or a single-feature playtest (~30 min), a soak test runs for **30**
+minutes to several hours** to surface:**
 
 - **Memory leaks** — gradual heap growth that only appears after scene transitions
 - **Performance drift** — frame time degradation that worsens over time
@@ -29,10 +29,10 @@ minutes to several hours** to surface:
   repetitive over extended play
 - **Content exhaustion** — the point where players run out of novel content
 
-**This skill generates the observation protocol and analysis harness — the
+**This skill generates the observation protocol and analysis harness — the**
 human does the actual playing.
 
-**
+****
 
 **Output:** `production/qa/soak-test-[date]-[duration].md`
 

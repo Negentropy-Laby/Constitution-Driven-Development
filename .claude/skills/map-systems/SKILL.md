@@ -24,9 +24,7 @@ Also resolve the review mode (once, store for all gate spawns this run):
 
 See `.claude/docs/director-gates.md` for the full check pattern.
 
-**Domain detection.
-
-** The concept document reveals the domain:
+**Domain detection.** The concept document reveals the domain:
 - **游戏专用**: concept doc at `design/cdd/game-concept.md` containing game-specific sections (Core Loop, MDA analysis, player types)
 - **通用产品**: concept doc at `design/cdd/product-concept.md` containing product-specific sections (User Journey, JTBD, user personas)
 
@@ -195,9 +193,7 @@ dependencies I'm missing or that should be removed?"
 - `lean` → skip (not a PHASE-GATE). Note: "TD-SYSTEM-BOUNDARY skipped — Lean mode." Proceed to priority assignment.
 - `full` → spawn as normal.
 
-**After dependency mapping is approved, spawn `technical-director` via Task using gate TD-SYSTEM-BOUNDARY (`.claude/docs/director-gates.md`) before proceeding to priority assignment.
-
-**
+**After dependency mapping is approved, spawn `technical-director` via Task using gate TD-SYSTEM-BOUNDARY (`.claude/docs/director-gates.md`) before proceeding to priority assignment.**
 
 Pass: the dependency map summary, layer assignments, bottleneck modules list, any circular dependency resolutions.
 
@@ -249,9 +245,7 @@ Explain reasoning in conversation. **[游戏专用]** "I placed [module] in MVP 
 - `lean` → skip (not a PHASE-GATE). Note: "PR-SCOPE skipped — Lean mode." Proceed to writing the modules index.
 - `full` → spawn as normal.
 
-**After priorities are approved, spawn `producer` via Task using gate PR-SCOPE (`.claude/docs/director-gates.md`) before writing the index.
-
-**
+**After priorities are approved, spawn `producer` via Task using gate PR-SCOPE (`.claude/docs/director-gates.md`) before writing the index.**
 
 Pass: total module count per milestone tier, estimated implementation volume per tier (module count × average complexity), team size, stated project timeline.
 
@@ -311,9 +305,7 @@ Wait for approval. Write the file only after "yes."
 - `lean` → skip (not a PHASE-GATE). Note: "CD-SYSTEMS skipped — Lean mode." Proceed to Phase 7 next steps.
 - `full` → spawn as normal.
 
-**After the modules index is written, spawn `creative-director` via Task using gate CD-SYSTEMS (`.claude/docs/director-gates.md`).
-
-**
+**After the modules index is written, spawn `creative-director` via Task using gate CD-SYSTEMS (`.claude/docs/director-gates.md`).**
 
 Pass: modules index path, game pillars/principles and core fantasy/promise (from the concept document), MVP priority tier module list.
 
@@ -364,9 +356,7 @@ The `/design-system` skill handles the full CDD authoring process:
 - Runs `/design-review` when complete
 - Updates the modules index
 
-**Do not duplicate the /design-system workflow here.
-
-** This skill owns the modules
+**Do not duplicate the /design-system workflow here.** This skill owns the modules
 *index*; `/design-system` owns individual module *CDDs*.
 
 ### Step 6c: Loop or Stop
@@ -423,9 +413,7 @@ This skill follows the collaborative design principle at every phase:
 
 If context reaches or exceeds 70% at any point, append this notice:
 
-> **Context is approaching the limit (≥70%).
-
-** The modules index is saved to
+> **Context is approaching the limit (≥70%).** The modules index is saved to
 > `design/cdd/module-index.md`. Open a fresh Claude Code session to continue
 > designing individual CDDs — run `/map-systems next` to pick up where you left off.
 

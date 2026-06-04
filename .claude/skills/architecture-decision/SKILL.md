@@ -8,9 +8,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 
 When this skill is invoked:
 
-**Domain detection.
-
-** The concept document at `design/cdd/` reveals the domain:
+**Domain detection.** The concept document at `design/cdd/` reveals the domain:
 - **游戏专用**: `game-concept.md` exists — ADR includes Engine Compatibility section
 - **通用产品**: `product-concept.md` exists — ADR includes Stack Compatibility section
 
@@ -64,9 +62,7 @@ Enter **retrofit mode**:
    - For **CDD Requirements Addressed**: ask — "Which CDD systems motivated this decision?
      What specific requirement in each CDD does this ADR address?"
    - Append each missing section to the ADR file using the Edit tool.
-   - **Never modify any existing section.
-
-** Only append or fill absent sections.
+   - **Never modify any existing section.** Only append or fill absent sections.
 6. After adding all missing sections, update the ADR's `## Date` field if it is absent.
 7. Suggest: "Run `/architecture-review` to re-validate coverage now that this ADR
    has its Status and Dependencies fields."
@@ -479,9 +475,7 @@ Registry candidates from this ADR:
 3. Append the new entry AFTER the last existing entry in that section — do not try to replace a `[]` placeholder that may no longer exist
 4. If the section has entries already, use the closing content of the last entry as the `old_string` anchor, and append the new entry after it
 
-**BLOCKING — do not write to `docs/registry/architecture.yaml` without explicit user approval.
-
-**
+**BLOCKING — do not write to `docs/registry/architecture.yaml` without explicit user approval.**
 
 Ask using `AskUserQuestion`:
 - "May I update `docs/registry/architecture.yaml` with these [N] new stances?"
@@ -517,9 +511,7 @@ If there are no remaining priority ADRs and no undesigned CDD systems, offer onl
 > To validate ADR coverage against your CDDs, open a **fresh Claude Code session**
 > and run `/architecture-review`.
 >
-> **Never run `/architecture-review` in the same session as `/architecture-decision`.
-
-**
+> **Never run `/architecture-review` in the same session as `/architecture-decision`.**
 > The reviewing agent must be independent of the authoring context to give an unbiased
 > assessment. Running it here would invalidate the review.
 

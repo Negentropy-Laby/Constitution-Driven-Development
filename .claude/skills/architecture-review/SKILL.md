@@ -15,9 +15,7 @@ covers all game design requirements, is internally consistent, and correctly tar
 the project's pinned engine version. It is the quality gate between Technical Setup
 and Pre-Production.
 
-**Domain detection.
-
-** The concept document at `design/cdd/` reveals the domain.
+**Domain detection.** The concept document at `design/cdd/` reveals the domain.
 Sections below are marked **[通用场景]**, **[游戏专用]**, or **[通用产品]**.
 
 **Argument modes:**
@@ -640,8 +638,7 @@ After completing the review and writing approved files, present:
 
 1. **Immediate actions**: List the top 3 ADRs to create (highest-impact gaps first,
    Foundation layer before Feature layer)
-2. **Gate guidance**: "When all blocking issues are resolved, run `/gate-check
-   pre-production` to advance"
+2. **Gate guidance**: "When all blocking issues are resolved, run `/gate-check pre-production` to advance"
 3. **Rerun trigger**: "Re-run `/architecture-review` after each new ADR is written
    to verify coverage improves"
 

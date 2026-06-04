@@ -23,9 +23,7 @@ Resolve the review mode (once, store for all gate spawns this run):
 
 See `.claude/docs/director-gates.md` for the full check pattern.
 
-**Domain detection.
-
-** The concept document at `design/cdd/` reveals the domain:
+**Domain detection.** The concept document at `design/cdd/` reveals the domain:
 - **游戏专用**: `game-concept.md` exists — use game architecture layers and engine reference docs
 - **通用产品**: `product-concept.md` exists — use product architecture layers and stack reference docs
 
@@ -444,8 +442,7 @@ Ask: "May I update the Document Status section in `docs/architecture/architectur
 After writing the document, provide a clear handoff:
 
 1. **Run these ADRs next** (from Phase 6, prioritised): list the top 3
-2. **Gate check**: "The master architecture document is complete. Run `/gate-check
-   pre-production` when all required ADRs are also written."
+2. **Gate check**: "The master architecture document is complete. Run `/gate-check pre-production` when all required ADRs are also written."
 3. **Update session state**: Write a summary to `production/session-state/active.md`
 
 ---

@@ -45,6 +45,16 @@ KNOWN_GENERATED_ROOTS = (
     "tests/",
 )
 
+HTTP_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS")
+COMMAND_CONTEXT = re.compile(
+    r"\b(run|use|call|invoke|type|execute|trigger|launch|command|skill|slash command)\b",
+    re.IGNORECASE,
+)
+PATH_CONTEXT = re.compile(
+    r"\b(path|paths|file|files|directory|directories|folder|folders|route|routes|endpoint|endpoints|url|urls|api|glob|pattern|example)\b",
+    re.IGNORECASE,
+)
+
 
 @dataclass
 class Finding:
@@ -110,6 +120,51 @@ def strip_inline_code(line: str) -> str:
     return re.sub(r"`[^`]*`", "", line)
 
 
+def inline_code_span_at(line: str, column: int) -> str | None:
+    spans = [(match.start(), match.end(), match.group(1)) for match in re.finditer(r"`([^`\n]+)`", line)]
+    for start, end, content in spans:
+        if start <= column < end:
+            return content
+    return None
+
+
+def looks_like_path_fragment(text: str, command: str) -> bool:
+    if command + "/" in text or command + "." in text or command + "-" in text:
+        return True
+    if any(root in text for root in KNOWN_GENERATED_ROOTS):
+        return True
+    if any(marker in text for marker in ("[", "]", "*", ".md", ".yaml", ".yml", ".json", ".txt")):
+        return True
+    return False
+
+
+def should_ignore_command_ref(text: str, lines: list[str], match: re.Match[str]) -> bool:
+    command = match.group(0)
+    line_no = line_number(lines, match.start())
+    line = lines[line_no - 1] if 0 <= line_no - 1 < len(lines) else ""
+    line_start = text.rfind("\n", 0, match.start()) + 1
+    column = match.start() - line_start
+    before = text[match.start() - 1] if match.start() > 0 else ""
+    after = text[match.end()] if match.end() < len(text) else ""
+
+    if before in "])}" or after in "/.-":
+        return True
+
+    inline = inline_code_span_at(line, column)
+    if inline and looks_like_path_fragment(inline, command):
+        return True
+
+    method_pattern = r"\b(?:" + "|".join(HTTP_METHODS) + r")\s+" + re.escape(command) + r"(?:\b|/)"
+    if re.search(method_pattern, line):
+        return True
+
+    prefix = line[:column]
+    if PATH_CONTEXT.search(prefix) and not COMMAND_CONTEXT.search(prefix):
+        return True
+
+    return False
+
+
 def template_exists_for(path_text: str) -> bool:
     if not TEMPLATES_DIR.exists():
         return False
@@ -157,7 +212,13 @@ def lint_file(path: Path, known_commands: set[str]) -> list[Finding]:
             findings.append(Finding("ERROR", path, idx, "unbalanced inline code markers on line"))
 
     heading_count = 0
+    in_fence = False
     for idx, line in enumerate(lines, start=1):
+        if line.strip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
         if BAD_HEADING.match(line):
             findings.append(Finding("ERROR", path, idx, "markdown heading missing a space after #"))
         if HEADING.match(line):
@@ -165,13 +226,28 @@ def lint_file(path: Path, known_commands: set[str]) -> list[Finding]:
     if heading_count == 0:
         findings.append(Finding("WARN", path, 1, "no markdown headings found after frontmatter"))
 
-    ignored = {"/api", "/command", "/dev", "/docs", "/skill-name", "/src", "/story", "/tests", "/tmp"}
+    fenced_lines: set[int] = set()
+    in_fence = False
+    for idx, line in enumerate(lines, start=1):
+        if line.strip().startswith("```"):
+            in_fence = not in_fence
+            fenced_lines.add(idx)
+            continue
+        if in_fence:
+            fenced_lines.add(idx)
+
+    ignored = {"/api", "/clear", "/command", "/dev", "/docs", "/skill-name", "/src", "/story", "/tests", "/tmp"}
     for match in COMMAND_REF.finditer(text):
         command = match.group(0)
+        match_line = line_number(lines, match.start())
+        if match_line in fenced_lines:
+            continue
         if command in ignored:
             continue
+        if should_ignore_command_ref(text, lines, match):
+            continue
         if command not in known_commands:
-            findings.append(Finding("ERROR", path, line_number(lines, match.start()), f"unknown slash command reference: {command}"))
+            findings.append(Finding("ERROR", path, match_line, f"unknown slash command reference: {command}"))
 
     for match in PATH_IN_BACKTICKS.finditer(text):
         path_text = match.group(1)
@@ -224,10 +300,35 @@ unterminated
     return bad_file
 
 
+def write_good_reference_skill(directory: Path) -> Path:
+    skill_dir = directory / "reference"
+    skill_dir.mkdir()
+    good_file = skill_dir / "SKILL.md"
+    good_file.write_text(
+        """---
+name: reference
+description: Reference path test skill
+argument-hint: "[target]"
+user-invocable: true
+allowed-tools: Read
+---
+# Reference Path Checks
+
+Read `docs/reference/[stack]/modules/[domain].md` before reviewing the ADR.
+Validate the route example `GET /invoices` against the product contract.
+Check `production/epics/foo/story-001.md` when linking stories.
+""",
+        encoding="utf-8",
+    )
+    return good_file
+
+
 def run_self_test() -> int:
     with TemporaryDirectory() as temp:
         bad_file = write_bad_skill(Path(temp))
+        good_file = write_good_reference_skill(Path(temp))
         findings = lint_file(bad_file, known_commands={"/broken"})
+        good_findings = lint_file(good_file, known_commands={"/reference"})
     messages = "\n".join(f.message for f in findings)
     expected = [
         "missing required frontmatter fields",
@@ -242,6 +343,14 @@ def run_self_test() -> int:
     missing = [item for item in expected if item not in messages]
     if missing:
         print("SELF-TEST FAILED: missing detections: " + ", ".join(missing), file=sys.stderr)
+        return 1
+    false_positive = [
+        finding.message
+        for finding in good_findings
+        if "unknown slash command reference" in finding.message
+    ]
+    if false_positive:
+        print("SELF-TEST FAILED: slash-like path false positives: " + ", ".join(false_positive), file=sys.stderr)
         return 1
     print("SELF-TEST PASSED: broken frontmatter, command refs, bad words, headings, and code fences detected.")
     return 0

@@ -13,9 +13,7 @@ This skill validates that a story file contains everything a developer needs
 to begin implementation — no mid-sprint design interruptions, no guessing,
 no ambiguous acceptance criteria. Run it before assigning a story.
 
-**This skill is read-only.
-
-** It never edits story files. It reports findings
+**This skill is read-only.** It never edits story files. It reports findings
 and asks whether the user wants help filling gaps.
 
 **Output:** Verdict per story (READY / NEEDS WORK / BLOCKED) with a specific

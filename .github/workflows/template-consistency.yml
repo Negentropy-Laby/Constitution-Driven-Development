@@ -21,13 +21,8 @@ jobs:
       - name: Skill lint self-test
         run: python scripts/skill_lint.py --self-test
 
-      - name: Core skill strict lint
-        run: |
-          python scripts/skill_lint.py --strict .claude/skills/constitute/SKILL.md
-          python scripts/skill_lint.py --strict .claude/skills/gate-check/SKILL.md
-          python scripts/skill_lint.py --strict .claude/skills/test-setup/SKILL.md
-          python scripts/skill_lint.py --strict .claude/skills/project-stage-detect/SKILL.md
-          python scripts/skill_lint.py --strict .claude/skills/help/SKILL.md
+      - name: All skill strict lint
+        run: python scripts/skill_lint.py --strict .claude/skills
 
       - name: Workflow/catalog/docs/examples boundary consistency
         run: python scripts/workflow_consistency.py

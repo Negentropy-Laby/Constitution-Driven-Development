@@ -18,9 +18,7 @@ Five modes:
 - **Refresh**: `/setup-engine refresh` — update reference docs (see Section 10)
 - **Upgrade**: `/setup-engine upgrade [old-ver] [new-ver]` — migrate to a new version (see Section 11)
 
-**Domain detection.
-
-** The argument usually reveals the domain:
+**Domain detection.** The argument usually reveals the domain:
 - **游戏专用 hints**: godot, unity, unreal, ue5, game engine → game mode
 - **通用产品 hints**: python, django, fastapi, react, nextjs, node, rust, go, postgres, redis, docker → product mode
 - **Ambiguous**: ask during guided mode
@@ -68,21 +66,11 @@ Only if no prior engine experience. Ask in this order:
   - PC only → all engines viable; other factors decide
   - Multiple → Unity is the most portable across PC/mobile/console
 
-1. **What kind of game?
-
-** (2D, 3D, or both?)
-2. **Primary input method?
-
-** (keyboard/mouse, gamepad, touch, or mixed?)
-3. **Team size and experience?
-
-** (solo beginner, solo experienced, small team?)
-4. **Any strong language preferences?
-
-** (GDScript, C#, C++, visual scripting?)
-5. **Budget for engine licensing?
-
-** (free only, or commercial licenses OK?)
+1. **What kind of game?** (2D, 3D, or both?)
+2. **Primary input method?** (keyboard/mouse, gamepad, touch, or mixed?)
+3. **Team size and experience?** (solo beginner, solo experienced, small team?)
+4. **Any strong language preferences?** (GDScript, C#, C++, visual scripting?)
+5. **Budget for engine licensing?** (free only, or commercial licenses OK?)
 
 **Engine honest tradeoffs** (identical to original):
 

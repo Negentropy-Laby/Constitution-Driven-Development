@@ -70,8 +70,8 @@ Before full-reading any CDD, check for the entity registry:
 Read path="design/registry/entities.yaml"
 ```
 
-If the registry exists and has entries, use it as a **pre-built conflict
-baseline**: known entities, items, formulas, and constants with their
+If the registry exists and has entries, use it as a **pre-built conflict**
+baseline**: known entities, items, formulas, and constants with their**
 authoritative values and source CDDs. In Phase 2, grep CDDs for registered
 names first — this is faster than reading all CDDs in full before knowing
 what to look for.
@@ -107,9 +107,7 @@ starting Phase 3. Collect both results before writing the combined report.
 
 ---
 
-**Domain detection.
-
-** The module set reveals the domain. [Game] game modules; [Product] product modules.
+**Domain detection.** The module set reveals the domain. [Game] game modules; [Product] product modules.
 
 ## Phase 2: Cross-CDD Consistency
 

@@ -13,9 +13,7 @@ entity registry (`design/registry/entities.yaml`). Uses a grep-first approach:
 reads the registry once, then targets only the CDD sections that mention
 registered names — no full document reads unless a conflict needs investigation.
 
-**This skill is the write-time safety net.
-
-** It catches what `/design-system`'s
+**This skill is the write-time safety net.** It catches what `/design-system`'s
 per-section checks may have missed and what `/review-all-gdds`'s holistic review
 catches too late.
 
@@ -210,18 +208,12 @@ Read path="design/cdd/[conflicting_cdd].md"
 (Or use Grep with wider context if the file is large)
 
 Confirm the conflict with full context. Determine:
-1. **Which CDD is correct?
-
-** Check the `source:` field in the registry — the
+1. **Which CDD is correct?** Check the `source:` field in the registry — the
    source CDD is the authoritative owner. Any other CDD that contradicts it
    is the one that needs updating.
-2. **Is the registry itself out of date?
-
-** If the source CDD was updated after
+2. **Is the registry itself out of date?** If the source CDD was updated after
    the registry entry was written (check git log), the registry may be stale.
-3. **Is this a genuine design change?
-
-** If the conflict represents an intentional
+3. **Is this a genuine design change?** If the conflict represents an intentional
    design decision, the resolution is: update the source CDD, update the registry,
    then fix all other CDDs.
 
@@ -302,9 +294,7 @@ If new entries were found in CDDs that are not in the registry, ask:
 
 Only add entries that appear in more than one CDD (true cross-system facts).
 
-**Never delete registry entries.
-
-** Set `status: deprecated` if an entry is removed
+**Never delete registry entries.** Set `status: deprecated` if an entry is removed
 from all CDDs.
 
 After writing: Verdict: **COMPLETE** — consistency check finished.

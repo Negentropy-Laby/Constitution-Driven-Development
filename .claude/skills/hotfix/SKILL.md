@@ -133,9 +133,7 @@ After approvals, determine the QA scope required before deploying the hotfix. Sp
 - The regression test results from Phase 5
 - A list of all systems that touch the changed files (use Grep to find callers)
 
-Ask qa-lead: **Is a full smoke check sufficient, or does this fix require a targeted team-qa pass?
-
-**
+Ask qa-lead: **Is a full smoke check sufficient, or does this fix require a targeted team-qa pass?**
 
 Apply the verdict:
 - **Smoke check sufficient** — run `/smoke-check` against the hotfix build. If PASS, proceed to Phase 6.

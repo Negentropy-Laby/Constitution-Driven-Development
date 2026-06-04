@@ -9,9 +9,7 @@ agent: ux-designer
 
 When this skill is invoked:
 
-**Domain detection.
-
-** Read the concept document to determine domain:
+**Domain detection.** Read the concept document to determine domain:
 - `design/cdd/game-concept.md` → **[游戏专用]** Game mode
 - `design/cdd/product-concept.md` → **[通用产品]** Product mode
 

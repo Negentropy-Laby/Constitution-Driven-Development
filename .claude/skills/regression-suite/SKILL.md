@@ -31,8 +31,8 @@ caught the original bug — and that the regression suite stays current as the
 game evolves. It also detects when new features have been added without
 corresponding regression coverage.
 
-A regression suite is not a new test category — it is a **curated list of
-tests already in `tests/`** that collectively cover the game's critical paths
+A regression suite is not a new test category — it is a **curated list of**
+tests already in `tests/`** that collectively cover the game's critical paths**
 and known failure points. This skill maintains that list.
 
 **Output:** `tests/regression-suite.md`

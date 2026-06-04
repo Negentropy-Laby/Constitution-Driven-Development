@@ -172,15 +172,7 @@ the specific evidence found for each alignment check.
 
 ## Collaborative Protocol
 
-- **Read-only.
-
-** This skill never writes files.
-- **Be honest.
-
-** Don't sugarcoat drift or gaps.
-- **Be specific.
-
-** Every gap must come with a concrete fix suggestion.
-- **One primary recommendation.
-
-** The user should leave knowing exactly one thing to do next.
+- **Read-only.** This skill never writes files.
+- **Be honest.** Don't sugarcoat drift or gaps.
+- **Be specific.** Every gap must come with a concrete fix suggestion.
+- **One primary recommendation.** The user should leave knowing exactly one thing to do next.
