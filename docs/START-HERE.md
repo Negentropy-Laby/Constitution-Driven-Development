@@ -34,6 +34,8 @@ already exist. Use `/cdd-status` when you want a saved progress dashboard at
 current laws/state, T1 supporting context, T2 execution mirrors, and T3 evidence
 indexes. It does not replace detailed work files in `design/`, `docs/`,
 `.claude/docs/`, or `production/`; it indexes and mirrors them.
+When `memory_bank/` exists, approved gate, validation, and release writes also
+update T3 audit indexes while the original reports remain in their normal paths.
 
 For the full user manual, see `docs/USER-MANUAL.md`. For a generated phase
 artifact map, see `docs/PHASE-CHECKLISTS.md`. For customer delivery validation,

@@ -10,4 +10,5 @@ Recommended indexes:
 - `release_evidence/`
 - `gate_runs/`
 - `reviews/`
+- `sprint_snapshots/`
 - `amendments/`

@@ -153,6 +153,28 @@ All file writes (release checklists, changelogs, patch notes, deployment scripts
 delegated to sub-agents and sub-skills. Each enforces the "May I write to [path]?"
 protocol. This orchestrator does not write files directly.
 
+## Memory Bank Release Evidence
+
+After a successful release and before closing, ask:
+
+`May I record this release evidence in memory_bank/t3_archive/release_evidence/release-[version].md and memory_bank/t0_core/release_state.md?`
+
+When `memory_bank/` exists and the user approves, coordinate the release evidence
+write through the same file write protocol.
+
+- Write `memory_bank/t3_archive/release_evidence/release-[version].md`.
+- If the release evidence file already exists, append a new timestamped evidence
+  section instead of overwriting historical evidence.
+- Record release version or tag, commit SHA, workflow run ID, workflow run URL,
+  `ubuntu-latest`, `macos-latest`, and `windows-latest` job results,
+  go/no-go decision, deployment status, and monitoring window.
+- Update `memory_bank/t0_core/release_state.md` with latest release version,
+  release status, evidence path, deployment state, and monitoring state.
+
+If `memory_bank/` does not exist, do not create it from `/team-release`. Keep
+the normal release output and say: "Run `/constitute` to establish the
+memory_bank governance control plane."
+
 ## Output
 
 A summary report covering: release version, scope, quality gate results, go/no-go decision, deployment status, and monitoring plan.
@@ -165,3 +187,6 @@ Verdict: **BLOCKED** — release halted; go/no-go was NO or a hard blocker is un
 - Monitor post-release dashboards for 48 hours.
 - Run `/retrospective` if significant issues occurred during the release.
 - Update `production/stage.txt` to `Live` after successful deployment.
+- When `memory_bank/` exists and evidence recording is approved, update
+  `memory_bank/t0_core/release_state.md` and write or append
+  `memory_bank/t3_archive/release_evidence/release-[version].md`.

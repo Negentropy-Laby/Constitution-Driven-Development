@@ -599,6 +599,34 @@ When the verdict is **FAIL**:
 3. If the user overrides, capture the override decision and risk note in the gate report before updating `production/stage.txt`.
 4. If the user does not override, leave `production/stage.txt` unchanged and list the blockers.
 
+### Memory Bank Audit Record
+
+After presenting the verdict, ask:
+
+`May I write this gate result to memory_bank/t3_archive/gate_runs/gate-[phase]-[YYYY-MM-DD].md?`
+
+When `memory_bank/` exists and the user approves, write a T3 audit record under
+`memory_bank/t3_archive/gate_runs/`.
+
+- Use `gate-[phase]-[YYYY-MM-DD].md`.
+- If that file exists, use `gate-[phase]-[YYYY-MM-DD]-[NN].md`.
+- Include gate name, domain, date, verdict, required artifact source,
+  missing artifacts, quality concerns, director panel summary,
+  Chain-of-Verification result, stage update decision, and any override or risk
+  note.
+- The required artifact source is
+  `.claude/docs/generated/gate-required-artifacts.md`.
+
+When a PASS verdict, acknowledged CONCERNS advance, or explicit FAIL override
+updates `production/stage.txt`, also update
+`memory_bank/t0_core/current_state.md` when `memory_bank/` exists. The current
+state update should record current phase, stage source, latest gate evidence
+path, current blocker, next command, and any risk/override note.
+
+If `memory_bank/` does not exist, do not create it from `/gate-check`. Keep the
+existing `production/stage.txt` behavior and say: "Run `/constitute` to
+establish the memory_bank governance control plane."
+
 ---
 
 ## 7. Closing Next-Step Widget

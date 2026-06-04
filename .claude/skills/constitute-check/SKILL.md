@@ -50,6 +50,11 @@ Check for the minimum memory-bank artifacts:
 | `memory_bank/t2_execution/workflow_contract.md` | Recommended | Read if exists |
 | `memory_bank/t2_execution/current_roadmap.md` | Recommended | Read if exists |
 | `memory_bank/t3_archive/README.md` | Recommended | Read if exists |
+| `memory_bank/t3_archive/gate_runs/README.md` | Recommended | Read if exists |
+| `memory_bank/t3_archive/release_evidence/README.md` | Recommended | Read if exists |
+| `memory_bank/t3_archive/reviews/README.md` | Recommended | Read if exists |
+| `memory_bank/t3_archive/sprint_snapshots/README.md` | Recommended | Read if exists |
+| `memory_bank/t3_archive/amendments/README.md` | Recommended | Read if exists |
 | `memory_bank/README.md` | Recommended | Read if exists |
 
 If `basic_law_index.md` is missing: "No constitution detected. Run `/constitute`
@@ -93,7 +98,11 @@ Read T2 files when present:
 
 Read T3 indexes when present:
 - `memory_bank/t3_archive/qa_evidence_index.md`
+- `memory_bank/t3_archive/gate_runs/`
 - `memory_bank/t3_archive/release_evidence/`
+- `memory_bank/t3_archive/reviews/`
+- `memory_bank/t3_archive/sprint_snapshots/`
+- `memory_bank/t3_archive/amendments/`
 
 ---
 
@@ -142,7 +151,9 @@ Identify what's missing or stale:
 | **Missing T2 workflow contract** | `memory_bank/t2_execution/workflow_contract.md` does not exist |
 | **Missing T2 current roadmap** | Project has roadmap evidence but `memory_bank/t2_execution/current_roadmap.md` is missing |
 | **Missing T3 archive README** | `memory_bank/t3_archive/README.md` does not exist |
+| **Missing T3 gate archive** | Gate evidence exists but `memory_bank/t3_archive/gate_runs/README.md` is missing |
 | **Missing QA evidence index** | QA evidence exists but `memory_bank/t3_archive/qa_evidence_index.md` is missing |
+| **Missing release evidence archive** | Release evidence exists but `memory_bank/t3_archive/release_evidence/README.md` is missing |
 | **Missing README** | `memory_bank/README.md` does not exist |
 | **Stale tech context** | Tech context mentions old versions or unused dependencies |
 | **Drifted principles** | Law says X, code does Y |

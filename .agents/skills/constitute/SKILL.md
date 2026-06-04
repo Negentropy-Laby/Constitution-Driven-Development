@@ -426,12 +426,25 @@ Create or update these files:
 - `memory_bank/t1_axioms/module_support_map.yaml`
 - `memory_bank/t2_execution/README.md`
 - `memory_bank/t2_execution/workflow_contract.md`
+- `memory_bank/t2_execution/phase_checklists.md`
+- `memory_bank/t2_execution/gate_required_artifacts.md`
+- `memory_bank/t2_execution/current_roadmap.md`
 - `memory_bank/t3_archive/README.md`
 - `memory_bank/t3_archive/qa_evidence_index.md`
 - `memory_bank/t3_archive/release_evidence/README.md`
+- `memory_bank/t3_archive/gate_runs/README.md`
+- `memory_bank/t3_archive/reviews/README.md`
+- `memory_bank/t3_archive/sprint_snapshots/README.md`
+- `memory_bank/t3_archive/amendments/README.md`
 
 Canonical knowledge graph path is `memory_bank/t1_axioms/knowledge_graph.md`.
 If an older project has `memory_bank/t0_core/knowledge_graph.md`, treat it as a deprecated compatibility pointer and migrate future updates to the T1 path.
+
+`memory_bank/t2_execution/phase_checklists.md` and
+`memory_bank/t2_execution/gate_required_artifacts.md` are generated mirrors.
+Refresh them with `python scripts/generate_phase_checklists.py --write --memory-bank`
+and `python scripts/generate_gate_required_sections.py --write --memory-bank`.
+`memory_bank/t2_execution/current_roadmap.md` is maintained by `/cdd-status`.
 
 ### Phase 3f: Handoff After Interactive Legislation
 

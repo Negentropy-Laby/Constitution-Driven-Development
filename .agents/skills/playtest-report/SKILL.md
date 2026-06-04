@@ -232,6 +232,21 @@ For Product, ask: "May I write this validation report to `production/qa/evidence
 
 If yes, write the file, creating the directory if needed.
 
+When `memory_bank/` exists and the user approves writing the report, also update
+`memory_bank/t3_archive/qa_evidence_index.md`.
+
+- Keep the full report in `production/qa/evidence/...`.
+- Add or update one index row for the evidence path.
+- If the same evidence path already exists in the index, update the date,
+  evidence type, verdict, and follow-up owner instead of adding a duplicate row.
+- Use `playtest` for Game reports and `user-test` or `workflow validation` for
+  Product reports.
+- Record related story or gate when known; otherwise use `N/A`.
+
+If `memory_bank/` does not exist, do not create it from `/playtest-report`.
+Write only the approved evidence report and say: "Run `/constitute` to
+establish the memory_bank governance control plane."
+
 ---
 
 ## Phase 5: Next Steps

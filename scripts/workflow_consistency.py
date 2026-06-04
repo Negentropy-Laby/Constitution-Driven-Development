@@ -850,6 +850,10 @@ def check_memory_bank_contract() -> list[Finding]:
         "t3_archive/README.md",
         "t3_archive/qa_evidence_index.md",
         "t3_archive/release_evidence/README.md",
+        "t3_archive/gate_runs/README.md",
+        "t3_archive/reviews/README.md",
+        "t3_archive/sprint_snapshots/README.md",
+        "t3_archive/amendments/README.md",
     ]
     if not MEMORY_BANK_TEMPLATE_DIR.exists():
         findings.append(Finding("ERROR", f"missing memory-bank template directory: {rel(MEMORY_BANK_TEMPLATE_DIR)}"))
@@ -885,6 +889,11 @@ def check_memory_bank_contract() -> list[Finding]:
             "memory_bank/t2_execution/current_roadmap.md",
             "production/qa/evidence/**",
             "memory_bank/t3_archive/qa_evidence_index.md",
+            "memory_bank/t3_archive/gate_runs/",
+            "memory_bank/t3_archive/release_evidence/",
+            "memory_bank/t3_archive/reviews/",
+            "memory_bank/t3_archive/sprint_snapshots/",
+            "memory_bank/t3_archive/amendments/",
         ]:
             if snippet not in text:
                 findings.append(Finding("ERROR", f"{rel(document_map)} omits document map entry: {snippet}"))
@@ -900,7 +909,15 @@ def check_memory_bank_contract() -> list[Finding]:
             "memory_bank/t0_core/current_state.md",
             "memory_bank/t1_axioms/knowledge_graph.md",
             "memory_bank/t2_execution/workflow_contract.md",
+            "memory_bank/t2_execution/phase_checklists.md",
+            "memory_bank/t2_execution/gate_required_artifacts.md",
+            "memory_bank/t2_execution/current_roadmap.md",
             "memory_bank/t3_archive/README.md",
+            "memory_bank/t3_archive/gate_runs/README.md",
+            "memory_bank/t3_archive/reviews/README.md",
+            "memory_bank/t3_archive/sprint_snapshots/README.md",
+            "memory_bank/t3_archive/amendments/README.md",
+            "generate_phase_checklists.py --write --memory-bank",
             "deprecated compatibility pointer",
         ]:
             if snippet not in text:
@@ -915,6 +932,11 @@ def check_memory_bank_contract() -> list[Finding]:
             "memory_bank/t2_execution/workflow_contract.md",
             "memory_bank/t2_execution/current_roadmap.md",
             "memory_bank/t3_archive/qa_evidence_index.md",
+            "memory_bank/t3_archive/gate_runs/README.md",
+            "memory_bank/t3_archive/release_evidence/README.md",
+            "memory_bank/t3_archive/reviews/README.md",
+            "memory_bank/t3_archive/sprint_snapshots/README.md",
+            "memory_bank/t3_archive/amendments/README.md",
             "NEEDS ATTENTION",
             "deprecated compatibility path",
         ]:
@@ -931,6 +953,49 @@ def check_memory_bank_contract() -> list[Finding]:
         ]:
             if snippet not in text:
                 findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank cdd-status contract: {snippet}"))
+
+    workflow_contracts = [
+        (
+            "gate-check",
+            [
+                "memory_bank/t3_archive/gate_runs/",
+                "gate-[phase]-[YYYY-MM-DD].md",
+                "gate-[phase]-[YYYY-MM-DD]-[NN].md",
+                "memory_bank/t0_core/current_state.md",
+                "establish the memory_bank governance control plane",
+            ],
+        ),
+        (
+            "playtest-report",
+            [
+                "memory_bank/t3_archive/qa_evidence_index.md",
+                "production/qa/evidence/...",
+                "same evidence path already exists",
+                "establish the memory_bank governance control plane",
+            ],
+        ),
+        (
+            "team-release",
+            [
+                "memory_bank/t3_archive/release_evidence/release-[version].md",
+                "memory_bank/t0_core/release_state.md",
+                "workflow run ID",
+                "timestamped evidence",
+                "memory_bank/` does not exist",
+            ],
+        ),
+    ]
+    for skill_name, snippets in workflow_contracts:
+        for path in [SKILLS_DIR / skill_name / "SKILL.md", CODEX_SKILLS_DIR / skill_name / "SKILL.md"]:
+            text = path.read_text(encoding="utf-8", errors="replace")
+            for snippet in snippets:
+                if snippet not in text:
+                    findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank evidence contract: {snippet}"))
+        claude_text = (SKILLS_DIR / skill_name / "SKILL.md").read_text(encoding="utf-8", errors="replace")
+        codex_text = (CODEX_SKILLS_DIR / skill_name / "SKILL.md").read_text(encoding="utf-8", errors="replace")
+        for snippet in snippets:
+            if (snippet in claude_text) != (snippet in codex_text):
+                findings.append(Finding("ERROR", f"{skill_name} memory-bank evidence contract differs between .claude and .agents: {snippet}"))
 
     for path, mirror in [
         (GENERATE_PHASE_CHECKLISTS, "memory_bank/t2_execution/phase_checklists.md"),

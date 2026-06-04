@@ -128,7 +128,29 @@ documents:
     indexes:
       - production/qa/evidence/**
 
+  memory_bank/t3_archive/gate_runs/:
+    tier: T3
+    role: archive
+    owner: /gate-check
+    indexes:
+      - memory_bank/t0_core/current_state.md
+
   memory_bank/t3_archive/release_evidence/:
     tier: T3
     role: archive
     owner: /team-release
+
+  memory_bank/t3_archive/reviews/:
+    tier: T3
+    role: archive
+    owner: review workflows
+
+  memory_bank/t3_archive/sprint_snapshots/:
+    tier: T3
+    role: archive
+    owner: sprint and milestone workflows
+
+  memory_bank/t3_archive/amendments/:
+    tier: T3
+    role: archive
+    owner: /constitute
