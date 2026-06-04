@@ -1,11 +1,11 @@
 <p align="center">
   <h1 align="center">Constitution Driven Development</h1>
   <p align="center">
-    Turn a single Claude Code session into a coordinated development team.
+    Turn a single Claude Code session into a governed development team with a project brain.
     <br />
-    Also supports product development: APIs, CLIs, web apps, data pipelines.
+    memory_bank stores current laws, supporting context, execution state, and audit history.
     <br />
-    53 agents. 74 skills. One coordinated AI team.
+    53 agents. 74 skills. One governed CDD system for games, APIs, CLIs, web apps, SDKs, and data pipelines.
   </p>
 </p>
 
@@ -37,8 +37,8 @@ release workflows, read [docs/USER-MANUAL.md](docs/USER-MANUAL.md).
 
 | Path | First command | What it starts | Next normal checkpoint |
 |------|---------------|----------------|------------------------|
-| **New game project** | `/constitute` | Governing principles, project memory, review mode, and game concept direction | `/brainstorm game ideas` if needed, then `/design-review` and `/gate-check concept` |
-| **New product / API / CLI / Web App** | `/constitute` | Governing principles, product promise, user workflow, and stack-neutral planning | `/brainstorm product ideas` if needed, then `/design-review` and `/gate-check concept` |
+| **New game project** | `/constitute` | Creates `memory_bank/` T0-T3 governance, ratifies laws, sets review mode, and routes concept direction | `/brainstorm game ideas` if needed, then `/design-review` and `/gate-check concept` |
+| **New product / API / CLI / Web App** | `/constitute` | Creates `memory_bank/` T0-T3 governance, ratifies product principles, sets review mode, and routes workflow planning | `/brainstorm product ideas` if needed, then `/design-review` and `/gate-check concept` |
 | **Existing project adoption** | `/project-stage-detect` | Stage diagnosis from existing design, architecture, source, tests, and production artifacts | `/adopt` or `/constitute` in existing-project mode, then retrofit missing artifacts |
 
 Run `/help` at any time to see the next required step. Run `/cdd-status` when you
@@ -47,6 +47,25 @@ want a saved progress dashboard at `production/project-roadmap.md`; see
 for the expected shape. Gates are
 governed advisory: they must run before normal advancement; a `FAIL` requires
 explicit override and a risk note before `production/stage.txt` advances.
+
+---
+
+## The Project Brain: memory_bank/
+
+Every CDD project starts by creating or refreshing `memory_bank/`, the project
+brain and governance control plane maintained by the workflow:
+
+| Layer | What it answers | Maintained by |
+|-------|-----------------|---------------|
+| **T0 Core** | What is true now? | `/constitute`, `/gate-check`, `/team-release` |
+| **T1 Axioms** | Why is it true? | `/constitute`, architecture, UX, QA, and design workflows |
+| **T2 Execution** | What should happen next? | `/help`, `/cdd-status`, workflow catalog generators |
+| **T3 Archive** | What evidence proves it? | Gate, review, QA, story, sprint, milestone, and release workflows |
+
+`memory_bank/` does not replace `design/`, `docs/`, `.claude/docs/`, or
+`production/`. Those directories are the working bench for detailed source
+artifacts. The memory bank indexes, mirrors, and summarizes them so the current
+state, next step, and audit trail stay discoverable.
 
 ---
 
@@ -65,6 +84,7 @@ The result: you still make every decision, but now you have a team that asks the
 ## Table of Contents
 
 - [Start Here](#start-here)
+- [The Project Brain](#the-project-brain-memory_bank)
 - [What's Included](#whats-included)
 - [Studio Hierarchy](#studio-hierarchy)
 - [Getting Started](#getting-started)
@@ -86,6 +106,7 @@ The result: you still make every decision, but now you have a team that asks the
 
 | Category | Count | Description |
 |----------|-------|-------------|
+| **Memory Bank** | T0-T3 | Project governance brain for current laws, supporting context, execution mirrors, and audit evidence |
 | **Agents** | 53 | Specialized subagents across design, programming, art, audio, narrative, QA, production, and language-specific product implementation |
 | **Skills** | 74 | Slash commands for every workflow phase (`/constitute`, `/help`, `/cdd-status`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
 | **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
@@ -162,9 +183,9 @@ All hooks fail gracefully if optional tools are missing — nothing breaks, you 
    claude
    ```
 
-3. **Run `/constitute`** — the system asks where you are and what kind of project
-   (game or product, fresh idea, clear design, existing work) and guides you to the
-   right workflow. No assumptions about your domain.
+3. **Run `/constitute`** — the system creates or refreshes `memory_bank/`
+   T0-T3 governance, asks where you are and what kind of project you are
+   building, then guides you to the right workflow.
 
    Or jump directly to a specific skill if you already know what you need:
    **Game**: `/brainstorm game ideas` or `/setup-engine godot 4.6`
@@ -197,6 +218,11 @@ CLAUDE.md                           # Master configuration
   docs/
     workflow-catalog.yaml           # 7-phase pipeline definition (read by /help)
     templates/                      # 79 document templates
+memory_bank/                        # Project brain created by /constitute
+  t0_core/                           # Current laws, current state, release state
+  t1_axioms/                         # Technical, architecture, UX, QA, module context
+  t2_execution/                      # Workflow contract, generated mirrors, roadmap
+  t3_archive/                        # Gate, review, QA, story, sprint, release evidence indexes
 src/                                # Game source code or product source code
   gameplay/                         # Game mechanics and playable systems
   core/                             # Engine/framework/core domain code
@@ -257,6 +283,16 @@ Type `/` in Claude Code to access all 74 skills:
 `/team-combat` `/team-narrative` `/team-ui` `/team-release` `/team-polish` `/team-audio` `/team-level` `/team-live-ops` `/team-qa`
 
 ## How It Works
+
+### Project Brain Loop
+
+CDD workflows work by reading and maintaining the project brain:
+
+1. `/constitute` creates or refreshes `memory_bank/` T0-T3 governance.
+2. `/help` and `/cdd-status` read workflow evidence and report the next step.
+3. `/gate-check` writes T3 gate evidence and updates T0 current state.
+4. Review, QA, story, sprint, milestone, and release workflows maintain T3 indexes.
+5. Detailed work remains in `design/`, `docs/`, `.claude/docs/`, and `production/`.
 
 ### Agent Coordination
 

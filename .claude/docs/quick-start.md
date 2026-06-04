@@ -21,6 +21,21 @@ action-first design).
 
 Use whichever agent set matches your project.
 
+## The Project Brain
+
+`/constitute` creates or refreshes `memory_bank/`, the project brain and
+governance control plane for the workspace.
+
+| Layer | What it answers |
+|-------|-----------------|
+| **T0 Core** | What is legally true now? Current laws, phase, release state, and amendments. |
+| **T1 Axioms** | What context supports those laws? Technical, architecture, UX, QA, behavior, and module context. |
+| **T2 Execution** | What should happen next? Workflow contract, generated mirrors, and current roadmap. |
+| **T3 Archive** | What evidence proves past decisions? Gate, review, QA, story, sprint, milestone, and release indexes. |
+
+Agents and slash commands do not replace this memory. They maintain it while
+detailed work stays in `design/`, `docs/`, `.claude/docs/`, and `production/`.
+
 ## How to Use
 
 ### 1. Understand the Hierarchy
@@ -90,9 +105,10 @@ Ask yourself: "What department would handle this in a real studio?"
 
 | Command | What it does |
 |---------|-------------|
-| `/constitute` | CDD onboarding — asks where you are, establishes governing principles, routes to the right workflow |
+| `/constitute` | Creates or refreshes `memory_bank/` T0-T3 governance, establishes governing principles, and routes to the right workflow |
+| `/constitute-check` | Audits T0-T3 memory health and recommends migration steps for older projects |
 | `/help` | Context-aware "what do I do next?" — reads your current phase and artifacts |
-| `/cdd-status` | Generate a saved project dashboard at `production/project-roadmap.md` |
+| `/cdd-status` | Generate `production/project-roadmap.md` and update the T2 roadmap mirror when `memory_bank/` exists |
 | `/project-stage-detect` | Analyze project state, detect stage, identify gaps |
 | `/setup-engine` | Configure engine + version for games, or language/framework stack for products; populate reference docs |
 | `/adopt` | Brownfield audit and migration plan for existing projects |
@@ -425,12 +441,3 @@ CLAUDE.md                          -- Master config (read this first, ~60 lines)
 For the full user manual, see `docs/USER-MANUAL.md`. For the generated artifact
 checklist by phase, see `docs/PHASE-CHECKLISTS.md`. For delivery validation, see
 `docs/CUSTOMER-ACCEPTANCE.md`.
-
-`memory_bank/` is created by `/constitute` as a governance control plane: T0
-current laws/state, T1 supporting context, T2 execution mirrors, and T3 evidence
-indexes. It indexes existing `design/`, `docs/`, `.claude/docs/`, and
-`production/` files rather than moving those detailed work files.
-When `memory_bank/` exists, approved review, smoke/team QA, story closure,
-sprint/milestone, `/gate-check`, `/playtest-report`, and `/team-release` writes
-also maintain T3 audit indexes while original evidence remains in its normal
-working path.

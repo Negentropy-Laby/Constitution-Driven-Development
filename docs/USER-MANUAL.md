@@ -23,6 +23,48 @@ CDD is collaborative rather than autonomous. The human owner makes binding
 product and project decisions; agents ask questions, present options, draft
 artifacts, and request approval before writing or committing work.
 
+## The Project Brain: memory_bank/
+
+`memory_bank/` is the project brain and governance control plane, not a
+replacement for the working directories. Keep full CDDs in `design/`,
+architecture in `docs/architecture/`, workflow contracts in `.claude/docs/`,
+and execution artifacts in `production/`. The memory bank indexes, mirrors, and
+summarizes those sources.
+
+The layers are:
+
+| Layer | Purpose |
+|-------|---------|
+| `t0_core/` | Current laws, active state, release state, and amendments. |
+| `t1_axioms/` | Supporting technical, architecture, UX, QA, behavior, and module context. |
+| `t2_execution/` | Workflow contract, phase/gate mirrors, and current roadmap. |
+| `t3_archive/` | Historical indexes for QA, release, gate, review, story, sprint, milestone, and amendment evidence. |
+
+Run `/constitute` to initialize or refresh the memory-bank skeleton. Run
+`/constitute-check` to audit T0-T3 health. Run `/cdd-status` to update
+`production/project-roadmap.md` and, when `memory_bank/` exists,
+`memory_bank/t2_execution/current_roadmap.md`.
+
+T3 is the audit index layer. Gate decisions, review artifacts, QA validation,
+smoke/team QA sign-off, story closure, sprint/milestone snapshots, and release
+evidence stay in their normal working paths, but approved writes also maintain
+T3 indexes when `memory_bank/` exists.
+
+### Where Do I Look?
+
+| Question | Look here |
+|----------|-----------|
+| What are the current project laws? | `memory_bank/t0_core/basic_law_index.md` |
+| What phase are we in? | `memory_bank/t0_core/current_state.md` |
+| Why did we choose this architecture? | `memory_bank/t1_axioms/architecture_context.md` and `docs/architecture/adr-*.md` |
+| What should happen next? | `/help`, `/cdd-status`, `memory_bank/t2_execution/current_roadmap.md` |
+| What does this phase require? | `memory_bank/t2_execution/phase_checklists.md` |
+| Why did a gate pass or fail? | `memory_bank/t3_archive/gate_runs/` |
+| What QA evidence exists? | `memory_bank/t3_archive/qa_evidence_index.md` |
+| What reviews happened? | `memory_bank/t3_archive/reviews/review-index.md` |
+| What story closure evidence exists? | `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md` |
+| What release proof exists? | `memory_bank/t3_archive/release_evidence/` |
+
 ## Prerequisites
 
 Install these tools before using the template:
@@ -49,18 +91,19 @@ Use this decision table for the first command in a new session:
 
 | Situation | First command | What happens |
 |-----------|---------------|--------------|
-| New game project | `/constitute` | Establishes governing principles, review mode, and game concept direction. |
-| New product, API, CLI, web app, SDK, or data pipeline | `/constitute` | Establishes governing principles, product promise, and workflow direction. |
+| New game project | `/constitute` | Creates or refreshes `memory_bank/` T0-T3 governance, ratifies project laws, sets review mode, and routes concept work. |
+| New product, API, CLI, web app, SDK, or data pipeline | `/constitute` | Creates or refreshes `memory_bank/` T0-T3 governance, ratifies product principles, sets review mode, and routes workflow planning. |
 | Existing project adoption | `/project-stage-detect` | Reads current artifacts and recommends the next missing CDD step. |
 | Unsure what to do next | `/help` | Reads workflow evidence and reports the next required step. |
-| Need a saved status report | `/cdd-status` | Writes `production/project-roadmap.md` with phase progress and gaps. |
+| Need a saved status report | `/cdd-status` | Writes `production/project-roadmap.md` and the T2 roadmap mirror when `memory_bank/` exists. |
 
 Run `/help` whenever the next step is unclear. Run `/cdd-status` when you need a
 persisted dashboard for handoff, review, or planning.
 
 ## New Game Path
 
-1. Run `/constitute` to establish project principles and review mode.
+1. Run `/constitute` to create `memory_bank/`, ratify T0 laws, initialize T1
+   context, T2 mirrors, and T3 audit indexes.
 2. If the idea is still open, run `/brainstorm game ideas`.
 3. Review the concept with `/design-review`.
 4. Run `/gate-check concept` before moving to systems design.
@@ -79,8 +122,8 @@ after `/setup-engine` records the selected stack.
 
 ## New Product Path
 
-1. Run `/constitute` to establish project principles, product promise, and
-   review mode.
+1. Run `/constitute` to create `memory_bank/`, ratify T0 laws, initialize T1
+   context, T2 mirrors, and T3 audit indexes.
 2. If the problem or workflow is still open, run `/brainstorm product ideas`.
 3. Review the concept with `/design-review`.
 4. Run `/gate-check concept` before moving to specification.
@@ -163,6 +206,17 @@ Common generated or maintained artifacts include:
 | Artifact | How it is created |
 |----------|-------------------|
 | `memory_bank/t0_core/basic_law_index.md` | `/constitute` |
+| `memory_bank/t0_core/current_state.md` | `/constitute`, `/gate-check` |
+| `memory_bank/t0_core/release_state.md` | `/constitute`, `/team-release` |
+| `memory_bank/t1_axioms/*` | `/constitute`, architecture, UX, QA, and design workflows |
+| `memory_bank/t2_execution/phase_checklists.md` | `python scripts/generate_phase_checklists.py --write --memory-bank` |
+| `memory_bank/t2_execution/gate_required_artifacts.md` | `python scripts/generate_gate_required_sections.py --write --memory-bank` |
+| `memory_bank/t2_execution/current_roadmap.md` | `/cdd-status` |
+| `memory_bank/t3_archive/gate_runs/` | `/gate-check` |
+| `memory_bank/t3_archive/reviews/review-index.md` | Review workflows |
+| `memory_bank/t3_archive/qa_evidence_index.md` | `/playtest-report`, `/smoke-check`, `/team-qa`, `/test-evidence-review` |
+| `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md` | `/story-done` |
+| `memory_bank/t3_archive/release_evidence/` | `/team-release` |
 | `production/review-mode.txt` | `/constitute` |
 | `production/project-roadmap.md` | `/cdd-status` |
 | `docs/PHASE-CHECKLISTS.md` | `python scripts/generate_phase_checklists.py --write` |
@@ -171,33 +225,6 @@ Common generated or maintained artifacts include:
 
 Generated files should remain consistent with the workflow catalog. If a
 generated document drifts, regenerate it using the script or skill that owns it.
-
-## memory_bank Governance Layers
-
-`memory_bank` is the project governance control plane, not a replacement for
-the working directories. Keep full CDDs in `design/`, architecture in
-`docs/architecture/`, workflow contracts in `.claude/docs/`, and execution
-artifacts in `production/`. The memory bank indexes, mirrors, and summarizes
-those sources.
-
-The layers are:
-
-| Layer | Purpose |
-|-------|---------|
-| `t0_core/` | Current laws, active state, release state, and amendments. |
-| `t1_axioms/` | Supporting technical, architecture, UX, QA, behavior, and module context. |
-| `t2_execution/` | Workflow contract, phase/gate mirrors, and current roadmap. |
-| `t3_archive/` | Historical indexes for QA, release, gate, review, and amendment evidence. |
-
-Run `/constitute` to initialize or refresh the memory-bank skeleton. Run
-`/constitute-check` to audit T0-T3 health. Run `/cdd-status` to update
-`production/project-roadmap.md` and, when `memory_bank/` exists,
-`memory_bank/t2_execution/current_roadmap.md`.
-
-T3 is the audit index layer. Gate decisions, review artifacts, QA validation,
-smoke/team QA sign-off, story closure, sprint/milestone snapshots, and release
-evidence stay in their normal working paths, but approved writes also maintain
-T3 indexes when `memory_bank/` exists.
 
 ## Release And Acceptance
 

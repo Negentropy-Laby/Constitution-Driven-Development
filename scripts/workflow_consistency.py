@@ -824,6 +824,49 @@ def check_status_dashboard_contract() -> list[Finding]:
     return findings
 
 
+def check_memory_bank_entrypoint_contract() -> list[Finding]:
+    findings: list[Finding] = []
+
+    readme_path = REPO_ROOT / "README.md"
+    readme_text = readme_path.read_text(encoding="utf-8", errors="replace")
+    for snippet in [
+        "memory_bank/",
+        "project brain",
+        "governance control plane",
+        "T0",
+        "T1",
+        "T2",
+        "T3",
+        "design/",
+        "production/",
+    ]:
+        if snippet not in readme_text:
+            findings.append(Finding("ERROR", f"{rel(readme_path)} omits memory-bank entrypoint wording: {snippet}"))
+
+    manual_text = USER_MANUAL.read_text(encoding="utf-8", errors="replace")
+    for snippet in [
+        "The Project Brain",
+        "Where Do I Look?",
+        "memory_bank/t0_core/current_state.md",
+        "memory_bank/t2_execution/current_roadmap.md",
+        "memory_bank/t3_archive/qa_evidence_index.md",
+    ]:
+        if snippet not in manual_text:
+            findings.append(Finding("ERROR", f"{rel(USER_MANUAL)} omits memory-bank user-manual entrypoint: {snippet}"))
+
+    quick_start_text = QUICK_START.read_text(encoding="utf-8", errors="replace")
+    memory_pos = quick_start_text.find("memory_bank/")
+    hierarchy_pos = quick_start_text.find("### 1. Understand the Hierarchy")
+    if memory_pos == -1:
+        findings.append(Finding("ERROR", f"{rel(QUICK_START)} must mention memory_bank/"))
+    if hierarchy_pos == -1:
+        findings.append(Finding("ERROR", f"{rel(QUICK_START)} must retain hierarchy section marker"))
+    if memory_pos != -1 and hierarchy_pos != -1 and memory_pos > hierarchy_pos:
+        findings.append(Finding("ERROR", f"{rel(QUICK_START)} must introduce memory_bank/ before agent hierarchy"))
+
+    return findings
+
+
 def check_memory_bank_contract() -> list[Finding]:
     findings: list[Finding] = []
     required_templates = [
@@ -1555,6 +1598,7 @@ def main() -> int:
     findings.extend(check_user_manual_contract())
     findings.extend(check_status_dashboard_contract())
     findings.extend(check_memory_bank_contract())
+    findings.extend(check_memory_bank_entrypoint_contract())
     findings.extend(check_help_status_escalation_contract())
     findings.extend(check_surface_profile_contract())
     findings.extend(check_phase_checklist_contract())
