@@ -17,6 +17,8 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+AGENTS_MD = REPO_ROOT / "AGENTS.md"
+CLAUDE_MD = REPO_ROOT / "CLAUDE.md"
 SKILLS_DIR = REPO_ROOT / ".claude" / "skills"
 CODEX_SKILLS_DIR = REPO_ROOT / ".agents" / "skills"
 CODEX_DIR = REPO_ROOT / ".codex"
@@ -50,7 +52,8 @@ DRIFT_SCAN_ROOTS = [
     REPO_ROOT / ".claude" / "docs",
 ]
 DELIVERY_SCAN_ROOTS = [
-    REPO_ROOT / "AGENTS.md",
+    AGENTS_MD,
+    CLAUDE_MD,
     REPO_ROOT / ".agents",
     REPO_ROOT / ".codex",
     REPO_ROOT / ".github",
@@ -1129,11 +1132,16 @@ def normalized_hook_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n").replace("\r", "\n")
 
 
+def normalized_root_instruction_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n").replace("\r", "\n")
+
+
 def check_codex_adapter_contract() -> list[Finding]:
     findings: list[Finding] = []
 
     required_paths = [
-        REPO_ROOT / "AGENTS.md",
+        AGENTS_MD,
+        CLAUDE_MD,
         CODEX_SKILLS_DIR,
         CODEX_AGENTS_DIR,
         CODEX_HOOKS_DIR,
@@ -1142,6 +1150,15 @@ def check_codex_adapter_contract() -> list[Finding]:
     for path in required_paths:
         if not path.exists():
             findings.append(Finding("ERROR", f"missing Codex adapter asset: {rel(path)}"))
+
+    if AGENTS_MD.exists() and CLAUDE_MD.exists():
+        if normalized_root_instruction_text(AGENTS_MD) != normalized_root_instruction_text(CLAUDE_MD):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    "AGENTS.md and CLAUDE.md must stay text-identical after normalizing line endings",
+                )
+            )
 
     legacy_prefix = "." + "Codex"
     legacy_path_fragments = [legacy_prefix + "/", legacy_prefix + "\\"]
