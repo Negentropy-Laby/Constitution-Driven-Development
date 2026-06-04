@@ -26,12 +26,15 @@ CLAUDE_HOOKS_DIR = REPO_ROOT / ".claude" / "hooks"
 TEMPLATES_DIR = REPO_ROOT / ".claude" / "docs" / "templates"
 CATALOG = REPO_ROOT / ".claude" / "docs" / "workflow-catalog.yaml"
 GATE_CHECK = REPO_ROOT / ".claude" / "skills" / "gate-check" / "SKILL.md"
+CODEX_GATE_CHECK = REPO_ROOT / ".agents" / "skills" / "gate-check" / "SKILL.md"
 FLOW_DIAGRAMS = REPO_ROOT / "docs" / "examples" / "skill-flow-diagrams.md"
 WORKFLOW_GUIDE = REPO_ROOT / "docs" / "WORKFLOW-GUIDE.md"
 QUICK_START = REPO_ROOT / ".claude" / "docs" / "quick-start.md"
 SKILLS_REFERENCE = REPO_ROOT / ".claude" / "docs" / "skills-reference.md"
 PHASE_CHECKLISTS = REPO_ROOT / "docs" / "PHASE-CHECKLISTS.md"
+GATE_REQUIRED_ARTIFACTS = REPO_ROOT / ".claude" / "docs" / "generated" / "gate-required-artifacts.md"
 CUSTOMER_ACCEPTANCE = REPO_ROOT / "docs" / "CUSTOMER-ACCEPTANCE.md"
+PROJECT_ROADMAP_EXAMPLE = REPO_ROOT / "docs" / "examples" / "project-roadmap.example.md"
 DOC_COMMAND_FILES = [
     REPO_ROOT / "README.md",
     REPO_ROOT / "docs" / "START-HERE.md",
@@ -357,7 +360,7 @@ def check_accessibility_entry_paths() -> list[Finding]:
     return findings
 
 
-def check_quick_start_technical_setup_paths() -> list[Finding]:
+def check_quick_start_complete_paths() -> list[Finding]:
     findings: list[Finding] = []
     text = QUICK_START.read_text(encoding="utf-8", errors="replace")
     path_blocks = [
@@ -366,7 +369,22 @@ def check_quick_start_technical_setup_paths() -> list[Finding]:
         ("Product Path A", "### Product Path A:", "### Product Path B:"),
         ("Product Path B", "### Product Path B:", "### Product Path C:"),
     ]
-    required_commands = ["/architecture-review", "/gate-check technical-setup"]
+    required_commands = [
+        "/architecture-review",
+        "/gate-check technical-setup",
+        "/gate-check pre-production",
+        "/dev-story",
+        "/story-done",
+        "/gate-check production",
+        "/team-polish",
+        "/gate-check polish",
+        "/release-checklist",
+        "/launch-checklist",
+        "/team-release",
+    ]
+
+    if "Start building" in text:
+        findings.append(Finding("ERROR", ".claude/docs/quick-start.md still stops a path at Start building"))
 
     for label, start, end in path_blocks:
         block = block_between(text, start, end)
@@ -385,6 +403,14 @@ def check_quick_start_technical_setup_paths() -> list[Finding]:
                 Finding(
                     "ERROR",
                     f".claude/docs/quick-start.md {label} starts UX before /gate-check technical-setup",
+                )
+            )
+        release_positions = [block.find(command) for command in ["/release-checklist", "/launch-checklist", "/team-release"]]
+        if not all(position >= 0 for position in release_positions) or release_positions != sorted(release_positions):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f".claude/docs/quick-start.md {label} must order Release as /release-checklist -> /launch-checklist -> /team-release",
                 )
             )
     return findings
@@ -470,12 +496,11 @@ def check_validation_quantity_boundaries() -> list[Finding]:
     if not re.search(r"(?:3 sessions|3-session|Three sessions)", phase5_plus):
         findings.append(Finding("ERROR", "docs/WORKFLOW-GUIDE.md must keep cumulative 3-session validation after Pre-Production"))
 
-    gate_text = GATE_CHECK.read_text(encoding="utf-8", errors="replace")
-    release_gate = block_between(gate_text, "### Gate: Polish → Release", "## 3. Run the Gate Check")
-    if "At least 3 playtest reports" not in release_gate:
-        findings.append(Finding("ERROR", "gate-check Polish → Release gate must require cumulative 3 game playtest reports"))
-    if "At least 3 product validation reports" not in release_gate:
-        findings.append(Finding("ERROR", "gate-check Verification → Release gate must require cumulative 3 product validation reports"))
+    gate_required = GATE_REQUIRED_ARTIFACTS.read_text(encoding="utf-8", errors="replace") if GATE_REQUIRED_ARTIFACTS.exists() else ""
+    if "production/qa/evidence/playtests/playtest*.md` (minimum 3)" not in gate_required:
+        findings.append(Finding("ERROR", "generated gate requirements must require cumulative 3 game playtest reports"))
+    if "production/qa/evidence/user-tests/*.md` (minimum 3)" not in gate_required:
+        findings.append(Finding("ERROR", "generated gate requirements must require cumulative 3 product validation reports"))
     return findings
 
 
@@ -506,6 +531,51 @@ def check_gate_required_semantics() -> list[Finding]:
         for pattern in banned_required_patterns:
             if pattern in line:
                 findings.append(Finding("ERROR", f"{rel(GATE_CHECK)}:{line_no} keeps old non-catalog blocker: {pattern}"))
+    return findings
+
+
+def check_gate_required_artifacts_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    if not GATE_REQUIRED_ARTIFACTS.exists():
+        return [Finding("ERROR", f"missing generated gate requirements: {rel(GATE_REQUIRED_ARTIFACTS)}")]
+
+    try:
+        from generate_gate_required_sections import render as render_gate_required
+        from generate_phase_checklists import parse_catalog as parse_phase_catalog
+    except Exception as exc:  # pragma: no cover - reported through script output
+        return [Finding("ERROR", f"cannot import gate requirements generator: {exc}")]
+
+    expected = render_gate_required(parse_phase_catalog(CATALOG))
+    actual = GATE_REQUIRED_ARTIFACTS.read_text(encoding="utf-8", errors="replace")
+    if actual != expected:
+        findings.append(
+            Finding(
+                "ERROR",
+                ".claude/docs/generated/gate-required-artifacts.md is stale; run python scripts/generate_gate_required_sections.py --write",
+            )
+        )
+
+    for path in [GATE_CHECK, CODEX_GATE_CHECK]:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if ".claude/docs/generated/gate-required-artifacts.md" not in text:
+            findings.append(Finding("ERROR", f"{rel(path)} must reference generated gate required artifacts"))
+
+        in_required = False
+        for line_no, raw in enumerate(text.splitlines(), start=1):
+            line = raw.strip()
+            if line in REQUIRED_GATE_HEADINGS:
+                in_required = True
+                continue
+            if in_required and line.startswith("**") and line not in REQUIRED_GATE_HEADINGS:
+                in_required = False
+            if in_required and line.startswith("- [ ]"):
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(path)}:{line_no} has hand-authored checklist row under generated Required Artifacts",
+                    )
+                )
+
     return findings
 
 
@@ -606,6 +676,7 @@ def check_customer_acceptance_contract() -> list[Finding]:
         "windows-latest",
         "/cdd-status --dry-run",
         "design/ux/surface-profile.md",
+        "docs/examples/project-roadmap.example.md",
     ]
     for snippet in required_snippets:
         if snippet not in text:
@@ -628,13 +699,22 @@ def check_status_dashboard_contract() -> list[Finding]:
             "production/project-roadmap.md",
             ".claude/docs/workflow-catalog.yaml",
             "design/ux/surface-profile.md",
+            "docs/examples/project-roadmap.example.md",
+            "Product Surface Decisions",
+            "`design/ux/interaction-patterns.md` | REQUIRED / N/A / MISSING",
+            "`design/design-system.md` | REQUIRED / N/A / OPTIONAL",
+            "`design/brand/style-guide.md` | OPTIONAL / REQUIRED BY SCOPE / N/A",
         ]:
             if snippet not in text:
                 findings.append(Finding("ERROR", f"{rel(path)} omits cdd-status requirement: {snippet}"))
 
+    if not PROJECT_ROADMAP_EXAMPLE.exists():
+        findings.append(Finding("ERROR", f"missing project roadmap example: {rel(PROJECT_ROADMAP_EXAMPLE)}"))
+
     docs_to_check = [
         REPO_ROOT / "README.md",
         REPO_ROOT / "docs" / "START-HERE.md",
+        CUSTOMER_ACCEPTANCE,
         WORKFLOW_GUIDE,
         QUICK_START,
         SKILLS_REFERENCE,
@@ -643,6 +723,26 @@ def check_status_dashboard_contract() -> list[Finding]:
         text = path.read_text(encoding="utf-8", errors="replace")
         if "/cdd-status" not in text:
             findings.append(Finding("ERROR", f"{rel(path)} must mention /cdd-status"))
+    for path in [REPO_ROOT / "README.md", REPO_ROOT / "docs" / "START-HERE.md", CUSTOMER_ACCEPTANCE]:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if "docs/examples/project-roadmap.example.md" not in text:
+            findings.append(Finding("ERROR", f"{rel(path)} must reference docs/examples/project-roadmap.example.md"))
+    return findings
+
+
+def check_help_status_escalation_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    for path in [
+        SKILLS_DIR / "help" / "SKILL.md",
+        CODEX_SKILLS_DIR / "help" / "SKILL.md",
+    ]:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for snippet in [
+            "3 or more required steps",
+            "/cdd-status --dry-run",
+        ]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(path)} omits help escalation snippet: {snippet}"))
     return findings
 
 
@@ -977,15 +1077,17 @@ def main() -> int:
     findings.extend(check_story_path_drift())
     findings.extend(check_example_phase_boundaries())
     findings.extend(check_accessibility_entry_paths())
-    findings.extend(check_quick_start_technical_setup_paths())
+    findings.extend(check_quick_start_complete_paths())
     findings.extend(check_old_workflow_drift())
     findings.extend(check_art_bible_phase_drift())
     findings.extend(check_workflow_guide_phase_boundaries())
     findings.extend(check_validation_quantity_boundaries())
     findings.extend(check_gate_required_semantics())
+    findings.extend(check_gate_required_artifacts_contract())
     findings.extend(check_customer_delivery_contract())
     findings.extend(check_customer_acceptance_contract())
     findings.extend(check_status_dashboard_contract())
+    findings.extend(check_help_status_escalation_contract())
     findings.extend(check_surface_profile_contract())
     findings.extend(check_phase_checklist_contract())
     findings.extend(check_release_phase_contract())

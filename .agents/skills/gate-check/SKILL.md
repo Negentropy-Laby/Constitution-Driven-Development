@@ -98,6 +98,14 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 
 ## 2. Phase Gate Definitions
 
+For every gate below, normal-progression required artifacts are generated from
+`.claude/docs/workflow-catalog.yaml` into
+`.claude/docs/generated/gate-required-artifacts.md`.
+
+Before checking a gate, read the generated file and use the section matching the
+active transition and domain. Do not add hand-written required artifact rows in
+this skill; hand-authored content belongs under Quality / Risk Checks.
+
 ### Gate: Concept → Systems Design / Specification
 
 **[通用场景]** This gate validates readiness to move from concept exploration to structured design.
@@ -105,9 +113,8 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 **[游戏专用] Game: Concept → Systems Design**
 
 **Required Artifacts:**
-- [ ] Constitution established (T0 core at `memory_bank/t0_core/basic_law_index.md`)
-- [ ] concept document exists (`design/cdd/game-concept.md`)
-- [ ] Game pillars defined (in concept doc or `design/cdd/game-pillars.md`)
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Game: Concept -> Systems Design`.
 
 **Quality Checks:**
 - [ ] Game concept has been reviewed (`/design-review` verdict not MAJOR REVISION NEEDED)
@@ -118,9 +125,8 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 **[通用产品] Product: Concept → Specification**
 
 **Required Artifacts:**
-- [ ] Concept document exists at `design/cdd/product-concept.md`
-- [ ] Project principles defined (in concept doc or `design/cdd/principles.md`)
-- [ ] Constitution established (T0 core at `memory_bank/t0_core/basic_law_index.md`)
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Product: Concept -> Specification`.
 
 **Quality Checks:**
 - [ ] Product concept has been reviewed (`/design-review` verdict not MAJOR REVISION NEEDED)
@@ -135,9 +141,9 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 **[通用场景]** This gate validates readiness to move from design to architecture. Checks are shared across both game and product domains.
 
 **Required Artifacts:**
-- [ ] Module index exists at `design/cdd/module-index.md` with at least MVP systems enumerated
-- [ ] All MVP-tier CDDs exist in `design/cdd/` and individually pass `/design-review`
-- [ ] A cross-CDD review report exists in `design/cdd/` (from `/review-all-gdds`)
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Game: Systems Design -> Technical Setup` or
+`Product: Specification -> Architecture`.
 
 **Quality Checks:**
 - [ ] All MVP CDDs pass individual design review (8 required sections, no MAJOR REVISION NEEDED verdict)
@@ -156,18 +162,8 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 **[游戏专用] Game: Technical Setup → Pre-Production**
 
 **Catalog Required Artifacts:**
-- [ ] Engine chosen (AGENTS.md Technology Stack is not `[CHOOSE]`)
-- [ ] Technical preferences configured (`.claude/docs/technical-preferences.md` populated)
-- [ ] At least 3 Architecture Decision Records in `docs/architecture/` covering
-      Foundation-layer systems (scene management, event architecture, save/load)
-- [ ] Test framework initialized: `tests/unit/` and `tests/integration/` directories exist
-- [ ] CI/CD test workflow exists at `.github/workflows/tests.yml` (or equivalent)
-- [ ] At least one example test file exists to confirm the framework is functional
-- [ ] `/test-helpers` coverage is treated as optional; missing helpers are not a blocker
-- [ ] Master architecture document exists at `docs/architecture/architecture.md`
-- [ ] `/architecture-review` has been run (a review report file exists in `docs/architecture/`)
-- [ ] Control manifest exists at `docs/architecture/control-manifest.md`
-- [ ] `design/accessibility-requirements.md` exists with accessibility tier committed
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Game: Technical Setup -> Pre-Production`.
 
 **Quality / Risk Checks:**
 - [ ] Architecture decisions cover core systems (rendering, input, state management)
@@ -206,17 +202,8 @@ below. Do not fail an API-only, CLI-only, SDK/library, or internal headless
 product for missing `design/design-system.md`.
 
 **Catalog Required Artifacts:**
-- [ ] Technology stack configured (AGENTS.md Technology Stack is not `[CHOOSE]`)
-- [ ] Technical preferences configured (`.claude/docs/technical-preferences.md` populated)
-- [ ] At least 3 Architecture Decision Records in `docs/architecture/` covering Foundation-layer modules (data storage, auth framework, error handling)
-- [ ] Test framework initialized: `tests/unit/` and `tests/integration/` directories exist
-- [ ] CI/CD test workflow exists at `.github/workflows/tests.yml` (or equivalent)
-- [ ] At least one example test file exists to confirm the framework is functional
-- [ ] `/test-helpers` coverage is treated as optional; missing helpers are not a blocker
-- [ ] Master architecture document exists at `docs/architecture/architecture.md`
-- [ ] `/architecture-review` has been run (a review report file exists in `docs/architecture/`)
-- [ ] Control manifest exists at `docs/architecture/control-manifest.md`
-- [ ] `design/accessibility-requirements.md` exists with accessibility tier committed (even "Basic" is acceptable)
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Product: Architecture -> Pre-Implementation`.
 
 **Quality / Risk Checks:**
 - [ ] Architecture decisions cover core modules (auth, data access, API framework, logging)
@@ -250,14 +237,8 @@ product for missing `design/design-system.md`.
 **[游戏专用] Game: Pre-Production → Production**
 
 **Catalog Required Artifacts:**
-- [ ] At least 1 UX spec exists in `design/ux/`
-- [ ] All key UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
-- [ ] At least 1 prototype in `prototypes/` with a README
-- [ ] At least 1 EPIC exists in `production/epics/*/EPIC.md`
-- [ ] Story files exist under `production/epics/[epic-slug]/story-*.md`
-- [ ] First sprint plan exists in `production/sprints/`
-- [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
-- [ ] Vertical Slice playtest report exists in `production/qa/evidence/playtests/` and contains at least 1 unguided core-loop session
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Game: Pre-Production -> Production`.
 
 **Quality / Risk Checks:**
 - [ ] **Core loop fun is validated** — playtest data confirms the central mechanic is enjoyable, not just functional. Explicitly check the Vertical Slice playtest report.
@@ -297,16 +278,8 @@ SDK/library, and internal headless products are not blocked by missing
 `design/design-system.md`; UI-heavy and multi-surface UI products are.
 
 **Catalog Required Artifacts:**
-- [ ] At least 1 UX spec exists in `design/ux/`
-- [ ] At least 1 prototype in `prototypes/` with a README
-- [ ] `design/ux/interaction-patterns.md` exists for every API, CLI, SDK/library, web UI, desktop/mobile/admin UI, docs-driven consumer journey, or other user/integrator-facing surface; internal headless services may mark this N/A with justification
-- [ ] `design/ux/surface-profile.md` exists when interaction patterns, design system, brand/style guide, or other product-surface artifacts are marked N/A
-- [ ] All key UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
-- [ ] At least 1 EPIC exists in `production/epics/*/EPIC.md`
-- [ ] Story files exist under `production/epics/[epic-slug]/story-*.md`
-- [ ] First sprint plan exists in `production/sprints/`
-- [ ] At least one first-sprint story has passed `/story-readiness` with READY verdict
-- [ ] User testing report exists in `production/qa/evidence/user-tests/` and contains at least 1 unguided core-workflow session
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Product: Pre-Implementation -> Implementation`.
 
 **Quality / Risk Checks:**
 - [ ] **Core interaction validated** — user testing data confirms the central workflow solves the user's job, not just functional
@@ -341,13 +314,8 @@ SDK/library, and internal headless products are not blocked by missing
 **[游戏专用] Game: Production → Polish**
 
 **Catalog Required Artifacts:**
-- [ ] `src/` has active code organized into subsystems
-- [ ] All core mechanics from CDD are implemented (cross-reference `design/cdd/` with `src/`)
-- [ ] Main gameplay path is playable end-to-end
-- [ ] Test files exist in `tests/unit/` and `tests/integration/` covering Logic and Integration stories
-- [ ] All Logic stories from this sprint have corresponding unit test files in `tests/unit/`
-- [ ] Implemented story files in `production/epics/` have `/story-done` closure evidence
-- [ ] Blocking automated/manual story evidence exists in `tests/` or `production/qa/evidence/`
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Game: Production -> Polish`.
 
 **Quality / Risk Checks:**
 - [ ] Tests are passing (run test suite via Bash)
@@ -368,13 +336,8 @@ SDK/library, and internal headless products are not blocked by missing
 **[通用产品] Product: Implementation → Verification**
 
 **Catalog Required Artifacts:**
-- [ ] `src/` has active code organized into modules
-- [ ] All core functionality from CDDs is implemented (cross-reference `design/cdd/` with `src/`)
-- [ ] Main user journey is functional end-to-end
-- [ ] Test files exist in `tests/unit/` and `tests/integration/` covering Logic and Integration stories
-- [ ] All Logic stories from this sprint have corresponding unit test files
-- [ ] Implemented story files in `production/epics/` have `/story-done` closure evidence
-- [ ] Blocking automated/manual story evidence exists in `tests/` or `production/qa/evidence/`
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Product: Implementation -> Verification`.
 
 **Quality / Risk Checks:**
 - [ ] Tests are passing (run test suite via Bash)
@@ -397,8 +360,8 @@ SDK/library, and internal headless products are not blocked by missing
 **[游戏专用] Game: Polish → Release**
 
 **Catalog Required Step Evidence:**
-- [ ] At least 3 playtest reports exist in `production/qa/evidence/playtests/`
-- [ ] `/team-polish` has completed and recorded the coordinated polish verdict
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Game: Polish -> Release`.
 
 **Quality / Risk Checks:**
 - [ ] All features from the milestone plan are implemented or explicitly deferred
@@ -421,8 +384,8 @@ SDK/library, and internal headless products are not blocked by missing
 **[通用产品] Product: Verification → Release**
 
 **Catalog Required Step Evidence:**
-- [ ] At least 3 product validation reports exist in `production/qa/evidence/user-tests/`
-- [ ] `/team-polish` has completed and recorded the coordinated verification verdict
+Use `.claude/docs/generated/gate-required-artifacts.md`, section
+`Product: Verification -> Release`.
 
 **Quality / Risk Checks:**
 - [ ] All features from the milestone plan are implemented or explicitly deferred
@@ -449,6 +412,10 @@ Systems Design → Technical Setup, pull entries in Economy, Combat, or any CDD 
 if checking Technical Setup → Pre-Production, pull entries in Architecture, Engine).
 Carry these as context — recurring conflict patterns in the target domain warrant
 increased scrutiny on those specific checks.
+
+Then read `.claude/docs/generated/gate-required-artifacts.md` and select the
+section matching the target transition and detected domain. Treat that generated
+section as the authoritative Required Artifacts / Required Step Evidence list.
 
 For each item in the target gate:
 

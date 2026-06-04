@@ -33,7 +33,9 @@ Choose the path that matches your situation. For the short version with only fir
 | **Existing project adoption** | `/project-stage-detect` | Stage diagnosis from existing design, architecture, source, tests, and production artifacts | `/adopt` or `/constitute` in existing-project mode, then retrofit missing artifacts |
 
 Run `/help` at any time to see the next required step. Run `/cdd-status` when you
-want a saved progress dashboard at `production/project-roadmap.md`. Gates are
+want a saved progress dashboard at `production/project-roadmap.md`; see
+[`docs/examples/project-roadmap.example.md`](docs/examples/project-roadmap.example.md)
+for the expected shape. Gates are
 governed advisory: they must run before normal advancement; a `FAIL` requires
 explicit override and a risk note before `production/stage.txt` advances.
 

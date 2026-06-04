@@ -10,7 +10,8 @@ model: haiku
 # CDD Status Dashboard
 
 Generate a concise progress dashboard and a durable roadmap at
-`production/project-roadmap.md`.
+`production/project-roadmap.md`. For the expected shape, see
+`docs/examples/project-roadmap.example.md`.
 
 This skill bridges `/help` and `/project-stage-detect`:
 - `/help` gives one next required step.
@@ -139,6 +140,14 @@ Write a roadmap with this structure:
 | ---- | -------- | -------- | ------ |
 | ... |
 
+## Product Surface Decisions
+
+| Artifact | Status | Source |
+| -------- | ------ | ------ |
+| `design/ux/interaction-patterns.md` | REQUIRED / N/A / MISSING | `design/ux/surface-profile.md` or catalog |
+| `design/design-system.md` | REQUIRED / N/A / OPTIONAL | surface profile / scope |
+| `design/brand/style-guide.md` | OPTIONAL / REQUIRED BY SCOPE / N/A | surface profile / scope |
+
 ## After This Phase You Should Have
 
 - [artifact glob or manual evidence generated from the catalog]
@@ -164,6 +173,18 @@ Use it to decide whether these are applicable:
 - `design/design-system.md`
 - `design/brand/style-guide.md`
 
+Populate the roadmap's `Product Surface Decisions` table for Product projects:
+- `interaction-patterns.md`: `REQUIRED` when the product has any API, CLI,
+  SDK/library, UI, admin, operator, docs-driven consumer journey, or other
+  user/integrator-facing surface; `N/A` only with surface-profile rationale;
+  `MISSING` when required and absent.
+- `design-system.md`: `REQUIRED` for UI-heavy or multi-surface UI products,
+  `N/A` for API-only, CLI-only, SDK/library, or internal headless products with
+  rationale, otherwise `OPTIONAL`.
+- `style-guide.md`: `REQUIRED BY SCOPE` when public brand, docs imagery,
+  screenshots, diagrams, marketing/release visuals, or visual tone are in
+  scope; otherwise `OPTIONAL` or `N/A` when explicitly ruled out.
+
 If a project marks one of these N/A without `design/ux/surface-profile.md`,
 flag a risk:
 
@@ -179,6 +200,7 @@ Always report:
 - Progress count
 - Current blocker
 - Next 3 commands
+- Product surface decision table when domain is Product
 - Whether `production/project-roadmap.md` was written or only drafted
 
 Do not mark a manual step complete without evidence.

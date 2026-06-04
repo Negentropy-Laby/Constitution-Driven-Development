@@ -259,6 +259,8 @@ After the current phase's steps, check if the user is likely approaching a gate:
 - If all required steps in the current phase are complete (or nearly complete),
   add: "You're close to the **[Current] → [Next]** gate. Run `/gate-check` when ready."
 - If multiple required steps remain, skip the gate warning — it's not relevant yet.
+- If 3 or more required steps in the current phase are incomplete or missing,
+  add: "For a saved roadmap, run `/cdd-status --dry-run`."
 
 ---
 
@@ -272,6 +274,7 @@ Need more detail?
 - `/constitute` — establish or refresh governing principles (works for both game and product projects)
 - `/constitute-check` — constitutional health audit
 - `/project-stage-detect` — full gap analysis with all missing artifacts listed
+- `/cdd-status --dry-run` — saved-roadmap preview with blockers and next commands
 - `/gate-check` — formal readiness check for your next phase
 ```
 

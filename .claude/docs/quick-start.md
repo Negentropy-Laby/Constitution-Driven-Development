@@ -250,7 +250,12 @@ If you already know what you need, jump directly to the relevant path:
 12. **Create epics and stories** — Run `/create-epics layer: foundation`, then
    `/create-stories [epic-slug]` for the first implementation epic
 13. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
-14. Start building
+14. **Run the Pre-Production gate** — `/gate-check pre-production`
+15. **Build sprint stories** — `/sprint-plan` -> `/story-readiness` ->
+    `/dev-story` -> `/story-done`, then `/gate-check production`
+16. **Polish and validate** — Run `/playtest-report` until 3 playtest reports
+    exist, then `/team-polish` and `/gate-check polish`
+17. **Release** — `/release-checklist` -> `/launch-checklist` -> `/team-release`
 
 ### Path B: "I know what I want to build"
 
@@ -272,10 +277,17 @@ Setup:
    then run `/gate-check technical-setup`
 9. **Design and review the core UX** — After the Technical Setup gate, run
    `/ux-design [core-screen-or-hud]`, then `/ux-review`
-10. **Create epics and stories** — Run `/create-epics layer: foundation`, then
+10. **Prototype and playtest the core loop** — Run `/prototype [core-mechanic]`,
+    then `/playtest-report`
+11. **Create epics and stories** — Run `/create-epics layer: foundation`, then
    `/create-stories [epic-slug]`
-11. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
-12. Start building
+12. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+13. **Run the Pre-Production gate** — `/gate-check pre-production`
+14. **Build sprint stories** — `/sprint-plan` -> `/story-readiness` ->
+    `/dev-story` -> `/story-done`, then `/gate-check production`
+15. **Polish and validate** — Run `/playtest-report` until 3 playtest reports
+    exist, then `/team-polish` and `/gate-check polish`
+16. **Release** — `/release-checklist` -> `/launch-checklist` -> `/team-release`
 
 ### Path C: "I know the game but not the engine"
 
@@ -331,7 +343,13 @@ The paths above cover game projects. For product projects, use these equivalents
 12. **Create epics and stories** — Run `/create-epics layer: foundation`, then
     `/create-stories [epic-slug]`
 13. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
-14. Start building
+14. **Run the Pre-Implementation gate** — `/gate-check pre-production`
+15. **Build sprint stories** — `/sprint-plan` -> `/story-readiness` ->
+    `/dev-story` -> `/story-done`, then `/gate-check production`
+16. **Polish and validate** — Run `/playtest-report` for product validation
+    until 3 user/workflow validation reports exist, then `/team-polish` and
+    `/gate-check polish`
+17. **Release** — `/release-checklist` -> `/launch-checklist` -> `/team-release`
 
 ### Product Path B: "I know what I want to build"
 
@@ -352,10 +370,18 @@ early, but normal gate order is still Concept → Specification → Architecture
    then run `/gate-check technical-setup`
 9. **Design and review the core UX** — After the Technical Setup gate, run
    `/ux-design [core-workflow]`, then `/ux-review`
-10. **Create epics and stories** — Run `/create-epics layer: foundation`, then
+10. **Prototype and validate the core workflow** — Run `/prototype [core-workflow]`,
+    then `/playtest-report` for product user-test or workflow validation evidence
+11. **Create epics and stories** — Run `/create-epics layer: foundation`, then
     `/create-stories [epic-slug]`
-11. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
-12. Start building
+12. **Plan the first sprint** — Run `/sprint-plan new`, then `/story-readiness`
+13. **Run the Pre-Implementation gate** — `/gate-check pre-production`
+14. **Build sprint stories** — `/sprint-plan` -> `/story-readiness` ->
+    `/dev-story` -> `/story-done`, then `/gate-check production`
+15. **Polish and validate** — Run `/playtest-report` for product validation
+    until 3 user/workflow validation reports exist, then `/team-polish` and
+    `/gate-check polish`
+16. **Release** — `/release-checklist` -> `/launch-checklist` -> `/team-release`
 
 ### Product Path C: "I know the product but not the stack"
 

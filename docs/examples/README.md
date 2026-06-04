@@ -9,6 +9,9 @@ This directory contains realistic, end-to-end session transcripts showing how Co
 **New to the system? Start here:**
 [Skill Flow Diagrams](skill-flow-diagrams.md) — visual maps of all 7 phases and how skills chain together.
 
+[Project Roadmap Example](project-roadmap.example.md) — sample `/cdd-status --dry-run`
+output showing progress, blockers, next commands, and Product Surface Decisions.
+
 ---
 
 ## 📚 **Available Examples**

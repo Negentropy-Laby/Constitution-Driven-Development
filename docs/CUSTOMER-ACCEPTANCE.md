@@ -67,6 +67,7 @@ Expected result:
 - `/constitute` establishes governing principles.
 - `/help` identifies the next required catalog step.
 - `/cdd-status --dry-run` produces a roadmap draft without writing files.
+- The draft follows the structure shown in `docs/examples/project-roadmap.example.md`.
 
 ## 5. Brownfield Smoke Path
 

@@ -27,7 +27,8 @@ Phase gates use the governed advisory policy from `.claude/docs/workflow-catalog
 
 Use `/help` at any time for the next required command based on the files that
 already exist. Use `/cdd-status` when you want a saved progress dashboard at
-`production/project-roadmap.md`.
+`production/project-roadmap.md`; see
+`docs/examples/project-roadmap.example.md` for a sample roadmap shape.
 
 For a generated phase artifact map, see `docs/PHASE-CHECKLISTS.md`. For customer
 delivery validation, see `docs/CUSTOMER-ACCEPTANCE.md`.
