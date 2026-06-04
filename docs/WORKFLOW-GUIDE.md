@@ -12,8 +12,9 @@
 > sequence and gate policy are defined in `.claude/docs/workflow-catalog.yaml`
 > and read by `/help`.
 >
-> For a saved project progress dashboard, run `/cdd-status`. For a generated
-> artifact map by phase, read `docs/PHASE-CHECKLISTS.md`.
+> For a saved project progress dashboard, run `/cdd-status`. For the practical
+> user manual, read `docs/USER-MANUAL.md`. For a generated artifact map by
+> phase, read `docs/PHASE-CHECKLISTS.md`.
 
 ---
 

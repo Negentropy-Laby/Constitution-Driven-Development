@@ -1,13 +1,14 @@
 # CDD Skill Testing Framework — Claude Instructions
 
 This folder is the quality assurance layer for the Constitution Driven Development skill/agent
-framework. It is self-contained and separate from any game project.
+framework. It is self-contained, optional for normal releases, and separate from
+any game or product project.
 
 ## Key files
 
 | File | Purpose |
 |------|---------|
-| `catalog.yaml` | Master registry for all 73 skills and 53 agents. Contains category, spec path, and last-test tracking fields. Always read this first when running any test command. |
+| `catalog.yaml` | Master registry for all 74 skills and 53 agents. Contains category, spec path, and last-test tracking fields. Always read this first when running any test command. |
 | `quality-rubric.md` | Category-specific pass/fail metrics. Read the matching `###` section for the skill's category when running `/skill-test category`. |
 | `skills/[category]/[name].md` | Behavioral spec for a skill — 5 test cases + protocol compliance assertions. |
 | `agents/[tier]/[name].md` | Behavioral spec for an agent — 5 test cases + protocol compliance assertions. |

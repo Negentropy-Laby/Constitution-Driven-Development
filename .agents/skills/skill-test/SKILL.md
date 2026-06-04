@@ -349,8 +349,8 @@ For each agent in catalog's `agents:` section:
 === Skill Test Coverage Audit ===
 Date: [date]
 
-SKILLS (72 total)
-Specs written: 72 (100%) | Never static tested: 72 | Never category tested: 72
+SKILLS (74 total)
+Specs written: 74 (100%) | Never static tested: 74 | Never category tested: 74
 
 Skill                  | Cat      | Has Spec | Last Static | S.Result | Last Cat | D.Result | Priority
 -----------------------|----------|----------|-------------|----------|----------|----------|----------
@@ -370,7 +370,7 @@ technical-director     | director   | YES      | never       | —
 Top 5 Priority Gaps (skills with no spec, critical/high priority):
 (none if all specs are written)
 
-Skill coverage:  72/72 specs (100%)
+Skill coverage:  74/74 specs (100%)
 Agent coverage:  53/53 specs (100%)
 ```
 

@@ -30,5 +30,6 @@ already exist. Use `/cdd-status` when you want a saved progress dashboard at
 `production/project-roadmap.md`; see
 `docs/examples/project-roadmap.example.md` for a sample roadmap shape.
 
-For a generated phase artifact map, see `docs/PHASE-CHECKLISTS.md`. For customer
-delivery validation, see `docs/CUSTOMER-ACCEPTANCE.md`.
+For the full user manual, see `docs/USER-MANUAL.md`. For a generated phase
+artifact map, see `docs/PHASE-CHECKLISTS.md`. For customer delivery validation,
+see `docs/CUSTOMER-ACCEPTANCE.md`.

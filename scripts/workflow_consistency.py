@@ -34,11 +34,13 @@ SKILLS_REFERENCE = REPO_ROOT / ".claude" / "docs" / "skills-reference.md"
 PHASE_CHECKLISTS = REPO_ROOT / "docs" / "PHASE-CHECKLISTS.md"
 GATE_REQUIRED_ARTIFACTS = REPO_ROOT / ".claude" / "docs" / "generated" / "gate-required-artifacts.md"
 CUSTOMER_ACCEPTANCE = REPO_ROOT / "docs" / "CUSTOMER-ACCEPTANCE.md"
+USER_MANUAL = REPO_ROOT / "docs" / "USER-MANUAL.md"
 PROJECT_ROADMAP_EXAMPLE = REPO_ROOT / "docs" / "examples" / "project-roadmap.example.md"
 DOC_COMMAND_FILES = [
     REPO_ROOT / "README.md",
     REPO_ROOT / "docs" / "START-HERE.md",
     QUICK_START,
+    USER_MANUAL,
 ]
 DRIFT_SCAN_ROOTS = [
     REPO_ROOT / "README.md",
@@ -712,6 +714,46 @@ def check_customer_acceptance_contract() -> list[Finding]:
     return findings
 
 
+def check_user_manual_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    if not USER_MANUAL.exists():
+        return [Finding("ERROR", f"missing user manual: {rel(USER_MANUAL)}")]
+
+    manual_text = USER_MANUAL.read_text(encoding="utf-8", errors="replace")
+    required_snippets = [
+        "# User Manual",
+        "docs/START-HERE.md",
+        "docs/WORKFLOW-GUIDE.md",
+        "53 specialized agents",
+        "74 slash-command skills",
+        "/constitute",
+        "/project-stage-detect",
+        "/help",
+        "/cdd-status",
+        "/adopt",
+        "/gate-check concept",
+        "/release-checklist -> /launch-checklist -> /team-release",
+        "docs/CUSTOMER-ACCEPTANCE.md",
+        "Template Consistency",
+        "Ubuntu, macOS, and Windows",
+    ]
+    for snippet in required_snippets:
+        if snippet not in manual_text:
+            findings.append(Finding("ERROR", f"{rel(USER_MANUAL)} omits user manual contract: {snippet}"))
+
+    entry_docs = [
+        REPO_ROOT / "README.md",
+        REPO_ROOT / "docs" / "START-HERE.md",
+        QUICK_START,
+        WORKFLOW_GUIDE,
+    ]
+    for path in entry_docs:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if "docs/USER-MANUAL.md" not in text:
+            findings.append(Finding("ERROR", f"{rel(path)} must reference docs/USER-MANUAL.md"))
+    return findings
+
+
 def check_status_dashboard_contract() -> list[Finding]:
     findings: list[Finding] = []
     required_paths = [
@@ -743,6 +785,7 @@ def check_status_dashboard_contract() -> list[Finding]:
         REPO_ROOT / "README.md",
         REPO_ROOT / "docs" / "START-HERE.md",
         CUSTOMER_ACCEPTANCE,
+        USER_MANUAL,
         WORKFLOW_GUIDE,
         QUICK_START,
         SKILLS_REFERENCE,
@@ -833,6 +876,7 @@ def check_skill_count_contract() -> list[Finding]:
             )
         )
     actual = actual_claude
+    skill_test_framework = REPO_ROOT / "CDD Skill Testing Framework"
 
     checks = [
         (
@@ -852,6 +896,12 @@ def check_skill_count_contract() -> list[Finding]:
             ],
         ),
         (
+            REPO_ROOT / "CHANGELOG.md",
+            [
+                re.compile(r"all\s+(\d+)\s+skills"),
+            ],
+        ),
+        (
             WORKFLOW_GUIDE,
             [
                 re.compile(r"(\d+)-agent system,\s+(\d+)\s+slash commands"),
@@ -862,6 +912,39 @@ def check_skill_count_contract() -> list[Finding]:
             SKILLS_REFERENCE,
             [
                 re.compile(r"^(\d+)\s+slash commands", re.MULTILINE),
+            ],
+        ),
+        (
+            skill_test_framework / "README.md",
+            [
+                re.compile(r"all\s+(\d+)\s+skills\s+\+\s+53 agents"),
+                re.compile(r"Check all\s+(\d+)\s+skills"),
+            ],
+        ),
+        (
+            skill_test_framework / "CLAUDE.md",
+            [
+                re.compile(r"all\s+(\d+)\s+skills\s+and\s+53 agents"),
+            ],
+        ),
+        (
+            SKILLS_DIR / "skill-test" / "SKILL.md",
+            [
+                re.compile(r"SKILLS\s+\((\d+)\s+total\)"),
+                re.compile(r"Specs written:\s+(\d+)\s+\(100%\)"),
+                re.compile(r"Never static tested:\s+(\d+)"),
+                re.compile(r"Never category tested:\s+(\d+)"),
+                re.compile(r"Skill coverage:\s+(\d+)/(\d+)\s+specs"),
+            ],
+        ),
+        (
+            CODEX_SKILLS_DIR / "skill-test" / "SKILL.md",
+            [
+                re.compile(r"SKILLS\s+\((\d+)\s+total\)"),
+                re.compile(r"Specs written:\s+(\d+)\s+\(100%\)"),
+                re.compile(r"Never static tested:\s+(\d+)"),
+                re.compile(r"Never category tested:\s+(\d+)"),
+                re.compile(r"Skill coverage:\s+(\d+)/(\d+)\s+specs"),
             ],
         ),
     ]
@@ -884,6 +967,32 @@ def check_skill_count_contract() -> list[Finding]:
                             f"{rel(path)} documents {documented} skills, but .claude/skills contains {actual}",
                         )
                     )
+
+    stale_count_docs = [
+        REPO_ROOT / "README.md",
+        REPO_ROOT / "CHANGELOG.md",
+        REPO_ROOT / "docs" / "START-HERE.md",
+        QUICK_START,
+        WORKFLOW_GUIDE,
+        SKILLS_REFERENCE,
+        skill_test_framework / "README.md",
+        skill_test_framework / "CLAUDE.md",
+        SKILLS_DIR / "skill-test" / "SKILL.md",
+        CODEX_SKILLS_DIR / "skill-test" / "SKILL.md",
+    ]
+    stale_patterns = [
+        re.compile(r"\b73\s+skills\b", re.IGNORECASE),
+        re.compile(r"\ball\s+73\b", re.IGNORECASE),
+        re.compile(r"\b72\s+total\b", re.IGNORECASE),
+        re.compile(r"\bSKILLS\s+\(72\s+total\)", re.IGNORECASE),
+    ]
+    for path in stale_count_docs:
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for pattern in stale_patterns:
+            if pattern.search(text):
+                findings.append(Finding("ERROR", f"{rel(path)} keeps stale skill count wording: {pattern.pattern}"))
 
     for path in [REPO_ROOT / "README.md", SKILLS_REFERENCE]:
         text = path.read_text(encoding="utf-8", errors="replace")
@@ -1114,6 +1223,7 @@ def main() -> int:
     findings.extend(check_gate_required_artifacts_contract())
     findings.extend(check_customer_delivery_contract())
     findings.extend(check_customer_acceptance_contract())
+    findings.extend(check_user_manual_contract())
     findings.extend(check_status_dashboard_contract())
     findings.extend(check_help_status_escalation_contract())
     findings.extend(check_surface_profile_contract())

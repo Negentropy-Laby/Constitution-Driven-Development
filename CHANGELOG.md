@@ -6,7 +6,7 @@ All notable template changes should be recorded here.
 
 ### Customer Delivery Hardening
 
-- Enforced full strict lint across all 73 skills.
+- Enforced full strict lint across all 74 skills.
 - Repaired customer-visible Markdown errors in required workflow skills.
 - Aligned `UPGRADING.md` with the current workflow catalog and evidence paths.
 - Made `/team-release` a required Release phase step after `/release-checklist`

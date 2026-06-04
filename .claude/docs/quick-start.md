@@ -421,6 +421,6 @@ CLAUDE.md                          -- Master config (read this first, ~60 lines)
     templates/                     -- 50 document templates
 ```
 
-For the generated artifact checklist by phase, see
-`docs/PHASE-CHECKLISTS.md`. For delivery validation, see
+For the full user manual, see `docs/USER-MANUAL.md`. For the generated artifact
+checklist by phase, see `docs/PHASE-CHECKLISTS.md`. For delivery validation, see
 `docs/CUSTOMER-ACCEPTANCE.md`.

@@ -24,7 +24,10 @@
 
 ## Start Here
 
-Choose the path that matches your situation. For the short version with only first command, outputs, and next step, read [docs/START-HERE.md](docs/START-HERE.md).
+Choose the path that matches your situation. For the short version with only
+first command, outputs, and next step, read [docs/START-HERE.md](docs/START-HERE.md).
+For the practical operating manual, including game, product, adoption, gate, and
+release workflows, read [docs/USER-MANUAL.md](docs/USER-MANUAL.md).
 
 | Path | First command | What it starts | Next normal checkpoint |
 |------|---------------|----------------|------------------------|
@@ -59,6 +62,7 @@ The result: you still make every decision, but now you have a team that asks the
 - [What's Included](#whats-included)
 - [Studio Hierarchy](#studio-hierarchy)
 - [Getting Started](#getting-started)
+- [User Manual](#user-manual)
 - [Upgrading](#upgrading)
 - [Project Structure](#project-structure)
 - [Reference: Slash Commands](#reference-slash-commands)
@@ -160,6 +164,12 @@ All hooks fail gracefully if optional tools are missing — nothing breaks, you 
    **Game**: `/brainstorm game ideas` or `/setup-engine godot 4.6`
    **Product**: `/brainstorm product ideas` or `/setup-engine python 3.13 flask`
    **Either**: `/project-stage-detect` — analyze an existing project
+
+## User Manual
+
+For the full user-facing operating guide, see [docs/USER-MANUAL.md](docs/USER-MANUAL.md).
+It covers first commands, game and product paths, brownfield adoption, gates,
+generated artifacts, release evidence, and troubleshooting.
 
 ## Upgrading
 

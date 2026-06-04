@@ -4,7 +4,7 @@ Quality assurance infrastructure for the **Constitution Driven Development** fra
 Tests the skills and agents themselves — not any game built with them.
 
 > **This folder is self-contained and optional.**
-> Game developers using CDD don't need it. To remove it entirely:
+> Game and product teams using CDD don't need it for normal release work. To remove it entirely:
 > `rm -rf "CDD Skill Testing Framework"` — nothing in `.claude/` depends on it.
 
 ---
@@ -15,7 +15,7 @@ Tests the skills and agents themselves — not any game built with them.
 CDD Skill Testing Framework/
 ├── README.md              ← you are here
 ├── CLAUDE.md              ← tells Claude how to use this framework
-├── catalog.yaml           ← master registry: all 73 skills + 53 agents, coverage tracking
+├── catalog.yaml           ← master registry: all 74 skills + 53 agents, coverage tracking
 ├── quality-rubric.md      ← category-specific pass/fail metrics for /skill-test category
 │
 ├── skills/                ← behavioral spec files for skills (one per skill)
@@ -57,7 +57,7 @@ All testing is driven by two skills already in the framework:
 
 ```
 /skill-test static [skill-name]     # Check one skill (7 checks)
-/skill-test static all              # Check all 73 skills
+/skill-test static all              # Check all 74 skills
 ```
 
 ### Run a behavioral spec test
