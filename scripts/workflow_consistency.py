@@ -599,12 +599,27 @@ def check_customer_delivery_contract() -> list[Finding]:
             findings.append(Finding("ERROR", f"{rel(path)} must describe Ubuntu, macOS, and Windows CI configuration"))
 
     release_notes = (REPO_ROOT / "RELEASE_NOTES.md").read_text(encoding="utf-8", errors="replace")
+    customer_acceptance = CUSTOMER_ACCEPTANCE.read_text(encoding="utf-8", errors="replace")
     if "Validation status:" not in release_notes:
         findings.append(Finding("ERROR", "RELEASE_NOTES.md must include explicit validation status"))
     if "Validation status: Pending" in release_notes:
         findings.append(Finding("ERROR", "RELEASE_NOTES.md must not leave validation status pending after CI success is confirmed"))
-    if "26934894349" not in release_notes or "PASS" not in release_notes:
-        findings.append(Finding("ERROR", "RELEASE_NOTES.md must record the passing customer-delivery validation run"))
+    validation_match = re.search(
+        r"Validation status:\s*PASS for commit `(?P<sha>[0-9a-f]{7,40})` in GitHub Actions run\s*`(?P<run_id>\d+)`",
+        release_notes,
+        flags=re.DOTALL,
+    )
+    if not validation_match:
+        findings.append(Finding("ERROR", "RELEASE_NOTES.md must record PASS, commit SHA, and GitHub Actions run ID"))
+    else:
+        run_id = validation_match.group("run_id")
+        if f"gh run view {run_id} --json jobs" not in customer_acceptance:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    "docs/CUSTOMER-ACCEPTANCE.md must reference the same validation run as RELEASE_NOTES.md",
+                )
+            )
 
     setup_requirements = (REPO_ROOT / ".claude" / "docs" / "setup-requirements.md").read_text(
         encoding="utf-8",

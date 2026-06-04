@@ -32,6 +32,6 @@ customer delivery baseline.
 - Template Consistency CI is configured for Ubuntu, macOS, and Windows runners.
 - Windows local hook execution requires Git Bash; Windows toast notifications
   are optional and fall back to plain hook output when unavailable.
-- Validation status: PASS for commit `a334d7c` in GitHub Actions run
-  `26934894349` (`ubuntu-latest`, `macos-latest`, and `windows-latest`).
+- Validation status: PASS for commit `b6939c0c26ecf904094833680868a89d7baf669e` in GitHub Actions run
+  `26954895153` (`ubuntu-latest`, `macos-latest`, and `windows-latest`).
 - Customer acceptance checklist: `docs/CUSTOMER-ACCEPTANCE.md`.

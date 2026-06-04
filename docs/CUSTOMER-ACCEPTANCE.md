@@ -45,7 +45,7 @@ Confirm the `Template Consistency` workflow has passed on:
 For the 2026-06-04 customer-delivery candidate, the validation run is:
 
 ```bash
-gh run view 26934894349 --json jobs
+gh run view 26954895153 --json jobs
 ```
 
 Expected result:
