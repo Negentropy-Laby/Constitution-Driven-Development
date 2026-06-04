@@ -324,6 +324,12 @@ Run all checks against a `hud-design.md`-based document. This phase is game-only
 
 This skill is READ-ONLY — it never edits or writes files. It reports findings only.
 
+If the user later approves saving this UX review as a persistent artifact through
+another write-capable workflow, record that artifact in
+`memory_bank/t3_archive/reviews/review-index.md` when `memory_bank/` exists.
+Use Review Type `ux-review`, use the saved artifact path as `Source Artifact`,
+and dedupe on `Source Artifact`. Do not create `memory_bank/` from `/ux-review`.
+
 After delivering the verdict:
 - For **APPROVED**: suggest next steps — **[Game]** `/team-ui` for implementation coordination; **[Product]** hand off to lead-programmer
 - For **NEEDS REVISION**: offer to help fix specific gaps ("Would you like me to

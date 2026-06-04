@@ -716,6 +716,18 @@ Use `AskUserQuestion` for write permission:
 - Prompt: "May I write this review to `design/cdd/cross-review-[date].md`?"
 - Options: `[A] Yes — write the report` / `[B] No — skip`
 
+When `memory_bank/` exists and the user approves writing the report, also update
+`memory_bank/t3_archive/reviews/review-index.md`.
+
+- Review Type: `cross-cdd-review`
+- Source Artifact: `design/cdd/cross-review-[date].md`
+- Use `Source Artifact` as the dedupe key.
+- If the same source artifact already exists, update Date, Verdict, and
+  Follow-up Owner instead of adding a duplicate row.
+- If `memory_bank/` does not exist, do not create it from `/review-all-gdds`;
+  keep the existing report behavior and say: "Run `/constitute` to establish the
+  memory_bank governance control plane."
+
 If any CDDs are flagged for revision, use a second `AskUserQuestion`:
 - Prompt: "Should I update the module index to mark these CDDs as needing revision? ([list of flagged CDDs])"
 - Options: `[A] Yes — update module index` / `[B] No — leave as-is`

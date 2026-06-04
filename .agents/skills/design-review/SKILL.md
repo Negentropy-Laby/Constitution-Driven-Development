@@ -267,6 +267,18 @@ Summary: [2-3 sentence summary of key findings from creative-director verdict]
 Prior verdict resolved: [Yes / No / First review]
 ```
 
+When `memory_bank/` exists and the user approves appending the review log, also
+update `memory_bank/t3_archive/reviews/review-index.md`.
+
+- Review Type: `design-review`
+- Source Artifact: `design/cdd/reviews/[doc-name]-review-log.md`
+- Use `Source Artifact` as the dedupe key.
+- If the same source artifact already exists, update Date, Verdict, and
+  Follow-up Owner instead of adding a duplicate row.
+- If `memory_bank/` does not exist, do not create it from `/design-review`;
+  keep the existing review log behavior and say: "Run `/constitute` to establish
+  the memory_bank governance control plane."
+
 ---
 
 **Final closing widget — always show after all file writes complete:**

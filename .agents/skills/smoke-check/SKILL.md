@@ -513,6 +513,18 @@ Present the full report in conversation, then ask:
 
 Write only after approval.
 
+When `memory_bank/` exists and the user approves writing the smoke report, also
+update `memory_bank/t3_archive/qa_evidence_index.md`.
+
+- Type: `smoke-check`
+- Evidence path: `production/qa/smoke-[date].md`
+- Verdict: PASS, FAIL, or PASS WITH WARNINGS
+- Dedupe by evidence path; update Date, Type, Verdict, and Follow-up Owner for
+  an existing path instead of adding a duplicate row.
+- If `memory_bank/` does not exist, do not create it from `/smoke-check`; keep
+  the existing smoke report behavior and say: "Run `/constitute` to establish
+  the memory_bank governance control plane."
+
 After writing, deliver the gate verdict:
 
 **If verdict is FAIL:**

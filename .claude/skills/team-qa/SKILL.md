@@ -214,6 +214,18 @@ Ask: "May I write this QA sign-off report to `production/qa/qa-signoff-[sprint]-
 
 Write only after receiving approval.
 
+When `memory_bank/` exists and the user approves writing the QA sign-off report,
+also update `memory_bank/t3_archive/qa_evidence_index.md`.
+
+- Type: `qa-signoff`
+- Evidence path: `production/qa/qa-signoff-[sprint]-[date].md`
+- Verdict: APPROVED, APPROVED WITH CONDITIONS, or NOT APPROVED
+- Dedupe by evidence path; update Date, Type, Verdict, and Follow-up Owner for
+  an existing path instead of adding a duplicate row.
+- If `memory_bank/` does not exist, do not create it from `/team-qa`; keep the
+  existing QA sign-off behavior and say: "Run `/constitute` to establish the
+  memory_bank governance control plane."
+
 ## Error Recovery Protocol
 
 If any spawned agent (via Task) returns BLOCKED, errors, or cannot complete:

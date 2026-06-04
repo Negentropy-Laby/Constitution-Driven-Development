@@ -434,7 +434,9 @@ Create or update these files:
 - `memory_bank/t3_archive/release_evidence/README.md`
 - `memory_bank/t3_archive/gate_runs/README.md`
 - `memory_bank/t3_archive/reviews/README.md`
+- `memory_bank/t3_archive/reviews/review-index.md`
 - `memory_bank/t3_archive/sprint_snapshots/README.md`
+- `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`
 - `memory_bank/t3_archive/amendments/README.md`
 
 Canonical knowledge graph path is `memory_bank/t1_axioms/knowledge_graph.md`.

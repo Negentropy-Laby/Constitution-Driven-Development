@@ -244,6 +244,22 @@ Ask: "May I write this test evidence review to
 This is optional — the report is useful standalone. Write only if the user
 wants a persistent record.
 
+When `memory_bank/` exists and the user approves writing the evidence review,
+also update:
+
+- `memory_bank/t3_archive/reviews/review-index.md`
+- `memory_bank/t3_archive/qa_evidence_index.md`
+
+For the review index, use Review Type `test-evidence-review` and Source Artifact
+`production/qa/evidence-review-[date].md`. For the QA evidence index, use Type
+`test-evidence-review`. Dedupe both indexes by source or evidence path; update
+Date, Verdict, and Follow-up Owner for an existing path instead of adding a
+duplicate row.
+
+If `memory_bank/` does not exist, do not create it from `/test-evidence-review`;
+keep the existing report behavior and say: "Run `/constitute` to establish the
+memory_bank governance control plane."
+
 After the report:
 
 - For BLOCKING items: "These must be resolved before `/story-done` can mark the

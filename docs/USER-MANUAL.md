@@ -194,10 +194,10 @@ Run `/constitute` to initialize or refresh the memory-bank skeleton. Run
 `production/project-roadmap.md` and, when `memory_bank/` exists,
 `memory_bank/t2_execution/current_roadmap.md`.
 
-T3 is the audit index layer. Gate decisions, QA validation reports, and release
-evidence stay in their normal working paths, but approved `/gate-check`,
-`/playtest-report`, and `/team-release` writes also maintain T3 indexes when
-`memory_bank/` exists.
+T3 is the audit index layer. Gate decisions, review artifacts, QA validation,
+smoke/team QA sign-off, story closure, sprint/milestone snapshots, and release
+evidence stay in their normal working paths, but approved writes also maintain
+T3 indexes when `memory_bank/` exists.
 
 ## Release And Acceptance
 

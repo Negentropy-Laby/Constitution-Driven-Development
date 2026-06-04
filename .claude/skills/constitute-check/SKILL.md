@@ -53,7 +53,9 @@ Check for the minimum memory-bank artifacts:
 | `memory_bank/t3_archive/gate_runs/README.md` | Recommended | Read if exists |
 | `memory_bank/t3_archive/release_evidence/README.md` | Recommended | Read if exists |
 | `memory_bank/t3_archive/reviews/README.md` | Recommended | Read if exists |
+| `memory_bank/t3_archive/reviews/review-index.md` | Recommended | Read if exists |
 | `memory_bank/t3_archive/sprint_snapshots/README.md` | Recommended | Read if exists |
+| `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md` | Recommended | Read if exists |
 | `memory_bank/t3_archive/amendments/README.md` | Recommended | Read if exists |
 | `memory_bank/README.md` | Recommended | Read if exists |
 
@@ -101,7 +103,9 @@ Read T3 indexes when present:
 - `memory_bank/t3_archive/gate_runs/`
 - `memory_bank/t3_archive/release_evidence/`
 - `memory_bank/t3_archive/reviews/`
+- `memory_bank/t3_archive/reviews/review-index.md`
 - `memory_bank/t3_archive/sprint_snapshots/`
+- `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`
 - `memory_bank/t3_archive/amendments/`
 
 ---
@@ -154,6 +158,8 @@ Identify what's missing or stale:
 | **Missing T3 gate archive** | Gate evidence exists but `memory_bank/t3_archive/gate_runs/README.md` is missing |
 | **Missing QA evidence index** | QA evidence exists but `memory_bank/t3_archive/qa_evidence_index.md` is missing |
 | **Missing release evidence archive** | Release evidence exists but `memory_bank/t3_archive/release_evidence/README.md` is missing |
+| **Missing review index** | Review artifacts exist but `memory_bank/t3_archive/reviews/review-index.md` is missing |
+| **Missing story closure index** | Completed stories exist but `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md` is missing |
 | **Missing README** | `memory_bank/README.md` does not exist |
 | **Stale tech context** | Tech context mentions old versions or unused dependencies |
 | **Drifted principles** | Law says X, code does Y |

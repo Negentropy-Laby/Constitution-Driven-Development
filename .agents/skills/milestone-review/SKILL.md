@@ -137,6 +137,15 @@ Ask: "May I write this to `production/milestones/[milestone-name]-review.md`?"
 
 If yes, write the file, creating the directory if needed. Verdict: **COMPLETE** — milestone review saved.
 
+When `memory_bank/` exists and the user approves writing the milestone review,
+also write `memory_bank/t3_archive/sprint_snapshots/milestone-[name]-review-[YYYY-MM-DD].md`.
+
+Include milestone scope, verdict, completed deliverables, open risks, QA/release
+links, and next gate recommendation. If `memory_bank/` does not exist, do not
+create it from `/milestone-review`; keep the existing milestone review behavior
+and say: "Run `/constitute` to establish the memory_bank governance control
+plane."
+
 If no, stop here. Verdict: **BLOCKED** — user declined write.
 
 ---

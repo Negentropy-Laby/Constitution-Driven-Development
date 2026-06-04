@@ -19,3 +19,7 @@ Each record should include:
 
 Keep full review artifacts in their existing `design/`, `docs/`, or
 `production/` paths. T3 stores the audit trail and index.
+
+Use `review-index.md` as the durable review evidence index. Index rows are keyed
+by source artifact path; update an existing row for the same source artifact
+instead of adding a duplicate.

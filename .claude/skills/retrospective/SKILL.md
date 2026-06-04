@@ -199,6 +199,17 @@ Ask: "May I write this to `production/sprints/sprint-[N]-retrospective.md`?" (or
 
 If yes, write the file, creating the directory if needed. Verdict: **COMPLETE** — retrospective saved.
 
+When `memory_bank/` exists and the user approves writing the retrospective, also
+write a T3 snapshot under `memory_bank/t3_archive/sprint_snapshots/`.
+
+- Sprint retrospective path: `memory_bank/t3_archive/sprint_snapshots/sprint-[id]-closeout-[YYYY-MM-DD].md`
+- Milestone retrospective path: `memory_bank/t3_archive/sprint_snapshots/milestone-[name]-closeout-[YYYY-MM-DD].md`
+- Include completed work, carryover, QA/release links, top blockers, and action
+  items.
+- If `memory_bank/` does not exist, do not create it from `/retrospective`; keep
+  the existing retrospective behavior and say: "Run `/constitute` to establish
+  the memory_bank governance control plane."
+
 If no, stop here. Verdict: **BLOCKED** — user declined write.
 
 ---

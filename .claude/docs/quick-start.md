@@ -419,7 +419,7 @@ CLAUDE.md                          -- Master config (read this first, ~60 lines)
     workflow-catalog.yaml          -- 7-phase pipeline definition (read by /help)
     setup-requirements.md          -- System prerequisites (Git Bash, jq, Python)
     settings-local-template.md     -- Personal settings.local.json guide
-    templates/                     -- 77 document templates
+    templates/                     -- 79 document templates
 ```
 
 For the full user manual, see `docs/USER-MANUAL.md`. For the generated artifact
@@ -430,6 +430,7 @@ checklist by phase, see `docs/PHASE-CHECKLISTS.md`. For delivery validation, see
 current laws/state, T1 supporting context, T2 execution mirrors, and T3 evidence
 indexes. It indexes existing `design/`, `docs/`, `.claude/docs/`, and
 `production/` files rather than moving those detailed work files.
-When `memory_bank/` exists, approved `/gate-check`, `/playtest-report`, and
-`/team-release` writes also maintain T3 audit indexes while original evidence
-remains in its normal working path.
+When `memory_bank/` exists, approved review, smoke/team QA, story closure,
+sprint/milestone, `/gate-check`, `/playtest-report`, and `/team-release` writes
+also maintain T3 audit indexes while original evidence remains in its normal
+working path.

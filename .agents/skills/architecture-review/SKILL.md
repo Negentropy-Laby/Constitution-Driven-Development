@@ -607,6 +607,20 @@ After writing all approved files, silently append to
 If `active.md` does not exist, create it with this block as the initial content.
 Confirm in conversation: "Session state updated."
 
+### Memory Bank Review Index
+
+When `memory_bank/` exists and the user approves writing the review report, also
+update `memory_bank/t3_archive/reviews/review-index.md`.
+
+- Review Type: `architecture-review`
+- Source Artifact: `docs/architecture/architecture-review-[date].md`
+- Use `Source Artifact` as the dedupe key.
+- If the same source artifact already exists, update Date, Verdict, and
+  Follow-up Owner instead of adding a duplicate row.
+- If `memory_bank/` does not exist, do not create it from
+  `/architecture-review`; keep the existing report behavior and say:
+  "Run `/constitute` to establish the memory_bank governance control plane."
+
 The traceability index format:
 
 ```markdown

@@ -390,6 +390,11 @@ then ask:
 
 Write the plan exactly as generated — do not truncate.
 
+Do not write T3 memory-bank evidence from `/qa-plan`. A QA plan is source
+context for later QA evidence, not an evidence record. `/smoke-check`,
+`/team-qa`, `/playtest-report`, and `/test-evidence-review` maintain
+`memory_bank/t3_archive/qa_evidence_index.md` when approved evidence exists.
+
 After writing:
 
 "QA plan written to `production/qa/qa-plan-[sprint-slug]-[date].md`.

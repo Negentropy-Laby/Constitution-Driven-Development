@@ -421,6 +421,20 @@ After updating the story file, silently append to
 If `active.md` does not exist, create it with this block as the initial content.
 Confirm in conversation: "Session state updated."
 
+### Memory Bank Story Closure Index
+
+When `memory_bank/` exists and the story is marked Complete, also update
+`memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`.
+
+- Completion Verdict: COMPLETE, COMPLETE WITH RISKS, or BLOCKED
+- Use `Story Path` as the dedupe key.
+- If the same story path already exists, update Date, Completion Verdict,
+  Evidence Paths, Review Path, and Remaining Risks instead of adding a duplicate
+  row.
+- If `memory_bank/` does not exist, do not create it from `/story-done`; keep
+  the existing story, sprint-status, and session-state behavior and say:
+  "Run `/constitute` to establish the memory_bank governance control plane."
+
 ---
 
 ## Phase 8: Surface the Next Story

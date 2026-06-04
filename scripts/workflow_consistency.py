@@ -852,7 +852,9 @@ def check_memory_bank_contract() -> list[Finding]:
         "t3_archive/release_evidence/README.md",
         "t3_archive/gate_runs/README.md",
         "t3_archive/reviews/README.md",
+        "t3_archive/reviews/review-index.md",
         "t3_archive/sprint_snapshots/README.md",
+        "t3_archive/sprint_snapshots/story-closure-index.md",
         "t3_archive/amendments/README.md",
     ]
     if not MEMORY_BANK_TEMPLATE_DIR.exists():
@@ -892,7 +894,9 @@ def check_memory_bank_contract() -> list[Finding]:
             "memory_bank/t3_archive/gate_runs/",
             "memory_bank/t3_archive/release_evidence/",
             "memory_bank/t3_archive/reviews/",
+            "memory_bank/t3_archive/reviews/review-index.md",
             "memory_bank/t3_archive/sprint_snapshots/",
+            "memory_bank/t3_archive/sprint_snapshots/story-closure-index.md",
             "memory_bank/t3_archive/amendments/",
         ]:
             if snippet not in text:
@@ -915,7 +919,9 @@ def check_memory_bank_contract() -> list[Finding]:
             "memory_bank/t3_archive/README.md",
             "memory_bank/t3_archive/gate_runs/README.md",
             "memory_bank/t3_archive/reviews/README.md",
+            "memory_bank/t3_archive/reviews/review-index.md",
             "memory_bank/t3_archive/sprint_snapshots/README.md",
+            "memory_bank/t3_archive/sprint_snapshots/story-closure-index.md",
             "memory_bank/t3_archive/amendments/README.md",
             "generate_phase_checklists.py --write --memory-bank",
             "deprecated compatibility pointer",
@@ -935,7 +941,9 @@ def check_memory_bank_contract() -> list[Finding]:
             "memory_bank/t3_archive/gate_runs/README.md",
             "memory_bank/t3_archive/release_evidence/README.md",
             "memory_bank/t3_archive/reviews/README.md",
+            "memory_bank/t3_archive/reviews/review-index.md",
             "memory_bank/t3_archive/sprint_snapshots/README.md",
+            "memory_bank/t3_archive/sprint_snapshots/story-closure-index.md",
             "memory_bank/t3_archive/amendments/README.md",
             "NEEDS ATTENTION",
             "deprecated compatibility path",
@@ -982,6 +990,92 @@ def check_memory_bank_contract() -> list[Finding]:
                 "workflow run ID",
                 "timestamped evidence",
                 "memory_bank/` does not exist",
+            ],
+        ),
+        (
+            "design-review",
+            [
+                "memory_bank/t3_archive/reviews/review-index.md",
+                "Review Type: `design-review`",
+                "Source Artifact: `design/cdd/reviews/[doc-name]-review-log.md`",
+                "Source Artifact` as the dedupe key",
+            ],
+        ),
+        (
+            "review-all-gdds",
+            [
+                "memory_bank/t3_archive/reviews/review-index.md",
+                "Review Type: `cross-cdd-review`",
+                "Source Artifact: `design/cdd/cross-review-[date].md`",
+                "Source Artifact` as the dedupe key",
+            ],
+        ),
+        (
+            "architecture-review",
+            [
+                "memory_bank/t3_archive/reviews/review-index.md",
+                "Review Type: `architecture-review`",
+                "Source Artifact: `docs/architecture/architecture-review-[date].md`",
+                "Source Artifact` as the dedupe key",
+            ],
+        ),
+        (
+            "ux-review",
+            [
+                "memory_bank/t3_archive/reviews/review-index.md",
+                "Review Type `ux-review`",
+                "Do not create `memory_bank/` from `/ux-review`",
+            ],
+        ),
+        (
+            "test-evidence-review",
+            [
+                "memory_bank/t3_archive/reviews/review-index.md",
+                "memory_bank/t3_archive/qa_evidence_index.md",
+                "Review Type `test-evidence-review`",
+                "Type `test-evidence-review`",
+            ],
+        ),
+        (
+            "smoke-check",
+            [
+                "memory_bank/t3_archive/qa_evidence_index.md",
+                "Type: `smoke-check`",
+                "Evidence path: `production/qa/smoke-[date].md`",
+                "Dedupe by evidence path",
+            ],
+        ),
+        (
+            "team-qa",
+            [
+                "memory_bank/t3_archive/qa_evidence_index.md",
+                "Type: `qa-signoff`",
+                "Evidence path: `production/qa/qa-signoff-[sprint]-[date].md`",
+                "Dedupe by evidence path",
+            ],
+        ),
+        (
+            "story-done",
+            [
+                "memory_bank/t3_archive/sprint_snapshots/story-closure-index.md",
+                "Completion Verdict: COMPLETE, COMPLETE WITH RISKS, or BLOCKED",
+                "Use `Story Path` as the dedupe key",
+            ],
+        ),
+        (
+            "retrospective",
+            [
+                "memory_bank/t3_archive/sprint_snapshots/",
+                "sprint-[id]-closeout-[YYYY-MM-DD].md",
+                "milestone-[name]-closeout-[YYYY-MM-DD].md",
+            ],
+        ),
+        (
+            "milestone-review",
+            [
+                "memory_bank/t3_archive/sprint_snapshots/",
+                "milestone-[name]-review-[YYYY-MM-DD].md",
+                "next gate recommendation",
             ],
         ),
     ]

@@ -230,6 +230,9 @@ This skill is read-only. It reports observed facts from files on disk.
 
 - It does not update the sprint plan
 - It does not change story status
+- It does not write T3 memory-bank snapshots; `/story-done`, `/retrospective`,
+  and `/milestone-review` maintain `memory_bank/t3_archive/sprint_snapshots/`
+  when approved closure artifacts exist
 - It does not propose scope cuts (that is `/sprint-plan update`)
 - It makes at most one recommendation per run
 - For Product projects, it reports visible API/CLI/UI/data/migration/docs/

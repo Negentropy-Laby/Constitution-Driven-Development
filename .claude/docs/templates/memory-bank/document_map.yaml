@@ -145,10 +145,40 @@ documents:
     role: archive
     owner: review workflows
 
+  memory_bank/t3_archive/reviews/review-index.md:
+    tier: T3
+    role: index
+    owner: review workflows
+    indexes:
+      - design/cdd/reviews/*.md
+      - design/cdd/cross-review-*.md
+      - docs/architecture/architecture-review-*.md
+      - production/qa/evidence-review-*.md
+
   memory_bank/t3_archive/sprint_snapshots/:
     tier: T3
     role: archive
     owner: sprint and milestone workflows
+
+  memory_bank/t3_archive/sprint_snapshots/story-closure-index.md:
+    tier: T3
+    role: index
+    owner: /story-done
+    indexes:
+      - production/epics/**/*.md
+      - production/sprint-status.yaml
+
+  memory_bank/t3_archive/sprint_snapshots/sprint-*-closeout-*.md:
+    tier: T3
+    role: archive
+    owner: /retrospective
+    source: production/sprints/*-retrospective.md
+
+  memory_bank/t3_archive/sprint_snapshots/milestone-*-review-*.md:
+    tier: T3
+    role: archive
+    owner: /milestone-review
+    source: production/milestones/*-review.md
 
   memory_bank/t3_archive/amendments/:
     tier: T3
