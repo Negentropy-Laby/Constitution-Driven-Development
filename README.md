@@ -20,6 +20,12 @@
   <a href="https://github.com/Negentropy-Laby/Constitution-Driven-Development"><img src="https://img.shields.io/badge/repository-Negentropy--Laby%2FConstitution--Driven--Development-black?logo=github" alt="Repository: Negentropy-Laby/Constitution-Driven-Development"></a>
 </p>
 
+<p align="center">
+  <strong>Latest release:</strong>
+  <a href="https://github.com/Negentropy-Laby/Constitution-Driven-Development/releases/tag/v0.1.0">v0.1.0</a>
+  — stable template release validated by Template Consistency on Ubuntu, macOS, and Windows.
+</p>
+
 ---
 
 ## Start Here

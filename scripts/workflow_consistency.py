@@ -630,11 +630,20 @@ def check_customer_delivery_contract() -> list[Finding]:
     for snippet in [
         'gh run list --workflow "Template Consistency"',
         "gh run view <run-id> --json jobs,headSha,conclusion",
-        "The selected run's `headSha` matches the release candidate commit",
+        "The selected run's `headSha` matches the release commit",
         "GitHub Release or annotated tag records the release commit SHA",
     ]:
         if snippet not in customer_acceptance:
             findings.append(Finding("ERROR", f"{rel(CUSTOMER_ACCEPTANCE)} omits release validation step: {snippet}"))
+
+    readme_text = (REPO_ROOT / "README.md").read_text(encoding="utf-8", errors="replace")
+    for snippet in [
+        "Latest release:",
+        "releases/tag/",
+        "Template Consistency on Ubuntu, macOS, and Windows",
+    ]:
+        if snippet not in readme_text:
+            findings.append(Finding("ERROR", f"README.md omits stable release visibility: {snippet}"))
 
     setup_requirements = (REPO_ROOT / ".claude" / "docs" / "setup-requirements.md").read_text(
         encoding="utf-8",
@@ -704,6 +713,7 @@ def check_customer_acceptance_contract() -> list[Finding]:
         "ubuntu-latest",
         "macos-latest",
         "windows-latest",
+        "docs/USER-MANUAL.md",
         "/cdd-status --dry-run",
         "design/ux/surface-profile.md",
         "docs/examples/project-roadmap.example.md",
@@ -732,6 +742,13 @@ def check_user_manual_contract() -> list[Finding]:
         "/cdd-status",
         "/adopt",
         "/gate-check concept",
+        "## Technical Setup",
+        "/create-architecture",
+        "/architecture-decision",
+        "/architecture-review",
+        "/create-control-manifest",
+        "/test-setup",
+        "/gate-check technical-setup",
         "/release-checklist -> /launch-checklist -> /team-release",
         "docs/CUSTOMER-ACCEPTANCE.md",
         "Template Consistency",

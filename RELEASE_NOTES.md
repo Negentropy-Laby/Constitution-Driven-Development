@@ -1,9 +1,9 @@
 # Release Notes
 
-## Customer Delivery Ready Release Candidate
+## Customer Delivery Ready Release
 
-This hardening pass moves the template from technical preview toward a mature
-customer delivery baseline.
+This release establishes the template as a stable customer delivery baseline
+for new game projects, new product projects, and existing project adoption.
 
 ### What Is Included
 
@@ -38,3 +38,5 @@ customer delivery baseline.
 - Required release evidence: release commit SHA, GitHub Actions run ID, and PASS
   result for `ubuntu-latest`, `macos-latest`, and `windows-latest`.
 - Customer acceptance checklist: `docs/CUSTOMER-ACCEPTANCE.md`.
+- The earlier `v0.1.0-rc.1` prerelease remains available as the historical
+  candidate evidence for this stable release line.

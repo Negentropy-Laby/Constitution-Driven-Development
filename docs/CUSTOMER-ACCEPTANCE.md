@@ -42,8 +42,7 @@ Confirm the `Template Consistency` workflow has passed on:
 - `macos-latest`
 - `windows-latest`
 
-For the release candidate commit being accepted, identify the matching workflow
-run:
+For the release commit being accepted, identify the matching workflow run:
 
 ```bash
 git rev-parse HEAD
@@ -52,7 +51,7 @@ gh run view <run-id> --json jobs,headSha,conclusion
 ```
 
 Expected result:
-- The selected run's `headSha` matches the release candidate commit.
+- The selected run's `headSha` matches the release commit.
 - `consistency (ubuntu-latest)` is `success`.
 - `consistency (macos-latest)` is `success`.
 - `consistency (windows-latest)` is `success`.
@@ -95,6 +94,7 @@ Expected result:
 Review these customer-visible entry points:
 - `README.md`
 - `docs/START-HERE.md`
+- `docs/USER-MANUAL.md`
 - `docs/WORKFLOW-GUIDE.md`
 - `.claude/docs/quick-start.md`
 - `.claude/docs/skills-reference.md`
@@ -104,6 +104,7 @@ Review these customer-visible entry points:
 Expected result:
 - Platform support consistently says Template Consistency CI is configured for
   Ubuntu, macOS, and Windows.
+- README links to the latest stable GitHub Release.
 - Skill and template counts match the repository.
 - Release order is `/release-checklist` -> `/launch-checklist` ->
   `/team-release`.

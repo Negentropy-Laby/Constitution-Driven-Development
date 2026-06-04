@@ -99,6 +99,35 @@ after `/setup-engine` records the selected stack.
 Product projects should use the language-specialist agents that match the
 chosen stack. Python, TypeScript, Rust, and Go specialists are included.
 
+## Technical Setup
+
+Technical Setup has two tracks. Complete both before moving to production work.
+
+### Architecture Track
+
+Use this track to record the technology foundation and implementation rules:
+
+1. Run `/setup-engine` with the selected engine or product stack.
+2. Run `/create-architecture` to produce the master architecture.
+3. Run `/architecture-decision` for significant technical decisions.
+4. Run `/architecture-review` to validate ADR coverage and dependency order.
+5. Run `/create-control-manifest` to extract implementation rules for
+   programmers.
+
+### Readiness Track
+
+Use this track to make implementation testable and reviewable:
+
+1. Create `design/accessibility-requirements.md` from the accessibility
+   template when the project needs an explicit accessibility baseline.
+2. Run `/test-setup` to establish the required test baseline for the selected
+   engine or product stack.
+3. Run `/gate-check technical-setup` after the architecture and readiness
+   artifacts exist.
+
+After Technical Setup passes, continue to UX, prototype, epics, stories, sprint
+planning, and implementation.
+
 ## Existing Project Adoption
 
 For a brownfield project, do not start by writing new CDDs blindly:
