@@ -2029,6 +2029,7 @@ def check_adapter_boundary_contract() -> list[Finding]:
         TEMPLATES_DIR,
         STANDARDS_DIR,
         SKILL_TESTING_DIR / "catalog.yaml",
+        REPO_ROOT / "adapters" / "README.md",
         REPO_ROOT / "adapters" / "claude" / "README.md",
         REPO_ROOT / "adapters" / "codex" / "README.md",
     ]
@@ -2050,6 +2051,23 @@ def check_adapter_boundary_contract() -> list[Finding]:
     for path in forbidden_adapter_paths:
         if path.exists():
             findings.append(Finding("ERROR", f"{rel(path)} must not be canonical under the Claude adapter"))
+
+    adapters_readme = REPO_ROOT / "adapters" / "README.md"
+    if adapters_readme.exists():
+        text = adapters_readme.read_text(encoding="utf-8", errors="replace")
+        for snippet in [
+            "workflow/",
+            "templates/",
+            "standards/",
+            "skill_testing/",
+            "docs/",
+            ".claude/",
+            ".agents/",
+            ".codex/",
+            "Do not move canonical",
+        ]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(adapters_readme)} omits adapter boundary snippet: {snippet}"))
 
     allowed_claude_docs = {
         "CLAUDE-local-template.md",
