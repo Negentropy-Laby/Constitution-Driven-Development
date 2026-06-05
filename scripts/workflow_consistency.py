@@ -839,6 +839,8 @@ def check_memory_bank_entrypoint_contract() -> list[Finding]:
         "T3",
         "design/",
         "production/",
+        "PROCEED/PIVOT/KILL",
+        "CUT/KEEP/DEFER",
     ]:
         if snippet not in readme_text:
             findings.append(Finding("ERROR", f"{rel(readme_path)} omits memory-bank entrypoint wording: {snippet}"))
@@ -850,6 +852,8 @@ def check_memory_bank_entrypoint_contract() -> list[Finding]:
         "memory_bank/t0_core/current_state.md",
         "memory_bank/t2_execution/current_roadmap.md",
         "memory_bank/t3_archive/qa_evidence_index.md",
+        "PROCEED/PIVOT/KILL",
+        "CUT/KEEP/DEFER",
     ]:
         if snippet not in manual_text:
             findings.append(Finding("ERROR", f"{rel(USER_MANUAL)} omits memory-bank user-manual entrypoint: {snippet}"))
@@ -863,6 +867,9 @@ def check_memory_bank_entrypoint_contract() -> list[Finding]:
         findings.append(Finding("ERROR", f"{rel(QUICK_START)} must retain hierarchy section marker"))
     if memory_pos != -1 and hierarchy_pos != -1 and memory_pos > hierarchy_pos:
         findings.append(Finding("ERROR", f"{rel(QUICK_START)} must introduce memory_bank/ before agent hierarchy"))
+    for snippet in ["PROCEED/PIVOT/KILL", "CUT/KEEP/DEFER"]:
+        if snippet not in quick_start_text:
+            findings.append(Finding("ERROR", f"{rel(QUICK_START)} omits high-impact decision wording: {snippet}"))
 
     return findings
 
@@ -924,6 +931,9 @@ def check_memory_bank_contract() -> list[Finding]:
             "role: index",
             "role: archive",
             "memory_bank/t0_core/basic_law_index.md",
+            "memory_bank/t0_core/amendment_log.md",
+            ".claude/docs/technical-preferences.md",
+            "memory_bank/t1_axioms/tech_context.md",
             "memory_bank/t1_axioms/knowledge_graph.md",
             ".claude/docs/workflow-catalog.yaml",
             "docs/PHASE-CHECKLISTS.md",
@@ -933,14 +943,19 @@ def check_memory_bank_contract() -> list[Finding]:
             "production/project-roadmap.md",
             "memory_bank/t2_execution/current_roadmap.md",
             "production/qa/evidence/**",
+            "production/qa/bug-triage-*.md",
             "memory_bank/t3_archive/qa_evidence_index.md",
             "memory_bank/t3_archive/gate_runs/",
             "memory_bank/t3_archive/release_evidence/",
             "memory_bank/t3_archive/reviews/",
             "memory_bank/t3_archive/reviews/review-index.md",
+            "prototypes/*/REPORT.md",
+            "production/code-reviews/code-review-*.md",
+            "production/scope/scope-check-*.md",
             "memory_bank/t3_archive/sprint_snapshots/",
             "memory_bank/t3_archive/sprint_snapshots/story-closure-index.md",
             "memory_bank/t3_archive/amendments/",
+            "memory_bank/t3_archive/amendments/amendment-v*-*.md",
         ]:
             if snippet not in text:
                 findings.append(Finding("ERROR", f"{rel(document_map)} omits document map entry: {snippet}"))
@@ -954,6 +969,7 @@ def check_memory_bank_contract() -> list[Finding]:
             "T3 archive",
             "memory_bank/document_map.yaml",
             "memory_bank/t0_core/current_state.md",
+            "memory_bank/t0_core/amendment_log.md",
             "memory_bank/t1_axioms/knowledge_graph.md",
             "memory_bank/t2_execution/workflow_contract.md",
             "memory_bank/t2_execution/phase_checklists.md",
@@ -966,6 +982,8 @@ def check_memory_bank_contract() -> list[Finding]:
             "memory_bank/t3_archive/sprint_snapshots/README.md",
             "memory_bank/t3_archive/sprint_snapshots/story-closure-index.md",
             "memory_bank/t3_archive/amendments/README.md",
+            "memory_bank/t3_archive/amendments/amendment-v[version]-[YYYY-MM-DD].md",
+            "impacted T1/T2/T3 files",
             "generate_phase_checklists.py --write --memory-bank",
             "deprecated compatibility pointer",
         ]:
@@ -1007,6 +1025,15 @@ def check_memory_bank_contract() -> list[Finding]:
 
     workflow_contracts = [
         (
+            "setup-engine",
+            [
+                "memory_bank/t1_axioms/tech_context.md",
+                "Selected engine, language, framework, runtime, and database",
+                "Reason chosen",
+                "Do not create `memory_bank/` from `/setup-engine`",
+            ],
+        ),
+        (
             "gate-check",
             [
                 "memory_bank/t3_archive/gate_runs/",
@@ -1036,12 +1063,60 @@ def check_memory_bank_contract() -> list[Finding]:
             ],
         ),
         (
+            "prototype",
+            [
+                "memory_bank/t3_archive/reviews/review-index.md",
+                "Review Type: `prototype-decision`",
+                "Source Artifact: `prototypes/[concept-name]/REPORT.md`",
+                "Verdict: `PROCEED`, `PIVOT`, or `KILL`",
+                "prototype code stays isolated",
+            ],
+        ),
+        (
             "design-review",
             [
                 "memory_bank/t3_archive/reviews/review-index.md",
                 "Review Type: `design-review`",
                 "Source Artifact: `design/cdd/reviews/[doc-name]-review-log.md`",
                 "Source Artifact` as the dedupe key",
+            ],
+        ),
+        (
+            "code-review",
+            [
+                "memory_bank/t3_archive/reviews/review-index.md",
+                "Review Type: `code-review`",
+                "Source Artifact: `production/code-reviews/code-review-[scope]-[YYYY-MM-DD].md`",
+                "APPROVED WITH SUGGESTIONS",
+                "Do not create `memory_bank/` from",
+            ],
+        ),
+        (
+            "scope-check",
+            [
+                "memory_bank/t3_archive/reviews/review-index.md",
+                "Review Type: `scope-check`",
+                "Source Artifact: `production/scope/scope-check-[target]-[YYYY-MM-DD].md`",
+                "Verdict: `PASS`, `CONCERNS`, or `FAIL`",
+                "Default behavior is read-only",
+            ],
+        ),
+        (
+            "bug-triage",
+            [
+                "memory_bank/t3_archive/qa_evidence_index.md",
+                "Type: `bug-triage`",
+                "Path: `production/qa/bug-triage-[date].md`",
+                "Verdict: `COMPLETE` or `BLOCKED`",
+            ],
+        ),
+        (
+            "hotfix",
+            [
+                "memory_bank/t3_archive/release_evidence/hotfix-[short-name]-[YYYY-MM-DD].md",
+                "memory_bank/t0_core/release_state.md",
+                "severity, branch/commit, QA gate, rollback plan",
+                "post-incident review link",
             ],
         ),
         (
