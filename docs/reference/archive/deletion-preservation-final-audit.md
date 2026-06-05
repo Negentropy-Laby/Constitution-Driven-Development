@@ -80,7 +80,7 @@ No new ACTION_REQUIRED rows. No game content lost.
 | `templates/hud-design.md` | 3 | GDD / HUD dependency wording | Same game HUD template preserves player/HUD examples with CDD terminology | MIGRATED_IN_PLACE |
 | `templates/player-journey.md` | 3 | game-concept / GDD links | Same player journey template preserves game emotional arc and CDD links | MIGRATED_IN_PLACE |
 | `templates/project-stage-report.md` | 1 | game-concept fixture wording | Same template now accepts game-concept or product-concept | MIGRATED_IN_PLACE |
-| `templates/skill-test-spec.md` | 4 | game-concept / systems-index fixture wording | Same template uses CDD/module-index while preserving game fixture context | MIGRATED_IN_PLACE |
+| `skill_testing/templates/skill-test-spec.md` | 4 | game-concept / systems-index fixture wording | Skill testing spec template now lives with canonical `skill_testing/` assets; old top-level template path was removed | MOVED_TO_SKILL_TESTING |
 | `templates/systems-index.md` | 5 | systems-index GDD wording | Superseded by module-index; game source concept and dependency ordering retained | MIGRATED_IN_PLACE |
 | `templates/test-plan.md` | 2 | playtest sign-off wording | Same test template preserves playtest evidence fields | MIGRATED_IN_PLACE |
 | `templates/ux-spec.md` | 2 | GDD UI requirements wording | Same UX template preserves game UI requirement links with CDD terminology | MIGRATED_IN_PLACE |

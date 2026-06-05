@@ -1249,6 +1249,56 @@ def check_memory_bank_contract() -> list[Finding]:
     return findings
 
 
+def check_legacy_template_roots_removed() -> list[Finding]:
+    findings: list[Finding] = []
+
+    forbidden_paths = [
+        TEMPLATES_DIR / "t0",
+        TEMPLATES_DIR / "t1",
+        TEMPLATES_DIR / "skill-test-spec.md",
+    ]
+    for path in forbidden_paths:
+        if path.exists():
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f"{rel(path)} is a legacy duplicate; use templates/memory-bank/* or skill_testing/templates/ instead",
+                )
+            )
+
+    forbidden_snippets = [
+        "templates/" + "t0",
+        "templates\\" + "t0",
+        "templates/" + "t1",
+        "templates\\" + "t1",
+    ]
+    forbidden_patterns = [
+        re.compile(r"(?<!skill_testing/)templates/skill-test-spec\.md"),
+        re.compile(r"(?<!skill_testing\\)templates\\skill-test-spec\.md"),
+    ]
+    scan_roots = [
+        REPO_ROOT / "README.md",
+        REPO_ROOT / "docs",
+        SKILLS_DIR,
+        CODEX_SKILLS_DIR,
+        TEMPLATES_DIR,
+        STANDARDS_DIR,
+        SKILL_TESTING_DIR,
+    ]
+    for path in iter_text_files(scan_roots):
+        if rel(path).startswith("docs/reference/archive/"):
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for snippet in forbidden_snippets:
+            if snippet in text:
+                findings.append(Finding("ERROR", f"{rel(path)} still references legacy template source {snippet}"))
+        for pattern in forbidden_patterns:
+            if pattern.search(text):
+                findings.append(Finding("ERROR", f"{rel(path)} still references legacy top-level skill-test spec template"))
+
+    return findings
+
+
 def check_help_status_escalation_contract() -> list[Finding]:
     findings: list[Finding] = []
     for path in [
@@ -2074,6 +2124,7 @@ def main() -> int:
     findings.extend(check_user_manual_contract())
     findings.extend(check_status_dashboard_contract())
     findings.extend(check_memory_bank_contract())
+    findings.extend(check_legacy_template_roots_removed())
     findings.extend(check_memory_bank_entrypoint_contract())
     findings.extend(check_help_status_escalation_contract())
     findings.extend(check_surface_profile_contract())

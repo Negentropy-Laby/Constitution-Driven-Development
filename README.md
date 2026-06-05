@@ -115,7 +115,7 @@ The result: you still make every decision, but now you have a team that asks the
 | **Skills** | 74 | Slash commands for every workflow phase (`/constitute`, `/help`, `/cdd-status`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
 | **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
 | **Rules** | 16 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network, API, CLI, services, config, migrations, data, and infrastructure code |
-| **Templates** | 87 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, and UI-heavy design systems |
+| **Templates** | 80 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, and UI-heavy design systems |
 | **Skill Testing** | 132 files | Cross-project skill/agent test catalog, specs, rubric, and spec templates |
 
 ## Studio Hierarchy
@@ -217,7 +217,7 @@ AGENTS.md                           # Codex/agent adapter configuration
 workflow/
   workflow-catalog.yaml             # 7-phase pipeline definition (read by /help)
   generated/                        # Generated workflow views for gates
-templates/                          # 87 document templates (canonical docs + memory-bank templates)
+templates/                          # 80 document templates (canonical docs + memory-bank templates)
 standards/                          # Shared coding, coordination, context, and setup standards
 skill_testing/                      # Cross-project skill/agent test catalog, specs, rubric
 adapters/                           # Adapter export notes for Claude, Codex, and future runtimes

@@ -438,7 +438,7 @@ AGENTS.md                          -- Codex/agent adapter config
 workflow/
   workflow-catalog.yaml            -- 7-phase pipeline definition (read by /help)
   generated/                       -- Generated gate and workflow views
-templates/                         -- 87 document templates (canonical document and memory-bank templates)
+templates/                         -- 80 document templates (canonical document and memory-bank templates)
 standards/                         -- Shared technical, coding, coordination, and context standards
 skill_testing/                     -- Cross-project skill/agent testing catalog, specs, rubric
 docs/
