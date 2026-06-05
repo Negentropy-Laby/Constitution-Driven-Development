@@ -200,6 +200,25 @@ Ask: "May I write this report to `prototypes/[concept-name]/REPORT.md`?"
 
 If yes, write the file.
 
+If `memory_bank/` exists after the user approves writing the report, update
+`memory_bank/t3_archive/reviews/review-index.md` with the prototype decision.
+Use `Source Artifact` as the dedupe key; if the same source artifact already
+exists, update Date, Verdict, and Follow-up Owner instead of appending a
+duplicate row.
+
+Review index row:
+
+- Review Type: `prototype-decision`
+- Source Artifact: `prototypes/[concept-name]/REPORT.md`
+- Verdict: `PROCEED`, `PIVOT`, or `KILL`
+- Scope: prototype hypothesis or validated workflow
+- Related Context: concept, CDD, or ADR path when available
+
+Do not create `memory_bank/` from `/prototype`. If it does not exist, keep the
+normal report behavior and tell the user to run `/constitute` to establish the
+memory_bank governance control plane. T3 records decision evidence only;
+prototype code stays isolated and is never promoted into production code.
+
 ---
 
 ## Phase 7: Review

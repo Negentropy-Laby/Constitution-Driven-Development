@@ -3,7 +3,7 @@ name: code-review
 description: "Architectural code review after each story implementation. Works for both game and product projects. Checks coding standards, architecture, SOLID, testability, and domain-specific concerns."
 argument-hint: "[path-to-file-or-directory]"
 user-invocable: true
-allowed-tools: Read, Glob, Grep, Bash, Task
+allowed-tools: Read, Glob, Grep, Bash, Task, Write, Edit
 agent: lead-programmer
 ---
 
@@ -220,7 +220,25 @@ Collect all specialist findings before producing output.
 ### Verdict: [APPROVED / APPROVED WITH SUGGESTIONS / CHANGES REQUIRED]
 ```
 
-This skill is read-only — no files are written.
+Default behavior is read-only. After presenting the review, ask whether the user
+wants to save the review artifact:
+
+> "May I write this code review to `production/code-reviews/code-review-[scope]-[YYYY-MM-DD].md`?"
+
+If the user approves, write the review artifact. If `memory_bank/` exists, also
+update `memory_bank/t3_archive/reviews/review-index.md`.
+
+Review index row:
+
+- Review Type: `code-review`
+- Source Artifact: `production/code-reviews/code-review-[scope]-[YYYY-MM-DD].md`
+- Verdict: `APPROVED`, `APPROVED WITH SUGGESTIONS`, or `CHANGES REQUIRED`
+- Scope: reviewed story, file set, module, or system
+
+Use `Source Artifact` as the dedupe key. Do not create `memory_bank/` from
+`/code-review`; if it does not exist, keep the saved review artifact and tell
+the user to run `/constitute` to establish the memory_bank governance control
+plane.
 
 ---
 

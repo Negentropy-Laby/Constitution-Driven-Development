@@ -35,6 +35,9 @@ governance control plane for the workspace.
 
 Agents and slash commands do not replace this memory. They maintain it while
 detailed work stays in `design/`, `docs/`, `.claude/docs/`, and `production/`.
+When approved artifacts record `PASS/FAIL`, `APPROVED/REJECTED`, `GO/NO-GO`,
+`PROCEED/PIVOT/KILL`, `CUT/KEEP/DEFER`, or `RELEASE/HOLD` decisions, the owning
+workflow also updates T1, T0, or a T3 index.
 
 ## How to Use
 

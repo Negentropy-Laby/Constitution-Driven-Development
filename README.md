@@ -294,6 +294,11 @@ CDD workflows work by reading and maintaining the project brain:
 4. Review, QA, story, sprint, milestone, and release workflows maintain T3 indexes.
 5. Detailed work remains in `design/`, `docs/`, `.claude/docs/`, and `production/`.
 
+Any high-impact workflow that produces a `PASS/FAIL`, `APPROVED/REJECTED`,
+`GO/NO-GO`, `PROCEED/PIVOT/KILL`, `CUT/KEEP/DEFER`, or `RELEASE/HOLD` decision
+should update T1, T0, or a T3 index when the user approves saving the original
+artifact.
+
 ### Agent Coordination
 
 Agents follow a structured delegation model:

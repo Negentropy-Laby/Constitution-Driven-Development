@@ -3,13 +3,14 @@ name: scope-check
 description: "Analyze a feature or sprint for scope creep by comparing current scope against the original plan. Flags additions, quantifies bloat, and recommends cuts. Use when user says 'any scope creep', 'scope review', 'are we staying in scope'."
 argument-hint: "[feature-name or sprint-N]"
 user-invocable: true
-allowed-tools: Read, Glob, Grep, Bash
+allowed-tools: Read, Glob, Grep, Bash, Write, Edit
 model: haiku
 ---
 
 # Scope Check
 
-This skill is read-only — it reports findings but writes no files.
+Default behavior is read-only. It reports findings in conversation unless the
+user explicitly approves saving the report.
 
 Compares original planned scope against current state to detect, quantify, and triage
 scope creep.
@@ -117,6 +118,29 @@ After presenting the report, offer concrete follow-up:
 
 Always end with:
 > "Run `/scope-check [name]` again after cuts are made to verify the verdict improves."
+
+---
+
+## Phase 5b: Optional Scope Decision Evidence
+
+After presenting the report, ask:
+
+> "May I write this scope check to `production/scope/scope-check-[target]-[YYYY-MM-DD].md`?"
+
+If the user approves, write the report. If `memory_bank/` exists, also update
+`memory_bank/t3_archive/reviews/review-index.md`.
+
+Review index row:
+
+- Review Type: `scope-check`
+- Source Artifact: `production/scope/scope-check-[target]-[YYYY-MM-DD].md`
+- Verdict: `PASS`, `CONCERNS`, or `FAIL`
+- Scope: feature, sprint, or milestone target
+
+Use `Source Artifact` as the dedupe key. Do not create `memory_bank/` from
+`/scope-check`; if it does not exist, keep the saved scope report and tell the
+user to run `/constitute` to establish the memory_bank governance control
+plane.
 
 ---
 

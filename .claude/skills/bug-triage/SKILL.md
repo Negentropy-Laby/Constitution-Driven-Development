@@ -228,6 +228,21 @@ Present the report in conversation, then ask:
 
 Write only after approval.
 
+If `memory_bank/` exists after approval, update
+`memory_bank/t3_archive/qa_evidence_index.md`.
+
+QA evidence index row:
+
+- Type: `bug-triage`
+- Path: `production/qa/bug-triage-[date].md`
+- Verdict: `COMPLETE` or `BLOCKED`
+- Related Story / Gate: sprint, full backlog, or trend scope
+
+Use the report path as the dedupe key. Do not create `memory_bank/` from
+`/bug-triage`; if it does not exist, keep the normal triage report and tell the
+user to run `/constitute` to establish the memory_bank governance control
+plane.
+
 After writing:
 - If any S1 bugs are unassigned: "S1 bugs must be assigned before the sprint
   can be considered healthy. Run `/sprint-status` to see current capacity."

@@ -5,6 +5,7 @@
 - Release target: [version / milestone / not set]
 - Release phase: [not started / candidate / stable / post-release]
 - Latest release evidence: `memory_bank/t3_archive/release_evidence/`
+- Latest hotfix evidence: `memory_bank/t3_archive/release_evidence/`
 - Required workflow: `Template Consistency`
 
 ## Acceptance Evidence

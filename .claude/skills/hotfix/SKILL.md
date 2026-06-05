@@ -180,6 +180,21 @@ Merge to: release branch AND development branch
 Next: /bug-report verify [BUG-ID] after deploy to confirm resolution
 ```
 
+After presenting deployment or verification evidence, ask:
+
+> "May I record this hotfix evidence in `memory_bank/t3_archive/release_evidence/hotfix-[short-name]-[YYYY-MM-DD].md`?"
+
+If the user approves and `memory_bank/` exists, write the hotfix evidence file
+and update `memory_bank/t0_core/release_state.md` with the latest hotfix
+summary. If the same evidence filename exists, append `-[NN]` and do not
+overwrite history.
+
+Hotfix evidence must include severity, branch/commit, QA gate, rollback plan,
+deployment status, monitoring result, and post-incident review link. Do not
+create `memory_bank/` from `/hotfix`; if it does not exist, keep the normal
+hotfix record and tell the user to run `/constitute` to establish the
+memory_bank governance control plane.
+
 ### Rules
 - Hotfixes must be the MINIMUM change to fix the issue — no cleanup, no refactoring
 - Every hotfix must have a rollback plan documented before deployment

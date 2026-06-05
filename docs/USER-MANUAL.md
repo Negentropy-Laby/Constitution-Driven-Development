@@ -50,6 +50,11 @@ smoke/team QA sign-off, story closure, sprint/milestone snapshots, and release
 evidence stay in their normal working paths, but approved writes also maintain
 T3 indexes when `memory_bank/` exists.
 
+Any high-impact workflow that produces a `PASS/FAIL`, `APPROVED/REJECTED`,
+`GO/NO-GO`, `PROCEED/PIVOT/KILL`, `CUT/KEEP/DEFER`, or `RELEASE/HOLD` decision
+should update T1, T0, or a T3 index when the user approves saving the original
+artifact.
+
 ### Where Do I Look?
 
 | Question | Look here |
@@ -207,16 +212,19 @@ Common generated or maintained artifacts include:
 |----------|-------------------|
 | `memory_bank/t0_core/basic_law_index.md` | `/constitute` |
 | `memory_bank/t0_core/current_state.md` | `/constitute`, `/gate-check` |
-| `memory_bank/t0_core/release_state.md` | `/constitute`, `/team-release` |
+| `memory_bank/t0_core/release_state.md` | `/constitute`, `/team-release`, `/hotfix` |
+| `memory_bank/t0_core/amendment_log.md` | `/constitute` amendment workflow |
+| `memory_bank/t1_axioms/tech_context.md` | `/constitute`, `/setup-engine` |
 | `memory_bank/t1_axioms/*` | `/constitute`, architecture, UX, QA, and design workflows |
 | `memory_bank/t2_execution/phase_checklists.md` | `python scripts/generate_phase_checklists.py --write --memory-bank` |
 | `memory_bank/t2_execution/gate_required_artifacts.md` | `python scripts/generate_gate_required_sections.py --write --memory-bank` |
 | `memory_bank/t2_execution/current_roadmap.md` | `/cdd-status` |
 | `memory_bank/t3_archive/gate_runs/` | `/gate-check` |
-| `memory_bank/t3_archive/reviews/review-index.md` | Review workflows |
-| `memory_bank/t3_archive/qa_evidence_index.md` | `/playtest-report`, `/smoke-check`, `/team-qa`, `/test-evidence-review` |
+| `memory_bank/t3_archive/reviews/review-index.md` | Review workflows, `/prototype`, `/code-review`, `/scope-check` |
+| `memory_bank/t3_archive/qa_evidence_index.md` | `/playtest-report`, `/smoke-check`, `/team-qa`, `/test-evidence-review`, `/bug-triage` |
 | `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md` | `/story-done` |
-| `memory_bank/t3_archive/release_evidence/` | `/team-release` |
+| `memory_bank/t3_archive/release_evidence/` | `/team-release`, `/hotfix` |
+| `memory_bank/t3_archive/amendments/` | `/constitute` amendment workflow |
 | `production/review-mode.txt` | `/constitute` |
 | `production/project-roadmap.md` | `/cdd-status` |
 | `docs/PHASE-CHECKLISTS.md` | `python scripts/generate_phase_checklists.py --write` |
