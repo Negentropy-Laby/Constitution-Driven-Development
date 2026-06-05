@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, AskUserQuestion
 ---
 
+## User Guide
+
+- When to use: Constitution Driven Development project governance — establishes, derives, updates, or amends governing principles at any project stage. Reads existing artifacts to derive a constitution, audits alignment, tracks versions, and supports formal amendment workflow. Domain-agnostic, stage-aware unified onboarding entry.
+- Inputs: Command arguments: `/constitute`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/document_map.yaml`, `memory_bank/README.md`, `memory_bank/t0_core/*`, `memory_bank/t1_axioms/knowledge_graph.md`, `memory_bank/t2_execution/*`, and `memory_bank/t3_archive/*` skeleton/index files described below.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Constitution Legislation — Stage-Aware Project Governance
 
 This skill initializes the `memory_bank/` governance control plane: T0 core
@@ -712,7 +720,10 @@ Then create `design/accessibility-requirements.md` from `.claude/docs/templates/
 `/perf-profile` → `/balance-check` → `/team-polish`
 
 **Release Phase:**
-`/release-checklist` → `/launch-checklist` → `/changelog` → `/patch-notes` → `/hotfix`
+`/release-checklist` → `/launch-checklist` → `/team-release`
+
+`/changelog` and `/patch-notes` are optional release communication artifacts.
+`/hotfix` is emergency-only after release or incident discovery.
 
 **[通用产品] Product Pipeline:**
 
@@ -736,7 +747,10 @@ Then create `design/accessibility-requirements.md` from `.claude/docs/templates/
 `/qa-plan` → `/smoke-check` → `/gate-check`
 
 **Release Phase:**
-`/release-checklist` → `/launch-checklist` → `/changelog` → `/patch-notes` → `/hotfix`
+`/release-checklist` → `/launch-checklist` → `/team-release`
+
+`/changelog` and `/patch-notes` are optional release communication artifacts.
+`/hotfix` is emergency-only after release or incident discovery.
 
 ### Stage 1 Pipeline (Concept only, after /brainstorm)
 
