@@ -7,6 +7,14 @@ agent: localization-lead
 allowed-tools: Read, Glob, Grep, Write, Bash, Task, AskUserQuestion
 ---
 
+## User Guide
+
+- When to use: Full localization pipeline: scan for hardcoded strings, extract and manage string tables, validate translations, generate translator briefings, run cultural/sensitivity review, manage VO localization, test RTL/platform requirements, enforce string freeze, and report coverage.
+- Inputs: Command arguments: `/localize [scan|extract|validate|status|brief|cultural-review|vo-pipeline|rtl-check|freeze|qa]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before localization work:

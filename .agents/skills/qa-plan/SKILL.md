@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, AskUserQuestion
 agent: qa-lead
 ---
 
+## User Guide
+
+- When to use: Generate a QA test plan for a sprint or feature. Reads CDDs and story files, classifies stories by test type, and produces a structured test plan covering automated tests, manual verification, smoke test scope, and sign-off requirements. Run before sprint begins or when starting a major feature.
+- Inputs: Command arguments: `/qa-plan [sprint | feature: system-name | story: path]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/qa_evidence_index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # QA Plan
 
 This skill generates a structured QA plan for a sprint, feature, or individual

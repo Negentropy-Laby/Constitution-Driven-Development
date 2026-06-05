@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite
 ---
 
+## User Guide
+
+- When to use: Orchestrate the polish team: coordinates performance-analyst, technical-artist, sound-designer, and qa-tester to optimize, polish, and harden a feature or area for release quality.
+- Inputs: Command arguments: `/team-polish [feature or area to polish]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before the polish pass:

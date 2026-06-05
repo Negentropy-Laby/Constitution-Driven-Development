@@ -8,6 +8,14 @@ agent: prototyper
 isolation: worktree
 ---
 
+## User Guide
+
+- When to use: Rapid prototyping workflow. Skips normal standards to quickly validate a game concept, mechanic, product feature, API contract, or technology choice. Produces throwaway code and a structured prototype report.
+- Inputs: Command arguments: `/prototype [concept-description] [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Detection
 
 Detect the project domain by checking for concept documents in `design/cdd/`:

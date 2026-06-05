@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 ---
 
+## User Guide
+
+- When to use: Validate skill files for structural compliance and behavioral correctness. Three modes: static (linter), spec (behavioral), audit (coverage report).
+- Inputs: Command arguments: `/skill-test static [skill-name | all] | spec [skill-name] | category [skill-name | all] | audit`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the skill domain before testing:

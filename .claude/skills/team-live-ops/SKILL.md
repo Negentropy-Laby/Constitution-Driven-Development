@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite
 ---
 
+## User Guide
+
+- When to use: Orchestrate live operations. Game: seasons, events, economy rewards, community messaging. Product: staged rollout, feature flags, lifecycle campaigns, analytics, A/B tests, customer communication, incident watch, and adoption/retention improvements.
+- Inputs: Command arguments: `/team-live-ops [season name or event description]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before orchestrating live operations:

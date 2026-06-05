@@ -8,6 +8,14 @@ agent: technical-director
 model: opus
 ---
 
+## User Guide
+
+- When to use: Validates completeness and consistency of the project architecture against all CDDs. Builds a traceability matrix mapping every CDD technical requirement to ADRs, identifies coverage gaps, detects cross-ADR conflicts, verifies technology compatibility consistency across all decisions, and produces a PASS/CONCERNS/FAIL verdict. Supports both game and general product domains.
+- Inputs: Command arguments: `/architecture-review [focus: full | coverage | consistency | compatibility | single-cdd path/to/cdd.md]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Architecture Review
 
 The architecture review validates that the complete body of architectural decisions

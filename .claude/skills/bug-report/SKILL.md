@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 ---
 
+## User Guide
+
+- When to use: Creates a structured bug report from a description, or analyzes code to identify potential bugs. Ensures every bug report has full reproduction steps, severity assessment, and context.
+- Inputs: Command arguments: `/bug-report [description] | analyze [path-to-file]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before writing the report:

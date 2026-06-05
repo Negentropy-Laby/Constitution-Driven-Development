@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 ---
 
+## User Guide
+
+- When to use: Generate test helper libraries for the project's test suite. Game: engine-specific helpers (Godot, Unity, Unreal). Product: language-appropriate helpers (pytest fixtures, vitest factories, etc.). Reads existing test patterns and produces tests/helpers/ with assertion utilities, factory functions, and mock objects tailored to the project's systems.
+- Inputs: Command arguments: `/test-helpers [system-name | all | scaffold]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Test Helpers
 
 Writing test cases is faster and more consistent when common setup, teardown,

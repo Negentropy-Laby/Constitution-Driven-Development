@@ -8,6 +8,14 @@ allowed-tools: Read, Glob, Grep, Write
 
 > **Explicit invocation only**: This skill should only run when the user explicitly requests it with `/launch-checklist`. Do not auto-invoke based on context matching.
 
+## User Guide
+
+- When to use: Complete launch readiness validation. Game: platform certification, store metadata, content, community. Product: deployment strategy, rollback plan, on-call, monitoring.
+- Inputs: Command arguments: `/launch-checklist [launch-date or 'dry-run']`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Detection
 
 Detect the project domain by checking for concept documents in `design/cdd/`:

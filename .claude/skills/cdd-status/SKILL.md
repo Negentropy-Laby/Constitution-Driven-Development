@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write
 model: haiku
 ---
 
+## User Guide
+
+- When to use: Generate a project progress dashboard from workflow-catalog.yaml. Reads current stage, required steps, artifact evidence, validation gaps, writes production/project-roadmap.md after approval, and mirrors to memory_bank/t2_execution/current_roadmap.md when memory_bank exists.
+- Inputs: Command arguments: `/cdd-status [optional: --dry-run | --write]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t0_core/basic_law_index.md`, `memory_bank/t0_core/current_state.md`, `memory_bank/t2_execution/current_roadmap.md`, `memory_bank/t2_execution/workflow_contract.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # CDD Status Dashboard
 
 Generate a concise progress dashboard and a durable roadmap at

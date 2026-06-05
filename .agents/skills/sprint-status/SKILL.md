@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep
 model: haiku
 ---
 
+## User Guide
+
+- When to use: Fast sprint status check. Reads the current sprint plan, scans story files for status, and produces a concise progress snapshot with burndown assessment and emerging risks. Run at any time during a sprint for quick situational awareness. Use when user asks 'how is the sprint going', 'sprint update', 'show sprint progress'.
+- Inputs: Command arguments: `/sprint-status [sprint-number or blank for current]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/sprint_snapshots/`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before reporting status:

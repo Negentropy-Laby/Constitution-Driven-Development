@@ -7,6 +7,14 @@ agent: performance-analyst
 allowed-tools: Read, Glob, Grep, Bash
 ---
 
+## User Guide
+
+- When to use: Structured performance profiling workflow. Identifies bottlenecks, measures against budgets, and generates optimization recommendations with priority rankings. Game: CPU/GPU/frame-time. Product: API latency, DB queries, memory, throughput.
+- Inputs: Command arguments: `/perf-profile [system-name or 'full']`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Detection
 
 Detect the project domain by checking for concept documents in `design/cdd/`:

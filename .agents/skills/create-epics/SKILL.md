@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
 agent: technical-director
 ---
 
+## User Guide
+
+- When to use: Translate approved CDDs + architecture into epics — one epic per architectural module. Defines scope, governing ADRs, technology risk, and untraced requirements. Does NOT break into stories — run /create-stories [epic-slug] after each epic is created.
+- Inputs: Command arguments: `/create-epics [system-name | layer: foundation|core|feature|presentation | all] [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Create Epics
 
 An epic is a named, bounded body of work that maps to one architectural module.

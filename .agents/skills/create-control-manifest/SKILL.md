@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, Task
 agent: technical-director
 ---
 
+## User Guide
+
+- When to use: After architecture is complete, produces a flat actionable rules sheet for programmers — what you must do, what you must never do, per module and per layer. Extracted from all Accepted ADRs, technical preferences, and reference docs. Supports both game and general product domains.
+- Inputs: Command arguments: `/create-control-manifest [update — regenerate from current ADRs]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Create Control Manifest
 
 The Control Manifest is a flat, actionable rules sheet for programmers. It

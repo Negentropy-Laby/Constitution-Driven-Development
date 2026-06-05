@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Bash, Task, AskUserQuestion
 ---
 
+## User Guide
+
+- When to use: Read a story file and implement it. Loads the full context (story, CDD requirement, ADR guidelines, control manifest), routes to the right programmer agent for the system and technology stack, implements the code and required evidence, and confirms each acceptance criterion. The core implementation skill — run after /story-readiness, before /code-review and /story-done.
+- Inputs: Command arguments: `/dev-story [story-path]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Dev Story
 
 This skill bridges planning and code. It reads a story file in full, assembles

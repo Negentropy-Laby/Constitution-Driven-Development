@@ -47,6 +47,9 @@ want a saved progress dashboard at `production/project-roadmap.md`; see
 for the expected shape. Gates are
 governed advisory: they must run before normal advancement; a `FAIL` requires
 explicit override and a risk note before `production/stage.txt` advances.
+Each slash command includes a local `User Guide` block covering when to use it,
+inputs, outputs, memory-bank writes, and recommended next steps. Recommended
+next steps never auto-run; users still advance by explicit command and approval.
 
 ---
 

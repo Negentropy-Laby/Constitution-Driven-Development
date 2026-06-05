@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, WebSearch, WebFetch, Task, AskUserQuestion
 ---
 
+## User Guide
+
+- When to use: Configure the project's technology foundation — game engine or general product stack. Pins the stack in CLAUDE.md, detects knowledge gaps, and populates reference docs via WebSearch when versions are beyond the LLM's training data.
+- Inputs: Command arguments: `/setup-engine [engine | framework | stack] [version] | refresh | upgrade [old-ver] [new-ver] | no args for guided selection`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t1_axioms/tech_context.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 When this skill is invoked:
 
 ## 1. Parse Arguments

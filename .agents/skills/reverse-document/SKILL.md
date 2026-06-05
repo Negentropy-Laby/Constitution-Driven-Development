@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 # Read-only diagnostic skill — no specialist agent delegation needed
 ---
 
+## User Guide
+
+- When to use: Generate design or architecture documents from existing implementation. Works backwards from code/prototypes to create missing planning docs.
+- Inputs: Command arguments: `/reverse-document <type> <path> (e.g., 'design src/gameplay/combat' or 'architecture src/core')`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before reverse-documenting:

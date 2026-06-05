@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, Bash, AskUserQuestion, Task
 agent: technical-director
 ---
 
+## User Guide
+
+- When to use: Guided, section-by-section authoring of the master architecture document. Reads all CDDs, the module index, existing ADRs, and the reference library to produce a complete architecture blueprint before any code is written. Supports both game and general product domains.
+- Inputs: Command arguments: `/create-architecture [focus-area: full | layers | data-flow | api-boundaries | adr-audit] [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Create Architecture
 
 This skill produces `docs/architecture/architecture.md` — the master architecture

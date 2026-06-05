@@ -9,6 +9,14 @@ context: |
 model: haiku
 ---
 
+## User Guide
+
+- When to use: Analyzes what is done and the users query and offers advice on what to do next. Use if user says what should I do next or what do I do now or I'm stuck or I don't know what to do
+- Inputs: Command arguments: `/help [optional: what you just finished, e.g. 'finished design-review' or 'stuck on ADRs']`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t0_core/basic_law_index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Studio Help — What Do I Do Next?
 
 This skill is read-only — it reports findings but writes no files.

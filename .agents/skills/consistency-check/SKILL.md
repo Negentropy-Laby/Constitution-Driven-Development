@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
+## User Guide
+
+- When to use: Scan all CDDs against the entity registry to detect cross-document inconsistencies. Works for both game and product CDDs. Grep-first approach — reads registry then targets only conflicting CDD sections rather than full document reads.
+- Inputs: Command arguments: `/consistency-check [full | since-last-review | entity:<name> | item:<name> | schema:<name> | api:<name> | permission:<name> | config:<name>]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Consistency Check
 
 Detects cross-document inconsistencies by comparing all CDDs against the

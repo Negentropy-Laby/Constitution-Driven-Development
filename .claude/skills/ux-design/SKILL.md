@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, Task
 agent: ux-designer
 ---
 
+## User Guide
+
+- When to use: Guided, section-by-section UX spec authoring for a screen, flow, or HUD. Supports both game projects (player journey, HUD, game screens) and product projects (user flows, CLI interaction, API consumer journey). Reads concept doc and relevant CDDs for context-aware design guidance.
+- Inputs: Command arguments: `/ux-design [screen/flow name] or 'hud' or 'patterns`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 When this skill is invoked:
 
 **Domain detection.** Read the concept document to determine domain:

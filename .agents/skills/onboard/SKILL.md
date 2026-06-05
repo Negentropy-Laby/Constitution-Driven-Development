@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write
 model: haiku
 ---
 
+## User Guide
+
+- When to use: Generates a contextual onboarding document for a new contributor or agent joining the project. Summarizes project state, architecture, conventions, and current priorities relevant to the specified role or area.
+- Inputs: Command arguments: `/onboard [role|area]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before generating onboarding material:

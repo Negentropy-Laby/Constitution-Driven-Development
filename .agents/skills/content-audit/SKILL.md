@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write
 agent: producer
 ---
 
+## User Guide
+
+- When to use: Audit GDD-specified content counts against implemented content. Identifies what's planned vs built.
+- Inputs: Command arguments: `/content-audit [system-name | --summary | (no arg = full audit)]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before auditing content:

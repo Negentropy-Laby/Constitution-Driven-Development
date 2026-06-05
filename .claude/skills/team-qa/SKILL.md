@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
 agent: qa-lead
 ---
 
+## User Guide
+
+- When to use: Orchestrate the QA team through a full testing cycle. Coordinates qa-lead (strategy + test plan) and qa-tester (test case writing + bug reporting) to produce a complete QA package for a sprint or feature. Covers: test plan generation, test case writing, smoke check gate, manual QA execution, and sign-off report.
+- Inputs: Command arguments: `/team-qa [sprint | feature: system-name]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/qa_evidence_index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before QA orchestration:

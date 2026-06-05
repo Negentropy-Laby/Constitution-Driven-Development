@@ -39,6 +39,11 @@ When approved artifacts record `PASS/FAIL`, `APPROVED/REJECTED`, `GO/NO-GO`,
 `PROCEED/PIVOT/KILL`, `CUT/KEEP/DEFER`, or `RELEASE/HOLD` decisions, the owning
 workflow also updates T1, T0, or a T3 index.
 
+Every slash command includes a local `User Guide` block for when to use it,
+inputs, outputs, memory-bank writes, and recommended next steps. Recommended
+next steps are not automatic execution; run the next command only after the
+user chooses to proceed.
+
 ## How to Use
 
 ### 1. Understand the Hierarchy

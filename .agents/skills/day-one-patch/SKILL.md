@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion
 ---
 
+## User Guide
+
+- When to use: Prepare an immediate launch patch. Game: day-one patch after gold master or public launch. Product: post-release hotfix, rollback, migration repair, API/CLI packaging fix, config correction, or customer-facing patch.
+- Inputs: Command arguments: `/day-one-patch [scope: known-bugs | cert-feedback | all]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before planning the patch:

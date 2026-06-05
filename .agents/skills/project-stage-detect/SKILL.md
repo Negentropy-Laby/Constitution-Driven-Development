@@ -8,6 +8,14 @@ model: haiku
 # Read-only diagnostic skill — no specialist agent delegation needed
 ---
 
+## User Guide
+
+- When to use: Automatically analyze project state, detect stage, identify gaps, and recommend next steps based on existing artifacts. Use when user asks 'where are we in development', 'what stage are we in', 'full project audit'.
+- Inputs: Command arguments: `/project-stage-detect [optional: role filter like 'programmer' or 'designer']`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Project Stage Detection
 
 This skill scans your project to determine its current development stage, completeness

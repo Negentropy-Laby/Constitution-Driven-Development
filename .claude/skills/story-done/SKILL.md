@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Write, Edit, AskUserQuestion, Task
 ---
 
+## User Guide
+
+- When to use: End-of-story completion review. Reads the story file, verifies each acceptance criterion against the implementation, checks for CDD/ADR deviations, prompts code review, updates story status to Complete, and surfaces the next ready story from the sprint.
+- Inputs: Command arguments: `/story-done [story-file-path] [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Story Done
 
 This skill closes the loop between design and implementation. Run it at the end

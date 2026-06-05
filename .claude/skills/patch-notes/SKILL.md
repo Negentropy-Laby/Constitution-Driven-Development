@@ -8,6 +8,14 @@ model: haiku
 agent: community-manager
 ---
 
+## User Guide
+
+- When to use: Generate release notes from git history, sprint data, and internal changelogs. Game: player-facing patch notes. Product: developer-facing release notes with API/CLI/UI categories.
+- Inputs: Command arguments: `/patch-notes [version] [--style brief|detailed|full] [--audience players|developers|all]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Detection
 
 Detect the project domain by checking for concept documents in `design/cdd/`:

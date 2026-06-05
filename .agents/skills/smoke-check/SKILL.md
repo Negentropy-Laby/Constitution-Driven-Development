@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Write, AskUserQuestion
 ---
 
+## User Guide
+
+- When to use: Run the critical path smoke test gate before QA hand-off. Executes the automated test suite, verifies core functionality, and produces a PASS/FAIL report. Supports both game and product projects. A failed smoke check means the build is not ready for QA.
+- Inputs: Command arguments: `/smoke-check [sprint | quick | --platform pc|console|mobile|web|api|cli|all]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/qa_evidence_index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Smoke Check
 
 This skill is the gate between "implementation done" and "ready for QA

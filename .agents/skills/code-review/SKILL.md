@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Bash, Task, Write, Edit
 agent: lead-programmer
 ---
 
+## User Guide
+
+- When to use: Architectural code review after each story implementation. Works for both game and product projects. Checks coding standards, architecture, SOLID, testability, and domain-specific concerns.
+- Inputs: Command arguments: `/code-review [path-to-file-or-directory]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Detection
 
 Detect the project domain by checking for concept documents in `design/cdd/`:

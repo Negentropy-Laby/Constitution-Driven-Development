@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite
 ---
 
+## User Guide
+
+- When to use: Orchestrate area/workflow creation. Game: level design team for areas and levels. Product: workflow/module area team for onboarding flows, admin sections, dashboards, API resource groups, CLI command groups, or data pipeline stages.
+- Inputs: Command arguments: `/team-level [level name or area to design]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before orchestrating the team:

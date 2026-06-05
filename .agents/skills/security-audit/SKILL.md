@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Task
 agent: security-engineer
 ---
 
+## User Guide
+
+- When to use: Audit security vulnerabilities. Game: save tampering, cheat vectors, network exploits, player data, input validation. Product: OWASP/API auth, sessions, secrets, authorization boundaries, privacy, logging, rate limiting, and deployment configuration.
+- Inputs: Command arguments: `/security-audit [full | network | save | input | quick]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before auditing security:

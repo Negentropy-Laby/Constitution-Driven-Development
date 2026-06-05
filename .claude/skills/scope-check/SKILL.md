@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Edit
 model: haiku
 ---
 
+## User Guide
+
+- When to use: Analyze a feature or sprint for scope creep by comparing current scope against the original plan. Flags additions, quantifies bloat, and recommends cuts. Use when user says 'any scope creep', 'scope review', 'are we staying in scope'.
+- Inputs: Command arguments: `/scope-check [feature-name or sprint-N]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Scope Check
 
 Default behavior is read-only. It reports findings in conversation unless the

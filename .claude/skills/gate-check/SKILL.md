@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Task, AskUserQuestion
 model: opus
 ---
 
+## User Guide
+
+- When to use: Validate readiness to advance between development phases. Produces a PASS/CONCERNS/FAIL verdict with specific blockers and required artifacts. Supports both game and general product domains — auto-detects domain from the concept document.
+- Inputs: Command arguments: `/gate-check [target-phase] [--review full|lean|solo]. Game phases: systems-design | technical-setup | pre-production | production | polish | release. Product phases: specification | architecture | pre-implementation | implementation | verification | release`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t0_core/current_state.md`, `memory_bank/t3_archive/gate_runs/`, `memory_bank/t3_archive/gate_runs/gate-[phase]-[YYYY-MM-DD].md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Phase Gate Validation
 
 This skill validates whether the project is ready to advance to the next development

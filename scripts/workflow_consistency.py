@@ -1487,6 +1487,102 @@ def check_release_phase_contract() -> list[Finding]:
                         f"{rel(skill_path)} must not require a repeated phase gate {phrase}",
                     )
                 )
+
+    stale_release_sequence = re.compile(
+        r"/release-checklist\s*->\s*/launch-checklist\s*->\s*/changelog\s*->\s*/patch-notes\s*->\s*/hotfix"
+    )
+    normal_release_sequence = re.compile(
+        r"/release-checklist\s*->\s*/launch-checklist\s*->\s*/team-release"
+    )
+    for skill_path in [
+        SKILLS_DIR / "constitute" / "SKILL.md",
+        CODEX_SKILLS_DIR / "constitute" / "SKILL.md",
+    ]:
+        text = skill_path.read_text(encoding="utf-8", errors="replace")
+        normalized = text.replace("→", "->").replace("`", "")
+        if stale_release_sequence.search(normalized):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f"{rel(skill_path)} must not present /changelog, /patch-notes, or /hotfix as the normal Release Phase chain",
+                )
+            )
+        if not normal_release_sequence.search(normalized):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f"{rel(skill_path)} must present Release Phase as /release-checklist -> /launch-checklist -> /team-release",
+                )
+            )
+        lower = text.lower()
+        if ("/changelog" in text or "/patch-notes" in text) and "optional release communication artifacts" not in lower:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f"{rel(skill_path)} must describe /changelog and /patch-notes as optional release communication artifacts",
+                )
+            )
+        if "/hotfix" in text and "emergency-only" not in lower:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f"{rel(skill_path)} must describe /hotfix as emergency-only",
+                )
+            )
+    return findings
+
+
+def check_skill_user_guide_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    required_labels = [
+        "When to use:",
+        "Inputs:",
+        "Outputs:",
+        "Memory-bank writes:",
+        "Next steps:",
+    ]
+    guide_pattern = re.compile(r"(?ms)^## User Guide\s*\n(?P<body>.*?)(?=^#{1,2}\s|\Z)")
+
+    for skills_root in [SKILLS_DIR, CODEX_SKILLS_DIR]:
+        for skill_path in sorted(skills_root.glob("*/SKILL.md")):
+            text = skill_path.read_text(encoding="utf-8", errors="replace")
+            match = guide_pattern.search(text)
+            if not match:
+                findings.append(Finding("ERROR", f"{rel(skill_path)} must include a ## User Guide block"))
+                continue
+            body = match.group("body")
+            missing = [label for label in required_labels if label not in body]
+            if missing:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(skill_path)} User Guide is missing label(s): {', '.join(missing)}",
+                    )
+                )
+
+    docs_to_check = [
+        REPO_ROOT / "README.md",
+        USER_MANUAL,
+        QUICK_START,
+    ]
+    for doc_path in docs_to_check:
+        text = doc_path.read_text(encoding="utf-8", errors="replace")
+        required_doc_snippets = [
+            "User Guide",
+            "when to use",
+            "inputs",
+            "outputs",
+            "memory-bank writes",
+            "next steps",
+        ]
+        lower = text.lower()
+        for snippet in required_doc_snippets:
+            if snippet.lower() not in lower:
+                findings.append(Finding("ERROR", f"{rel(doc_path)} must describe the slash-command User Guide contract"))
+                break
+        if "auto-run" not in lower and "automatic execution" not in lower:
+            findings.append(Finding("ERROR", f"{rel(doc_path)} must state recommended next steps do not auto-run"))
+
     return findings
 
 
@@ -1678,6 +1774,7 @@ def main() -> int:
     findings.extend(check_surface_profile_contract())
     findings.extend(check_phase_checklist_contract())
     findings.extend(check_release_phase_contract())
+    findings.extend(check_skill_user_guide_contract())
     findings.extend(check_skill_count_contract())
     findings.extend(check_template_count_contract())
     findings.extend(check_codex_adapter_contract())

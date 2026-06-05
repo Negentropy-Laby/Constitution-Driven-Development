@@ -105,6 +105,11 @@ Use this decision table for the first command in a new session:
 Run `/help` whenever the next step is unclear. Run `/cdd-status` when you need a
 persisted dashboard for handoff, review, or planning.
 
+Every slash command includes a local `User Guide` block that states when to use
+it, required inputs, expected outputs, memory-bank writes, and recommended next
+steps. Those next steps are guidance only; they do not auto-run without an
+explicit command and approval.
+
 ## New Game Path
 
 1. Run `/constitute` to create `memory_bank/`, ratify T0 laws, initialize T1

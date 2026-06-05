@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
 agent: lead-programmer
 ---
 
+## User Guide
+
+- When to use: Break a single epic into implementable story files. Reads the epic, its CDD, governing ADRs, and control manifest. Each story embeds its CDD requirement TR-ID, ADR guidance, acceptance criteria, story type, and test evidence path. Run after /create-epics for each epic.
+- Inputs: Command arguments: `/create-stories [epic-slug | epic-path] [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Create Stories
 
 A story is a single implementable behaviour — small enough to complete in one

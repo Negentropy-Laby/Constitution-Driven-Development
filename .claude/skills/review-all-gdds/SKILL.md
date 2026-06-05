@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, Bash, AskUserQuestion, Task
 model: opus
 ---
 
+## User Guide
+
+- When to use: Holistic cross-CDD consistency and design review. Reads all module CDDs simultaneously and checks for contradictions between them, stale references, ownership conflicts, and design theory issues. Supports both game and general product domains. Run after all MVP CDDs are written, before architecture begins.
+- Inputs: Command arguments: `/review-all-gdds [focus: full | consistency | design-theory | since-last-review]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Review All CDDs
 
 This skill reads every system CDD simultaneously and performs two complementary

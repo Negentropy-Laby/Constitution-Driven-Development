@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, AskUserQuestion, Task
 model: haiku
 ---
 
+## User Guide
+
+- When to use: Validate that a story file is implementation-ready. Checks for embedded CDD requirements, ADR references, technology notes, clear acceptance criteria, and no open design questions. Produces READY / NEEDS WORK / BLOCKED verdict with specific gaps.
+- Inputs: Command arguments: `/story-readiness [story-file-path or 'all' or 'sprint']`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Story Readiness
 
 This skill validates that a story file contains everything a developer needs

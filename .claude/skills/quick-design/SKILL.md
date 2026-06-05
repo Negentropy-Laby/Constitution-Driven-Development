@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit
 ---
 
+## User Guide
+
+- When to use: Lightweight design spec for small changes — tuning adjustments, minor mechanics, balance tweaks. Skips full CDD authoring when a system CDD already exists or the change is too small to warrant one. Produces a Quick Design Spec that embeds directly into story files.
+- Inputs: Command arguments: `/quick-design [brief description of the change]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before drafting a quick design:

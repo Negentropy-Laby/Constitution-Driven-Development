@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, TodoWrite, Task
 ---
 
+## User Guide
+
+- When to use: Decompose a concept into individual modules, map dependencies, prioritize design order, and create the module index. Supports both game and general product domains.
+- Inputs: Command arguments: `/map-systems [next | module-name] [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 When this skill is invoked:
 
 ## Parse Arguments

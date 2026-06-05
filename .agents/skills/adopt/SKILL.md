@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep, Write, AskUserQuestion
 agent: technical-director
 ---
 
+## User Guide
+
+- When to use: Brownfield onboarding — audits existing project artifacts for template format compliance (not just existence), classifies gaps by impact, and produces a numbered migration plan. Run this when joining an in-progress project or upgrading from an older template version. Distinct from /project-stage-detect (which checks what exists) — this checks whether what exists will actually work with the template's skills.
+- Inputs: Command arguments: `/adopt [focus: full | cdds | adrs | stories | infra]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Adopt — Brownfield Template Adoption
 
 This skill audits an existing project's artifacts for **format compliance** with

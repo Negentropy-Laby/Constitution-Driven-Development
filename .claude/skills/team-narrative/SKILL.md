@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion, TodoWrite
 ---
 
+## User Guide
+
+- When to use: Orchestrate narrative/content work. Game: narrative-director, writer, world-builder, and level-designer for story and lore. Product: onboarding story, docs narrative, release messaging, user education, empty-state copy, workflow explanation, and developer examples.
+- Inputs: Command arguments: `/team-narrative [narrative content description]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before orchestrating the team:

@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 ---
 
+## User Guide
+
+- When to use: Generate artifact specifications from CDDs and related docs. Game: visual/audio/VFX asset specs and AI prompts. Product: API schema, CLI help, docs asset, config sample, migration, deployment, or package artifact specs.
+- Inputs: Command arguments: `/asset-spec [system:<name> | level:<name> | character:<name> | api:<name> | cli:<name> | sdk:<name> | docs:<name> | config:<name> | migration:<name> | deployment:<name> | package:<name>] [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before generating specs:

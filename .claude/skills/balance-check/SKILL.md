@@ -7,6 +7,14 @@ allowed-tools: Read, Glob, Grep
 agent: economy-designer
 ---
 
+## User Guide
+
+- When to use: Analyzes balance constraints. Game: balance data, formulas, progression, degenerate strategies, and economy imbalances. Product: quotas, rate limits, pricing tiers, permissions, workflow friction, retry/backoff settings, and operational budgets.
+- Inputs: Command arguments: `/balance-check [system-name|path-to-data-file]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before checking balance:

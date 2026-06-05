@@ -10,6 +10,14 @@ context: |
 model: haiku
 ---
 
+## User Guide
+
+- When to use: Auto-generates a changelog from git commits, sprint data, and design documents. Game: player-facing content, gameplay, balance. Product: API changes, migrations, dependency updates.
+- Inputs: Command arguments: `/changelog [version|sprint-number]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Detection
 
 Detect the project domain by checking for concept documents in `design/cdd/`:

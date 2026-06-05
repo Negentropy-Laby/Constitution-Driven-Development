@@ -8,6 +8,14 @@ allowed-tools: Read, Glob, Grep, Write
 
 > **Explicit invocation only**: This skill should only run when the user explicitly requests it with `/release-checklist`. Do not auto-invoke based on context matching.
 
+## User Guide
+
+- When to use: Generates a comprehensive pre-release validation checklist. Game: build verification, certification requirements, store metadata. Product: deployment, migrations, monitoring, security.
+- Inputs: Command arguments: `/release-checklist [platform: pc|console|mobile|all | product: web|api|cli|all]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Detection
 
 Detect the project domain by checking for concept documents in `design/cdd/`:

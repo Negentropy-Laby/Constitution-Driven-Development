@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Write
 ---
 
+## User Guide
+
+- When to use: Scaffold the test framework and CI/CD pipeline. Supports game engines (Godot/GUT, Unity/NUnit, Unreal/UE Automation) and product stacks (Python/pytest, Node/Vitest, Rust/cargo test, Go/go test). Run once during Technical Setup phase before the first sprint begins.
+- Inputs: Command arguments: `/test-setup [force]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 # Test Setup
 
 This skill scaffolds the automated testing infrastructure for the project.

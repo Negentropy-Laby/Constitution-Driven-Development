@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 ---
 
+## User Guide
+
+- When to use: Guided, section-by-section visual identity authoring. Game: Art Bible for asset production. Product: brand style guide for docs imagery, public visuals, and product-facing visual standards.
+- Inputs: Command arguments: `/art-bible [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: None.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before running the workflow:

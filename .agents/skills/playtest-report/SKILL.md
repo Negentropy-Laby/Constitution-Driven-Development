@@ -6,6 +6,14 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
 ---
 
+## User Guide
+
+- When to use: Generates or analyzes validation reports. Game: structured playtest report. Product: user-test, API/CLI ergonomics, workflow validation, or adoption-blocker report.
+- Inputs: Command arguments: `/playtest-report [new|analyze path-to-notes] [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/qa_evidence_index.md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before generating or analyzing a report:

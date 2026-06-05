@@ -8,6 +8,14 @@ context: |
   !git log --oneline --since="2 weeks ago" 2>/dev/null
 ---
 
+## User Guide
+
+- When to use: Generates a sprint or milestone retrospective by analyzing completed work, velocity, blockers, and patterns. Produces actionable insights for the next iteration.
+- Inputs: Command arguments: `/retrospective [sprint-N|milestone-name]`; project artifacts referenced below; user decisions and approvals before writes.
+- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
+- Memory-bank writes: `memory_bank/t3_archive/sprint_snapshots/`, `memory_bank/t3_archive/sprint_snapshots/milestone-[name]-closeout-[YYYY-MM-DD].md`, `memory_bank/t3_archive/sprint_snapshots/sprint-[id]-closeout-[YYYY-MM-DD].md`.
+- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before running the retrospective:
