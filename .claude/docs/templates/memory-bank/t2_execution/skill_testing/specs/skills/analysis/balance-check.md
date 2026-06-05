@@ -3,7 +3,7 @@
 ## Skill Summary
 
 `/balance-check` reads balance data files (JSON or YAML in `assets/data/`) and
-checks each value against the design formulas defined in GDDs under `design/gdd/`.
+checks each value against the design formulas defined in GDDs under `design/cdd/`.
 It produces a findings table with columns: Value → Formula → Deviation → Severity.
 No director gates are invoked (read-only analysis). The skill may optionally write
 a balance report but asks "May I write" before doing so. Verdicts: BALANCED,
@@ -35,14 +35,14 @@ None. Balance check is a read-only analysis skill; no gates are invoked.
 
 **Fixture:**
 - `assets/data/combat-balance.json` exists with 6 stat values
-- `design/gdd/combat-system.md` contains formulas for all 6 stats with ±10% tolerance
+- `design/cdd/combat-system.md` contains formulas for all 6 stats with ±10% tolerance
 - All 6 values fall within tolerance
 
 **Input:** `/balance-check`
 
 **Expected behavior:**
 1. Skill reads all balance data files in `assets/data/`
-2. Skill reads GDD formulas from `design/gdd/`
+2. Skill reads GDD formulas from `design/cdd/`
 3. Skill computes deviation for each value against its formula
 4. All deviations are within ±10% tolerance
 5. Skill outputs findings table with all rows showing PASS
@@ -61,7 +61,7 @@ None. Balance check is a read-only analysis skill; no gates are invoked.
 
 **Fixture:**
 - `assets/data/combat-balance.json` has `player_damage_base: 140`
-- `design/gdd/combat-system.md` formula specifies `player_damage_base = 100` (±10%)
+- `design/cdd/combat-system.md` formula specifies `player_damage_base = 100` (±10%)
 - All other stats are within tolerance
 
 **Input:** `/balance-check`
@@ -85,7 +85,7 @@ None. Balance check is a read-only analysis skill; no gates are invoked.
 
 **Fixture:**
 - `assets/data/economy-balance.yaml` exists with 10 stat values
-- No GDD in `design/gdd/` contains formula definitions for economy stats
+- No GDD in `design/cdd/` contains formula definitions for economy stats
 
 **Input:** `/balance-check`
 
@@ -108,7 +108,7 @@ None. Balance check is a read-only analysis skill; no gates are invoked.
 
 **Fixture:**
 - `assets/data/combat-balance.json` contains a stat `legacy_armor_mult: 1.5`
-- `design/gdd/combat-system.md` has no formula for `legacy_armor_mult`
+- `design/cdd/combat-system.md` has no formula for `legacy_armor_mult`
 - All other stats have formula definitions and pass validation
 
 **Input:** `/balance-check`

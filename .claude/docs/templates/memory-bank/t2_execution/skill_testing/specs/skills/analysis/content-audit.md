@@ -2,7 +2,7 @@
 
 ## Skill Summary
 
-`/content-audit` reads GDDs in `design/gdd/` and checks whether all content
+`/content-audit` reads GDDs in `design/cdd/` and checks whether all content
 items specified there (enemies, items, levels, etc.) are accounted for in
 `assets/`. It produces a gap table: Content Type → Specified Count → Found Count
 → Missing Items. No director gates are invoked. The skill does not write without
@@ -33,14 +33,14 @@ None. Content audit is a read-only analysis skill; no gates are invoked.
 ### Case 1: Happy Path — All specified content present
 
 **Fixture:**
-- `design/gdd/enemies.md` specifies 4 enemy types: Grunt, Sniper, Tank, Boss
+- `design/cdd/enemies.md` specifies 4 enemy types: Grunt, Sniper, Tank, Boss
 - `assets/art/characters/` contains folders: `grunt/`, `sniper/`, `tank/`, `boss/`
-- `design/gdd/items.md` specifies 3 item types; all 3 found in `assets/data/items/`
+- `design/cdd/items.md` specifies 3 item types; all 3 found in `assets/data/items/`
 
 **Input:** `/content-audit`
 
 **Expected behavior:**
-1. Skill reads all GDDs in `design/gdd/`
+1. Skill reads all GDDs in `design/cdd/`
 2. Skill scans `assets/` for each specified content item
 3. All 4 enemy types and 3 item types are found
 4. Gap table shows: all rows have Found Count = Specified Count, no missing items
@@ -58,7 +58,7 @@ None. Content audit is a read-only analysis skill; no gates are invoked.
 ### Case 2: Gaps Found — Enemy type missing from assets
 
 **Fixture:**
-- `design/gdd/enemies.md` specifies 3 enemy types: Grunt, Sniper, Boss
+- `design/cdd/enemies.md` specifies 3 enemy types: Grunt, Sniper, Boss
 - `assets/art/characters/` contains: `grunt/`, `sniper/` only (Boss folder missing)
 
 **Input:** `/content-audit`
@@ -80,7 +80,7 @@ None. Content audit is a read-only analysis skill; no gates are invoked.
 ### Case 3: No GDD Content Specs Found — Guidance given
 
 **Fixture:**
-- `design/gdd/` contains only `core-loop.md` which has no content inventory section
+- `design/cdd/` contains only `core-loop.md` which has no content inventory section
 - No other GDDs exist with content specifications
 
 **Input:** `/content-audit`
@@ -101,7 +101,7 @@ None. Content audit is a read-only analysis skill; no gates are invoked.
 ### Case 4: Edge Case — Asset in wrong format for target platform
 
 **Fixture:**
-- `design/gdd/audio.md` specifies audio assets as OGG format
+- `design/cdd/audio.md` specifies audio assets as OGG format
 - `assets/audio/sfx/jump.wav` exists (WAV format, not OGG)
 - `assets/audio/sfx/land.ogg` exists (correct format)
 - `technical-preferences.md` specifies audio format: OGG

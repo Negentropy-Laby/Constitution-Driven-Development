@@ -44,8 +44,8 @@ In `solo` mode: PR-EPIC is skipped. Output notes: "PR-EPIC skipped — solo mode
 ### Case 1: Happy Path — Two approved GDDs create two EPIC files
 
 **Fixture:**
-- `design/gdd/systems-index.md` exists with 2 systems listed
-- Both systems have approved GDDs in `design/gdd/`
+- `design/cdd/module-index.md` exists with 2 systems listed
+- Both systems have approved GDDs in `design/cdd/`
 - `docs/architecture/architecture.md` exists with matching modules
 - At least one Accepted ADR exists for each system
 - `production/session-state/review-mode.txt` contains `lean`
@@ -73,8 +73,8 @@ In `solo` mode: PR-EPIC is skipped. Output notes: "PR-EPIC skipped — solo mode
 ### Case 2: Failure Path — No approved GDDs found
 
 **Fixture:**
-- `design/gdd/systems-index.md` exists
-- No GDDs in `design/gdd/` have approved status (all are Draft or In Progress)
+- `design/cdd/module-index.md` exists
+- No GDDs in `design/cdd/` have approved status (all are Draft or In Progress)
 
 **Input:** `/create-epics`
 

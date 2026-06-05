@@ -38,7 +38,7 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 ### Case 1: Happy Path — All GDDs compliant, no gaps, COMPLIANT
 
 **Fixture:**
-- `design/gdd/` contains 3 GDD files; each has all 8 required sections with content
+- `design/cdd/` contains 3 GDD files; each has all 8 required sections with content
 - `docs/architecture/adr-0001.md` exists with `## Status`, `## Engine Compatibility`,
   and all other required sections
 - `production/stage.txt` exists
@@ -72,7 +72,7 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 ### Case 2: Non-Compliant Documents — GDDs missing sections, NEEDS MIGRATION
 
 **Fixture:**
-- `design/gdd/` contains 2 GDD files:
+- `design/cdd/` contains 2 GDD files:
   - `combat.md` — missing `## Acceptance Criteria` and `## Formulas` sections
   - `movement.md` — all 8 sections present
 - One ADR (`adr-0001.md`) is missing `## Status` section
@@ -145,10 +145,10 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 ### Case 4: No Artifacts Found — Fresh project, guidance to run /constitute
 
 **Fixture:**
-- Repository has no files in `design/gdd/`, `docs/architecture/`, `production/epics/`
+- Repository has no files in `design/cdd/`, `docs/architecture/`, `production/epics/`
 - `production/stage.txt` does not exist
 - `src/` directory does not exist or has fewer than 10 files
-- No game-concept.md, no systems-index.md
+- No game-concept.md, no module-index.md
 
 **Input:** `/adopt`
 
@@ -208,7 +208,7 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 - The `gdds`, `adrs`, `stories`, and `infra` argument modes narrow the audit scope;
   each follows the same pattern as the full audit but limited to that artifact type.
   Not separately fixture-tested here.
-- The systems-index.md parenthetical status value check (BLOCKING) is a special case
+- The module-index.md parenthetical status value check (BLOCKING) is a special case
   that triggers an immediate fix offer before writing the plan; not separately tested.
 - The review-mode.txt prompt (Phase 6b) runs after plan writing if `production/review-mode.txt`
   does not exist; not separately tested here.

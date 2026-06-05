@@ -23,7 +23,7 @@ with verdict COMPLETE / BLOCKED and handoffs to `/design-review`, `/dev-story`,
 - [ ] Error Recovery Protocol section is present with all four recovery steps
 - [ ] Uses `AskUserQuestion` at step transitions for user approval before proceeding
 - [ ] Step 4 is explicitly marked as parallel (art-director and accessibility-specialist run simultaneously)
-- [ ] Context gathering reads: `design/gdd/game-concept.md`, `design/gdd/game-pillars.md`, `design/levels/`, `design/narrative/`, and relevant world-building docs
+- [ ] Context gathering reads: `design/cdd/game-concept.md`, `design/cdd/game-pillars.md`, `design/levels/`, `design/narrative/`, and relevant world-building docs
 - [ ] Team Composition lists all seven roles (narrative-director, world-builder, level-designer, systems-designer, art-director, accessibility-specialist, qa-tester)
 - [ ] accessibility-specialist output includes severity ratings (BLOCKING / RECOMMENDED / NICE TO HAVE)
 - [ ] Final level design document saved to `design/levels/[level-name].md`
@@ -35,8 +35,8 @@ with verdict COMPLETE / BLOCKED and handoffs to `/design-review`, `/dev-story`,
 ### Case 1: Happy Path — All team members produce outputs, document compiled and saved
 
 **Fixture:**
-- `design/gdd/game-concept.md` exists and is populated
-- `design/gdd/game-pillars.md` exists
+- `design/cdd/game-concept.md` exists and is populated
+- `design/cdd/game-pillars.md` exists
 - `design/levels/` directory exists (may contain other level docs)
 - `design/narrative/` directory exists with relevant narrative docs
 
@@ -69,7 +69,7 @@ with verdict COMPLETE / BLOCKED and handoffs to `/design-review`, `/dev-story`,
 ### Case 2: Blocked Agent (world-builder) — Partial report produced with gap noted
 
 **Fixture:**
-- `design/gdd/game-concept.md` exists
+- `design/cdd/game-concept.md` exists
 - World-building docs for the forest region do NOT exist
 - world-builder agent returns BLOCKED: "No world-building docs found for the forest region — cannot provide lore context"
 

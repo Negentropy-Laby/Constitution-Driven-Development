@@ -20,7 +20,7 @@ an active skill because `/constitute` is now the unified project entry point.
 `.claude/docs/templates/game-design-document.md` is restored as a historical
 game-specific reference template. It preserves Player Fantasy, Game Feel,
 playtest acceptance criteria, combat/inventory/progression examples, and
-historical `design/gdd/*` cross-reference guidance.
+historical `design/cdd/*` cross-reference guidance.
 
 ## Remaining Keyword Deletions
 

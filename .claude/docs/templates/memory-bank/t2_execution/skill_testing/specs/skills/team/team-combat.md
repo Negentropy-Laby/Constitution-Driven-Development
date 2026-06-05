@@ -33,14 +33,14 @@ with verdict COMPLETE / NEEDS WORK / BLOCKED and handoffs to `/code-review`,
 ### Case 1: Happy Path — All agents succeed, full pipeline runs to completion
 
 **Fixture:**
-- `design/gdd/game-concept.md` exists and is populated
+- `design/cdd/game-concept.md` exists and is populated
 - Engine is configured in `.claude/docs/technical-preferences.md` (Engine Specialists section filled)
 - No existing GDD for the requested combat feature
 
 **Input:** `/team-combat parry and riposte system`
 
 **Expected behavior:**
-1. Phase 1 — game-designer spawned; produces `design/gdd/parry-riposte.md` covering all 8 required sections (overview, player fantasy, rules, formulas, edge cases, dependencies, tuning knobs, acceptance criteria); asks user to approve design doc
+1. Phase 1 — game-designer spawned; produces `design/cdd/parry-riposte.md` covering all 8 required sections (overview, player fantasy, rules, formulas, edge cases, dependencies, tuning knobs, acceptance criteria); asks user to approve design doc
 2. Phase 2 — gameplay-programmer + ai-programmer spawned; produce architecture sketch with class structure, interfaces, and file list; then primary engine specialist is spawned to validate idioms; engine specialist output incorporated; `AskUserQuestion` presented with architecture options before Phase 3 begins
 3. Phase 3 — gameplay-programmer, ai-programmer, technical-artist, sound-designer spawned in parallel; all four return outputs before Phase 4 begins
 4. Phase 4 — integration wires together all Phase 3 outputs; tuning knobs verified as data-driven; `AskUserQuestion` confirms integration before Phase 5
@@ -62,7 +62,7 @@ with verdict COMPLETE / NEEDS WORK / BLOCKED and handoffs to `/code-review`,
 ### Case 2: Blocked Agent — One subagent returns BLOCKED mid-pipeline
 
 **Fixture:**
-- `design/gdd/parry-riposte.md` exists (Phase 1 already complete)
+- `design/cdd/parry-riposte.md` exists (Phase 1 already complete)
 - ai-programmer agent returns BLOCKED because no AI system architecture ADR exists (ADR status is Proposed)
 
 **Input:** `/team-combat parry and riposte system`
@@ -110,7 +110,7 @@ with verdict COMPLETE / NEEDS WORK / BLOCKED and handoffs to `/code-review`,
 ### Case 4: Parallel Phase Validation — Phase 3 agents run simultaneously
 
 **Fixture:**
-- `design/gdd/parry-riposte.md` exists and is complete
+- `design/cdd/parry-riposte.md` exists and is complete
 - Architecture sketch has been approved
 - Engine specialist has validated architecture
 

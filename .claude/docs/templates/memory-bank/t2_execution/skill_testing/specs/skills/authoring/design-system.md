@@ -50,13 +50,13 @@ In `solo` mode: CD-GDD-ALIGN is skipped. Output notes:
 ### Case 1: Happy Path — New GDD, skeleton-first, CD-GDD-ALIGN in lean mode
 
 **Fixture:**
-- No existing GDD for the target system in `design/gdd/`
+- No existing GDD for the target system in `design/cdd/`
 - `production/session-state/review-mode.txt` contains `lean`
 
 **Input:** `/design-system [system-name]`
 
 **Expected behavior:**
-1. Skill creates skeleton file `design/gdd/[system-name].md` with all 8 section headers (empty bodies)
+1. Skill creates skeleton file `design/cdd/[system-name].md` with all 8 section headers (empty bodies)
 2. For each section: discusses with user, drafts content, shows draft
 3. CD-GDD-ALIGN gate runs on each section draft (lean mode — gate is active)
 4. Gate returns APPROVED for each section
@@ -76,7 +76,7 @@ In `solo` mode: CD-GDD-ALIGN is skipped. Output notes:
 ### Case 2: Retrofit Mode — Existing GDD, update specific section
 
 **Fixture:**
-- `design/gdd/[system-name].md` already exists with all 8 sections populated
+- `design/cdd/[system-name].md` already exists with all 8 sections populated
 
 **Input:** `/design-system [system-name]`
 

@@ -107,7 +107,7 @@ None. Asset auditing is a read-only analysis skill; no gates are invoked.
 ### Case 4: Missing Asset — Asset referenced by GDD but absent from assets/
 
 **Fixture:**
-- `design/gdd/enemies.md` references `enemy_boss_idle.png`
+- `design/cdd/enemies.md` references `enemy_boss_idle.png`
 - `assets/art/characters/boss/` directory is empty — file does not exist
 
 **Input:** `/asset-audit`

@@ -57,7 +57,7 @@ Verified by reading the agent's `.claude/agents/creative-director.md` frontmatte
 - [ ] Does not claim to own implementation decisions
 
 ### Case 5: Context pass — uses provided context
-**Scenario:** Agent receives a gate context block that includes the game pillars document (`design/gdd/pillars.md`) and a new mechanic spec for review. The pillars document defines "player authorship," "consequence permanence," and "world responsiveness" as the three core pillars.
+**Scenario:** Agent receives a gate context block that includes the game pillars document (`design/cdd/pillars.md`) and a new mechanic spec for review. The pillars document defines "player authorship," "consequence permanence," and "world responsiveness" as the three core pillars.
 **Expected:** Assessment uses the exact pillar vocabulary from the provided document, not generic creative heuristics. Any approval or concern is tied back to one or more of the three named pillars.
 **Assertions:**
 - [ ] Uses the exact pillar names from the provided context document

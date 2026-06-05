@@ -297,15 +297,24 @@ def iter_text_files(paths: list[Path]) -> list[Path]:
 
 def check_story_path_drift() -> list[Finding]:
     findings: list[Finding] = []
-    pattern = re.compile(r"production/stories(?:/|\b)")
+    legacy_story_path = "production/" + "stories"
+    legacy_story_pattern = re.compile(re.escape(legacy_story_path) + r"(?:/|\b)")
+    legacy_design_path = "design/" + "gdd"
     for path in iter_text_files(DRIFT_SCAN_ROOTS):
         text = path.read_text(encoding="utf-8", errors="replace")
         for line_no, line in enumerate(text.splitlines(), start=1):
-            if pattern.search(line):
+            if legacy_story_pattern.search(line):
                 findings.append(
                     Finding(
                         "ERROR",
-                        f"{rel(path)}:{line_no} uses legacy production/stories path; use production/epics/[epic-slug]/story-NNN-[slug].md",
+                        f"{rel(path)}:{line_no} uses legacy story path; use production/epics/[epic-slug]/story-NNN-[slug].md",
+                    )
+                )
+            if legacy_design_path in line:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(path)}:{line_no} uses legacy design GDD path; use design/cdd/",
                     )
                 )
     return findings

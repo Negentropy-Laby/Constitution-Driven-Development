@@ -41,12 +41,12 @@ director review is required at the analysis stage.
 ### Case 1: Happy Path — GDD revision affects 2 stories and 1 epic
 
 **Fixture:**
-- `design/gdd/[system].md` exists and has been recently revised (git diff shows changes)
+- `design/cdd/[system].md` exists and has been recently revised (git diff shows changes)
 - `production/epics/[layer]/EPIC-[system].md` references this GDD
 - 2 story files reference TR-IDs from this GDD
 - The changed GDD section affects the acceptance criteria of both stories
 
-**Input:** `/propagate-design-change design/gdd/[system].md`
+**Input:** `/propagate-design-change design/cdd/[system].md`
 
 **Expected behavior:**
 1. Skill reads the revised GDD and identifies what changed (git diff or content comparison)
@@ -68,10 +68,10 @@ director review is required at the analysis stage.
 ### Case 2: No Impact — Changed GDD has no downstream references
 
 **Fixture:**
-- `design/gdd/[system].md` exists and has been revised
+- `design/cdd/[system].md` exists and has been revised
 - No ADRs, stories, or epics reference this GDD's TR-IDs or GDD path
 
-**Input:** `/propagate-design-change design/gdd/[system].md`
+**Input:** `/propagate-design-change design/cdd/[system].md`
 
 **Expected behavior:**
 1. Skill reads the revised GDD
@@ -94,7 +94,7 @@ director review is required at the analysis stage.
 - A story referencing this GDD has `Status: In Progress`
 - The developer has already started implementing this story
 
-**Input:** `/propagate-design-change design/gdd/[system].md`
+**Input:** `/propagate-design-change design/cdd/[system].md`
 
 **Expected behavior:**
 1. Skill identifies the In Progress story as an affected artifact
@@ -113,13 +113,13 @@ director review is required at the analysis stage.
 ### Case 4: Edge Case — No argument provided
 
 **Fixture:**
-- Multiple GDDs exist in `design/gdd/`
+- Multiple GDDs exist in `design/cdd/`
 
 **Input:** `/propagate-design-change` (no argument)
 
 **Expected behavior:**
 1. Skill detects no argument is provided
-2. Skill outputs a usage error: "No GDD specified. Usage: /propagate-design-change design/gdd/[system].md"
+2. Skill outputs a usage error: "No GDD specified. Usage: /propagate-design-change design/cdd/[system].md"
 3. Skill lists recently modified GDDs as suggestions (git log)
 4. No analysis is performed
 
@@ -137,7 +137,7 @@ director review is required at the analysis stage.
 - A GDD has been revised with downstream references
 - `production/session-state/review-mode.txt` exists with `full`
 
-**Input:** `/propagate-design-change design/gdd/[system].md`
+**Input:** `/propagate-design-change design/cdd/[system].md`
 
 **Expected behavior:**
 1. Skill reads the GDD and traces downstream references

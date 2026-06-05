@@ -36,7 +36,7 @@ with verdict COMPLETE / BLOCKED and handoffs to `/ux-review`, `/code-review`,
 ### Case 1: Happy Path — Full pipeline from UX spec through polish succeeds
 
 **Fixture:**
-- `design/gdd/game-concept.md` exists with platform targets and intended audience
+- `design/cdd/game-concept.md` exists with platform targets and intended audience
 - `design/player-journey.md` exists
 - `design/ux/interaction-patterns.md` exists with relevant patterns
 - `design/accessibility-requirements.md` exists with committed tier (e.g., Enhanced)

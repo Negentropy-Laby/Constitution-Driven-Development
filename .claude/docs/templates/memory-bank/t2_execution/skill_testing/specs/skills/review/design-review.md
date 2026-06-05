@@ -29,13 +29,13 @@ Verified automatically by `/skill-test static` — no fixture needed.
 ### Case 1: Happy Path — Complete GDD, all 8 sections present
 
 **Fixture:**
-- `design/gdd/light-manipulation.md` exists (use `_fixtures/minimal-game-concept.md`
+- `design/cdd/light-manipulation.md` exists (use `_fixtures/minimal-game-concept.md`
   as a stand-in — represents a complete document with all required content)
 - All 8 required sections are populated with substantive content
 - Formulas section contains at least one formula with defined variables
 - Acceptance Criteria section contains at least 3 testable criteria
 
-**Input:** `/design-review design/gdd/light-manipulation.md`
+**Input:** `/design-review design/cdd/light-manipulation.md`
 
 **Expected behavior:**
 1. Skill reads the target document in full
@@ -59,11 +59,11 @@ Verified automatically by `/skill-test static` — no fixture needed.
 ### Case 2: Failure Path — Incomplete GDD (4/8 sections)
 
 **Fixture:**
-- `design/gdd/light-manipulation.md` exists using content from
+- `design/cdd/light-manipulation.md` exists using content from
   `tests/skills/_fixtures/incomplete-gdd.md` (4 of 8 sections populated;
   Formulas, Edge Cases, Tuning Knobs, Acceptance Criteria are missing)
 
-**Input:** `/design-review design/gdd/light-manipulation.md`
+**Input:** `/design-review design/cdd/light-manipulation.md`
 
 **Expected behavior:**
 1. Skill reads the document
@@ -88,7 +88,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 - The described behavior mentions numeric values but no formulas are defined
 - Acceptance Criteria exist but are vague ("feels good" rather than measurable)
 
-**Input:** `/design-review design/gdd/[document].md`
+**Input:** `/design-review design/cdd/[document].md`
 
 **Expected behavior:**
 1. Skill identifies missing Formulas section
@@ -109,13 +109,13 @@ Verified automatically by `/skill-test static` — no fixture needed.
 **Fixture:**
 - The path provided does not exist in the project
 
-**Input:** `/design-review design/gdd/nonexistent.md`
+**Input:** `/design-review design/cdd/nonexistent.md`
 
 **Expected behavior:**
 1. Skill attempts to read the file
 2. File not found
 3. Skill outputs an error message naming the missing file
-4. Skill suggests checking the path or listing files in `design/gdd/`
+4. Skill suggests checking the path or listing files in `design/cdd/`
 5. Skill does NOT produce a verdict
 
 **Assertions:**
@@ -130,10 +130,10 @@ Verified automatically by `/skill-test static` — no fixture needed.
 ### Case 5: Director Gate — no gate spawned regardless of review mode
 
 **Fixture:**
-- `design/gdd/light-manipulation.md` exists with all 8 sections
+- `design/cdd/light-manipulation.md` exists with all 8 sections
 - `production/session-state/review-mode.txt` exists with `full` (most permissive mode)
 
-**Input:** `/design-review design/gdd/light-manipulation.md` (with full review mode active)
+**Input:** `/design-review design/cdd/light-manipulation.md` (with full review mode active)
 
 **Expected behavior:**
 1. Skill reads the GDD document

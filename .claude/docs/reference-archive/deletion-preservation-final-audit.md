@@ -88,7 +88,7 @@ No new ACTION_REQUIRED rows. No game content lost.
 | `.claude/hooks/detect-gaps.sh` | 6 | game-concept / GDD gap detection | Hook now checks CDD paths and still recognizes game-concept | MIGRATED_IN_PLACE |
 | `.claude/hooks/pre-compact.sh` | 1 | GDD status compaction wording | Hook keeps design-doc context under CDD terminology | MIGRATED_IN_PLACE |
 | `.claude/hooks/validate-commit.sh` | 1 | GDD commit validation wording | Hook keeps design-doc validation under CDD terminology | MIGRATED_IN_PLACE |
-| `.claude/rules/design-docs.md` | 1 | design/gdd path rule | Rule migrated to design/cdd while preserving design-doc governance | MIGRATED_IN_PLACE |
+| `.claude/rules/design-docs.md` | 1 | design/cdd path rule | Rule migrated to design/cdd while preserving design-doc governance | MIGRATED_IN_PLACE |
 | `.claude/skills/adopt/SKILL.md` | 37 | GDD audit, engine reference, game phase wording | Skill has `[游戏专用] Game` and `[通用产品] Product` audit branches | PRESERVED_GAME_SECTION |
 | `.claude/skills/architecture-decision/SKILL.md` | 42 | Engine Compatibility and GDD linkage | Skill has game engine and product stack branches | PRESERVED_GAME_SECTION |
 | `.claude/skills/architecture-review/SKILL.md` | 77 | GDD coverage, engine audit, revision flags | Skill has `[游戏专用]` engine checks and `[通用产品]` stack checks | PRESERVED_GAME_SECTION |

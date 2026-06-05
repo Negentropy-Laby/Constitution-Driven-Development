@@ -39,7 +39,7 @@ review specs separately but this is not a gate within this skill.
 ### Case 1: Happy Path — Enemy sprite spec with full GDD and art bible
 
 **Fixture:**
-- `design/gdd/enemies.md` exists with enemy variants defined
+- `design/cdd/enemies.md` exists with enemy variants defined
 - `design/art-bible.md` exists with color palette and style notes
 - No existing asset spec for "goblin-enemy"
 
@@ -69,7 +69,7 @@ review specs separately but this is not a gate within this skill.
 ### Case 2: No Art Bible Found — Spec with Placeholder Style Notes, Dependency Flagged
 
 **Fixture:**
-- `design/gdd/player.md` exists
+- `design/cdd/player.md` exists
 - `design/art-bible.md` does NOT exist
 
 **Input:** `/asset-spec player-sprite`

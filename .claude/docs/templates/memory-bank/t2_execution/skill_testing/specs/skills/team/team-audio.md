@@ -8,7 +8,7 @@ Orchestrates the audio team through a four-step pipeline: audio direction
 parallel (technical-artist + primary engine specialist) → code integration
 (gameplay-programmer). Reads relevant GDDs, the sound bible (if present), and
 existing audio asset lists before spawning agents. Compiles all outputs into an
-audio design document saved to `design/gdd/audio-[feature].md`. Uses
+audio design document saved to `design/cdd/audio-[feature].md`. Uses
 `AskUserQuestion` at each step transition. Verdict is COMPLETE when the audio
 design document is produced. Skips the engine specialist spawn gracefully when no
 engine is configured.
@@ -28,8 +28,8 @@ engine is configured.
 - [ ] `AskUserQuestion` is used at step transitions before proceeding
 - [ ] Step 2 explicitly spawns sound-designer and accessibility-specialist in parallel
 - [ ] Step 3 explicitly spawns technical-artist and engine specialist in parallel (when engine is configured)
-- [ ] Skill reads `design/gdd/sound-bible.md` during context gathering if it exists
-- [ ] Output document is saved to `design/gdd/audio-[feature].md`
+- [ ] Skill reads `design/cdd/sound-bible.md` during context gathering if it exists
+- [ ] Output document is saved to `design/cdd/audio-[feature].md`
 
 ---
 
@@ -38,8 +38,8 @@ engine is configured.
 ### Case 1: Happy Path — All steps complete, audio design document saved
 
 **Fixture:**
-- GDD for the target feature exists at `design/gdd/combat.md`
-- Sound bible exists at `design/gdd/sound-bible.md`
+- GDD for the target feature exists at `design/cdd/combat.md`
+- Sound bible exists at `design/cdd/sound-bible.md`
 - Existing audio assets are listed in `assets/audio/`
 - Engine is configured in `.claude/docs/technical-preferences.md`
 - No accessibility gaps exist in the planned audio event list
@@ -47,7 +47,7 @@ engine is configured.
 **Input:** `/team-audio combat`
 
 **Expected behavior:**
-1. Context gathering: orchestrator reads `design/gdd/combat.md`, `design/gdd/sound-bible.md`, and `assets/audio/` asset list before spawning any agent
+1. Context gathering: orchestrator reads `design/cdd/combat.md`, `design/cdd/sound-bible.md`, and `assets/audio/` asset list before spawning any agent
 2. Step 1: audio-director is spawned; defines sonic identity, emotional tone, adaptive music direction, mix targets, and adaptive audio rules for combat
 3. `AskUserQuestion` presents audio direction; user approves before Step 2 begins
 4. Step 2: sound-designer and accessibility-specialist are spawned in parallel; sound-designer produces SFX specifications, audio event list with trigger conditions, and mixing groups; accessibility-specialist identifies critical gameplay audio events and specifies visual fallback and subtitle requirements
@@ -56,7 +56,7 @@ engine is configured.
 7. `AskUserQuestion` presents technical plan; user approves before Step 4 begins
 8. Step 4: gameplay-programmer is spawned; wires up audio events to gameplay triggers, implements adaptive music, sets up occlusion zones, writes unit tests for audio event triggers
 9. Orchestrator compiles all outputs into a single audio design document
-10. Subagent asks "May I write the audio design document to `design/gdd/audio-combat.md`?" before writing
+10. Subagent asks "May I write the audio design document to `design/cdd/audio-combat.md`?" before writing
 11. Summary output lists: audio event count, estimated asset count, implementation tasks, and any open questions
 12. Verdict: COMPLETE
 
@@ -67,7 +67,7 @@ engine is configured.
 - [ ] sound-designer and accessibility-specialist Task calls are issued simultaneously in Step 2
 - [ ] technical-artist and engine specialist Task calls are issued simultaneously in Step 3
 - [ ] gameplay-programmer is not launched until Step 3 `AskUserQuestion` is approved
-- [ ] Audio design document is written to `design/gdd/audio-combat.md` (not another path)
+- [ ] Audio design document is written to `design/cdd/audio-combat.md` (not another path)
 - [ ] Summary includes audio event count and estimated asset count
 - [ ] No files are written by the orchestrator directly
 - [ ] Verdict is COMPLETE after document delivery
@@ -128,15 +128,15 @@ engine is configured.
 ### Case 4: Missing Sound Bible — Skill notes the gap and proceeds without it
 
 **Fixture:**
-- GDD for the target feature exists at `design/gdd/main-menu.md`
-- `design/gdd/sound-bible.md` does NOT exist
+- GDD for the target feature exists at `design/cdd/main-menu.md`
+- `design/cdd/sound-bible.md` does NOT exist
 - Engine is configured; other context files are present
 
 **Input:** `/team-audio main menu`
 
 **Expected behavior:**
-1. Context gathering: orchestrator reads `design/gdd/main-menu.md` and checks for `design/gdd/sound-bible.md`
-2. Sound bible is not found; orchestrator notes the gap in conversation: "Note: `design/gdd/sound-bible.md` not found — audio direction will proceed without a project-wide sonic identity reference. Consider creating a sound bible if this is an ongoing project."
+1. Context gathering: orchestrator reads `design/cdd/main-menu.md` and checks for `design/cdd/sound-bible.md`
+2. Sound bible is not found; orchestrator notes the gap in conversation: "Note: `design/cdd/sound-bible.md` not found — audio direction will proceed without a project-wide sonic identity reference. Consider creating a sound bible if this is an ongoing project."
 3. Pipeline proceeds normally through all four steps without the sound bible as input
 4. audio-director in Step 1 is informed that no sound bible exists and must establish sonic identity from the feature GDD alone
 5. The missing sound bible is mentioned in the final summary as a recommended next step
@@ -189,7 +189,7 @@ engine is configured.
 - [ ] Each sub-agent enforces the "May I write to [path]?" protocol before any write
 - [ ] BLOCKED status from any agent is surfaced immediately — not silently skipped
 - [ ] A partial report is always produced when some agents complete and others block
-- [ ] Audio design document path follows the pattern `design/gdd/audio-[feature].md`
+- [ ] Audio design document path follows the pattern `design/cdd/audio-[feature].md`
 - [ ] Verdict is exactly COMPLETE or BLOCKED — no other verdict values used
 - [ ] Next Steps handoff references `/dev-story` and `/asset-audit`
 

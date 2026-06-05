@@ -3,7 +3,7 @@
 ## Skill Summary
 
 `/review-all-gdds` is an Opus-tier skill that performs a holistic cross-GDD review
-across all files in `design/gdd/`. It runs two complementary review phases in
+across all files in `design/cdd/`. It runs two complementary review phases in
 parallel: Phase 1 checks for consistency (contradictions, formula mismatches,
 stale references, competing ownership), and Phase 2 checks design theory (dominant
 strategies, pillar drift, cognitive overload, economic imbalance). Because the two
@@ -42,14 +42,14 @@ review; delegating to a director gate would create a circular dependency.
 ### Case 1: Happy Path — Clean GDD set with no conflicts
 
 **Fixture:**
-- `design/gdd/` contains ≥3 system GDDs
+- `design/cdd/` contains ≥3 system GDDs
 - All GDDs are internally consistent: no formula contradictions, no competing ownership, no stale references
-- All GDDs align with the pillars defined in `design/gdd/game-pillars.md`
+- All GDDs align with the pillars defined in `design/cdd/game-pillars.md`
 
 **Input:** `/review-all-gdds`
 
 **Expected behavior:**
-1. Skill reads all GDD files in `design/gdd/`
+1. Skill reads all GDD files in `design/cdd/`
 2. Phase 1 (consistency scan) and Phase 2 (design theory check) spawn in parallel
 3. Phase 1 finds no contradictions, no formula mismatches, no ownership conflicts
 4. Phase 2 finds no pillar drift, no dominant strategies, no cognitive overload
@@ -93,7 +93,7 @@ review; delegating to a director gate would create a circular dependency.
 
 **Fixture:**
 - GDD-A lists a dependency in its Dependencies section pointing to "system-B"
-- No GDD for system-B exists in `design/gdd/`
+- No GDD for system-B exists in `design/cdd/`
 - All other GDDs are consistent
 
 **Input:** `/review-all-gdds`
@@ -115,13 +115,13 @@ review; delegating to a director gate would create a circular dependency.
 ### Case 4: Edge Case — No GDD files found
 
 **Fixture:**
-- `design/gdd/` directory is empty or does not exist
+- `design/cdd/` directory is empty or does not exist
 - No GDD files are present
 
 **Input:** `/review-all-gdds`
 
 **Expected behavior:**
-1. Skill attempts to read files in `design/gdd/`
+1. Skill attempts to read files in `design/cdd/`
 2. No files found — skill outputs an error with guidance
 3. Skill recommends running `/brainstorm` and `/design-system` before re-running
 4. Skill does NOT produce a verdict (CONSISTENT / MINOR ISSUES / MAJOR ISSUES)
@@ -137,7 +137,7 @@ review; delegating to a director gate would create a circular dependency.
 ### Case 5: Director Gate — No gate spawned regardless of review mode
 
 **Fixture:**
-- `design/gdd/` contains ≥2 consistent system GDDs
+- `design/cdd/` contains ≥2 consistent system GDDs
 - `production/session-state/review-mode.txt` exists with content `full`
 
 **Input:** `/review-all-gdds`

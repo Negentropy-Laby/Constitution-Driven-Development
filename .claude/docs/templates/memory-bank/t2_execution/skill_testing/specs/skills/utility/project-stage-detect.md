@@ -42,7 +42,7 @@ gates apply.
 
 **Fixture:**
 - `production/stage.txt` contains `Production`
-- `design/gdd/` has 4 GDD files
+- `design/cdd/` has 4 GDD files
 - `src/` has source code files
 - `production/sprints/sprint-002.md` exists
 
@@ -68,7 +68,7 @@ gates apply.
 
 **Fixture:**
 - No `production/stage.txt`
-- `design/gdd/` has 3 GDD files
+- `design/cdd/` has 3 GDD files
 - `production/epics/` has 2 epic files
 - `src/` has source code files
 - `production/sprints/sprint-001.md` exists
@@ -120,7 +120,7 @@ gates apply.
 
 **Fixture:**
 - `production/stage.txt` contains `Production`
-- `design/gdd/` has GDD files
+- `design/cdd/` has GDD files
 - `src/` directory exists but contains no source code files
 - No sprint files exist
 

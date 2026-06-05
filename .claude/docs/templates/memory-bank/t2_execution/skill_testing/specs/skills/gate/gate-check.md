@@ -28,14 +28,14 @@ Verified automatically by `/skill-test static` — no fixture needed.
 ### Case 1: Happy Path — All Concept artifacts present, advancing to Systems Design
 
 **Fixture:**
-- `design/gdd/game-concept.md` exists, has content including all required sections
-- `design/gdd/game-pillars.md` exists (or pillars defined within concept doc)
+- `design/cdd/game-concept.md` exists, has content including all required sections
+- `design/cdd/game-pillars.md` exists (or pillars defined within concept doc)
 - No systems index yet (which is correct for this stage)
 
 **Input:** `/gate-check systems-design`
 
 **Expected behavior:**
-1. Skill reads `design/gdd/game-concept.md` and verifies it has content
+1. Skill reads `design/cdd/game-concept.md` and verifies it has content
 2. Skill checks for game pillars (in concept or separate file)
 3. Skill checks quality items (core loop described, target audience identified)
 4. Skill outputs structured checklist with all items marked
@@ -43,7 +43,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 6. If PASS: skill asks "May I update `production/stage.txt` to 'Systems Design'?"
 
 **Assertions:**
-- [ ] Skill uses Glob or Read to verify `design/gdd/game-concept.md` exists before marking it checked
+- [ ] Skill uses Glob or Read to verify `design/cdd/game-concept.md` exists before marking it checked
 - [ ] Output includes a "Required Artifacts" section with check status per item
 - [ ] Output includes a "Quality Checks" section with check status per item
 - [ ] Output includes a "Verdict" line with one of PASS / CONCERNS / FAIL
@@ -56,14 +56,14 @@ Verified automatically by `/skill-test static` — no fixture needed.
 ### Case 2: Failure Path — Missing required artifacts for Concept → Systems Design
 
 **Fixture:**
-- `design/gdd/game-concept.md` does NOT exist
+- `design/cdd/game-concept.md` does NOT exist
 - No game pillars document exists
-- `design/gdd/` directory is empty or absent
+- `design/cdd/` directory is empty or absent
 
 **Input:** `/gate-check systems-design`
 
 **Expected behavior:**
-1. Skill attempts to read `design/gdd/game-concept.md` — file not found
+1. Skill attempts to read `design/cdd/game-concept.md` — file not found
 2. Skill marks required artifact as missing (not present)
 3. Skill outputs FAIL verdict
 4. Skill lists blocker: "No game concept document found"
@@ -71,7 +71,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 
 **Assertions:**
 - [ ] Verdict is FAIL (not PASS or CONCERNS) when required artifacts are missing
-- [ ] Output explicitly names `design/gdd/game-concept.md` as missing
+- [ ] Output explicitly names `design/cdd/game-concept.md` as missing
 - [ ] Output includes a "Blockers" section with at least 1 item
 - [ ] Output recommends `/brainstorm` as the remediation action
 - [ ] Skill does NOT write `production/stage.txt` when verdict is FAIL
@@ -82,7 +82,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 
 **Fixture:**
 - `production/stage.txt` contains `Concept`
-- `design/gdd/game-concept.md` exists with content
+- `design/cdd/game-concept.md` exists with content
 - No systems index yet
 
 **Input:** `/gate-check` (no argument)
@@ -129,7 +129,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 **Fixture:**
 - `production/session-state/review-mode.txt` exists (or equivalent state file)
 - All required artifacts for the target gate are present
-- `design/gdd/game-concept.md` exists
+- `design/cdd/game-concept.md` exists
 
 **Case 5a — full mode:**
 - `review-mode.txt` contains `full`

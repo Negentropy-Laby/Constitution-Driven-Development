@@ -44,7 +44,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 **Fixture:**
 - No existing `design/art-bible.md`
 - `production/session-state/review-mode.txt` contains `full`
-- `design/gdd/game-concept.md` exists with visual tone described
+- `design/cdd/game-concept.md` exists with visual tone described
 
 **Input:** `/art-bible`
 

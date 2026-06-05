@@ -35,7 +35,7 @@ is unresolved.
 ### Case 1: Happy Path — All five phases complete, narrative doc delivered
 
 **Fixture:**
-- A game concept and GDD exist for the target feature (e.g., `design/gdd/faction-intro.md`)
+- A game concept and GDD exist for the target feature (e.g., `design/cdd/faction-intro.md`)
 - Character voice profiles exist (e.g., `design/narrative/characters/`)
 - Existing lore entries exist for cross-reference (e.g., `design/narrative/lore/`)
 - No lore contradictions exist between existing entries and the new content

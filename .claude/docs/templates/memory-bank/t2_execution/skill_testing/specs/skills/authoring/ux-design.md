@@ -95,7 +95,7 @@ review skill invoked after this skill completes.
 
 **Fixture:**
 - User is authoring a UX spec for the inventory screen
-- `design/gdd/inventory.md` does not exist
+- `design/cdd/inventory.md` does not exist
 
 **Input:** `/ux-design inventory-screen`
 

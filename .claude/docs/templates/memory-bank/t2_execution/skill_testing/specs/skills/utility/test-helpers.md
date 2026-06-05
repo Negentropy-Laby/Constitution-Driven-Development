@@ -39,7 +39,7 @@ None. `/test-helpers` is a scaffolding utility. No director gates apply.
 **Fixture:**
 - `technical-preferences.md` has engine Godot 4, language GDScript
 - `tests/` directory exists (test-setup has been run)
-- `design/gdd/player.md` exists with defined player properties
+- `design/cdd/player.md` exists with defined player properties
 - No existing helpers in `tests/helpers/`
 
 **Input:** `/test-helpers player-factory`
@@ -114,12 +114,12 @@ None. `/test-helpers` is a scaffolding utility. No director gates apply.
 **Fixture:**
 - `technical-preferences.md` has Godot 4 / GDScript
 - `tests/` exists
-- User requests a helper for the "inventory system" but no `design/gdd/inventory.md` exists
+- User requests a helper for the "inventory system" but no `design/cdd/inventory.md` exists
 
 **Input:** `/test-helpers inventory-factory`
 
 **Expected behavior:**
-1. Skill looks for `design/gdd/inventory.md` — not found
+1. Skill looks for `design/cdd/inventory.md` — not found
 2. Skill notes: "No GDD found for inventory — generating helper with placeholder defaults"
 3. Skill generates an `inventory_factory.gd` with generic placeholder values
    (item_count = 0, max_capacity = 20) and a comment: "# TODO: align defaults
