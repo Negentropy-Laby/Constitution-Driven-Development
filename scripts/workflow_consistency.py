@@ -27,6 +27,9 @@ CODEX_HOOKS_DIR = CODEX_DIR / "hooks"
 CLAUDE_HOOKS_DIR = REPO_ROOT / ".claude" / "hooks"
 TEMPLATES_DIR = REPO_ROOT / ".claude" / "docs" / "templates"
 MEMORY_BANK_TEMPLATE_DIR = TEMPLATES_DIR / "memory-bank"
+SKILL_TESTING_T2 = MEMORY_BANK_TEMPLATE_DIR / "t2_execution" / "skill_testing"
+SKILL_TESTING_T3 = MEMORY_BANK_TEMPLATE_DIR / "t3_archive" / "skill_testing"
+LEGACY_SKILL_TESTING_DIRNAME = "CDD Skill Testing" + " Framework"
 CATALOG = REPO_ROOT / ".claude" / "docs" / "workflow-catalog.yaml"
 GATE_CHECK = REPO_ROOT / ".claude" / "skills" / "gate-check" / "SKILL.md"
 CODEX_GATE_CHECK = REPO_ROOT / ".agents" / "skills" / "gate-check" / "SKILL.md"
@@ -1309,7 +1312,8 @@ def check_skill_count_contract() -> list[Finding]:
             )
         )
     actual = actual_claude
-    skill_test_framework = REPO_ROOT / "CDD Skill Testing Framework"
+    skill_testing_readme = SKILL_TESTING_T2 / "README.md"
+    skill_testing_catalog = SKILL_TESTING_T2 / "catalog.yaml"
 
     checks = [
         (
@@ -1348,16 +1352,15 @@ def check_skill_count_contract() -> list[Finding]:
             ],
         ),
         (
-            skill_test_framework / "README.md",
+            skill_testing_readme,
             [
-                re.compile(r"all\s+(\d+)\s+skills\s+\+\s+53 agents"),
-                re.compile(r"Check all\s+(\d+)\s+skills"),
+                re.compile(r"all\s+(\d+)\s+skills\s+and\s+53 agents"),
             ],
         ),
         (
-            skill_test_framework / "CLAUDE.md",
+            skill_testing_catalog,
             [
-                re.compile(r"all\s+(\d+)\s+skills\s+and\s+53 agents"),
+                re.compile(r"registry:\s*\n\s+skills:\s*\n(?:.*\n)*?\s+agents:", re.MULTILINE),
             ],
         ),
         (
@@ -1408,8 +1411,8 @@ def check_skill_count_contract() -> list[Finding]:
         QUICK_START,
         WORKFLOW_GUIDE,
         SKILLS_REFERENCE,
-        skill_test_framework / "README.md",
-        skill_test_framework / "CLAUDE.md",
+        skill_testing_readme,
+        skill_testing_catalog,
         SKILLS_DIR / "skill-test" / "SKILL.md",
         CODEX_SKILLS_DIR / "skill-test" / "SKILL.md",
     ]
@@ -1438,6 +1441,186 @@ def check_skill_count_contract() -> list[Finding]:
                     f"{rel(path)} omits installed skill command(s): {', '.join(missing)}",
                 )
             )
+    return findings
+
+
+def registry_block(text: str, key: str, next_key: str | None = None) -> str:
+    marker = f"  {key}:"
+    if marker not in text:
+        return ""
+    tail = text.split(marker, 1)[1]
+    if next_key is not None:
+        next_marker = f"\n  {next_key}:"
+        if next_marker in tail:
+            return tail.split(next_marker, 1)[0]
+    return tail
+
+
+def registry_names(block: str) -> set[str]:
+    return {match.group(1).strip() for match in re.finditer(r"^\s+- name:\s*([^\n]+)$", block, re.MULTILINE)}
+
+
+def check_skill_testing_memory_bank_contract() -> list[Finding]:
+    findings: list[Finding] = []
+    legacy_name = LEGACY_SKILL_TESTING_DIRNAME
+    legacy_dir = REPO_ROOT / legacy_name
+
+    if legacy_dir.exists():
+        findings.append(Finding("ERROR", f"legacy top-level testing framework directory must not exist: {legacy_name}/"))
+
+    scan_roots = [
+        REPO_ROOT / "README.md",
+        REPO_ROOT / "CHANGELOG.md",
+        REPO_ROOT / "docs",
+        REPO_ROOT / ".claude",
+        REPO_ROOT / ".agents",
+        REPO_ROOT / "scripts",
+    ]
+    for path in iter_text_files(scan_roots):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if legacy_name in line:
+                findings.append(Finding("ERROR", f"{rel(path)}:{line_no} references removed path {legacy_name}/"))
+
+    required_paths = [
+        SKILL_TESTING_T2 / "README.md",
+        SKILL_TESTING_T2 / "catalog.yaml",
+        SKILL_TESTING_T2 / "quality-rubric.md",
+        SKILL_TESTING_T2 / "specs" / "skills",
+        SKILL_TESTING_T2 / "specs" / "agents",
+        SKILL_TESTING_T2 / "templates",
+        SKILL_TESTING_T2 / "templates" / "skill-test-spec.md",
+        SKILL_TESTING_T2 / "templates" / "agent-test-spec.md",
+        SKILL_TESTING_T3 / "README.md",
+        SKILL_TESTING_T3 / "coverage-index.yaml",
+        SKILL_TESTING_T3 / "results" / "static" / "README.md",
+        SKILL_TESTING_T3 / "results" / "spec" / "README.md",
+        SKILL_TESTING_T3 / "results" / "category" / "README.md",
+        SKILL_TESTING_T3 / "results" / "audit" / "README.md",
+        SKILL_TESTING_T3 / "improvements" / "README.md",
+    ]
+    for path in required_paths:
+        if not path.exists():
+            findings.append(Finding("ERROR", f"missing memory-bank skill testing asset: {rel(path)}"))
+
+    catalog_path = SKILL_TESTING_T2 / "catalog.yaml"
+    coverage_path = SKILL_TESTING_T3 / "coverage-index.yaml"
+    if catalog_path.exists():
+        catalog_text = catalog_path.read_text(encoding="utf-8", errors="replace")
+        required_catalog_snippets = [
+            "version: 3",
+            "asset_scope: cross_project",
+            "registry:",
+            "memory_bank/t2_execution/skill_testing/specs/skills/",
+            "memory_bank/t2_execution/skill_testing/specs/agents/",
+        ]
+        for snippet in required_catalog_snippets:
+            if snippet not in catalog_text:
+                findings.append(Finding("ERROR", f"{rel(catalog_path)} must contain {snippet}"))
+
+        forbidden_history_fields = [
+            "last_static",
+            "last_static_result",
+            "last_spec",
+            "last_spec_result",
+            "last_category",
+            "last_category_result",
+        ]
+        for field in forbidden_history_fields:
+            if field in catalog_text:
+                findings.append(Finding("ERROR", f"{rel(catalog_path)} keeps T3 history field in T2 catalog: {field}"))
+
+        for match in re.finditer(r"^\s+spec:\s*(.+)$", catalog_text, re.MULTILINE):
+            spec = match.group(1).strip()
+            if not spec.startswith("memory_bank/t2_execution/skill_testing/specs/"):
+                findings.append(Finding("ERROR", f"{rel(catalog_path)} has non-memory-bank spec path: {spec}"))
+
+        actual_skills = {path.parent.name for path in SKILLS_DIR.glob("*/SKILL.md") if path.is_file()}
+        actual_agents = {path.stem for path in (REPO_ROOT / ".claude" / "agents").rglob("*.md") if path.is_file()}
+        skill_names = registry_names(registry_block(catalog_text, "skills", "agents"))
+        agent_names = registry_names(registry_block(catalog_text, "agents"))
+        if skill_names != actual_skills:
+            missing = sorted(actual_skills - skill_names)
+            extra = sorted(skill_names - actual_skills)
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f"{rel(catalog_path)} skill registry mismatch; missing={missing}, extra={extra}",
+                )
+            )
+        if agent_names != actual_agents:
+            missing = sorted(actual_agents - agent_names)
+            extra = sorted(agent_names - actual_agents)
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f"{rel(catalog_path)} agent registry mismatch; missing={missing}, extra={extra}",
+                )
+            )
+
+    if coverage_path.exists():
+        coverage_text = coverage_path.read_text(encoding="utf-8", errors="replace")
+        for snippet in ["version: 1", "skills:", "agents:"]:
+            if snippet not in coverage_text:
+                findings.append(Finding("ERROR", f"{rel(coverage_path)} must contain {snippet}"))
+
+    document_map = MEMORY_BANK_TEMPLATE_DIR / "document_map.yaml"
+    if document_map.exists():
+        document_map_text = document_map.read_text(encoding="utf-8", errors="replace")
+        for snippet in [
+            "memory_bank/t2_execution/skill_testing/catalog.yaml",
+            "memory_bank/t2_execution/skill_testing/quality-rubric.md",
+            "memory_bank/t2_execution/skill_testing/specs/skills/**",
+            "memory_bank/t2_execution/skill_testing/specs/agents/**",
+            "memory_bank/t3_archive/skill_testing/coverage-index.yaml",
+            "memory_bank/t3_archive/skill_testing/results/**",
+            "memory_bank/t3_archive/skill_testing/improvements/**",
+        ]:
+            if snippet not in document_map_text:
+                findings.append(Finding("ERROR", f"{rel(document_map)} must map {snippet}"))
+
+    skill_contracts = [
+        (
+            "skill-test",
+            [
+                "memory_bank/t2_execution/skill_testing/catalog.yaml",
+                "memory_bank/t2_execution/skill_testing/quality-rubric.md",
+                "memory_bank/t3_archive/skill_testing/results/static/",
+                "memory_bank/t3_archive/skill_testing/results/spec/",
+                "memory_bank/t3_archive/skill_testing/results/category/",
+                "memory_bank/t3_archive/skill_testing/results/audit/",
+                "memory_bank/t3_archive/skill_testing/coverage-index.yaml",
+            ],
+        ),
+        (
+            "skill-improve",
+            [
+                "memory_bank/t2_execution/skill_testing/catalog.yaml",
+                "memory_bank/t2_execution/skill_testing/quality-rubric.md",
+                "memory_bank/t3_archive/skill_testing/improvements/",
+                "memory_bank/t3_archive/skill_testing/coverage-index.yaml",
+            ],
+        ),
+    ]
+    for skill_name, snippets in skill_contracts:
+        for skill_root in [SKILLS_DIR, CODEX_SKILLS_DIR]:
+            path = skill_root / skill_name / "SKILL.md"
+            text = path.read_text(encoding="utf-8", errors="replace")
+            for snippet in snippets:
+                if snippet not in text:
+                    findings.append(Finding("ERROR", f"{rel(path)} must reference {snippet}"))
+            if legacy_name in text:
+                findings.append(Finding("ERROR", f"{rel(path)} still references removed testing framework path"))
+
+    for doc_path in [REPO_ROOT / "README.md", USER_MANUAL, QUICK_START]:
+        text = doc_path.read_text(encoding="utf-8", errors="replace")
+        for snippet in [
+            "memory_bank/t2_execution/skill_testing",
+            "memory_bank/t3_archive/skill_testing",
+        ]:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(doc_path)} must describe {snippet}"))
+
     return findings
 
 
@@ -1797,6 +1980,7 @@ def main() -> int:
     findings.extend(check_phase_checklist_contract())
     findings.extend(check_release_phase_contract())
     findings.extend(check_skill_user_guide_contract())
+    findings.extend(check_skill_testing_memory_bank_contract())
     findings.extend(check_skill_count_contract())
     findings.extend(check_template_count_contract())
     findings.extend(check_codex_adapter_contract())

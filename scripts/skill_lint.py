@@ -259,7 +259,6 @@ def lint_file(path: Path, known_commands: set[str]) -> list[Finding]:
         if not (
             normalized.startswith(".claude/")
             or normalized.startswith(".github/")
-            or normalized.startswith("CDD Skill Testing Framework/")
             or normalized.startswith(KNOWN_GENERATED_ROOTS)
         ):
             continue
