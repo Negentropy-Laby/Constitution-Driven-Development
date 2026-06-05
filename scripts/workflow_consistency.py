@@ -1560,6 +1560,28 @@ def check_skill_user_guide_contract() -> list[Finding]:
                     )
                 )
 
+    for help_path in [
+        SKILLS_DIR / "help" / "SKILL.md",
+        CODEX_SKILLS_DIR / "help" / "SKILL.md",
+    ]:
+        text = help_path.read_text(encoding="utf-8", errors="replace")
+        match = guide_pattern.search(text)
+        body = match.group("body") if match else ""
+        required_help_snippets = [
+            "Memory-bank writes: None",
+            "read-only",
+            "reads `memory_bank/t0_core/basic_law_index.md`",
+        ]
+        for snippet in required_help_snippets:
+            if snippet not in body:
+                findings.append(
+                    Finding(
+                        "ERROR",
+                        f"{rel(help_path)} User Guide must describe /help as read-only and only reading memory_bank/t0_core/basic_law_index.md",
+                    )
+                )
+                break
+
     docs_to_check = [
         REPO_ROOT / "README.md",
         USER_MANUAL,
