@@ -25,7 +25,7 @@ documents:
   memory_bank/t0_core/release_state.md:
     tier: T0
     role: canonical
-    owner: /team-release
+    owner: /team-release and /hotfix
     evidence_index: memory_bank/t3_archive/release_evidence/
 
   memory_bank/t0_core/amendment_log.md:
@@ -33,6 +33,23 @@ documents:
     role: canonical
     owner: /constitute
     archive: memory_bank/t3_archive/amendments/
+
+  .claude/docs/technical-preferences.md:
+    tier: T1
+    role: source
+    owner: /setup-engine
+    memory_index: memory_bank/t1_axioms/tech_context.md
+
+  memory_bank/t1_axioms/tech_context.md:
+    tier: T1
+    role: index
+    owner: /setup-engine
+    indexes:
+      - CLAUDE.md
+      - AGENTS.md
+      - .claude/docs/technical-preferences.md
+      - docs/engine-reference/**/VERSION.md
+      - docs/reference/**/VERSION.md
 
   design/cdd/*-concept.md:
     tier: T1
@@ -121,12 +138,19 @@ documents:
     owner: QA and validation workflows
     memory_index: memory_bank/t3_archive/qa_evidence_index.md
 
+  production/qa/bug-triage-*.md:
+    tier: T3
+    role: archive
+    owner: /bug-triage
+    memory_index: memory_bank/t3_archive/qa_evidence_index.md
+
   memory_bank/t3_archive/qa_evidence_index.md:
     tier: T3
     role: index
-    owner: /playtest-report
+    owner: /playtest-report, /smoke-check, /team-qa, /test-evidence-review, /bug-triage
     indexes:
       - production/qa/evidence/**
+      - production/qa/bug-triage-*.md
 
   memory_bank/t3_archive/gate_runs/:
     tier: T3
@@ -138,7 +162,9 @@ documents:
   memory_bank/t3_archive/release_evidence/:
     tier: T3
     role: archive
-    owner: /team-release
+    owner: /team-release and /hotfix
+    indexes:
+      - memory_bank/t0_core/release_state.md
 
   memory_bank/t3_archive/reviews/:
     tier: T3
@@ -154,6 +180,9 @@ documents:
       - design/cdd/cross-review-*.md
       - docs/architecture/architecture-review-*.md
       - production/qa/evidence-review-*.md
+      - prototypes/*/REPORT.md
+      - production/code-reviews/code-review-*.md
+      - production/scope/scope-check-*.md
 
   memory_bank/t3_archive/sprint_snapshots/:
     tier: T3
@@ -184,3 +213,10 @@ documents:
     tier: T3
     role: archive
     owner: /constitute
+    current_index: memory_bank/t0_core/amendment_log.md
+
+  memory_bank/t3_archive/amendments/amendment-v*-*.md:
+    tier: T3
+    role: archive
+    owner: /constitute
+    source: memory_bank/t0_core/basic_law_index.md

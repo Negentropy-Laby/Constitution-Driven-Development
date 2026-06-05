@@ -647,6 +647,13 @@ Present each changed/new/deprecated principle individually using `AskUserQuestio
 2. Bump version in `active_context.md`
 3. Append changelog entry
 4. Record sign-off
+5. Update `memory_bank/t0_core/amendment_log.md`
+6. Write `memory_bank/t3_archive/amendments/amendment-v[version]-[YYYY-MM-DD].md`
+   as the detailed amendment evidence. If the same filename exists, use
+   `amendment-v[version]-[YYYY-MM-DD]-[NN].md` and do not overwrite history.
+
+The T3 amendment evidence must include: version, date, trigger, changed
+principles, rationale, rejected alternatives, approval/sign-off, impacted T1/T2/T3 files, and follow-up checks.
 
 ### Step 6f: Changelog and Sign-Off
 

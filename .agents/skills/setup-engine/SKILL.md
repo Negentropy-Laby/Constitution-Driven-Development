@@ -839,6 +839,32 @@ Next steps:
 
 ---
 
+## 11b. Sync T1 Technical Context
+
+After the user approves the technology configuration writes, if `memory_bank/`
+exists, update `memory_bank/t1_axioms/tech_context.md`.
+
+Do not create `memory_bank/` from `/setup-engine`. If it does not exist, keep
+the normal writes and tell the user to run `/constitute` to establish the
+memory_bank governance control plane.
+
+Record these fields in `memory_bank/t1_axioms/tech_context.md`:
+
+- Selected engine, language, framework, runtime, and database as applicable
+- Pinned version for each selected technology
+- Reason chosen
+- Alternatives rejected
+- Compatibility constraints
+- Knowledge risk
+- Reference docs generated
+- Last verified date
+
+This T1 context is a memory mirror of the technical decision. `AGENTS.md`,
+`.claude/docs/technical-preferences.md`, and the generated reference docs remain
+the detailed working sources.
+
+---
+
 ## 12. Output Summary
 
 **[游戏专用]** Game summary:
