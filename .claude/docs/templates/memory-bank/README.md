@@ -11,8 +11,8 @@ the detailed working directories under `design/`, `docs/`, `.claude/docs/`, or
 |-------|---------|---------------|
 | T0 Core | Current binding laws, active state, release state, and amendments | `/constitute` |
 | T1 Axioms | Supporting technical, architecture, UX, QA, and module context | `/constitute`, `/setup-engine`, architecture and design workflows |
-| T2 Execution | Workflow contract, generated gate/checklist mirrors, and current roadmap | `/cdd-status`, catalog generators |
-| T3 Archive | Append-only indexes for gates, QA, release, reviews, prototypes, hotfixes, and amendments | Gate, QA, release, review, prototype, and hotfix workflows |
+| T2 Execution | Workflow contract, generated gate/checklist mirrors, current roadmap, and cross-project skill testing standards | `/cdd-status`, catalog generators, `/skill-test` |
+| T3 Archive | Append-only indexes for gates, QA, release, reviews, prototypes, hotfixes, skill tests, improvements, and amendments | Gate, QA, release, review, prototype, skill testing, and hotfix workflows |
 
 ## Relationship Types
 

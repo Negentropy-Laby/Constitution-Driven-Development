@@ -69,6 +69,8 @@ artifact.
 | What reviews happened? | `memory_bank/t3_archive/reviews/review-index.md` |
 | What story closure evidence exists? | `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md` |
 | What release proof exists? | `memory_bank/t3_archive/release_evidence/` |
+| What tests CDD skills and agents? | `memory_bank/t2_execution/skill_testing/` |
+| Where are skill-test and skill-improve results? | `memory_bank/t3_archive/skill_testing/` |
 
 ## Prerequisites
 
@@ -224,12 +226,18 @@ Common generated or maintained artifacts include:
 | `memory_bank/t2_execution/phase_checklists.md` | `python scripts/generate_phase_checklists.py --write --memory-bank` |
 | `memory_bank/t2_execution/gate_required_artifacts.md` | `python scripts/generate_gate_required_sections.py --write --memory-bank` |
 | `memory_bank/t2_execution/current_roadmap.md` | `/cdd-status` |
+| `memory_bank/t2_execution/skill_testing/catalog.yaml` | `/constitute`; registry for `/skill-test` and `/skill-improve` |
+| `memory_bank/t2_execution/skill_testing/quality-rubric.md` | `/constitute`; rubric for `/skill-test category` and `/skill-improve` |
+| `memory_bank/t2_execution/skill_testing/specs/` | `/constitute`; reusable skill/agent behavioral specs |
 | `memory_bank/t3_archive/gate_runs/` | `/gate-check` |
 | `memory_bank/t3_archive/reviews/review-index.md` | Review workflows, `/prototype`, `/code-review`, `/scope-check` |
 | `memory_bank/t3_archive/qa_evidence_index.md` | `/playtest-report`, `/smoke-check`, `/team-qa`, `/test-evidence-review`, `/bug-triage` |
 | `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md` | `/story-done` |
 | `memory_bank/t3_archive/release_evidence/` | `/team-release`, `/hotfix` |
 | `memory_bank/t3_archive/amendments/` | `/constitute` amendment workflow |
+| `memory_bank/t3_archive/skill_testing/coverage-index.yaml` | `/skill-test` approved evidence updates |
+| `memory_bank/t3_archive/skill_testing/results/` | `/skill-test` approved static/spec/category/audit reports |
+| `memory_bank/t3_archive/skill_testing/improvements/` | `/skill-improve` approved improvement records |
 | `production/review-mode.txt` | `/constitute` |
 | `production/project-roadmap.md` | `/cdd-status` |
 | `docs/PHASE-CHECKLISTS.md` | `python scripts/generate_phase_checklists.py --write` |

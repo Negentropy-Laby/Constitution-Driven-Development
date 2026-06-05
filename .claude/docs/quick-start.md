@@ -44,6 +44,10 @@ inputs, outputs, memory-bank writes, and recommended next steps. Recommended
 next steps are not automatic execution; run the next command only after the
 user chooses to proceed.
 
+CDD's own cross-project skill testing standards live in
+`memory_bank/t2_execution/skill_testing/`. Approved `/skill-test` reports and
+`/skill-improve` records live in `memory_bank/t3_archive/skill_testing/`.
+
 ## How to Use
 
 ### 1. Understand the Hierarchy
@@ -181,7 +185,7 @@ Ask yourself: "What department would handle this in a real studio?"
 | `/test-helpers` | Optional enhancement after the baseline: game engine-specific or product language/stack-specific fixtures, factories, mocks, and helper libraries |
 | `/test-flakiness` | Detect flaky tests from CI history, flag for quarantine or fix |
 | `/test-evidence-review` | Quality review of test files and manual evidence — ADEQUATE/INCOMPLETE/MISSING |
-| `/skill-test` | Validate skill files for compliance and correctness (static / spec / audit) |
+| `/skill-test` | Validate skill files with the T2 spec catalog and write approved T3 evidence (static / spec / category / audit) |
 
 ### 4. Use Templates for New Documents
 
@@ -217,7 +221,7 @@ Templates are in `.claude/docs/templates/`:
 - `module-index.md` -- for systems/modules decomposition and dependency mapping
 - `t0/` -- legacy T0 constitutional memory bank templates
 - `t1/` -- legacy T1 context and pattern memory bank templates
-- `memory-bank/` -- T0-T3 governance control-plane templates for new projects
+- `memory-bank/` -- T0-T3 governance control-plane templates for new projects, including cross-project skill testing assets
 - `project-stage-report.md` -- for project stage detection output
 - `design-doc-from-implementation.md` -- for reverse-documenting existing code into CDDs
 - `architecture-doc-from-code.md` -- for reverse-documenting code into architecture docs
@@ -443,7 +447,7 @@ CLAUDE.md                          -- Master config (read this first, ~60 lines)
     workflow-catalog.yaml          -- 7-phase pipeline definition (read by /help)
     setup-requirements.md          -- System prerequisites (Git Bash, jq, Python)
     settings-local-template.md     -- Personal settings.local.json guide
-    templates/                     -- 79 document templates
+    templates/                     -- 218 document templates
 ```
 
 For the full user manual, see `docs/USER-MANUAL.md`. For the generated artifact

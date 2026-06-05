@@ -114,7 +114,7 @@ The result: you still make every decision, but now you have a team that asks the
 | **Skills** | 74 | Slash commands for every workflow phase (`/constitute`, `/help`, `/cdd-status`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
 | **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
 | **Rules** | 16 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network, API, CLI, services, config, migrations, data, and infrastructure code |
-| **Templates** | 79 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, and UI-heavy design systems |
+| **Templates** | 218 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, cross-project skill testing, and UI-heavy design systems |
 
 ## Studio Hierarchy
 
@@ -220,12 +220,14 @@ CLAUDE.md                           # Master configuration
   statusline.sh                     # Status line script (context%, model, stage, epic breadcrumb)
   docs/
     workflow-catalog.yaml           # 7-phase pipeline definition (read by /help)
-    templates/                      # 79 document templates
+    templates/                      # 218 document templates
 memory_bank/                        # Project brain created by /constitute
   t0_core/                           # Current laws, current state, release state
   t1_axioms/                         # Technical, architecture, UX, QA, module context
   t2_execution/                      # Workflow contract, generated mirrors, roadmap
+    skill_testing/                   # Cross-project skill/agent test catalog, specs, rubric
   t3_archive/                        # Gate, review, QA, story, sprint, release evidence indexes
+    skill_testing/                   # Approved skill-test runs, coverage, improvement evidence
 src/                                # Game source code or product source code
   gameplay/                         # Game mechanics and playable systems
   core/                             # Engine/framework/core domain code
@@ -301,6 +303,16 @@ Any high-impact workflow that produces a `PASS/FAIL`, `APPROVED/REJECTED`,
 `GO/NO-GO`, `PROCEED/PIVOT/KILL`, `CUT/KEEP/DEFER`, or `RELEASE/HOLD` decision
 should update T1, T0, or a T3 index when the user approves saving the original
 artifact.
+
+### Cross-Project Skill Testing
+
+CDD's own skill and agent testing assets live inside the memory-bank template,
+not in a separate top-level framework directory. T2 holds reusable standards:
+`memory_bank/t2_execution/skill_testing/catalog.yaml`, `quality-rubric.md`,
+specs, and templates. T3 holds approved evidence:
+`memory_bank/t3_archive/skill_testing/coverage-index.yaml`, result reports, and
+skill improvement records. `/skill-test` reads T2 and writes T3 only after user
+approval; `/skill-improve` reads T2 and can save improvement evidence in T3.
 
 ### Agent Coordination
 

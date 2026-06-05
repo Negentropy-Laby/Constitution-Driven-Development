@@ -437,6 +437,12 @@ Create or update these files:
 - `memory_bank/t2_execution/phase_checklists.md`
 - `memory_bank/t2_execution/gate_required_artifacts.md`
 - `memory_bank/t2_execution/current_roadmap.md`
+- `memory_bank/t2_execution/skill_testing/README.md`
+- `memory_bank/t2_execution/skill_testing/catalog.yaml`
+- `memory_bank/t2_execution/skill_testing/quality-rubric.md`
+- `memory_bank/t2_execution/skill_testing/specs/skills/`
+- `memory_bank/t2_execution/skill_testing/specs/agents/`
+- `memory_bank/t2_execution/skill_testing/templates/`
 - `memory_bank/t3_archive/README.md`
 - `memory_bank/t3_archive/qa_evidence_index.md`
 - `memory_bank/t3_archive/release_evidence/README.md`
@@ -446,6 +452,13 @@ Create or update these files:
 - `memory_bank/t3_archive/sprint_snapshots/README.md`
 - `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`
 - `memory_bank/t3_archive/amendments/README.md`
+- `memory_bank/t3_archive/skill_testing/README.md`
+- `memory_bank/t3_archive/skill_testing/coverage-index.yaml`
+- `memory_bank/t3_archive/skill_testing/results/static/README.md`
+- `memory_bank/t3_archive/skill_testing/results/spec/README.md`
+- `memory_bank/t3_archive/skill_testing/results/category/README.md`
+- `memory_bank/t3_archive/skill_testing/results/audit/README.md`
+- `memory_bank/t3_archive/skill_testing/improvements/README.md`
 
 Canonical knowledge graph path is `memory_bank/t1_axioms/knowledge_graph.md`.
 If an older project has `memory_bank/t0_core/knowledge_graph.md`, treat it as a deprecated compatibility pointer and migrate future updates to the T1 path.
@@ -455,6 +468,9 @@ If an older project has `memory_bank/t0_core/knowledge_graph.md`, treat it as a 
 Refresh them with `python scripts/generate_phase_checklists.py --write --memory-bank`
 and `python scripts/generate_gate_required_sections.py --write --memory-bank`.
 `memory_bank/t2_execution/current_roadmap.md` is maintained by `/cdd-status`.
+`memory_bank/t2_execution/skill_testing/` defines cross-project CDD skill and
+agent test standards; `memory_bank/t3_archive/skill_testing/` records approved
+`/skill-test` runs and `/skill-improve` evidence.
 
 ### Phase 3f: Handoff After Interactive Legislation
 

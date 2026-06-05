@@ -10,8 +10,8 @@ allowed-tools: Read, Glob, Grep, Write
 
 - When to use: Validate skill files for structural compliance and behavioral correctness. Three modes: static (linter), spec (behavioral), audit (coverage report).
 - Inputs: Command arguments: `/skill-test static [skill-name | all] | spec [skill-name] | category [skill-name | all] | audit`; project artifacts referenced below; user decisions and approvals before writes.
-- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: None.
+- Outputs: Static/spec/category/audit reports. Approved writes go to `memory_bank/t3_archive/skill_testing/results/` and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`.
+- Memory-bank writes: Reads T2 assets from `memory_bank/t2_execution/skill_testing/`; with approval writes T3 test evidence under `memory_bank/t3_archive/skill_testing/`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Routing
@@ -46,7 +46,7 @@ Determine mode from the first argument:
 - `static [name]` → run 8 structural/parity checks on one skill
 - `static all` → run 8 structural/parity checks on all skills (Glob `.claude/skills/*/SKILL.md`)
 - `spec [name]` → read skill + test spec, evaluate assertions
-- `category [name]` → run category-specific rubric from `CDD Skill Testing Framework/quality-rubric.md`
+- `category [name]` → run category-specific rubric from `memory_bank/t2_execution/skill_testing/quality-rubric.md`
 - `category all` → run category rubric for every skill that has a `category:` in catalog
 - `audit` (or no argument) → read catalog, list all skills and agents, show coverage
 
@@ -168,6 +168,22 @@ Summary: 48 COMPLIANT, 3 WARNINGS, 1 NON-COMPLIANT
 Aggregate Verdict: N WARNINGS / N FAILURES
 ```
 
+### Static Mode Optional Evidence Write
+
+Static mode displays results by default. If the user wants to preserve the run,
+ask:
+
+"May I write this static check to
+`memory_bank/t3_archive/skill_testing/results/static/skill-test-static-[name|all]-[YYYY-MM-DD].md`
+and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`?"
+
+If yes:
+- Write the static result file under `memory_bank/t3_archive/skill_testing/results/static/`
+- Update each affected skill entry in `coverage-index.yaml`:
+  - `last_static: [date]`
+  - `last_static_result: PASS|WARN|FAIL`
+  - `latest_result_path: memory_bank/t3_archive/skill_testing/results/static/skill-test-static-[name|all]-[YYYY-MM-DD].md`
+
 ---
 
 ## Phase 2B: Spec Mode — Behavioral Verifier
@@ -175,8 +191,8 @@ Aggregate Verdict: N WARNINGS / N FAILURES
 ### Step 1 — Locate Files
 
 Find skill at `.claude/skills/[name]/SKILL.md`.
-Look up the spec path from `CDD Skill Testing Framework/catalog.yaml` — use the
-`spec:` field for the matching skill entry.
+Look up the spec path from `memory_bank/t2_execution/skill_testing/catalog.yaml`
+— use the `spec:` field for the matching skill entry.
 
 If either is missing:
 - Missing skill: "Skill '[name]' not found in `.claude/skills/`."
@@ -216,7 +232,7 @@ For **Protocol Compliance** assertions (always present):
 ```
 === Skill Spec Test: /[name] ===
 Date: [date]
-Spec: CDD Skill Testing Framework/skills/[category]/[name].md
+Spec: memory_bank/t2_execution/skill_testing/specs/skills/[category]/[name].md
 
 Case 1: [Happy Path — name]
   Fixture: [summary]
@@ -254,14 +270,16 @@ Mark assertions:
 
 ### Step 5 — Offer to Write Results
 
-"May I write these results to `CDD Skill Testing Framework/results/skill-test-spec-[name]-[date].md`
-and update `CDD Skill Testing Framework/catalog.yaml`?"
+"May I write these results to
+`memory_bank/t3_archive/skill_testing/results/spec/skill-test-spec-[name]-[YYYY-MM-DD].md`
+and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`?"
 
 If yes:
-- Write results file to `CDD Skill Testing Framework/results/`
-- Update the skill's entry in `CDD Skill Testing Framework/catalog.yaml`:
+- Write the result file to `memory_bank/t3_archive/skill_testing/results/spec/`
+- Update the skill's entry in `memory_bank/t3_archive/skill_testing/coverage-index.yaml`:
   - `last_spec: [date]`
   - `last_spec_result: PASS|PARTIAL|FAIL`
+  - `latest_result_path: memory_bank/t3_archive/skill_testing/results/spec/skill-test-spec-[name]-[YYYY-MM-DD].md`
 
 ---
 
@@ -270,7 +288,7 @@ If yes:
 ### Step 1 — Locate Skill and Category
 
 Find skill at `.claude/skills/[name]/SKILL.md`.
-Look up `category:` field in `CDD Skill Testing Framework/catalog.yaml`.
+Look up `category:` field in `memory_bank/t2_execution/skill_testing/catalog.yaml`.
 
 If skill not found: "Skill '[name]' not found."
 If no `category:` field: "No category assigned for '[name]' in catalog.yaml.
@@ -282,7 +300,7 @@ For `category all`: collect all skills with a `category:` field and process each
 
 ### Step 2 — Read Rubric Section
 
-Read `CDD Skill Testing Framework/quality-rubric.md`.
+Read `memory_bank/t2_execution/skill_testing/quality-rubric.md`.
 Extract the section matching the skill's category (e.g., `### gate`, `### team`).
 
 ### Step 3 — Read Skill
@@ -314,10 +332,12 @@ Fix: Add TD-PHASE-GATE, PR-PHASE-GATE, and AD-PHASE-GATE to the full-mode direct
      panel in Phase 3.
 ```
 
-### Step 6 — Offer to Update Catalog
+### Step 6 — Offer to Write Results
 
-"May I update `CDD Skill Testing Framework/catalog.yaml` to record this category check
-(`last_category`, `last_category_result`) for [name]?"
+"May I write this category check to
+`memory_bank/t3_archive/skill_testing/results/category/skill-test-category-[name]-[YYYY-MM-DD].md`
+and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`
+(`last_category`, `last_category_result`, `latest_result_path`) for [name]?"
 
 ---
 
@@ -325,31 +345,36 @@ Fix: Add TD-PHASE-GATE, PR-PHASE-GATE, and AD-PHASE-GATE to the full-mode direct
 
 ### Step 1 — Read Catalog
 
-Read `CDD Skill Testing Framework/catalog.yaml`. If missing, note that catalog doesn't exist
-yet (first-run state).
+Read `memory_bank/t2_execution/skill_testing/catalog.yaml` for the registry and
+`memory_bank/t3_archive/skill_testing/coverage-index.yaml` for test history.
+If either is missing, note the missing file and recommend running `/constitute`
+to initialize the memory-bank testing templates.
 
 ### Step 2 — Enumerate All Skills and Agents
 
 Glob `.claude/skills/*/SKILL.md` to get the complete list of skills.
 Extract skill name from each path (directory name).
 
-Also read the `agents:` section from `CDD Skill Testing Framework/catalog.yaml` to get the
+Also read the `agents:` section from `memory_bank/t2_execution/skill_testing/catalog.yaml` to get the
 complete list of agents.
 
 ### Step 3 — Build Skill Coverage Table
 
 For each skill:
-- Check if a spec file exists (use the `spec:` path from catalog, or glob `CDD Skill Testing Framework/skills/*/[name].md`)
+- Check if a spec file exists (use the `spec:` path from catalog, or glob `memory_bank/t2_execution/skill_testing/specs/skills/*/[name].md`)
 - Look up `last_static`, `last_static_result`, `last_spec`, `last_spec_result`,
-  `last_category`, `last_category_result`, `category` from catalog (or mark as
-  "never" / "—" if not in catalog)
+  `last_category`, `last_category_result`, and `latest_result_path` from
+  `coverage-index.yaml` (or mark as "never" / "—" if not in coverage)
+- Look up `category` from catalog
 - Priority comes from catalog `priority:` field (critical/high/medium/low)
 
 ### Step 3b — Build Agent Coverage Table
 
 For each agent in catalog's `agents:` section:
-- Check if a spec file exists (use the `spec:` path from catalog, or glob `CDD Skill Testing Framework/agents/*/[name].md`)
-- Look up `last_spec`, `last_spec_result`, `category` from catalog
+- Check if a spec file exists (use the `spec:` path from catalog, or glob `memory_bank/t2_execution/skill_testing/specs/agents/*/[name].md`)
+- Look up `last_spec`, `last_spec_result`, and `latest_result_path` from
+  `coverage-index.yaml`
+- Look up `tier` from catalog
 
 ### Step 4 — Output Report
 
@@ -382,7 +407,11 @@ Skill coverage:  74/74 specs (100%)
 Agent coverage:  53/53 specs (100%)
 ```
 
-No file writes in audit mode.
+Audit mode is read-only by default.
+
+Optional write: ask "May I write this audit report to
+`memory_bank/t3_archive/skill_testing/results/audit/skill-test-audit-[YYYY-MM-DD].md`?"
+Only write the audit report if the user approves.
 
 Offer: "Would you like to run `/skill-test static all` to check structural
 compliance across all skills? `/skill-test category all` to run category rubric
@@ -398,9 +427,9 @@ After any mode completes, offer contextual follow-up:
   correctness if a test spec exists."
 - After `static all` with failures: "Address NON-COMPLIANT skills first. Run
   `/skill-test static [name]` individually for detailed remediation guidance."
-- After `spec [name]` PASS: "Update `CDD Skill Testing Framework/catalog.yaml` to record this
-  pass date. Consider running `/skill-test audit` to find the next spec gap."
+- After `spec [name]` PASS: "Update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`
+  to record this pass date. Consider running `/skill-test audit` to find the next spec gap."
 - After `spec [name]` FAIL: "Review the failing assertions and update the skill
   or the test spec to resolve the mismatch."
-- After `audit`: "Start with the critical-priority gaps. Use the spec template
-  at `CDD Skill Testing Framework/templates/skill-test-spec.md` to create new specs."
+- After `audit`: "Start with the critical-priority gaps. Use the spec template at
+  `memory_bank/t2_execution/skill_testing/templates/skill-test-spec.md` to create new specs."

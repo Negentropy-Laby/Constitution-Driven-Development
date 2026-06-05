@@ -10,8 +10,8 @@ allowed-tools: Read, Glob, Grep, Write, Bash
 
 - When to use: Improve a skill using a test-fix-retest loop. Runs static checks, proposes targeted fixes, rewrites the skill, re-tests, and keeps or reverts based on score change.
 - Inputs: Command arguments: `/skill-improve [skill-name]`; project artifacts referenced below; user decisions and approvals before writes.
-- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: None.
+- Outputs: Proposed skill patch, before/after test comparison, and optional improvement evidence written only after user approval.
+- Memory-bank writes: Reads `memory_bank/t2_execution/skill_testing/catalog.yaml` and `memory_bank/t2_execution/skill_testing/quality-rubric.md`; with approval writes `memory_bank/t3_archive/skill_testing/improvements/skill-improve-[name]-[YYYY-MM-DD].md`. Retest coverage is updated by `/skill-test`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Routing
@@ -60,7 +60,8 @@ If baseline is 0 FAILs and 0 WARNs, note it and proceed to Phase 2b.
 
 ### Phase 2b: Category Baseline
 
-Look up the skill's `category:` field in `CDD Skill Testing Framework/catalog.yaml`.
+Look up the skill's `category:` field in
+`memory_bank/t2_execution/skill_testing/catalog.yaml`.
 
 If no `category:` field is found, display:
 "Category: not yet assigned — skipping category checks."
@@ -187,8 +188,29 @@ If yes: run `git checkout -- .claude/skills/[name]/SKILL.md`
 
 ---
 
+## Phase 6b: Optional Improvement Evidence
+
+After the keep/revert decision, ask:
+
+"May I write the improvement record to
+`memory_bank/t3_archive/skill_testing/improvements/skill-improve-[name]-[YYYY-MM-DD].md`?"
+
+Only write this file if the user approves. The record must include:
+- Skill name and path
+- Baseline static/category result
+- Diagnosis summary
+- Patch summary
+- Retest static/category result
+- Keep/revert decision
+- Follow-up recommendation
+
+Do not update `memory_bank/t3_archive/skill_testing/coverage-index.yaml` here.
+That index is maintained by `/skill-test` when retest evidence is approved.
+
+---
+
 ## Phase 7: Next Steps
 
 - Run `/skill-test static all` to find the next skill with failures.
 - Run `/skill-improve [next-name]` to continue the loop on another skill.
-- Run `/skill-test audit` to see overall coverage progress.
+- Run `/skill-test audit` to see overall coverage progress in `memory_bank/t3_archive/skill_testing/coverage-index.yaml`.

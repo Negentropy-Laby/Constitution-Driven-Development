@@ -132,6 +132,43 @@ documents:
     owner: /cdd-status
     source: production/project-roadmap.md
 
+  memory_bank/t2_execution/skill_testing/catalog.yaml:
+    tier: T2
+    role: canonical
+    owner: /skill-test and /skill-improve
+    asset_scope: cross_project
+    indexes:
+      - memory_bank/t2_execution/skill_testing/specs/skills/**
+      - memory_bank/t2_execution/skill_testing/specs/agents/**
+    evidence_index: memory_bank/t3_archive/skill_testing/coverage-index.yaml
+
+  memory_bank/t2_execution/skill_testing/quality-rubric.md:
+    tier: T2
+    role: canonical
+    owner: /skill-test
+    used_by:
+      - /skill-test category
+      - /skill-improve
+
+  memory_bank/t2_execution/skill_testing/specs/skills/**:
+    tier: T2
+    role: source
+    owner: /skill-test
+    memory_index: memory_bank/t2_execution/skill_testing/catalog.yaml
+
+  memory_bank/t2_execution/skill_testing/specs/agents/**:
+    tier: T2
+    role: source
+    owner: /skill-test
+    memory_index: memory_bank/t2_execution/skill_testing/catalog.yaml
+
+  memory_bank/t2_execution/skill_testing/templates/**:
+    tier: T2
+    role: source
+    owner: /skill-test
+    used_by:
+      - /skill-test audit
+
   production/qa/evidence/**:
     tier: T3
     role: archive
@@ -220,3 +257,23 @@ documents:
     role: archive
     owner: /constitute
     source: memory_bank/t0_core/basic_law_index.md
+
+  memory_bank/t3_archive/skill_testing/coverage-index.yaml:
+    tier: T3
+    role: index
+    owner: /skill-test and /skill-improve
+    indexes:
+      - memory_bank/t3_archive/skill_testing/results/**
+      - memory_bank/t3_archive/skill_testing/improvements/**
+
+  memory_bank/t3_archive/skill_testing/results/**:
+    tier: T3
+    role: archive
+    owner: /skill-test
+    source: memory_bank/t2_execution/skill_testing/catalog.yaml
+
+  memory_bank/t3_archive/skill_testing/improvements/**:
+    tier: T3
+    role: archive
+    owner: /skill-improve
+    source: memory_bank/t2_execution/skill_testing/catalog.yaml
