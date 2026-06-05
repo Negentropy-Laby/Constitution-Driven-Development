@@ -29,7 +29,7 @@ Keep both branches inside this command:
 
 | Area | Game branch | Product branch |
 |------|-------------|----------------|
-| Context reads | `design/cdd/game-concept.md`, target CDD/level/character doc, `design/art/art-bible.md`, `.claude/docs/technical-preferences.md`, existing asset manifest/specs | `design/cdd/product-concept.md`, module CDD, `design/ux/interaction-patterns.md`, optional `design/brand/style-guide.md`, optional `design/design-system.md`, `.claude/docs/technical-preferences.md`, architecture/ADR docs, existing artifact manifest/specs |
+| Context reads | `design/cdd/game-concept.md`, target CDD/level/character doc, `design/art/art-bible.md`, `standards/technical-preferences.md`, existing asset manifest/specs | `design/cdd/product-concept.md`, module CDD, `design/ux/interaction-patterns.md`, optional `design/brand/style-guide.md`, optional `design/design-system.md`, `standards/technical-preferences.md`, architecture/ADR docs, existing artifact manifest/specs |
 | Steps | Identify visual/audio/VFX/UI/3D assets, confirm list, generate art and technical specs, resolve art/tech conflicts, write specs and manifest | Identify API/CLI/SDK/docs/config/migration/deployment/package/UI artifacts, confirm list, generate contract and operational specs, resolve implementation/docs/deploy conflicts, write specs and manifest |
 | Outputs | `design/assets/specs/[target]-assets.md` plus `design/assets/asset-manifest.md` entries | `design/assets/specs/[target]-artifacts.md` plus `design/assets/asset-manifest.md` entries for product artifacts |
 | Next steps | `/asset-spec [next-context]`, `/asset-audit`, `/team-polish` for asset quality | `/asset-spec [next-artifact]`, `/asset-audit`, `/test-evidence-review`, `/release-checklist` |
@@ -72,13 +72,13 @@ Read all source material **before** asking the user anything.
   > "No art bible found. Run `/art-bible` first — asset specs are anchored to the art bible's visual rules and asset standards."
   Extract: Visual Identity Statement, Color System (semantic colors), Shape Language, Asset Standards (Section 8 — dimensions, formats, polycount budgets, texture resolution tiers).
 
-- **Technical preferences**: Read `.claude/docs/technical-preferences.md` — extract performance budgets and naming conventions.
+- **Technical preferences**: Read `standards/technical-preferences.md` — extract performance budgets and naming conventions.
 
 ### Product Required Reads:
 - **Product concept**: Read `design/cdd/product-concept.md` — extract core promise, users, product surface profile, MVP scope, anti-goals, and public artifact categories.
 - **Interaction patterns**: Read `design/ux/interaction-patterns.md` when the artifact affects API consumers, CLI users, SDK integrators, docs readers, or UI workflows. If missing, warn and recommend `/ux-design interaction-patterns`; do not fail internal headless artifacts solely for this.
 - **Product style references**: Read `design/brand/style-guide.md` if present. For UI-heavy artifacts, read `design/design-system.md` if present.
-- **Technical preferences**: Read `.claude/docs/technical-preferences.md` — extract language, framework, build system, package manager, naming conventions, deployment target, and test framework.
+- **Technical preferences**: Read `standards/technical-preferences.md` — extract language, framework, build system, package manager, naming conventions, deployment target, and test framework.
 - **Architecture and ADRs**: Read `docs/architecture/architecture.md` and relevant `docs/architecture/adr-*.md` files when the artifact affects contracts, deployment, migrations, auth, data, or packaging.
 
 ### Source doc reads (by target type):
@@ -273,7 +273,7 @@ For product projects, write:
 
 > **Source**: [path to source CDD/ADR/UX/release doc]
 > **Interaction Patterns**: design/ux/interaction-patterns.md if applicable
-> **Technical Preferences**: .claude/docs/technical-preferences.md
+> **Technical Preferences**: standards/technical-preferences.md
 > **Generated**: [date]
 > **Status**: [N] artifacts specced / [N] approved / [N] implemented / [N] verified
 

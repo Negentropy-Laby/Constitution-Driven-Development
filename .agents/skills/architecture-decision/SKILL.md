@@ -29,7 +29,7 @@ Resolve the review mode (once, store for all gate spawns this run):
 2. Else read `production/review-mode.txt` → use that value
 3. Else → default to `lean`
 
-See `.claude/docs/director-gates.md` for the full check pattern.
+See `standards/director-gates.md` for the full check pattern.
 
 **If the argument starts with `retrofit` followed by a file path**
 (e.g., `/architecture-decision retrofit docs/architecture/adr-0001-event-system.md`):
@@ -396,7 +396,7 @@ to implement it.]
 4.5. **Technology Specialist Validation** — Before saving, spawn the appropriate specialist via Task to validate the drafted ADR:
 
 **[游戏专用]** **Engine Specialist Validation**:
-   - Read `.claude/docs/technical-preferences.md` `Engine Specialists` section to get the primary specialist
+   - Read `standards/technical-preferences.md` `Engine Specialists` section to get the primary specialist
    - If no engine is configured (`[TO BE CONFIGURED]`), skip this step
    - Spawn `subagent_type: [primary specialist]` with: the ADR's Technology Compatibility section, Decision section, Key Interfaces, and the engine reference docs path. Ask them to:
      1. Confirm the proposed approach is idiomatic for the pinned engine version
@@ -406,7 +406,7 @@ to implement it.]
    - If the specialist finds **minor notes** only: incorporate them into the ADR's Risks subsection
 
 **[通用产品]** **Language Specialist Validation**:
-   - Read `.claude/docs/technical-preferences.md` to determine the primary language specialist (python-specialist, typescript-specialist, rust-specialist, or go-specialist)
+   - Read `standards/technical-preferences.md` to determine the primary language specialist (python-specialist, typescript-specialist, rust-specialist, or go-specialist)
    - If no stack is configured, skip this step
    - Spawn the language specialist with: the ADR's Technology Compatibility section, Decision section, Key Interfaces, and the stack reference docs path. Ask them to:
      1. Confirm the proposed approach is idiomatic for the pinned framework version
@@ -420,7 +420,7 @@ to implement it.]
 - `lean` → skip (not a PHASE-GATE). Note: "TD-ADR skipped — Lean mode." Proceed to Step 4.7 (CDD sync check).
 - `full` → spawn as normal.
 
-4.6. **Technical Director Strategic Review** — After the engine specialist validation, spawn `technical-director` via Task using gate **TD-ADR** (`.claude/docs/director-gates.md`):
+4.6. **Technical Director Strategic Review** — After the engine specialist validation, spawn `technical-director` via Task using gate **TD-ADR** (`standards/director-gates.md`):
    - Pass: the ADR file path (or draft content), engine version, domain, any existing ADRs in the same domain
    - The TD validates architectural coherence (is this decision consistent with the whole system?) — distinct from the engine specialist's API-level check
    - If CONCERNS or REJECT: revise the Decision or Alternatives sections accordingly before proceeding

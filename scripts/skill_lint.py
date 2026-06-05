@@ -17,7 +17,7 @@ from tempfile import TemporaryDirectory
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SKILLS_DIR = REPO_ROOT / ".claude" / "skills"
-TEMPLATES_DIR = REPO_ROOT / ".claude" / "docs" / "templates"
+TEMPLATES_DIR = REPO_ROOT / "templates"
 
 REQUIRED_FRONTMATTER = {
     "name",

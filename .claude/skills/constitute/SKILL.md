@@ -39,7 +39,7 @@ Check each of these and classify the project into one of 6 stages:
 |-------|-----------------|
 | Constitution exists? | `memory_bank/t0_core/basic_law_index.md` |
 | Concept doc exists? | `design/cdd/game-concept.md` or `design/cdd/product-concept.md` |
-| Tech prefs configured? | `.claude/docs/technical-preferences.md` (not `[CHOOSE]` or `[TO BE CONFIGURED]`) |
+| Tech prefs configured? | `standards/technical-preferences.md` (not `[CHOOSE]` or `[TO BE CONFIGURED]`) |
 | Module index exists? | `design/cdd/module-index.md` |
 | CDDs exist? | `design/cdd/*.md` (excluding concept, index, principles) |
 | ADRs exist? | `docs/architecture/adr-*.md` |
@@ -417,9 +417,9 @@ Write `memory_bank/README.md`.
 ### Phase 3e.1: Memory Bank Control Plane Skeleton
 
 After ratification, create the project memory-bank skeleton from
-`.claude/docs/templates/memory-bank/`. Do not move detailed work files out of
-`design/`, `docs/`, `.claude/docs/`, or `production/`; the memory bank indexes
-and mirrors those paths.
+`templates/memory-bank/`. Do not move detailed work files out of
+`design/`, `docs/`, `workflow/`, `templates/`, `standards/`, or `production/`;
+the memory bank indexes and mirrors those paths.
 
 Create or update these files:
 
@@ -438,11 +438,11 @@ Create or update these files:
 - `memory_bank/t2_execution/gate_required_artifacts.md`
 - `memory_bank/t2_execution/current_roadmap.md`
 - `memory_bank/t2_execution/skill_testing/README.md`
-- `memory_bank/t2_execution/skill_testing/catalog.yaml`
-- `memory_bank/t2_execution/skill_testing/quality-rubric.md`
-- `memory_bank/t2_execution/skill_testing/specs/skills/`
-- `memory_bank/t2_execution/skill_testing/specs/agents/`
-- `memory_bank/t2_execution/skill_testing/templates/`
+- `skill_testing/catalog.yaml`
+- `skill_testing/quality-rubric.md`
+- `skill_testing/specs/skills/`
+- `skill_testing/specs/agents/`
+- `skill_testing/templates/`
 - `memory_bank/t3_archive/README.md`
 - `memory_bank/t3_archive/qa_evidence_index.md`
 - `memory_bank/t3_archive/release_evidence/README.md`
@@ -468,9 +468,10 @@ If an older project has `memory_bank/t0_core/knowledge_graph.md`, treat it as a 
 Refresh them with `python scripts/generate_phase_checklists.py --write --memory-bank`
 and `python scripts/generate_gate_required_sections.py --write --memory-bank`.
 `memory_bank/t2_execution/current_roadmap.md` is maintained by `/cdd-status`.
-`memory_bank/t2_execution/skill_testing/` defines cross-project CDD skill and
-agent test standards; `memory_bank/t3_archive/skill_testing/` records approved
-`/skill-test` runs and `/skill-improve` evidence.
+`skill_testing/` defines cross-project CDD skill and agent test standards.
+`memory_bank/t2_execution/skill_testing/README.md` records the project-memory
+mount contract for those canonical assets. `memory_bank/t3_archive/skill_testing/`
+records approved `/skill-test` runs and `/skill-improve` evidence.
 
 ### Phase 3f: Handoff After Interactive Legislation
 
@@ -724,7 +725,7 @@ Show the user the full journey ahead based on their detected stage and domain.
 
 **Technical Setup Phase:**
 `/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest`
-Then create `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
+Then create `design/accessibility-requirements.md` from `templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
 
 **Pre-Production Phase:**
 `/ux-design` → `/ux-review` → `/prototype` → `/playtest-report` → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`
@@ -751,7 +752,7 @@ Then create `design/accessibility-requirements.md` from `.claude/docs/templates/
 
 **Architecture Phase:**
 `/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest`
-Then create `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
+Then create `design/accessibility-requirements.md` from `templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
 
 **Pre-Implementation Phase:**
 `/ux-design` → `/ux-review` → `/prototype` → `/playtest-report` (Product workflow validation) → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`

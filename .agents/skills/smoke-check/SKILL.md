@@ -78,7 +78,7 @@ Before running anything, understand the environment:
 2. **CI check**: check whether `.github/workflows/` contains a workflow file
    referencing tests. Note in the report whether CI is configured.
 
-3. **Technology detection**: read `.claude/docs/technical-preferences.md`.
+3. **Technology detection**: read `standards/technical-preferences.md`.
 
    **[游戏专用]** Extract `Engine:` value. Store for game-specific test command.
 
@@ -168,7 +168,7 @@ go test ./... 2>&1
 ```
 
 **Unknown technology / not configured:**
-"Technology not configured in `.claude/docs/technical-preferences.md`. Run
+"Technology not configured in `standards/technical-preferences.md`. Run
 `/setup-engine` to specify the engine or product stack, then re-run
 `/smoke-check`."
 

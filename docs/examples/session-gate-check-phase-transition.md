@@ -81,7 +81,7 @@
 >
 > **Required steps this phase (in order):**
 >
-> 1. **`/setup-engine`** — Configure the engine and version, then populate `.claude/docs/technical-preferences.md` and reference docs.
+> 1. **`/setup-engine`** — Configure the engine and version, then populate `standards/technical-preferences.md` and reference docs.
 >
 > 2. **`/create-architecture`** — Author the master architecture document. Covers system decomposition, data flow, layer boundaries, and module responsibilities.
 >
@@ -95,7 +95,7 @@
 >
 > 5. **`/create-control-manifest`** — Converts Accepted ADRs into a flat programmer rules sheet. This is what implementation agents will consult during coding.
 >
-> 6. **Accessibility requirements** — Create `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md`, choose the project accessibility tier, and record the feature matrix so implementation stories inherit it.
+> 6. **Accessibility requirements** — Create `design/accessibility-requirements.md` from `templates/accessibility-requirements.md`, choose the project accessibility tier, and record the feature matrix so implementation stories inherit it.
 >
 > 7. **`/test-setup`** — Create the required baseline: `tests/unit/`, `tests/integration/`, `.github/workflows/tests.yml`, and one example test file. `/test-helpers` is optional later.
 >

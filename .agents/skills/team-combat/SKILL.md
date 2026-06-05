@@ -40,12 +40,12 @@ The user must approve before moving to the next phase.
 - **ai-programmer** — Implement NPC/enemy AI behavior for the feature
 - **technical-artist** — Create VFX, shader effects, and visual feedback
 - **sound-designer** — Define audio events, impact sounds, and ambient combat audio
-- **engine specialist** (primary) — Validate architecture and implementation patterns are idiomatic for the engine (read from `.claude/docs/technical-preferences.md` Engine Specialists section)
+- **engine specialist** (primary) — Validate architecture and implementation patterns are idiomatic for the engine (read from `standards/technical-preferences.md` Engine Specialists section)
 - **qa-tester** — Write test cases and validate the implementation
 
 ## Product Team Composition
 - **lead-programmer** — Own the critical workflow/API/CLI architecture and module boundaries
-- **language specialist** (`python-specialist`, `typescript-specialist`, `rust-specialist`, or `go-specialist`) — Implement stack-specific code from `.claude/docs/technical-preferences.md`
+- **language specialist** (`python-specialist`, `typescript-specialist`, `rust-specialist`, or `go-specialist`) — Implement stack-specific code from `standards/technical-preferences.md`
 - **ux-designer** — Own user workflow, CLI/API consumer journey, error recovery, and accessibility handoff
 - **security-engineer** — Join when auth, permissions, secrets, tenant data, payments, or external integrations are involved
 - **devops-engineer** — Join when deployment, CI/CD, migrations, infrastructure, or rollback paths are involved

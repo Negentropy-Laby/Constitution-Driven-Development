@@ -25,20 +25,23 @@ CODEX_DIR = REPO_ROOT / ".codex"
 CODEX_AGENTS_DIR = CODEX_DIR / "agents"
 CODEX_HOOKS_DIR = CODEX_DIR / "hooks"
 CLAUDE_HOOKS_DIR = REPO_ROOT / ".claude" / "hooks"
-TEMPLATES_DIR = REPO_ROOT / ".claude" / "docs" / "templates"
+WORKFLOW_DIR = REPO_ROOT / "workflow"
+STANDARDS_DIR = REPO_ROOT / "standards"
+TEMPLATES_DIR = REPO_ROOT / "templates"
 MEMORY_BANK_TEMPLATE_DIR = TEMPLATES_DIR / "memory-bank"
-SKILL_TESTING_T2 = MEMORY_BANK_TEMPLATE_DIR / "t2_execution" / "skill_testing"
+SKILL_TESTING_DIR = REPO_ROOT / "skill_testing"
+SKILL_TESTING_T2_MOUNT = MEMORY_BANK_TEMPLATE_DIR / "t2_execution" / "skill_testing"
 SKILL_TESTING_T3 = MEMORY_BANK_TEMPLATE_DIR / "t3_archive" / "skill_testing"
 LEGACY_SKILL_TESTING_DIRNAME = "CDD Skill Testing" + " Framework"
-CATALOG = REPO_ROOT / ".claude" / "docs" / "workflow-catalog.yaml"
+CATALOG = WORKFLOW_DIR / "workflow-catalog.yaml"
 GATE_CHECK = REPO_ROOT / ".claude" / "skills" / "gate-check" / "SKILL.md"
 CODEX_GATE_CHECK = REPO_ROOT / ".agents" / "skills" / "gate-check" / "SKILL.md"
 FLOW_DIAGRAMS = REPO_ROOT / "docs" / "examples" / "skill-flow-diagrams.md"
 WORKFLOW_GUIDE = REPO_ROOT / "docs" / "WORKFLOW-GUIDE.md"
-QUICK_START = REPO_ROOT / ".claude" / "docs" / "quick-start.md"
-SKILLS_REFERENCE = REPO_ROOT / ".claude" / "docs" / "skills-reference.md"
+QUICK_START = REPO_ROOT / "docs" / "QUICK-START.md"
+SKILLS_REFERENCE = REPO_ROOT / "docs" / "reference" / "skills-reference.md"
 PHASE_CHECKLISTS = REPO_ROOT / "docs" / "PHASE-CHECKLISTS.md"
-GATE_REQUIRED_ARTIFACTS = REPO_ROOT / ".claude" / "docs" / "generated" / "gate-required-artifacts.md"
+GATE_REQUIRED_ARTIFACTS = WORKFLOW_DIR / "generated" / "gate-required-artifacts.md"
 CUSTOMER_ACCEPTANCE = REPO_ROOT / "docs" / "CUSTOMER-ACCEPTANCE.md"
 USER_MANUAL = REPO_ROOT / "docs" / "USER-MANUAL.md"
 PROJECT_ROADMAP_EXAMPLE = REPO_ROOT / "docs" / "examples" / "project-roadmap.example.md"
@@ -363,7 +366,7 @@ def check_accessibility_entry_paths() -> list[Finding]:
     findings: list[Finding] = []
     required_docs = [
         REPO_ROOT / "docs" / "START-HERE.md",
-        REPO_ROOT / ".claude" / "docs" / "quick-start.md",
+        QUICK_START,
         REPO_ROOT / ".claude" / "skills" / "constitute" / "SKILL.md",
     ]
     for path in required_docs:
@@ -404,16 +407,16 @@ def check_quick_start_complete_paths() -> list[Finding]:
     ]
 
     if "Start building" in text:
-        findings.append(Finding("ERROR", ".claude/docs/quick-start.md still stops a path at Start building"))
+        findings.append(Finding("ERROR", "docs/QUICK-START.md still stops a path at Start building"))
 
     for label, start, end in path_blocks:
         block = block_between(text, start, end)
         if not block:
-            findings.append(Finding("ERROR", f".claude/docs/quick-start.md missing {label} block"))
+            findings.append(Finding("ERROR", f"docs/QUICK-START.md missing {label} block"))
             continue
         for command in required_commands:
             if command not in block:
-                findings.append(Finding("ERROR", f".claude/docs/quick-start.md {label} omits {command}"))
+                findings.append(Finding("ERROR", f"docs/QUICK-START.md {label} omits {command}"))
         gate_index = block.find("/gate-check technical-setup")
         ux_index = block.find("/ux-design")
         if gate_index == -1 or ux_index == -1:
@@ -422,7 +425,7 @@ def check_quick_start_complete_paths() -> list[Finding]:
             findings.append(
                 Finding(
                     "ERROR",
-                    f".claude/docs/quick-start.md {label} starts UX before /gate-check technical-setup",
+                    f"docs/QUICK-START.md {label} starts UX before /gate-check technical-setup",
                 )
             )
         release_positions = [block.find(command) for command in ["/release-checklist", "/launch-checklist", "/team-release"]]
@@ -430,7 +433,7 @@ def check_quick_start_complete_paths() -> list[Finding]:
             findings.append(
                 Finding(
                     "ERROR",
-                    f".claude/docs/quick-start.md {label} must order Release as /release-checklist -> /launch-checklist -> /team-release",
+                    f"docs/QUICK-START.md {label} must order Release as /release-checklist -> /launch-checklist -> /team-release",
                 )
             )
     return findings
@@ -571,13 +574,13 @@ def check_gate_required_artifacts_contract() -> list[Finding]:
         findings.append(
             Finding(
                 "ERROR",
-                ".claude/docs/generated/gate-required-artifacts.md is stale; run python scripts/generate_gate_required_sections.py --write",
+                "workflow/generated/gate-required-artifacts.md is stale; run python scripts/generate_gate_required_sections.py --write",
             )
         )
 
     for path in [GATE_CHECK, CODEX_GATE_CHECK]:
         text = path.read_text(encoding="utf-8", errors="replace")
-        if ".claude/docs/generated/gate-required-artifacts.md" not in text:
+        if "workflow/generated/gate-required-artifacts.md" not in text:
             findings.append(Finding("ERROR", f"{rel(path)} must reference generated gate required artifacts"))
 
         in_required = False
@@ -663,12 +666,12 @@ def check_customer_delivery_contract() -> list[Finding]:
         if snippet not in readme_text:
             findings.append(Finding("ERROR", f"README.md omits stable release visibility: {snippet}"))
 
-    setup_requirements = (REPO_ROOT / ".claude" / "docs" / "setup-requirements.md").read_text(
+    setup_requirements = (REPO_ROOT / "docs" / "reference" / "setup-requirements.md").read_text(
         encoding="utf-8",
         errors="replace",
     )
     if re.search(r"Hooks \(\d+ of \d+\)", setup_requirements):
-        findings.append(Finding("ERROR", ".claude/docs/setup-requirements.md must not hard-code hook count fractions"))
+        findings.append(Finding("ERROR", "docs/reference/setup-requirements.md must not hard-code hook count fractions"))
 
     guide_text = WORKFLOW_GUIDE.read_text(encoding="utf-8", errors="replace")
     phase5_gate = block_between(guide_text, "### Phase 5 Gate", "---")
@@ -802,7 +805,7 @@ def check_status_dashboard_contract() -> list[Finding]:
         text = path.read_text(encoding="utf-8", errors="replace")
         for snippet in [
             "production/project-roadmap.md",
-            ".claude/docs/workflow-catalog.yaml",
+            "workflow/workflow-catalog.yaml",
             "design/ux/surface-profile.md",
             "docs/examples/project-roadmap.example.md",
             "Product Surface Decisions",
@@ -944,12 +947,12 @@ def check_memory_bank_contract() -> list[Finding]:
             "role: archive",
             "memory_bank/t0_core/basic_law_index.md",
             "memory_bank/t0_core/amendment_log.md",
-            ".claude/docs/technical-preferences.md",
+            "standards/technical-preferences.md",
             "memory_bank/t1_axioms/tech_context.md",
             "memory_bank/t1_axioms/knowledge_graph.md",
-            ".claude/docs/workflow-catalog.yaml",
+            "workflow/workflow-catalog.yaml",
             "docs/PHASE-CHECKLISTS.md",
-            ".claude/docs/generated/gate-required-artifacts.md",
+            "workflow/generated/gate-required-artifacts.md",
             "memory_bank/t2_execution/phase_checklists.md",
             "memory_bank/t2_execution/gate_required_artifacts.md",
             "production/project-roadmap.md",
@@ -1321,8 +1324,8 @@ def check_skill_count_contract() -> list[Finding]:
             )
         )
     actual = actual_claude
-    skill_testing_readme = SKILL_TESTING_T2 / "README.md"
-    skill_testing_catalog = SKILL_TESTING_T2 / "catalog.yaml"
+    skill_testing_readme = SKILL_TESTING_DIR / "README.md"
+    skill_testing_catalog = SKILL_TESTING_DIR / "catalog.yaml"
 
     checks = [
         (
@@ -1492,14 +1495,15 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
                 findings.append(Finding("ERROR", f"{rel(path)}:{line_no} references removed path {legacy_name}/"))
 
     required_paths = [
-        SKILL_TESTING_T2 / "README.md",
-        SKILL_TESTING_T2 / "catalog.yaml",
-        SKILL_TESTING_T2 / "quality-rubric.md",
-        SKILL_TESTING_T2 / "specs" / "skills",
-        SKILL_TESTING_T2 / "specs" / "agents",
-        SKILL_TESTING_T2 / "templates",
-        SKILL_TESTING_T2 / "templates" / "skill-test-spec.md",
-        SKILL_TESTING_T2 / "templates" / "agent-test-spec.md",
+        SKILL_TESTING_DIR / "README.md",
+        SKILL_TESTING_DIR / "catalog.yaml",
+        SKILL_TESTING_DIR / "quality-rubric.md",
+        SKILL_TESTING_DIR / "specs" / "skills",
+        SKILL_TESTING_DIR / "specs" / "agents",
+        SKILL_TESTING_DIR / "templates",
+        SKILL_TESTING_DIR / "templates" / "skill-test-spec.md",
+        SKILL_TESTING_DIR / "templates" / "agent-test-spec.md",
+        SKILL_TESTING_T2_MOUNT / "README.md",
         SKILL_TESTING_T3 / "README.md",
         SKILL_TESTING_T3 / "coverage-index.yaml",
         SKILL_TESTING_T3 / "results" / "static" / "README.md",
@@ -1510,9 +1514,20 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
     ]
     for path in required_paths:
         if not path.exists():
-            findings.append(Finding("ERROR", f"missing memory-bank skill testing asset: {rel(path)}"))
+            findings.append(Finding("ERROR", f"missing skill testing asset: {rel(path)}"))
 
-    catalog_path = SKILL_TESTING_T2 / "catalog.yaml"
+    forbidden_mount_children = [
+        "catalog.yaml",
+        "quality-rubric.md",
+        "specs",
+        "templates",
+    ]
+    for child in forbidden_mount_children:
+        path = SKILL_TESTING_T2_MOUNT / child
+        if path.exists():
+            findings.append(Finding("ERROR", f"{rel(path)} must not be copied into memory-bank T2 mount; use skill_testing/"))
+
+    catalog_path = SKILL_TESTING_DIR / "catalog.yaml"
     coverage_path = SKILL_TESTING_T3 / "coverage-index.yaml"
     if catalog_path.exists():
         catalog_text = catalog_path.read_text(encoding="utf-8", errors="replace")
@@ -1520,8 +1535,8 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
             "version: 3",
             "asset_scope: cross_project",
             "registry:",
-            "memory_bank/t2_execution/skill_testing/specs/skills/",
-            "memory_bank/t2_execution/skill_testing/specs/agents/",
+            "skill_testing/specs/skills/",
+            "skill_testing/specs/agents/",
         ]
         for snippet in required_catalog_snippets:
             if snippet not in catalog_text:
@@ -1541,8 +1556,8 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
 
         for match in re.finditer(r"^\s+spec:\s*(.+)$", catalog_text, re.MULTILINE):
             spec = match.group(1).strip()
-            if not spec.startswith("memory_bank/t2_execution/skill_testing/specs/"):
-                findings.append(Finding("ERROR", f"{rel(catalog_path)} has non-memory-bank spec path: {spec}"))
+            if not spec.startswith("skill_testing/specs/"):
+                findings.append(Finding("ERROR", f"{rel(catalog_path)} has non-canonical spec path: {spec}"))
 
         actual_skills = {path.parent.name for path in SKILLS_DIR.glob("*/SKILL.md") if path.is_file()}
         actual_agents = {path.stem for path in (REPO_ROOT / ".claude" / "agents").rglob("*.md") if path.is_file()}
@@ -1577,10 +1592,10 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
     if document_map.exists():
         document_map_text = document_map.read_text(encoding="utf-8", errors="replace")
         for snippet in [
-            "memory_bank/t2_execution/skill_testing/catalog.yaml",
-            "memory_bank/t2_execution/skill_testing/quality-rubric.md",
-            "memory_bank/t2_execution/skill_testing/specs/skills/**",
-            "memory_bank/t2_execution/skill_testing/specs/agents/**",
+            "skill_testing/catalog.yaml",
+            "skill_testing/quality-rubric.md",
+            "skill_testing/specs/skills/**",
+            "skill_testing/specs/agents/**",
             "memory_bank/t3_archive/skill_testing/coverage-index.yaml",
             "memory_bank/t3_archive/skill_testing/results/**",
             "memory_bank/t3_archive/skill_testing/improvements/**",
@@ -1592,8 +1607,8 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
         (
             "skill-test",
             [
-                "memory_bank/t2_execution/skill_testing/catalog.yaml",
-                "memory_bank/t2_execution/skill_testing/quality-rubric.md",
+                "skill_testing/catalog.yaml",
+                "skill_testing/quality-rubric.md",
                 "memory_bank/t3_archive/skill_testing/results/static/",
                 "memory_bank/t3_archive/skill_testing/results/spec/",
                 "memory_bank/t3_archive/skill_testing/results/category/",
@@ -1604,8 +1619,8 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
         (
             "skill-improve",
             [
-                "memory_bank/t2_execution/skill_testing/catalog.yaml",
-                "memory_bank/t2_execution/skill_testing/quality-rubric.md",
+                "skill_testing/catalog.yaml",
+                "skill_testing/quality-rubric.md",
                 "memory_bank/t3_archive/skill_testing/improvements/",
                 "memory_bank/t3_archive/skill_testing/coverage-index.yaml",
             ],
@@ -1624,7 +1639,7 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
     for doc_path in [REPO_ROOT / "README.md", USER_MANUAL, QUICK_START]:
         text = doc_path.read_text(encoding="utf-8", errors="replace")
         for snippet in [
-            "memory_bank/t2_execution/skill_testing",
+            "skill_testing/",
             "memory_bank/t3_archive/skill_testing",
         ]:
             if snippet not in text:
@@ -1831,7 +1846,7 @@ def check_template_count_contract() -> list[Finding]:
                     findings.append(
                         Finding(
                             "ERROR",
-                            f"{rel(path)} documents {documented} templates, but .claude/docs/templates contains {actual}",
+                            f"{rel(path)} documents {documented} templates, but templates/ contains {actual}",
                         )
                 )
     return findings
@@ -1956,6 +1971,82 @@ def check_codex_adapter_contract() -> list[Finding]:
     return findings
 
 
+def check_adapter_boundary_contract() -> list[Finding]:
+    findings: list[Finding] = []
+
+    required_roots = [
+        WORKFLOW_DIR / "workflow-catalog.yaml",
+        TEMPLATES_DIR,
+        STANDARDS_DIR,
+        SKILL_TESTING_DIR / "catalog.yaml",
+        REPO_ROOT / "adapters" / "claude" / "README.md",
+        REPO_ROOT / "adapters" / "codex" / "README.md",
+    ]
+    for path in required_roots:
+        if not path.exists():
+            findings.append(Finding("ERROR", f"missing neutral common asset root: {rel(path)}"))
+
+    forbidden_adapter_paths = [
+        REPO_ROOT / ".claude" / "docs" / "templates",
+        REPO_ROOT / ".claude" / "docs" / "workflow-catalog.yaml",
+        REPO_ROOT / ".claude" / "docs" / "generated",
+        REPO_ROOT / ".claude" / "docs" / "technical-preferences.md",
+        REPO_ROOT / ".claude" / "docs" / "director-gates.md",
+        REPO_ROOT / ".claude" / "docs" / "coding-standards.md",
+        REPO_ROOT / ".claude" / "docs" / "context-management.md",
+        REPO_ROOT / ".claude" / "docs" / "coordination-rules.md",
+        REPO_ROOT / ".claude" / "docs" / "directory-structure.md",
+    ]
+    for path in forbidden_adapter_paths:
+        if path.exists():
+            findings.append(Finding("ERROR", f"{rel(path)} must not be canonical under the Claude adapter"))
+
+    allowed_claude_docs = {
+        "CLAUDE-local-template.md",
+        "quick-start.md",
+        "settings-local-template.md",
+    }
+    claude_docs = REPO_ROOT / ".claude" / "docs"
+    if claude_docs.exists():
+        for path in claude_docs.rglob("*"):
+            if path.is_file() and path.name not in allowed_claude_docs:
+                findings.append(Finding("ERROR", f"{rel(path)} is not an allowed Claude adapter doc"))
+
+    adapter_docs_path = ".claude/" + "docs"
+    forbidden_snippets = [
+        f"{adapter_docs_path}/workflow-catalog.yaml",
+        f"{adapter_docs_path}/templates",
+        f"{adapter_docs_path}/generated",
+        f"{adapter_docs_path}/technical-preferences.md",
+        f"{adapter_docs_path}/director-gates.md",
+        f"{adapter_docs_path}/coding-standards.md",
+        f"{adapter_docs_path}/context-management.md",
+        f"{adapter_docs_path}/coordination-rules.md",
+        f"{adapter_docs_path}/directory-structure.md",
+    ]
+    scan_roots = [
+        REPO_ROOT / "README.md",
+        AGENTS_MD,
+        CLAUDE_MD,
+        REPO_ROOT / "docs",
+        SKILLS_DIR,
+        CODEX_SKILLS_DIR,
+        REPO_ROOT / "scripts",
+        TEMPLATES_DIR,
+        STANDARDS_DIR,
+        SKILL_TESTING_DIR,
+    ]
+    for path in iter_text_files(scan_roots):
+        if rel(path).startswith("docs/reference/archive/"):
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for snippet in forbidden_snippets:
+            if snippet in text:
+                findings.append(Finding("ERROR", f"{rel(path)} still treats {snippet} as a common source"))
+
+    return findings
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--warnings-as-errors", action="store_true", help="Treat WARN findings as errors.")
@@ -1992,6 +2083,7 @@ def main() -> int:
     findings.extend(check_skill_testing_memory_bank_contract())
     findings.extend(check_skill_count_contract())
     findings.extend(check_template_count_contract())
+    findings.extend(check_adapter_boundary_contract())
     findings.extend(check_codex_adapter_contract())
 
     errors = sum(1 for item in findings if item.severity == "ERROR")

@@ -56,7 +56,7 @@ advancement; PASS may update `production/stage.txt` after user confirmation,
 CONCERNS may update it only with a recorded risk note, and FAIL does not update
 it unless the user explicitly overrides with a risk note.
 
-**Required source of truth**: `.claude/docs/workflow-catalog.yaml` is the only
+**Required source of truth**: `workflow/workflow-catalog.yaml` is the only
 source for normal-progression blockers. A `required: true` catalog step can be a
 missing-artifact blocker. Optional steps, later-phase steps, and
 `required_when` steps outside the active gate can only appear as CONCERNS or
@@ -107,8 +107,8 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 ## 2. Phase Gate Definitions
 
 For every gate below, normal-progression required artifacts are generated from
-`.claude/docs/workflow-catalog.yaml` into
-`.claude/docs/generated/gate-required-artifacts.md`.
+`workflow/workflow-catalog.yaml` into
+`workflow/generated/gate-required-artifacts.md`.
 
 Before checking a gate, read the generated file and use the section matching the
 active transition and domain. Do not add hand-written required artifact rows in
@@ -121,7 +121,7 @@ this skill; hand-authored content belongs under Quality / Risk Checks.
 **[游戏专用] Game: Concept → Systems Design**
 
 **Required Artifacts:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Game: Concept -> Systems Design`.
 
 **Quality Checks:**
@@ -133,7 +133,7 @@ Use `.claude/docs/generated/gate-required-artifacts.md`, section
 **[通用产品] Product: Concept → Specification**
 
 **Required Artifacts:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Product: Concept -> Specification`.
 
 **Quality Checks:**
@@ -149,7 +149,7 @@ Use `.claude/docs/generated/gate-required-artifacts.md`, section
 **[通用场景]** This gate validates readiness to move from design to architecture. Checks are shared across both game and product domains.
 
 **Required Artifacts:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Game: Systems Design -> Technical Setup` or
 `Product: Specification -> Architecture`.
 
@@ -170,7 +170,7 @@ Use `.claude/docs/generated/gate-required-artifacts.md`, section
 **[游戏专用] Game: Technical Setup → Pre-Production**
 
 **Catalog Required Artifacts:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Game: Technical Setup -> Pre-Production`.
 
 **Quality / Risk Checks:**
@@ -203,14 +203,14 @@ A depends on B). If any cycle is detected (e.g. A→B→A, or A→B→C→A):
 **[通用产品] Product: Architecture → Pre-Implementation**
 
 Before checking design artifacts, classify the product surface from
-`design/cdd/product-concept.md` and `.claude/docs/technical-preferences.md`:
+`design/cdd/product-concept.md` and `standards/technical-preferences.md`:
 API-only, CLI-only, SDK/library, Web UI, desktop/mobile/admin UI, internal
 headless service, or multi-surface product. Apply the conditional artifact rules
 below. Do not fail an API-only, CLI-only, SDK/library, or internal headless
 product for missing `design/design-system.md`.
 
 **Catalog Required Artifacts:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Product: Architecture -> Pre-Implementation`.
 
 **Quality / Risk Checks:**
@@ -245,7 +245,7 @@ Use `.claude/docs/generated/gate-required-artifacts.md`, section
 **[游戏专用] Game: Pre-Production → Production**
 
 **Catalog Required Artifacts:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Game: Pre-Production -> Production`.
 
 **Quality / Risk Checks:**
@@ -286,7 +286,7 @@ SDK/library, and internal headless products are not blocked by missing
 `design/design-system.md`; UI-heavy and multi-surface UI products are.
 
 **Catalog Required Artifacts:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Product: Pre-Implementation -> Implementation`.
 
 **Quality / Risk Checks:**
@@ -322,7 +322,7 @@ Use `.claude/docs/generated/gate-required-artifacts.md`, section
 **[游戏专用] Game: Production → Polish**
 
 **Catalog Required Artifacts:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Game: Production -> Polish`.
 
 **Quality / Risk Checks:**
@@ -344,7 +344,7 @@ Use `.claude/docs/generated/gate-required-artifacts.md`, section
 **[通用产品] Product: Implementation → Verification**
 
 **Catalog Required Artifacts:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Product: Implementation -> Verification`.
 
 **Quality / Risk Checks:**
@@ -368,7 +368,7 @@ Use `.claude/docs/generated/gate-required-artifacts.md`, section
 **[游戏专用] Game: Polish → Release**
 
 **Catalog Required Step Evidence:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Game: Polish -> Release`.
 
 **Quality / Risk Checks:**
@@ -392,7 +392,7 @@ Use `.claude/docs/generated/gate-required-artifacts.md`, section
 **[通用产品] Product: Verification → Release**
 
 **Catalog Required Step Evidence:**
-Use `.claude/docs/generated/gate-required-artifacts.md`, section
+Use `workflow/generated/gate-required-artifacts.md`, section
 `Product: Verification -> Release`.
 
 **Quality / Risk Checks:**
@@ -421,7 +421,7 @@ if checking Technical Setup → Pre-Production, pull entries in Architecture, En
 Carry these as context — recurring conflict patterns in the target domain warrant
 increased scrutiny on those specific checks.
 
-Then read `.claude/docs/generated/gate-required-artifacts.md` and select the
+Then read `workflow/generated/gate-required-artifacts.md` and select the
 section matching the target transition and detected domain. Treat that generated
 section as the authoritative Required Artifacts / Required Step Evidence list.
 
@@ -468,14 +468,14 @@ For items that can't be automatically verified, **ask the user**:
 
 ## 4b. Director Panel Assessment
 
-Before generating the final verdict, spawn all four directors as **parallel subagents** via Task using the parallel gate protocol from `.claude/docs/director-gates.md`. Issue all four Task calls simultaneously — do not wait for one before starting the next.
+Before generating the final verdict, spawn all four directors as **parallel subagents** via Task using the parallel gate protocol from `standards/director-gates.md`. Issue all four Task calls simultaneously — do not wait for one before starting the next.
 
 **Spawn in parallel:**
 
-1. **`creative-director`** — gate **CD-PHASE-GATE** (`.claude/docs/director-gates.md`)
-2. **`technical-director`** — gate **TD-PHASE-GATE** (`.claude/docs/director-gates.md`)
-3. **`producer`** — gate **PR-PHASE-GATE** (`.claude/docs/director-gates.md`)
-4. **`art-director`** — gate **AD-PHASE-GATE** (`.claude/docs/director-gates.md`)
+1. **`creative-director`** — gate **CD-PHASE-GATE** (`standards/director-gates.md`)
+2. **`technical-director`** — gate **TD-PHASE-GATE** (`standards/director-gates.md`)
+3. **`producer`** — gate **PR-PHASE-GATE** (`standards/director-gates.md`)
+4. **`art-director`** — gate **AD-PHASE-GATE** (`standards/director-gates.md`)
    **[通用产品]** skip if the project has no visual/UI component — CLI tools and backend services may not benefit from art director review
 
 Pass to each: target phase name, list of artifacts present, and the context fields listed in that gate's definition.
@@ -623,7 +623,7 @@ When `memory_bank/` exists and the user approves, write a T3 audit record under
   Chain-of-Verification result, stage update decision, and any override or risk
   note.
 - The required artifact source is
-  `.claude/docs/generated/gate-required-artifacts.md`.
+  `workflow/generated/gate-required-artifacts.md`.
 
 When a PASS verdict, acknowledged CONCERNS advance, or explicit FAIL override
 updates `production/stage.txt`, also update
@@ -679,7 +679,7 @@ Based on the verdict, suggest specific next steps from the domain-appropriate li
 - **Small design change needed?** -> `/quick-design` for changes under about 4 hours.
 - **No UX specs?** -> `/ux-design [screen name]` to author specs, or `/team-ui [feature]` for the full pipeline.
 - **UX specs not reviewed?** -> `/ux-review [file]` or `/ux-review all` to validate.
-- **No accessibility requirements doc?** -> Use `AskUserQuestion` to offer `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md`, then ask for the tier before writing.
+- **No accessibility requirements doc?** -> Use `AskUserQuestion` to offer `design/accessibility-requirements.md` from `templates/accessibility-requirements.md`, then ask for the tier before writing.
 - **No interaction pattern library?** -> `/ux-design patterns` to initialize it.
 - **CDDs not cross-reviewed?** -> `/review-all-gdds` after all MVP CDDs are individually approved.
 - **Cross-CDD consistency issues?** -> Fix flagged CDDs, then re-run `/review-all-gdds`.

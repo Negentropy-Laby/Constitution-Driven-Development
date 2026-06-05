@@ -126,7 +126,7 @@ If a dependency file cannot be found: warn "Dependency story not found: [path]. 
 ---
 
 ### Technology reference
-Read `.claude/docs/technical-preferences.md`:
+Read `standards/technical-preferences.md`:
 - **[游戏专用]** `Engine:` value — determines game programmer agents
 - **[通用产品]** `Language:` and `Framework:` values — determines product specialists
 - Naming conventions
@@ -190,7 +190,7 @@ If the story's Type is `Config/Data`, no programmer agent or engine specialist i
 
 ### Game engine specialist — spawn as secondary for game code stories
 
-Read the `Engine Specialists` section of `.claude/docs/technical-preferences.md`
+Read the `Engine Specialists` section of `standards/technical-preferences.md`
 to get the configured primary specialist. Spawn them alongside the primary agent
 when the story involves engine-specific APIs, patterns, or the ADR has HIGH
 engine risk.

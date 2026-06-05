@@ -5,7 +5,7 @@
 **Starting State:**
 - `design/cdd/product-concept.md` — complete, focused on "safe bulk import with dry-run confidence"
 - `design/cdd/module-index.md` — lists `csv-import` as Foundation / MVP
-- `.claude/docs/technical-preferences.md` — Python 3.13, Typer CLI, SQLite
+- `standards/technical-preferences.md` — Python 3.13, Typer CLI, SQLite
 - No `design/cdd/csv-import.md` yet
 
 **Session Duration:** ~50 minutes
@@ -25,7 +25,7 @@
 > I loaded:
 > - `design/cdd/product-concept.md` — primary user job: inspect messy CSV before committing changes
 > - `design/cdd/module-index.md` — `csv-import` is Foundation / MVP, upstream: file access, downstream: validation report and persistence
-> - `.claude/docs/technical-preferences.md` — Python 3.13, Typer, SQLite
+> - `standards/technical-preferences.md` — Python 3.13, Typer, SQLite
 >
 > **Technical feasibility pre-check:**
 >
@@ -147,7 +147,7 @@
 **Read:**
 - `design/cdd/product-concept.md`
 - `design/cdd/module-index.md`
-- `.claude/docs/technical-preferences.md`
+- `standards/technical-preferences.md`
 
 **Written:**
 - `design/cdd/csv-import.md`

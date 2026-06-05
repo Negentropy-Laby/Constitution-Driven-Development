@@ -30,7 +30,7 @@ tells you what comes next. Works for both game and product projects. It is
 
 ## Step 1: Read the Catalog
 
-Read `.claude/docs/workflow-catalog.yaml`. This is the authoritative list of all
+Read `workflow/workflow-catalog.yaml`. This is the authoritative list of all
 phases, their steps (in order), whether each step is required or optional, and
 the artifact globs that indicate completion.
 
@@ -170,7 +170,7 @@ it incomplete:
   reason, mark the step **N/A** and show the rationale.
 - If the artifact is missing and there is no surface profile, mark the step
   **Incomplete** and recommend creating `design/ux/surface-profile.md` from
-  `.claude/docs/templates/surface-profile.md`.
+  `templates/surface-profile.md`.
 - Never silently skip `design/ux/interaction-patterns.md` for API, CLI,
   SDK/library, UI, admin, operator, or docs-driven consumer surfaces.
 

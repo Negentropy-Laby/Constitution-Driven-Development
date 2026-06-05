@@ -87,7 +87,7 @@ Read all inputs appropriate to the mode:
 - All files in `docs/reference/[stack]/modules/`
 
 ### Project Standards
-- `.claude/docs/technical-preferences.md`
+- `standards/technical-preferences.md`
 
 Report a count: "Loaded [N] CDDs, [M] ADRs, technology: [name + version]."
 
@@ -361,7 +361,7 @@ Post-Cutoff API Conflicts:
 After completing the audit above, spawn the appropriate specialist via Task for a domain-expert second opinion:
 
 **[游戏专用]** **Engine Specialist Consultation**:
-- Read `.claude/docs/technical-preferences.md` `Engine Specialists` section to get the primary specialist
+- Read `standards/technical-preferences.md` `Engine Specialists` section to get the primary specialist
 - If no engine is configured, skip this consultation
 - Spawn `subagent_type: [primary specialist]` with: all ADRs that contain engine-specific decisions or `Post-Cutoff APIs Used` fields, the engine reference docs, and the Phase 5 audit findings. Ask them to:
   1. Confirm or challenge each audit finding — specialists may know of engine nuances not captured in the reference docs
@@ -369,7 +369,7 @@ After completing the audit above, spawn the appropriate specialist via Task for 
   3. Flag ADRs that make assumptions about engine behaviour that differ from the actual pinned version
 
 **[通用产品]** **Language Specialist Consultation**:
-- Read `.claude/docs/technical-preferences.md` to determine the primary language specialist
+- Read `standards/technical-preferences.md` to determine the primary language specialist
 - If no stack is configured, skip this consultation
 - Spawn the language specialist with: all ADRs that contain stack-specific decisions or `Post-Cutoff APIs Used` fields, the stack reference docs, and the Phase 5 audit findings. Ask them to:
   1. Confirm or challenge each audit finding

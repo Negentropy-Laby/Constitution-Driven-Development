@@ -29,7 +29,7 @@ Resolve the review mode (once, store for all gate spawns this run):
 2. Else read `production/review-mode.txt` → use that value
 3. Else → default to `lean`
 
-See `.claude/docs/director-gates.md` for the full check pattern.
+See `standards/director-gates.md` for the full check pattern.
 
 **Domain detection.** The concept document at `design/cdd/` reveals the domain:
 - **游戏专用**: `game-concept.md` exists — use game architecture layers and engine reference docs
@@ -93,7 +93,7 @@ Read all approved design documents and extract technical requirements from each:
 1. **游戏专用**: `design/cdd/game-concept.md` — game pillars, genre, core loop
    **通用产品**: `design/cdd/product-concept.md` — product principles, user journey, MVP
 2. `design/cdd/module-index.md` — all modules, dependencies, priority tiers
-3. `.claude/docs/technical-preferences.md` — naming conventions, performance budgets,
+3. `standards/technical-preferences.md` — naming conventions, performance budgets,
    allowed libraries, forbidden patterns
 4. **Every CDD in `design/cdd/`** — for each, extract technical requirements:
    - Data structures implied by the game rules
@@ -415,14 +415,14 @@ After writing the master architecture document, perform an explicit sign-off bef
 
 **Step 1 — Technical Director self-review** (this skill runs as technical-director):
 
-Apply gate **TD-ARCHITECTURE** (`.claude/docs/director-gates.md`) as a self-review. Check all four criteria from that gate definition against the completed document.
+Apply gate **TD-ARCHITECTURE** (`standards/director-gates.md`) as a self-review. Check all four criteria from that gate definition against the completed document.
 
 **Review mode check** — apply before spawning LP-FEASIBILITY:
 - `solo` → skip. Note: "LP-FEASIBILITY skipped — Solo mode." Proceed to Phase 8 handoff.
 - `lean` → skip (not a PHASE-GATE). Note: "LP-FEASIBILITY skipped — Lean mode." Proceed to Phase 8 handoff.
 - `full` → spawn as normal.
 
-**Step 2 — Spawn `lead-programmer` via Task using gate LP-FEASIBILITY (`.claude/docs/director-gates.md`):**
+**Step 2 — Spawn `lead-programmer` via Task using gate LP-FEASIBILITY (`standards/director-gates.md`):**
 
 Pass: architecture document path, technical requirements baseline summary, ADR list.
 

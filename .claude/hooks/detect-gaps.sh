@@ -13,8 +13,8 @@ echo "=== Checking for Documentation Gaps ==="
 FRESH_PROJECT=true
 
 # Check if engine or product stack is configured
-if [ -f ".claude/docs/technical-preferences.md" ]; then
-  TECH_LINE=$(grep -E "^[[:space:]]*(-[[:space:]]*)?\*\*(Engine|Language|Framework|Stack)\*\*:" .claude/docs/technical-preferences.md 2>/dev/null)
+if [ -f "standards/technical-preferences.md" ]; then
+  TECH_LINE=$(grep -E "^[[:space:]]*(-[[:space:]]*)?\*\*(Engine|Language|Framework|Stack)\*\*:" standards/technical-preferences.md 2>/dev/null)
   if [ -n "$TECH_LINE" ] && ! echo "$TECH_LINE" | grep -Eq "TO BE CONFIGURED|Not selected|TBD|\\[.*\\]" 2>/dev/null; then
     FRESH_PROJECT=false
   fi

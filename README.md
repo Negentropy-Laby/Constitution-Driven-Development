@@ -65,10 +65,11 @@ brain and governance control plane maintained by the workflow:
 | **T2 Execution** | What should happen next? | `/help`, `/cdd-status`, workflow catalog generators |
 | **T3 Archive** | What evidence proves it? | Gate, review, QA, story, sprint, milestone, and release workflows |
 
-`memory_bank/` does not replace `design/`, `docs/`, `.claude/docs/`, or
-`production/`. Those directories are the working bench for detailed source
-artifacts. The memory bank indexes, mirrors, and summarizes them so the current
-state, next step, and audit trail stay discoverable.
+`memory_bank/` does not replace `design/`, `docs/`, `workflow/`, `templates/`,
+`standards/`, `skill_testing/`, or `production/`. Those directories are the
+working bench for detailed source artifacts. The memory bank indexes, mirrors,
+and summarizes them so the current state, next step, and audit trail stay
+discoverable.
 
 ---
 
@@ -114,7 +115,8 @@ The result: you still make every decision, but now you have a team that asks the
 | **Skills** | 74 | Slash commands for every workflow phase (`/constitute`, `/help`, `/cdd-status`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
 | **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
 | **Rules** | 16 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network, API, CLI, services, config, migrations, data, and infrastructure code |
-| **Templates** | 218 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, cross-project skill testing, and UI-heavy design systems |
+| **Templates** | 87 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, and UI-heavy design systems |
+| **Skill Testing** | 132 files | Cross-project skill/agent test catalog, specs, rubric, and spec templates |
 
 ## Studio Hierarchy
 
@@ -210,7 +212,15 @@ versions, and which files are safe to overwrite vs. which need a manual merge.
 ## Project Structure
 
 ```
-CLAUDE.md                           # Master configuration
+CLAUDE.md                           # Claude adapter configuration
+AGENTS.md                           # Codex/agent adapter configuration
+workflow/
+  workflow-catalog.yaml             # 7-phase pipeline definition (read by /help)
+  generated/                        # Generated workflow views for gates
+templates/                          # 87 document templates (canonical docs + memory-bank templates)
+standards/                          # Shared coding, coordination, context, and setup standards
+skill_testing/                      # Cross-project skill/agent test catalog, specs, rubric
+adapters/                           # Adapter export notes for Claude, Codex, and future runtimes
 .claude/
   settings.json                     # Hooks, permissions, safety rules
   agents/                           # 53 agent definitions (markdown + YAML frontmatter)
@@ -218,14 +228,15 @@ CLAUDE.md                           # Master configuration
   hooks/                            # 12 hook scripts (bash, cross-platform)
   rules/                            # 16 path-scoped coding standards
   statusline.sh                     # Status line script (context%, model, stage, epic breadcrumb)
-  docs/
-    workflow-catalog.yaml           # 7-phase pipeline definition (read by /help)
-    templates/                      # 218 document templates
+.agents/
+  skills/                           # Codex/agent adapter copy of slash commands
+.codex/
+  agents/                           # Codex runtime agent definitions
 memory_bank/                        # Project brain created by /constitute
   t0_core/                           # Current laws, current state, release state
   t1_axioms/                         # Technical, architecture, UX, QA, module context
   t2_execution/                      # Workflow contract, generated mirrors, roadmap
-    skill_testing/                   # Cross-project skill/agent test catalog, specs, rubric
+    skill_testing/                   # Mount contract for root skill_testing/ assets
   t3_archive/                        # Gate, review, QA, story, sprint, release evidence indexes
     skill_testing/                   # Approved skill-test runs, coverage, improvement evidence
 src/                                # Game source code or product source code
@@ -297,7 +308,8 @@ CDD workflows work by reading and maintaining the project brain:
 2. `/help` and `/cdd-status` read workflow evidence and report the next step.
 3. `/gate-check` writes T3 gate evidence and updates T0 current state.
 4. Review, QA, story, sprint, milestone, and release workflows maintain T3 indexes.
-5. Detailed work remains in `design/`, `docs/`, `.claude/docs/`, and `production/`.
+5. Detailed work remains in `design/`, `docs/`, `workflow/`, `templates/`,
+   `standards/`, `skill_testing/`, and `production/`.
 
 Any high-impact workflow that produces a `PASS/FAIL`, `APPROVED/REJECTED`,
 `GO/NO-GO`, `PROCEED/PIVOT/KILL`, `CUT/KEEP/DEFER`, or `RELEASE/HOLD` decision
@@ -306,9 +318,11 @@ artifact.
 
 ### Cross-Project Skill Testing
 
-CDD's own skill and agent testing assets live inside the memory-bank template,
-not in a separate top-level framework directory. T2 holds reusable standards:
-`memory_bank/t2_execution/skill_testing/catalog.yaml`, `quality-rubric.md`,
+CDD's own skill and agent testing assets live in the neutral root
+`skill_testing/` directory, not in a Claude adapter directory and not in a
+separate top-level legacy framework. The memory-bank T2 template keeps only the
+mount contract at `memory_bank/t2_execution/skill_testing/README.md`. Root
+`skill_testing/` holds reusable standards: `catalog.yaml`, `quality-rubric.md`,
 specs, and templates. T3 holds approved evidence:
 `memory_bank/t3_archive/skill_testing/coverage-index.yaml`, result reports, and
 skill improvement records. `/skill-test` reads T2 and writes T3 only after user

@@ -1,6 +1,6 @@
 # Phase Checklists
 
-> Generated from `.claude/docs/workflow-catalog.yaml` by `scripts/generate_phase_checklists.py`.
+> Generated from `workflow/workflow-catalog.yaml` by `scripts/generate_phase_checklists.py`.
 > Do not hand-maintain phase requirements here; update the catalog, then regenerate this file.
 
 Use this as a customer-facing view of what should exist after each phase.
@@ -27,7 +27,7 @@ Domain-specific rows are marked when a step applies only to Game or Product proj
 
 | Required Step | Command | Evidence Generated From Catalog | Applies To |
 | ------------- | ------- | ------------------------------- | ---------- |
-| Technology Setup | `/setup-engine` | `.claude/docs/technical-preferences.md` | game, product |
+| Technology Setup | `/setup-engine` | `standards/technical-preferences.md` | game, product |
 | Architecture Document | `/create-architecture` | `docs/architecture/architecture.md` | game, product |
 | Architecture Decisions (ADRs) | `/architecture-decision` | `docs/architecture/adr-*.md` (minimum 3) | game, product |
 | Architecture Review | `/architecture-review` | `docs/architecture/architecture-review-*.md` | game, product |

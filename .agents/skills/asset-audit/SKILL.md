@@ -78,7 +78,7 @@ this branch is the product-equivalent artifact audit.
 **Product standards to read:**
 - `design/cdd/product-concept.md` for product promise, target users, platform, and artifact categories
 - `design/cdd/module-index.md` for modules that should expose APIs, CLI commands, migrations, UI screens, data flows, or documentation
-- `.claude/docs/technical-preferences.md` for language, framework, build system, package manager, naming conventions, and deployment target
+- `standards/technical-preferences.md` for language, framework, build system, package manager, naming conventions, and deployment target
 - `docs/architecture/architecture.md` and ADRs for public contracts, migration rules, packaging constraints, and release boundaries
 - `production/releases/` for expected release bundle shape, if present
 

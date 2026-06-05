@@ -9,7 +9,7 @@ from pathlib import Path
 from generate_phase_checklists import CATALOG, REPO_ROOT, Phase, Step, evidence_text, parse_catalog
 
 
-OUTPUT = REPO_ROOT / ".claude" / "docs" / "generated" / "gate-required-artifacts.md"
+OUTPUT = REPO_ROOT / "workflow" / "generated" / "gate-required-artifacts.md"
 MEMORY_BANK_OUTPUT = REPO_ROOT / "memory_bank" / "t2_execution" / "gate_required_artifacts.md"
 
 TARGET_LABELS = {
@@ -74,7 +74,7 @@ def render(phases: list[Phase]) -> str:
     lines = [
         "# Gate Required Artifacts",
         "",
-        "> Generated from `.claude/docs/workflow-catalog.yaml` by `scripts/generate_gate_required_sections.py`.",
+        "> Generated from `workflow/workflow-catalog.yaml` by `scripts/generate_gate_required_sections.py`.",
         "> Do not hand-maintain gate required artifacts in `/gate-check`; update the catalog, then regenerate this file.",
         "",
         "Use the section matching the active gate and detected project domain.",
@@ -114,7 +114,7 @@ def main() -> int:
         if args.memory_bank:
             if MEMORY_BANK_OUTPUT.parent.exists():
                 MEMORY_BANK_OUTPUT.write_text(
-                    memory_bank_render(content, ".claude/docs/generated/gate-required-artifacts.md"),
+                    memory_bank_render(content, "workflow/generated/gate-required-artifacts.md"),
                     encoding="utf-8",
                 )
             else:
@@ -131,7 +131,7 @@ def memory_bank_render(content: str, source: str) -> str:
         "# Gate Required Artifacts",
         "",
         f"> Governance memory mirror generated from `{source}`.",
-        "> Do not edit by hand; update `.claude/docs/workflow-catalog.yaml` and regenerate.",
+        "> Do not edit by hand; update `workflow/workflow-catalog.yaml` and regenerate.",
         "",
     ]
     body = content.split("\n", 1)[1] if "\n" in content else content

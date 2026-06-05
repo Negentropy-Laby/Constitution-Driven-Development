@@ -33,7 +33,7 @@ Read the target file(s) in full. Read AGENTS.md for project coding standards.
 
 ## Phase 2: Identify Specialists
 
-**[Game]** Read `.claude/docs/technical-preferences.md`, section `## Engine Specialists`. Note:
+**[Game]** Read `standards/technical-preferences.md`, section `## Engine Specialists`. Note:
 
 - The **Primary** specialist (used for architecture and broad engine concerns)
 - The **Language/Code Specialist** (used when reviewing the project's primary language files)
@@ -42,7 +42,7 @@ Read the target file(s) in full. Read AGENTS.md for project coding standards.
 
 If the section reads `[TO BE CONFIGURED]`, no engine is pinned — skip engine specialist steps.
 
-**[Product]** Read `.claude/docs/technical-preferences.md`, section `## Language` or `## Technology Stack`. Identify the primary language. Map to the language specialist:
+**[Product]** Read `standards/technical-preferences.md`, section `## Language` or `## Technology Stack`. Identify the primary language. Map to the language specialist:
 
 | Language | Specialist Agent |
 |----------|-----------------|

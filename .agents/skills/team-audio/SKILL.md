@@ -61,14 +61,14 @@ actually includes sound or media feedback.
 - `ux-designer` — status semantics, notification timing, empty/error states, user workflow clarity
 - `accessibility-specialist` — non-audio alternatives, screen-reader behavior, reduced motion, cognitive load, inclusive status language
 - `lead-programmer` — implementation boundary, event model, API/CLI/UI contract, telemetry and state ownership
-- `language specialist` — stack-specific implementation notes from `.claude/docs/technical-preferences.md`
+- `language specialist` — stack-specific implementation notes from `standards/technical-preferences.md`
 - `analytics-engineer` — telemetry event names, funnels, alert thresholds, and adoption/retention measurement when relevant
 - `qa-tester` — evidence plan for status messages, notifications, API/CLI errors, telemetry, and accessibility fallbacks
 
 **Product context reads:**
 - `design/cdd/product-concept.md` for Product promise, JTBD, primary workflow, target user, and platform
 - Relevant module CDDs and UX specs in `design/cdd/` and `design/ux/`
-- `.claude/docs/technical-preferences.md` for language/framework and routing
+- `standards/technical-preferences.md` for language/framework and routing
 - ADRs that define events, logging, telemetry, notifications, UI state, API errors, or CLI output
 - Existing docs/examples, support notes, release notes, and QA evidence for the target workflow
 
@@ -105,7 +105,7 @@ Spawn the `technical-artist` agent to:
 - Plan streaming vs preloaded asset strategy
 - Design any audio-reactive visual effects
 
-Spawn the **primary engine specialist** in parallel (from `.claude/docs/technical-preferences.md` Engine Specialists) to validate the integration approach:
+Spawn the **primary engine specialist** in parallel (from `standards/technical-preferences.md` Engine Specialists) to validate the integration approach:
 - Is the proposed audio middleware integration idiomatic for the engine? (e.g., Godot's built-in AudioStreamPlayer vs FMOD, Unity's Audio Mixer vs Wwise, Unreal's MetaSounds vs FMOD)
 - Any engine-specific audio node/component patterns that should be used?
 - Known audio system changes in the pinned engine version that affect the integration plan?

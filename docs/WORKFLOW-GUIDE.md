@@ -9,7 +9,7 @@
 > The pipeline has 7 phases. Each phase has a formal gate (`/gate-check`)
 > that must run before normal advancement. A FAIL verdict requires an explicit
 > user override with a risk note before advancing. The authoritative phase
-> sequence and gate policy are defined in `.claude/docs/workflow-catalog.yaml`
+> sequence and gate policy are defined in `workflow/workflow-catalog.yaml`
 > and read by `/help`.
 >
 > For a saved project progress dashboard, run `/cdd-status`. For the practical
@@ -534,7 +534,7 @@ Or with a specific product stack:
 /setup-engine python 3.13 flask
 ```
 
-`/setup-engine` populates `.claude/docs/technical-preferences.md`, pins the
+`/setup-engine` populates `standards/technical-preferences.md`, pins the
 engine or stack version, routes specialist agents, records naming conventions
 and performance budgets, and creates version reference docs when the selected
 technology is knowledge-risky.
@@ -1377,7 +1377,7 @@ Bypasses normal sprint processes with a full audit trail:
 
 ```
 Ask Claude to create a post-mortem using the template at
-.claude/docs/templates/post-mortem.md
+templates/post-mortem.md
 ```
 
 ---
@@ -1409,7 +1409,7 @@ By default they run at every checkpoint. You can control how much review you get
 The `--review` flag works on all gate-using skills. Change the global mode at any
 time by editing `production/review-mode.txt` directly or re-running `/constitute`.
 
-Full gate definitions and check pattern: `.claude/docs/director-gates.md`
+Full gate definitions and check pattern: `standards/director-gates.md`
 
 ---
 

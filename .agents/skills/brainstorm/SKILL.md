@@ -24,7 +24,7 @@ When this skill is invoked:
    2. Else read `production/review-mode.txt` → use that value
    3. Else → default to `lean`
 
-   See `.claude/docs/director-gates.md` for the full check pattern.
+   See `standards/director-gates.md` for the full check pattern.
 
 2. **Detect domain context.** The hint usually reveals the domain — game-specific hints
    (roguelike, platformer, RPG, FPS, puzzle, farming sim) suggest game mode; general
@@ -321,12 +321,12 @@ Repeat until the user selects [A] Lock these in.
 
 **After principles are agreed, spawn BOTH `creative-director` AND `art-director` via Task in parallel.**
 
-- **`creative-director`** — gate **CD-PILLARS** (`.claude/docs/director-gates.md`)
+- **`creative-director`** — gate **CD-PILLARS** (`standards/director-gates.md`)
   - **游戏专用**: Pass: full pillar set, anti-pillars, core fantasy, unique hook.
   - **通用产品**: Pass: full principle set, anti-principles, core promise, unique hook.
     Frame: "Review these product principles for coherence, tension, and falsifiability."
 
-- **`art-director`** — gate **AD-CONCEPT-VISUAL** (`.claude/docs/director-gates.md`)
+- **`art-director`** — gate **AD-CONCEPT-VISUAL** (`standards/director-gates.md`)
   - **游戏专用**: Pass: game concept elevator pitch, pillars, target platform, reference games.
   - **通用产品**: Pass: product elevator pitch, principles, target platform, reference products.
     Frame: "Propose 2-3 named visual/brand identity directions with visual rules."
@@ -422,7 +422,7 @@ Ground the concept in reality.
 - `lean` → skip (not a PHASE-GATE). Note: "TD-FEASIBILITY skipped — Lean mode." Proceed directly to scope tier definition.
 - `full` → spawn as normal.
 
-**After identifying biggest technical risks, spawn `technical-director` via Task using gate TD-FEASIBILITY (`.claude/docs/director-gates.md`) before scope tiers are defined.**
+**After identifying biggest technical risks, spawn `technical-director` via Task using gate TD-FEASIBILITY (`standards/director-gates.md`) before scope tiers are defined.**
 
 - **游戏专用**: Pass core loop description, platform, engine choice, technical risks.
 - **通用产品**: Pass core user journey, platform, tech stack choice, technical risks.
@@ -434,7 +434,7 @@ Present the assessment to the user. If HIGH RISK, offer to revisit scope before 
 - `lean` → skip (not a PHASE-GATE). Note: "PR-SCOPE skipped — Lean mode." Proceed to document generation.
 - `full` → spawn as normal.
 
-**After scope tiers are defined, spawn `producer` via Task using gate PR-SCOPE (`.claude/docs/director-gates.md`).**
+**After scope tiers are defined, spawn `producer` via Task using gate PR-SCOPE (`standards/director-gates.md`).**
 
 Pass: full vision scope, MVP definition, timeline estimate, team size.
 
@@ -444,8 +444,8 @@ Present the assessment to the user. If UNREALISTIC, offer to adjust the MVP defi
 
 4. **Generate the concept document**.
 
-   - **游戏专用**: Template `.claude/docs/templates/game-concept.md` → write `design/cdd/game-concept.md`
-   - **通用产品**: Template `.claude/docs/templates/product-concept.md` → write `design/cdd/product-concept.md`
+   - **游戏专用**: Template `templates/game-concept.md` → write `design/cdd/game-concept.md`
+   - **通用产品**: Template `templates/product-concept.md` → write `design/cdd/product-concept.md`
 
    Include a **Visual Identity Anchor** section with the selected visual direction,
    one-line visual rule, supporting principles, and design philosophy summary.

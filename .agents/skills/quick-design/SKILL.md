@@ -94,7 +94,7 @@ Before drafting anything, read the relevant context:
 **[Product] Product context scan additions:**
 - Read `design/cdd/product-concept.md` for Product principles, User Promise, JTBD, target workflows, and platform/stack intent.
 - Read the relevant module CDD and UX spec for API/CLI/UI/data/config changes.
-- Read `.claude/docs/technical-preferences.md` for language/framework, naming, testing, deployment, and Product language specialist routing.
+- Read `standards/technical-preferences.md` for language/framework, naming, testing, deployment, and Product language specialist routing.
 - Read ADRs that own the affected API, CLI, schema, permission, migration, deployment, or public docs boundary.
 - Check docs/examples/config/migrations/release notes for existing public surface commitments that the quick change must preserve.
 

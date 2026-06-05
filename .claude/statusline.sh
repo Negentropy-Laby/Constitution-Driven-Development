@@ -42,7 +42,7 @@ if [ -z "$stage" ]; then
   concept_file="$cwd/design/cdd/game-concept.md"
   product_concept_file="$cwd/design/cdd/product-concept.md"
   systems_file="$cwd/design/cdd/module-index.md"
-  tech_prefs="$cwd/.claude/docs/technical-preferences.md"
+  tech_prefs="$cwd/standards/technical-preferences.md"
 
   has_concept=false
   has_systems=false

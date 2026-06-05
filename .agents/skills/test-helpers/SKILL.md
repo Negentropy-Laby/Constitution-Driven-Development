@@ -53,7 +53,7 @@ Check for concept documents in `design/cdd/`:
 
 ## 2. Detect Engine/Language/Stack
 
-Read `.claude/docs/technical-preferences.md` and extract:
+Read `standards/technical-preferences.md` and extract:
 - `Engine:` value (if game)
 - `Language:` value
 - `Framework:` from the Testing section

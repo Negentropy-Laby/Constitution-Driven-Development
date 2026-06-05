@@ -32,7 +32,7 @@ The user must approve before moving to the next phase.
 - **ux-designer** — User flows, wireframes, accessibility, input handling
 - **ui-programmer** — UI framework, screens, widgets, data binding, implementation
 - **art-director** — Visual style, layout polish, consistency with art bible
-- **engine UI specialist** — Validates UI implementation patterns against engine-specific best practices (read from `.claude/docs/technical-preferences.md` Engine Specialists → UI Specialist)
+- **engine UI specialist** — Validates UI implementation patterns against engine-specific best practices (read from `standards/technical-preferences.md` Engine Specialists → UI Specialist)
 - **accessibility-specialist** — Audits accessibility compliance at Phase 4
 
 ## Product Interaction Team Composition
@@ -44,7 +44,7 @@ and workflow states.
 - **ux-designer** — User journey, screen/flow/CLI/API interaction model, accessibility, information architecture
 - **ui-programmer** — Product UI components, state binding, forms, tables, dashboards, admin screens, web/native UI implementation where applicable
 - **lead-programmer** — API/CLI contract, data/state ownership, integration boundary, implementation handoff
-- **language specialist** — Stack-specific UI/API/CLI implementation notes from `.claude/docs/technical-preferences.md`
+- **language specialist** — Stack-specific UI/API/CLI implementation notes from `standards/technical-preferences.md`
 - **accessibility-specialist** — WCAG, keyboard navigation, screen reader, reduced motion, CLI readability, error-state accessibility
 - **qa-tester** — Workflow, contract, accessibility, and docs/example evidence
 
@@ -68,7 +68,7 @@ Always provide full context in each agent's prompt (feature requirements, existi
 **Product context reads:**
 - `design/cdd/product-concept.md` for user promise, JTBD, target users, platform, and Product principles
 - Relevant module CDDs, API/CLI contracts, and UX specs in `design/cdd/` and `design/ux/`
-- `.claude/docs/technical-preferences.md` for language/framework, UI stack, routing, testing, and deployment conventions
+- `standards/technical-preferences.md` for language/framework, UI stack, routing, testing, and deployment conventions
 - `docs/architecture/` ADRs for state ownership, API boundaries, auth, permissions, migrations, and observability
 - Existing docs/examples/config/release notes for the public surface being changed
 
@@ -124,7 +124,7 @@ Delegate to **art-director**:
 
 ### Phase 3: Implementation
 
-Before implementation begins, spawn the **engine UI specialist** (from `.claude/docs/technical-preferences.md` Engine Specialists → UI Specialist) to review the UX spec and visual design spec for engine-specific implementation guidance:
+Before implementation begins, spawn the **engine UI specialist** (from `standards/technical-preferences.md` Engine Specialists → UI Specialist) to review the UX spec and visual design spec for engine-specific implementation guidance:
 - Which engine UI framework should be used for this screen? (e.g., UI Toolkit vs UGUI in Unity, Control nodes vs CanvasLayer in Godot, UMG vs CommonUI in Unreal)
 - Any engine-specific gotchas for the proposed layout or interaction patterns?
 - Recommended widget/node structure for the engine?

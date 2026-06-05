@@ -292,7 +292,7 @@ Record the choice. It determines the CLAUDE.md template, naming conventions, spe
 
 ## 5. Populate Technical Preferences
 
-After updating CLAUDE.md, create or update `.claude/docs/technical-preferences.md`.
+After updating CLAUDE.md, create or update `standards/technical-preferences.md`.
 Read the existing template first, then fill in.
 
 ### [通用场景] Language & Framework Section
@@ -868,7 +868,7 @@ Record these fields in `memory_bank/t1_axioms/tech_context.md`:
 - Last verified date
 
 This T1 context is a memory mirror of the technical decision. `CLAUDE.md`,
-`.claude/docs/technical-preferences.md`, and the generated reference docs remain
+`standards/technical-preferences.md`, and the generated reference docs remain
 the detailed working sources.
 
 ---

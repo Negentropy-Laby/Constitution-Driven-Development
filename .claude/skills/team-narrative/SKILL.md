@@ -67,7 +67,7 @@ Always provide full context in each agent's prompt (narrative brief, lore depend
 - `design/cdd/product-concept.md` for Product promise, JTBD, principles, target audience, platform, and adoption blockers
 - Relevant module CDDs and UX specs for the workflow being explained
 - API/CLI docs, README, examples, release notes, onboarding docs, and support notes related to the requested content
-- `.claude/docs/technical-preferences.md` and ADRs for stack terminology and public contract constraints
+- `standards/technical-preferences.md` and ADRs for stack terminology and public contract constraints
 - Existing localization glossary or terminology references if present
 
 ## Pipeline

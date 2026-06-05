@@ -1,7 +1,7 @@
 # Project Roadmap
 
 > Example output from `/cdd-status --dry-run`.
-> Real project roadmaps are generated from `.claude/docs/workflow-catalog.yaml`
+> Real project roadmaps are generated from `workflow/workflow-catalog.yaml`
 > and saved to `production/project-roadmap.md` only after approval.
 
 ## Snapshot
@@ -13,7 +13,7 @@
 
 ## Next Commands
 
-1. Create `design/accessibility-requirements.md` from `.claude/docs/templates/accessibility-requirements.md`
+1. Create `design/accessibility-requirements.md` from `templates/accessibility-requirements.md`
 2. `/test-setup`
 3. `/gate-check technical-setup`
 
@@ -33,7 +33,7 @@
 
 | Step | Required | Evidence | Status |
 | ---- | -------- | -------- | ------ |
-| Technology Setup | Yes | `.claude/docs/technical-preferences.md` | COMPLETE |
+| Technology Setup | Yes | `standards/technical-preferences.md` | COMPLETE |
 | Architecture Document | Yes | `docs/architecture/architecture.md` | COMPLETE |
 | Architecture Decisions | Yes | `docs/architecture/adr-001.md`, `adr-002.md`, `adr-003.md` | COMPLETE |
 | Architecture Review | Yes | `docs/architecture/architecture-review-2026-06-04.md` | COMPLETE |
@@ -51,7 +51,7 @@
 
 ## After This Phase You Should Have
 
-- `.claude/docs/technical-preferences.md`
+- `standards/technical-preferences.md`
 - `docs/architecture/architecture.md`
 - `docs/architecture/adr-*.md` with at least 3 accepted decisions
 - `docs/architecture/architecture-review-*.md`

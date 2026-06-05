@@ -29,7 +29,7 @@ Resolve the review mode (once, store for all gate spawns this run):
 2. Else read `production/review-mode.txt` → use that value
 3. Else → default to `lean`
 
-See `.claude/docs/director-gates.md` for the full check pattern.
+See `standards/director-gates.md` for the full check pattern.
 
 A module name or retrofit path is **required**. If missing:
 
@@ -192,7 +192,7 @@ Map the module's category (from `module-index.md`) to a stack domain:
 | Performance, caching, optimization | Performance / Caching |
 
 **[游戏专用] Step 2 — Read engine context (if available):**
-- Read `.claude/docs/technical-preferences.md` to identify the engine and version
+- Read `standards/technical-preferences.md` to identify the engine and version
 - If engine is configured, read `docs/engine-reference/[engine]/VERSION.md`
 - Read `docs/engine-reference/[engine]/modules/[domain].md` if it exists
 - Read `docs/engine-reference/[engine]/breaking-changes.md` for domain-relevant entries
@@ -200,7 +200,7 @@ Map the module's category (from `module-index.md`) to a stack domain:
   (check the Engine Compatibility table's "Domain" field)
 
 **[通用产品] Step 2 — Read stack context (if available):**
-- Read `.claude/docs/technical-preferences.md` to identify the language, framework,
+- Read `standards/technical-preferences.md` to identify the language, framework,
   runtime, database, and pinned versions
 - If stack reference docs are configured, read `docs/reference/[stack]/VERSION.md`
 - Read `docs/reference/[stack]/modules/[domain].md` if it exists
@@ -958,7 +958,7 @@ the source of truth). Verify:
 - `lean` → skip (not a PHASE-GATE). Note: "CD-GDD-ALIGN skipped — Lean mode." Proceed to Step 5b.
 - `full` → spawn as normal.
 
-Before finalizing the CDD, spawn `creative-director` via Task using gate **CD-GDD-ALIGN** (`.claude/docs/director-gates.md`).
+Before finalizing the CDD, spawn `creative-director` via Task using gate **CD-GDD-ALIGN** (`standards/director-gates.md`).
 
 Pass: completed CDD file path, project pillars/principles (from `design/cdd/game-concept.md`, `design/cdd/product-concept.md`, or `design/cdd/principles.md` if present).
 - **[游戏专用]** MDA aesthetics target.

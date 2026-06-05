@@ -10,7 +10,7 @@ The current template uses `/constitute` as the unified onboarding and governance
 entry point. Historical templates may mention `/start`; treat that as a legacy
 entry name and use `/constitute` for current projects.
 
-The authoritative workflow source is `.claude/docs/workflow-catalog.yaml`.
+The authoritative workflow source is `workflow/workflow-catalog.yaml`.
 Required progression blockers come from catalog steps marked `required: true`.
 `/gate-check` may add quality and risk checks, but it should not turn optional
 or later-phase artifacts into default blockers unless the issue directly breaks

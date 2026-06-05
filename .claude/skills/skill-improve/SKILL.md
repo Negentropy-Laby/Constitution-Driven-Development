@@ -11,7 +11,7 @@ allowed-tools: Read, Glob, Grep, Write, Bash
 - When to use: Improve a skill using a test-fix-retest loop. Runs static checks, proposes targeted fixes, rewrites the skill, re-tests, and keeps or reverts based on score change.
 - Inputs: Command arguments: `/skill-improve [skill-name]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Proposed skill patch, before/after test comparison, and optional improvement evidence written only after user approval.
-- Memory-bank writes: Reads `memory_bank/t2_execution/skill_testing/catalog.yaml` and `memory_bank/t2_execution/skill_testing/quality-rubric.md`; with approval writes `memory_bank/t3_archive/skill_testing/improvements/skill-improve-[name]-[YYYY-MM-DD].md`. Retest coverage is updated by `/skill-test`.
+- Memory-bank writes: Reads `skill_testing/catalog.yaml` and `skill_testing/quality-rubric.md`; with approval writes `memory_bank/t3_archive/skill_testing/improvements/skill-improve-[name]-[YYYY-MM-DD].md`. Retest coverage is updated by `/skill-test`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Routing
@@ -61,7 +61,7 @@ If baseline is 0 FAILs and 0 WARNs, note it and proceed to Phase 2b.
 ### Phase 2b: Category Baseline
 
 Look up the skill's `category:` field in
-`memory_bank/t2_execution/skill_testing/catalog.yaml`.
+`skill_testing/catalog.yaml`.
 
 If no `category:` field is found, display:
 "Category: not yet assigned — skipping category checks."

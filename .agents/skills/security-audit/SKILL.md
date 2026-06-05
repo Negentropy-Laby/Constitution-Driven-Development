@@ -51,7 +51,7 @@ remediation plan.
 - `quick` — high-severity checks only (fastest, for iterative use)
 - No argument — run `full`
 
-Read `.claude/docs/technical-preferences.md` to determine:
+Read `standards/technical-preferences.md` to determine:
 - Engine and language (affects which patterns to search for)
 - Target platforms (affects which attack surfaces apply)
 - Whether multiplayer/networking is in scope

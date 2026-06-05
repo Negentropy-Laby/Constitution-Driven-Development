@@ -27,8 +27,9 @@ artifacts, and request approval before writing or committing work.
 
 `memory_bank/` is the project brain and governance control plane, not a
 replacement for the working directories. Keep full CDDs in `design/`,
-architecture in `docs/architecture/`, workflow contracts in `.claude/docs/`,
-and execution artifacts in `production/`. The memory bank indexes, mirrors, and
+architecture in `docs/architecture/`, workflow contracts in `workflow/`,
+reusable templates in `templates/`, shared standards in `standards/`, and
+execution artifacts in `production/`. The memory bank indexes, mirrors, and
 summarizes those sources.
 
 The layers are:
@@ -69,7 +70,7 @@ artifact.
 | What reviews happened? | `memory_bank/t3_archive/reviews/review-index.md` |
 | What story closure evidence exists? | `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md` |
 | What release proof exists? | `memory_bank/t3_archive/release_evidence/` |
-| What tests CDD skills and agents? | `memory_bank/t2_execution/skill_testing/` |
+| What tests CDD skills and agents? | `skill_testing/` |
 | Where are skill-test and skill-improve results? | `memory_bank/t3_archive/skill_testing/` |
 
 ## Prerequisites
@@ -208,7 +209,7 @@ CDD phase gates are governed advisory checks:
 - `FAIL` does not advance `production/stage.txt` unless the user explicitly
   overrides it and records the risk.
 
-The authoritative workflow sequence is `.claude/docs/workflow-catalog.yaml`.
+The authoritative workflow sequence is `workflow/workflow-catalog.yaml`.
 The generated phase artifact map is `docs/PHASE-CHECKLISTS.md`.
 
 ## Generated Artifacts
@@ -226,9 +227,10 @@ Common generated or maintained artifacts include:
 | `memory_bank/t2_execution/phase_checklists.md` | `python scripts/generate_phase_checklists.py --write --memory-bank` |
 | `memory_bank/t2_execution/gate_required_artifacts.md` | `python scripts/generate_gate_required_sections.py --write --memory-bank` |
 | `memory_bank/t2_execution/current_roadmap.md` | `/cdd-status` |
-| `memory_bank/t2_execution/skill_testing/catalog.yaml` | `/constitute`; registry for `/skill-test` and `/skill-improve` |
-| `memory_bank/t2_execution/skill_testing/quality-rubric.md` | `/constitute`; rubric for `/skill-test category` and `/skill-improve` |
-| `memory_bank/t2_execution/skill_testing/specs/` | `/constitute`; reusable skill/agent behavioral specs |
+| `skill_testing/catalog.yaml` | Cross-project registry for `/skill-test` and `/skill-improve` |
+| `skill_testing/quality-rubric.md` | Cross-project rubric for `/skill-test category` and `/skill-improve` |
+| `skill_testing/specs/` | Reusable skill/agent behavioral specs |
+| `memory_bank/t2_execution/skill_testing/README.md` | `/constitute`; memory-bank T2 mount contract for the canonical `skill_testing/` assets |
 | `memory_bank/t3_archive/gate_runs/` | `/gate-check` |
 | `memory_bank/t3_archive/reviews/review-index.md` | Review workflows, `/prototype`, `/code-review`, `/scope-check` |
 | `memory_bank/t3_archive/qa_evidence_index.md` | `/playtest-report`, `/smoke-check`, `/team-qa`, `/test-evidence-review`, `/bug-triage` |
@@ -278,7 +280,7 @@ run that can only exist after the Markdown is committed.
 | Symptom | What to check |
 |---------|---------------|
 | `/help` suggests a surprising step | Run `/cdd-status` and inspect missing required artifacts. |
-| A gate fails unexpectedly | Read the gate output, then compare it with `.claude/docs/workflow-catalog.yaml` and `docs/PHASE-CHECKLISTS.md`. |
+| A gate fails unexpectedly | Read the gate output, then compare it with `workflow/workflow-catalog.yaml` and `docs/PHASE-CHECKLISTS.md`. |
 | Skill lint fails | Run the exact failing `python scripts/skill_lint.py` command locally and fix only the reported skill Markdown issue. |
 | Workflow consistency fails | Read the reported contract drift and update the source document or generated artifact that owns the contract. |
 | CI fails on one platform | Inspect the failing GitHub Actions job before changing release evidence. |

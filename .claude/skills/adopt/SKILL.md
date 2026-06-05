@@ -56,7 +56,7 @@ Then read silently before presenting anything else.
 - Count CDD files: `design/cdd/*.md` (excluding game-concept.md, product-concept.md, module-index.md, and principles.md)
 - Count ADR files: `docs/architecture/adr-*.md`
 - Count story files: `production/epics/**/*.md` (excluding EPIC.md)
-- `.claude/docs/technical-preferences.md` — technology stack configured?
+- `standards/technical-preferences.md` — technology stack configured?
 - `docs/engine-reference/` or `docs/reference/` — reference docs present?
 - Glob `docs/adoption-plan-*.md` — note the filename of the most recent prior plan if any exist
 
@@ -186,7 +186,7 @@ For each story file found:
 
 ### 2f: Technical Preferences Audit
 
-Read `.claude/docs/technical-preferences.md`. Check each field for `[TO BE CONFIGURED]`:
+Read `standards/technical-preferences.md`. Check each field for `[TO BE CONFIGURED]`:
 - **[游戏专用]** Engine, Language, Rendering, Physics → HIGH if unconfigured (ADR skills fail)
 - **[通用产品]** Language, Framework, Runtime, Database → HIGH if unconfigured (ADR skills fail)
 - Naming conventions → MEDIUM

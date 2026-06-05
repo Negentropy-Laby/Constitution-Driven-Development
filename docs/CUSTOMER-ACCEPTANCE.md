@@ -96,8 +96,8 @@ Review these customer-visible entry points:
 - `docs/START-HERE.md`
 - `docs/USER-MANUAL.md`
 - `docs/WORKFLOW-GUIDE.md`
-- `.claude/docs/quick-start.md`
-- `.claude/docs/skills-reference.md`
+- `docs/QUICK-START.md`
+- `docs/reference/skills-reference.md`
 - `SUPPORT.md`
 - `RELEASE_NOTES.md`
 

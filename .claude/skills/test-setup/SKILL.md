@@ -32,7 +32,7 @@ A test framework installed at sprint four costs 3 sprints.
 ## Phase 1: Detect Technology and Existing State
 
 **[通用场景]** 1. **Detect domain and technology**:
-   - Read `.claude/docs/technical-preferences.md`.
+   - Read `standards/technical-preferences.md`.
    - **[游戏专用]** Extract `Engine:` value. If not configured, stop: "Engine not configured."
    - **[通用产品]** Extract `Language:` and `Framework:` values. If not configured, stop: "Stack not configured."
    - If neither is configured, stop: "Technology not configured. Run `/setup-engine` first."

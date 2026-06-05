@@ -11,7 +11,7 @@ allowed-tools: Read, Glob, Grep, Write
 - When to use: Validate skill files for structural compliance and behavioral correctness. Three modes: static (linter), spec (behavioral), audit (coverage report).
 - Inputs: Command arguments: `/skill-test static [skill-name | all] | spec [skill-name] | category [skill-name | all] | audit`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Static/spec/category/audit reports. Approved writes go to `memory_bank/t3_archive/skill_testing/results/` and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`.
-- Memory-bank writes: Reads T2 assets from `memory_bank/t2_execution/skill_testing/`; with approval writes T3 test evidence under `memory_bank/t3_archive/skill_testing/`.
+- Memory-bank writes: Reads canonical test assets from `skill_testing/`; with approval writes T3 test evidence under `memory_bank/t3_archive/skill_testing/`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Routing
@@ -46,7 +46,7 @@ Determine mode from the first argument:
 - `static [name]` → run 8 structural/parity checks on one skill
 - `static all` → run 8 structural/parity checks on all skills (Glob `.claude/skills/*/SKILL.md`)
 - `spec [name]` → read skill + test spec, evaluate assertions
-- `category [name]` → run category-specific rubric from `memory_bank/t2_execution/skill_testing/quality-rubric.md`
+- `category [name]` → run category-specific rubric from `skill_testing/quality-rubric.md`
 - `category all` → run category rubric for every skill that has a `category:` in catalog
 - `audit` (or no argument) → read catalog, list all skills and agents, show coverage
 
@@ -191,7 +191,7 @@ If yes:
 ### Step 1 — Locate Files
 
 Find skill at `.claude/skills/[name]/SKILL.md`.
-Look up the spec path from `memory_bank/t2_execution/skill_testing/catalog.yaml`
+Look up the spec path from `skill_testing/catalog.yaml`
 — use the `spec:` field for the matching skill entry.
 
 If either is missing:
@@ -232,7 +232,7 @@ For **Protocol Compliance** assertions (always present):
 ```
 === Skill Spec Test: /[name] ===
 Date: [date]
-Spec: memory_bank/t2_execution/skill_testing/specs/skills/[category]/[name].md
+Spec: skill_testing/specs/skills/[category]/[name].md
 
 Case 1: [Happy Path — name]
   Fixture: [summary]
@@ -288,7 +288,7 @@ If yes:
 ### Step 1 — Locate Skill and Category
 
 Find skill at `.claude/skills/[name]/SKILL.md`.
-Look up `category:` field in `memory_bank/t2_execution/skill_testing/catalog.yaml`.
+Look up `category:` field in `skill_testing/catalog.yaml`.
 
 If skill not found: "Skill '[name]' not found."
 If no `category:` field: "No category assigned for '[name]' in catalog.yaml.
@@ -300,7 +300,7 @@ For `category all`: collect all skills with a `category:` field and process each
 
 ### Step 2 — Read Rubric Section
 
-Read `memory_bank/t2_execution/skill_testing/quality-rubric.md`.
+Read `skill_testing/quality-rubric.md`.
 Extract the section matching the skill's category (e.g., `### gate`, `### team`).
 
 ### Step 3 — Read Skill
@@ -345,7 +345,7 @@ and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`
 
 ### Step 1 — Read Catalog
 
-Read `memory_bank/t2_execution/skill_testing/catalog.yaml` for the registry and
+Read `skill_testing/catalog.yaml` for the registry and
 `memory_bank/t3_archive/skill_testing/coverage-index.yaml` for test history.
 If either is missing, note the missing file and recommend running `/constitute`
 to initialize the memory-bank testing templates.
@@ -355,13 +355,13 @@ to initialize the memory-bank testing templates.
 Glob `.claude/skills/*/SKILL.md` to get the complete list of skills.
 Extract skill name from each path (directory name).
 
-Also read the `agents:` section from `memory_bank/t2_execution/skill_testing/catalog.yaml` to get the
+Also read the `agents:` section from `skill_testing/catalog.yaml` to get the
 complete list of agents.
 
 ### Step 3 — Build Skill Coverage Table
 
 For each skill:
-- Check if a spec file exists (use the `spec:` path from catalog, or glob `memory_bank/t2_execution/skill_testing/specs/skills/*/[name].md`)
+- Check if a spec file exists (use the `spec:` path from catalog, or glob `skill_testing/specs/skills/*/[name].md`)
 - Look up `last_static`, `last_static_result`, `last_spec`, `last_spec_result`,
   `last_category`, `last_category_result`, and `latest_result_path` from
   `coverage-index.yaml` (or mark as "never" / "—" if not in coverage)
@@ -371,7 +371,7 @@ For each skill:
 ### Step 3b — Build Agent Coverage Table
 
 For each agent in catalog's `agents:` section:
-- Check if a spec file exists (use the `spec:` path from catalog, or glob `memory_bank/t2_execution/skill_testing/specs/agents/*/[name].md`)
+- Check if a spec file exists (use the `spec:` path from catalog, or glob `skill_testing/specs/agents/*/[name].md`)
 - Look up `last_spec`, `last_spec_result`, and `latest_result_path` from
   `coverage-index.yaml`
 - Look up `tier` from catalog
@@ -432,4 +432,4 @@ After any mode completes, offer contextual follow-up:
 - After `spec [name]` FAIL: "Review the failing assertions and update the skill
   or the test spec to resolve the mismatch."
 - After `audit`: "Start with the critical-priority gaps. Use the spec template at
-  `memory_bank/t2_execution/skill_testing/templates/skill-test-spec.md` to create new specs."
+  `skill_testing/templates/skill-test-spec.md` to create new specs."

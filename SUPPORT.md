@@ -14,9 +14,9 @@ The supported workflow contract is defined by:
 
 - `README.md`
 - `docs/START-HERE.md`
-- `.claude/docs/quick-start.md`
+- `docs/QUICK-START.md`
 - `docs/WORKFLOW-GUIDE.md`
-- `.claude/docs/workflow-catalog.yaml`
+- `workflow/workflow-catalog.yaml`
 - `.claude/skills/gate-check/SKILL.md`
 
 ## Known Limits
@@ -38,7 +38,7 @@ The supported workflow contract is defined by:
 ## Getting Help
 
 For workflow questions, start with `/help` inside the project. It reads
-`.claude/docs/workflow-catalog.yaml` and reports the next required step for the
+`workflow/workflow-catalog.yaml` and reports the next required step for the
 current phase.
 
 For repository issues, include:

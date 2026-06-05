@@ -66,7 +66,7 @@ Before validating any spec, load:
 
 ### [Game] Game Context
 
-1. **Input & Platform config**: Read `.claude/docs/technical-preferences.md` and
+1. **Input & Platform config**: Read `standards/technical-preferences.md` and
    extract `## Input & Platform`. This is the authoritative source for which input
    methods the game supports — use it to drive the Input Method Coverage checks in
    Phase 3A, not the spec's own header. If unconfigured, fall back to the spec header.
@@ -80,7 +80,7 @@ Before validating any spec, load:
 
 ### [Product] Product Context
 
-1. **Technology stack**: Read `.claude/docs/technical-preferences.md` and extract
+1. **Technology stack**: Read `standards/technical-preferences.md` and extract
    `## Language`, `## Framework`, and `## Testing` sections. This drives the
    API/CLI/Web coverage checks.
 2. The accessibility tier committed to in `design/accessibility-requirements.md`

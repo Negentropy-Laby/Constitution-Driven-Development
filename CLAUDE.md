@@ -25,7 +25,7 @@ into a studio hierarchy, each owning a specific domain.
 
 ## Project Structure
 
-@.claude/docs/directory-structure.md
+@standards/directory-structure.md
 
 ## Version Reference
 
@@ -36,11 +36,11 @@ After `/setup-engine`, use the version reference matching the configured project
 
 ## Technical Preferences
 
-@.claude/docs/technical-preferences.md
+@standards/technical-preferences.md
 
 ## Coordination Rules
 
-@.claude/docs/coordination-rules.md
+@standards/coordination-rules.md
 
 ## Collaboration Protocol
 
@@ -60,8 +60,8 @@ See `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for full protocol and examples.
 
 ## Coding Standards
 
-@.claude/docs/coding-standards.md
+@standards/coding-standards.md
 
 ## Context Management
 
-@.claude/docs/context-management.md
+@standards/context-management.md

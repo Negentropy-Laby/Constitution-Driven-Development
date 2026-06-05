@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-CATALOG = REPO_ROOT / ".claude" / "docs" / "workflow-catalog.yaml"
+CATALOG = REPO_ROOT / "workflow" / "workflow-catalog.yaml"
 OUTPUT = REPO_ROOT / "docs" / "PHASE-CHECKLISTS.md"
 MEMORY_BANK_OUTPUT = REPO_ROOT / "memory_bank" / "t2_execution" / "phase_checklists.md"
 
@@ -123,7 +123,7 @@ def render(phases: list[Phase]) -> str:
     lines: list[str] = [
         "# Phase Checklists",
         "",
-        "> Generated from `.claude/docs/workflow-catalog.yaml` by `scripts/generate_phase_checklists.py`.",
+        "> Generated from `workflow/workflow-catalog.yaml` by `scripts/generate_phase_checklists.py`.",
         "> Do not hand-maintain phase requirements here; update the catalog, then regenerate this file.",
         "",
         "Use this as a customer-facing view of what should exist after each phase.",
@@ -189,7 +189,7 @@ def memory_bank_render(content: str, source: str) -> str:
         "# Phase Checklists",
         "",
         f"> Governance memory mirror generated from `{source}`.",
-        "> Do not edit by hand; update `.claude/docs/workflow-catalog.yaml` and regenerate.",
+        "> Do not edit by hand; update `workflow/workflow-catalog.yaml` and regenerate.",
         "",
     ]
     body = content.split("\n", 1)[1] if "\n" in content else content

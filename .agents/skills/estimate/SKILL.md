@@ -44,7 +44,7 @@ Identify files and modules that would need to change:
 **[Product] Product surface scan:**
 - Identify API endpoints, CLI commands, UI screens, data models, migrations, config files, package/deployment files, docs, and examples that would change.
 - Check `docs/architecture/`, ADRs, `design/cdd/`, `design/ux/`, and `production/qa/` for contract, evidence, and release constraints.
-- Identify language specialist ownership from `.claude/docs/technical-preferences.md` and note whether a Product task needs Python, TypeScript, Rust, Go, devops, security, UX, QA, or lead-programmer review.
+- Identify language specialist ownership from `standards/technical-preferences.md` and note whether a Product task needs Python, TypeScript, Rust, Go, devops, security, UX, QA, or lead-programmer review.
 
 ---
 

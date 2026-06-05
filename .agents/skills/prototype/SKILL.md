@@ -33,7 +33,7 @@ Resolve the review mode (once, store for all gate spawns this run):
 2. Else read `production/review-mode.txt` → use that value
 3. Else → default to `lean`
 
-See `.claude/docs/director-gates.md` for the full check pattern.
+See `standards/director-gates.md` for the full check pattern.
 
 Read the concept description from the argument. Identify the core question this prototype must answer. If the concept is vague, state the question explicitly before proceeding — a prototype without a clear question wastes time.
 
@@ -238,7 +238,7 @@ prototype code stays isolated and is never promoted into production code.
 - `lean` → skip (not a PHASE-GATE). Note: "CD-PLAYTEST skipped — Lean mode." Proceed to Phase 8 summary with the prototyper's recommendation as the final verdict.
 - `full` → spawn as normal.
 
-Spawn `creative-director` via Task using gate **CD-PLAYTEST** (`.claude/docs/director-gates.md`).
+Spawn `creative-director` via Task using gate **CD-PLAYTEST** (`standards/director-gates.md`).
 
 Pass: the full REPORT.md content, the original design question, game pillars and core fantasy from `design/cdd/game-concept.md` (if it exists).
 
@@ -251,7 +251,7 @@ The creative director evaluates the prototype result against the game's creative
 - `lean` → skip. Note: "Lead Programmer review skipped — Lean mode." Proceed to Phase 8 summary with the prototyper's recommendation as the final verdict.
 - `full` → spawn as normal.
 
-Spawn `lead-programmer` via Task. Pass: the full REPORT.md content, the original design question, product principles from `design/cdd/product-concept.md` (if it exists), and technology stack from `.claude/docs/technical-preferences.md`.
+Spawn `lead-programmer` via Task. Pass: the full REPORT.md content, the original design question, product principles from `design/cdd/product-concept.md` (if it exists), and technology stack from `standards/technical-preferences.md`.
 
 The lead programmer evaluates the prototype result against the product's architecture and technology constraints, then confirms, modifies, or overrides the prototyper's PROCEED / PIVOT / KILL recommendation. Their verdict is final. Update the REPORT.md `Recommendation` section if the lead programmer's verdict differs from the prototyper's.
 
