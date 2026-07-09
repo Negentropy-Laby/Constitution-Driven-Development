@@ -3,6 +3,8 @@
   <p align="center">
     Turn a single Claude Code session into a governed development team with a project brain.
     <br />
+    A Claude Code governance template that turns AI-assisted coding into a staged, auditable, multi-agent delivery process.
+    <br />
     memory_bank stores current laws, supporting context, execution state, and audit history.
     <br />
     53 agents. 74 skills. One governed CDD system for games, APIs, CLIs, web apps, SDKs, and data pipelines.
@@ -90,6 +92,7 @@ The result: you still make every decision, but now you have a team that asks the
 - [Start Here](#start-here)
 - [The Project Brain](#the-project-brain-memory_bank)
 - [What's Included](#whats-included)
+- [How It Fits Together](#how-it-fits-together)
 - [Studio Hierarchy](#studio-hierarchy)
 - [Getting Started](#getting-started)
 - [User Manual](#user-manual)
@@ -117,6 +120,36 @@ The result: you still make every decision, but now you have a team that asks the
 | **Rules** | 16 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network, API, CLI, services, config, migrations, data, and infrastructure code |
 | **Templates** | 80 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, and UI-heavy design systems |
 | **Skill Testing** | 132 files | Cross-project skill/agent test catalog, specs, rubric, and spec templates |
+
+## How It Fits Together
+
+CDD turns one Claude Code session into a governed studio. A single owner ratifies the
+project constitution, the memory bank carries current state, agents do the work, skills
+and automated safety keep it honest, and gates guard release.
+
+```text
+Human Owner  (every binding decision)
+      │  /constitute
+      ▼
+memory_bank/  — project brain & governance control plane
+  T0 Core  │  T1 Axioms  │  T2 Execution  │  T3 Archive
+      │  governs
+      ▼
+Studio Hierarchy — Directors (Opus) · Leads (Sonnet) · Specialists (Sonnet/Haiku)
+      │  drive
+      ▼
+74 Skills (slash commands)   ──   12 Hooks + 16 Rules (automated safety)
+      │
+      ▼
+Gate Checks — governed advisory: PASS / CONCERNS / FAIL
+      │
+      ▼
+Evidence → Release  (T3 archive + production/stage.txt)
+```
+
+Every binding decision stays with the human owner; agents propose, draft, and request
+approval before writing or committing. See [Studio Hierarchy](#studio-hierarchy) and
+[How It Works](#how-it-works) for the details.
 
 ## Studio Hierarchy
 
@@ -196,6 +229,19 @@ All hooks fail gracefully if optional tools are missing — nothing breaks, you 
    **Game**: `/brainstorm game ideas` or `/setup-engine godot 4.6`
    **Product**: `/brainstorm product ideas` or `/setup-engine python 3.13 flask`
    **Either**: `/project-stage-detect` — analyze an existing project
+
+### 3-Minute Smoke Test
+
+For a quick validation path, run:
+
+```text
+/constitute
+/help
+/cdd-status --dry-run
+```
+
+This mirrors the [New Project Smoke Path](docs/CUSTOMER-ACCEPTANCE.md#4-new-project-smoke-path).
+For a fuller walkthrough, see [docs/QUICK-START.md](docs/QUICK-START.md).
 
 ## User Manual
 
