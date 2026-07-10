@@ -28,7 +28,7 @@ PHASE 2: SYSTEMS DESIGN
         │
         ▼
 PHASE 3: TECHNICAL SETUP
-  /setup-engine ────────────────────────────────────────────────► CLAUDE.md + technical-preferences.md
+  /setup-engine ────────────────────────────────────────────────► INSTRUCTIONS.md + technical-preferences.md → regenerate CLAUDE.md/AGENTS.md
   /create-architecture ────────────────────────────────────────► docs/architecture/architecture.md
   /architecture-decision (×N) ─────────────────────────────────► docs/architecture/[adr-nnn].md
   /architecture-review ────────────────────────────────────────► review report + docs/architecture/tr-registry.yaml

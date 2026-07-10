@@ -433,7 +433,7 @@ Product Path D is identical to the shared Path D above — `/constitute` or
 ## File Structure Reference
 
 ```
-CLAUDE.md                          -- Master config (read this first, ~60 lines)
+INSTRUCTIONS.md                    -- Canonical root config (generated to CLAUDE.md / AGENTS.md)
 AGENTS.md                          -- Codex/agent adapter config
 workflow/
   workflow-catalog.yaml            -- 7-phase pipeline definition (read by /help)

@@ -16,20 +16,76 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.11"
+
+      - name: Verify clean checkout before validation
+        shell: bash
+        run: |
+          # The final no-mutation guard is only meaningful if the checkout
+          # started clean. A fresh Actions runner begins clean; assert it so a
+          # later "no changes" result is trustworthy.
+          if ! git diff --quiet || ! git diff --cached --quiet || \
+             [ -n "$(git ls-files --others --exclude-standard)" ]; then
+            echo "::error::Working tree is not clean before validation:"
+            git status --porcelain
+            exit 1
+          fi
 
       - name: Skill lint self-test
         run: python scripts/skill_lint.py --self-test
 
-      - name: All skill strict lint
-        run: python scripts/skill_lint.py --strict .claude/skills
+      - name: Adapter generator test suite
+        run: python -m unittest discover -v -s tests -p "*_test.py"
 
-      - name: Codex skill strict lint
-        run: python scripts/skill_lint.py --strict .agents/skills
+      - name: Canonical skill strict lint
+        run: python scripts/skill_lint.py --strict skills
+
+      - name: Generated adapter freshness
+        run: python scripts/sync_adapters.py --check
+
+      - name: Canonical hook syntax
+        shell: bash
+        run: |
+          for hook in hooks/*.sh; do
+            bash -n "$hook"
+          done
 
       - name: Workflow/catalog/docs/examples boundary consistency
         run: python scripts/workflow_consistency.py
+
+      - name: Whitespace check (event-base diff)
+        shell: bash
+        run: |
+          before_sha="${{ github.event.before }}"
+          zero="0000000000000000000000000000000000000000"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
+          elif [ -n "$before_sha" ] && [ "$before_sha" != "$zero" ]; then
+            git diff --check "${before_sha}...HEAD"
+          else
+            # Initial push: compare the complete pushed tree to Git's empty
+            # tree. This covers both a root-only branch and a multi-commit one.
+            empty_tree="$(git hash-object -t tree /dev/null)"
+            git diff --check "$empty_tree..HEAD"
+          fi
+
+      - name: Verify validation did not mutate the checkout
+        shell: bash
+        run: |
+          set -e
+          # Unstaged and staged tracked changes.
+          git diff --quiet
+          git diff --cached --quiet
+          # Newly-created untracked files (a bare `git diff` would miss these).
+          untracked="$(git ls-files --others --exclude-standard)"
+          if [ -n "$untracked" ]; then
+            echo "::error::Validation created untracked files:"
+            printf '%s\n' "$untracked"
+            exit 1
+          fi

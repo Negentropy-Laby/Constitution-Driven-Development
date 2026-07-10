@@ -14,6 +14,13 @@ mappings) based on the chosen engine. It has no director gates — configuration
 is a technical utility task. The verdict is always COMPLETE when the file is
 fully written.
 
+For root-level project instructions, the skill writes the canonical
+`INSTRUCTIONS.md` (never the generated `CLAUDE.md`/`AGENTS.md` directly). When
+`INSTRUCTIONS.md` changes, the skill regenerates the runtime root instructions
+with `python scripts/sync_adapters.py --write --class root-instructions`, and
+requests one approval covering the canonical edit plus the two deterministic
+generated outputs.
+
 ---
 
 ## Static Assertions (Structural)
@@ -24,6 +31,8 @@ Verified automatically by `/skill-test static` — no fixture needed.
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keyword: COMPLETE
 - [ ] Contains "May I write" collaborative protocol language before updating technical-preferences.md
+- [ ] Authors root instructions at canonical `INSTRUCTIONS.md` (not `CLAUDE.md`/`AGENTS.md`)
+- [ ] References `sync_adapters.py --write --class root-instructions` for regenerating root instructions
 - [ ] Has a next-step handoff (e.g., `/brainstorm` or `/constitute` depending on flow)
 
 ---
@@ -164,6 +173,7 @@ None. `/setup-engine` is a technical configuration skill. No director gates appl
 
 - [ ] Presents draft configuration before asking to write
 - [ ] Asks "May I write to `technical-preferences.md`?" before writing
+- [ ] Writes root instructions to canonical `INSTRUCTIONS.md` and regenerates via `sync_adapters.py --write --class root-instructions`; does not hand-edit `CLAUDE.md`/`AGENTS.md`
 - [ ] Respects engine argument when provided (skips selection step)
 - [ ] Detects existing config and offers partial reconfigure
 - [ ] Routing table is populated for all key file types for the chosen engine

@@ -140,13 +140,15 @@ Run:
 ```powershell
 git diff --check
 python scripts\skill_lint.py --self-test
-python scripts\skill_lint.py --strict .claude\skills
+python -m unittest discover -s tests -p "*_test.py"
+python scripts\skill_lint.py --strict skills
+python scripts/sync_adapters.py --check
 python scripts\workflow_consistency.py
 ```
 
-Warnings about generated artifact paths are acceptable when the target project
-has not generated those files yet. Errors must be fixed before treating the
-template upgrade as complete.
+The strict lint targets the canonical `skills/` source — the generated
+`.claude/skills` tree is produced by `sync_adapters.py` and is not linted
+directly. Errors must be fixed before treating the template upgrade as complete.
 
 ## Legacy Migration Notes
 

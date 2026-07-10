@@ -24,7 +24,7 @@ Detect the skill domain before testing:
 A passing skill test must not require deleting game-specific examples.
 # Skill Test
 
-Validates `.agents/skills/*/SKILL.md` files for structural compliance and
+Validates `skills/*/SKILL.md` files for structural compliance and
 behavioral correctness. No external dependencies — runs entirely within the
 existing skill/hook/template architecture.
 
@@ -44,7 +44,7 @@ existing skill/hook/template architecture.
 Determine mode from the first argument:
 
 - `static [name]` → run 8 structural/parity checks on one skill
-- `static all` → run 8 structural/parity checks on all skills (Glob `.agents/skills/*/SKILL.md`)
+- `static all` → run 8 structural/parity checks on all skills (Glob `skills/*/SKILL.md`)
 - `spec [name]` → read skill + test spec, evaluate assertions
 - `category [name]` → run category-specific rubric from `skill_testing/quality-rubric.md`
 - `category all` → run category rubric for every skill that has a `category:` in catalog
@@ -190,12 +190,12 @@ If yes:
 
 ### Step 1 — Locate Files
 
-Find skill at `.agents/skills/[name]/SKILL.md`.
+Find skill at `skills/[name]/SKILL.md`.
 Look up the spec path from `skill_testing/catalog.yaml`
 — use the `spec:` field for the matching skill entry.
 
 If either is missing:
-- Missing skill: "Skill '[name]' not found in `.agents/skills/`."
+- Missing skill: "Skill '[name]' not found in `skills/`."
 - Missing spec path in catalog: "No spec path set for '[name]' in catalog.yaml."
 - Spec file not found at path: "Spec file missing at [path]. Run `/skill-test audit`
   to see coverage gaps."
@@ -287,7 +287,7 @@ If yes:
 
 ### Step 1 — Locate Skill and Category
 
-Find skill at `.agents/skills/[name]/SKILL.md`.
+Find skill at `skills/[name]/SKILL.md`.
 Look up `category:` field in `skill_testing/catalog.yaml`.
 
 If skill not found: "Skill '[name]' not found."
@@ -352,7 +352,7 @@ to initialize the memory-bank testing templates.
 
 ### Step 2 — Enumerate All Skills and Agents
 
-Glob `.agents/skills/*/SKILL.md` to get the complete list of skills.
+Glob `skills/*/SKILL.md` to get the complete list of skills.
 Extract skill name from each path (directory name).
 
 Also read the `agents:` section from `skill_testing/catalog.yaml` to get the

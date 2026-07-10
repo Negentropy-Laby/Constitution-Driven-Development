@@ -21,13 +21,15 @@ Run these before opening a pull request:
 ```powershell
 git diff --check
 python scripts\skill_lint.py --self-test
-python scripts\skill_lint.py --strict .claude\skills
+python -m unittest discover -s tests -p "*_test.py"
+python scripts\skill_lint.py --strict skills
+python scripts/sync_adapters.py --check
 python scripts\workflow_consistency.py
 ```
 
-`skill_lint.py --strict .claude\skills` must report `0 error(s)`. Warnings about
-generated artifact paths are acceptable when they point to files that a project
-will create during normal use.
+`skill_lint.py --strict skills` lints the canonical `skills/` source and must
+report `0 error(s)`. (Template-path warnings remain advisory under the existing
+contract.) These commands mirror the `Template Consistency` CI checks.
 
 ## Pull Request Expectations
 
@@ -39,7 +41,7 @@ will create during normal use.
 
 ## Skill Changes
 
-When editing `.claude/skills/*/SKILL.md`:
+When editing `skills/*/SKILL.md` (the canonical source — never hand-edit the generated `.claude/skills` tree directly), regenerate the runtime adapters afterward by running `python scripts/sync_adapters.py --write --class skills`:
 
 - Preserve frontmatter fields and command names.
 - Keep explicit invocation guards where present.

@@ -13,23 +13,27 @@ python --version
 ```
 
 Expected result:
-- Python 3 is available.
+- Python 3.11+ is available (required for the adapter generator and consistency checks; `scripts/sync_adapters.py` and `scripts/workflow_consistency.py` use the stdlib `tomllib`).
 - The repository opens without missing submodules or generated bootstrap steps.
 
 ## 2. Local Validation
 
 ```bash
 python scripts/skill_lint.py --self-test
-python scripts/skill_lint.py --strict .claude/skills
-python scripts/skill_lint.py --strict .agents/skills
+python -m unittest discover -s tests -p "*_test.py"
+python scripts/skill_lint.py --strict skills
+python scripts/sync_adapters.py --check
 python scripts/workflow_consistency.py
+git diff --check
 ```
 
 Expected result:
 - `skill_lint.py --self-test` passes.
-- Strict skill lint reports `0 error(s)` for `.claude/skills`.
-- Strict skill lint reports `0 error(s)` for `.agents/skills`.
+- The unittest suite reports `OK` (a few tests skip on Windows; they run on Ubuntu/macOS CI).
+- Strict canonical skill lint reports `0 error(s)` for `skills/`.
+- `sync_adapters.py --check` reports `0 stale, 0 missing, 0 extra, 0 invalid`.
 - Workflow consistency reports `0 error(s), 0 warning(s)`.
+- `git diff --check` reports no whitespace errors.
 
 Warnings about placeholder artifact paths are acceptable in strict skill lint
 for a template repository, because consuming projects create those artifacts

@@ -39,7 +39,7 @@ None. `/skill-improve` is a meta-utility skill. No director gates apply.
 ### Case 1: Happy Path — Skill With 2 Static Failures, Both Fixed, IMPROVED
 
 **Fixture:**
-- `.claude/skills/some-skill/SKILL.md` has 2 static failures:
+- `skills/some-skill/SKILL.md` has 2 static failures:
   - Check 4: no "May I write" language despite having Write in allowed-tools
   - Check 5: no next-step handoff at the end
 
@@ -51,7 +51,7 @@ None. `/skill-improve` is a meta-utility skill. No director gates apply.
 3. Skill proposes fixes:
    - Add "May I write" language to the appropriate phase
    - Add a next-step handoff section at the end
-4. Skill asks "May I write improvements to `.claude/skills/some-skill/SKILL.md`?"
+4. Skill asks "May I write improvements to `skills/some-skill/SKILL.md`?"
 5. Fixes applied; `/skill-test static some-skill` re-run — now 7/7 checks pass
 6. Verdict is IMPROVED (5→7)
 
@@ -67,7 +67,7 @@ None. `/skill-improve` is a meta-utility skill. No director gates apply.
 ### Case 2: Fix Causes Regression — Score Comparison Shows Regression, REVERTED
 
 **Fixture:**
-- `.claude/skills/some-skill/SKILL.md` has 1 static failure (missing handoff)
+- `skills/some-skill/SKILL.md` has 1 static failure (missing handoff)
 - Proposed fix inadvertently removes the verdict keywords section
   (introducing a new failure)
 
@@ -94,7 +94,7 @@ None. `/skill-improve` is a meta-utility skill. No director gates apply.
 ### Case 3: Skill With Category Assignment — Baseline Captures Both Scores
 
 **Fixture:**
-- `.claude/skills/gate-check/SKILL.md` is a gate skill with 1 static failure
+- `skills/gate-check/SKILL.md` is a gate skill with 1 static failure
   and 2 category (G-criteria) failures
 - `tests/skills/quality-rubric.md` has Gate Skills section
 
@@ -106,7 +106,7 @@ None. `/skill-improve` is a meta-utility skill. No director gates apply.
    - Category: 3/5 G-criteria pass
 2. Combined baseline: 9/12
 3. Skill diagnoses all 3 failures and proposes fixes
-4. "May I write improvements to `.claude/skills/gate-check/SKILL.md`?"
+4. "May I write improvements to `skills/gate-check/SKILL.md`?"
 5. Fixes applied; both test types re-run
 6. Re-test: static 7/7, category 5/5 = 12/12
 7. Verdict is IMPROVED (9→12)
@@ -123,7 +123,7 @@ None. `/skill-improve` is a meta-utility skill. No director gates apply.
 ### Case 4: Skill Already Perfect — No Improvements Needed
 
 **Fixture:**
-- `.claude/skills/brainstorm/SKILL.md` has no static failures
+- `skills/brainstorm/SKILL.md` has no static failures
 - Category score is also 5/5 (if applicable)
 
 **Input:** `/skill-improve brainstorm`
@@ -171,6 +171,8 @@ None. `/skill-improve` is a meta-utility skill. No director gates apply.
 - [ ] Asks "May I write" before applying any fix
 - [ ] Detects regressions by comparing re-test score to baseline
 - [ ] Asks for user confirmation before reverting (not automatic)
+- [ ] Reverts via a pre-write snapshot of the canonical `skills/<name>/SKILL.md`, restoring the exact invocation baseline independently of Git/index state (not `git checkout`)
+- [ ] After an approved canonical edit, regenerates runtime adapters (`python scripts/sync_adapters.py --write --class skills`)
 - [ ] Ends with IMPROVED, NO CHANGE, or REVERTED verdict
 
 ---

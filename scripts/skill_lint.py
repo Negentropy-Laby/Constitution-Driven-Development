@@ -16,7 +16,7 @@ from tempfile import TemporaryDirectory
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-SKILLS_DIR = REPO_ROOT / ".claude" / "skills"
+SKILLS_DIR = REPO_ROOT / "skills"
 TEMPLATES_DIR = REPO_ROOT / "templates"
 
 REQUIRED_FRONTMATTER = {
@@ -357,7 +357,7 @@ def run_self_test() -> int:
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="Lint CDD skill markdown files.")
-    parser.add_argument("paths", nargs="*", help="Skill files or directories. Defaults to .claude/skills/*/SKILL.md")
+    parser.add_argument("paths", nargs="*", help="Skill files or directories. Defaults to skills/*/SKILL.md")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero on ERROR findings")
     parser.add_argument("--self-test", action="store_true", help="Run internal detection self-test")
     args = parser.parse_args(argv)

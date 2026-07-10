@@ -79,8 +79,9 @@ Install these tools before using the template:
 
 - Git.
 - Claude Code.
-- Python 3, recommended for local validation scripts.
-- `jq`, recommended for hook validation.
+- Python 3.11+ (uses the standard-library `tomllib`). Required to run the local
+  validation commands and the `Template Consistency` CI gate.
+- `jq`, recommended for hook validation (hooks fall back to `grep` when absent).
 
 Clone the template or create a repository from it:
 
@@ -90,8 +91,9 @@ cd my-cdd-project
 claude
 ```
 
-Optional tools fail gracefully. If Python or `jq` is missing, some validation
-commands may be unavailable, but the core collaborative workflow remains usable.
+`jq` is optional: hooks fall back to `grep` when it is absent. Python 3.11+ is
+required for the validation commands above and for the CI gate; the core
+collaborative agent workflow in Claude Code itself does not depend on Python.
 
 ## First Command
 
@@ -261,8 +263,9 @@ Before publishing a release candidate, run the local validation commands:
 
 ```bash
 python scripts/skill_lint.py --self-test
-python scripts/skill_lint.py --strict .claude/skills
-python scripts/skill_lint.py --strict .agents/skills
+python -m unittest discover -s tests -p "*_test.py"
+python scripts/skill_lint.py --strict skills
+python scripts/sync_adapters.py --check
 python scripts/workflow_consistency.py
 git diff --check
 ```

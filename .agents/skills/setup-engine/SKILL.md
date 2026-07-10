@@ -1,14 +1,14 @@
 ---
 name: setup-engine
-description: "Configure the project's technology foundation — game engine or general product stack. Pins the stack in AGENTS.md, detects knowledge gaps, and populates reference docs via WebSearch when versions are beyond the LLM's training data."
+description: "Configure the project's technology foundation — game engine or general product stack. Pins the stack in INSTRUCTIONS.md, detects knowledge gaps, and populates reference docs via WebSearch when versions are beyond the LLM's training data."
 argument-hint: "[engine | framework | stack] [version] | refresh | upgrade [old-ver] [new-ver] | no args for guided selection"
 user-invocable: true
-allowed-tools: Read, Glob, Grep, Write, Edit, WebSearch, WebFetch, Task, AskUserQuestion
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebSearch, WebFetch, Task, AskUserQuestion
 ---
 
 ## User Guide
 
-- When to use: Configure the project's technology foundation — game engine or general product stack. Pins the stack in AGENTS.md, detects knowledge gaps, and populates reference docs via WebSearch when versions are beyond the LLM's training data.
+- When to use: Configure the project's technology foundation — game engine or general product stack. Pins the stack in INSTRUCTIONS.md, detects knowledge gaps, and populates reference docs via WebSearch when versions are beyond the LLM's training data.
 - Inputs: Command arguments: `/setup-engine [engine | framework | stack] [version] | refresh | upgrade [old-ver] [new-ver] | no args for guided selection`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
 - Memory-bank writes: `memory_bank/t1_axioms/tech_context.md`.
@@ -210,7 +210,7 @@ Use `AskUserQuestion` with options from the user's project type:
 
 **Go**: `stdlib + chi router (minimal)` / `Gin (popular)` / `Echo (high-perf)` / `Fiber (Express-like)` / `CLI only — cobra + viper`
 
-Record the framework choice. It drives the AGENTS.md template, default dependencies, and agent routing.
+Record the framework choice. It drives the INSTRUCTIONS.md template, default dependencies, and agent routing.
 
 **Recommendation format**: Same as game mode — comparison table, primary recommendation, alternative, confirmation via `AskUserQuestion`.
 
@@ -235,12 +235,12 @@ The user can select multiple topics. Answer each selected topic in depth before 
 
 ---
 
-## 4. Update AGENTS.md Technology Stack
+## 4. Update INSTRUCTIONS.md Technology Stack
 
-Read `AGENTS.md` and show the user the proposed Technology Stack changes.
-Ask: "May I write these settings to `AGENTS.md`?"
+Read `INSTRUCTIONS.md` and show the user the proposed Technology Stack changes.
+Ask: "May I write these settings to `INSTRUCTIONS.md`? Writing it also regenerates the runtime root-instruction files (`AGENTS.md` and `AGENTS.md`): `python scripts/sync_adapters.py --write --class root-instructions`."
 
-Wait for confirmation before making any edits.
+Wait for confirmation before making any edits. After writing `INSTRUCTIONS.md`, run that regeneration command so the runtime files stay in sync.
 
 Update the Technology Stack section, replacing the `[CHOOSE]` placeholders with the actual values:
 
@@ -258,7 +258,7 @@ If Godot was chosen, ask the user which language to use **before** showing the p
 >
 > Which will this project primarily use?"
 
-Record the choice. It determines the AGENTS.md template, naming conventions, specialist routing, and which agent is spawned for code files throughout the project.
+Record the choice. It determines the INSTRUCTIONS.md template, naming conventions, specialist routing, and which agent is spawned for code files throughout the project.
 
 **For Godot** — use the template matching the language chosen above. See **Appendix A** at the bottom of this skill for all three variants (GDScript, C#, Both).
 
@@ -292,7 +292,7 @@ Record the choice. It determines the AGENTS.md template, naming conventions, spe
 
 ## 5. Populate Technical Preferences
 
-After updating AGENTS.md, create or update `standards/technical-preferences.md`.
+After updating INSTRUCTIONS.md, create or update `standards/technical-preferences.md`.
 Read the existing template first, then fill in.
 
 ### [通用场景] Language & Framework Section
@@ -698,11 +698,11 @@ Wait for confirmation before writing any files.
 
 ---
 
-## 8. Update AGENTS.md Import
+## 8. Update INSTRUCTIONS.md Import
 
-Ask: "May I update the `@` import in `AGENTS.md` to point to the new reference?"
+Ask: "May I update the `@` import in `INSTRUCTIONS.md` to point to the new reference? This regenerates `AGENTS.md` and `AGENTS.md`: `python scripts/sync_adapters.py --write --class root-instructions`."
 
-Wait for confirmation, then update:
+Wait for confirmation, then update. After the import edit, run that regeneration command.
 
 ```markdown
 ## Version Reference
@@ -867,7 +867,7 @@ Record these fields in `memory_bank/t1_axioms/tech_context.md`:
 - Reference docs generated
 - Last verified date
 
-This T1 context is a memory mirror of the technical decision. `AGENTS.md`,
+This T1 context is a memory mirror of the technical decision. `INSTRUCTIONS.md`,
 `standards/technical-preferences.md`, and the generated reference docs remain
 the detailed working sources.
 
@@ -883,7 +883,7 @@ Engine:          [name] [version]
 Language:        [GDScript | C# | GDScript + C# | C# | C++ + Blueprint]
 Knowledge Risk:  [LOW/MEDIUM/HIGH]
 Reference Docs:  [created/skipped]
-AGENTS.md:       [updated]
+INSTRUCTIONS.md:       [updated]
 Tech Prefs:      [created/updated]
 Agent Config:    [verified]
 
@@ -906,7 +906,7 @@ Platform:        [Web / Desktop / Mobile / CLI / Server]
 Database:        [PostgreSQL / SQLite / DuckDB / ...]
 Knowledge Risk:  [LOW/MEDIUM/HIGH]
 Reference Docs:  [created/skipped]
-AGENTS.md:       [updated]
+INSTRUCTIONS.md:       [updated]
 Tech Prefs:      [created/updated]
 Agent Config:    [verified]
 
@@ -930,7 +930,7 @@ Verdict: **COMPLETE** — stack configured and reference docs populated.
 - NEVER guess a version — verify via WebSearch or user confirmation
 - NEVER overwrite existing reference docs without asking
 - If reference docs exist for a different stack, ask before replacing
-- Always show the user what you're about to change before making AGENTS.md edits
+- Always show the user what you're about to change before making INSTRUCTIONS.md edits
 - If WebSearch returns ambiguous results, show the user and let them decide
 - Never add speculative dependencies to Allowed Libraries
 
@@ -940,9 +940,9 @@ Verdict: **COMPLETE** — stack configured and reference docs populated.
 
 ## Appendix A — Godot Language Configuration
 
-[游戏专用] GDScript/C#/Both variants — AGENTS.md templates, naming conventions, and specialist routing tables. Referenced only when Godot is the chosen engine.
+[游戏专用] GDScript/C#/Both variants — INSTRUCTIONS.md templates, naming conventions, and specialist routing tables. Referenced only when Godot is the chosen engine.
 
-### A1. AGENTS.md Technology Stack Templates
+### A1. INSTRUCTIONS.md Technology Stack Templates
 
 **GDScript:**
 ```markdown

@@ -45,8 +45,7 @@ documents:
     role: index
     owner: /setup-engine
     indexes:
-      - CLAUDE.md
-      - AGENTS.md
+      - INSTRUCTIONS.md  # canonical; CLAUDE.md and AGENTS.md are generated from it by scripts/sync_adapters.py
       - standards/technical-preferences.md
       - docs/engine-reference/**/VERSION.md
       - docs/reference/**/VERSION.md

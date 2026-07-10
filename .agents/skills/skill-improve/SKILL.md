@@ -38,7 +38,7 @@ Usage: /skill-improve [skill-name]
 Example: /skill-improve tech-debt
 ```
 
-Verify `.agents/skills/[name]/SKILL.md` exists. If not, stop with:
+Verify `skills/[name]/SKILL.md` exists. If not, stop with:
 "Skill '[name]' not found."
 
 ---
@@ -84,7 +84,7 @@ If BOTH static and category baselines are 0 FAILs and 0 WARNs, stop:
 
 ## Phase 3: Diagnose
 
-Read the full skill file at `.agents/skills/[name]/SKILL.md`.
+Read the full canonical skill file at `skills/[name]/SKILL.md`.
 
 For each failing or warning **static** check, identify the exact gap:
 
@@ -148,7 +148,7 @@ For dual-domain parity fixes:
 - Reuse existing Product paths: `design/cdd/`, `design/ux/`, `docs/architecture/`, `production/qa/`, `production/releases/`, `tests/`, and `docs/reference/<stack>/`.
 - Prefer a focused additive patch over a broad rewrite.
 
-Ask: "May I write this improved version to `.agents/skills/[name]/SKILL.md`?"
+Ask: "May I write this improved version to `skills/[name]/SKILL.md`? This also regenerates the runtime adapters (`.agents/skills/[name]/SKILL.md` and `.agents/skills/[name]/SKILL.md`)."
 
 If the user says no, stop here.
 
@@ -156,9 +156,9 @@ If the user says no, stop here.
 
 ## Phase 5: Write and Retest
 
-Record the current content of the skill file (for revert if needed).
+Snapshot the current canonical skill file `skills/[name]/SKILL.md` (for revert if needed). Snapshot rollback is independent of Git/index state and restores the exact baseline from the start of this invocation — do not use `git checkout`.
 
-Write the improved skill to `.agents/skills/[name]/SKILL.md`.
+Write the improved skill to `skills/[name]/SKILL.md`, then regenerate the runtime adapters: `python scripts/sync_adapters.py --write --class skills`.
 
 Re-run `/skill-test static [name]` and record the new static score.
 If a category was assigned, also re-run `/skill-test category [name]` and record the new category score.
@@ -183,8 +183,8 @@ Show a summary of what was fixed in each dimension.
 **If combined score is the same or worse:**
 Report: "Combined score did not improve."
 Show what changed and why it may not have helped.
-Ask: "May I revert `.agents/skills/[name]/SKILL.md` using git checkout?"
-If yes: run `git checkout -- .agents/skills/[name]/SKILL.md`
+Ask: "May I revert `skills/[name]/SKILL.md` from the pre-write snapshot?"
+If yes: restore the snapshot to `skills/[name]/SKILL.md`, then regenerate the runtime adapters: `python scripts/sync_adapters.py --write --class skills`.
 
 ---
 

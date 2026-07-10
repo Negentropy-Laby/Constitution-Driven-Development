@@ -17,7 +17,7 @@ The supported workflow contract is defined by:
 - `docs/QUICK-START.md`
 - `docs/WORKFLOW-GUIDE.md`
 - `workflow/workflow-catalog.yaml`
-- `.claude/skills/gate-check/SKILL.md`
+- `skills/gate-check/SKILL.md`
 
 ## Known Limits
 

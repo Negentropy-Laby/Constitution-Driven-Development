@@ -14,6 +14,7 @@ No gate IDs assigned.
 - [ ] `allowed-tools:` list includes Read, Write, Edit, Bash, Glob, Grep
 - [ ] Model tier is Sonnet (default for specialists)
 - [ ] Agent definition references `docs/engine-reference/godot/VERSION.md` as the authoritative API source
+- [ ] Root-instruction references name the canonical `INSTRUCTIONS.md` (e.g., autoload purpose documentation), not the generated `CLAUDE.md`
 
 ---
 
@@ -73,6 +74,7 @@ No gate IDs assigned.
 - [ ] Treats `docs/engine-reference/godot/VERSION.md` as authoritative over LLM training data
 - [ ] Flags post-cutoff API usage (4.4, 4.5, 4.6) with verification requirements
 - [ ] Defers language-selection decisions to lead-programmer when trade-offs exist
+- [ ] When documenting engine-level project conventions (e.g., autoload purposes) in root instructions, edits the canonical `INSTRUCTIONS.md` and regenerates via `python scripts/sync_adapters.py --write --class root-instructions`; does not hand-edit the generated `CLAUDE.md`/`AGENTS.md`
 
 ---
 

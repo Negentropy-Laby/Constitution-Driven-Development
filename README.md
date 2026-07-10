@@ -204,9 +204,10 @@ Product projects use language-specialist agents for stack-specific implementatio
 
 - [Git](https://git-scm.com/)
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (`npm install -g @anthropic-ai/claude-code`)
-- **Recommended**: [jq](https://jqlang.github.io/jq/) (for hook validation) and Python 3 (for JSON validation)
+- [Python](https://www.python.org/) 3.11+ (required for the adapter generator and consistency checks; uses the stdlib `tomllib`)
+- **Recommended**: [jq](https://jqlang.github.io/jq/) for hook validation (hooks fall back to `grep` when absent)
 
-All hooks fail gracefully if optional tools are missing — nothing breaks, you just lose validation.
+Python 3.11+ is required to run the local validation commands and the `Template Consistency` CI gate. `jq` is optional — hooks degrade gracefully to `grep` when it is missing.
 
 ### Setup
 
@@ -413,7 +414,7 @@ You stay in control. The agents provide structure and expertise, not autonomy.
 | `session-stop.sh` | Session close | Archives `active.md` to session log and records git activity |
 | `log-agent.sh` | Agent spawned | Audit trail start — logs subagent invocation |
 | `log-agent-stop.sh` | Agent stops | Audit trail stop — completes subagent record |
-| `validate-skill-change.sh` | PostToolUse (Write/Edit) | Advises running `/skill-test` after any `.claude/skills/` change |
+| `validate-skill-change.sh` | PostToolUse (Write/Edit) | Advises canonical lint + adapter regeneration when a canonical `skills/<name>/SKILL.md` is edited; warns when a generated `.claude/skills/` or `.agents/skills/` file is edited |
 
 > **Note**: `validate-commit.sh`, `validate-assets.sh`, and `validate-skill-change.sh` fire on every Bash/Write tool call and exit immediately (exit 0) when the command or file path is not relevant. This is normal hook behavior — not a performance concern.
 

@@ -2,8 +2,15 @@
 
 ```text
 /
-├── CLAUDE.md                    # Master configuration
+├── INSTRUCTIONS.md              # Canonical root instructions (source for CLAUDE.md, AGENTS.md)
+├── CLAUDE.md                    # Generated root instructions (from INSTRUCTIONS.md)
+├── cdd-manifest.toml            # Adapter generation manifest
+├── skills/                      # Canonical skills (generated into adapter runtimes)
+├── agents/                      # Canonical agents (generated into adapter runtimes)
+├── hooks/                       # Canonical hooks (generated into adapter runtimes)
 ├── .claude/                     # Agent definitions, skills, hooks, rules, docs
+├── .agents/                     # Generated adapter tree (Copilot agent runtime)
+├── .codex/                      # Generated adapter tree (Codex CLI runtime)
 ├── src/                         # Game or product source code
 │   ├── gameplay/                # Game mechanics and playable systems
 │   ├── core/                    # Engine/framework/core domain code

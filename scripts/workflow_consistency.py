@@ -17,6 +17,105 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+
+# The manifest (cdd-manifest.toml) is the single source of truth for the
+# canonical authority roots (ADR-0001). MANIFEST_PATH and SYNC_ADAPTERS are the
+# locations of the contract and the generator; the canonical roots themselves
+# (skills/, agents/, hooks/, INSTRUCTIONS.md) are DERIVED from the manifest and
+# exposed as the legacy module globals SKILLS_SOURCE / AGENTS_SOURCE /
+# HOOKS_SOURCE / ROOT_INSTRUCTIONS / GATE_CHECK via get_manifest_context().
+# Generated adapter trees (.claude/skills, .agents/skills, .claude/agents,
+# .codex/agents, ...) are produced from these by scripts/sync_adapters.py.
+# Semantic checks read the canonical roots; only generated-output
+# self-consistency checks read the adapter trees directly.
+MANIFEST_PATH = REPO_ROOT / "cdd-manifest.toml"
+SYNC_ADAPTERS = REPO_ROOT / "scripts" / "sync_adapters.py"
+
+
+@dataclass(frozen=True)
+class ManifestContext:
+    """(manifest, repo_root, canonical roots) derived ONCE from cdd-manifest.toml.
+
+    Every canonical-root lookup ultimately goes through this object so the
+    manifest remains the single source of truth (ADR-0001). Built lazily and
+    cached by get_manifest_context(); after reset_manifest_context(), the next
+    accessor re-reads disk and rebinds the legacy canonical-root globals.
+    """
+
+    manifest: object  # sync_adapters.Manifest (loosely typed to avoid eager import)
+    repo_root: Path
+    roots: dict[str, Path]  # {"skills"|"agents"|"hooks"|"root-instructions": abs Path}
+
+
+_MANIFEST_CONTEXT: ManifestContext | None = None
+
+
+def _scripts_on_path() -> None:
+    """Ensure scripts/ is importable so sync_adapters can be imported lazily."""
+    scripts_dir = str(SYNC_ADAPTERS.parent)
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+
+
+def _resolve_source_root(repo_root: Path, src) -> Path:
+    """Map a sync_adapters.Source to an absolute repo path.
+
+    Tree sources (skills/agents/hooks) use ``root``; the single-file
+    root-instructions source uses ``file``.
+    """
+    rel = src.root if src.root is not None else src.file
+    return repo_root / rel
+
+
+def _bind_canonical_roots(ctx: ManifestContext) -> None:
+    """Bind legacy bare-name globals to one validated manifest context."""
+    global SKILLS_SOURCE, AGENTS_SOURCE, HOOKS_SOURCE, ROOT_INSTRUCTIONS, GATE_CHECK
+    SKILLS_SOURCE = ctx.roots["skills"]
+    AGENTS_SOURCE = ctx.roots["agents"]
+    HOOKS_SOURCE = ctx.roots["hooks"]
+    ROOT_INSTRUCTIONS = ctx.roots["root-instructions"]
+    GATE_CHECK = ctx.roots["skills"] / "gate-check" / "SKILL.md"
+
+
+def get_manifest_context() -> ManifestContext:
+    """Return the cached ManifestContext, building it lazily on first call.
+
+    Single load point for cdd-manifest.toml: main() and
+    check_generated_adapters_fresh() share this cache (one load per process).
+    Building a new context also rebinds the legacy bare-name globals, so tests
+    and embedders that reset/repoint the manifest cannot keep stale roots.
+    Raises whatever sync_adapters.load_manifest raises on a malformed/missing
+    manifest; callers wrap it to emit a single clean ERROR.
+    """
+    global _MANIFEST_CONTEXT
+    if _MANIFEST_CONTEXT is not None:
+        return _MANIFEST_CONTEXT
+    _scripts_on_path()
+    import sync_adapters as _sa
+    manifest = _sa.load_manifest(MANIFEST_PATH)
+    roots = {
+        name: _resolve_source_root(REPO_ROOT, src)
+        for name, src in manifest.sources.items()
+    }
+    ctx = ManifestContext(manifest=manifest, repo_root=REPO_ROOT, roots=roots)
+    _MANIFEST_CONTEXT = ctx
+    _bind_canonical_roots(ctx)
+    return ctx
+
+
+def reset_manifest_context() -> None:
+    """Drop the cache; the next accessor re-reads and rebinds canonical roots."""
+    global _MANIFEST_CONTEXT
+    _MANIFEST_CONTEXT = None
+
+
+try:
+    get_manifest_context()
+except Exception:
+    # Manifest unavailable at import (broken repo). The canonical-root globals
+    # remain unset; main()/check_generated_adapters_fresh() detect the failure
+    # via get_manifest_context() and report a single clean ERROR.
+    pass
 AGENTS_MD = REPO_ROOT / "AGENTS.md"
 CLAUDE_MD = REPO_ROOT / "CLAUDE.md"
 SKILLS_DIR = REPO_ROOT / ".claude" / "skills"
@@ -34,8 +133,6 @@ SKILL_TESTING_T2_MOUNT = MEMORY_BANK_TEMPLATE_DIR / "t2_execution" / "skill_test
 SKILL_TESTING_T3 = MEMORY_BANK_TEMPLATE_DIR / "t3_archive" / "skill_testing"
 LEGACY_SKILL_TESTING_DIRNAME = "CDD Skill Testing" + " Framework"
 CATALOG = WORKFLOW_DIR / "workflow-catalog.yaml"
-GATE_CHECK = REPO_ROOT / ".claude" / "skills" / "gate-check" / "SKILL.md"
-CODEX_GATE_CHECK = REPO_ROOT / ".agents" / "skills" / "gate-check" / "SKILL.md"
 FLOW_DIAGRAMS = REPO_ROOT / "docs" / "examples" / "skill-flow-diagrams.md"
 WORKFLOW_GUIDE = REPO_ROOT / "docs" / "WORKFLOW-GUIDE.md"
 QUICK_START = REPO_ROOT / "docs" / "QUICK-START.md"
@@ -122,7 +219,7 @@ def rel(path: Path) -> str:
 
 def collect_known_commands() -> set[str]:
     commands: set[str] = set()
-    for skill_file in SKILLS_DIR.glob("*/SKILL.md"):
+    for skill_file in SKILLS_SOURCE.glob("*/SKILL.md"):
         commands.add("/" + skill_file.parent.name)
     return commands
 
@@ -367,7 +464,7 @@ def check_accessibility_entry_paths() -> list[Finding]:
     required_docs = [
         REPO_ROOT / "docs" / "START-HERE.md",
         QUICK_START,
-        REPO_ROOT / ".claude" / "skills" / "constitute" / "SKILL.md",
+        SKILLS_SOURCE / "constitute" / "SKILL.md",
     ]
     for path in required_docs:
         text = path.read_text(encoding="utf-8", errors="replace")
@@ -578,7 +675,7 @@ def check_gate_required_artifacts_contract() -> list[Finding]:
             )
         )
 
-    for path in [GATE_CHECK, CODEX_GATE_CHECK]:
+    for path in [GATE_CHECK]:
         text = path.read_text(encoding="utf-8", errors="replace")
         if "workflow/generated/gate-required-artifacts.md" not in text:
             findings.append(Finding("ERROR", f"{rel(path)} must reference generated gate required artifacts"))
@@ -728,9 +825,11 @@ def check_customer_acceptance_contract() -> list[Finding]:
     text = CUSTOMER_ACCEPTANCE.read_text(encoding="utf-8", errors="replace")
     required_snippets = [
         "python scripts/skill_lint.py --self-test",
-        "python scripts/skill_lint.py --strict .claude/skills",
-        "python scripts/skill_lint.py --strict .agents/skills",
+        'python -m unittest discover -s tests -p "*_test.py"',
+        "python scripts/skill_lint.py --strict skills",
+        "python scripts/sync_adapters.py --check",
         "python scripts/workflow_consistency.py",
+        "git diff --check",
         "ubuntu-latest",
         "macos-latest",
         "windows-latest",
@@ -795,8 +894,7 @@ def check_user_manual_contract() -> list[Finding]:
 def check_status_dashboard_contract() -> list[Finding]:
     findings: list[Finding] = []
     required_paths = [
-        SKILLS_DIR / "cdd-status" / "SKILL.md",
-        CODEX_SKILLS_DIR / "cdd-status" / "SKILL.md",
+        SKILLS_SOURCE / "cdd-status" / "SKILL.md",
     ]
     for path in required_paths:
         if not path.exists():
@@ -975,7 +1073,7 @@ def check_memory_bank_contract() -> list[Finding]:
             if snippet not in text:
                 findings.append(Finding("ERROR", f"{rel(document_map)} omits document map entry: {snippet}"))
 
-    for path in [SKILLS_DIR / "constitute" / "SKILL.md", CODEX_SKILLS_DIR / "constitute" / "SKILL.md"]:
+    for path in [SKILLS_SOURCE / "constitute" / "SKILL.md"]:
         text = path.read_text(encoding="utf-8", errors="replace")
         for snippet in [
             "T0 core",
@@ -1005,7 +1103,7 @@ def check_memory_bank_contract() -> list[Finding]:
             if snippet not in text:
                 findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank constitute contract: {snippet}"))
 
-    for path in [SKILLS_DIR / "constitute-check" / "SKILL.md", CODEX_SKILLS_DIR / "constitute-check" / "SKILL.md"]:
+    for path in [SKILLS_SOURCE / "constitute-check" / "SKILL.md"]:
         text = path.read_text(encoding="utf-8", errors="replace")
         for snippet in [
             "T0-T3 Memory Health Audit",
@@ -1027,7 +1125,7 @@ def check_memory_bank_contract() -> list[Finding]:
             if snippet not in text:
                 findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank health contract: {snippet}"))
 
-    for path in [SKILLS_DIR / "cdd-status" / "SKILL.md", CODEX_SKILLS_DIR / "cdd-status" / "SKILL.md"]:
+    for path in [SKILLS_SOURCE / "cdd-status" / "SKILL.md"]:
         text = path.read_text(encoding="utf-8", errors="replace")
         for snippet in [
             "memory_bank/t2_execution/current_roadmap.md",
@@ -1213,16 +1311,11 @@ def check_memory_bank_contract() -> list[Finding]:
         ),
     ]
     for skill_name, snippets in workflow_contracts:
-        for path in [SKILLS_DIR / skill_name / "SKILL.md", CODEX_SKILLS_DIR / skill_name / "SKILL.md"]:
-            text = path.read_text(encoding="utf-8", errors="replace")
-            for snippet in snippets:
-                if snippet not in text:
-                    findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank evidence contract: {snippet}"))
-        claude_text = (SKILLS_DIR / skill_name / "SKILL.md").read_text(encoding="utf-8", errors="replace")
-        codex_text = (CODEX_SKILLS_DIR / skill_name / "SKILL.md").read_text(encoding="utf-8", errors="replace")
+        path = SKILLS_SOURCE / skill_name / "SKILL.md"
+        text = path.read_text(encoding="utf-8", errors="replace")
         for snippet in snippets:
-            if (snippet in claude_text) != (snippet in codex_text):
-                findings.append(Finding("ERROR", f"{skill_name} memory-bank evidence contract differs between .claude and .agents: {snippet}"))
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(path)} omits memory-bank evidence contract: {snippet}"))
 
     for path, mirror in [
         (GENERATE_PHASE_CHECKLISTS, "memory_bank/t2_execution/phase_checklists.md"),
@@ -1279,8 +1372,7 @@ def check_legacy_template_roots_removed() -> list[Finding]:
     scan_roots = [
         REPO_ROOT / "README.md",
         REPO_ROOT / "docs",
-        SKILLS_DIR,
-        CODEX_SKILLS_DIR,
+        SKILLS_SOURCE,
         TEMPLATES_DIR,
         STANDARDS_DIR,
         SKILL_TESTING_DIR,
@@ -1302,8 +1394,7 @@ def check_legacy_template_roots_removed() -> list[Finding]:
 def check_help_status_escalation_contract() -> list[Finding]:
     findings: list[Finding] = []
     for path in [
-        SKILLS_DIR / "help" / "SKILL.md",
-        CODEX_SKILLS_DIR / "help" / "SKILL.md",
+        SKILLS_SOURCE / "help" / "SKILL.md",
     ]:
         text = path.read_text(encoding="utf-8", errors="replace")
         for snippet in [
@@ -1324,12 +1415,9 @@ def check_surface_profile_contract() -> list[Finding]:
     checks = [
         (CATALOG, "product-surface-profile"),
         (CATALOG, "design/ux/surface-profile.md"),
-        (GATE_CHECK, "design/ux/surface-profile.md"),
-        (CODEX_SKILLS_DIR / "gate-check" / "SKILL.md", "design/ux/surface-profile.md"),
-        (SKILLS_DIR / "help" / "SKILL.md", "design/ux/surface-profile.md"),
-        (CODEX_SKILLS_DIR / "help" / "SKILL.md", "design/ux/surface-profile.md"),
-        (SKILLS_DIR / "cdd-status" / "SKILL.md", "design/ux/surface-profile.md"),
-        (CODEX_SKILLS_DIR / "cdd-status" / "SKILL.md", "design/ux/surface-profile.md"),
+        (SKILLS_SOURCE / "gate-check" / "SKILL.md", "design/ux/surface-profile.md"),
+        (SKILLS_SOURCE / "help" / "SKILL.md", "design/ux/surface-profile.md"),
+        (SKILLS_SOURCE / "cdd-status" / "SKILL.md", "design/ux/surface-profile.md"),
     ]
     for path, snippet in checks:
         text = path.read_text(encoding="utf-8", errors="replace")
@@ -1364,16 +1452,7 @@ def check_phase_checklist_contract() -> list[Finding]:
 def check_skill_count_contract() -> list[Finding]:
     findings: list[Finding] = []
     known_commands = collect_known_commands()
-    actual_claude = sum(1 for path in SKILLS_DIR.glob("*/SKILL.md") if path.is_file())
-    actual_codex = sum(1 for path in CODEX_SKILLS_DIR.glob("*/SKILL.md") if path.is_file())
-    if actual_claude != actual_codex:
-        findings.append(
-            Finding(
-                "ERROR",
-                f".claude skills ({actual_claude}) and .agents skills ({actual_codex}) must have matching counts",
-            )
-        )
-    actual = actual_claude
+    actual = sum(1 for path in SKILLS_SOURCE.glob("*/SKILL.md") if path.is_file())
     skill_testing_readme = SKILL_TESTING_DIR / "README.md"
     skill_testing_catalog = SKILL_TESTING_DIR / "catalog.yaml"
 
@@ -1426,17 +1505,7 @@ def check_skill_count_contract() -> list[Finding]:
             ],
         ),
         (
-            SKILLS_DIR / "skill-test" / "SKILL.md",
-            [
-                re.compile(r"SKILLS\s+\((\d+)\s+total\)"),
-                re.compile(r"Specs written:\s+(\d+)\s+\(100%\)"),
-                re.compile(r"Never static tested:\s+(\d+)"),
-                re.compile(r"Never category tested:\s+(\d+)"),
-                re.compile(r"Skill coverage:\s+(\d+)/(\d+)\s+specs"),
-            ],
-        ),
-        (
-            CODEX_SKILLS_DIR / "skill-test" / "SKILL.md",
+            SKILLS_SOURCE / "skill-test" / "SKILL.md",
             [
                 re.compile(r"SKILLS\s+\((\d+)\s+total\)"),
                 re.compile(r"Specs written:\s+(\d+)\s+\(100%\)"),
@@ -1462,7 +1531,7 @@ def check_skill_count_contract() -> list[Finding]:
                     findings.append(
                         Finding(
                             "ERROR",
-                            f"{rel(path)} documents {documented} skills, but .claude/skills contains {actual}",
+                            f"{rel(path)} documents {documented} skills, but skills/ contains {actual}",
                         )
                     )
 
@@ -1475,8 +1544,7 @@ def check_skill_count_contract() -> list[Finding]:
         SKILLS_REFERENCE,
         skill_testing_readme,
         skill_testing_catalog,
-        SKILLS_DIR / "skill-test" / "SKILL.md",
-        CODEX_SKILLS_DIR / "skill-test" / "SKILL.md",
+        SKILLS_SOURCE / "skill-test" / "SKILL.md",
     ]
     stale_patterns = [
         re.compile(r"\b73\s+skills\b", re.IGNORECASE),
@@ -1609,8 +1677,8 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
             if not spec.startswith("skill_testing/specs/"):
                 findings.append(Finding("ERROR", f"{rel(catalog_path)} has non-canonical spec path: {spec}"))
 
-        actual_skills = {path.parent.name for path in SKILLS_DIR.glob("*/SKILL.md") if path.is_file()}
-        actual_agents = {path.stem for path in (REPO_ROOT / ".claude" / "agents").rglob("*.md") if path.is_file()}
+        actual_skills = {path.parent.name for path in SKILLS_SOURCE.glob("*/SKILL.md") if path.is_file()}
+        actual_agents = {path.stem for path in AGENTS_SOURCE.glob("*.md") if path.is_file()}
         skill_names = registry_names(registry_block(catalog_text, "skills", "agents"))
         agent_names = registry_names(registry_block(catalog_text, "agents"))
         if skill_names != actual_skills:
@@ -1677,14 +1745,13 @@ def check_skill_testing_memory_bank_contract() -> list[Finding]:
         ),
     ]
     for skill_name, snippets in skill_contracts:
-        for skill_root in [SKILLS_DIR, CODEX_SKILLS_DIR]:
-            path = skill_root / skill_name / "SKILL.md"
-            text = path.read_text(encoding="utf-8", errors="replace")
-            for snippet in snippets:
-                if snippet not in text:
-                    findings.append(Finding("ERROR", f"{rel(path)} must reference {snippet}"))
-            if legacy_name in text:
-                findings.append(Finding("ERROR", f"{rel(path)} still references removed testing framework path"))
+        path = SKILLS_SOURCE / skill_name / "SKILL.md"
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for snippet in snippets:
+            if snippet not in text:
+                findings.append(Finding("ERROR", f"{rel(path)} must reference {snippet}"))
+        if legacy_name in text:
+            findings.append(Finding("ERROR", f"{rel(path)} still references removed testing framework path"))
 
     for doc_path in [REPO_ROOT / "README.md", USER_MANUAL, QUICK_START]:
         text = doc_path.read_text(encoding="utf-8", errors="replace")
@@ -1732,8 +1799,8 @@ def check_release_phase_contract() -> list[Finding]:
         "before launch",
     ]
     for skill_path in [
-        SKILLS_DIR / "release-checklist" / "SKILL.md",
-        SKILLS_DIR / "launch-checklist" / "SKILL.md",
+        SKILLS_SOURCE / "release-checklist" / "SKILL.md",
+        SKILLS_SOURCE / "launch-checklist" / "SKILL.md",
     ]:
         text = skill_path.read_text(encoding="utf-8", errors="replace")
         for phrase in phase_gate_phrases:
@@ -1752,8 +1819,7 @@ def check_release_phase_contract() -> list[Finding]:
         r"/release-checklist\s*->\s*/launch-checklist\s*->\s*/team-release"
     )
     for skill_path in [
-        SKILLS_DIR / "constitute" / "SKILL.md",
-        CODEX_SKILLS_DIR / "constitute" / "SKILL.md",
+        SKILLS_SOURCE / "constitute" / "SKILL.md",
     ]:
         text = skill_path.read_text(encoding="utf-8", errors="replace")
         normalized = text.replace("→", "->").replace("`", "")
@@ -1800,26 +1866,24 @@ def check_skill_user_guide_contract() -> list[Finding]:
     ]
     guide_pattern = re.compile(r"(?ms)^## User Guide\s*\n(?P<body>.*?)(?=^#{1,2}\s|\Z)")
 
-    for skills_root in [SKILLS_DIR, CODEX_SKILLS_DIR]:
-        for skill_path in sorted(skills_root.glob("*/SKILL.md")):
-            text = skill_path.read_text(encoding="utf-8", errors="replace")
-            match = guide_pattern.search(text)
-            if not match:
-                findings.append(Finding("ERROR", f"{rel(skill_path)} must include a ## User Guide block"))
-                continue
-            body = match.group("body")
-            missing = [label for label in required_labels if label not in body]
-            if missing:
-                findings.append(
-                    Finding(
-                        "ERROR",
-                        f"{rel(skill_path)} User Guide is missing label(s): {', '.join(missing)}",
-                    )
+    for skill_path in sorted(SKILLS_SOURCE.glob("*/SKILL.md")):
+        text = skill_path.read_text(encoding="utf-8", errors="replace")
+        match = guide_pattern.search(text)
+        if not match:
+            findings.append(Finding("ERROR", f"{rel(skill_path)} must include a ## User Guide block"))
+            continue
+        body = match.group("body")
+        missing = [label for label in required_labels if label not in body]
+        if missing:
+            findings.append(
+                Finding(
+                    "ERROR",
+                    f"{rel(skill_path)} User Guide is missing label(s): {', '.join(missing)}",
                 )
+            )
 
     for help_path in [
-        SKILLS_DIR / "help" / "SKILL.md",
-        CODEX_SKILLS_DIR / "help" / "SKILL.md",
+        SKILLS_SOURCE / "help" / "SKILL.md",
     ]:
         text = help_path.read_text(encoding="utf-8", errors="replace")
         match = guide_pattern.search(text)
@@ -1922,6 +1986,52 @@ def normalized_hook_text(path: Path) -> str:
 
 def normalized_root_instruction_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n").replace("\r", "\n")
+
+
+def _freshness_findings(report) -> list[Finding]:
+    """Map a sync_adapters CheckReport into workflow-consistency Findings.
+
+    ERROR diagnostics and any non-OK drift (STALE/MISSING/EXTRA/INVALID) become
+    ERROR findings pointing at the regenerate command. OK drifts produce nothing.
+    A path that appears as BOTH an ERROR diagnostic AND a non-OK drift (e.g. the
+    INVALID drift sync_adapters intentionally appends on preflight failure) is
+    reported ONCE, preferring the diagnostic which carries the root-cause message.
+    """
+    error_paths: set[str] = {
+        diag.path for diag in report.diagnostics if diag.severity == "ERROR"
+    }
+    findings: list[Finding] = []
+    for diag in report.diagnostics:
+        if diag.severity == "ERROR":
+            findings.append(Finding("ERROR", f"adapter generation: {diag.path}: {diag.message}"))
+    for drift in report.drifts:
+        if (
+            drift.status in ("STALE", "MISSING", "EXTRA", "INVALID")
+            and drift.path not in error_paths
+        ):
+            msg = f"{drift.path} is {drift.status.lower()}; run python scripts/sync_adapters.py --write"
+            findings.append(Finding("ERROR", msg))
+    return findings
+
+
+def check_generated_adapters_fresh() -> list[Finding]:
+    """Verify every generated adapter tree is fresh against the canonical roots.
+
+    Consumes the shared cached ManifestContext (single load shared with main()
+    and every other check via get_manifest_context()). Uses the pure
+    sync_adapters planning/checking API (no sys.argv forging, no main()). A
+    manifest/generator problem is reported as one clean ERROR rather than a
+    traceback.
+    """
+    try:
+        ctx = get_manifest_context()
+        _scripts_on_path()
+        import sync_adapters as _sa
+        plan = _sa.build_sync_plan(ctx.manifest, ctx.repo_root)
+        report = _sa.check_plan(plan)
+    except Exception as exc:  # one root-cause error, no traceback
+        return [Finding("ERROR", f"adapter freshness check failed: {exc}")]
+    return _freshness_findings(report)
 
 
 def check_codex_adapter_contract() -> list[Finding]:
@@ -2032,6 +2142,12 @@ def check_adapter_boundary_contract() -> list[Finding]:
         REPO_ROOT / "adapters" / "README.md",
         REPO_ROOT / "adapters" / "claude" / "README.md",
         REPO_ROOT / "adapters" / "codex" / "README.md",
+        SKILLS_SOURCE,
+        AGENTS_SOURCE,
+        HOOKS_SOURCE,
+        ROOT_INSTRUCTIONS,
+        MANIFEST_PATH,
+        SYNC_ADAPTERS,
     ]
     for path in required_roots:
         if not path.exists():
@@ -2064,6 +2180,14 @@ def check_adapter_boundary_contract() -> list[Finding]:
             ".claude/",
             ".agents/",
             ".codex/",
+            "`skills/`",
+            "`agents/`",
+            "`hooks/`",
+            "`INSTRUCTIONS.md`",
+            "`cdd-manifest.toml`",
+            "`scripts/sync_adapters.py`",
+            "python scripts/sync_adapters.py --write",
+            "python scripts/sync_adapters.py --check",
             "Do not move canonical",
         ]:
             if snippet not in text:
@@ -2120,40 +2244,56 @@ def main() -> int:
     parser.add_argument("--warnings-as-errors", action="store_true", help="Treat WARN findings as errors.")
     args = parser.parse_args()
 
-    known_commands = collect_known_commands()
-    steps = parse_catalog()
     findings: list[Finding] = []
-    findings.extend(check_catalog_commands(steps, known_commands))
-    findings.extend(check_doc_commands(known_commands))
-    findings.extend(check_required_catalog_artifacts(steps, known_commands))
-    findings.extend(check_gate_artifact_trace(steps))
-    findings.extend(check_story_path_drift())
-    findings.extend(check_example_phase_boundaries())
-    findings.extend(check_accessibility_entry_paths())
-    findings.extend(check_quick_start_complete_paths())
-    findings.extend(check_old_workflow_drift())
-    findings.extend(check_art_bible_phase_drift())
-    findings.extend(check_workflow_guide_phase_boundaries())
-    findings.extend(check_validation_quantity_boundaries())
-    findings.extend(check_gate_required_semantics())
-    findings.extend(check_gate_required_artifacts_contract())
-    findings.extend(check_customer_delivery_contract())
-    findings.extend(check_customer_acceptance_contract())
-    findings.extend(check_user_manual_contract())
-    findings.extend(check_status_dashboard_contract())
-    findings.extend(check_memory_bank_contract())
-    findings.extend(check_legacy_template_roots_removed())
-    findings.extend(check_memory_bank_entrypoint_contract())
-    findings.extend(check_help_status_escalation_contract())
-    findings.extend(check_surface_profile_contract())
-    findings.extend(check_phase_checklist_contract())
-    findings.extend(check_release_phase_contract())
-    findings.extend(check_skill_user_guide_contract())
-    findings.extend(check_skill_testing_memory_bank_contract())
-    findings.extend(check_skill_count_contract())
-    findings.extend(check_template_count_contract())
-    findings.extend(check_adapter_boundary_contract())
-    findings.extend(check_codex_adapter_contract())
+
+    # Load the manifest ONCE (shared cache). On any failure, emit exactly one
+    # ERROR and skip every check that consumes a canonical root — the broken
+    # manifest is the actionable signal, and running further checks against
+    # unset roots would only add noise (ADR-0001).
+    try:
+        get_manifest_context()
+        manifest_ok = True
+    except Exception as exc:
+        findings.append(
+            Finding("ERROR", f"manifest load failed; canonical-root checks skipped: {exc}")
+        )
+        manifest_ok = False
+
+    if manifest_ok:
+        known_commands = collect_known_commands()
+        steps = parse_catalog()
+        findings.extend(check_catalog_commands(steps, known_commands))
+        findings.extend(check_doc_commands(known_commands))
+        findings.extend(check_required_catalog_artifacts(steps, known_commands))
+        findings.extend(check_gate_artifact_trace(steps))
+        findings.extend(check_story_path_drift())
+        findings.extend(check_example_phase_boundaries())
+        findings.extend(check_accessibility_entry_paths())
+        findings.extend(check_quick_start_complete_paths())
+        findings.extend(check_old_workflow_drift())
+        findings.extend(check_art_bible_phase_drift())
+        findings.extend(check_workflow_guide_phase_boundaries())
+        findings.extend(check_validation_quantity_boundaries())
+        findings.extend(check_gate_required_semantics())
+        findings.extend(check_gate_required_artifacts_contract())
+        findings.extend(check_customer_delivery_contract())
+        findings.extend(check_customer_acceptance_contract())
+        findings.extend(check_user_manual_contract())
+        findings.extend(check_status_dashboard_contract())
+        findings.extend(check_memory_bank_contract())
+        findings.extend(check_legacy_template_roots_removed())
+        findings.extend(check_memory_bank_entrypoint_contract())
+        findings.extend(check_help_status_escalation_contract())
+        findings.extend(check_surface_profile_contract())
+        findings.extend(check_phase_checklist_contract())
+        findings.extend(check_release_phase_contract())
+        findings.extend(check_skill_user_guide_contract())
+        findings.extend(check_skill_testing_memory_bank_contract())
+        findings.extend(check_skill_count_contract())
+        findings.extend(check_template_count_contract())
+        findings.extend(check_adapter_boundary_contract())
+        findings.extend(check_generated_adapters_fresh())
+        findings.extend(check_codex_adapter_contract())
 
     errors = sum(1 for item in findings if item.severity == "ERROR")
     warnings = sum(1 for item in findings if item.severity == "WARN")

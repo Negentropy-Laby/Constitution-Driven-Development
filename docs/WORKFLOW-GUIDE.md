@@ -44,7 +44,7 @@ Before you start, make sure you have:
 - **Claude Code** installed and working
 - **Git** with Git Bash (Windows) or standard terminal (Mac/Linux)
 - **jq** (optional but recommended -- hooks fall back to `grep` if missing)
-- **Python 3** (optional -- some hooks use it for JSON validation)
+- **Python 3.11+** (required -- the adapter generator and consistency checks use the stdlib `tomllib`; install to run the local validation commands and CI gate)
 
 ### Step 1: Clone and Open
 
@@ -1490,7 +1490,7 @@ The system has 12 hooks that run automatically:
 | `validate-commit.sh` | Before commit | Checks for design doc references, valid JSON, no hardcoded values |
 | `validate-push.sh` | Before push | Warns on pushes to main/develop |
 | `validate-assets.sh` | Before commit | Checks asset naming and size |
-| `validate-skill-change.sh` | Skill file written | Advises running `/skill-test` after `.claude/skills/` changes |
+| `validate-skill-change.sh` | Skill file written | Advises canonical lint + regeneration on canonical `skills/` edits; warns on generated `.claude/skills/`/`.agents/skills/` edits |
 | `log-agent.sh` | Agent start | Logs agent invocations for audit trail |
 | `log-agent-stop.sh` | Agent stop | Completes agent audit trail (start + stop) |
 | `session-stop.sh` | Session end | Final session logging |

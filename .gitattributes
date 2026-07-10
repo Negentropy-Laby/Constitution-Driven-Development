@@ -1,0 +1,21 @@
+# Force physical LF for canonical authority sources, generated runtime adapters,
+# the generator, and its tests. .gitattributes has no brace-expansion contract, so
+# every root is enumerated explicitly. Do not hand-edit generated adapter trees;
+# regenerate them with `python scripts/sync_adapters.py --write`.
+
+/.gitattributes text eol=lf
+/skills/** text eol=lf
+/agents/** text eol=lf
+/hooks/** text eol=lf
+/INSTRUCTIONS.md text eol=lf
+/.claude/skills/** text eol=lf
+/.claude/agents/** text eol=lf
+/.claude/hooks/** text eol=lf
+/.agents/skills/** text eol=lf
+/.codex/agents/** text eol=lf
+/.codex/hooks/** text eol=lf
+/CLAUDE.md text eol=lf
+/AGENTS.md text eol=lf
+/cdd-manifest.toml text eol=lf
+/scripts/sync_adapters.py text eol=lf
+/tests/*_test.py text eol=lf
