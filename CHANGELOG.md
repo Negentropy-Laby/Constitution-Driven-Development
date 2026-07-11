@@ -18,7 +18,7 @@ No changes recorded after `v0.2.0`.
   approved Memory Bank lifecycle through `/constitute`, `/constitute-check`,
   and `/cdd-status`.
 - Added credential-free structural smoke to Template Consistency and a manually
-  triggered, pinned Claude/Codex live-smoke release gate.
+  triggered, pinned Claude/Codex CLI contract release gate with no model calls.
 - Made Codex apply-patch hook header parsing portable across GNU and BSD `sed`.
 - Documented Claude `/skill` invocation and Codex `/skills`/`$skill` invocation.
 

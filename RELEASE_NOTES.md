@@ -3,8 +3,8 @@
 ## v0.2.0 — Runtime-Neutral CDD Governance
 
 This release establishes Claude Code and Codex as first-class runtime peers over
-one neutral CDD governance source, with recorded adapter freshness and release
-smoke evidence.
+one neutral CDD governance source, with recorded adapter freshness and
+credential-free release evidence.
 
 ### What Is Included
 
@@ -25,8 +25,9 @@ smoke evidence.
 - Memory Bank adapter-state initialization, approved recording, and read-only
   status display.
 - Credential-free structural runtime smoke on every Template Consistency run.
-- Manually triggered live smoke for pinned Claude Code 2.1.207 and Codex CLI
-  0.144.1 using read-only disposable fixtures.
+- Manually triggered Runtime Contract for pinned Claude Code 2.1.207 and Codex
+  CLI 0.144.1, validating CLI flags and disposable discovery fixtures without
+  credentials or model calls.
 
 ### Important Upgrade Notes
 
@@ -49,8 +50,8 @@ smoke evidence.
 - Required workflow: `Template Consistency`.
 - Required release evidence: release commit SHA, GitHub Actions run ID, and PASS
   result for `ubuntu-latest`, `macos-latest`, and `windows-latest`.
-- Required runtime evidence: a manually triggered `Runtime Smoke` run for the
-  same release commit, successful Claude/Codex jobs, pinned CLI versions, and
-  uploaded JSON evidence artifacts.
+- Required runtime evidence: a manually triggered `Runtime Contract` run for
+  the same release commit, successful Claude/Codex jobs, pinned CLI versions,
+  validated help surfaces, and uploaded text evidence artifacts.
 - Customer acceptance checklist: `docs/CUSTOMER-ACCEPTANCE.md`.
 - `v0.1.0` and `v0.1.0-rc.1` remain available as historical release evidence.

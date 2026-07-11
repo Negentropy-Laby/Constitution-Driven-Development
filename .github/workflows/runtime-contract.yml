@@ -1,0 +1,123 @@
+name: Runtime Contract
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CLAUDE_CODE_VERSION: "2.1.207"
+  CODEX_CLI_VERSION: "0.144.1"
+
+jobs:
+  claude:
+    name: Claude Code CLI contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FIXTURE: "/tmp/cdd-claude-contract"
+      EVIDENCE: "/tmp/cdd-claude-contract-evidence"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install pinned Claude Code
+        run: npm install --global "@anthropic-ai/claude-code@${{ env.CLAUDE_CODE_VERSION }}"
+
+      - name: Validate Claude CLI and discovery contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE"
+          claude --version | tee "$EVIDENCE/claude-version.txt"
+          grep -F "$CLAUDE_CODE_VERSION" "$EVIDENCE/claude-version.txt"
+          claude --help | tee "$EVIDENCE/claude-help.txt"
+          python scripts/runtime_smoke.py \
+            --validate-cli-help "$EVIDENCE/claude-help.txt" --runtime claude \
+            | tee "$EVIDENCE/cli-contract.txt"
+          python scripts/runtime_smoke.py --structural \
+            | tee "$EVIDENCE/structural-smoke.txt"
+          python scripts/runtime_smoke.py --prepare-fixture "$FIXTURE" --runtime claude \
+            | tee "$EVIDENCE/fixture-contract.txt"
+          git init -q "$FIXTURE"
+          git -C "$FIXTURE" add .
+          git -C "$FIXTURE" -c user.name=runtime-contract \
+            -c user.email=runtime-contract@example.invalid commit -qm baseline
+          test -z "$(git -C "$FIXTURE" status --porcelain)"
+
+      - name: Upload Claude contract evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-contract-claude
+          path: /tmp/cdd-claude-contract-evidence/*.txt
+          if-no-files-found: error
+          retention-days: 30
+
+  codex:
+    name: Codex CLI contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FIXTURE: "/tmp/cdd-codex-contract"
+      EVIDENCE: "/tmp/cdd-codex-contract-evidence"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install pinned Codex CLI
+        run: npm install --global "@openai/codex@${{ env.CODEX_CLI_VERSION }}"
+
+      - name: Validate Codex CLI and discovery contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE"
+          codex --version | tee "$EVIDENCE/codex-version.txt"
+          grep -F "$CODEX_CLI_VERSION" "$EVIDENCE/codex-version.txt"
+          {
+            codex --help
+            codex exec --help
+          } | tee "$EVIDENCE/codex-help.txt"
+          python scripts/runtime_smoke.py \
+            --validate-cli-help "$EVIDENCE/codex-help.txt" --runtime codex \
+            | tee "$EVIDENCE/cli-contract.txt"
+          python scripts/runtime_smoke.py --structural \
+            | tee "$EVIDENCE/structural-smoke.txt"
+          python scripts/runtime_smoke.py --prepare-fixture "$FIXTURE" --runtime codex \
+            | tee "$EVIDENCE/fixture-contract.txt"
+          git init -q "$FIXTURE"
+          git -C "$FIXTURE" add .
+          git -C "$FIXTURE" -c user.name=runtime-contract \
+            -c user.email=runtime-contract@example.invalid commit -qm baseline
+          test -z "$(git -C "$FIXTURE" status --porcelain)"
+
+      - name: Upload Codex contract evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-contract-codex
+          path: /tmp/cdd-codex-contract-evidence/*.txt
+          if-no-files-found: error
+          retention-days: 30

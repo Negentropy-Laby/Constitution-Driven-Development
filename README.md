@@ -26,7 +26,7 @@
 <p align="center">
   <strong>Latest release:</strong>
   <a href="https://github.com/Negentropy-Laby/Constitution-Driven-Development/releases/tag/v0.2.0">v0.2.0</a>
-  — cross-runtime release gated by three-platform consistency and Claude/Codex smoke evidence.
+  — cross-runtime release gated by three-platform consistency and credential-free CLI contract evidence.
 </p>
 
 ---
@@ -503,10 +503,11 @@ This is a **template**, not a locked framework. Everything is meant to be custom
 
 Template Consistency CI verifies **Ubuntu**, **macOS**, and **Windows** runners
 and includes a credential-free runtime structural smoke. The manually triggered
-Runtime Smoke workflow executes the three read-only onboarding contracts in
-Claude Code and Codex with repository secrets. Local hook execution on Windows
-requires **Git Bash**; Windows toast notifications are optional and fall back to
-plain hook output when unavailable.
+Runtime Contract workflow installs the pinned Claude Code and Codex CLIs,
+validates their required command-line capabilities and discovery fixtures, and
+uploads evidence without credentials or model calls. Local hook execution on
+Windows requires **Git Bash**; Windows toast notifications are optional and
+fall back to plain hook output when unavailable.
 
 Release evidence records Template Consistency on Ubuntu, macOS, and Windows.
 

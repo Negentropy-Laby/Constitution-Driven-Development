@@ -142,8 +142,8 @@ GATE_REQUIRED_ARTIFACTS = WORKFLOW_DIR / "generated" / "gate-required-artifacts.
 CUSTOMER_ACCEPTANCE = REPO_ROOT / "docs" / "CUSTOMER-ACCEPTANCE.md"
 USER_MANUAL = REPO_ROOT / "docs" / "USER-MANUAL.md"
 TEMPLATE_CONSISTENCY_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "template-consistency.yml"
-RUNTIME_SMOKE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "runtime-smoke.yml"
-RUNTIME_SMOKE_SCHEMA = REPO_ROOT / "tests" / "fixtures" / "runtime-smoke" / "result.schema.json"
+RUNTIME_CONTRACT_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "runtime-contract.yml"
+LEGACY_RUNTIME_SMOKE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "runtime-smoke.yml"
 PROJECT_ROADMAP_EXAMPLE = REPO_ROOT / "docs" / "examples" / "project-roadmap.example.md"
 GENERATE_PHASE_CHECKLISTS = REPO_ROOT / "scripts" / "generate_phase_checklists.py"
 GENERATE_GATE_REQUIRED = REPO_ROOT / "scripts" / "generate_gate_required_sections.py"
@@ -2292,7 +2292,7 @@ def check_adapter_boundary_contract() -> list[Finding]:
     return findings
 
 
-def check_runtime_smoke_contract() -> list[Finding]:
+def check_runtime_contract() -> list[Finding]:
     findings: list[Finding] = []
     if not TEMPLATE_CONSISTENCY_WORKFLOW.exists():
         findings.append(Finding("ERROR", f"missing workflow: {rel(TEMPLATE_CONSISTENCY_WORKFLOW)}"))
@@ -2301,48 +2301,38 @@ def check_runtime_smoke_contract() -> list[Finding]:
         if "python scripts/runtime_smoke.py --structural" not in text:
             findings.append(Finding("ERROR", "Template Consistency must run credential-free runtime structural smoke"))
 
-    if not RUNTIME_SMOKE_WORKFLOW.exists():
-        findings.append(Finding("ERROR", f"missing workflow: {rel(RUNTIME_SMOKE_WORKFLOW)}"))
+    if LEGACY_RUNTIME_SMOKE_WORKFLOW.exists():
+        findings.append(Finding("ERROR", f"credential-backed workflow must be removed: {rel(LEGACY_RUNTIME_SMOKE_WORKFLOW)}"))
+
+    if not RUNTIME_CONTRACT_WORKFLOW.exists():
+        findings.append(Finding("ERROR", f"missing workflow: {rel(RUNTIME_CONTRACT_WORKFLOW)}"))
     else:
-        text = RUNTIME_SMOKE_WORKFLOW.read_text(encoding="utf-8", errors="replace")
+        text = RUNTIME_CONTRACT_WORKFLOW.read_text(encoding="utf-8", errors="replace")
         required = [
             "workflow_dispatch:",
             'CLAUDE_CODE_VERSION: "2.1.207"',
             'CODEX_CLI_VERSION: "0.144.1"',
-            "secrets.ANTHROPIC_API_KEY",
-            "secrets.OPENAI_API_KEY",
-            'FIXTURE: "/tmp/cdd-claude-smoke"',
-            'FIXTURE: "/tmp/cdd-codex-smoke"',
-            "--no-session-persistence",
-            'cd "$FIXTURE"',
-            "--ephemeral",
-            "--sandbox read-only",
-            "--ask-for-approval never exec",
-            "--disable hooks",
-            'run_smoke constitute "/constitute"',
-            "run_smoke constitute '$constitute'",
-            "--validate-result",
+            "@anthropic-ai/claude-code@${{ env.CLAUDE_CODE_VERSION }}",
+            "@openai/codex@${{ env.CODEX_CLI_VERSION }}",
+            "claude --help",
+            "codex exec --help",
+            "--validate-cli-help",
+            "--prepare-fixture",
+            "grep -F",
             "structural-smoke.txt",
+            "runtime-contract-claude",
+            "runtime-contract-codex",
             "actions/upload-artifact@v4",
         ]
         for snippet in required:
             if snippet not in text:
-                findings.append(Finding("ERROR", f"{rel(RUNTIME_SMOKE_WORKFLOW)} omits live-smoke contract: {snippet}"))
-        for forbidden_trigger in ("pull_request:", "schedule:"):
+                findings.append(Finding("ERROR", f"{rel(RUNTIME_CONTRACT_WORKFLOW)} omits credential-free contract: {snippet}"))
+        for forbidden_trigger in ("pull_request:", "push:", "schedule:"):
             if forbidden_trigger in text:
-                findings.append(Finding("ERROR", f"Runtime Smoke must remain manual; remove {forbidden_trigger}"))
-
-    if not RUNTIME_SMOKE_SCHEMA.exists():
-        findings.append(Finding("ERROR", f"missing runtime smoke schema: {rel(RUNTIME_SMOKE_SCHEMA)}"))
-    else:
-        try:
-            schema = json.loads(RUNTIME_SMOKE_SCHEMA.read_text(encoding="utf-8"))
-        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-            findings.append(Finding("ERROR", f"invalid runtime smoke schema: {exc}"))
-        else:
-            expected = {"command", "skill_loaded", "write_attempted", "summary", "evidence"}
-            if set(schema.get("required", [])) != expected:
-                findings.append(Finding("ERROR", "runtime smoke schema required fields have drifted"))
+                findings.append(Finding("ERROR", f"Runtime Contract must remain manual; remove {forbidden_trigger}"))
+        for forbidden in ("secrets.", "API_KEY", "claude -p", "run_smoke"):
+            if forbidden in text:
+                findings.append(Finding("ERROR", f"Runtime Contract must not invoke credential-backed model execution: {forbidden}"))
     return findings
 
 
@@ -2399,7 +2389,7 @@ def main() -> int:
         findings.extend(check_skill_count_contract())
         findings.extend(check_template_count_contract())
         findings.extend(check_adapter_boundary_contract())
-        findings.extend(check_runtime_smoke_contract())
+        findings.extend(check_runtime_contract())
         findings.extend(check_generated_adapters_fresh())
         findings.extend(check_codex_adapter_contract())
 

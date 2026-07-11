@@ -66,10 +66,16 @@ Expected result:
 - The final GitHub Release or annotated tag records the release commit SHA,
   workflow run ID, and PASS result for all three platforms.
 
-Before a stable release, manually dispatch `Runtime Smoke` with repository
-secrets `ANTHROPIC_API_KEY` and `OPENAI_API_KEY`. Both live jobs must pass for
-the same `headSha`; record the run ID, Claude/Codex CLI versions, and uploaded
-artifact names in the GitHub Release or annotated tag.
+Before a stable release, manually dispatch `Runtime Contract`. Both
+credential-free CLI jobs must pass for the same `headSha`; record the run ID,
+Claude/Codex CLI versions, validated help surfaces, and uploaded artifact names
+in the GitHub Release or annotated tag. This gate installs the CLIs but makes no
+model calls and requires no API keys.
+
+This automated gate does not claim to validate model response quality. A
+maintainer may run the New Project Smoke Path below with an existing local
+interactive login, but that optional check is not a release blocker and does
+not require repository-managed credentials.
 
 ## 4. New Project Smoke Path
 
@@ -133,5 +139,5 @@ Expected result:
   a project adds automation for it.
 - Gate checks are governed advisory. A `FAIL` blocks normal advancement, but the
   user may explicitly override it with a documented risk note.
-- Live runtime smoke requires separately managed Anthropic and OpenAI Actions
-  secrets and is intentionally manual rather than a per-PR cost.
+- Runtime Contract is intentionally manual to keep pinned CLI installation out
+  of every PR; it is credential-free and incurs no model inference cost.

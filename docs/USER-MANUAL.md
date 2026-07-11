@@ -293,8 +293,8 @@ Customer acceptance expectations are documented in
 the GitHub Release or annotated tag, including the release commit SHA, the
 `Template Consistency` run ID, and successful Ubuntu, macOS, and Windows jobs.
 For `v0.2.0` and later, also record the matching manually triggered
-`Runtime Smoke` run ID, successful Claude/Codex jobs, pinned CLI versions, and
-the uploaded smoke artifacts.
+`Runtime Contract` run ID, successful Claude/Codex jobs, pinned CLI versions,
+validated help surfaces, and the uploaded credential-free artifacts.
 
 Tracked Markdown should describe the evidence contract, not hard-code a future
 run that can only exist after the Markdown is committed.

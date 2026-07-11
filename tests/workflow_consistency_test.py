@@ -62,9 +62,9 @@ class RuntimeNativeCommandReferenceTest(unittest.TestCase):
         self.assertEqual(findings, [])
 
 
-class RuntimeSmokeContractTest(unittest.TestCase):
-    def test_runtime_smoke_workflows_and_schema_are_complete(self) -> None:
-        self.assertEqual(wc.check_runtime_smoke_contract(), [])
+class RuntimeContractTest(unittest.TestCase):
+    def test_runtime_contract_workflows_are_complete(self) -> None:
+        self.assertEqual(wc.check_runtime_contract(), [])
 
 
 class CodexHookCommandContractTest(unittest.TestCase):

@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Credential-free tests for runtime smoke fixture and result contracts."""
+"""Credential-free tests for runtime discovery and CLI contracts."""
 
 from __future__ import annotations
 
-import json
 import sys
 import tempfile
 import unittest
@@ -43,45 +42,21 @@ class RuntimeFixtureTests(unittest.TestCase):
         self.assertEqual(rs.structural_errors(REPO_ROOT), [])
 
 
-class RuntimeResultTests(unittest.TestCase):
-    def test_runtime_result_direct_and_claude_wrapper_are_accepted(self) -> None:
-        result = {
-            "command": "help",
-            "skill_loaded": True,
-            "write_attempted": False,
-            "summary": "Catalog next step reported.",
-            "evidence": ["workflow/workflow-catalog.yaml"],
-        }
+class RuntimeCliContractTests(unittest.TestCase):
+    def test_runtime_cli_help_with_required_options_is_accepted(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            for name, value in (
-                ("direct.json", result),
-                ("wrapped.json", {"structured_output": result}),
-                ("string.json", {"result": json.dumps(result)}),
-            ):
-                with self.subTest(name=name):
-                    path = root / name
-                    path.write_text(json.dumps(value), encoding="utf-8")
-                    self.assertEqual(rs.validate_result(path, "help"), [])
+            for runtime, required in rs.CLI_HELP_REQUIREMENTS.items():
+                with self.subTest(runtime=runtime):
+                    path = Path(tmp) / f"{runtime}-help.txt"
+                    path.write_text("\n".join(required), encoding="utf-8")
+                    self.assertEqual(rs.validate_cli_help(path, runtime), [])
 
-    def test_runtime_result_write_or_wrong_command_is_rejected(self) -> None:
+    def test_runtime_cli_help_missing_option_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / "result.json"
-            path.write_text(
-                json.dumps(
-                    {
-                        "command": "constitute",
-                        "skill_loaded": True,
-                        "write_attempted": True,
-                        "summary": "bad",
-                        "evidence": ["x"],
-                    }
-                ),
-                encoding="utf-8",
-            )
-            errors = rs.validate_result(path, "help")
-            self.assertTrue(any("expected command" in error for error in errors))
-            self.assertTrue(any("write" in error for error in errors))
+            path = Path(tmp) / "claude-help.txt"
+            path.write_text("--print\n", encoding="utf-8")
+            errors = rs.validate_cli_help(path, "claude")
+            self.assertTrue(any("--json-schema" in error for error in errors))
 
 
 if __name__ == "__main__":

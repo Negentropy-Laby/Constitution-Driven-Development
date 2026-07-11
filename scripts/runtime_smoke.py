@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare and validate credential-free/runtime-backed adapter smoke fixtures."""
+"""Validate credential-free Claude/Codex structure and CLI contracts."""
 
 from __future__ import annotations
 
@@ -18,6 +18,26 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 KEY_SKILLS = ("constitute", "help", "cdd-status")
 NESTED_DIRS = ("src", "design", "docs")
 RUNTIMES = ("claude", "codex")
+CLI_HELP_REQUIREMENTS = {
+    "claude": (
+        "--print",
+        "--json-schema",
+        "--no-session-persistence",
+        "--permission-mode",
+        "--setting-sources",
+        "--tools",
+    ),
+    "codex": (
+        "exec",
+        "--ask-for-approval",
+        "--sandbox",
+        "--cd",
+        "--ephemeral",
+        "--ignore-user-config",
+        "--output-schema",
+        "--output-last-message",
+    ),
+}
 
 
 def _copy_tree(source: Path, destination: Path) -> None:
@@ -204,59 +224,33 @@ def structural_errors(repo_root: Path = REPO_ROOT) -> list[str]:
     return errors
 
 
-def _extract_result(value: object) -> dict[str, object]:
-    if isinstance(value, dict):
-        structured = value.get("structured_output")
-        if isinstance(structured, dict):
-            return structured
-        result = value.get("result")
-        if isinstance(result, str):
-            try:
-                parsed = json.loads(result)
-            except json.JSONDecodeError:
-                pass
-            else:
-                if isinstance(parsed, dict):
-                    return parsed
-        return value
-    raise ValueError("runtime result must be a JSON object")
+def validate_cli_help(path: Path, runtime: str) -> list[str]:
+    """Validate the pinned CLI exposes every release-contract option."""
 
-
-def validate_result(path: Path, command: str) -> list[str]:
-    errors: list[str] = []
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-        result = _extract_result(value)
-    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
-        return [f"invalid runtime result {path}: {exc}"]
-    if result.get("command") != command:
-        errors.append(f"expected command {command!r}, got {result.get('command')!r}")
-    if result.get("skill_loaded") is not True:
-        errors.append("runtime did not confirm the requested skill was loaded")
-    if result.get("write_attempted") is not False:
-        errors.append("read-only runtime smoke attempted or reported a write")
-    evidence = result.get("evidence")
-    if not isinstance(evidence, list) or not evidence or not all(isinstance(item, str) and item for item in evidence):
-        errors.append("runtime result must contain at least one non-empty evidence string")
-    if not isinstance(result.get("summary"), str) or not result["summary"].strip():
-        errors.append("runtime result must contain a non-empty summary")
-    return errors
+        help_text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        return [f"cannot read {runtime} CLI help evidence {path}: {exc}"]
+    return [
+        f"{runtime} CLI help omits required option: {token}"
+        for token in CLI_HELP_REQUIREMENTS[runtime]
+        if token not in help_text
+    ]
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Validate or prepare Claude/Codex runtime smoke fixtures.")
+    parser = argparse.ArgumentParser(description="Validate Claude/Codex structure and CLI contracts.")
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--structural", action="store_true", help="Run credential-free structural smoke checks.")
-    mode.add_argument("--prepare-fixture", type=Path, metavar="DIR", help="Create a minimal live-smoke fixture.")
-    mode.add_argument("--validate-result", type=Path, metavar="FILE", help="Validate one runtime JSON result.")
-    parser.add_argument("--runtime", choices=RUNTIMES, help="Runtime for --prepare-fixture.")
-    parser.add_argument("--command", choices=KEY_SKILLS, help="Expected command for --validate-result.")
+    mode.add_argument("--prepare-fixture", type=Path, metavar="DIR", help="Create a minimal discovery fixture.")
+    mode.add_argument("--validate-cli-help", type=Path, metavar="FILE", help="Validate pinned CLI help evidence.")
+    parser.add_argument("--runtime", choices=RUNTIMES, help="Runtime for fixture or CLI validation.")
     args = parser.parse_args(argv)
 
     if args.prepare_fixture is not None and args.runtime is None:
         parser.error("--prepare-fixture requires --runtime")
-    if args.validate_result is not None and args.command is None:
-        parser.error("--validate-result requires --command")
+    if args.validate_cli_help is not None and args.runtime is None:
+        parser.error("--validate-cli-help requires --runtime")
 
     try:
         if args.structural:
@@ -266,7 +260,7 @@ def main(argv: list[str] | None = None) -> int:
             manifest = sa.load_manifest(REPO_ROOT / "cdd-manifest.toml")
             errors = validate_fixture(args.prepare_fixture, args.runtime, manifest)
         else:
-            errors = validate_result(args.validate_result, args.command)
+            errors = validate_cli_help(args.validate_cli_help, args.runtime)
     except (OSError, UnicodeError, ValueError, tomllib.TOMLDecodeError) as exc:
         errors = [str(exc)]
 
