@@ -131,6 +131,88 @@ documents:
     owner: /cdd-status
     source: production/project-roadmap.md
 
+  cdd-manifest.toml:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Canonical -> generated adapter contract
+    generated_outputs:
+      - .claude/skills/**
+      - .agents/skills/**
+      - .claude/agents/**
+      - .codex/agents/**
+      - .claude/hooks/**
+      - .codex/hooks/**
+      - .claude/rules/**
+      - CLAUDE.md
+      - AGENTS.md
+      - src/CLAUDE.md
+      - src/AGENTS.md
+      - design/CLAUDE.md
+      - design/AGENTS.md
+      - docs/CLAUDE.md
+      - docs/AGENTS.md
+
+  INSTRUCTIONS.md:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Canonical root instructions (generated to CLAUDE.md + AGENTS.md)
+
+  src/INSTRUCTIONS.md:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Nested src/ guidance (-> src/CLAUDE.md + src/AGENTS.md)
+
+  design/INSTRUCTIONS.md:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Nested design/ guidance
+
+  docs/INSTRUCTIONS.md:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Nested docs/ guidance
+
+  skills/**:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Canonical skills (generated into adapter runtimes)
+
+  agents/**:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Canonical agents
+
+  hooks/**:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Canonical hooks
+
+  rules/**:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Canonical path-scoped policies (Claude-only generated projection)
+
+  memory_bank/t2_execution/framework_contract.md:
+    tier: T2
+    role: index
+    owner: maintainers
+    description: Canonical -> generated adapter contract index (skill lifecycle deferred)
+
+  memory_bank/t2_execution/adapter_state.yaml:
+    tier: T2
+    role: index
+    owner: maintainers
+    description: Reserved adapter freshness state (uninitialized; skill lifecycle deferred)
+
   skill_testing/catalog.yaml:
     tier: T2
     role: canonical

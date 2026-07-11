@@ -9,7 +9,7 @@ you'll lose validation features.
 | Tool | Purpose | Install |
 | ---- | ---- | ---- |
 | **Git** | Version control, branch management | [git-scm.com](https://git-scm.com/) |
-| **Claude Code** | AI agent CLI | `npm install -g @anthropic-ai/claude-code` |
+| **AI agent runtime** | Governed agent session | Claude Code (`npm install -g @anthropic-ai/claude-code`) and/or Codex — both share the same canonical sources |
 | **Python 3.11+** | Adapter generator, consistency checks, and test suite (`scripts/sync_adapters.py`, `scripts/workflow_consistency.py`, `unittest`); uses the stdlib `tomllib` | [python.org](https://www.python.org/) |
 
 ## Recommended

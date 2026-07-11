@@ -20,6 +20,7 @@ scripts/workflow_consistency.py imports directly. It never forges sys.argv.
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import fnmatch
 import json
 import os
@@ -35,9 +36,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = REPO_ROOT / "cdd-manifest.toml"
 
-ASSET_CLASSES = ("skills", "agents", "hooks", "root-instructions", "all")
-SOURCE_CLASSES = frozenset(ASSET_CLASSES[:-1])
-VALID_RUNTIMES = ("claude", "codex")
+ALL_TOKEN = "all"  # CLI --class value meaning every declared source
 BUILTIN_TRANSFORMS = {"agent_md_to_toml"}
 MANIFEST_TRANSFORMS = {"runtime_substitute"}
 
@@ -105,12 +104,19 @@ class CheckReport:
 
 
 @dataclass(frozen=True)
+class Runtime:
+    name: str
+    label: str
+
+
+@dataclass(frozen=True)
 class Source:
     name: str
     root: str | None
     include: str | None
     file: str | None
     expected_count: int
+    targets: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -127,6 +133,7 @@ class OutputSpec:
 @dataclass(frozen=True)
 class Manifest:
     version: int
+    runtimes: dict[str, Runtime]
     sources: dict[str, Source]
     outputs: tuple[OutputSpec, ...]
     replacements: tuple[tuple[str, str], ...]
@@ -288,7 +295,7 @@ def _validate_existing_chain(repo_root: Path, path: Path, *, final_kind: str | N
 
 
 def load_manifest(path: Path) -> Manifest:
-    """Load and strictly validate a version-1 adapter manifest."""
+    """Load and strictly validate a version-2 adapter manifest."""
 
     raw = path.read_bytes()
     if raw.startswith(b"\xef\xbb\xbf"):
@@ -303,26 +310,27 @@ def load_manifest(path: Path) -> Manifest:
 def _coerce_manifest(data: dict) -> Manifest:
     if not isinstance(data, dict):
         raise ValueError("manifest root must be a table")
-    known_top = {"version", "sources", "transforms", "outputs"}
+    known_top = {"version", "runtimes", "sources", "transforms", "outputs"}
     unknown_top = set(data) - known_top
     if unknown_top:
         raise ValueError(f"unknown manifest keys: {sorted(unknown_top)}")
-    if isinstance(data.get("version"), bool) or data.get("version") != 1:
-        raise ValueError(f"unsupported manifest version: {data.get('version')!r}")
+    version = data.get("version")
+    if type(version) is not int or version != 2:
+        if type(version) is int and version == 1:
+            raise ValueError(
+                "manifest version 1 is unsupported; see UPGRADING.md \"Manifest v2\": "
+                "add [runtimes.*] sections and a 'targets' list per source, then set version = 2"
+            )
+        raise ValueError(f"unsupported manifest version: {version!r} (expected 2)")
+
+    runtimes = _coerce_runtimes(data.get("runtimes", {}))
 
     sources_raw = data.get("sources", {})
     if not isinstance(sources_raw, dict) or not sources_raw:
         raise ValueError("manifest must declare at least one source")
-    if set(sources_raw) != SOURCE_CLASSES:
-        missing = sorted(SOURCE_CLASSES - set(sources_raw))
-        extra = sorted(set(sources_raw) - SOURCE_CLASSES)
-        raise ValueError(
-            f"manifest v1 sources must be exactly {sorted(SOURCE_CLASSES)}; "
-            f"missing={missing}, extra={extra}"
-        )
     sources: dict[str, Source] = {}
     for name, body in sources_raw.items():
-        sources[name] = _coerce_source(name, body)
+        sources[name] = _coerce_source(name, body, runtimes)
 
     transforms_raw = data.get("transforms", {})
     replacements, forbidden = _coerce_transforms(transforms_raw)
@@ -330,11 +338,12 @@ def _coerce_manifest(data: dict) -> Manifest:
     outputs_raw = data.get("outputs", [])
     if not isinstance(outputs_raw, list) or not outputs_raw:
         raise ValueError("manifest must declare at least one output")
-    outputs = tuple(_coerce_output(o, sources) for o in outputs_raw)
+    outputs = tuple(_coerce_output(o, sources, runtimes) for o in outputs_raw)
 
     _validate_output_topology(sources, outputs)
     return Manifest(
-        version=1,
+        version=2,
+        runtimes=runtimes,
         sources=sources,
         outputs=outputs,
         replacements=replacements,
@@ -342,10 +351,37 @@ def _coerce_manifest(data: dict) -> Manifest:
     )
 
 
-def _coerce_source(name: str, body: dict) -> Source:
+def _coerce_runtimes(raw: dict) -> dict[str, Runtime]:
+    if not isinstance(raw, dict) or not raw:
+        raise ValueError("manifest must declare at least one [runtimes.*] table")
+    runtimes: dict[str, Runtime] = {}
+    seen_casefold: set[str] = set()
+    for name, body in raw.items():
+        if not isinstance(name, str) or not NAME_RE.match(name):
+            raise ValueError(f"runtime id {name!r} must match {NAME_RE.pattern!r}")
+        if name.casefold() in seen_casefold:
+            raise ValueError(f"runtime id {name!r} collides case-insensitively with another runtime")
+        seen_casefold.add(name.casefold())
+        if not isinstance(body, dict):
+            raise ValueError(f"runtime {name!r} must be a table")
+        bad = set(body) - {"label"}
+        if bad:
+            raise ValueError(f"runtime {name!r} has unknown keys: {sorted(bad)}")
+        label = body.get("label")
+        if not isinstance(label, str) or not label:
+            raise ValueError(f"runtime {name!r} label must be a non-empty string")
+        runtimes[name] = Runtime(name=name, label=label)
+    return runtimes
+
+
+def _coerce_source(name: str, body: dict, runtimes: dict[str, Runtime]) -> Source:
+    if not isinstance(name, str) or not NAME_RE.match(name):
+        raise ValueError(f"source id {name!r} must match {NAME_RE.pattern!r}")
+    if name == ALL_TOKEN:
+        raise ValueError(f"source id {name!r} is reserved for the CLI --class selector")
     if not isinstance(body, dict):
         raise ValueError(f"source {name!r} must be a table")
-    known = {"root", "include", "file", "expected_count"}
+    known = {"root", "include", "file", "expected_count", "targets"}
     unknown = set(body) - known
     if unknown:
         raise ValueError(f"source {name!r} has unknown keys: {sorted(unknown)}")
@@ -366,7 +402,23 @@ def _coerce_source(name: str, body: dict) -> Source:
         _validate_posix_rel(file, f"source {name!r} file")
         if expected != 1:
             raise ValueError(f"single-file source {name!r} expected_count must equal 1")
-    return Source(name=name, root=root, include=include, file=file, expected_count=expected)
+    targets = _coerce_targets(body.get("targets"), runtimes, name)
+    return Source(name=name, root=root, include=include, file=file, expected_count=expected, targets=targets)
+
+
+def _coerce_targets(raw, runtimes: dict[str, Runtime], source_name: str) -> tuple[str, ...]:
+    if raw is None:
+        return tuple(runtimes)  # default: every declared runtime
+    if not isinstance(raw, list) or not raw or not all(isinstance(t, str) for t in raw):
+        raise ValueError(f"source {source_name!r} targets must be a non-empty list of strings")
+    seen: set[str] = set()
+    for target in raw:
+        if target not in runtimes:
+            raise ValueError(f"source {source_name!r} target {target!r} is not a declared runtime")
+        if target in seen:
+            raise ValueError(f"source {source_name!r} target {target!r} is duplicated")
+        seen.add(target)
+    return tuple(raw)
 
 
 def _coerce_transforms(transforms_raw: dict) -> tuple[tuple[tuple[str, str], ...], tuple[str, ...]]:
@@ -402,7 +454,7 @@ def _coerce_transforms(transforms_raw: dict) -> tuple[tuple[tuple[str, str], ...
     return tuple(reps), tuple(forb_raw)
 
 
-def _coerce_output(body: dict, sources: dict[str, Source]) -> OutputSpec:
+def _coerce_output(body: dict, sources: dict[str, Source], runtimes: dict[str, Runtime]) -> OutputSpec:
     if not isinstance(body, dict):
         raise ValueError("each output must be a table")
     known = {"source", "runtime", "transforms", "dest_root", "dest_pattern", "dest_file", "owns_tree"}
@@ -417,8 +469,10 @@ def _coerce_output(body: dict, sources: dict[str, Source]) -> OutputSpec:
         raise ValueError("output runtime must be a string")
     if source not in sources:
         raise ValueError(f"output references unknown source {source!r}")
-    if runtime not in VALID_RUNTIMES:
-        raise ValueError(f"output runtime must be one of {VALID_RUNTIMES}, got {runtime!r}")
+    if runtime not in runtimes:
+        raise ValueError(f"output runtime must be a declared runtime, got {runtime!r}")
+    if runtime not in sources[source].targets:
+        raise ValueError(f"output runtime {runtime!r} is not targeted by source {source!r}")
     transforms = body.get("transforms", [])
     if not isinstance(transforms, list) or not all(isinstance(t, str) for t in transforms):
         raise ValueError("output transforms must be a list of strings")
@@ -462,14 +516,14 @@ def _coerce_output(body: dict, sources: dict[str, Source]) -> OutputSpec:
 
 
 def _validate_output_topology(sources: dict[str, Source], outputs: tuple[OutputSpec, ...]) -> None:
-    expected_pairs = {(source, runtime) for source in SOURCE_CLASSES for runtime in VALID_RUNTIMES}
+    expected_pairs = {(name, target) for name, src in sources.items() for target in src.targets}
     actual_pairs = [(o.source, o.runtime) for o in outputs]
     if len(actual_pairs) != len(expected_pairs) or set(actual_pairs) != expected_pairs:
         missing = sorted(expected_pairs - set(actual_pairs))
         duplicates = sorted({pair for pair in actual_pairs if actual_pairs.count(pair) > 1})
         extra = sorted(set(actual_pairs) - expected_pairs)
         raise ValueError(
-            "manifest v1 requires exactly one Claude and one Codex output per source; "
+            "manifest outputs must cover each declared source target exactly once; "
             f"missing={missing}, duplicates={duplicates}, extra={extra}"
         )
 
@@ -546,7 +600,51 @@ def _read_canonical(path: Path) -> str:
 # ---------------------------------------------------------------------------
 
 
+# Adjacent-token collapse detection. runtime_substitute is a blind sequential
+# replace, so two distinct source tokens can collapse into one (e.g.
+# "CLAUDE.md and AGENTS.md" -> the AGENTS.md token repeated). The forbidden-literal
+# sweep cannot see that (no Claude token survives). A collapse can only duplicate
+# a substitution *target* token (two sources mapping to one output), so we compare
+# source and rendered lines and flag only a newly introduced target duplication.
+# This preserves pre-existing target prose while still catching source vocabulary
+# that collapses after replacement. Markdown inline-code delimiters and balanced
+# per-token parentheses are ignored for comparison.
+_ADJACENT_DUPLICATE = re.compile(
+    r"(?<!\S)\(?(?P<token>[^\s,()]+)\)?\s*"
+    r"(?:and|or|,(?:\s+(?:and|or))?)\s*\(?(?P=token)\)?(?=$|[\s.,;:])"
+)
+
+
+def _adjacent_target_duplicates(line: str, targets: tuple[str, ...]) -> Counter[str]:
+    """Count adjacent duplicate tokens containing a replacement target."""
+    duplicates: Counter[str] = Counter()
+    if not targets:
+        return duplicates
+    view = line.replace("`", "")
+    for match in _ADJACENT_DUPLICATE.finditer(view):
+        token = match.group("token")
+        if any(target and target in token for target in targets):
+            duplicates[token] += 1
+    return duplicates
+
+
+def _detect_adjacent_collapse(
+    source_line: str,
+    rendered_line: str,
+    targets: tuple[str, ...],
+) -> str | None:
+    """Return a diagnostic when substitution creates a new target duplication."""
+    before = _adjacent_target_duplicates(source_line, targets)
+    after = _adjacent_target_duplicates(rendered_line, targets)
+    for token, count in after.items():
+        if count > before[token]:
+            return f"duplicate adjacent token {token!r}"
+    return None
+
+
 def _runtime_substitute(text: str, replacements: tuple[tuple[str, str], ...], forbidden: tuple[str, ...]) -> str:
+    targets = tuple(dict.fromkeys(replace for _, replace in replacements))
+    source_lines = text.split("\n")
     for find, replace in replacements:
         text = text.replace(find, replace)
     # Scan per line for accurate line numbers in diagnostics.
@@ -556,11 +654,17 @@ def _runtime_substitute(text: str, replacements: tuple[tuple[str, str], ...], fo
                 raise SubstitutionError(
                     f"forbidden residual literal {lit!r} after substitution (line {lineno})"
                 )
+        source_line = source_lines[lineno - 1] if lineno <= len(source_lines) else ""
+        collapse = _detect_adjacent_collapse(source_line, line, targets)
+        if collapse is not None:
+            raise SubstitutionError(
+                f"semantic collapse after substitution: {collapse} (line {lineno})"
+            )
     return text
 
 
 class SubstitutionError(ValueError):
-    """Raised when a forbidden runtime literal survives substitution."""
+    """Raised when runtime substitution violates an output integrity guard."""
 
 
 def _agent_md_to_toml(text: str, context: RenderContext) -> str:
@@ -723,8 +827,9 @@ def _render(
 def build_sync_plan(manifest: Manifest, repo_root: Path, asset_class: str = "all") -> SyncPlan:
     """Render a complete, non-mutating sync plan after source/destination preflight."""
 
-    if asset_class not in ASSET_CLASSES:
-        raise ValueError(f"asset_class must be one of {ASSET_CLASSES}")
+    valid_classes = set(manifest.sources) | {ALL_TOKEN}
+    if asset_class not in valid_classes:
+        raise ValueError(f"asset_class must be one of {sorted(valid_classes)}, got {asset_class!r}")
     plan = SyncPlan(manifest=manifest, repo_root=repo_root, asset_class=asset_class)
 
     outputs = [
@@ -1399,9 +1504,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--class",
         dest="asset_class",
-        choices=ASSET_CLASSES,
-        default="all",
-        help="Restrict to one asset class.",
+        default=ALL_TOKEN,
+        help="Restrict to one declared source class (default: all).",
     )
     parser.add_argument("--manifest", default=str(DEFAULT_MANIFEST), help="Path to cdd-manifest.toml.")
     args = parser.parse_args(argv)
@@ -1414,6 +1518,14 @@ def main(argv: list[str] | None = None) -> int:
         manifest = load_manifest(manifest_path)
     except (OSError, UnicodeError, ValueError, tomllib.TOMLDecodeError) as exc:
         print(f"ERROR: invalid manifest: {exc}", file=sys.stderr)
+        return 1
+
+    valid_classes = set(manifest.sources) | {ALL_TOKEN}
+    if args.asset_class not in valid_classes:
+        print(
+            f"ERROR: --class {args.asset_class!r} must be one of {sorted(valid_classes)}",
+            file=sys.stderr,
+        )
         return 1
 
     repo_root = REPO_ROOT if manifest_path.resolve() == DEFAULT_MANIFEST.resolve() else manifest_path.resolve().parent

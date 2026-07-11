@@ -3,8 +3,8 @@
 > **How to go from zero to a shipped game or product using Constitution Driven Development.**
 >
 > This guide walks you through every phase of game or product development using the
-> 53-agent system, 74 slash commands, and 12 automated hooks. It assumes you
-> have Claude Code installed and are working from the project root.
+> 53-agent system, 74 slash commands, and 12 automated hooks. It assumes you have
+> an AI agent runtime (Claude Code and/or Codex) installed and are working from the project root.
 >
 > The pipeline has 7 phases. Each phase has a formal gate (`/gate-check`)
 > that must run before normal advancement. A FAIL verdict requires an explicit
@@ -41,7 +41,7 @@
 
 Before you start, make sure you have:
 
-- **Claude Code** installed and working
+- **An AI agent runtime** (Claude Code and/or Codex) installed and working
 - **Git** with Git Bash (Windows) or standard terminal (Mac/Linux)
 - **jq** (optional but recommended -- hooks fall back to `grep` if missing)
 - **Python 3.11+** (required -- the adapter generator and consistency checks use the stdlib `tomllib`; install to run the local validation commands and CI gate)
@@ -1490,7 +1490,7 @@ The system has 12 hooks that run automatically:
 | `validate-commit.sh` | Before commit | Checks for design doc references, valid JSON, no hardcoded values |
 | `validate-push.sh` | Before push | Warns on pushes to main/develop |
 | `validate-assets.sh` | Before commit | Checks asset naming and size |
-| `validate-skill-change.sh` | Skill file written | Advises canonical lint + regeneration on canonical `skills/` edits; warns on generated `.claude/skills/`/`.agents/skills/` edits |
+| `validate-generated-adapter-change.sh` | Adapter/source file written | Advises canonical source + regeneration on canonical edits; warns on generated adapter edits (skills/agents/hooks/rules/instructions) |
 | `log-agent.sh` | Agent start | Logs agent invocations for audit trail |
 | `log-agent-stop.sh` | Agent stop | Completes agent audit trail (start + stop) |
 | `session-stop.sh` | Session end | Final session logging |

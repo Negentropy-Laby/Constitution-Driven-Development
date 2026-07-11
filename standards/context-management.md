@@ -1,6 +1,6 @@
 # Context Management
 
-Context is the most critical resource in a Claude Code session. Manage it actively.
+Context is the most critical resource in an agent session. Manage it actively.
 
 ## File-Backed State (Primary Strategy)
 
@@ -56,6 +56,10 @@ This keeps the context window holding only the *current* section's discussion
 
 ## Proactive Compaction
 
+> Command names below (`/clear`, `/compact`) are Claude Code commands; Codex has
+> its own compaction flow (and the `PreCompact`/`PostCompact` hooks fire for both
+> runtimes). The compaction discipline is the same either way.
+
 - **Compact proactively** at ~60-70% context usage, not reactively at the limit
 - **Use `/clear`** between unrelated tasks, or after 2+ failed correction attempts
 - **Natural compaction points:** after writing a section to file, after committing,
@@ -70,6 +74,10 @@ This keeps the context window holding only the *current* section's discussion
 - Heavy (multi-system refactor): ~15k tokens
 
 ## Subagent Delegation
+
+> Subagent spawning (`Task` in Claude Code) is runtime-specific; both Claude Code
+> and Codex support subagents. The guidance below applies to whichever runtime
+> you use.
 
 Use subagents for research and exploration to keep the main session clean.
 Subagents run in their own context window and return only summaries:

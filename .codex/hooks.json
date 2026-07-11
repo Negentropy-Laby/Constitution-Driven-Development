@@ -6,12 +6,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .codex/hooks/validate-commit.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/validate-commit.sh\"",
             "timeout": 15
           },
           {
             "type": "command",
-            "command": "bash .codex/hooks/validate-push.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/validate-push.sh\"",
             "timeout": 10
           }
         ]
@@ -23,12 +23,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .codex/hooks/validate-assets.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/validate-assets.sh\"",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "bash .codex/hooks/validate-skill-change.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/validate-generated-adapter-change.sh\"",
             "timeout": 5
           }
         ]
@@ -40,7 +40,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .codex/hooks/pre-compact.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/pre-compact.sh\"",
             "timeout": 10
           }
         ]
@@ -52,7 +52,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .codex/hooks/post-compact.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/post-compact.sh\"",
             "timeout": 10
           }
         ]
@@ -64,12 +64,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .codex/hooks/session-start.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/session-start.sh\"",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "bash .codex/hooks/detect-gaps.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/detect-gaps.sh\"",
             "timeout": 10
           }
         ]
@@ -81,7 +81,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .codex/hooks/log-agent.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/log-agent.sh\"",
             "timeout": 5
           }
         ]
@@ -93,7 +93,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .codex/hooks/log-agent-stop.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/log-agent-stop.sh\"",
             "timeout": 5
           }
         ]
@@ -104,7 +104,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .codex/hooks/session-stop.sh",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/session-stop.sh\"",
             "timeout": 10
           }
         ]

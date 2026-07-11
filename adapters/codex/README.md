@@ -18,5 +18,12 @@ only `name`, `description`, and `developer_instructions`. It intentionally drops
 on any unknown frontmatter field. The canonical `agents/*.md` keeps the full
 frontmatter as canonical metadata.
 
+Nested per-directory guidance generates `AGENTS.md` siblings under `src/`,
+`design/`, and `docs/` (Codex discovers them along the repository-root to
+working-directory chain at session start). Codex's native `.codex/rules/*.rules`
+files are unrelated command-approval policy, never generated, and never owned by
+the generator; CDD path policies live in canonical `rules/` and Codex consults
+them through root guidance rather than automatic path-glob loading.
+
 Do not add canonical workflow catalogs, document templates, shared standards, or
 skill testing specs under `.agents/` or `.codex/`.

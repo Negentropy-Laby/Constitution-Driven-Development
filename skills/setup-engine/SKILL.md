@@ -238,7 +238,7 @@ The user can select multiple topics. Answer each selected topic in depth before 
 ## 4. Update INSTRUCTIONS.md Technology Stack
 
 Read `INSTRUCTIONS.md` and show the user the proposed Technology Stack changes.
-Ask: "May I write these settings to `INSTRUCTIONS.md`? Writing it also regenerates the runtime root-instruction files (`CLAUDE.md` and `AGENTS.md`): `python scripts/sync_adapters.py --write --class root-instructions`."
+Ask: "May I write these settings to `INSTRUCTIONS.md`? Writing it also regenerates every runtime root-instruction adapter declared in `cdd-manifest.toml`: `python scripts/sync_adapters.py --write --class root-instructions`."
 
 Wait for confirmation before making any edits. After writing `INSTRUCTIONS.md`, run that regeneration command so the runtime files stay in sync.
 
@@ -700,7 +700,7 @@ Wait for confirmation before writing any files.
 
 ## 8. Update INSTRUCTIONS.md Import
 
-Ask: "May I update the `@` import in `INSTRUCTIONS.md` to point to the new reference? This regenerates `CLAUDE.md` and `AGENTS.md`: `python scripts/sync_adapters.py --write --class root-instructions`."
+Ask: "May I update the `@` import in `INSTRUCTIONS.md` to point to the new reference? This regenerates every runtime root-instruction adapter declared in `cdd-manifest.toml`: `python scripts/sync_adapters.py --write --class root-instructions`."
 
 Wait for confirmation, then update. After the import edit, run that regeneration command.
 

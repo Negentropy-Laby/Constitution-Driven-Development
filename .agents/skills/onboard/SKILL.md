@@ -27,7 +27,7 @@ Preserve game role onboarding examples. Product onboarding is added as an equiva
 
 Read AGENTS.md for project overview and standards.
 
-Read the relevant agent definition from `.codex/agents/` if a specific role is specified.
+Read the relevant agent definition from `agents/` if a specific role is specified.
 
 ---
 

@@ -4,6 +4,13 @@
 - **Date:** 2026-07-10
 - **Baseline:** `main` @ `43082d4`
 
+> **Superseded in part by [ADR-0002](adr-0002-runtime-parity-and-adapter-governance.md)**
+> (2026-07-11): runtime parity (Codex becomes first-class), manifest-declared
+> runtimes/targets, canonicalized rules and nested instructions, the
+> semantic-collapse guard, and mixed-runtime-root ownership are extended by
+> ADR-0002. This ADR's core canonical→generated decision and its rejection of
+> fully tokenized prose remain valid.
+
 ## Context
 
 CDD supports multiple agent runtimes (Claude Code primary, Codex secondary). Until

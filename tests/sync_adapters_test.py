@@ -70,7 +70,7 @@ def _context(stem: str = "writer") -> "sa.RenderContext":
 
 
 def _valid_manifest_data() -> dict:
-    """A complete v1 manifest dict suitable for targeted schema mutations."""
+    """A complete v2 manifest dict suitable for targeted schema mutations."""
     sources = {
         "skills": {"root": "skills", "include": "*/SKILL.md", "expected_count": 1},
         "agents": {"root": "agents", "include": "*.md", "expected_count": 1},
@@ -97,7 +97,8 @@ def _valid_manifest_data() -> dict:
          "transforms": ["runtime_substitute"], "owns_tree": False},
     ]
     return {
-        "version": 1,
+        "version": 2,
+        "runtimes": {"claude": {"label": "Claude Code"}, "codex": {"label": "Codex"}},
         "sources": sources,
         "transforms": {
             "runtime_substitute": {
@@ -115,30 +116,65 @@ class ManifestTests(unittest.TestCase):
             root = Path(tmp)
             write(root / "skills" / "a" / "SKILL.md", "---\nname: a\n---\n# A\n")
             m = sa.load_manifest(_manifest(root, skills_count=1))
-            self.assertEqual(m.version, 1)
+            self.assertEqual(m.version, 2)
             self.assertEqual(m.sources["skills"].expected_count, 1)
             self.assertEqual(len(m.outputs), 8)
             self.assertEqual(len(m.replacements), 3)  # the helper manifest's rule set
 
     def test_unknown_top_key_rejected(self) -> None:
         with self.assertRaises(ValueError):
-            sa._coerce_manifest({"version": 1, "bogus": {}})
+            sa._coerce_manifest({"version": 2, "bogus": {}})
 
     def test_unsupported_version_rejected(self) -> None:
-        with self.assertRaises(ValueError):
-            sa._coerce_manifest({"version": 2})
+        for bad in (0, 3, "2", 1.0, 2.0, True):
+            with self.subTest(version=bad), self.assertRaises(ValueError):
+                sa._coerce_manifest({"version": bad})
 
-    def test_v1_requires_exact_source_names(self) -> None:
+    def test_v1_manifest_rejected_with_actionable_error(self) -> None:
+        with self.assertRaisesRegex(ValueError, r"version 1 is unsupported.*UPGRADING"):
+            sa._coerce_manifest({"version": 1})
+
+    def test_source_id_must_match_pattern(self) -> None:
         data = _valid_manifest_data()
-        data["sources"]["unknown"] = data["sources"].pop("hooks")
+        data["sources"]["Bad_Source"] = data["sources"].pop("hooks")
         with self.assertRaises(ValueError):
             sa._coerce_manifest(data)
 
-    def test_v1_requires_one_output_per_source_and_runtime(self) -> None:
+    def test_source_id_all_is_reserved_for_cli_selector(self) -> None:
+        data = _valid_manifest_data()
+        data["sources"]["all"] = data["sources"].pop("hooks")
+        for output in data["outputs"]:
+            if output["source"] == "hooks":
+                output["source"] = "all"
+        with self.assertRaisesRegex(ValueError, "reserved"):
+            sa._coerce_manifest(data)
+
+    def test_requires_one_output_per_declared_source_target(self) -> None:
         data = _valid_manifest_data()
         data["outputs"].pop()
         with self.assertRaises(ValueError):
             sa._coerce_manifest(data)
+
+    def test_runtimes_required_and_validated(self) -> None:
+        # No runtimes -> rejected.
+        data = _valid_manifest_data()
+        data.pop("runtimes")
+        with self.assertRaises(ValueError):
+            sa._coerce_manifest(data)
+        # Bad runtime id -> rejected.
+        data = _valid_manifest_data()
+        data["runtimes"]["BadRuntime"] = data["runtimes"].pop("codex")
+        with self.assertRaises(ValueError):
+            sa._coerce_manifest(data)
+
+    def test_asymmetric_targets_supported(self) -> None:
+        # A source may target a subset of runtimes; outputs must match exactly.
+        data = _valid_manifest_data()
+        data["sources"]["hooks"]["targets"] = ["claude"]
+        # Remove the codex hooks output to match the declared target.
+        data["outputs"] = [o for o in data["outputs"] if not (o["source"] == "hooks" and o["runtime"] == "codex")]
+        m = sa._coerce_manifest(data)  # should not raise
+        self.assertEqual(m.sources["hooks"].targets, ("claude",))
 
     def test_output_must_declare_exactly_one_dest_form(self) -> None:
         data = _valid_manifest_data()
@@ -381,6 +417,99 @@ class SubstitutionTests(unittest.TestCase):
         with self.assertRaises(sa.SubstitutionError):
             sa._runtime_substitute("Claude", (), self.forb)
 
+    def test_real_setup_engine_prose_collapses_and_is_rejected(self) -> None:
+        # Regression for the original P0 bug: the exact canonical sentence from
+        # skills/setup-engine/SKILL.md, run through the real pipeline, must raise.
+        canonical = (
+            "regenerates the runtime root-instruction files "
+            "(`CLAUDE.md` and `AGENTS.md`)"
+        )
+        with self.assertRaises(sa.SubstitutionError) as ctx:
+            sa._runtime_substitute(canonical, self.reps, self.forb)
+        self.assertIn("collapse", str(ctx.exception))
+
+    def test_real_skill_improve_prose_collapses_and_is_rejected(self) -> None:
+        canonical = (
+            "regenerates the runtime adapters "
+            "(`.claude/skills/[name]/SKILL.md` and "
+            "`.agents/skills/[name]/SKILL.md`)"
+        )
+        with self.assertRaises(sa.SubstitutionError):
+            sa._runtime_substitute(canonical, self.reps, self.forb)
+
+    def test_runtime_name_doubling_is_rejected(self) -> None:
+        # "Claude Code and Claude Code" -> "Codex and Codex" through the real
+        # pipeline; the doubled "Codex" target token is flagged.
+        with self.assertRaises(sa.SubstitutionError):
+            sa._runtime_substitute("use Claude Code and Claude Code here", self.reps, self.forb)
+
+    def test_connector_variants_are_rejected(self) -> None:
+        for connector in ("and", "or", ","):
+            with self.subTest(connector=connector):
+                with self.assertRaises(sa.SubstitutionError):
+                    sa._runtime_substitute(
+                        f"see `CLAUDE.md` {connector} `CLAUDE.md`", self.reps, self.forb
+                    )
+
+    def test_pre_existing_non_target_repetition_passes(self) -> None:
+        # Repeating a path that is NOT a substitution target is not a collapse the
+        # transform could introduce, so it must be allowed (regression for the
+        # legitimate same-path-twice prose in skills such as gate-check).
+        out = sa._runtime_substitute(
+            "update memory_bank/t3_archive/gate_runs/ and "
+            "memory_bank/t3_archive/gate_runs/ if needed",
+            self.reps,
+            self.forb,
+        )
+        self.assertIn("memory_bank", out)
+
+    def test_pre_existing_target_repetition_passes(self) -> None:
+        out = sa._runtime_substitute(
+            "Compare Codex and Codex behavior.",
+            self.reps,
+            self.forb,
+        )
+        self.assertEqual(out, "Compare Codex and Codex behavior.")
+
+    def test_parenthesized_distinct_tokens_collapse_is_rejected(self) -> None:
+        with self.assertRaises(sa.SubstitutionError):
+            sa._runtime_substitute(
+                "Compare (CLAUDE.md) and (AGENTS.md).",
+                self.reps,
+                self.forb,
+            )
+
+    def test_comma_conjunction_distinct_tokens_collapse_is_rejected(self) -> None:
+        for connector in (", and", ", or"):
+            with self.subTest(connector=connector), self.assertRaises(sa.SubstitutionError):
+                sa._runtime_substitute(
+                    f"Compare CLAUDE.md{connector} AGENTS.md.",
+                    self.reps,
+                    self.forb,
+                )
+
+    def test_legitimate_non_adjacent_repetition_passes(self) -> None:
+        out = sa._runtime_substitute(
+            "Read AGENTS.md first. Later, read AGENTS.md again.", self.reps, self.forb
+        )
+        self.assertIn("AGENTS.md", out)
+
+    def test_distinct_adjacent_filenames_pass(self) -> None:
+        # Different tokens across a connector are fine; only substitution-made
+        # identical tokens collapse.
+        out = sa._runtime_substitute(
+            "regenerates (`CLAUDE.md` and `different.md`)", self.reps, self.forb
+        )
+        self.assertIn("AGENTS.md", out)
+
+    def test_second_token_with_target_prefix_passes(self) -> None:
+        out = sa._runtime_substitute(
+            "Use Claude Code and Claude Code-generated output.",
+            self.reps,
+            self.forb,
+        )
+        self.assertEqual(out, "Use Codex and Codex-generated output.")
+
     def test_transform_cannot_introduce_bom_or_cr_into_rendered_output(self) -> None:
         for label, replacement in (("bom", "\ufeffCodex"), ("cr", "Codex\r")):
             with self.subTest(label=label), tempfile.TemporaryDirectory() as tmp:
@@ -508,7 +637,9 @@ def _manifest(
     """Write a minimal but realistic manifest covering all four classes."""
     path = root / "cdd-manifest.toml"
     write(path, (
-        "version = 1\n"
+        "version = 2\n"
+        '[runtimes.claude]\nlabel = "Claude Code"\n'
+        '[runtimes.codex]\nlabel = "Codex"\n'
         f'[sources.skills]\nroot = "skills"\ninclude = "*/SKILL.md"\nexpected_count = {skills_count}\n'
         f'[sources.agents]\nroot = "agents"\ninclude = "*.md"\nexpected_count = {agents_count}\n'
         f'[sources.hooks]\nroot = "hooks"\ninclude = "*.sh"\nexpected_count = {hooks_count}\n'
@@ -1117,17 +1248,27 @@ class CliTests(unittest.TestCase):
             self.assertFalse((root / ".agents").exists())
             self.assertFalse((root / ".claude").exists())
 
-    def test_mutually_exclusive_modes_and_bad_class_are_usage_exit_two(self) -> None:
-        for argv in (["--write", "--check"], ["--class", "not-a-class"]):
-            with self.subTest(argv=argv):
-                stdout = io.StringIO()
-                stderr = io.StringIO()
-                with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
-                    with self.assertRaises(SystemExit) as raised:
-                        sa.main(list(argv))
-                self.assertEqual(raised.exception.code, 2)
-                self.assertIn("usage:", stderr.getvalue().lower())
-                self.assertNotIn("Traceback", stderr.getvalue())
+    def test_mutually_exclusive_modes_exit_two(self) -> None:
+        stdout = io.StringIO()
+        stderr = io.StringIO()
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            with self.assertRaises(SystemExit) as raised:
+                sa.main(["--write", "--check"])
+        self.assertEqual(raised.exception.code, 2)
+        self.assertIn("usage:", stderr.getvalue().lower())
+        self.assertNotIn("Traceback", stderr.getvalue())
+
+    def test_bad_class_rejected_after_manifest_load(self) -> None:
+        # --class is a free string (source classes are manifest-declared); an
+        # unknown class is rejected after the manifest loads, returning 1.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root / "skills" / "a" / "SKILL.md", "---\nname: a\n---\n# A\n")
+            manifest = _manifest(root)
+            code, stdout, stderr = self._run(["--manifest", str(manifest), "--class", "not-a-class"])
+        self.assertEqual(code, 1)
+        self.assertIn("not-a-class", stderr)
+        self.assertNotIn("Traceback", stdout + stderr)
 
     def test_diff_preview_is_bounded_per_file_and_for_first_ten_files(self) -> None:
         long_expected = "".join(f"expected {i}\n" for i in range(50))
@@ -1202,18 +1343,70 @@ class RepoBaselineTests(unittest.TestCase):
             self.assertTrue(second.ok)
             self.assertEqual(snapshot(root), after_first)
 
-    def test_all_280_generated_outputs_are_exactly_fresh(self) -> None:
+    def test_all_generated_outputs_are_exactly_fresh(self) -> None:
         report = sa.check_plan(self.plan)
-        self.assertEqual(len(self.plan.rendered), 280)
-        self.assertEqual(len(report.drifts), 280)
+        # Total = sum of each source's expected_count * its declared target count.
+        expected_total = sum(
+            src.expected_count * len(src.targets)
+            for src in self.plan.manifest.sources.values()
+        )
+        self.assertEqual(expected_total, 302)  # 74*2 + 53*2 + 12*2 + 1*2 + 16(claude) + 3 dirs *2 nested
+        self.assertEqual(len(self.plan.rendered), expected_total)
+        self.assertEqual(len(report.drifts), expected_total)
         self.assertEqual(report.diagnostics, [])
         self.assertEqual(
             report.counts(),
-            {sa.OK: 280, sa.STALE: 0, sa.MISSING: 0, sa.EXTRA: 0, sa.INVALID: 0},
+            {sa.OK: expected_total, sa.STALE: 0, sa.MISSING: 0, sa.EXTRA: 0, sa.INVALID: 0},
         )
         self.assertTrue(all(d.status == sa.OK for d in report.drifts))
         for rendered in self.plan.rendered:
             self.assertEqual((REPO_ROOT / rendered.dest).read_bytes(), rendered.expected, rendered.dest)
+
+    def test_rules_canonical_claude_only_and_byte_identical(self) -> None:
+        # rules/ is canonical; .claude/rules/ is a byte-identical Claude-only
+        # generated projection. (Codex has no rules output; see
+        # test_codex_native_rules_survive_generation for the survival contract.)
+        canonical = {p.name: p.read_bytes() for p in sorted((REPO_ROOT / "rules").glob("*.md"))}
+        self.assertEqual(len(canonical), 16)
+        for name, blob in canonical.items():
+            self.assertEqual((REPO_ROOT / ".claude" / "rules" / name).read_bytes(), blob, name)
+        self.assertEqual(self.plan.manifest.sources["rules"].targets, ("claude",))
+
+    def test_codex_native_rules_survive_generation(self) -> None:
+        # A user's native .codex/rules/default.rules must survive --check and
+        # --write: rules targets Claude only, so .codex/rules is never a managed
+        # root and the generator must not flag or prune it.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root / "skills" / "a" / "SKILL.md", "---\nname: a\n---\n# A\n")
+            write(root / "rules" / "engine-code.md", "---\npaths:\n  - src/core/**\n---\nzero allocs\n")
+            native = root / ".codex" / "rules" / "default.rules"
+            write(native, 'prefix_rule(pattern=["echo"], decision="allow")\n')
+            manifest = root / "cdd-manifest.toml"
+            write(manifest, (
+                'version = 2\n[runtimes.claude]\nlabel="Claude"\n[runtimes.codex]\nlabel="Codex"\n'
+                '[sources.skills]\nroot="skills"\ninclude="*/SKILL.md"\nexpected_count=1\n'
+                '[sources.rules]\nroot="rules"\ninclude="*.md"\nexpected_count=1\ntargets=["claude"]\n'
+                '[[outputs]]\nsource="skills"\nruntime="claude"\ndest_root=".claude/skills"\ndest_pattern="{relative}"\ntransforms=[]\nowns_tree=true\n'
+                '[[outputs]]\nsource="skills"\nruntime="codex"\ndest_root=".agents/skills"\ndest_pattern="{relative}"\ntransforms=[]\nowns_tree=true\n'
+                '[[outputs]]\nsource="rules"\nruntime="claude"\ndest_root=".claude/rules"\ndest_pattern="{name}"\ntransforms=[]\nowns_tree=true\n'
+            ))
+            m = sa.load_manifest(manifest)
+            plan = sa.build_sync_plan(m, root, "all")
+            self.assertTrue(sa.apply_plan(plan).ok, plan.diagnostics)
+            self.assertEqual(native.read_text(), 'prefix_rule(pattern=["echo"], decision="allow")\n')
+            report = sa.check_plan(sa.build_sync_plan(m, root, "all"))
+            self.assertTrue(report.ok, report.diagnostics)
+
+    def test_nested_instructions_byte_identical_siblings(self) -> None:
+        for d in ("src", "design", "docs"):
+            inst = (REPO_ROOT / d / "INSTRUCTIONS.md").read_bytes()
+            self.assertEqual((REPO_ROOT / d / "CLAUDE.md").read_bytes(), inst, f"{d}/CLAUDE.md")
+            self.assertEqual((REPO_ROOT / d / "AGENTS.md").read_bytes(), inst, f"{d}/AGENTS.md")
+            # Nested guidance is runtime-neutral: no CLAUDE.md self-reference.
+            self.assertNotIn(b"CLAUDE.md", (REPO_ROOT / d / "AGENTS.md").read_bytes(), f"{d}/AGENTS.md")
+        for name in ("nested-src", "nested-design", "nested-docs"):
+            self.assertEqual(self.plan.manifest.sources[name].targets, ("claude", "codex"))
 
     def test_real_53_codex_agents_are_byte_and_value_exact(self) -> None:
         expected = {

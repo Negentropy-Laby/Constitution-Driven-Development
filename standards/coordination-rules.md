@@ -14,6 +14,10 @@
 
 ## Model Tier Assignment
 
+> **Claude Code-specific.** The model IDs and `model:` frontmatter below apply to
+> Claude Code skill/agent definitions. Codex selects models via its own config and
+> ignores this field; treat the tiers as task-complexity guidance only there.
+
 Skills and agents are assigned to model tiers based on task complexity:
 
 | Tier | Model | When to use |
@@ -33,6 +37,11 @@ skill only reads and formats; assign Opus if it must synthesize 5+ documents wit
 high-stakes output; otherwise leave unset (Sonnet).
 
 ## Subagents vs Agent Teams
+
+> **Claude Code-specific mechanisms.** `Task` spawning and the
+> `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` env var are Claude Code features. Codex
+> has its own subagent mechanism; the parallel/sequential guidance below applies to
+> whichever runtime you use.
 
 This project uses two distinct multi-agent patterns:
 

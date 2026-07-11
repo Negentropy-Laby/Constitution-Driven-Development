@@ -148,7 +148,7 @@ For dual-domain parity fixes:
 - Reuse existing Product paths: `design/cdd/`, `design/ux/`, `docs/architecture/`, `production/qa/`, `production/releases/`, `tests/`, and `docs/reference/<stack>/`.
 - Prefer a focused additive patch over a broad rewrite.
 
-Ask: "May I write this improved version to `skills/[name]/SKILL.md`? This also regenerates the runtime adapters (`.agents/skills/[name]/SKILL.md` and `.agents/skills/[name]/SKILL.md`)."
+Ask: "May I write this improved version to `skills/[name]/SKILL.md`? This also regenerates the runtime adapters declared in `cdd-manifest.toml` for that skill (`python scripts/sync_adapters.py --write --class skills`)."
 
 If the user says no, stop here.
 

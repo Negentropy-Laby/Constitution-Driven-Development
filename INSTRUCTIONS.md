@@ -62,6 +62,13 @@ See `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for full protocol and examples.
 
 @standards/coding-standards.md
 
+## Path Policy Rules
+
+Canonical path-scoped coding policies live in `rules/*.md`. Each file's
+frontmatter `paths:` lists the globs it governs. Before editing files in a path,
+consult the matching rule file(s). (Claude Code auto-loads these per path; Codex
+has no path-glob equivalent, so consult them manually there.)
+
 ## Context Management
 
 @standards/context-management.md

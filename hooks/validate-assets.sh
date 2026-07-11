@@ -1,72 +1,153 @@
 #!/bin/bash
-# Claude Code PostToolUse hook: Validates asset files after Write/Edit
-# Checks naming conventions for files in assets/ directory
+# PostToolUse hook: validates asset files (naming + JSON) after edits.
+# Works for both runtimes:
+#   - Claude Code Write|Edit provides tool_input.file_path  -> advisory on stderr
+#   - Codex apply_patch       provides tool_input.command    -> advisory as JSON
+#     on stdout (plain stdout/stderr is ignored by Codex PostToolUse).
 #
 # Exit behavior:
-#   exit 0 = success or advisory warnings only (non-blocking)
-#   exit 1 = blocking error (build-breaking issues: invalid JSON, missing required fields)
+#   exit 0 = success/advisory, or a Codex JSON block decision for invalid JSON
+#   exit 1 = Claude-side invalid JSON failure reported on stderr
 #
-# Input schema (PostToolUse for Write/Edit):
-# { "tool_name": "Write", "tool_input": { "file_path": "assets/data/foo.json", "content": "..." } }
+# Classification: only paths under assets/ are checked.
 
+set -u
+NL=$'\n'
 INPUT=$(cat)
 
-# Parse file path -- use jq if available, fall back to grep
+# Parse tool_input.file_path and tool_input.command (jq, else grep/sed fallback).
+FILE_PATH=""
+COMMAND=""
 if command -v jq >/dev/null 2>&1; then
-    FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
+    FILE_PATH=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null)
+    COMMAND=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
 else
-    FILE_PATH=$(echo "$INPUT" | grep -oE '"file_path"[[:space:]]*:[[:space:]]*"[^"]*"' | sed 's/"file_path"[[:space:]]*:[[:space:]]*"//;s/"$//')
+    FILE_PATH=$(printf '%s' "$INPUT" | grep -oE '"file_path"[[:space:]]*:[[:space:]]*"[^"]*"' | sed 's/.*"file_path"[[:space:]]*:[[:space:]]*"//;s/"$//;s/\\\\/\\/g' | head -1)
+    COMMAND=$(printf '%s' "$INPUT" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\(.*\)"[[:space:]]*[,}].*/\1/p' | sed 's|\\\\|/|g' | head -1)
 fi
 
-# Normalize path separators (Windows backslash to forward slash)
-FILE_PATH=$(echo "$FILE_PATH" | sed 's|\\|/|g')
+norm() { printf '%s' "$1" | sed 's|\\|/|g'; }
 
-# Only check files in assets/
-if ! echo "$FILE_PATH" | grep -qE '(^|/)assets/'; then
-    exit 0
-fi
-
-FILENAME=$(basename "$FILE_PATH")
-WARNINGS=""   # Style/convention issues -- exit 0 with advisory message
-ERRORS=""     # Build-breaking issues -- exit 1 to block the operation
-
-# ADVISORY: Check naming convention (lowercase with underscores only)
-# Naming issues are style violations -- warn but do not block
-# Uses grep -E (POSIX) not grep -P (Perl) for Windows Git Bash compatibility
-if echo "$FILENAME" | grep -qE '[A-Z[:space:]-]'; then
-    WARNINGS="$WARNINGS\n  NAMING: $FILE_PATH must be lowercase with underscores (got: $FILENAME)"
-fi
-
-# BLOCKING: Check JSON validity for data files
-# Invalid JSON will break runtime loading -- this is a build-breaking error
-if echo "$FILE_PATH" | grep -qE '(^|/)assets/data/.*\.json$'; then
-    if [ -f "$FILE_PATH" ]; then
-        # Find a working Python command
-        PYTHON_CMD=""
-        for cmd in python python3 py; do
-            if command -v "$cmd" >/dev/null 2>&1; then
-                PYTHON_CMD="$cmd"
-                break
+# Hook commands run with the session cwd, which may be below the repository
+# root. Resolve relative edit paths against Git's toplevel for filesystem checks;
+# retain the original normalized path for classification and diagnostics.
+GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || GIT_ROOT=""
+GIT_ROOT=$(norm "$GIT_ROOT")
+resolve_for_check() {
+    local p; p=$(norm "$1")
+    case "$p" in
+        /*|[A-Za-z]:/*) printf '%s' "$p" ;;
+        *)
+            if [ -n "$GIT_ROOT" ]; then
+                printf '%s/%s' "$GIT_ROOT" "$p"
+            else
+                printf '%s' "$p"
             fi
-        done
+            ;;
+    esac
+}
 
-        if [ -n "$PYTHON_CMD" ]; then
-            if ! "$PYTHON_CMD" -m json.tool "$FILE_PATH" > /dev/null 2>&1; then
-                ERRORS="$ERRORS\n  FORMAT: $FILE_PATH is not valid JSON — fix syntax errors before continuing"
+# Collect candidate paths as provided (deduped) so diagnostics preserve the
+# patch spelling. Filesystem checks resolve them separately through
+# resolve_for_check() above.
+PATHS=""
+add_path() {
+    local p existing; p=$(norm "$1"); [ -z "$p" ] && return
+    if [ -n "$PATHS" ]; then
+        while IFS= read -r existing; do
+            [ "$existing" = "$p" ] && return
+        done < <(printf '%s\n' "$PATHS")
+    fi
+    PATHS="${PATHS:+$PATHS$NL}$p"
+}
+[ -n "$FILE_PATH" ] && add_path "$FILE_PATH"
+if [ -n "$COMMAND" ]; then
+    # apply_patch Update/Add headers plus an optional rename destination.
+    while IFS= read -r pp; do
+        [ -n "$pp" ] && add_path "$pp"
+    done < <(
+        printf '%s\n' "$COMMAND" |
+            sed 's/\\n/\n/g' |
+            sed -n \
+                -e 's/^.*\(Update\|Add\) File: //p' \
+                -e 's/^.*Move to: //p'
+    )
+fi
+
+EMIT_JSON=false
+[ -n "$COMMAND" ] && EMIT_JSON=true
+
+WARNINGS=""
+ERRORS=""
+saw_assets=false
+
+while IFS= read -r P; do
+    [ -z "$P" ] && continue
+    case "$P" in
+        */assets/*|assets/*) ;;
+        *) continue ;;
+    esac
+    saw_assets=true
+    FILENAME=$(basename "$P")
+    # ADVISORY: lowercase-with-underscores naming (POSIX grep, not Perl).
+    if echo "$FILENAME" | grep -qE '[A-Z[:space:]-]'; then
+        WARNINGS="${WARNINGS}${WARNINGS:+$NL}  NAMING: $P must be lowercase with underscores (got: $FILENAME)"
+    fi
+    # BLOCKING: JSON validity for assets/data/*.json.
+    if echo "$P" | grep -qE '(^|/)assets/data/.*\.json$'; then
+        CHECK_PATH=$(resolve_for_check "$P")
+        if [ -f "$CHECK_PATH" ]; then
+            PYTHON_CMD=""
+            for cmd in python python3 py; do
+                if command -v "$cmd" >/dev/null 2>&1; then PYTHON_CMD="$cmd"; break; fi
+            done
+            if [ -n "$PYTHON_CMD" ]; then
+                if ! "$PYTHON_CMD" -m json.tool "$CHECK_PATH" > /dev/null 2>&1; then
+                    ERRORS="${ERRORS}${ERRORS:+$NL}  FORMAT: $P is not valid JSON — fix syntax errors before continuing"
+                fi
             fi
         fi
     fi
-fi
+done < <(printf '%s\n' "$PATHS")
 
-# Report warnings (advisory -- non-blocking)
-if [ -n "$WARNINGS" ]; then
-    echo -e "=== Asset Validation: Warnings ===$WARNINGS\n==================================\n(Warnings are advisory. Fix before final commit.)" >&2
-fi
+[ "$saw_assets" = false ] && exit 0
 
-# Report errors and block if any build-breaking issues found
+emit_block() {
+    local msg=""
+    if [ -n "$WARNINGS" ]; then
+        msg="${msg}=== Asset Validation: Warnings ===${WARNINGS}${NL}==================================${NL}(Warnings are advisory. Fix before final commit.)${NL}"
+    fi
+    if [ -n "$ERRORS" ]; then
+        msg="${msg}=== Asset Validation: ERRORS (Blocking) ===${ERRORS}${NL}===========================================${NL}Fix these errors before proceeding."
+    fi
+    if $EMIT_JSON; then
+        if command -v jq >/dev/null 2>&1; then
+            if [ -n "$ERRORS" ]; then
+                printf '%s' "$msg" | jq -Rsc '{decision:"block",reason:.,hookSpecificOutput:{hookEventName:"PostToolUse",additionalContext:.}}'
+            else
+                printf '%s' "$msg" | jq -Rsc '{hookSpecificOutput:{hookEventName:"PostToolUse",additionalContext:.}}'
+            fi
+        else
+            local esc
+            esc=$(printf '%s' "$msg" | sed 's/\\/\\\\/g; s/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
+            if [ -n "$ERRORS" ]; then
+                printf '{"decision":"block","reason":"%s","hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$esc" "$esc"
+            else
+                printf '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$esc"
+            fi
+        fi
+    else
+        printf '%s\n' "$msg" >&2
+    fi
+}
+
+if [ -n "$WARNINGS" ] || [ -n "$ERRORS" ]; then
+    emit_block
+fi
 if [ -n "$ERRORS" ]; then
-    echo -e "=== Asset Validation: ERRORS (Blocking) ===$ERRORS\n===========================================\nFix these errors before proceeding." >&2
+    # Codex consumes the block decision from stdout only on a successful hook
+    # run. Claude keeps the existing non-zero stderr failure contract.
+    $EMIT_JSON && exit 0
     exit 1
 fi
-
 exit 0

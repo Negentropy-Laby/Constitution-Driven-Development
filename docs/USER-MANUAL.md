@@ -10,7 +10,7 @@ For the full phase-by-phase workflow, use `docs/WORKFLOW-GUIDE.md`.
 
 ## What CDD Provides
 
-Constitution Driven Development turns a Claude Code workspace into a governed
+Constitution Driven Development turns an AI-agent workspace into a governed
 development team:
 
 - 53 specialized agents for design, engineering, QA, release, and operations.
@@ -78,7 +78,8 @@ artifact.
 Install these tools before using the template:
 
 - Git.
-- Claude Code.
+- An AI agent runtime — Claude Code (`npm install -g @anthropic-ai/claude-code`),
+  Codex, or both. Both runtimes share the same canonical sources.
 - Python 3.11+ (uses the standard-library `tomllib`). Required to run the local
   validation commands and the `Template Consistency` CI gate.
 - `jq`, recommended for hook validation (hooks fall back to `grep` when absent).
@@ -88,12 +89,12 @@ Clone the template or create a repository from it:
 ```bash
 git clone https://github.com/Negentropy-Laby/Constitution-Driven-Development.git my-cdd-project
 cd my-cdd-project
-claude
+claude   # or: codex  (run from the repo root so your runtime finds CLAUDE.md / AGENTS.md)
 ```
 
 `jq` is optional: hooks fall back to `grep` when it is absent. Python 3.11+ is
 required for the validation commands above and for the CI gate; the core
-collaborative agent workflow in Claude Code itself does not depend on Python.
+collaborative agent workflow in either runtime does not depend on Python.
 
 ## First Command
 

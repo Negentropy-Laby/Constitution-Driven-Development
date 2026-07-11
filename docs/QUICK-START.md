@@ -2,8 +2,9 @@
 
 ## What Is This?
 
-This is a complete Claude Code agent architecture supporting both **game development**
-and **general product development** (web apps, CLI tools, APIs, data pipelines).
+This is a complete, runtime-neutral agent architecture supporting both **game development**
+and **general product development** (web apps, CLI tools, APIs, data pipelines), with
+generated Claude Code and Codex adapters.
 
 It organizes 53 specialized AI agents into a studio hierarchy that mirrors
 real development teams, with defined responsibilities, delegation rules, and
@@ -438,7 +439,7 @@ AGENTS.md                          -- Codex/agent adapter config
 workflow/
   workflow-catalog.yaml            -- 7-phase pipeline definition (read by /help)
   generated/                       -- Generated gate and workflow views
-templates/                         -- 80 document templates (canonical document and memory-bank templates)
+templates/                         -- 82 document templates (canonical document and memory-bank templates)
 standards/                         -- Shared technical, coding, coordination, and context standards
 skill_testing/                     -- Cross-project skill/agent testing catalog, specs, rubric
 docs/

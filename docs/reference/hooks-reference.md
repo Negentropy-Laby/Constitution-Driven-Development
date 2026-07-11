@@ -1,6 +1,7 @@
 # Active Hooks
 
-Hooks are configured in `.claude/settings.json` and fire automatically:
+Hooks are configured in `.claude/settings.json` (Claude) and `.codex/hooks.json`
+(Codex); they fire automatically:
 
 | Hook | Event | Trigger | Action |
 | ---- | ----- | ------- | ------ |
@@ -15,7 +16,7 @@ Hooks are configured in `.claude/settings.json` and fire automatically:
 | `session-stop.sh` | Stop | Session ends | Summarizes accomplishments and updates session log |
 | `log-agent.sh` | SubagentStart | Agent spawned | Audit trail start — logs subagent invocation with timestamp |
 | `log-agent-stop.sh` | SubagentStop | Agent stops | Audit trail stop — completes subagent record |
-| `validate-skill-change.sh` | PostToolUse (Write/Edit) | Skill file changes | Advises canonical lint + adapter regeneration (`python scripts/sync_adapters.py --write`) when a canonical `skills/<name>/SKILL.md` is edited, and warns to edit the canonical source instead when a generated `.claude/skills/` or `.agents/skills/` file is edited |
+| `validate-generated-adapter-change.sh` | PostToolUse (Write/Edit; Codex `apply_patch`) | Edits to any canonical source or generated adapter | Advises the canonical source + adapter regeneration when a generated adapter (skills/agents/hooks/rules, or root/nested instructions) is edited, and advises regeneration when a canonical source is edited. Parses both Claude `tool_input.file_path` and Codex `tool_input.command` (`apply_patch`, possibly multi-file); emits JSON `additionalContext` for Codex. Does not flag Codex-native `.codex/rules/*.rules`. |
 
 Hook reference documentation: `docs/reference/hooks-reference-details/`
 Hook input schema documentation: `docs/reference/hooks-reference-details/hook-input-schemas.md`

@@ -16,6 +16,7 @@ Canonical authority assets are hand-authored outside adapter runtime trees:
 | `skills/` | Canonical slash-command skills (one `<name>/SKILL.md` each) |
 | `agents/` | Canonical agent definitions (flat `<name>.md`) |
 | `hooks/` | Canonical hook scripts |
+| `rules/` | Canonical path-scoped coding policies (Claude-only generated projection) |
 | `INSTRUCTIONS.md` | Canonical root project instructions |
 | `cdd-manifest.toml` | Source → output → transform contract for adapter generation |
 
@@ -42,3 +43,9 @@ own the canonical → generated mapping.
 Do not move canonical workflow catalogs, templates, standards, or skill testing
 assets into adapter runtime trees. Adapter directories may contain wrappers,
 settings, generated copies, or compatibility pointers only.
+
+Codex's native `.codex/rules/*.rules` command-approval policy is runtime-owned
+and never generated. `rules/` projects to Claude only (`.claude/rules/`); Codex
+has no path-glob equivalent and consults canonical `rules/` through root guidance.
+Nested per-directory instructions (`src/`, `design/`, `docs/`) are runtime-neutral
+canonical sources that generate a `CLAUDE.md` + `AGENTS.md` sibling pair.

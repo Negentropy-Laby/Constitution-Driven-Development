@@ -1980,6 +1980,16 @@ def iter_hook_commands(value: object) -> list[str]:
     return commands
 
 
+def is_git_root_resolved_codex_hook_command(command: str) -> bool:
+    """Return whether *command* resolves one repository-local Codex hook safely."""
+    normalized = command.replace("\\", "/")
+    return re.fullmatch(
+        r'bash "\$\(git rev-parse --show-toplevel\)/\.codex/hooks/'
+        r'[A-Za-z0-9._-]+\.sh"',
+        normalized,
+    ) is not None
+
+
 def normalized_hook_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n").replace("\r", "\n")
 
@@ -2095,11 +2105,11 @@ def check_codex_adapter_contract() -> list[Finding]:
                         f"{rel(hooks_json_path)} contains non-portable hook command: {command}",
                     )
                 )
-            if " .codex/hooks/" not in normalized and not normalized.startswith("bash .codex/hooks/"):
+            if not is_git_root_resolved_codex_hook_command(command):
                 findings.append(
                     Finding(
                         "ERROR",
-                        f"{rel(hooks_json_path)} hook command must use relative .codex/hooks path: {command}",
+                        f"{rel(hooks_json_path)} hook command must use the git-root-resolved .codex/hooks form: {command}",
                     )
                 )
 

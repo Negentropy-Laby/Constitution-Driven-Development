@@ -50,6 +50,26 @@ class CollectKnownCommandsTest(unittest.TestCase):
         self.assertEqual(commands, expected)
 
 
+class CodexHookCommandContractTest(unittest.TestCase):
+    """Codex hook commands must remain safe when a session starts below root."""
+
+    def test_git_root_resolved_command_is_accepted(self) -> None:
+        self.assertTrue(
+            wc.is_git_root_resolved_codex_hook_command(
+                'bash "$(git rev-parse --show-toplevel)/.codex/hooks/validate-assets.sh"'
+            )
+        )
+
+    def test_relative_and_embedded_forms_are_rejected(self) -> None:
+        for command in (
+            "bash .codex/hooks/validate-assets.sh",
+            'echo "$(git rev-parse --show-toplevel)/.codex/hooks/validate-assets.sh"',
+            'bash "$(git rev-parse --show-toplevel)/.codex/hooks/not-a-script.txt"',
+        ):
+            with self.subTest(command=command):
+                self.assertFalse(wc.is_git_root_resolved_codex_hook_command(command))
+
+
 class FreshnessMappingTest(unittest.TestCase):
     """_freshness_findings() maps drifts/diagnostics per severity."""
 

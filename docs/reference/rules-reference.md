@@ -1,6 +1,9 @@
 # Path-Specific Rules
 
-Rules in `.claude/rules/` are automatically enforced when editing files in matching paths:
+Canonical path-policy rules live in `rules/*.md` and are generated into
+`.claude/rules/` for Claude Code, which auto-loads them per path. Codex has no
+path-glob equivalent; consult the matching `rules/*.md` file manually there.
+Codex's native `.codex/rules/*.rules` files are unrelated command-approval policy.
 
 | Rule File | Path Pattern | Enforces |
 | ---- | ---- | ---- |

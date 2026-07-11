@@ -72,6 +72,33 @@ decisions, merge the new template structure into it rather than overwriting it.
 
 ## Common Migration Fixes
 
+### Manifest v2
+
+The adapter manifest (`cdd-manifest.toml`) is version 2. A version-1 manifest is
+rejected with an actionable error pointing here. To migrate:
+
+1. Set `version = 2`.
+2. Declare each runtime:
+   ```toml
+   [runtimes.claude]
+   label = "Claude Code"
+   [runtimes.codex]
+   label = "Codex"
+   ```
+3. Each source may add a `targets` list (default: all runtimes). Use
+   `targets = ["claude"]` for Claude-only sources such as path-policy `rules`.
+4. Source IDs remain configurable, but `all` is reserved for the CLI
+   `--class all` selector. Rename any `[sources.all]` table before validation.
+5. Path-policy rules moved from `.claude/rules/` to canonical `rules/`. If you
+   have **custom or untracked** rule files in `.claude/rules/`, back them up
+   first, merge them into `rules/`, and update `expected_count`. Then run
+   `python scripts/sync_adapters.py --check` and review every `EXTRA` before
+   `--write` — `owns_tree` prunes untracked files and Git cannot recover them.
+6. Codex's native `.codex/rules/*.rules` command-approval files are unrelated to
+   CDD path policies and are never generator-owned; leave them alone.
+7. The generated-file hook was renamed; after upgrading, re-trust changed Codex
+   hooks via the runtime hook browser and restart Codex.
+
 ### Old entry command
 
 If project notes mention `/start`, replace the operational instruction with

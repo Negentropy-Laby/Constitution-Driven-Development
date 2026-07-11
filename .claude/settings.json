@@ -77,7 +77,7 @@
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/validate-skill-change.sh",
+            "command": "bash .claude/hooks/validate-generated-adapter-change.sh",
             "timeout": 5
           }
         ]

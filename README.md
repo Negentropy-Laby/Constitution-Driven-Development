@@ -1,9 +1,9 @@
 <p align="center">
   <h1 align="center">Constitution Driven Development</h1>
   <p align="center">
-    Turn a single Claude Code session into a governed development team with a project brain.
+    A runtime-neutral CDD governance framework with generated Claude Code and Codex adapters.
     <br />
-    A Claude Code governance template that turns AI-assisted coding into a staged, auditable, multi-agent delivery process.
+    Turns AI-assisted coding into a staged, auditable, multi-agent delivery process — with a project brain.
     <br />
     memory_bank stores current laws, supporting context, execution state, and audit history.
     <br />
@@ -14,11 +14,12 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <img src="https://img.shields.io/badge/version-0.1.0-informational" alt="Version 0.1.0">
-  <a href=".claude/agents"><img src="https://img.shields.io/badge/agents-53-blueviolet" alt="53 Agents"></a>
-  <a href=".claude/skills"><img src="https://img.shields.io/badge/skills-74-green" alt="74 Skills"></a>
-  <a href=".claude/hooks"><img src="https://img.shields.io/badge/hooks-12-orange" alt="12 Hooks"></a>
-  <a href=".claude/rules"><img src="https://img.shields.io/badge/rules-16-red" alt="16 Rules"></a>
-  <a href="https://docs.anthropic.com/en/docs/claude-code"><img src="https://img.shields.io/badge/built%20for-Claude%20Code-f5f5f5?logo=anthropic" alt="Built for Claude Code"></a>
+  <a href="agents"><img src="https://img.shields.io/badge/agents-53-blueviolet" alt="53 Agents"></a>
+  <a href="skills"><img src="https://img.shields.io/badge/skills-74-green" alt="74 Skills"></a>
+  <a href="hooks"><img src="https://img.shields.io/badge/hooks-12-orange" alt="12 Hooks"></a>
+  <a href="rules"><img src="https://img.shields.io/badge/rules-16-red" alt="16 Rules"></a>
+  <a href="https://docs.anthropic.com/en/docs/claude-code"><img src="https://img.shields.io/badge/runtime-Claude%20Code-f5f5f5?logo=anthropic" alt="Claude Code runtime"></a>
+  <a href="https://learn.chatgpt.com/docs/agent-configuration/agents-md"><img src="https://img.shields.io/badge/runtime-Codex-10a37f" alt="Codex runtime"></a>
   <a href="https://github.com/Negentropy-Laby/Constitution-Driven-Development"><img src="https://img.shields.io/badge/repository-Negentropy--Laby%2FConstitution--Driven--Development-black?logo=github" alt="Repository: Negentropy-Laby/Constitution-Driven-Development"></a>
 </p>
 
@@ -29,6 +30,21 @@
 </p>
 
 ---
+
+## Runtimes
+
+CDD is runtime-neutral. Canonical sources (`skills/`, `agents/`, `hooks/`, `rules/`,
+`INSTRUCTIONS.md`) generate into their declared runtime targets:
+
+| Runtime | Root instructions | Skills | Agents | Hooks | Path rules |
+|---|---|---|---|---|---|
+| **Claude Code** (first-class) | `CLAUDE.md` | `.claude/skills/` | `.claude/agents/` | `.claude/hooks/` | `.claude/rules/` (native path globs) |
+| **Codex** (first-class) | `AGENTS.md` | `.agents/skills/` | `.codex/agents/` (TOML) | `.codex/hooks/` | canonical `rules/` via guidance (no path-glob equivalent) |
+
+Both runtimes share `INSTRUCTIONS.md`, `workflow/`, `templates/`, `standards/`,
+`skill_testing/`, and nested `src/`/`design/`/`docs/` `INSTRUCTIONS.md` guidance.
+Codex's native `.codex/rules/*.rules` command-approval policy is unrelated and
+never generator-owned.
 
 ## Start Here
 
@@ -118,12 +134,12 @@ The result: you still make every decision, but now you have a team that asks the
 | **Skills** | 74 | Slash commands for every workflow phase (`/constitute`, `/help`, `/cdd-status`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
 | **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
 | **Rules** | 16 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network, API, CLI, services, config, migrations, data, and infrastructure code |
-| **Templates** | 80 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, and UI-heavy design systems |
+| **Templates** | 82 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, and UI-heavy design systems |
 | **Skill Testing** | 132 files | Cross-project skill/agent test catalog, specs, rubric, and spec templates |
 
 ## How It Fits Together
 
-CDD turns one Claude Code session into a governed studio. A single owner ratifies the
+CDD turns a single AI agent session into a governed studio. A single owner ratifies the
 project constitution, the memory bank carries current state, agents do the work, skills
 and automated safety keep it honest, and gates guard release.
 
@@ -203,7 +219,7 @@ Product projects use language-specialist agents for stack-specific implementatio
 ### Prerequisites
 
 - [Git](https://git-scm.com/)
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (`npm install -g @anthropic-ai/claude-code`)
+- An AI agent runtime — **Claude Code** (`npm install -g @anthropic-ai/claude-code`), **Codex**, or both
 - [Python](https://www.python.org/) 3.11+ (required for the adapter generator and consistency checks; uses the stdlib `tomllib`)
 - **Recommended**: [jq](https://jqlang.github.io/jq/) for hook validation (hooks fall back to `grep` when absent)
 
@@ -217,10 +233,9 @@ Python 3.11+ is required to run the local validation commands and the `Template 
    cd my-cdd-project
    ```
 
-2. **Open Claude Code** and start a session:
-   ```bash
-   claude
-   ```
+2. **Open your runtime** and start a session:
+   - Claude Code: `claude`
+   - Codex: `codex` (run from the project root so it discovers `AGENTS.md`)
 
 3. **Run `/constitute`** — the system creates or refreshes `memory_bank/`
    T0-T3 governance, asks where you are and what kind of project you are
@@ -259,45 +274,49 @@ versions, and which files are safe to overwrite vs. which need a manual merge.
 ## Project Structure
 
 ```
-CLAUDE.md                           # Claude adapter configuration
-AGENTS.md                           # Codex/agent adapter configuration
-workflow/
+# --- Canonical common sources (hand-authored) ---
+INSTRUCTIONS.md                     # Canonical root instructions (generated to CLAUDE.md + AGENTS.md)
+cdd-manifest.toml                   # Canonical -> generated adapter contract
+skills/                             # 74 slash commands (canonical; generated into adapter runtimes)
+agents/                             # Canonical agents (53; generated into adapter runtimes)
+hooks/                              # Canonical hooks (12; generated into adapter runtimes)
+rules/                              # Canonical path-scoped policies (16; -> .claude/rules/)
+workflow/                           # Canonical workflow catalog + generated views
   workflow-catalog.yaml             # 7-phase pipeline definition (read by /help)
   generated/                        # Generated workflow views for gates
-templates/                          # 80 document templates (canonical docs + memory-bank templates)
-standards/                          # Shared coding, coordination, context, and setup standards
+templates/                          # 82 document templates (docs + memory-bank)
+standards/                          # Shared coding, coordination, context, setup standards
 skill_testing/                      # Cross-project skill/agent test catalog, specs, rubric
-adapters/                           # Adapter export notes for Claude, Codex, and future runtimes
-.claude/
-  settings.json                     # Hooks, permissions, safety rules
-  agents/                           # 53 agent definitions (markdown + YAML frontmatter)
-  skills/                           # 74 slash commands (subdirectory per skill)
-  hooks/                            # 12 hook scripts (bash, cross-platform)
-  rules/                            # 16 path-scoped coding standards
-  statusline.sh                     # Status line script (context%, model, stage, epic breadcrumb)
-.agents/
-  skills/                           # Codex/agent adapter copy of slash commands
-.codex/
-  agents/                           # Codex runtime agent definitions
-memory_bank/                        # Project brain created by /constitute
+adapters/                           # Adapter boundary notes (Claude, Codex, future runtimes)
+# --- Nested instruction sources (generate CLAUDE.md + AGENTS.md per dir) ---
+src/INSTRUCTIONS.md                 # -> src/CLAUDE.md + src/AGENTS.md
+design/INSTRUCTIONS.md              # -> design/CLAUDE.md + design/AGENTS.md
+docs/INSTRUCTIONS.md                # -> docs/CLAUDE.md + docs/AGENTS.md
+# --- Generated runtime adapters (NEVER hand-edit; scripts/sync_adapters.py) ---
+CLAUDE.md                           # Generated root instructions (Claude)
+AGENTS.md                           # Generated root instructions (Codex)
+.claude/                            # MIXED OWNERSHIP: generated adapters + hand-authored config
+  settings.json                     #   Hooks, permissions, model (hand-authored)
+  statusline.sh                     #   Status line (hand-authored)
+  agents/ skills/ hooks/ rules/     #   GENERATED Claude adapters
+.agents/skills/                     # GENERATED Codex skill adapters
+.codex/                             # MIXED OWNERSHIP: generated adapters + hand-authored config
+  hooks.json                        #   Codex hook wiring (hand-authored)
+  agents/ hooks/                    #   GENERATED Codex adapters (agents as TOML)
+  rules/*.rules                     #   Codex NATIVE command-approval (runtime-owned; never generated)
+# --- Project source / design / docs / production ---
+memory_bank/                        # Project brain created by /constitute (T0-T3 governance)
   t0_core/                           # Current laws, current state, release state
   t1_axioms/                         # Technical, architecture, UX, QA, module context
   t2_execution/                      # Workflow contract, generated mirrors, roadmap
-    skill_testing/                   # Mount contract for root skill_testing/ assets
   t3_archive/                        # Gate, review, QA, story, sprint, release evidence indexes
-    skill_testing/                   # Approved skill-test runs, coverage, improvement evidence
-src/                                # Game source code or product source code
-  gameplay/                         # Game mechanics and playable systems
-  core/                             # Engine/framework/core domain code
-  api/                              # Product API endpoints and schemas
-  cli/                              # Product CLI commands and terminal UX
-  services/                         # Product services, jobs, integrations
-  app/ or web/                      # Product web/mobile/desktop UI surface
-  data/                             # Product data pipelines and transforms
+src/                                # Game or product source code
+  gameplay/ core/ ai/ networking/ ui/        # Game systems
+  api/ cli/ services/ data/                  # Product systems
 assets/                             # Game assets or product-facing assets/artifacts
-design/                             # CDDs, product specs, brand/style docs, narrative docs, level designs, UX
+design/                             # CDDs, product specs, narrative, levels, balance, UX
 docs/                               # Technical documentation and ADRs
-  engine-reference/                 # Game engine reference snapshots
+  engine-reference/                 # Game engine reference snapshots (version-pinned)
   reference/<stack>/                # Product stack/framework reference snapshots
 tests/                              # Unit, integration, performance, playtest, contract, CLI, E2E, migration
 tools/                              # Build and pipeline tools
@@ -307,7 +326,7 @@ production/                         # Sprint plans, milestones, release tracking
 
 ## Reference: Slash Commands
 
-Type `/` in Claude Code to access all 74 skills:
+Type `/` in your runtime (Claude Code or Codex) to access all 74 skills:
 
 **Onboarding & Navigation**
 `/constitute` `/constitute-check` `/help` `/cdd-status` `/project-stage-detect` `/setup-engine` `/adopt`
@@ -414,9 +433,9 @@ You stay in control. The agents provide structure and expertise, not autonomy.
 | `session-stop.sh` | Session close | Archives `active.md` to session log and records git activity |
 | `log-agent.sh` | Agent spawned | Audit trail start — logs subagent invocation |
 | `log-agent-stop.sh` | Agent stops | Audit trail stop — completes subagent record |
-| `validate-skill-change.sh` | PostToolUse (Write/Edit) | Advises canonical lint + adapter regeneration when a canonical `skills/<name>/SKILL.md` is edited; warns when a generated `.claude/skills/` or `.agents/skills/` file is edited |
+| `validate-generated-adapter-change.sh` | PostToolUse (Write/Edit; Codex `apply_patch`) | Advises the canonical source + adapter regeneration when a generated adapter (skills/agents/hooks/rules, or root/nested instructions) is edited; advises regeneration when a canonical source is edited |
 
-> **Note**: `validate-commit.sh`, `validate-assets.sh`, and `validate-skill-change.sh` fire on every Bash/Write tool call and exit immediately (exit 0) when the command or file path is not relevant. This is normal hook behavior — not a performance concern.
+> **Note**: `validate-commit.sh`, `validate-assets.sh`, and `validate-generated-adapter-change.sh` fire on every Bash/Write tool call and exit immediately (exit 0) when the command or file path is not relevant. This is normal hook behavior — not a performance concern.
 
 **Permission rules** in `settings.json` auto-allow safe operations (git status, test runs) and block dangerous ones (force push, `rm -rf`, reading `.env` files).
 
@@ -490,7 +509,7 @@ Constitution Driven Development is free and open source. It is maintained in the
 
 ---
 
-*Built for Claude Code. Maintained and extended — contributions welcome via [GitHub Discussions](https://github.com/Negentropy-Laby/Constitution-Driven-Development/discussions).*
+*A runtime-neutral CDD framework with generated Claude Code and Codex adapters. Contributions welcome via [GitHub Discussions](https://github.com/Negentropy-Laby/Constitution-Driven-Development/discussions).*
 
 ## License
 
