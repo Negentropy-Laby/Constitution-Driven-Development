@@ -9,6 +9,7 @@ read-only and require the permanent byte-fresh post-Gate-4 state.
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import io
 import json
 import os
@@ -1232,6 +1233,107 @@ class CliTests(unittest.TestCase):
                     self.assertEqual(stdout, "")
                     self.assertIn("ERROR:", stderr)
                     self.assertNotIn("Traceback", stderr)
+
+    def test_state_json_reports_stale_then_fresh_without_writing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root / "skills" / "a" / "SKILL.md", "---\nname: a\n---\n# A\n")
+            manifest_path = _manifest(root)
+
+            code, stdout, stderr = self._run(
+                ["--check", "--state-json", "--manifest", str(manifest_path)]
+            )
+            self.assertEqual(code, 1)
+            self.assertEqual(stderr, "")
+            stale = json.loads(stdout)
+            self.assertEqual(stale["status"], "stale")
+            self.assertGreater(stale["counts"]["missing"], 0)
+            self.assertFalse((root / ".claude").exists())
+            self.assertFalse((root / ".agents").exists())
+
+            write_code, _, write_stderr = self._run(
+                ["--write", "--manifest", str(manifest_path)]
+            )
+            self.assertEqual((write_code, write_stderr), (0, ""))
+            before = {
+                path.relative_to(root).as_posix(): path.read_bytes()
+                for path in root.rglob("*")
+                if path.is_file()
+            }
+            code, stdout, stderr = self._run(
+                ["--check", "--state-json", "--manifest", str(manifest_path)]
+            )
+            after = {
+                path.relative_to(root).as_posix(): path.read_bytes()
+                for path in root.rglob("*")
+                if path.is_file()
+            }
+            self.assertEqual((code, stderr), (0, ""))
+            self.assertEqual(after, before)
+            fresh = json.loads(stdout)
+            self.assertEqual(
+                set(fresh),
+                {
+                    "schema_version", "status", "manifest_digest", "source_digest",
+                    "checked_commit", "checked_at", "counts", "check_command",
+                    "drifts", "diagnostics",
+                },
+            )
+            self.assertEqual(fresh["schema_version"], 1)
+            self.assertEqual(fresh["status"], "fresh")
+            self.assertRegex(fresh["manifest_digest"], r"^[0-9a-f]{64}$")
+            self.assertRegex(fresh["source_digest"], r"^[0-9a-f]{64}$")
+            self.assertRegex(fresh["checked_at"], r"^\d{4}-\d{2}-\d{2}T.*Z$")
+            self.assertEqual(fresh["drifts"], [])
+            self.assertEqual(fresh["diagnostics"], [])
+
+    def test_state_json_rejects_write_and_partial_class(self) -> None:
+        for argv in (["--write", "--state-json"], ["--state-json", "--class", "skills"]):
+            with self.subTest(argv=argv):
+                stdout = io.StringIO()
+                stderr = io.StringIO()
+                with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                    with self.assertRaises(SystemExit) as raised:
+                        sa.main(argv)
+                self.assertEqual(raised.exception.code, 2)
+                self.assertIn("state-json", stderr.getvalue())
+
+    def test_state_json_invalid_manifest_has_empty_stdout(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest = Path(tmp) / "invalid.toml"
+            write(manifest, "version = [\n")
+            code, stdout, stderr = self._run(
+                ["--check", "--state-json", "--manifest", str(manifest)]
+            )
+            self.assertEqual(code, 1)
+            self.assertEqual(stdout, "")
+            self.assertIn("ERROR: invalid manifest", stderr)
+
+    def test_adapter_state_digests_track_only_declared_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            skill = root / "skills" / "a" / "SKILL.md"
+            write(skill, "---\nname: a\n---\n# A\n")
+            manifest_path = _manifest(root)
+            manifest = sa.load_manifest(manifest_path)
+
+            manifest_digest = sa.compute_manifest_digest(manifest_path)
+            source_digest = sa.compute_source_digest(manifest, root)
+            self.assertEqual(manifest_digest, hashlib.sha256(manifest_path.read_bytes()).hexdigest())
+            self.assertEqual(source_digest, sa.compute_source_digest(manifest, root))
+
+            write(root / ".claude" / "unmanaged.txt", "generated-only change\n")
+            self.assertEqual(source_digest, sa.compute_source_digest(manifest, root))
+
+            write(skill, "---\nname: a\n---\n# Changed\n")
+            changed_content_digest = sa.compute_source_digest(manifest, root)
+            self.assertNotEqual(source_digest, changed_content_digest)
+
+            destination = root / "skills" / "b"
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            skill.parent.rename(destination)
+            changed_path_digest = sa.compute_source_digest(manifest, root)
+            self.assertNotEqual(changed_content_digest, changed_path_digest)
 
     def test_write_failure_is_exit_one_without_traceback_or_partial_target(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -204,14 +204,17 @@ documents:
   memory_bank/t2_execution/framework_contract.md:
     tier: T2
     role: index
-    owner: maintainers
-    description: Canonical -> generated adapter contract index (skill lifecycle deferred)
+    owner: /constitute
+    source: templates/memory-bank/t2_execution/framework_contract.md
+    description: Canonical -> generated adapter contract index
 
   memory_bank/t2_execution/adapter_state.yaml:
     tier: T2
     role: index
-    owner: maintainers
-    description: Reserved adapter freshness state (uninitialized; skill lifecycle deferred)
+    owner: /constitute-check
+    initialized_by: /constitute
+    read_by: /cdd-status
+    description: Approved record of adapter freshness and canonical digests
 
   skill_testing/catalog.yaml:
     tier: T2

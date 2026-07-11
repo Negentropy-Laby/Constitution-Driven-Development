@@ -49,6 +49,9 @@ jobs:
       - name: Generated adapter freshness
         run: python scripts/sync_adapters.py --check
 
+      - name: Credential-free runtime structural smoke
+        run: python scripts/runtime_smoke.py --structural
+
       - name: Canonical hook syntax
         shell: bash
         run: |

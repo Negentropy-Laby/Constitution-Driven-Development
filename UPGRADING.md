@@ -99,6 +99,25 @@ rejected with an actionable error pointing here. To migrate:
 7. The generated-file hook was renamed; after upgrading, re-trust changed Codex
    hooks via the runtime hook browser and restart Codex.
 
+### v0.2 adapter freshness state
+
+1. Run `/constitute` to initialize
+   `memory_bank/t2_execution/framework_contract.md` and the deterministic
+   `adapter_state.yaml` template. Existing project-owned memory files remain in
+   place.
+2. Run `python scripts/sync_adapters.py --check --state-json` and confirm the
+   JSON contains schema version 1, both digests, and expected freshness counts.
+3. Run `/constitute-check`. Review the full YAML draft and approve only the
+   `adapter_state.yaml` write when the live result is correct.
+4. Treat `/cdd-status` as a reader of recorded state, not a live freshness
+   checker or phase blocker.
+
+### Runtime-native skill invocation
+
+CDD documentation retains `/skill-name` as its runtime-neutral logical command
+notation. Claude Code invokes that form directly. In Codex, use `/skills` to
+browse or `$skill-name` for explicit invocation, including in `codex exec`.
+
 ### Old entry command
 
 If project notes mention `/start`, replace the operational instruction with

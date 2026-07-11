@@ -1,9 +1,9 @@
 ---
 name: constitute-check
-description: "Memory-bank governance audit — checks whether T0 laws/current state, T1 supporting context, T2 execution mirrors, and T3 archive indexes exist and align with current code and docs. Read-only."
+description: "Memory-bank governance audit — checks whether T0 laws/current state, T1 supporting context, T2 execution mirrors, adapter freshness, and T3 archive indexes align. Read-only by default; may record adapter_state.yaml only after explicit approval."
 argument-hint: "[optional: 'full' for verbose report, or a specific principle number]"
 user-invocable: true
-allowed-tools: Read, Glob, Grep
+allowed-tools: Read, Glob, Grep, Bash, Write, AskUserQuestion
 model: haiku
 context: |
   !echo "=== Memory Bank Status ===" && echo "T0: $(ls memory_bank/t0_core/ 2>/dev/null | wc -l) files" && echo "T1: $(ls memory_bank/t1_axioms/ 2>/dev/null | wc -l) files" && echo "T2: $(ls memory_bank/t2_execution/ 2>/dev/null | wc -l) files" && echo "T3: $(ls memory_bank/t3_archive/ 2>/dev/null | wc -l) files" && echo "Review mode: $(cat production/review-mode.txt 2>/dev/null || echo 'not set')"
@@ -11,10 +11,10 @@ context: |
 
 ## User Guide
 
-- When to use: Memory-bank governance audit — checks whether T0 laws/current state, T1 supporting context, T2 execution mirrors, and T3 archive indexes exist and align with current code and docs. Read-only.
+- When to use: Memory-bank governance audit — checks whether T0 laws/current state, T1 supporting context, T2 execution mirrors, adapter freshness, and T3 archive indexes align. The audit is read-only by default.
 - Inputs: Command arguments: `/constitute-check [optional: 'full' for verbose report, or a specific principle number]`; project artifacts referenced below; user decisions and approvals before writes.
-- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: None; this is a read-only T0-T3 health audit and migration recommendation workflow.
+- Outputs: A T0-T3 health report plus live and recorded adapter freshness. Write only the approved adapter-state record described below.
+- Memory-bank writes: At most `memory_bank/t2_execution/adapter_state.yaml`, and only after showing the exact YAML draft and receiving explicit approval. No other file may be written.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Routing
@@ -27,7 +27,9 @@ Detect the project domain before checking constitution compliance:
 Do not remove game constitution examples. Product checks are an added validation path.
 # Constitution Check — T0-T3 Memory Health Audit
 
-This skill is read-only — it reports findings but writes no files.
+This skill is read-only by default. Its only write exception is an explicitly
+approved refresh of `memory_bank/t2_execution/adapter_state.yaml`; every other
+project file remains read-only.
 
 This skill checks the health of a project's memory-bank governance plane:
 whether T0 laws/current state exist, whether T1 supporting context is present,
@@ -57,6 +59,8 @@ Check for the minimum memory-bank artifacts:
 | `memory_bank/t1_axioms/module_support_map.yaml` | Recommended | Read if exists |
 | `memory_bank/t2_execution/workflow_contract.md` | Recommended | Read if exists |
 | `memory_bank/t2_execution/current_roadmap.md` | Recommended | Read if exists |
+| `memory_bank/t2_execution/framework_contract.md` | Recommended | Read if exists |
+| `memory_bank/t2_execution/adapter_state.yaml` | Recommended | Read if exists |
 | `memory_bank/t3_archive/README.md` | Recommended | Read if exists |
 | `memory_bank/t3_archive/gate_runs/README.md` | Recommended | Read if exists |
 | `memory_bank/t3_archive/release_evidence/README.md` | Recommended | Read if exists |
@@ -105,6 +109,8 @@ Read `memory_bank/t1_axioms/tech_context.md` and extract:
 Read T2 files when present:
 - `memory_bank/t2_execution/workflow_contract.md`
 - `memory_bank/t2_execution/current_roadmap.md`
+- `memory_bank/t2_execution/framework_contract.md`
+- `memory_bank/t2_execution/adapter_state.yaml`
 
 Read T3 indexes when present:
 - `memory_bank/t3_archive/qa_evidence_index.md`
@@ -118,7 +124,63 @@ Read T3 indexes when present:
 
 ---
 
-## Step 3: Alignment Check
+## Step 3: Adapter Freshness Check
+
+When `cdd-manifest.toml` and `scripts/sync_adapters.py` exist, run this exact
+read-only command from the repository root:
+
+```bash
+python scripts/sync_adapters.py --check --state-json
+```
+
+Parse stdout as one JSON object even when the command exits non-zero for a
+stale adapter set. Require `schema_version: 1`, a `status` of `fresh` or
+`stale`, 64-character lowercase hexadecimal `manifest_digest` and
+`source_digest` values, ISO-8601 UTC `checked_at`, `checked_commit`, `counts`,
+and `check_command`. If stdout is absent or invalid, report the adapter check as
+`INVALID`, include stderr, and do not offer a state write.
+
+Compare the live result with `memory_bank/t2_execution/adapter_state.yaml`:
+
+| Recorded state | Meaning |
+|----------------|---------|
+| `MISSING` | The memory bank exists but the adapter-state template was not initialized |
+| `UNINITIALIZED` | The deterministic template exists and has no recorded evidence |
+| `CURRENT` | Recorded status and both digests match the live result |
+| `OUTDATED` | A prior record exists but status or either digest differs |
+
+Report both values separately: `Live adapter freshness: FRESH/STALE/INVALID`
+and `Recorded adapter state: CURRENT/OUTDATED/UNINITIALIZED/MISSING`. Include
+all non-zero counts and drift paths. A clean `checked_commit` is contextual;
+the two digests are the authoritative identity of the checked inputs.
+
+### Optional approved state record
+
+For a valid live result, prepare the complete YAML draft with this exact field
+order and the live values:
+
+```yaml
+schema_version: 1
+status: fresh
+manifest_version: 2
+manifest_digest: "[live manifest_digest]"
+source_digest: "[live source_digest]"
+checked_commit: "[live checked_commit]"
+checked_at: "[live checked_at]"
+check_command: "python scripts/sync_adapters.py --check"
+```
+
+Use `stale` instead of `fresh` when the live check reports drift. Show the
+entire draft, then ask exactly:
+
+`May I write this adapter freshness record to memory_bank/t2_execution/adapter_state.yaml?`
+
+If approved, write only that file. If declined, leave the repository unchanged
+and state that the report was read-only. Never create `memory_bank/` from this
+skill; when the control plane or `framework_contract.md` is missing, recommend
+`/constitute`.
+
+## Step 4: Alignment Check
 
 For each constitutional principle, check alignment with the codebase:
 
@@ -150,7 +212,7 @@ Compare `tech_context.md` against actual project state:
 
 ---
 
-## Step 4: Gap Detection
+## Step 5: Gap Detection
 
 Identify what's missing or stale:
 
@@ -162,6 +224,11 @@ Identify what's missing or stale:
 | **Deprecated knowledge graph path** | `memory_bank/t0_core/knowledge_graph.md` exists |
 | **Missing T2 workflow contract** | `memory_bank/t2_execution/workflow_contract.md` does not exist |
 | **Missing T2 current roadmap** | Project has roadmap evidence but `memory_bank/t2_execution/current_roadmap.md` is missing |
+| **Missing framework contract** | `memory_bank/t2_execution/framework_contract.md` does not exist |
+| **Missing adapter state** | `memory_bank/t2_execution/adapter_state.yaml` does not exist |
+| **Uninitialized adapter state** | State exists with `status: uninitialized`; run the live check before recording |
+| **Stale adapters** | Live state JSON reports `status: stale` or non-zero stale/missing/extra/invalid counts |
+| **Outdated adapter record** | Recorded status or digests differ from the live result |
 | **Missing T3 archive README** | `memory_bank/t3_archive/README.md` does not exist |
 | **Missing T3 gate archive** | Gate evidence exists but `memory_bank/t3_archive/gate_runs/README.md` is missing |
 | **Missing QA evidence index** | QA evidence exists but `memory_bank/t3_archive/qa_evidence_index.md` is missing |
@@ -175,7 +242,7 @@ Identify what's missing or stale:
 
 ---
 
-## Step 5: Present Report
+## Step 6: Present Report
 
 Keep it concise. Use this format:
 
@@ -200,6 +267,9 @@ Keep it concise. Use this format:
 ### T2 Execution Control
 - Workflow contract: [present/missing]
 - Current roadmap: [present/missing/not started]
+- Framework contract: [present/missing]
+- Live adapter freshness: [fresh/stale/invalid/not available]
+- Recorded adapter state: [current/outdated/uninitialized/missing]
 
 ### T3 Archive Indexes
 - Archive README: [present/missing]
@@ -231,7 +301,7 @@ Keep it concise. Use this format:
 
 **Severity levels:**
 - **HEALTHY**: Required T0/T1 artifacts present, T2/T3 indexes appropriate for stage, all checkable laws ALIGNED
-- **NEEDS ATTENTION**: Old T0/T1-only memory bank, 1-2 CONCERNs, or missing recommended T1/T2/T3 indexes
+- **NEEDS ATTENTION**: Old T0/T1-only memory bank, stale/uninitialized/outdated adapter state, 1-2 CONCERNs, or missing recommended T1/T2/T3 indexes
 - **CRITICAL**: Missing `basic_law_index.md`, missing required T0/T1 files, 3+ CONCERNs, or stale constitution
 
 If verbosity argument is `full`, add a detailed per-law analysis section with
@@ -243,6 +313,9 @@ the specific evidence found for each alignment check.
 
 - **No constitution**: "No constitution detected. Run `/constitute` to establish your project's governing principles." Stop.
 - **Old T0/T1-only memory bank**: "Your constitution exists, but the T2/T3 governance control plane is not initialized. Run `/constitute` to refresh the memory-bank skeleton." Continue with `NEEDS ATTENTION`.
+- **Missing adapter templates in an older memory bank**: Recommend `/constitute` to initialize both framework files; do not create the control plane from this audit.
+- **Stale live check**: Report every drift class and offer to record `status: stale`; regeneration remains a separate, explicitly requested action.
+- **Invalid state JSON**: Report `INVALID`, preserve any prior state file, and do not write partial or fabricated values.
 - **Constitution exists but is very old**: Note the date — "Your constitution was established [N months] ago. Much may have changed. Consider running `/constitute` to refresh it."
 - **Path D project (existing code, new constitution)**: Flag likely drift — "Your constitution was recently established. Some existing code may not yet align. This is normal for brownfield adoption — prioritize alignment iteratively."
 - **All laws are abstract (can't auto-check)**: "Your principles are abstract — they can't be automatically verified. Consider adding falsifiable current-state requirements to each law for future audits."
@@ -251,7 +324,8 @@ the specific evidence found for each alignment check.
 
 ## Collaborative Protocol
 
-- **Read-only.** This skill never writes files.
+- **Read-only by default.** The sole exception is an exact adapter-state YAML record after explicit approval.
+- **No hidden writes.** Running the checker, declining the draft, or encountering invalid JSON must leave the repository unchanged.
 - **Be honest.** Don't sugarcoat drift or gaps.
 - **Be specific.** Every gap must come with a concrete fix suggestion.
 - **One primary recommendation.** The user should leave knowing exactly one thing to do next.

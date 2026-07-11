@@ -15,6 +15,9 @@
 > For a saved project progress dashboard, run `/cdd-status`. For the practical
 > user manual, read `docs/USER-MANUAL.md`. For a generated artifact map by
 > phase, read `docs/PHASE-CHECKLISTS.md`.
+>
+> Commands use logical slash-prefixed notation. Claude Code invokes that form;
+> Codex uses `/skills` to browse or `$name` syntax for explicit invocation.
 
 ---
 
@@ -53,12 +56,13 @@ git clone https://github.com/Negentropy-Laby/Constitution-Driven-Development.git
 cd my-project
 ```
 
-### Step 2: Run /constitute
+### Step 2: Run constitute
 
 If this is your first session:
 
-```
-/constitute
+```text
+Claude Code: /constitute
+Codex: $constitute
 ```
 
 This guided onboarding asks where you are and routes you to the right phase:

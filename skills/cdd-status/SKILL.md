@@ -25,6 +25,10 @@ When `memory_bank/` exists, also maintain the T2 governance mirror at
 `memory_bank/t2_execution/current_roadmap.md`. This mirror is for project
 memory and does not replace `production/project-roadmap.md`.
 
+`memory_bank/t2_execution/adapter_state.yaml` is recorded by
+`/constitute-check`. `/cdd-status` reads and displays that record but never
+recomputes freshness and never writes or owns the adapter-state file.
+
 This skill bridges `/help` and `/project-stage-detect`:
 - `/help` gives one next required step.
 - `/project-stage-detect` performs a full audit.
@@ -53,6 +57,7 @@ Read these files when present:
 - `memory_bank/t0_core/basic_law_index.md`
 - `memory_bank/t0_core/current_state.md`
 - `memory_bank/t2_execution/workflow_contract.md`
+- `memory_bank/t2_execution/adapter_state.yaml`
 - `design/cdd/game-concept.md`
 - `design/cdd/product-concept.md`
 - `design/ux/surface-profile.md`
@@ -65,6 +70,16 @@ Detect domain:
 Detect current phase:
 1. Prefer `production/stage.txt` if it exists.
 2. Otherwise infer from artifacts, using the same phase order as `/help`.
+
+Detect recorded adapter freshness when the state file exists:
+- Read `status`, `checked_commit`, `checked_at`, `manifest_digest`, and
+  `source_digest`.
+- Display `fresh`, `stale`, or `uninitialized` as a recorded value, not a live
+  check. If the file is absent, display `not initialized`.
+- For `stale`, `uninitialized`, or missing state, add a risk recommending
+  `/constitute-check`.
+- Do not change the catalog-derived blocker or reorder the next three commands
+  because of adapter state.
 
 ## 2. Parse The Workflow Catalog
 
@@ -138,6 +153,8 @@ Write a roadmap with this structure:
 - Current phase: [phase]
 - Required progress: [complete] / [total]
 - Current blocker: [step or gate]
+- Adapter freshness (recorded): [fresh/stale/uninitialized/not initialized]
+- Adapter state checked: [checked_at at checked_commit, or never]
 
 ## Next Commands
 
@@ -172,6 +189,7 @@ Write a roadmap with this structure:
 ## Risks
 
 - [missing critical evidence, stale sprint data, unresolved gate failure, or N/A without surface profile]
+- [stale, uninitialized, or missing adapter state; recommend /constitute-check]
 
 ## Notes
 
@@ -224,6 +242,7 @@ Always report:
 - Current phase
 - Progress count
 - Current blocker
+- Recorded adapter freshness and its checked commit/time, or `not initialized`
 - Next 3 commands
 - Product surface decision table when domain is Product
 - Whether `production/project-roadmap.md` was written or only drafted
@@ -231,3 +250,5 @@ Always report:
   because `memory_bank/` is missing, or skipped because this was `--dry-run`
 
 Do not mark a manual step complete without evidence.
+Do not describe recorded adapter state as live evidence and do not let it
+override the workflow catalog's phase ordering.

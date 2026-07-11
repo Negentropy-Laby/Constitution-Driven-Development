@@ -57,12 +57,13 @@ above AND hand-authored runtime config (`.claude/settings.json`,
 
 ```bash
 python scripts/sync_adapters.py --check            # fail if any adapter is stale
+python scripts/sync_adapters.py --check --state-json # machine-readable freshness + digests
 python scripts/sync_adapters.py --write            # regenerate every adapter
 python scripts/sync_adapters.py --write --class X  # regenerate one class
 python scripts/workflow_consistency.py             # boundary + freshness contracts
 ```
 
-`adapter_state.yaml` is reserved for recorded freshness state but ships
-uninitialized. Its `/constitute` and `/constitute-check` lifecycle automation is
-planned, not yet implemented; until then, the `--check` result above is the live
-freshness evidence.
+`/constitute` initializes `adapter_state.yaml` as `uninitialized` without
+fabricating evidence. `/constitute-check` is the sole recorder: after showing the
+live state JSON result, it may write fresh or stale values only with explicit
+approval. `/cdd-status` reads the recorded state and never owns it.

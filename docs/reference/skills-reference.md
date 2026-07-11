@@ -1,6 +1,8 @@
 # Available Skills (Slash Commands)
 
-74 slash commands organized by phase. Type `/` in Claude Code to access any of them.
+74 slash commands organized by phase. Type `/` in Claude Code to access them.
+In Codex, use `/skills` to browse or `$name` syntax for explicit invocation;
+the tables retain runtime-neutral slash-prefixed notation.
 
 ## Onboarding & Navigation
 

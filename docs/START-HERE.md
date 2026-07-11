@@ -4,6 +4,10 @@ This page answers the first decision only: what kind of project are you starting
 
 Phase gates use the governed advisory policy from `workflow/workflow-catalog.yaml`: run the gate before normal advancement. `FAIL` does not update `production/stage.txt` unless you explicitly override it and record a risk note.
 
+Commands below use runtime-neutral slash-prefixed notation. Claude Code invokes
+that form directly; Codex uses `/skills` to browse or `$name` to invoke a
+specific skill.
+
 ## Choose Your Path
 
 | You are... | First command | Expected output | Next step |

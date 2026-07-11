@@ -27,11 +27,15 @@ Use whichever agent set matches your project.
 `/constitute` creates or refreshes `memory_bank/`, the project brain and
 governance control plane for the workspace.
 
+This guide uses slash-prefixed names as logical notation. Claude Code invokes
+skills in that form. Codex users choose them from `/skills` or mention them
+explicitly with `$name` syntax (for example, `$constitute`).
+
 | Layer | What it answers |
 |-------|-----------------|
 | **T0 Core** | What is legally true now? Current laws, phase, release state, and amendments. |
 | **T1 Axioms** | What context supports those laws? Technical, architecture, UX, QA, behavior, and module context. |
-| **T2 Execution** | What should happen next? Workflow contract, generated mirrors, and current roadmap. |
+| **T2 Execution** | What should happen next? Workflow contract, generated mirrors, current roadmap, and recorded adapter freshness. |
 | **T3 Archive** | What evidence proves past decisions? Gate, review, QA, story, sprint, milestone, and release indexes. |
 
 Agents and slash commands do not replace this memory. They maintain it while
@@ -122,7 +126,7 @@ Ask yourself: "What department would handle this in a real studio?"
 | Command | What it does |
 |---------|-------------|
 | `/constitute` | Creates or refreshes `memory_bank/` T0-T3 governance, establishes governing principles, and routes to the right workflow |
-| `/constitute-check` | Audits T0-T3 memory health and recommends migration steps for older projects |
+| `/constitute-check` | Audits T0-T3 memory health and adapter freshness; records `adapter_state.yaml` only after approval |
 | `/help` | Context-aware "what do I do next?" — reads your current phase and artifacts |
 | `/cdd-status` | Generate `production/project-roadmap.md` and update the T2 roadmap mirror when `memory_bank/` exists |
 | `/project-stage-detect` | Analyze project state, detect stage, identify gaps |
@@ -254,7 +258,10 @@ Also in `templates/collaborative-protocols/` (used by agents, not typically edit
 
 ## First Steps for a New Project
 
-**Don't know where to begin?** Run `/constitute`. It asks where you are, what kind of project you're building, and routes you to the right workflow. No assumptions about your domain or experience level.
+**Don't know where to begin?** Run `/constitute` in Claude Code or `$constitute`
+in Codex. It asks where you are, what kind of project you're building, and
+routes you to the right workflow. No assumptions about your domain or experience
+level.
 
 If you already know what you need, jump directly to the relevant path:
 

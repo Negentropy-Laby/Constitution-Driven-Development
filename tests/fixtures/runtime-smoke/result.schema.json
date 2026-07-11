@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["command", "skill_loaded", "write_attempted", "summary", "evidence"],
+  "properties": {
+    "command": {
+      "type": "string",
+      "enum": ["constitute", "help", "cdd-status"]
+    },
+    "skill_loaded": {
+      "const": true
+    },
+    "write_attempted": {
+      "const": false
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

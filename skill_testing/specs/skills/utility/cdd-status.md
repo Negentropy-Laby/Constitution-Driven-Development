@@ -6,7 +6,8 @@
 It reads current phase evidence, required-step artifacts, validation gaps, and
 project state. With user approval, it writes `production/project-roadmap.md` and,
 when `memory_bank/` exists, mirrors the same governance state to
-`memory_bank/t2_execution/current_roadmap.md`.
+`memory_bank/t2_execution/current_roadmap.md`. It displays recorded adapter
+freshness without recomputing or owning that state.
 
 ---
 
@@ -127,6 +128,16 @@ phase advancement decisions and does not invoke director gates.
 - [ ] Missing evidence appears in risks or current phase checklist
 - [ ] Gate checks remain governed advisory
 
+### Case 6: Recorded adapter freshness
+
+**Fixture:**
+- `memory_bank/t2_execution/adapter_state.yaml` is fresh, stale, uninitialized, or missing
+
+**Expected behavior:**
+1. Displays the recorded status and checked commit/time when available.
+2. Adds a `/constitute-check` risk for stale, uninitialized, or missing state.
+3. Does not run the adapter checker, write adapter state, or change catalog-derived next commands.
+
 ---
 
 ## Protocol Compliance
@@ -135,6 +146,7 @@ phase advancement decisions and does not invoke director gates.
 - [ ] Honors `--dry-run` by writing nothing
 - [ ] Does not create `memory_bank/` when missing
 - [ ] Recommends next commands without auto-running them
+- [ ] Treats adapter freshness as recorded context, not a phase blocker
 
 ---
 

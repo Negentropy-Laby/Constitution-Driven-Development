@@ -1,9 +1,10 @@
 # Release Notes
 
-## Customer Delivery Ready Release
+## v0.2.0 — Runtime-Neutral CDD Governance
 
-This release establishes the template as a stable customer delivery baseline
-for new game projects, new product projects, and existing project adoption.
+This release establishes Claude Code and Codex as first-class runtime peers over
+one neutral CDD governance source, with recorded adapter freshness and release
+smoke evidence.
 
 ### What Is Included
 
@@ -17,6 +18,15 @@ for new game projects, new product projects, and existing project adoption.
 - Canonical story paths under `production/epics/[epic-slug]/`.
 - Canonical QA evidence under `production/qa/evidence/`.
 - Full strict lint coverage for all skill files.
+- Manifest-v2 canonical-to-runtime adapter generation with root and nested
+  instructions, skills, agents, hooks, and path-policy ownership boundaries.
+- `sync_adapters.py --check --state-json` with deterministic manifest and
+  canonical-source digests.
+- Memory Bank adapter-state initialization, approved recording, and read-only
+  status display.
+- Credential-free structural runtime smoke on every Template Consistency run.
+- Manually triggered live smoke for pinned Claude Code 2.1.207 and Codex CLI
+  0.144.1 using read-only disposable fixtures.
 
 ### Important Upgrade Notes
 
@@ -26,6 +36,8 @@ for new game projects, new product projects, and existing project adoption.
   Setup blocker.
 - Release now follows `/release-checklist` -> `/launch-checklist` ->
   `/team-release`.
+- Claude Code invokes CDD skills as `/skill-name`; Codex uses `/skills` to
+  browse or `$skill-name` for explicit and non-interactive invocation.
 
 ### Validation Model
 
@@ -37,6 +49,8 @@ for new game projects, new product projects, and existing project adoption.
 - Required workflow: `Template Consistency`.
 - Required release evidence: release commit SHA, GitHub Actions run ID, and PASS
   result for `ubuntu-latest`, `macos-latest`, and `windows-latest`.
+- Required runtime evidence: a manually triggered `Runtime Smoke` run for the
+  same release commit, successful Claude/Codex jobs, pinned CLI versions, and
+  uploaded JSON evidence artifacts.
 - Customer acceptance checklist: `docs/CUSTOMER-ACCEPTANCE.md`.
-- The earlier `v0.1.0-rc.1` prerelease remains available as the historical
-  candidate evidence for this stable release line.
+- `v0.1.0` and `v0.1.0-rc.1` remain available as historical release evidence.

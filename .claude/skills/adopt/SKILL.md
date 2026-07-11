@@ -317,7 +317,7 @@ If approved, write `docs/adoption-plan-[date].md` with this structure:
 > **Generated**: [date]
 > **Project phase**: [phase]
 > **Engine**: [name + version, or "Not configured"]
-> **Template version**: v0.1.0
+> **Template version**: v0.2.0
 
 Work through these steps in order. Check off each item as you complete it.
 Re-run `/adopt` anytime to check remaining gaps.

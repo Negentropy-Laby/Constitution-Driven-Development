@@ -21,12 +21,15 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from datetime import datetime, timezone
 import fnmatch
+import hashlib
 import json
 import os
 import re
 import stat
 import string
+import subprocess
 import sys
 import tempfile
 import tomllib
@@ -1494,6 +1497,98 @@ def _format_report(report: CheckReport) -> list[str]:
     return lines
 
 
+def compute_manifest_digest(manifest_path: Path) -> str:
+    """Return the SHA-256 digest of the manifest's exact bytes."""
+
+    return hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+
+
+def compute_source_digest(manifest: Manifest, repo_root: Path) -> str:
+    """Hash every manifest-declared canonical source path and exact bytes.
+
+    Each path and content blob is framed with an unsigned eight-byte big-endian
+    length. This keeps the digest unambiguous while remaining deterministic
+    across platforms and filesystem enumeration order.
+    """
+
+    diagnostics: list[Diagnostic] = []
+    files: list[Path] = []
+    for source_name in sorted(manifest.sources):
+        files.extend(_discover_source(repo_root, manifest.sources[source_name], diagnostics))
+    errors = [diagnostic for diagnostic in diagnostics if diagnostic.severity == ERROR]
+    if errors:
+        detail = "; ".join(f"{item.path}: {item.message}" for item in errors)
+        raise ValueError(f"cannot compute canonical source digest: {detail}")
+
+    digest = hashlib.sha256()
+    for path in sorted(files, key=lambda item: rel_posix(repo_root, item)):
+        path_bytes = rel_posix(repo_root, path).encode("utf-8")
+        content = path.read_bytes()
+        digest.update(len(path_bytes).to_bytes(8, "big"))
+        digest.update(path_bytes)
+        digest.update(len(content).to_bytes(8, "big"))
+        digest.update(content)
+    return digest.hexdigest()
+
+
+def _checked_commit(repo_root: Path) -> str:
+    """Return the current HEAD commit, or an empty string outside Git."""
+
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
+        )
+    except OSError:
+        return ""
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def build_state_payload(
+    manifest_path: Path,
+    manifest: Manifest,
+    repo_root: Path,
+    report: CheckReport,
+) -> dict[str, object]:
+    """Build the schema-v1 read-only adapter freshness record."""
+
+    counts = report.counts()
+    return {
+        "schema_version": 1,
+        "status": "fresh" if report.ok else "stale",
+        "manifest_digest": compute_manifest_digest(manifest_path),
+        "source_digest": compute_source_digest(manifest, repo_root),
+        "checked_commit": _checked_commit(repo_root),
+        "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "counts": {
+            "ok": counts[OK],
+            "stale": counts[STALE],
+            "missing": counts[MISSING],
+            "extra": counts[EXTRA],
+            "invalid": counts[INVALID],
+        },
+        "check_command": "python scripts/sync_adapters.py --check",
+        "drifts": [
+            {"status": drift.status.lower(), "path": drift.path}
+            for drift in sorted(report.drifts, key=lambda item: (item.status, item.path))
+            if drift.status != OK
+        ],
+        "diagnostics": [
+            {
+                "severity": diagnostic.severity.lower(),
+                "path": diagnostic.path,
+                "message": diagnostic.message,
+            }
+            for diagnostic in sorted(report.diagnostics, key=lambda item: (item.path, item.message))
+        ],
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Generate Claude/Codex runtime adapters from canonical sources."
@@ -1508,7 +1603,17 @@ def main(argv: list[str] | None = None) -> int:
         help="Restrict to one declared source class (default: all).",
     )
     parser.add_argument("--manifest", default=str(DEFAULT_MANIFEST), help="Path to cdd-manifest.toml.")
+    parser.add_argument(
+        "--state-json",
+        action="store_true",
+        help="Emit schema-v1 adapter freshness state as JSON (read-only, all classes only).",
+    )
     args = parser.parse_args(argv)
+
+    if args.state_json and args.write:
+        parser.error("--state-json is read-only and cannot be combined with --write")
+    if args.state_json and args.asset_class != ALL_TOKEN:
+        parser.error("--state-json covers all canonical sources and cannot be combined with --class")
 
     manifest_path = Path(args.manifest)
     if not manifest_path.is_file():
@@ -1536,8 +1641,16 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     report = apply_plan(plan) if args.write else check_plan(plan)
-    for line in _format_report(report):
-        print(line)
+    if args.state_json:
+        try:
+            payload = build_state_payload(manifest_path, manifest, repo_root, report)
+        except (OSError, ValueError) as exc:
+            print(f"ERROR: cannot build adapter state: {exc}", file=sys.stderr)
+            return 1
+        print(json.dumps(payload, ensure_ascii=False, sort_keys=True))
+    else:
+        for line in _format_report(report):
+            print(line)
     return 0 if report.ok else 1
 
 

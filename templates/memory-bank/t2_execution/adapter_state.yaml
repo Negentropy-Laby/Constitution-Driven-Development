@@ -1,18 +1,17 @@
 # Adapter generation freshness state.
 #
-# Planned lifecycle (not yet wired into the skills):
-#   - /constitute will initialize this file (status: uninitialized -> fresh) from
-#     the template.
-#   - /constitute-check will recompute manifest_digest / source_digest, run or
-#     consume freshness evidence, report fresh/stale/uninitialized, and update
-#     this file after approval.
-#   - /cdd-status may eventually read but will not own this state.
+# Lifecycle:
+#   - /constitute initializes this exact deterministic template as uninitialized.
+#   - /constitute-check runs the state JSON check, reports the live result, and
+#     records fresh or stale values only after explicit approval.
+#   - /cdd-status reads this recorded state but never recomputes or owns it.
 #   - scripts/sync_adapters.py is read-only and never writes here.
 #
 # Digests are deterministic:
 #   manifest_digest = sha256(cdd-manifest.toml bytes)
-#   source_digest   = sha256 over sorted canonical path names + exact file bytes
-#   checked_at      = ISO-8601 UTC, set by the future lifecycle on approved update
+#   source_digest   = sha256 over sorted, length-framed canonical POSIX paths and
+#                     their length-framed exact file bytes
+#   checked_at      = ISO-8601 UTC, set on an approved /constitute-check update
 #
 # Template values are intentionally uninitialized — do not fabricate live state.
 

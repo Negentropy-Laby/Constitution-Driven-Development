@@ -50,6 +50,23 @@ class CollectKnownCommandsTest(unittest.TestCase):
         self.assertEqual(commands, expected)
 
 
+class RuntimeNativeCommandReferenceTest(unittest.TestCase):
+    """Codex's native skill browser is not a missing CDD skill."""
+
+    def test_doc_command_check_allows_codex_skills_browser(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            doc = Path(td) / "runtime.md"
+            doc.write_text("Use `/skills` to browse, then run `/help`.\n", encoding="utf-8")
+            with mock.patch.object(wc, "DOC_COMMAND_FILES", [doc]):
+                findings = wc.check_doc_commands(wc.collect_known_commands())
+        self.assertEqual(findings, [])
+
+
+class RuntimeSmokeContractTest(unittest.TestCase):
+    def test_runtime_smoke_workflows_and_schema_are_complete(self) -> None:
+        self.assertEqual(wc.check_runtime_smoke_contract(), [])
+
+
 class CodexHookCommandContractTest(unittest.TestCase):
     """Codex hook commands must remain safe when a session starts below root."""
 

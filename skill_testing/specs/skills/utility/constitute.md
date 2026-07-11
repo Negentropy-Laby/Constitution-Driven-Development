@@ -6,7 +6,8 @@
 product projects. It replaces the deleted legacy onboarding flow. The skill reads current
 artifacts, detects project stage and domain, asks structured onboarding
 questions, writes T0/T1 memory bank files, and routes the user to the next
-workflow step.
+workflow step. It initializes the framework contract and deterministic
+uninitialized adapter-state template without fabricating freshness evidence.
 
 ---
 
@@ -18,6 +19,7 @@ workflow step.
 - [ ] Writes under `memory_bank/` and `production/review-mode.txt`
 - [ ] Uses `AskUserQuestion` for domain and starting-point decisions
 - [ ] Provides next-step routing for game and product projects
+- [ ] Initializes `framework_contract.md` and `adapter_state.yaml` from templates
 
 ---
 
@@ -83,6 +85,18 @@ workflow step.
 - Preserves game-specific vocabulary and next steps
 - Does not convert game terms into generic product wording
 
+### Case 5: Adapter governance initialization
+
+**Fixture:**
+- Constitution ratification or derivation is approved
+- No existing `memory_bank/t2_execution/adapter_state.yaml`
+
+**Expected behavior:**
+- Copies `framework_contract.md` and `adapter_state.yaml` from the matching templates
+- Leaves adapter state at `status: uninitialized` with empty digests, commit, and timestamp
+- Does not claim adapters are fresh without running `/constitute-check`
+- Recommends `/constitute-check` after writing the approved skeleton
+
 ---
 
 ## Protocol Compliance
@@ -92,3 +106,4 @@ workflow step.
 - [ ] Keeps Game and Product routing inside the same command
 - [ ] Does not reference any deleted onboarding command as an active command
 - [ ] Produces clear next steps after constitution work
+- [ ] Never fabricates adapter freshness evidence

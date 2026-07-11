@@ -437,6 +437,8 @@ Create or update these files:
 - `memory_bank/t2_execution/phase_checklists.md`
 - `memory_bank/t2_execution/gate_required_artifacts.md`
 - `memory_bank/t2_execution/current_roadmap.md`
+- `memory_bank/t2_execution/framework_contract.md`
+- `memory_bank/t2_execution/adapter_state.yaml`
 - `memory_bank/t2_execution/skill_testing/README.md`
 - `skill_testing/catalog.yaml`
 - `skill_testing/quality-rubric.md`
@@ -468,6 +470,12 @@ If an older project has `memory_bank/t0_core/knowledge_graph.md`, treat it as a 
 Refresh them with `python scripts/generate_phase_checklists.py --write --memory-bank`
 and `python scripts/generate_gate_required_sections.py --write --memory-bank`.
 `memory_bank/t2_execution/current_roadmap.md` is maintained by `/cdd-status`.
+Copy `framework_contract.md` and `adapter_state.yaml` from their matching
+`templates/memory-bank/t2_execution/` sources. The adapter state must remain the
+exact deterministic `uninitialized` template: do not fabricate digests, a
+commit, a timestamp, or a `fresh` result during `/constitute`. After the
+skeleton is approved and written, tell the user to run `/constitute-check` to
+perform the live read-only check and optionally record its result.
 `skill_testing/` defines cross-project CDD skill and agent test standards.
 `memory_bank/t2_execution/skill_testing/README.md` records the project-memory
 mount contract for those canonical assets. `memory_bank/t3_archive/skill_testing/`

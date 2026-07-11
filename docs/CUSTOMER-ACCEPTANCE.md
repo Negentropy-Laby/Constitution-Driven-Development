@@ -23,6 +23,8 @@ python scripts/skill_lint.py --self-test
 python -m unittest discover -s tests -p "*_test.py"
 python scripts/skill_lint.py --strict skills
 python scripts/sync_adapters.py --check
+python scripts/sync_adapters.py --check --state-json
+python scripts/runtime_smoke.py --structural
 python scripts/workflow_consistency.py
 git diff --check
 ```
@@ -32,6 +34,8 @@ Expected result:
 - The unittest suite reports `OK` (a few tests skip on Windows; they run on Ubuntu/macOS CI).
 - Strict canonical skill lint reports `0 error(s)` for `skills/`.
 - `sync_adapters.py --check` reports `0 stale, 0 missing, 0 extra, 0 invalid`.
+- State JSON parses as schema version 1 with `status: fresh` and 64-character digests.
+- Credential-free runtime structural smoke reports `PASS`.
 - Workflow consistency reports `0 error(s), 0 warning(s)`.
 - `git diff --check` reports no whitespace errors.
 
@@ -62,14 +66,18 @@ Expected result:
 - The final GitHub Release or annotated tag records the release commit SHA,
   workflow run ID, and PASS result for all three platforms.
 
+Before a stable release, manually dispatch `Runtime Smoke` with repository
+secrets `ANTHROPIC_API_KEY` and `OPENAI_API_KEY`. Both live jobs must pass for
+the same `headSha`; record the run ID, Claude/Codex CLI versions, and uploaded
+artifact names in the GitHub Release or annotated tag.
+
 ## 4. New Project Smoke Path
 
 In a fresh test project, run:
 
 ```text
-/constitute
-/help
-/cdd-status --dry-run
+Claude Code: /constitute -> /help -> /cdd-status --dry-run
+Codex:      $constitute -> $help -> $cdd-status --dry-run
 ```
 
 Expected result:
@@ -108,6 +116,8 @@ Review these customer-visible entry points:
 Expected result:
 - Platform support consistently says Template Consistency CI is configured for
   Ubuntu, macOS, and Windows.
+- Runtime documentation distinguishes Claude `/skill` invocation from Codex
+  `/skills` browsing and `$skill` explicit invocation.
 - README links to the latest stable GitHub Release.
 - Skill and template counts match the repository.
 - Release order is `/release-checklist` -> `/launch-checklist` ->
@@ -123,3 +133,5 @@ Expected result:
   a project adds automation for it.
 - Gate checks are governed advisory. A `FAIL` blocks normal advancement, but the
   user may explicitly override it with a documented risk note.
+- Live runtime smoke requires separately managed Anthropic and OpenAI Actions
+  secrets and is intentionally manual rather than a per-PR cost.

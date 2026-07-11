@@ -25,8 +25,8 @@
 
 <p align="center">
   <strong>Latest release:</strong>
-  <a href="https://github.com/Negentropy-Laby/Constitution-Driven-Development/releases/tag/v0.1.0">v0.1.0</a>
-  — stable template release validated by Template Consistency on Ubuntu, macOS, and Windows.
+  <a href="https://github.com/Negentropy-Laby/Constitution-Driven-Development/releases/tag/v0.2.0">v0.2.0</a>
+  — cross-runtime release gated by three-platform consistency and Claude/Codex smoke evidence.
 </p>
 
 ---
@@ -45,6 +45,11 @@ Both runtimes share `INSTRUCTIONS.md`, `workflow/`, `templates/`, `standards/`,
 `skill_testing/`, and nested `src/`/`design/`/`docs/` `INSTRUCTIONS.md` guidance.
 Codex's native `.codex/rules/*.rules` command-approval policy is unrelated and
 never generator-owned.
+
+Documentation uses slash-prefixed names as logical CDD command notation. Invoke
+that form directly in Claude Code. In Codex, use `/skills` to browse
+interactively or mention a skill explicitly with its `$name`; `codex exec`
+automation uses the `$name` form.
 
 ## Start Here
 
@@ -237,7 +242,8 @@ Python 3.11+ is required to run the local validation commands and the `Template 
    - Claude Code: `claude`
    - Codex: `codex` (run from the project root so it discovers `AGENTS.md`)
 
-3. **Run `/constitute`** — the system creates or refreshes `memory_bank/`
+3. **Run the `constitute` skill** — `/constitute` in Claude Code, or
+   `$constitute` in Codex. The system creates or refreshes `memory_bank/`
    T0-T3 governance, asks where you are and what kind of project you are
    building, then guides you to the right workflow.
 
@@ -251,9 +257,8 @@ Python 3.11+ is required to run the local validation commands and the `Template 
 For a quick validation path, run:
 
 ```text
-/constitute
-/help
-/cdd-status --dry-run
+Claude Code: /constitute -> /help -> /cdd-status --dry-run
+Codex:      $constitute -> $help -> $cdd-status --dry-run
 ```
 
 This mirrors the [New Project Smoke Path](docs/CUSTOMER-ACCEPTANCE.md#4-new-project-smoke-path).
@@ -326,7 +331,9 @@ production/                         # Sprint plans, milestones, release tracking
 
 ## Reference: Slash Commands
 
-Type `/` in your runtime (Claude Code or Codex) to access all 74 skills:
+The list below contains all 74 skills using logical slash-prefixed notation.
+Claude Code invokes that form directly; Codex uses `/skills` to browse or
+`$name` to invoke a specific skill:
 
 **Onboarding & Navigation**
 `/constitute` `/constitute-check` `/help` `/cdd-status` `/project-stage-detect` `/setup-engine` `/adopt`
@@ -494,7 +501,14 @@ This is a **template**, not a locked framework. Everything is meant to be custom
 
 ## Platform Support
 
-Template consistency CI verifies **Ubuntu**, **macOS**, and **Windows** runners. Local hook execution on Windows requires **Git Bash**; hook scripts use POSIX-compatible shell patterns and are smoke-tested through Bash. Windows toast notifications are optional and fall back to plain hook output when unavailable.
+Template Consistency CI verifies **Ubuntu**, **macOS**, and **Windows** runners
+and includes a credential-free runtime structural smoke. The manually triggered
+Runtime Smoke workflow executes the three read-only onboarding contracts in
+Claude Code and Codex with repository secrets. Local hook execution on Windows
+requires **Git Bash**; Windows toast notifications are optional and fall back to
+plain hook output when unavailable.
+
+Release evidence records Template Consistency on Ubuntu, macOS, and Windows.
 
 ## Community
 

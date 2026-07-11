@@ -27,10 +27,14 @@ The supported workflow contract is defined by:
   consuming project has created those files.
 - `/skill-test static all` is a skill workflow, not a CI-enforced command unless
   a project adds non-interactive automation for it.
+- Live Claude/Codex smoke is manually dispatched and requires repository-managed
+  `ANTHROPIC_API_KEY` and `OPENAI_API_KEY` secrets.
 
 ## Platform Support
 
 - Template Consistency CI is configured for Ubuntu, macOS, and Windows runners.
+- Credential-free runtime structural smoke runs inside Template Consistency;
+  credential-backed Runtime Smoke is a separate release gate.
 - Windows 10/11 local hook execution requires Git Bash on PATH.
 - Hook scripts use POSIX-compatible shell patterns and are smoke-tested through Bash.
 - Windows toast notifications are optional and fall back to plain hook output when unavailable.
@@ -40,6 +44,9 @@ The supported workflow contract is defined by:
 For workflow questions, start with `/help` inside the project. It reads
 `workflow/workflow-catalog.yaml` and reports the next required step for the
 current phase.
+
+In Codex, browse CDD skills with `/skills` or explicitly invoke `$help`; project
+documentation keeps `/help` as the runtime-neutral logical command name.
 
 For repository issues, include:
 

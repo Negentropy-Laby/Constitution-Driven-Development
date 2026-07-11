@@ -38,13 +38,19 @@ The layers are:
 |-------|---------|
 | `t0_core/` | Current laws, active state, release state, and amendments. |
 | `t1_axioms/` | Supporting technical, architecture, UX, QA, behavior, and module context. |
-| `t2_execution/` | Workflow contract, phase/gate mirrors, and current roadmap. |
+| `t2_execution/` | Workflow contract, phase/gate mirrors, current roadmap, framework contract, and recorded adapter freshness. |
 | `t3_archive/` | Historical indexes for QA, release, gate, review, story, sprint, milestone, and amendment evidence. |
 
 Run `/constitute` to initialize or refresh the memory-bank skeleton. Run
 `/constitute-check` to audit T0-T3 health. Run `/cdd-status` to update
 `production/project-roadmap.md` and, when `memory_bank/` exists,
 `memory_bank/t2_execution/current_roadmap.md`.
+
+`/constitute` initializes `framework_contract.md` and an `uninitialized`
+`adapter_state.yaml`. `/constitute-check` performs the live read-only adapter
+check and may record fresh or stale values only after showing the full YAML and
+receiving approval. `/cdd-status` displays that recorded state without
+recomputing it or changing phase ordering.
 
 T3 is the audit index layer. Gate decisions, review artifacts, QA validation,
 smoke/team QA sign-off, story closure, sprint/milestone snapshots, and release
@@ -92,6 +98,10 @@ cd my-cdd-project
 claude   # or: codex  (run from the repo root so your runtime finds CLAUDE.md / AGENTS.md)
 ```
 
+This manual uses slash-prefixed names as logical CDD notation. Claude Code
+invokes skills with that form. In Codex, use `/skills` to browse or `$name`
+syntax for an explicit invocation; for example, start with `$constitute`.
+
 `jq` is optional: hooks fall back to `grep` when it is absent. Python 3.11+ is
 required for the validation commands above and for the CI gate; the core
 collaborative agent workflow in either runtime does not depend on Python.
@@ -115,6 +125,9 @@ Every slash command includes a local `User Guide` block that states when to use
 it, required inputs, expected outputs, memory-bank writes, and recommended next
 steps. Those next steps are guidance only; they do not auto-run without an
 explicit command and approval.
+
+For Codex, “slash command” in the workflow tables means the logical CDD command;
+invoke the matching skill with `$name` or choose it from `/skills`.
 
 ## New Game Path
 
@@ -230,6 +243,8 @@ Common generated or maintained artifacts include:
 | `memory_bank/t2_execution/phase_checklists.md` | `python scripts/generate_phase_checklists.py --write --memory-bank` |
 | `memory_bank/t2_execution/gate_required_artifacts.md` | `python scripts/generate_gate_required_sections.py --write --memory-bank` |
 | `memory_bank/t2_execution/current_roadmap.md` | `/cdd-status` |
+| `memory_bank/t2_execution/framework_contract.md` | Initialized from its template by `/constitute` |
+| `memory_bank/t2_execution/adapter_state.yaml` | Initialized by `/constitute`; recorded only by approved `/constitute-check`; read by `/cdd-status` |
 | `skill_testing/catalog.yaml` | Cross-project registry for `/skill-test` and `/skill-improve` |
 | `skill_testing/quality-rubric.md` | Cross-project rubric for `/skill-test category` and `/skill-improve` |
 | `skill_testing/specs/` | Reusable skill/agent behavioral specs |
@@ -267,6 +282,8 @@ python scripts/skill_lint.py --self-test
 python -m unittest discover -s tests -p "*_test.py"
 python scripts/skill_lint.py --strict skills
 python scripts/sync_adapters.py --check
+python scripts/sync_adapters.py --check --state-json
+python scripts/runtime_smoke.py --structural
 python scripts/workflow_consistency.py
 git diff --check
 ```
@@ -275,6 +292,9 @@ Customer acceptance expectations are documented in
 `docs/CUSTOMER-ACCEPTANCE.md`. Immutable release evidence should be recorded on
 the GitHub Release or annotated tag, including the release commit SHA, the
 `Template Consistency` run ID, and successful Ubuntu, macOS, and Windows jobs.
+For `v0.2.0` and later, also record the matching manually triggered
+`Runtime Smoke` run ID, successful Claude/Codex jobs, pinned CLI versions, and
+the uploaded smoke artifacts.
 
 Tracked Markdown should describe the evidence contract, not hard-code a future
 run that can only exist after the Markdown is committed.

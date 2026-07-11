@@ -18,6 +18,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from contextlib import contextmanager
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -155,6 +156,33 @@ raise SystemExit(64)
     env = os.environ.copy()
     env["PATH"] = str(directory) + os.pathsep + env.get("PATH", "")
     return env
+
+
+@contextmanager
+def _env_with_jq_hidden():
+    """Yield a Bash environment where only ``command -v jq`` is hidden.
+
+    Removing jq's directory from PATH is not portable: hosted Unix runners put
+    jq beside core utilities such as cat, grep, sed, and head. BASH_ENV lets the
+    tests exercise the production grep fallback without hiding those commands
+    or adding a test-only switch to the hooks themselves.
+    """
+
+    with tempfile.TemporaryDirectory() as tmp:
+        bash_env = Path(tmp) / "hide_jq.sh"
+        bash_env.write_text(
+            "command() {\n"
+            "  if [ \"$#\" -ge 2 ] && [ \"$1\" = \"-v\" ] && [ \"$2\" = \"jq\" ]; then\n"
+            "    return 1\n"
+            "  fi\n"
+            "  builtin command \"$@\"\n"
+            "}\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        env = os.environ.copy()
+        env["BASH_ENV"] = bash_env.as_posix()
+        yield env
 
 
 class AuthoringPathTests(unittest.TestCase):
@@ -313,28 +341,17 @@ class ValidateGeneratedAdapterChangeHookTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0, proc.stderr)
 
     def test_grep_fallback_classifies_when_jq_absent(self) -> None:
-        # Force jq off PATH so the hook's grep fallback is exercised. If jq
-        # cannot be fully removed (multiple installs), skip rather than
-        # false-pass on the jq code path.
-        env = os.environ.copy()
-        jq_exe = shutil.which("jq")
-        if jq_exe:
-            jq_dirs = {str(Path(jq_exe).resolve().parent).lower()}
-            env["PATH"] = os.pathsep.join(
-                p for p in env["PATH"].split(os.pathsep)
-                if p and str(Path(p).resolve()).lower() not in jq_dirs
+        with _env_with_jq_hidden() as env:
+            check = subprocess.run(
+                [self.bash, "-c", "command -v jq >/dev/null 2>&1 && echo found || echo gone"],
+                capture_output=True,
+                text=True,
+                env=env,
             )
-        check = subprocess.run(
-            [self.bash, "-c", "command -v jq >/dev/null 2>&1 && echo found || echo gone"],
-            capture_output=True,
-            text=True,
-            env=env,
-        )
-        if check.stdout.strip() != "gone":
-            self.skipTest("could not remove jq from PATH; grep fallback not exercisable")
-        proc = self._run("skills/foo/SKILL.md", env=env)
-        self.assertEqual(proc.returncode, 0, proc.stderr)
-        self.assertIn("Canonical Skill Modified: foo", proc.stderr)
+            self.assertEqual(check.stdout.strip(), "gone", check.stderr)
+            proc = self._run("skills/foo/SKILL.md", env=env)
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            self.assertIn("Canonical Skill Modified: foo", proc.stderr)
 
     def test_generated_agents_warned(self) -> None:
         proc = self._run(".claude/agents/writer.md")
@@ -525,30 +542,21 @@ class ValidateAssetsHookTests(unittest.TestCase):
                 self.assertEqual(proc.stdout, "")
 
     def test_grep_fallback_parses_codex_payload_without_jq(self) -> None:
-        env = os.environ.copy()
-        jq_exe = shutil.which("jq")
-        if jq_exe:
-            jq_dirs = {str(Path(jq_exe).resolve().parent).lower()}
-            env["PATH"] = os.pathsep.join(
-                p for p in env["PATH"].split(os.pathsep)
-                if p and str(Path(p).resolve()).lower() not in jq_dirs
+        with _env_with_jq_hidden() as env:
+            check = subprocess.run(
+                [self.bash, "-c", "command -v jq >/dev/null 2>&1 && echo found || echo gone"],
+                capture_output=True,
+                text=True,
+                env=env,
             )
-        check = subprocess.run(
-            [self.bash, "-c", "command -v jq >/dev/null 2>&1 && echo found || echo gone"],
-            capture_output=True,
-            text=True,
-            env=env,
-        )
-        if check.stdout.strip() != "gone":
-            self.skipTest("could not remove jq from PATH; grep fallback not exercisable")
-
-        proc = self._run_codex(
-            "*** Update File: assets/data/Bad-Name.json\n",
-            env=env,
-        )
-        self.assertEqual(proc.returncode, 0, proc.stderr)
-        data = json.loads(proc.stdout)
-        self.assertIn("Bad-Name.json", data["hookSpecificOutput"]["additionalContext"])
+            self.assertEqual(check.stdout.strip(), "gone", check.stderr)
+            proc = self._run_codex(
+                "*** Update File: assets/data/Bad-Name.json\n",
+                env=env,
+            )
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            data = json.loads(proc.stdout)
+            self.assertIn("Bad-Name.json", data["hookSpecificOutput"]["additionalContext"])
 
     def test_invalid_json_is_reported_for_both_payloads(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
