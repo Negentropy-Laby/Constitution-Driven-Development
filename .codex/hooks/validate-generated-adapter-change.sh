@@ -72,6 +72,15 @@ decode_patch_command() {
     local decoded=${1//\\n/$'\n'}
     printf '%s\n' "$decoded"
 }
+json_escape() {
+    local escaped=$1
+    escaped=${escaped//\\/\\\\}
+    escaped=${escaped//\"/\\\"}
+    escaped=${escaped//$'\n'/\\n}
+    escaped=${escaped//$'\r'/\\r}
+    escaped=${escaped//$'\t'/\\t}
+    printf '%s' "$escaped"
+}
 [ -n "$FILE_PATH" ] && add_path "$FILE_PATH"
 if [ -n "$COMMAND" ]; then
     # apply_patch headers "*** Update/Add/Delete File: <path>" and optional
@@ -188,7 +197,7 @@ if $EMIT_JSON; then
     if command -v jq >/dev/null 2>&1; then
         printf '%s' "$ADVISORY" | jq -Rsc '{hookSpecificOutput:{hookEventName:"PostToolUse",additionalContext:.}}'
     else
-        ESC=$(printf '%s' "$ADVISORY" | sed 's/\\/\\\\/g; s/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
+        ESC=$(json_escape "$ADVISORY")
         printf '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$ESC"
     fi
 else

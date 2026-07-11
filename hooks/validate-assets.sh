@@ -64,6 +64,15 @@ decode_patch_command() {
     local decoded=${1//\\n/$'\n'}
     printf '%s\n' "$decoded"
 }
+json_escape() {
+    local escaped=$1
+    escaped=${escaped//\\/\\\\}
+    escaped=${escaped//\"/\\\"}
+    escaped=${escaped//$'\n'/\\n}
+    escaped=${escaped//$'\r'/\\r}
+    escaped=${escaped//$'\t'/\\t}
+    printf '%s' "$escaped"
+}
 [ -n "$FILE_PATH" ] && add_path "$FILE_PATH"
 if [ -n "$COMMAND" ]; then
     # apply_patch Update/Add headers plus an optional rename destination.
@@ -133,7 +142,7 @@ emit_block() {
             fi
         else
             local esc
-            esc=$(printf '%s' "$msg" | sed 's/\\/\\\\/g; s/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
+            esc=$(json_escape "$msg")
             if [ -n "$ERRORS" ]; then
                 printf '{"decision":"block","reason":"%s","hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$esc" "$esc"
             else

@@ -196,6 +196,8 @@ class AuthoringPathTests(unittest.TestCase):
                 self.assertNotIn(r"\(Update\|Add", source)
                 self.assertNotIn(r"\|Delete\)", source)
                 self.assertIn("decode_patch_command", source)
+                self.assertIn("json_escape", source)
+                self.assertNotIn("sed ':a;N;$!ba", source)
 
     def test_skill_improve_targets_canonical_and_regenerates(self) -> None:
         text = read_canonical("skills/skill-improve/SKILL.md")
