@@ -60,16 +60,20 @@ add_path() {
     fi
     PATHS="${PATHS:+$PATHS$NL}$p"
 }
+decode_patch_command() {
+    local decoded=${1//\\n/$'\n'}
+    printf '%s\n' "$decoded"
+}
 [ -n "$FILE_PATH" ] && add_path "$FILE_PATH"
 if [ -n "$COMMAND" ]; then
     # apply_patch Update/Add headers plus an optional rename destination.
     while IFS= read -r pp; do
         [ -n "$pp" ] && add_path "$pp"
     done < <(
-        printf '%s\n' "$COMMAND" |
-            sed 's/\\n/\n/g' |
+        decode_patch_command "$COMMAND" |
             sed -n \
-                -e 's/^.*\(Update\|Add\) File: //p' \
+                -e 's/^.*Update File: //p' \
+                -e 's/^.*Add File: //p' \
                 -e 's/^.*Move to: //p'
     )
 fi

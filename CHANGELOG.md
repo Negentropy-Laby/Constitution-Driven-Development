@@ -19,6 +19,7 @@ No changes recorded after `v0.2.0`.
   and `/cdd-status`.
 - Added credential-free structural smoke to Template Consistency and a manually
   triggered, pinned Claude/Codex live-smoke release gate.
+- Made Codex apply-patch hook header parsing portable across GNU and BSD `sed`.
 - Documented Claude `/skill` invocation and Codex `/skills`/`$skill` invocation.
 
 ### Customer Delivery Hardening

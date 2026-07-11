@@ -186,6 +186,17 @@ def _env_with_jq_hidden():
 
 
 class AuthoringPathTests(unittest.TestCase):
+    def test_hook_patch_header_patterns_are_bsd_sed_portable(self) -> None:
+        for relative in (
+            "hooks/validate-assets.sh",
+            "hooks/validate-generated-adapter-change.sh",
+        ):
+            with self.subTest(relative=relative):
+                source = (REPO_ROOT / relative).read_text(encoding="utf-8")
+                self.assertNotIn(r"\(Update\|Add", source)
+                self.assertNotIn(r"\|Delete\)", source)
+                self.assertIn("decode_patch_command", source)
+
     def test_skill_improve_targets_canonical_and_regenerates(self) -> None:
         text = read_canonical("skills/skill-improve/SKILL.md")
         # Authoring/revert target is the canonical root, not the generated trees.

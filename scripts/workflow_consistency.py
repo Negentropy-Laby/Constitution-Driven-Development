@@ -2311,6 +2311,8 @@ def check_runtime_smoke_contract() -> list[Finding]:
             'CODEX_CLI_VERSION: "0.144.1"',
             "secrets.ANTHROPIC_API_KEY",
             "secrets.OPENAI_API_KEY",
+            'FIXTURE: "/tmp/cdd-claude-smoke"',
+            'FIXTURE: "/tmp/cdd-codex-smoke"',
             "--no-session-persistence",
             'cd "$FIXTURE"',
             "--ephemeral",
