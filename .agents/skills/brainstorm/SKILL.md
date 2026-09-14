@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-description: "Guided concept ideation — from zero idea to a structured concept document. Supports both game and general product domains. Uses professional ideation techniques, user psychology frameworks, and structured creative exploration."
+description: "Use this skill when a new game or software product needs a collaboratively authored concept document covering users, goals, scope, and design principles before module planning."
 argument-hint: "[domain hint, or 'open'] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, WebSearch, Task, AskUserQuestion

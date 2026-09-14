@@ -26,7 +26,7 @@ label = "Codex"
 
 [sources.skills]
 root = "skills"
-include = "*/SKILL.md"
+include = "**/*.md"
 expected_count = 74
 
 [sources.agents]

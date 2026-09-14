@@ -1,6 +1,6 @@
 ---
 name: create-control-manifest
-description: "After architecture is complete, produces a flat actionable rules sheet for programmers — what you must do, what you must never do, per module and per layer. Extracted from all Accepted ADRs, technical preferences, and reference docs. Supports both game and general product domains."
+description: "Use this skill when accepted ADRs and technical standards must be converted into a concise programmer-facing control manifest after architecture approval."
 argument-hint: "[update — regenerate from current ADRs]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Task

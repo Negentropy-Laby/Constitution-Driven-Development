@@ -890,13 +890,29 @@ def _discover_source(repo_root: Path, src: Source, diagnostics: list[Diagnostic]
             files = _discover_skill_packages(repo_root, root, src.include, diagnostics)
         else:
             files = _discover_glob_no_links(repo_root, root, src.include, diagnostics)
-    if len(files) != src.expected_count:
+    discovered_count = (
+        sum(
+            1
+            for path in files
+            if src.name == "skills"
+            and src.root is not None
+            and path.name == "SKILL.md"
+            and len(path.relative_to(repo_root / src.root).parts) == 2
+        )
+        if src.name == "skills"
+        else len(files)
+    )
+    if discovered_count != src.expected_count:
         diagnostics.append(
             Diagnostic(
                 ERROR,
                 label_root if src.file is None else label,
-                f"expected {src.expected_count} source file(s), found {len(files)}; "
-                "update expected_count in cdd-manifest.toml (and catalogs/docs) to change the asset set",
+                (
+                    f"expected {src.expected_count} source package(s), found {discovered_count}; "
+                    if src.name == "skills"
+                    else f"expected {src.expected_count} source file(s), found {discovered_count}; "
+                )
+                + "update expected_count in cdd-manifest.toml (and catalogs/docs) to change the asset set",
             )
         )
     return files
@@ -1002,41 +1018,86 @@ def _discover_skill_packages(
                 Diagnostic(ERROR, rel_posix(repo_root, package), "skills root may contain only package directories")
             )
             continue
+        skill_path = package / "SKILL.md"
         try:
-            children = _scandir_sorted(package)
+            skill_stat = _lstat_or_none(skill_path)
         except OSError as exc:
-            diagnostics.append(Diagnostic(ERROR, rel_posix(repo_root, package), f"cannot scan skill package: {exc}"))
+            diagnostics.append(
+                Diagnostic(ERROR, rel_posix(repo_root, skill_path), f"cannot inspect skill asset: {exc}")
+            )
             continue
-        found_skill = False
-        for child_entry in children:
-            child = Path(child_entry.path)
-            try:
-                child_stat = child_entry.stat(follow_symlinks=False)
-            except OSError as exc:
-                diagnostics.append(Diagnostic(ERROR, rel_posix(repo_root, child), f"cannot inspect skill asset: {exc}"))
-                continue
-            if _is_linklike_stat(child_stat):
-                diagnostics.append(
-                    Diagnostic(ERROR, rel_posix(repo_root, child), "skill package contains a symlink/reparse point")
-                )
-                continue
-            if child_entry.name != "SKILL.md" or not stat.S_ISREG(child_stat.st_mode):
-                diagnostics.append(
-                    Diagnostic(
-                        ERROR,
-                        rel_posix(repo_root, child),
-                        f"skill package {package.name!r} may contain only a regular SKILL.md",
-                    )
-                )
-                continue
-            found_skill = True
-            relative = f"{package.name}/SKILL.md"
-            if _glob_matches(relative, include):
-                files.append(child)
-        if not found_skill:
+        # Fast-fail with a single cause-specific diagnostic per package: a
+        # missing entrypoint, a link/reparse point, and a non-regular entrypoint
+        # are distinct contract violations and must not collapse into one
+        # misleading "missing SKILL.md" message.
+        if skill_stat is None:
             diagnostics.append(
                 Diagnostic(ERROR, rel_posix(repo_root, package), f"skill package {package.name!r} is missing SKILL.md")
             )
+            continue
+        if _is_linklike_stat(skill_stat):
+            diagnostics.append(
+                Diagnostic(ERROR, rel_posix(repo_root, skill_path), "skill package contains a symlink/reparse point")
+            )
+            continue
+        if not stat.S_ISREG(skill_stat.st_mode):
+            diagnostics.append(
+                Diagnostic(
+                    ERROR,
+                    rel_posix(repo_root, skill_path),
+                    f"skill package {package.name!r} may contain only a regular SKILL.md",
+                )
+            )
+            continue
+
+        def visit(directory: Path, relative_dir: str = "") -> None:
+            try:
+                children = _scandir_sorted(directory)
+            except OSError as exc:
+                diagnostics.append(
+                    Diagnostic(ERROR, rel_posix(repo_root, directory), f"cannot scan skill package: {exc}")
+                )
+                return
+            for child_entry in children:
+                child = Path(child_entry.path)
+                relative_in_package = (
+                    f"{relative_dir}/{child_entry.name}" if relative_dir else child_entry.name
+                )
+                relative = f"{package.name}/{relative_in_package}"
+                try:
+                    child_stat = child_entry.stat(follow_symlinks=False)
+                except OSError as exc:
+                    diagnostics.append(
+                        Diagnostic(ERROR, rel_posix(repo_root, child), f"cannot inspect skill asset: {exc}")
+                    )
+                    continue
+                if _is_linklike_stat(child_stat):
+                    diagnostics.append(
+                        Diagnostic(ERROR, rel_posix(repo_root, child), "skill package contains a symlink/reparse point")
+                    )
+                elif stat.S_ISDIR(child_stat.st_mode):
+                    visit(child, relative_in_package)
+                elif stat.S_ISREG(child_stat.st_mode):
+                    if relative_in_package != "SKILL.md" and child_entry.name == "SKILL.md":
+                        diagnostics.append(
+                            Diagnostic(ERROR, rel_posix(repo_root, child), "nested skill entrypoints are not allowed")
+                        )
+                    elif _glob_matches(relative, include):
+                        files.append(child)
+                    else:
+                        diagnostics.append(
+                            Diagnostic(
+                                ERROR,
+                                rel_posix(repo_root, child),
+                                f"skill package file does not match skills include pattern {include!r}",
+                            )
+                        )
+                else:
+                    diagnostics.append(
+                        Diagnostic(ERROR, rel_posix(repo_root, child), "skill package contains a special file")
+                    )
+
+        visit(package)
     return sorted(files, key=lambda path: rel_posix(repo_root, path))
 
 

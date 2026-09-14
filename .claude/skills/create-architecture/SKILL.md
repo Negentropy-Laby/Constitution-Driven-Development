@@ -1,6 +1,6 @@
 ---
 name: create-architecture
-description: "Guided, section-by-section authoring of the master architecture document. Reads all CDDs, the module index, existing ADRs, and the reference library to produce a complete architecture blueprint before any code is written. Supports both game and general product domains."
+description: "Use this skill when approved module CDDs and ADRs must be synthesized into the master architecture document before implementation begins."
 argument-hint: "[focus-area: full | layers | data-flow | api-boundaries | adr-audit] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Bash, AskUserQuestion, Task

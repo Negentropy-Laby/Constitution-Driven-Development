@@ -1,6 +1,6 @@
 ---
 name: architecture-review
-description: "Validates completeness and consistency of the project architecture against all CDDs. Builds a traceability matrix mapping every CDD technical requirement to ADRs, identifies coverage gaps, detects cross-ADR conflicts, verifies technology compatibility consistency across all decisions, and produces a PASS/CONCERNS/FAIL verdict. Supports both game and general product domains."
+description: "Use this skill when module CDDs and ADRs need a pre-implementation architecture audit for traceability gaps, conflicts, technology compatibility, and a PASS/CONCERNS/FAIL verdict."
 argument-hint: "[focus: full | coverage | consistency | compatibility | single-cdd path/to/cdd.md]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
