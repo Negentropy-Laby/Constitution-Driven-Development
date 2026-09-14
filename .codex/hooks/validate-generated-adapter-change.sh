@@ -136,11 +136,16 @@ while IFS= read -r P; do
             emit "  python scripts/sync_adapters.py --write" ;;
         # --- generated skill trees ---
         */.claude/skills/*|*/.agents/skills/*|.claude/skills/*|.agents/skills/*)
-            SKILL=$(printf '%s' "$P" | sed -nE 's#.*\.(claude|agents)/skills/([^/]+).*#\2#p' | head -1)
+            CANON=$(printf '%s' "$P" | sed -nE 's#.*\.(claude|agents)/(skills/.*)$#\2#p' | head -1)
+            SKILL=$(printf '%s' "${CANON:-$P}" | sed -nE 's#.*skills/([^/]+)/.*#\1#p' | head -1)
             emit "=== Generated Adapter Edited: ${SKILL:-skill} ==="
             emit "WARNING: \".claude/skills/\" and \".agents/skills/\" are GENERATED. Edits here are overwritten by:"
             emit "  python scripts/sync_adapters.py --write --class skills"
-            [ -n "$SKILL" ] && emit "Edit the canonical source instead: skills/$SKILL/SKILL.md" ;;
+            if [ -n "$CANON" ]; then
+                emit "Edit the canonical source instead: $CANON"
+            elif [ -n "$SKILL" ]; then
+                emit "Edit the canonical source instead: skills/$SKILL/SKILL.md"
+            fi ;;
         # --- generated agent trees ---
         */.claude/agents/*|*/.codex/agents/*|.claude/agents/*|.codex/agents/*)
             emit "=== Generated Adapter Edited: agents ==="
@@ -176,6 +181,14 @@ while IFS= read -r P; do
                 emit "Run /skill-test static $SKILL to validate structural compliance."
                 emit "Run python scripts/skill_lint.py skills/$SKILL/SKILL.md for non-blocking markdown/frontmatter checks."
             fi
+            emit "Regenerate runtime adapters: python scripts/sync_adapters.py --write --class skills" ;;
+        # On-demand reference Markdown inside a skill package (entrypoints are
+        # matched above, so this covers references/ and any deeper Markdown).
+        */skills/*/*.md|skills/*/*.md)
+            CANON=$(printf '%s' "$P" | sed -nE 's#.*(skills/.*)$#\1#p' | head -1)
+            PKG=$(printf '%s' "${CANON:-$P}" | sed -nE 's#.*skills/([^/]+)/.*#\1#p' | head -1)
+            emit "=== Canonical Skill Reference Modified: ${PKG:-skill} ==="
+            [ -n "$CANON" ] && emit "Canonical source: $CANON"
             emit "Regenerate runtime adapters: python scripts/sync_adapters.py --write --class skills" ;;
         */agents/*.md|agents/*.md)
             emit "=== Canonical Source Modified: agents ==="

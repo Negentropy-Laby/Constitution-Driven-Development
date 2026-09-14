@@ -12,6 +12,13 @@ All notable template changes should be recorded here.
   `SKILL.md` stays the only entrypoint, and `expected_count` continues to count
   the 74 skill packages rather than Markdown files.
 
+### Reference-Aware Tooling
+
+- `skill_lint.py --strict skills` now also lint-checks
+  `skills/<name>/references/*.md` (frontmatter checks stay entrypoint-only), and
+  the edit-protection hook advises adapter regeneration when only a reference
+  file changes.
+
 ## [0.2.0] - 2026-07-11
 
 ### Cross-Runtime Architecture

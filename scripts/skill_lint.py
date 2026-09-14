@@ -173,20 +173,31 @@ def template_exists_for(path_text: str) -> bool:
     return any(candidate.name == name or candidate.stem == stem for candidate in TEMPLATES_DIR.rglob("*"))
 
 
-def lint_file(path: Path, known_commands: set[str]) -> list[Finding]:
+def is_skill_entrypoint(path: Path) -> bool:
+    """An entrypoint is the package-root ``SKILL.md``.
+
+    Every other Markdown file in a package is on-demand reference material
+    mirrored to the runtime trees, so it has no frontmatter contract.
+    """
+
+    return path.name == "SKILL.md"
+
+
+def lint_file(path: Path, known_commands: set[str], *, entrypoint: bool = True) -> list[Finding]:
     findings: list[Finding] = []
     text = path.read_text(encoding="utf-8", errors="replace")
     lines = text.splitlines()
 
-    fields, fm_end = parse_frontmatter(text)
-    if not fields:
-        findings.append(Finding("ERROR", path, 1, "missing or unterminated YAML frontmatter"))
-    else:
-        missing = sorted(REQUIRED_FRONTMATTER - set(fields))
-        if missing:
-            findings.append(Finding("ERROR", path, 1, "missing required frontmatter fields: " + ", ".join(missing)))
-        if fm_end < 2:
-            findings.append(Finding("ERROR", path, 1, "frontmatter closing marker not found"))
+    if entrypoint:
+        fields, fm_end = parse_frontmatter(text)
+        if not fields:
+            findings.append(Finding("ERROR", path, 1, "missing or unterminated YAML frontmatter"))
+        else:
+            missing = sorted(REQUIRED_FRONTMATTER - set(fields))
+            if missing:
+                findings.append(Finding("ERROR", path, 1, "missing required frontmatter fields: " + ", ".join(missing)))
+            if fm_end < 2:
+                findings.append(Finding("ERROR", path, 1, "frontmatter closing marker not found"))
 
     for match in BROKEN_WORDS.finditer(text):
         findings.append(Finding("ERROR", path, line_number(lines, match.start()), f"broken word found: {match.group(0)}"))
@@ -299,9 +310,19 @@ unterminated
     return bad_file
 
 
+def write_good_reference_file(directory: Path, name: str, body: str) -> Path:
+    """Write an on-demand reference file (no frontmatter contract)."""
+
+    reference_dir = directory / "reference"
+    reference_dir.mkdir(exist_ok=True)
+    reference_file = reference_dir / name
+    reference_file.write_text(body, encoding="utf-8")
+    return reference_file
+
+
 def write_good_reference_skill(directory: Path) -> Path:
     skill_dir = directory / "reference"
-    skill_dir.mkdir()
+    skill_dir.mkdir(exist_ok=True)
     good_file = skill_dir / "SKILL.md"
     good_file.write_text(
         """---
@@ -328,6 +349,18 @@ def run_self_test() -> int:
         good_file = write_good_reference_skill(Path(temp))
         findings = lint_file(bad_file, known_commands={"/broken"})
         good_findings = lint_file(good_file, known_commands={"/reference"})
+        clean_reference = write_good_reference_file(
+            Path(temp),
+            "details.md",
+            "# Details\n\nOn-demand guidance with no frontmatter requirement.\n",
+        )
+        broken_reference = write_good_reference_file(
+            Path(temp),
+            "broken-details.md",
+            "#Bad heading\n\n**Unclosed bold\n",
+        )
+        clean_reference_findings = lint_file(clean_reference, known_commands=set(), entrypoint=False)
+        broken_reference_findings = lint_file(broken_reference, known_commands=set(), entrypoint=False)
     messages = "\n".join(f.message for f in findings)
     expected = [
         "missing required frontmatter fields",
@@ -351,13 +384,45 @@ def run_self_test() -> int:
     if false_positive:
         print("SELF-TEST FAILED: slash-like path false positives: " + ", ".join(false_positive), file=sys.stderr)
         return 1
+    if clean_reference_findings:
+        print(
+            "SELF-TEST FAILED: clean reference file reported findings: "
+            + "; ".join(f.message for f in clean_reference_findings),
+            file=sys.stderr,
+        )
+        return 1
+    reference_messages = "\n".join(f.message for f in broken_reference_findings)
+    missing_reference = [
+        item
+        for item in ("markdown heading missing a space after #", "unbalanced bold markers on line")
+        if item not in reference_messages
+    ]
+    if missing_reference:
+        print(
+            "SELF-TEST FAILED: reference file misses detections: " + ", ".join(missing_reference),
+            file=sys.stderr,
+        )
+        return 1
+    if any(
+        finding.severity == "ERROR" and "frontmatter" in finding.message
+        for finding in clean_reference_findings + broken_reference_findings
+    ):
+        print("SELF-TEST FAILED: reference files must not be frontmatter-checked", file=sys.stderr)
+        return 1
     print("SELF-TEST PASSED: broken frontmatter, command refs, bad words, headings, and code fences detected.")
     return 0
 
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="Lint CDD skill markdown files.")
-    parser.add_argument("paths", nargs="*", help="Skill files or directories. Defaults to skills/*/SKILL.md")
+    parser.add_argument(
+        "paths",
+        nargs="*",
+        help=(
+            "Skill files or directories. Defaults to every Markdown file in a skill package "
+            "(skills/*/SKILL.md plus skills/*/references/**/*.md)"
+        ),
+    )
     parser.add_argument("--strict", action="store_true", help="Exit non-zero on ERROR findings")
     parser.add_argument("--self-test", action="store_true", help="Run internal detection self-test")
     args = parser.parse_args(argv)
@@ -374,15 +439,21 @@ def main(argv: list[str]) -> int:
                 targets.extend(candidate.glob("*/SKILL.md"))
                 if candidate.name != "skills":
                     targets.extend(candidate.rglob("SKILL.md"))
+                else:
+                    # Canonical packages also ship on-demand reference Markdown.
+                    targets.extend(candidate.glob("*/**/*.md"))
             else:
                 targets.append(candidate)
     else:
-        targets = sorted(SKILLS_DIR.glob("*/SKILL.md"))
+        targets = sorted(SKILLS_DIR.glob("*/**/*.md"))
 
     all_findings: list[Finding] = []
-    for target in sorted(set(targets)):
+    unique_targets = sorted(set(targets))
+    for target in unique_targets:
         if target.exists():
-            all_findings.extend(lint_file(target, known_commands))
+            all_findings.extend(
+                lint_file(target, known_commands, entrypoint=is_skill_entrypoint(target))
+            )
         else:
             all_findings.append(Finding("ERROR", target, 1, "target file does not exist"))
 
@@ -391,7 +462,7 @@ def main(argv: list[str]) -> int:
 
     errors = sum(1 for finding in all_findings if finding.severity == "ERROR")
     warnings = sum(1 for finding in all_findings if finding.severity == "WARN")
-    print(f"skill-lint summary: {errors} error(s), {warnings} warning(s), {len(targets)} file(s) checked")
+    print(f"skill-lint summary: {errors} error(s), {warnings} warning(s), {len(unique_targets)} file(s) checked")
 
     if args.strict and errors:
         return 1

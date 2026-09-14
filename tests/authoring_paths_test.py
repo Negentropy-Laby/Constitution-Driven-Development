@@ -332,6 +332,23 @@ class ValidateGeneratedAdapterChangeHookTests(unittest.TestCase):
         self.assertIn("Generated Adapter Edited: foo", proc.stderr)
         self.assertIn("GENERATED", proc.stderr)
 
+    def test_generated_skill_reference_points_to_canonical(self) -> None:
+        proc = self._run(".claude/skills/foo/references/bar.md")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("Generated Adapter Edited: foo", proc.stderr)
+        self.assertIn("GENERATED", proc.stderr)
+        # Nested reference files must point at their own canonical source.
+        self.assertIn("skills/foo/references/bar.md", proc.stderr)
+
+    def test_canonical_skill_reference_advises_regeneration(self) -> None:
+        proc = self._run("skills/foo/references/bar.md")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("Canonical Skill Reference Modified: foo", proc.stderr)
+        self.assertIn("Canonical source: skills/foo/references/bar.md", proc.stderr)
+        self.assertIn("sync_adapters.py --write --class skills", proc.stderr)
+        # Reference files are not entrypoints, so no skill-test/lint advice.
+        self.assertNotIn("skill_lint.py", proc.stderr)
+
     def test_unrelated_path_is_silent(self) -> None:
         proc = self._run("README.md")
         self.assertEqual(proc.returncode, 0, proc.stderr)
