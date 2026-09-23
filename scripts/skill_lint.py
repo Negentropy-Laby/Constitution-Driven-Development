@@ -436,12 +436,7 @@ def main(argv: list[str]) -> int:
         for raw in args.paths:
             candidate = (REPO_ROOT / raw).resolve() if not Path(raw).is_absolute() else Path(raw)
             if candidate.is_dir():
-                targets.extend(candidate.glob("*/SKILL.md"))
-                if candidate.name != "skills":
-                    targets.extend(candidate.rglob("SKILL.md"))
-                else:
-                    # Canonical packages also ship on-demand reference Markdown.
-                    targets.extend(candidate.glob("*/**/*.md"))
+                targets.extend(candidate.rglob("*.md"))
             else:
                 targets.append(candidate)
     else:
