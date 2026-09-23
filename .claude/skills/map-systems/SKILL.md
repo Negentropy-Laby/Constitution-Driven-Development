@@ -1,6 +1,6 @@
 ---
 name: map-systems
-description: "Decompose a concept into individual modules, map dependencies, prioritize design order, and create the module index. Supports both game and general product domains."
+description: "Use this skill when an approved concept must be decomposed into owned modules, dependencies, priorities, and a design/cdd/module-index.md design order."
 argument-hint: "[next | module-name] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, TodoWrite, Task

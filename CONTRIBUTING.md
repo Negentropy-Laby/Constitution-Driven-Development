@@ -27,9 +27,12 @@ python scripts/sync_adapters.py --check
 python scripts\workflow_consistency.py
 ```
 
-`skill_lint.py --strict skills` lints the canonical `skills/` source and must
-report `0 error(s)`. (Template-path warnings remain advisory under the existing
-contract.) These commands mirror the `Template Consistency` CI checks.
+`skill_lint.py --strict skills` lints every canonical skill Markdown file —
+`skills/<name>/SKILL.md` plus its on-demand `skills/<name>/references/*.md` —
+and must report `0 error(s)`. Frontmatter checks apply to entrypoints only, so
+reference files are checked for Markdown and command-reference defects without
+needing skill frontmatter. (Template-path warnings remain advisory under the
+existing contract.) These commands mirror the `Template Consistency` CI checks.
 
 ## Pull Request Expectations
 
@@ -41,7 +44,10 @@ contract.) These commands mirror the `Template Consistency` CI checks.
 
 ## Skill Changes
 
-When editing `skills/*/SKILL.md` (the canonical source — never hand-edit the generated `.claude/skills` tree directly), regenerate the runtime adapters afterward by running `python scripts/sync_adapters.py --write --class skills`:
+When editing a canonical skill package — `skills/<name>/SKILL.md` or its
+on-demand references under `skills/<name>/references/` (never hand-edit the
+generated `.claude/skills` or `.agents/skills` trees directly) — regenerate the
+runtime adapters afterward by running `python scripts/sync_adapters.py --write --class skills`:
 
 - Preserve frontmatter fields and command names.
 - Keep explicit invocation guards where present.
@@ -49,3 +55,7 @@ When editing `skills/*/SKILL.md` (the canonical source — never hand-edit the g
 - Avoid broken Markdown markers such as standalone `**` lines or unclosed
   inline code spans.
 - Run strict lint on the edited skill and the full skills directory.
+- Keep package layout to Markdown only: the entrypoint must be the package-root
+  `SKILL.md` (nested `SKILL.md` files are rejected by the generator), and
+  `references/` holds supporting material that `SKILL.md` links to instead of
+  duplicating prose. Every `*.md` in a package is mirrored to both runtimes.

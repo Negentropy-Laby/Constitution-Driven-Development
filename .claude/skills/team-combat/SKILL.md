@@ -1,6 +1,6 @@
 ---
 name: team-combat
-description: "Orchestrate a critical feature squad. Game: combat team with game design, gameplay, AI, VFX, audio, engine, QA. Product: critical workflow/API/CLI feature squad with lead-programmer, language specialist, security/devops as needed, UX, and QA."
+description: "Use this skill when a critical combat feature or product workflow needs a coordinated implementation squad spanning design, engineering, security, operations, UX, and QA."
 argument-hint: "[combat feature description]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite

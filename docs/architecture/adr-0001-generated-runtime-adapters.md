@@ -20,7 +20,7 @@ them. Four asset classes were duplicated this way:
 
 | Class | Claude surface | Codex surface |
 |---|---|---|
-| Skills (74) | `.claude/skills/<n>/SKILL.md` | `.agents/skills/<n>/SKILL.md` |
+| Skills (74) | `.claude/skills/<n>/SKILL.md` + mirrored `.claude/skills/<n>/references/*.md` | `.agents/skills/<n>/SKILL.md` + mirrored `.agents/skills/<n>/references/*.md` |
 | Agents (53) | `.claude/agents/<n>.md` | `.codex/agents/<n>.toml` |
 | Hooks (12) | `.claude/hooks/<n>.sh` | `.codex/hooks/<n>.sh` |
 | Root instructions | `CLAUDE.md` | `AGENTS.md` |

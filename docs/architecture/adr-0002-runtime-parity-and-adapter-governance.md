@@ -200,6 +200,13 @@ fallback for Claude. They cover all generated output classes, not just skills.
 | Native command rules | Claude permission/settings surface | `.codex/rules/*.rules`; runtime-specific and never generator-owned |
 | Runtime settings | Hand-authored mixed-root files | Hand-authored mixed-root files |
 
+Skill packages are not limited to a single file: every `*.md` under
+`skills/<name>/` is canonical, mirrored to both runtime trees. The package-root
+`SKILL.md` is the entrypoint, deeper Markdown (for example
+`skills/<name>/references/*.md`) is on-demand material the entrypoint links to,
+and a nested `SKILL.md` is rejected by the generator. `expected_count` for the
+skills source counts packages, not Markdown files.
+
 ## Alternatives Considered
 
 ### Alternative 1: Generate Codex rules Markdown to `.codex/rules/`
@@ -315,8 +322,8 @@ Status legend: `[x]` met · `[~]` partial (see note) · `[ ]` deferred to the fo
       WORKFLOW-GUIDE, setup-requirements, directory-structure, adapters/*) show
       accurate capability differences — MET; Tier 3 reference breadth
       (agent-roster, skills-reference, etc.) is deferred.
-- [~] Final adapter baseline fresh locally (302 ok, 0 stale/missing/extra);
-      remote 3-OS CI pending (not yet pushed).
+- [x] Final adapter baseline fresh locally (322 ok, 0 stale/missing/extra);
+      the Template Consistency workflow verifies it on three operating systems per change.
 
 ## CDD Requirements Addressed
 

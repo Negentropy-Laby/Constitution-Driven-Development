@@ -1,6 +1,6 @@
 ---
 name: architecture-decision
-description: "Creates an Architecture Decision Record (ADR) documenting a significant technical decision, its context, alternatives considered, and consequences. Supports both game and general product domains. Every major technical choice should have an ADR."
+description: "Use this skill when a significant technical choice needs an ADR recording its context, alternatives, consequences, and implementation constraints for a game or software product."
 argument-hint: "[title] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion

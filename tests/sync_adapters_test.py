@@ -73,7 +73,7 @@ def _context(stem: str = "writer") -> "sa.RenderContext":
 def _valid_manifest_data() -> dict:
     """A complete v2 manifest dict suitable for targeted schema mutations."""
     sources = {
-        "skills": {"root": "skills", "include": "*/SKILL.md", "expected_count": 1},
+        "skills": {"root": "skills", "include": "**/*.md", "expected_count": 1},
         "agents": {"root": "agents", "include": "*.md", "expected_count": 1},
         "hooks": {"root": "hooks", "include": "*.sh", "expected_count": 1},
         "root-instructions": {"file": "INSTRUCTIONS.md", "expected_count": 1},
@@ -641,7 +641,7 @@ def _manifest(
         "version = 2\n"
         '[runtimes.claude]\nlabel = "Claude Code"\n'
         '[runtimes.codex]\nlabel = "Codex"\n'
-        f'[sources.skills]\nroot = "skills"\ninclude = "*/SKILL.md"\nexpected_count = {skills_count}\n'
+        f'[sources.skills]\nroot = "skills"\ninclude = "**/*.md"\nexpected_count = {skills_count}\n'
         f'[sources.agents]\nroot = "agents"\ninclude = "*.md"\nexpected_count = {agents_count}\n'
         f'[sources.hooks]\nroot = "hooks"\ninclude = "*.sh"\nexpected_count = {hooks_count}\n'
         '[sources.root-instructions]\nfile = "INSTRUCTIONS.md"\nexpected_count = 1\n'
@@ -873,6 +873,18 @@ class FreshnessTests(unittest.TestCase):
             sa.apply_plan(plan)
             self.assertFalse((root / ".claude").exists())
 
+    def test_skill_package_case_variant_entrypoint_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root / "skills" / "a" / "skill.md", "# Wrong case\n")
+            plan = sa.build_sync_plan(sa.load_manifest(_manifest(root)), root, "skills")
+            self.assertFalse(sa.check_plan(plan).ok)
+            self.assertTrue(
+                any("named exactly SKILL.md" in d.message and d.path.endswith("skill.md") for d in plan.diagnostics),
+                plan.diagnostics,
+            )
+            self.assertEqual(plan.rendered, [])
+
     def test_extra_file_in_skill_package_blocks(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -881,6 +893,18 @@ class FreshnessTests(unittest.TestCase):
             plan = sa.build_sync_plan(sa.load_manifest(_manifest(root)), root, "skills")
             self.assertFalse(sa.check_plan(plan).ok)
             self.assertTrue(any(d.path.endswith("notes.txt") for d in plan.diagnostics))
+
+    def test_markdown_references_in_skill_package_are_mirrored(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root / "skills" / "a" / "SKILL.md", "---\nname: a\n---\n# A\n")
+            write(root / "skills" / "a" / "references" / "details.md", "# Details\n")
+            plan = sa.build_sync_plan(sa.load_manifest(_manifest(root)), root, "skills")
+            report = sa.apply_plan(plan)
+            self.assertTrue(report.ok)
+            for runtime_root in (".claude", ".agents"):
+                mirrored = root / runtime_root / "skills" / "a" / "references" / "details.md"
+                self.assertEqual(mirrored.read_text(encoding="utf-8"), "# Details\n")
 
     def test_agent_name_stem_mismatch_blocks_render(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -909,6 +933,52 @@ class FreshnessTests(unittest.TestCase):
             plan = sa.build_sync_plan(sa.load_manifest(_manifest(root)), root, "skills")
             self.assertFalse(sa.check_plan(plan).ok)
             self.assertTrue(any("link" in d.message.lower() for d in plan.diagnostics))
+
+    def test_skill_md_directory_is_invalid(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root / "skills" / "a" / "SKILL.md" / "inner.md", "# Inner\n")
+            plan = sa.build_sync_plan(sa.load_manifest(_manifest(root)), root, "skills")
+            self.assertFalse(sa.check_plan(plan).ok)
+            self.assertTrue(
+                any(
+                    d.path.endswith("skills/a/SKILL.md") and "regular SKILL.md" in d.message
+                    for d in plan.diagnostics
+                ),
+                plan.diagnostics,
+            )
+
+    def test_nested_skill_entrypoint_blocks(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root / "skills" / "a" / "SKILL.md", "---\nname: a\n---\n# A\n")
+            write(root / "skills" / "a" / "references" / "SKILL.md", "---\nname: nested\n---\n# Nested\n")
+            plan = sa.build_sync_plan(sa.load_manifest(_manifest(root)), root, "skills")
+            self.assertFalse(sa.check_plan(plan).ok)
+            self.assertTrue(
+                any("nested skill entrypoints" in d.message for d in plan.diagnostics),
+                plan.diagnostics,
+            )
+
+    def test_skill_md_lstat_failure_is_diagnostic_not_crash(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root / "skills" / "a" / "SKILL.md", "---\nname: a\n---\n# A\n")
+            manifest = sa.load_manifest(_manifest(root))
+            real_lstat = sa._lstat_or_none
+
+            def deny_skill_md(path: Path) -> object:
+                if path.name == "SKILL.md":
+                    raise PermissionError("injected denial")
+                return real_lstat(path)
+
+            with mock.patch.object(sa, "_lstat_or_none", side_effect=deny_skill_md):
+                plan = sa.build_sync_plan(manifest, root, "skills")
+            self.assertFalse(sa.check_plan(plan).ok)
+            self.assertTrue(
+                any("cannot inspect skill asset" in d.message for d in plan.diagnostics),
+                plan.diagnostics,
+            )
 
     @unittest.skipUnless(hasattr(os, "mkfifo"), "FIFO requires POSIX")
     def test_special_file_in_managed_root_is_invalid(self) -> None:
@@ -1447,12 +1517,14 @@ class RepoBaselineTests(unittest.TestCase):
 
     def test_all_generated_outputs_are_exactly_fresh(self) -> None:
         report = sa.check_plan(self.plan)
-        # Total = sum of each source's expected_count * its declared target count.
+        # Skills count packages in the manifest but render every Markdown asset
+        # (entrypoint plus progressive-disclosure references) to each runtime.
+        skill_asset_count = sum(1 for path in (REPO_ROOT / "skills").rglob("*.md") if path.is_file())
         expected_total = sum(
-            src.expected_count * len(src.targets)
-            for src in self.plan.manifest.sources.values()
+            (skill_asset_count if name == "skills" else src.expected_count) * len(src.targets)
+            for name, src in self.plan.manifest.sources.items()
         )
-        self.assertEqual(expected_total, 302)  # 74*2 + 53*2 + 12*2 + 1*2 + 16(claude) + 3 dirs *2 nested
+        self.assertEqual(expected_total, 322)  # (74 entrypoints + 10 refs)*2 + remaining generated surfaces
         self.assertEqual(len(self.plan.rendered), expected_total)
         self.assertEqual(len(report.drifts), expected_total)
         self.assertEqual(report.diagnostics, [])

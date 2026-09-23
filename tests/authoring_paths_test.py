@@ -320,7 +320,7 @@ class ValidateGeneratedAdapterChangeHookTests(unittest.TestCase):
         self.assertIn("sync_adapters.py --write --class skills", proc.stderr)
 
     def test_generated_claude_skill_is_warned(self) -> None:
-        proc = self._run("repo/.claude/skills/foo/SKILL.md")
+        proc = self._run(".claude/skills/foo/SKILL.md")
         self.assertEqual(proc.returncode, 0, proc.stderr)
         self.assertIn("Generated Adapter Edited: foo", proc.stderr)
         self.assertIn("GENERATED", proc.stderr)
@@ -331,6 +331,59 @@ class ValidateGeneratedAdapterChangeHookTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0, proc.stderr)
         self.assertIn("Generated Adapter Edited: foo", proc.stderr)
         self.assertIn("GENERATED", proc.stderr)
+
+    def test_generated_skill_reference_points_to_canonical(self) -> None:
+        proc = self._run(".claude/skills/foo/references/bar.md")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("Generated Adapter Edited: foo", proc.stderr)
+        self.assertIn("GENERATED", proc.stderr)
+        # Nested reference files must point at their own canonical source.
+        self.assertIn("skills/foo/references/bar.md", proc.stderr)
+
+    def test_canonical_skill_reference_advises_regeneration(self) -> None:
+        proc = self._run("skills/foo/references/bar.md")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("Canonical Skill Reference Modified: foo", proc.stderr)
+        self.assertIn("Canonical source: skills/foo/references/bar.md", proc.stderr)
+        self.assertIn("sync_adapters.py --write --class skills", proc.stderr)
+        # Reference files are not entrypoints, so no skill-test/lint advice.
+        self.assertNotIn("skill_lint.py", proc.stderr)
+
+    def test_unrelated_skills_path_is_silent(self) -> None:
+        proc = self._run("docs/skills/tutorial/example.md")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertEqual(proc.stdout, "")
+        self.assertEqual(proc.stderr, "")
+
+    def test_repeated_skills_segment_keeps_full_canonical_path(self) -> None:
+        proc = self._run("skills/foo/skills/bar.md")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("Canonical Skill Reference Modified: foo", proc.stderr)
+        self.assertIn("Canonical source: skills/foo/skills/bar.md", proc.stderr)
+
+        generated = self._run(".agents/skills/foo/skills/bar.md")
+        self.assertEqual(generated.returncode, 0, generated.stderr)
+        self.assertIn("Generated Adapter Edited: foo", generated.stderr)
+        self.assertIn("skills/foo/skills/bar.md", generated.stderr)
+
+    def test_generated_skill_directory_points_to_entrypoint(self) -> None:
+        proc = self._run(".claude/skills/foo")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("Generated Adapter Edited: foo", proc.stderr)
+        self.assertIn("skills/foo/SKILL.md", proc.stderr)
+
+    def test_absolute_generated_skill_reference_points_to_canonical(self) -> None:
+        proc = self._run(str(REPO_ROOT / ".claude/skills/foo/references/bar.md"))
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("Generated Adapter Edited: foo", proc.stderr)
+        self.assertIn("skills/foo/references/bar.md", proc.stderr)
+
+    def test_nested_skill_md_is_classified_as_reference(self) -> None:
+        proc = self._run("skills/foo/references/SKILL.md")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("Canonical Skill Reference Modified: foo", proc.stderr)
+        self.assertIn("Canonical source: skills/foo/references/SKILL.md", proc.stderr)
+        self.assertNotIn("skill_lint.py", proc.stderr)
 
     def test_unrelated_path_is_silent(self) -> None:
         proc = self._run("README.md")
@@ -415,6 +468,19 @@ class ValidateGeneratedAdapterChangeHookTests(unittest.TestCase):
             "Generated Adapter Edited: agents",
             data["hookSpecificOutput"]["additionalContext"],
         )
+
+    def test_codex_skill_references_emit_one_json_document(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            env = _env_with_strict_jq_shim(Path(tmp))
+            proc = self._run_codex(
+                "*** Update File: skills/foo/skills/bar.md\n"
+                "*** Update File: .agents/skills/foo/references/details.md\n",
+                env=env,
+            )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        context = json.loads(proc.stdout)["hookSpecificOutput"]["additionalContext"]
+        self.assertIn("Canonical source: skills/foo/skills/bar.md", context)
+        self.assertIn("Edit the canonical source instead: skills/foo/references/details.md", context)
 
     def test_codex_apply_patch_multi_file(self) -> None:
         command = "*** Add File: .claude/skills/foo/SKILL.md\n*** Update File: src/AGENTS.md\n"
