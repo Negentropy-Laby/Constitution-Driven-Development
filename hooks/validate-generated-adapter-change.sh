@@ -135,17 +135,22 @@ while IFS= read -r P; do
             emit "Edit the canonical INSTRUCTIONS.md (root, or src/ / design/ / docs/), then regenerate:"
             emit "  python scripts/sync_adapters.py --write" ;;
         # --- generated skill trees ---
-        */.claude/skills/*|*/.agents/skills/*|.claude/skills/*|.agents/skills/*)
-            CANON=$(printf '%s' "$P" | sed -nE 's#.*\.(claude|agents)/(skills/.*)$#\2#p' | head -1)
-            SKILL=$(printf '%s' "${CANON:-$P}" | sed -nE 's#.*skills/([^/]+)/.*#\1#p' | head -1)
-            emit "=== Generated Adapter Edited: ${SKILL:-skill} ==="
+        .claude/skills/*|.agents/skills/*)
+            case "$P" in
+                .claude/skills/*) REST=${P#.claude/skills/} ;;
+                .agents/skills/*) REST=${P#.agents/skills/} ;;
+            esac
+            SKILL=${REST%%/*}
+            [ -z "$SKILL" ] && continue
+            if [ "$REST" = "$SKILL" ]; then
+                CANON="skills/$SKILL/SKILL.md"
+            else
+                CANON="skills/$REST"
+            fi
+            emit "=== Generated Adapter Edited: $SKILL ==="
             emit "WARNING: \".claude/skills/\" and \".agents/skills/\" are GENERATED. Edits here are overwritten by:"
             emit "  python scripts/sync_adapters.py --write --class skills"
-            if [ -n "$CANON" ]; then
-                emit "Edit the canonical source instead: $CANON"
-            elif [ -n "$SKILL" ]; then
-                emit "Edit the canonical source instead: skills/$SKILL/SKILL.md"
-            fi ;;
+            emit "Edit the canonical source instead: $CANON" ;;
         # --- generated agent trees ---
         */.claude/agents/*|*/.codex/agents/*|.claude/agents/*|.codex/agents/*)
             emit "=== Generated Adapter Edited: agents ==="
@@ -174,22 +179,23 @@ while IFS= read -r P; do
         docs/INSTRUCTIONS.md)
             emit "=== Canonical Source Modified: nested-docs ==="
             emit "Regenerate: python scripts/sync_adapters.py --write --class nested-docs" ;;
-        */skills/*/SKILL.md|skills/*/SKILL.md)
-            SKILL=$(printf '%s' "$P" | sed -nE 's#.*skills/([^/]+)/SKILL\.md.*#\1#p' | head -1)
-            emit "=== Canonical Skill Modified: ${SKILL:-skill} ==="
-            if [ -n "$SKILL" ]; then
+        skills/*/*)
+            REST=${P#skills/}
+            SKILL=${REST%%/*}
+            TAIL=${REST#*/}
+            if [ -z "$SKILL" ] || [ -z "$TAIL" ]; then
+                continue
+            fi
+            if [ "$TAIL" = "SKILL.md" ]; then
+                emit "=== Canonical Skill Modified: $SKILL ==="
                 emit "Run /skill-test static $SKILL to validate structural compliance."
                 emit "Run python scripts/skill_lint.py skills/$SKILL/SKILL.md for non-blocking markdown/frontmatter checks."
-            fi
-            emit "Regenerate runtime adapters: python scripts/sync_adapters.py --write --class skills" ;;
-        # On-demand reference Markdown inside a skill package (entrypoints are
-        # matched above, so this covers references/ and any deeper Markdown).
-        */skills/*/*.md|skills/*/*.md)
-            CANON=$(printf '%s' "$P" | sed -nE 's#.*(skills/.*)$#\1#p' | head -1)
-            PKG=$(printf '%s' "${CANON:-$P}" | sed -nE 's#.*skills/([^/]+)/.*#\1#p' | head -1)
-            emit "=== Canonical Skill Reference Modified: ${PKG:-skill} ==="
-            [ -n "$CANON" ] && emit "Canonical source: $CANON"
-            emit "Regenerate runtime adapters: python scripts/sync_adapters.py --write --class skills" ;;
+                emit "Regenerate runtime adapters: python scripts/sync_adapters.py --write --class skills"
+            elif [[ "$TAIL" == *.md ]]; then
+                emit "=== Canonical Skill Reference Modified: $SKILL ==="
+                emit "Canonical source: skills/$REST"
+                emit "Regenerate runtime adapters: python scripts/sync_adapters.py --write --class skills"
+            fi ;;
         */agents/*.md|agents/*.md)
             emit "=== Canonical Source Modified: agents ==="
             emit "Regenerate: python scripts/sync_adapters.py --write --class agents" ;;

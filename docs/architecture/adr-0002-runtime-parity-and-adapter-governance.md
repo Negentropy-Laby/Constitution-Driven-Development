@@ -322,8 +322,8 @@ Status legend: `[x]` met · `[~]` partial (see note) · `[ ]` deferred to the fo
       WORKFLOW-GUIDE, setup-requirements, directory-structure, adapters/*) show
       accurate capability differences — MET; Tier 3 reference breadth
       (agent-roster, skills-reference, etc.) is deferred.
-- [~] Final adapter baseline fresh locally (302 ok, 0 stale/missing/extra);
-      remote 3-OS CI pending (not yet pushed).
+- [x] Final adapter baseline fresh locally (322 ok, 0 stale/missing/extra);
+      the Template Consistency workflow verifies it on three operating systems per change.
 
 ## CDD Requirements Addressed
 

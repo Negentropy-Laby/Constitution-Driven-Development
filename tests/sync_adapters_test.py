@@ -873,6 +873,18 @@ class FreshnessTests(unittest.TestCase):
             sa.apply_plan(plan)
             self.assertFalse((root / ".claude").exists())
 
+    def test_skill_package_case_variant_entrypoint_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root / "skills" / "a" / "skill.md", "# Wrong case\n")
+            plan = sa.build_sync_plan(sa.load_manifest(_manifest(root)), root, "skills")
+            self.assertFalse(sa.check_plan(plan).ok)
+            self.assertTrue(
+                any("named exactly SKILL.md" in d.message and d.path.endswith("skill.md") for d in plan.diagnostics),
+                plan.diagnostics,
+            )
+            self.assertEqual(plan.rendered, [])
+
     def test_extra_file_in_skill_package_blocks(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

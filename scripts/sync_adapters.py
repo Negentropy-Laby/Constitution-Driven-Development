@@ -1018,6 +1018,33 @@ def _discover_skill_packages(
                 Diagnostic(ERROR, rel_posix(repo_root, package), "skills root may contain only package directories")
             )
             continue
+        try:
+            package_children = _scandir_sorted(package)
+        except OSError as exc:
+            diagnostics.append(Diagnostic(ERROR, rel_posix(repo_root, package), f"cannot scan skill package: {exc}"))
+            continue
+        case_variant = next(
+            (
+                entry.name
+                for entry in package_children
+                if entry.name.casefold() == "skill.md" and entry.name != "SKILL.md"
+            ),
+            None,
+        )
+        if case_variant is not None:
+            diagnostics.append(
+                Diagnostic(
+                    ERROR,
+                    rel_posix(repo_root, package / case_variant),
+                    f"skill entrypoint must be named exactly SKILL.md (found {case_variant!r})",
+                )
+            )
+            continue
+        if not any(entry.name == "SKILL.md" for entry in package_children):
+            diagnostics.append(
+                Diagnostic(ERROR, rel_posix(repo_root, package), f"skill package {package.name!r} is missing SKILL.md")
+            )
+            continue
         skill_path = package / "SKILL.md"
         try:
             skill_stat = _lstat_or_none(skill_path)

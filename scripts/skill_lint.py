@@ -173,14 +173,35 @@ def template_exists_for(path_text: str) -> bool:
     return any(candidate.name == name or candidate.stem == stem for candidate in TEMPLATES_DIR.rglob("*"))
 
 
+def skill_package_root(path: Path) -> Path | None:
+    """Find the package containing a Markdown path, including temporary fixtures."""
+
+    try:
+        relative = path.relative_to(SKILLS_DIR)
+    except ValueError:
+        roots = [parent for parent in path.parents if (parent / "SKILL.md").is_file()]
+        return roots[-1] if roots else None
+    return SKILLS_DIR / relative.parts[0] if len(relative.parts) >= 2 else None
+
+
 def is_skill_entrypoint(path: Path) -> bool:
-    """An entrypoint is the package-root ``SKILL.md``.
+    """Only a package-root file named exactly ``SKILL.md`` is an entrypoint."""
 
-    Every other Markdown file in a package is on-demand reference material
-    mirrored to the runtime trees, so it has no frontmatter contract.
-    """
+    root = skill_package_root(path)
+    return root is not None and path.parent == root and path.name == "SKILL.md"
 
-    return path.name == "SKILL.md"
+
+def directory_targets(directory: Path) -> list[Path]:
+    """Lint package Markdown without broadening an unrelated directory scan."""
+
+    if directory == SKILLS_DIR:
+        return list(directory.glob("*/**/*.md"))
+    if directory.is_relative_to(SKILLS_DIR) or skill_package_root(directory / "_probe.md"):
+        return list(directory.rglob("*.md"))
+    targets: list[Path] = []
+    for entrypoint in directory.rglob("SKILL.md"):
+        targets.extend(entrypoint.parent.rglob("*.md"))
+    return targets
 
 
 def lint_file(path: Path, known_commands: set[str], *, entrypoint: bool = True) -> list[Finding]:
@@ -432,22 +453,31 @@ def main(argv: list[str]) -> int:
 
     known_commands = collect_known_commands()
     targets: list[Path] = []
+    explicit_files: set[Path] = set()
     if args.paths:
         for raw in args.paths:
             candidate = (REPO_ROOT / raw).resolve() if not Path(raw).is_absolute() else Path(raw)
             if candidate.is_dir():
-                targets.extend(candidate.rglob("*.md"))
+                targets.extend(directory_targets(candidate))
             else:
                 targets.append(candidate)
+                explicit_files.add(candidate)
     else:
-        targets = sorted(SKILLS_DIR.glob("*/**/*.md"))
+        targets = directory_targets(SKILLS_DIR)
 
     all_findings: list[Finding] = []
     unique_targets = sorted(set(targets))
     for target in unique_targets:
         if target.exists():
+            root = skill_package_root(target)
+            if root is not None and target.parent == root and target.name.casefold() == "skill.md" and target.name != "SKILL.md":
+                all_findings.append(Finding("ERROR", target, 1, "skill entrypoint must be named exactly SKILL.md"))
             all_findings.extend(
-                lint_file(target, known_commands, entrypoint=is_skill_entrypoint(target))
+                lint_file(
+                    target,
+                    known_commands,
+                    entrypoint=is_skill_entrypoint(target) or (target in explicit_files and root is None),
+                )
             )
         else:
             all_findings.append(Finding("ERROR", target, 1, "target file does not exist"))
