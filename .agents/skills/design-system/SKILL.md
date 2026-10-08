@@ -1,10 +1,52 @@
 ---
 name: design-system
 description: "Use this skill when authoring or retrofitting the CDD for one module listed in design/cdd/module-index.md, including dependencies, behavior, data, edge cases, and acceptance criteria."
-argument-hint: "<module-name> [--review full|lean|solo]"
+argument-hint: "<module-name> | retrofit <cdd-path> | sync <scope> [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion, TodoWrite
 ---
+
+## Scope, evidence and effects
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse explicit existing authorization for its named paths, effects
+and limits across roles and retries. Present unresolved material choices or new
+effects for approval; a document/batch/synchronization authorization does not
+require another question for each covered section or file. Content agreement,
+write authority, independent review, ADR acceptance and workflow completion
+remain separate.
+
+Analysis defaults to read-only: no write entrypoint, input edits, status/index/
+session/Memory Bank updates. Report-only may write one new assigned report with
+authority; report approval does not authorize indexes or rolling logs. Other
+writes need the named path/effect in existing authority or a concrete draft and
+changeset approval. Unknown paths are findings, not permission to create them.
+No Memory Bank means use the established report/conversation fallback. Next
+steps are recommendations; execute only effects already authorized or explicitly
+selected by the user. Tool availability determines the question interface.
+
+Bind claims to a declared scope and minimum direct/indirect evidence closure:
+record original paths, full SHA-256, byte sizes, source commit plus exact diff
+and uncommitted/ignored/external identities, exclusions and recoverable originals.
+Do not read sensitive local settings or secrets merely to complete discovery.
+Read required inputs back from their actual paths, verify closure and report
+missing inputs as incomplete affected checks. Keywords, timestamps, counts,
+equal hashes at two collections and static checks do not certify semantic review,
+continuous unchanged history, runtime behavior or independent approval.
+
+Classify meaningful choices with the shared disposition record (`cdd-layer`,
+`no-adr`, `covered`, `documentation-update`, `adr-required`, `conflict`). Significant
+trust, public contract, durable format or state ownership changes require an
+Accepted ADR/valid scoped exception before affected implementation continues.
+Keep As-Is observations and their evidence separate from Target promises and
+gaps; implemented behavior cannot lower a governing Target. Continue independent
+work while blocking only affected dependants.
+
+Trace observed defaults and behavior through the actual owning public entrypoint,
+argument/configuration parsing and call flow. Record each entrypoint's effective
+value and explicit overrides separately. A private helper's default argument is
+not evidence of a different public default when the caller passes its own value;
+do not invent a Target mismatch from that default alone.
 
 ## User Guide
 
@@ -31,6 +73,10 @@ Resolve the review mode (once, store for all gate spawns this run):
 
 See `standards/director-gates.md` for the full check pattern.
 
+Validate supplied/global values: only `full`, `lean` and `solo` are valid.
+An invalid value is an error naming its source; request correction and do not
+silently substitute a default. Lean is the fallback only when no value exists.
+
 A module name or retrofit path is **required**. If missing:
 
 1. Check if `design/cdd/module-index.md` exists.
@@ -43,22 +89,73 @@ A module name or retrofit path is **required**. If missing:
    > Or to fill gaps in an existing CDD: `/design-system retrofit design/cdd/[module-name].md`
    > No module index found. Run `/map-systems` first to map your modules and get the design order."
 
-**Detect retrofit mode:**
+**Route dispatcher:** Choose exactly one route before file naming or authoring:
+`sync <scope>`, existing-file `retrofit <cdd-path>`/CDD path, or new module.
+`sync` without a nonempty concrete scope and `retrofit` without a path are usage
+errors. Give legal usage/correction, then stop before spawn/write/verdict.
+Accept documented `--review full|lean|solo` only; reject unknown explicit flags
+before any default/route selection. Preserve existing valid invocations.
+
+**Detect synchronization mode:** `/design-system sync <scope>` reconciles
+implementation-first changes with existing CDDs as one bounded batch. Existing
+module/`retrofit`/CDD-path invocations remain supported. Resolve the user's scope
+to actual paths/effects before writing: implementation inputs, affected CDD
+sections, Notes/ADRs, registry/traceability/module-index effects if authorized,
+exclusions, writer and required independent reviewer.
+
+1. Collect a fixed source commit and exact committed/staged/unstaged diffs plus
+   full hashes/sizes/original-path identities for untracked, ignored and external
+   relied-on inputs. A commit or `HEAD` alone is not the working-tree baseline.
+   Retain recoverable before/after bytes for changed documents and evidence.
+2. Read affected source, tests, governing CDDs, Accepted ADRs and their required
+   indirect attachments to the minimum closure. Record unresolved or unknown
+   paths without writing them. Do not read sensitive settings for discovery.
+3. Map actual bodies to the resolved document kind's owner set in
+   `design/INSTRUCTIONS.md` (semantic eight for module CDDs), including existing aliases. Separate As-Is behavior from Target requirements; show
+   mismatches and evidence. Preserve unaffected content and original Game examples.
+4. Classify decisions under `standards/notes-adr-sync.md`. Resolve material
+   `adr-required`/`conflict` choices before affected implementation proceeds;
+   documentation synchronization does not accept an ADR.
+5. Show concrete old/new sections and the complete named path/effect list when
+   approval is missing. Continue within existing approved batch scope; ask only
+   unresolved material choices/new effects. Apply incremental edits; never
+   replace existing files with new skeletons.
+6. Read back exact resulting bytes and required closure. Record author self-checks
+   separately from independent review. Bind a non-writing reviewer's required
+   semantic review to the exact manifest/inputs; any repair changes the baseline
+   and requires fresh review of affected inputs. Missing required review stays
+   incomplete. Batch completion reports written paths, findings, dispositions,
+   verification limits and remaining owners; no implicit Story/phase/publication
+   completion or index/session updates.
+
+After sync steps 1–6, report the batch result and **return from the skill**.
+This independent route may reuse applicable Phase 2 reads and Phase 5 readback/
+selected-mode validation for its bound existing files; it never falls through
+to retrofit detection, module-name normalization, new skeleton creation or the
+new-module section cycle below.
+
+**Detect retrofit mode (dispatcher selected retrofit only):**
 If the argument starts with `retrofit` or the argument is a file path to an
 existing `.md` file in `design/cdd/`, enter **retrofit mode**:
 
 1. Read the existing CDD file.
-2. Identify which of the 8 required sections are present (scan for section headings).
-   Required sections: Overview, Player Fantasy, Detailed Design/Rules, Formulas,
-   Edge Cases, Dependencies, Tuning Knobs, Acceptance Criteria.
-3. Identify which sections contain only placeholder text (`[To be designed]` or
-   equivalent — blank, a single line, or obviously incomplete).
+2. Verify from workflow/provenance and the full body that the existing target
+   is a **module CDD** under `design/INSTRUCTIONS.md`'s kind routing before any
+   retrofit edit. For Concept, Module Index, Quick Spec or another non-module
+   kind, report its actual owner route (/brainstorm, /map-systems, /quick-design
+   or the resolved owner), show legal module retrofit usage and return without
+   edits. Unknown kind requests clarification, never defaults to Module8.
+   For a verified Game/Product module, map its substantive bodies to the semantic
+   eight roles, retaining existing headings/aliases. The separate sync batch
+   route may handle multiple kinds through their own resolved owner sets.
+3. Identify missing/placeholder/unresolved roles through actual content and
+   required evidence, not heading presence or single-line/length heuristics.
 4. Present to the user before doing anything:
    ```
    ## Retrofit: [System Name]
    File: design/cdd/[filename].md
 
-   Sections already written (will not be touched):
+   Sections already written (preserved unless explicitly in the requested update):
    ✓ [section name]
    ✓ [section name]
 
@@ -66,16 +163,19 @@ existing `.md` file in `design/cdd/`, enter **retrofit mode**:
    ✗ [section name] — missing
    ✗ [section name] — placeholder only
    ```
-5. Ask: "Shall I fill the [N] missing sections? I will not modify any existing content."
-6. If yes: proceed to **Phase 2 (Gather Context)** as normal, but in **Phase 3**
-   skip creating the skeleton (file already exists) and in **Phase 4** skip
-   sections that are already complete. Only run the section cycle for missing/
-   incomplete sections.
-7. **Never overwrite existing section content.** Use Edit tool to replace only
-   `[To be designed]` placeholders or empty section bodies.
+5. If authority is absent, show the named missing/selected sections and ask:
+   "May I fill these gaps or revise these selected sections at [path]?" Reuse
+   existing scope; preserve all other content.
+6. Within approved scope, proceed to **Phase 2**; skip the existing-file
+   skeleton in **Phase 3** and author only named missing/incomplete or explicitly
+   selected substantive sections in **Phase 4**.
+7. Preserve existing section content outside the authorized change. Fill
+   placeholders or edit specifically approved substantive sections in place;
+   never recreate a retrofit file as a skeleton.
 
-If NOT in retrofit mode, normalize the system name to kebab-case for the
-filename (e.g., "combat system" becomes `combat-system`).
+Only when the dispatcher selected **new module**, normalize the system name to
+kebab-case for its filename (e.g., "combat system" becomes `combat-system`).
+This step is unreachable for sync and retrofit.
 
 ---
 
@@ -278,8 +378,11 @@ Use `AskUserQuestion`:
 
 ## 3. Create File Skeleton
 
-Once the user confirms, **immediately** create the CDD file with empty section
-headers. This ensures incremental writes have a target.
+Route guard: **new module only**. Retrofit skips this phase; sync returns from
+its independent batch route and cannot enter Phases 3–4.
+
+For a new CDD only, create the skeleton once its concrete output path/effect is
+authorized. Existing CDDs use retrofit/sync and retain their bodies.
 
 Use the inline skeleton below. Do not read an external CDD template file here;
 the former external game design document template has been folded into this skill.
@@ -390,9 +493,11 @@ the former external game design document template has been folded into this skil
 [To be designed]
 ```
 
-Ask: "May I create the skeleton file at `design/cdd/[system-name].md`?"
+If the new-file effect is not already authorized, show the skeleton and ask:
+"May I create the skeleton file at `design/cdd/[system-name].md`?"
 
-After writing, update `production/session-state/active.md`:
+After writing, update `production/session-state/active.md` only when its exact
+path/effect is authorized; otherwise present the following progress in conversation:
 - Use Glob to check if the file exists.
 - If it **does not exist**: use the **Write** tool to create it. Never attempt Edit on a file that may not exist.
 - If it **already exists**: use the **Edit** tool to update the relevant fields.
@@ -430,18 +535,18 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
 5. **Draft**: Write the section content in conversation text for review. Flag any
    provisional assumptions about undesigned dependencies.
 
-6. **Approval**: Immediately after the draft — in the SAME response — use
-   `AskUserQuestion`. **NEVER use plain text. NEVER skip this step.**
+6. **Approval**: Confirm that the draft/section write is within existing scope.
+   Ask about unresolved material choices, uncovered writes or an explicit
+   section-by-section preference, using `AskUserQuestion` when available:
    - Prompt: "Approve the [Section Name] section?"
    - Options: `[A] Approve — write it to file` / `[B] Make changes — describe what to fix` / `[C] Start over`
-
-   **The draft and the approval widget MUST appear together in one response.**
-   If the draft appears without the widget, the user is left at a blank prompt
-   with no path forward — this is a protocol violation.
+   Present the draft before requesting a new approval; covered incremental
+   sections proceed without repeating the same authorization.
 
 ****
 
-7. **Write**: Use the Edit tool to replace the placeholder with the approved content.
+7. **Write**: Use Edit to fill the placeholder or apply the named scoped revision
+   to an existing body; preserve other content and examples.
    **CRITICAL**: Always include the section heading in the `old_string` to ensure
    uniqueness — never match `[To be designed]` alone, as multiple sections use the
    same placeholder and the Edit tool requires a unique match. Use this pattern:
@@ -462,13 +567,14 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
    - If new (not in registry): flag it as a candidate for registry registration
      (will be handled in Phase 5).
 
-After writing each section, update `production/session-state/active.md` with the
-completed section name. Use Glob to check if the file exists — use Write to create
-it if absent, Edit to update it if present.
+Record completed sections in conversation. Update `production/session-state/active.md`
+only if that path/effect is authorized; create it only when creation is in scope.
 
 ### Section-Specific Guidance
 
-Before drafting each Phase 4 section, read the matching heading in [section guidance](references/section-guidance.md). Load only the current section and detected domain branch. Its delegation, cross-reference, completion-format, and approval requirements are mandatory.
+Before drafting each Phase 4 section, read the matching heading in [section guidance](references/section-guidance.md). Load only the current section and detected domain branch. Its delegation, cross-reference and section-content guidance apply. Resolve its
+approval/skeleton/ADR wording through this skill's continuing-scope contract and
+`standards/notes-adr-sync.md`; an Integration section alone does not require an ADR.
 
 ## 5. Post-Design Validation
 
@@ -478,7 +584,8 @@ After all sections are written:
 
 Read back the complete CDD from file (not from conversation memory — the file is
 the source of truth). Verify:
-- All 8 required sections have real content (not placeholders)
+- Map all eight semantic roles to substantive Game/Product bodies under
+  `design/INSTRUCTIONS.md`, retaining existing aliases; unresolved roles remain incomplete
 - Formulas reference defined variables
 - Edge cases have resolutions
 - Dependencies are listed with interfaces
@@ -497,7 +604,9 @@ Pass: completed CDD file path, project pillars/principles (from `design/cdd/game
 - **[游戏专用]** MDA aesthetics target.
 - **[通用产品]** User promise target from product concept.
 
-Handle verdict per the standard rules in `director-gates.md`. After resolution, record the verdict in the CDD Status header:
+Handle verdict per `standards/director-gates.md`. With authority for the CDD
+header effect, record the verdict after resolution (this is a gate verdict,
+not write authority, ADR acceptance or independent author approval):
 `> **Creative Director Review (CD-GDD-ALIGN)**: APPROVED [date] / CONCERNS (accepted) [date] / REVISED [date]`
 
 ---
@@ -522,11 +631,12 @@ Registry candidates from this CDD:
     - [entity_name] [entity]: [attribute]=[value], [attribute]=[value]
     - [item_name] [item]: [attribute]=[value], [attribute]=[value]
     - [formula_name] [formula]: variables=[list], output=[min–max]
-  ALREADY REGISTERED (referenced_by will be updated):
+   ALREADY REGISTERED (referenced_by update proposed):
     - [constant_name] [constant]: value=[N] ← matches registry ✅
 ```
 
-Ask: "May I update `design/registry/entities.yaml` with these [N] new entries
+If the named registry effect is not covered, show the concrete entries and ask:
+"May I update `design/registry/entities.yaml` with these [N] new entries
 and update `referenced_by` for the existing entries?"
 
 If yes: append new entries and update `referenced_by` arrays. Never modify
@@ -536,42 +646,46 @@ existing `value` / attribute fields without surfacing it as a conflict first.
 
 Present a completion summary:
 
-> **CDD Complete: [System Name]**
+> **CDD Drafting Result: [System Name]**
+> - Semantic roles/evidence: [complete/incomplete mapping]
+> - Independent review: [bound result or pending]
 > - Sections written: [list]
 > - Provisional assumptions: [list any assumptions about undesigned dependencies]
 > - Cross-system conflicts found: [list or "none"]
 
-> **To validate this CDD, open a fresh Codex session and run:**
-> `/design-review design/cdd/[system-name].md`
+> **To validate this CDD, recommend an independent reviewer and run when authorized:** `/design-review design/cdd/[system-name].md`
 >
-> **Never run `/design-review` in the same session as `/design-system`.** The reviewing
-> agent must be independent of the authoring context. Running it here would inherit
-> the full design history, making independent critique impossible.
-
-**NEVER offer to run `/design-review` inline.** Always direct the user to a fresh window.
+> A non-writing reviewer must inspect exact bound inputs independently of the
+> author's conclusions. A new window alone does not prove independence; record
+> actor, input baseline and actual review performed. An author self-check remains
+> a self-check. If independent execution is unavailable, disclose the limitation
+> and keep required review pending.
 
 ### 5d: Update Module Index
 
-After the CDD is complete (and optionally reviewed):
+After the CDD drafting is complete, update the module index only within its
+separately authorized effect (or show the concrete draft and obtain authority):
 
 - Read the module index
 - Update the target system's row:
-  - If design-review was run and verdict is APPROVED: Status → "Approved"
+  - If a current exact-input design review passed and the user/governance approved
+    the status effect: Status → "Approved"
   - If design-review was run and verdict is NEEDS REVISION: Status → "In Review"
   - If design-review was skipped: Status → "Designed" (pending review)
   - If the user chose "I'll review it myself first": Status → "Designed"
   - Design Doc: link to `design/cdd/[system-name].md`
 - Update the Progress Tracker counts
 
-Ask: "May I update the module index at `design/cdd/module-index.md`?"
+If this exact effect is not covered, ask: "May I update the module index at
+`design/cdd/module-index.md`?"
 
 ### 5d: Update Session State
 
-Update `production/session-state/active.md` with:
+If its path/effect is authorized, update `production/session-state/active.md` with:
 - Task: [system-name] CDD
 - Status: Complete (or In Review if design-review was run)
 - File: design/cdd/[system-name].md
-- Sections: All 8 written
+- Sections: [actual substantive roles complete / incomplete roles and reasons]
 - Next: [suggest next system from design order]
 
 ### 5e: Suggest Next Steps
@@ -598,7 +712,7 @@ If the session is interrupted (compaction, crash, new session):
 1. Read `production/session-state/active.md` — it records the current system and
    which sections are complete
 2. Read `design/cdd/[system-name].md` — sections with real content are done;
-   sections with `[To be designed]` still need work
+   sections with placeholders or unresolved required content still need work
 3. Resume from the next incomplete section — no need to re-discuss completed ones
 
 This is why incremental writing matters: every approved section survives any
@@ -610,21 +724,22 @@ disruption.
 
 This skill follows the collaborative design principle at every step:
 
-1. **Question -> Options -> Decision -> Draft -> Approval** for every section
+1. **Question -> Options -> Decision -> Draft -> Approval** for unresolved choices;
+   reuse existing approved document/batch scope for covered sections
 2. **AskUserQuestion** at every decision point (Explain -> Capture pattern):
    - Phase 2: "Ready to start, or need more context?"
    - Phase 3: "May I create the skeleton?"
    - Phase 4 (each section): Design questions, approach options, draft approval
    - Phase 5: "Run design review? Update module index? What's next?"
-3. **"May I write to [filepath]?"** before the skeleton and before each section write
+3. **"May I write to [filepath]?"** for writes not covered by existing authority
 4. **Incremental writing**: Each section is written to file immediately after approval
-5. **Session state updates**: After every section write
+5. **Session state updates**: Only with authority for that path/effect
 6. **Cross-referencing**: Every section checks existing CDDs for conflicts
 7. **Specialist routing**: Complex sections get expert agent input, presented to
    the user for decision — never written silently
 
 **Never** auto-generate the full CDD and present it as a fait accompli.
-**Never** write a section without user approval.
+**Never** write outside user-approved scope.
 **Never** contradict an existing approved CDD without flagging the conflict.
 **Always** show where decisions come from (dependency CDDs, pillars, user choices).
 

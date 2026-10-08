@@ -10,19 +10,20 @@ stories inherit the correct architectural rules without having to read all ADRs
 individually.
 
 The skill only includes Accepted ADRs; Proposed ADRs are excluded and noted. It
-has no director gates. The skill asks "May I write" before writing
+uses TD-MANIFEST in full mode and skips it in lean/solo. The skill asks "May I write"
+for new effects, reusing covered authority before writing
 `docs/architecture/control-manifest.md`.
 
 ---
 
 ## Static Assertions (Structural)
 
-Verified automatically by `/skill-test static` — no fixture needed.
+Structural checks only; semantic assertions below need actual bound fixtures/review evidence.
 
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
-- [ ] Contains verdict keywords: CREATED, BLOCKED
-- [ ] Contains "May I write" collaborative protocol language (for control-manifest.md)
+- [ ] Contains verdict keywords: COMPLETE, BLOCKED
+- [ ] Documents scoped write authority or its shared-contract owner; behavioral compliance is evaluated in fixture cases
 - [ ] Has a next-step handoff at the end (`/create-epics` or `/create-stories`)
 - [ ] Documents that only Accepted ADRs are included (not Proposed)
 
@@ -30,9 +31,10 @@ Verified automatically by `/skill-test static` — no fixture needed.
 
 ## Director Gate Checks
 
-No director gates — this skill spawns no director gate agents. The control
-manifest is a mechanical extraction from Accepted ADRs; no creative or technical
-review gate is needed.
+TD-MANIFEST runs in full mode after the rules preview and before writing. Lean/
+solo skip it explicitly. Director approval is neither write authority nor ADR
+acceptance. Rules bind actual Accepted sources; Proposed exclusions cannot conceal
+unresolved required decisions/conflicts.
 
 ---
 
@@ -44,6 +46,8 @@ review gate is needed.
 - `docs/architecture/` contains 4 ADR files, all with `Status: Accepted`
 - Each ADR has a "Required Patterns" and/or "Forbidden Patterns" section
 - No existing `docs/architecture/control-manifest.md`
+- Required architecture/Accepted-decision/dependency closure and the separate global
+  Foundation ADR gate are verified; no prior manifest write authority
 
 **Input:** `/create-control-manifest`
 
@@ -52,16 +56,16 @@ review gate is needed.
 2. Extracts Required Patterns, Forbidden Patterns, and key constraints from each
 3. Drafts the manifest with correct section structure
 4. Shows the draft manifest to the user
-5. Asks "May I write `docs/architecture/control-manifest.md`?"
+5. Only for uncovered manifest effects asks "May I write `docs/architecture/control-manifest.md`?"
 6. Writes the manifest after approval
 
 **Assertions:**
 - [ ] All 4 Accepted ADRs are represented in the manifest
 - [ ] Manifest includes distinct sections for Required Patterns and Forbidden Patterns
 - [ ] Manifest includes the source ADR number for each constraint
-- [ ] "May I write" is asked before writing
+- [ ] Existing exact manifest authority is reused; this fixture's uncovered write asks "May I write"
 - [ ] Skill does NOT write without approval
-- [ ] Verdict is CREATED after writing
+- [ ] Active/COMPLETE qualification requires actual required checks; saved/readback operation is reported separately
 
 ---
 
@@ -74,7 +78,8 @@ review gate is needed.
 
 **Expected behavior:**
 1. Skill reads `docs/architecture/` and finds no ADR files
-2. Skill outputs: "No ADRs found. Run `/architecture-decision` to create ADRs before generating the control manifest."
+2. Skill reports the unsatisfied global Foundation ADR gate and affected required
+   governing inputs, recommending `/architecture-decision` through its owning workflow
 3. Skill exits without creating any file
 4. Verdict is BLOCKED
 
@@ -90,6 +95,8 @@ review gate is needed.
 
 **Fixture:**
 - `docs/architecture/` contains 3 Accepted ADRs and 2 Proposed ADRs
+- Verify whether the Proposed decisions are required for affected rules; exclusion
+  is not proof that the required architecture/dependency/global gate is satisfied
 
 **Input:** `/create-control-manifest`
 
@@ -98,7 +105,7 @@ review gate is needed.
 2. Manifest is drafted from the 3 Accepted ADRs only
 3. Output notes: "2 Proposed ADRs were excluded: [adr-NNN-name, adr-NNN-name]"
 4. User sees which ADRs were excluded before approving the write
-5. Asks "May I write `docs/architecture/control-manifest.md`?"
+5. Only for uncovered manifest effects asks "May I write `docs/architecture/control-manifest.md`?"
 
 **Assertions:**
 - [ ] Only the 3 Accepted ADRs appear in the manifest content
@@ -119,38 +126,33 @@ review gate is needed.
 **Expected behavior:**
 1. Skill detects existing manifest and reads its version number / date
 2. Skill offers to regenerate: "control-manifest.md already exists (v1, [date]). Regenerate with current ADRs?"
-3. If user confirms: skill drafts updated manifest, increments version number
-4. Asks "May I write `docs/architecture/control-manifest.md`?" (overwrite)
+3. If user confirms: skill drafts updated manifest, retains readable date and reports complete raw-byte SHA-256/size outside the manifest
+4. Reuses exact overwrite authority; otherwise asks "May I write `docs/architecture/control-manifest.md`?"
 5. Writes updated manifest after approval
 
 **Assertions:**
 - [ ] Skill reads and reports the existing manifest version before offering to regenerate
 - [ ] User is offered a regenerate/skip choice — not auto-overwritten
-- [ ] Updated manifest has an incremented version number
-- [ ] "May I write" is asked before overwriting the existing file
+- [ ] Updated manifest has exact raw-byte identity reported outside itself; dates remain readable
+- [ ] Covered overwrite authority is reused; uncovered overwrite has concrete draft approval
 
 ---
 
-### Case 5: Director Gate — No gate spawned; no review-mode.txt read
+### Case 5: TD-MANIFEST and exact content identity
 
-**Fixture:**
-- 4 Accepted ADRs exist
-- `production/session-state/review-mode.txt` exists with `full`
+**Fixture:** Accepted source rules; production/review-mode.txt selects full or lean;
+existing manifest and Story both have the same readable date.
 
-**Input:** `/create-control-manifest`
-
-**Expected behavior:**
-1. Skill reads ADRs and drafts manifest
-2. Skill does NOT read `production/session-state/review-mode.txt`
-3. No director gate agents are spawned at any point
-4. Skill proceeds directly to "May I write" after drafting
-5. Review mode setting has no effect on this skill's behavior
+**Expected:** Full invokes TD-MANIFEST before write; lean skips it. After authorized
+write, read complete saved raw bytes and report full SHA-256/size/path/time in
+consumer metadata, outside the manifest itself. A one-byte/same-date rule change
+invalidates the Story identity; date-only Story is LegacyRecheck, not PASS.
 
 **Assertions:**
-- [ ] No director gate agents are spawned (no CD-, TD-, PR-, AD- prefixed gates)
-- [ ] Skill does NOT read `production/session-state/review-mode.txt`
-- [ ] Output contains no "Gate: [GATE-ID]" or gate-skipped entries
-- [ ] The manifest is generated from ADRs alone, with no external gate review
+- [ ] Complete digest uses all raw bytes including line endings.
+- [ ] No self-referential manifest hash; no invented historical digest.
+- [ ] Unavailable raw bytes/hash means incomplete check, never date fallback.
+- [ ] No automatic Story/status/session/index update from manifest write.
 
 ---
 
@@ -159,8 +161,8 @@ review gate is needed.
 - [ ] Reads all ADR files before drafting manifest
 - [ ] Only Accepted ADRs included — Proposed ones noted as excluded
 - [ ] Manifest draft shown to user before "May I write" ask
-- [ ] "May I write `docs/architecture/control-manifest.md`?" asked before writing
-- [ ] No director gates — no review-mode.txt read
+- [ ] Exact named create/overwrite authority persists; "May I write" is asked only for new effects
+- [ ] Full TD-MANIFEST / lean-solo skip follows actual workflow
 - [ ] Ends with next-step handoff: `/create-epics` or `/create-stories`
 
 ---
@@ -169,7 +171,52 @@ review gate is needed.
 
 - The exact section structure of the generated manifest (constraint tables, pattern
   lists) is defined by the skill body and not re-enumerated in test assertions.
-- The `version` field incrementing logic (v1 → v2) is tested via Case 4 but exact
-  version numbering format is not fixture-locked.
+- Case 4 retains legacy readable date fields; SHA-256/byte size of complete raw
+  bytes is the actual identity, stored outside the manifest.
 - ADR parsing (extracting Required/Forbidden Patterns) depends on consistent ADR
   structure — tested implicitly via Case 1's fixture.
+
+## Exact scope and decision counterexamples
+
+These are required semantic cases, not claims that keyword/static checks ran them.
+Fixtures use actual UTF-8 bytes/complete dependencies and preserve Game/Product
+owner requirements under `design/INSTRUCTIONS.md`.
+
+- CDD-owned detail and local helper: classify cdd-layer/no-adr with named owner/
+  reason; do not manufacture an ADR or waive CDD/TR/manifest/evidence prerequisites.
+- Significant new trust/public-contract/durable-format/state-ownership choice:
+  adr-required before affected implementation; independent scoped work may continue.
+- Exact Accepted section conflicts with actual choice: conflict, named affected
+  dependencies/action/owner; green tests or implemented status cannot establish covered.
+- Content agreement, report/write permission or director APPROVED: no automatic
+  ADR acceptance, Story readiness/completion or phase advancement.
+- Historical approval with changed raw bytes/scope: retain history, do not reuse it
+  as current approval. Preserve originals, full hashes/sizes/paths and UTC collection.
+- Report-only saves only its new report; inputs/index/session/log/T3 effects require
+  separate named scope. Review-only invokes no write entrypoint, including in memory.
+- Unknown/both/neither domain: common checks continue, domain-specific findings
+  remain incomplete until resolved; no silent Game fallback.
+- Separate global Technical Setup min-three Foundation ADR rule remains in force;
+  local no-ADR classifications neither waive it nor justify fabricated ADRs.
+
+### Case 7: Gate owner is the inline skill contract
+
+TD-MANIFEST criteria and APPROVE/CONCERNS/REJECT outcomes belong to Phase 4b of
+`skills/create-control-manifest/SKILL.md`. Shared director-gates provides mode/
+authority guidance, not a TD-MANIFEST definition. Read the actual inline owner;
+REJECT repairs before writing, CONCERNS follows its stated user-choice interface.
+
+### Case 8: Authorized preview cannot become Active
+
+**Fixture:** Required architecture review or Accepted governing decision is missing;
+the user authorizes a Draft/Blocked manifest preview. Full gate approves the extraction,
+or lean skips the gate.
+
+**Expected:** Save only the authorized preview with actual Draft/Blocked status and
+missing-input/action/owner findings. Report the saved operation separately; no
+Active/qualified COMPLETE, Story Ready or implementation handoff. An Active/COMPLETE
+fixture requires verified required architecture, decisions, global gate and dependencies.
+
+- [ ] Phase 5 preserves qualification from input checks; gate skip/approval cannot clear it.
+- [ ] Consumer digest is full raw-file SHA-256/size outside the preview itself.
+- [ ] Existing exact preview write scope is reused without another permission ask.

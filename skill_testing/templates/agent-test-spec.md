@@ -38,7 +38,7 @@ delegates vs. handles directly. Include which gates it triggers (if any).]
 **Expected behavior**:
 1. Agent accepts the request
 2. Agent produces [specific output type]
-3. Agent asks before writing files (if applicable)
+3. Agent applies original scoped authority; asks only for material new effects (if applicable)
 
 **Assertions**:
 - [ ] Agent handles request within its domain without escalating
@@ -138,7 +138,7 @@ delegates vs. handles directly. Include which gates it triggers (if any).]
 
 - [ ] Stays within declared domain — no unilateral cross-domain changes
 - [ ] Escalates conflicts to correct parent
-- [ ] Uses `"May I write"` before file writes (or is read-only)
+- [ ] Delegated scope persists without expansion; report-only excludes inputs/index/state and review-only invokes no write entrypoint
 - [ ] Presents findings before requesting approval
 - [ ] Does not skip tiers in the delegation hierarchy
 
@@ -148,3 +148,13 @@ delegates vs. handles directly. Include which gates it triggers (if any).]
 
 [Any gaps in coverage, known edge cases not tested, or behaviors that require
 a live agent invocation to verify.]
+
+## Shared Contract Cases
+
+Include applicable fixtures for named batch authority across roles/retries,
+report-only vs review-only, stale exact-input/historic authority, required indirect
+attachments, writer checks vs fresh independent review, and justified `cdd-layer`/
+`no-adr` vs material `adr-required`/`conflict`. Assert observable behavior rather
+than keywords/line counts. Preserve partial findings, originals/full hashes and
+unaffected work; disclose unexecuted verification. Do not install enforcement or
+activate Memory Bank through testing.

@@ -5,14 +5,18 @@ paths:
 
 # Test Standards
 
-- Test naming: `test_[system]_[scenario]_[expected_result]` pattern
+- Test naming follows the configured language/framework convention;
+  `test_[system]_[scenario]_[expected_result]` remains the Game/Python example.
 - Every test must have a clear arrange/act/assert structure
 - Unit tests must not depend on external state (filesystem, network, database)
-- Integration tests must clean up after themselves
+- Integration tests use isolated owned fixtures; cleanup targets only authorized
+  fixture resources and preserves relied-on originals/history.
 - Performance tests must specify acceptable thresholds and fail if exceeded
 - Test data must be defined in the test or in dedicated fixtures, never shared mutable state
 - Mock external dependencies — tests should be fast and deterministic
-- Every bug fix must have a regression test that would have caught the original bug
+- Behavioral fixes need a regression check exposing the original defect, using
+  automated or target/manual evidence appropriate to the capability. Document-only
+  repairs do not need synthetic behavior tests.
 
 ## Examples
 
@@ -40,3 +44,12 @@ func test1() -> void:  # VIOLATION: no descriptive name
     h.take_damage(25)  # VIOLATION: no arrange step, no clear assert
     assert_true(h.current_health < 100)  # VIOLATION: imprecise assertion
 ```
+
+## Product evidence
+
+Verify applicable API/SDK success/validation/auth/compatibility, CLI flags/output/
+exit codes, data/migration failure/rollback and UI/workflow states. Keep Game
+GDScript examples above. Required evidence and coverage targets follow owning
+CDD/Story and configured stack, not file counts or blanket per-file percentages.
+Read `standards/evidence-lifecycle.md`: planning, review sufficiency, execution and
+independence are separate. Write counterexamples/restore checks use isolated copies.

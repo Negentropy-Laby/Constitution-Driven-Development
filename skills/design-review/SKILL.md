@@ -6,17 +6,57 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 ---
 
+## Scope, evidence and effects
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse explicit existing authorization for its named paths, effects
+and limits across roles and retries. Present unresolved material choices or new
+effects for approval; a document/batch/synchronization authorization does not
+require another question for each covered section or file. Content agreement,
+write authority, independent review, ADR acceptance and workflow completion
+remain separate.
+
+Analysis defaults to read-only: no write entrypoint, input edits, status/index/
+session/Memory Bank updates. Report-only may write one new assigned report with
+authority; report approval does not authorize indexes or rolling logs. Other
+writes need the named path/effect in existing authority or a concrete draft and
+changeset approval. Unknown paths are findings, not permission to create them.
+No Memory Bank means use the established report/conversation fallback. Next
+steps are recommendations; execute only effects already authorized or explicitly
+selected by the user. Tool availability determines the question interface.
+
+Bind claims to a declared scope and minimum direct/indirect evidence closure:
+record original paths, full SHA-256, byte sizes, source commit plus exact diff
+and uncommitted/ignored/external identities, exclusions and recoverable originals.
+Do not read sensitive local settings or secrets merely to complete discovery.
+Read required inputs back from their actual paths, verify closure and report
+missing inputs as incomplete affected checks. Keywords, timestamps, counts,
+equal hashes at two collections and static checks do not certify semantic review,
+continuous unchanged history, runtime behavior or independent approval.
+
+Classify meaningful choices with the shared disposition record (`cdd-layer`,
+`no-adr`, `covered`, `documentation-update`, `adr-required`, `conflict`). Significant
+trust, public contract, durable format or state ownership changes require an
+Accepted ADR/valid scoped exception before affected implementation continues.
+Keep As-Is observations and their evidence separate from Target promises and
+gaps; implemented behavior cannot lower a governing Target. Continue independent
+work while blocking only affected dependants.
+
 ## User Guide
 
 - When to use: Reviews a CDD for completeness, internal consistency, implementability, and adherence to project design standards. Supports both game and general product domains. Run this before handing a design document to programmers.
 - Inputs: Command arguments: `/design-review [path-to-design-doc] [--depth full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Memory-bank writes: Only with initialized Memory Bank and separately authorized `memory_bank/t3_archive/reviews/review-index.md` effect; none in read-only/report-only.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Parse Arguments
 
 Extract `--depth [full|lean|solo]` if present. Default is `full` when no flag is given.
+
+Reject an invalid explicit depth with a corrective error; default full applies
+only to an absent flag. Depth controls analysis delegation, not director mode
+or write authority.
 
 **Note**: `--depth` controls the *analysis depth* of this skill (how many specialist agents are spawned). It is independent of the global review mode in `production/review-mode.txt`, which controls director gate spawning. These are two different concepts — `--depth` is about how thoroughly *this* skill analyses the document.
 
@@ -28,7 +68,12 @@ Extract `--depth [full|lean|solo]` if present. Default is `full` when no flag is
 
 ## Phase 1: Load Documents
 
-Read the target design document in full. Read CLAUDE.md to understand project context and standards. Read related design documents referenced or implied by the target doc (check `design/cdd/` for related systems).
+Read the target design document in full. Read CLAUDE.md for project context and
+standards. Resolve document kind/domain/actual required-set owner through
+`design/INSTRUCTIONS.md` using workflow/provenance and the substantive body.
+Read that owner/template and required related references to closure. A concept,
+Quick Spec or Module Index in design paths is not a module by filename alone;
+unknown kind/owner remains incomplete until resolved.
 
 **Dependency graph validation:** For every system listed in the Dependencies section, use Glob to check whether its CDD file exists in `design/cdd/`. Flag any that don't exist yet — these are broken references that downstream authors will hit.
 
@@ -36,43 +81,40 @@ Read the target design document in full. Read CLAUDE.md to understand project co
 - **[游戏专用]** If `design/cdd/game-concept.md` or any file in `design/narrative/` exists, read it. Note any mechanical choices in this CDD that contradict established world rules, tone, or design pillars. Pass this context to `game-designer` in Phase 3b.
 - **[通用产品]** If `design/cdd/product-concept.md` exists, read it. Note any module choices in this CDD that contradict the product principles, user promise, JTBD statement, or target workflow. Pass this context to `lead-programmer`, the language specialist, and `creative-director` in Phase 3b.
 
-**Prior review check:** Check whether `design/cdd/reviews/[doc-name]-review-log.md` exists. If it does, read the most recent entry — note what verdict was given and what blocking items were listed. This session is a re-review; track whether prior items were addressed.
+**Prior review check:** Read any prior bound review and its input manifest,
+scope, rules, actor and unresolved findings. A new review of changed bytes or
+changed dependency/rule closure is a re-review with a new baseline. Continuing
+an interrupted review of the exact same bytes/closure is a continuation; preserve
+completed checks and disclose pending ones. Equal hashes at collections do not
+prove no intervening writes. A historical verdict is valid only for its exact
+inputs and authority; an unbound latest-log entry is history, not current approval.
 
 ---
 
 ## Phase 2: Completeness Check
 
-Evaluate against the CDD Standard checklist. [Game] Game CDD sections:
-
-- [ ] Has Overview section (one-paragraph summary)
-- [ ] Has Player Fantasy section (intended feeling)
-[Product] Product CDD sections:
-- [ ] Has User Promise section (intended user value)
-- [ ] Has Detailed Design section (unambiguous specification)
-- [ ] Has Data Model section (all data structures defined)
-- [ ] Has Configuration section (configurable parameters identified)
-- [ ] Has Integration section (external system interfaces)
-
-[Game] Game CDD sections (continued):
-- [ ] Has Detailed Rules section (unambiguous mechanics)
-- [ ] Has Formulas section (all math defined with variables)
-- [ ] Has Tuning Knobs section (configurable values identified)
-
-[通用场景] Shared sections (both game and product CDDs):
-- [ ] Has Edge Cases section (unusual situations handled)
-- [ ] Has Dependencies section (other modules listed)
-- [ ] Has Acceptance Criteria section (testable success conditions)
+Evaluate the resolved kind's required roles under `design/INSTRUCTIONS.md`'s
+owner routing: Module8 for Game/Product module CDDs; actual Game/Product concept
+template sets, category-specific Quick Spec format or Module Index owner set for
+those kinds. Map aliases to real substantive bodies/evidence, retaining headings.
+List each required role as complete, missing, placeholder, contradictory or
+incomplete dependency with path/section evidence and an actionable finding.
+Do not demand module-only formulas/knobs from a concept. Extra sections do not
+replace required roles; heading presence is discovery only. Unknown kind/owner
+cannot default to Module8 or yield a completeness APPROVED.
+Read the declared target and required related closure in full for this review;
+missing inputs narrow affected conclusions and cannot yield APPROVED.
 
 ---
 
 ## Phase 3: Consistency and Implementability
 
-**Internal consistency:**
+**Internal consistency (apply to the resolved kind's actual claims):**
 - Do the formulas produce values that match the described behavior?
 - Do edge cases contradict the main rules?
 - Are dependencies bidirectional (does the other system know about this one)?
 
-**Implementability:**
+**Implementability / concept feasibility (apply the actual owner scope):**
 - Are the rules precise enough for a programmer to implement without guessing?
 - Are there any "hand-wave" sections where details are missing?
 - Are performance implications considered?
@@ -94,7 +136,9 @@ Evaluate against the CDD Standard checklist. [Game] Game CDD sections:
 **This phase is MANDATORY in full mode.** Do not skip it.
 
 **Before spawning any agents**, print this notice:
-> "Full review: spawning specialist agents in parallel. This typically takes 8–15 minutes. Use `--review lean` for faster single-session analysis."
+> "Full review requires the actual specialist reviews below. Use `--depth lean`
+> for a single-session review; unavailable delegation is disclosed as incomplete,
+> without inventing specialist verdicts or claiming the full workflow completed."
 
 ### Step 1 — Identify all domains the CDD touches
 
@@ -184,8 +228,15 @@ Mark every finding with its source: `[game-designer]`, `[economy-designer]`, `[l
 Specialists consulted: [list agents spawned]
 Re-review: [Yes — prior verdict was X on YYYY-MM-DD / No — first review]
 
-### Completeness: [X/8 sections present]
-[List missing sections]
+### Document kind and required-set owner
+[Resolved kind/domain, workflow/provenance and actual owner/template identity]
+
+### Completeness: [X/Y required roles substantively covered; Y=8 for module CDDs]
+[Owner role → actual heading/body/evidence; missing/placeholder/unresolved roles]
+
+### Evidence and review scope
+[Exact input manifest, depth, authors/reviewers, full/partial reading,
+required/completed/skipped/unavailable checks; historical/continuation/re-review]
 
 ### Dependency Graph
 [List each declared dependency and whether its CDD file exists on disk]
@@ -226,11 +277,14 @@ This skill is read-only — no files are written during Phase 4.
 
 ## Phase 5: Next Steps
 
-Use `AskUserQuestion` for ALL closing interactions. Never plain text.
+Present next steps in conversation. Use `AskUserQuestion` when a decision/new
+effect is required and the interface is available; covered scope needs no repeat ask.
 
 **First widget — what to do next:**
 
-If APPROVED (first-pass, no revision needed), proceed directly to the module-index widget, review-log widget, then the final closing widget. Do not show a separate "what to do" widget — the final closing widget covers next steps.
+If the semantic review is APPROVED, present separately the optional module-index,
+review-log and handoff effects below. Execute only authorized effects; read-only
+ends with findings, while report-only writes only its new assigned report.
 
 If NEEDS REVISION or MAJOR REVISION NEEDED, options:
 - `[A] Revise the CDD now — address blocking items together`
@@ -239,7 +293,10 @@ If NEEDS REVISION or MAJOR REVISION NEEDED, options:
 
 **If user selects [A] — Revise now:**
 
-Work through all blocking items, asking for design decisions only where you cannot resolve the issue from the CDD and existing docs alone. Group all design-decision questions into a single multi-tab `AskUserQuestion` before making any edits — do not interrupt mid-revision for each blocker individually.
+A selected revise action makes this actor a writer. Resolve actual file/section
+changes and obtain authority if absent. Ask unresolved design choices together
+when practical. Preserve original findings/bytes, repair only scoped inputs and
+collect a fresh baseline for any required independent review.
 
 After all revisions are complete, show a summary table (blocker → fix applied) and use `AskUserQuestion` for a **post-revision closing widget**:
 
@@ -247,25 +304,29 @@ After all revisions are complete, show a summary table (blocker → fix applied)
 - Note current context usage: if context is above ~50%, add: "(Recommended: /clear before re-review — this session has used X% context. A full re-review runs 5 agents and needs clean context.)"
 - Options:
   - `[A] Re-review in a new session — run /design-review [doc-path] after /clear`
-  - `[B] Accept revisions and mark Approved — update module index, skip re-review`
+  - `[B] Accept revisions for writing — required re-review remains pending`
   - `[C] Move to next system — /design-system [next-system] (#N in design order)`
   - `[D] Stop here`
 
-Never end the revision flow with plain text. Always close with this widget.
+A closing decision does not establish independent review of revised inputs.
 
-**Second widget — module index update (always show this separately):**
+**Optional module-index effect — separately authorize if uncovered:**
 
 Use a second `AskUserQuestion`:
-- Prompt: "May I update `design/cdd/module-index.md` to mark [system] as [In Review / Approved]?"
+- Prompt if uncovered: "May I update `design/cdd/module-index.md` to mark
+  [system] as [In Review / Approved]?" Approval status must bind current review
+  inputs and governance authority; repairs leave required fresh review pending.
 - Options: `[A] Yes — update it` / `[B] No — leave it as-is`
 
-**Third widget — review log (always offer):**
+**Optional review-log effect — separately authorize if uncovered:**
 
 Use a third `AskUserQuestion`:
 - Prompt: "May I append this review summary to `design/cdd/reviews/[doc-name]-review-log.md`? This creates a revision history so future re-reviews can track what changed."
 - Options: `[A] Yes — append to review log` / `[B] No — skip`
 
-If yes, append an entry in this format:
+With explicit rolling-log authority, retain prior entries and append a uniquely
+identified review revision binding exact inputs. Report-only instead writes a
+new assigned report and leaves the log unchanged. Include these fields:
 ```
 ## Review — [YYYY-MM-DD] — Verdict: [APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED]
 Scope signal: [S/M/L/XL]
@@ -273,10 +334,13 @@ Specialists: [list]
 Blocking items: [count] | Recommended: [count]
 Summary: [2-3 sentence summary of key findings from creative-director verdict]
 Prior verdict resolved: [Yes / No / First review]
+Review ID/input manifest: [exact full hashes, sizes, source commit+diff/other identities]
+Scope/depth/checks/actors: [reading closure and verification limitations]
 ```
 
-When `memory_bank/` exists and the user approves appending the review log, also
-update `memory_bank/t3_archive/reviews/review-index.md`.
+When `memory_bank/` exists, update
+`memory_bank/t3_archive/reviews/review-index.md` only with authority for that
+specific index effect. Log/report approval alone does not grant it.
 
 - Review Type: `design-review`
 - Source Artifact: `design/cdd/reviews/[doc-name]-review-log.md`
@@ -284,14 +348,15 @@ update `memory_bank/t3_archive/reviews/review-index.md`.
 - If the same source artifact already exists, update Date, Verdict, and
   Follow-up Owner instead of adding a duplicate row.
 - If `memory_bank/` does not exist, do not create it from `/design-review`;
-  keep the existing review log behavior and say: "Run `/constitute` to establish
-  the memory_bank governance control plane."
+  keep the authorized report/conversation fallback and disclose the absent
+  optional index; do not require initialization for this review.
 
 ---
 
-**Final closing widget — always show after all file writes complete:**
+**Optional closing decision after authorized effects:**
 
-Once the module-index and review-log widgets are answered, check project state and show one final `AskUserQuestion`:
+After optional authorized effects, check actual project state and recommend
+applicable next steps; ask a new decision only when needed.
 
 Before building options, read:
 - `design/cdd/module-index.md` — find any system with Status: In Review or NEEDS REVISION (other than the one just reviewed)
@@ -302,9 +367,9 @@ Build the option list dynamically — only include options that are genuinely ne
 - `[_] Run /design-review [other-cdd-path] — [system name] is still [In Review / NEEDS REVISION]` (include if another CDD needs review)
 - `[_] Run /consistency-check — verify this CDD's values don't conflict with existing CDDs` (always include if ≥1 other CDD exists)
 - `[_] Run /review-all-gdds — holistic design-theory review across all designed systems` (include if ≥2 CDDs exist)
-- `[_] Run /design-system [next-system] — next in design order` (always include, name the actual system)
+- `[_] Run /design-system [next-system] — next in design order` (include only if an actual undesigned system remains)
 - `[_] Stop here`
 
 Assign letters A, B, C… only to included options. Mark the most pipeline-advancing option as `(recommended)`.
 
-Never end the skill with plain text after file writes. Always close with this widget.
+Recommendations do not invoke a workflow or perform its file/status effects.

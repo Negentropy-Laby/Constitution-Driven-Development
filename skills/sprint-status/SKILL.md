@@ -7,12 +7,49 @@ allowed-tools: Read, Glob, Grep
 model: haiku
 ---
 
+## QA policy, facts and authority
+
+Apply `standards/evidence-lifecycle.md`, `standards/notes-adr-sync.md` and existing
+collaboration authority. Read actual `workflow/workflow-catalog.yaml`, domain,
+current transition and established project QA scope, including initialized
+`memory_bank/t1_axioms/qa_context.md` or the existing owning Story/plan/decision.
+QA orchestration is optional by default; strict obligations need explicit source,
+authority and exact checks/scope. Review mode does not select strict QA. Absent
+optional Memory Bank/QA Context with no actual strict selection uses the catalog's
+default optional orchestration; disclose absence without requiring initialization.
+Unknown applies to unresolved actual required applicability or conflicting policy,
+not optional context absence. Resolve that affected scope before dependent claims;
+Honor actual user-specified per-effect approval conditions when determining coverage;
+do not invent strict obligations or passing results.
+Optional orchestration never waives required Story AC, governing DoD, decisions,
+evidence or required review. Type tables are starting points; actual owners decide
+requirements. Each required check retains PASS/FAIL/NotRun/Blocked/Pending; N/A
+needs a governing applicability reason and cannot erase a failure.
+
+Separate sufficiency, actual execution, independence, acceptance and completion.
+Files/keywords/counts, planning cases and self-checks prove none of the other facts.
+Read relied-on bodies and minimum required direct/indirect dependency closure;
+retain full SHA-256/byte sizes, recoverable originals and original-path witnesses.
+Disclose reading omissions. Exact bound historical results may be reused only
+where selected workflow permits, labeled historical with original runtime/observer,
+inputs and scope; never call them this run's execution. Missing required originals
+or observations leave affected checks incomplete. Risk acceptance is a separate
+scoped record; it cannot change FAIL/NotRun/Blocked/Pending to PASS or completion.
+
+Reuse named paths/effects authority across roles/retries; before new authority show
+draft and complete effect set, asking only for material new scope. Review-only
+invokes no write entrypoint. Report-only writes its new report, excluding inputs,
+indexes, session/sprint/stage state and closure. Existing report paths require a
+new revision with prior evidence preserved; index effects need their own covered
+scope and historical links. Optional Memory Bank absence uses Story/report/
+conversation fallback without initialization, publication or activation.
+
 ## User Guide
 
 - When to use: Fast sprint status check. Reads the current sprint plan, scans story files for status, and produces a concise progress snapshot with burndown assessment and emerging risks. Run at any time during a sprint for quick situational awareness. Use when user asks 'how is the sprint going', 'sprint update', 'show sprint progress'.
 - Inputs: Command arguments: `/sprint-status [sprint-number or blank for current]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/sprint_snapshots/`.
+- Memory-bank writes: None (read-only).
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Routing
@@ -72,27 +109,21 @@ found — burndown assessment skipped."
 
 **First: check for `production/sprint-status.yaml`.**
 
-If it exists, read it directly — it is the authoritative source of truth.
-Extract status for each story from the `status` field. No markdown scanning needed.
-Use its `sprint`, `goal`, `start`, `end` fields instead of re-parsing the sprint plan.
+If it exists, read it as machine-readable status projection and use its declared
+sprint/goal/dates. For every claimed done row read the linked exact Story closure,
+required review/evidence and input binding under `/story-done`. Mutable YAML rows
+are not independent completion proof. Conflicting/missing/incomplete required
+closure is Unverified/Blocked and excluded from verified done count.
 
-**If `sprint-status.yaml` does not exist** (legacy sprint or first-time setup),
-fall back to markdown scanning:
+If absent, read actual Story status/header and closure section, or owning inline
+task record. Arbitrary body words, quotes/examples/recommendations are not status.
+Legacy Complete/Done/RISKS labels remain claimed until required closure is verified.
+RISKS maps to COMPLETE WITH NOTES only with all required PASS/review/authority facts.
+Missing paths are MISSING; ambiguous state Unknown, not automatically Not Started.
 
-1. If the entry references a story file path, check if the file exists.
-   Read the file and scan for status markers: DONE, COMPLETE, IN PROGRESS,
-   BLOCKED, NOT STARTED (case-insensitive).
-2. If the entry has no file path (inline task in the sprint plan), scan the
-   sprint plan itself for status markers next to that entry.
-3. If no status marker is found, classify as NOT STARTED.
-4. If a file is referenced but does not exist, classify as MISSING and note it.
-
-When using the fallback, add a note at the bottom of the output:
-"⚠ No `sprint-status.yaml` found — status inferred from markdown. Run `/sprint-plan update` to generate one."
-
-Optionally (fast check only — do not do a deep scan): grep `src/` for a
-directory or file name that matches the story's system slug to check for
-implementation evidence. This is a hint only, not a definitive status.
+Keep this fast and read-only: unavailable complete evidence means Unverified with
+missing dependency and a closure-owner recommendation, never certification/repair.
+Implementation path names are hints only. Disclose the absent YAML projection.
 
 ### Stale Story Detection
 
@@ -103,24 +134,26 @@ After collecting status for all stories, check each IN PROGRESS story for stalen
   or `updated: 2026-04-01`). Accept any reasonable date field name: `Last Updated`,
   `Updated`, `last-updated`, `updated_at`.
 - Calculate days since that date using today's date.
-- If the date is more than 2 days ago, flag the story as **STALE**.
-- If no date field is found in the story file, note "no timestamp — cannot check staleness."
+- If the date is more than 2 days ago, flag **STALE metadata / date age** for attention; this does not establish absent progress, a hidden blocker or a risk verdict.
+- If no date field is found, note "no timestamp — cannot check staleness." A date/mtime alone proves neither activity nor absence of intervening writes.
 - If the story has no referenced file (inline task), note "inline task — cannot check staleness."
 
 STALE stories are included in the output table and collected into an "Attention Needed"
 section (see Phase 5 output format).
 
-**Stale story escalation**: If any IN PROGRESS story is flagged STALE, the burndown verdict
-is upgraded to at least **At Risk** — even if the completion percentage is within the normal
-On Track window. Record this escalation reason: "At Risk — [N] story(ies) with no progress in
-[N] days."
+**Activity-based escalation**: an old timestamp alone adds a date-age attention
+hint. Only actual relevant activity/dependency evidence establishing stalled work
+or a blocker can support a no-progress/At Risk assessment; cite the actual scope,
+observed interval and evidence source. With only date/mtime, activity is Unknown
+and burndown follows other verified completion, deadline and blocker facts. Do
+not assert "no progress in N days" or upgrade At Risk solely from an old date.
 
 ---
 
 ## 4. Burndown Assessment
 
 Calculate:
-- Tasks complete (DONE or COMPLETE)
+- Verified complete tasks (eligible exact COMPLETE or COMPLETE WITH NOTES closure); display claimed/unverified totals separately
 - Tasks in progress (IN PROGRESS)
 - Tasks blocked (BLOCKED)
 - Tasks not started (NOT STARTED or MISSING)
@@ -199,10 +232,10 @@ SPRINT AT RISK: [N] Must Have stories are not complete with [X]% of sprint
 time remaining. Recommend replanning with `/sprint-plan update`.
 ```
 
-**Completion flag** — if all Must Have stories are DONE:
+**Completion flag** — only if every Must Have has an exact verified eligible closure:
 
 ```
-All Must Haves complete. Team can pull from Should Have backlog.
+All Must Have closure conditions verified; consider Should Have backlog. Sprint/stage transition still needs separate obligations and authority.
 ```
 
 **Missing stories flag** — if any referenced story files do not exist:

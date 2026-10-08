@@ -1,18 +1,24 @@
 ---
 name: cdd-status
-description: "Generate a project progress dashboard from workflow-catalog.yaml. Reads current stage, required steps, artifact evidence, validation gaps, writes production/project-roadmap.md after approval, and mirrors to memory_bank/t2_execution/current_roadmap.md when memory_bank exists."
+description: "Generate a project progress dashboard from workflow-catalog.yaml. Reads current stage, required steps, artifact evidence, validation gaps, writes production/project-roadmap.md after approval, and mirrors to memory_bank/t2_execution/current_roadmap.md only when the Memory Bank root exists and that path and effect are covered."
 argument-hint: "[optional: --dry-run | --write]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 model: haiku
 ---
+Read and apply `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
+`standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` for scoped
+authority, exact evidence and decision ownership. Existing named authority
+continues; analysis is read-only and report-only excludes input/index/state writes.
+
 
 ## User Guide
 
-- When to use: Generate a project progress dashboard from workflow-catalog.yaml. Reads current stage, required steps, artifact evidence, validation gaps, writes production/project-roadmap.md after approval, and mirrors to memory_bank/t2_execution/current_roadmap.md when memory_bank exists.
+- When to use: Generate a project progress dashboard from workflow-catalog.yaml. Reads current stage, required steps, artifact evidence, validation gaps, writes production/project-roadmap.md after approval, and mirrors to memory_bank/t2_execution/current_roadmap.md only when the Memory Bank root exists and that path and effect are covered.
 - Inputs: Command arguments: `/cdd-status [optional: --dry-run | --write]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t0_core/basic_law_index.md`, `memory_bank/t0_core/current_state.md`, `memory_bank/t2_execution/current_roadmap.md`, `memory_bank/t2_execution/workflow_contract.md`.
+- Memory-bank reads: existing laws/current-state/workflow-contract/adapter-state.
+- Memory-bank writes: only with initialized Memory Bank and the separately covered `memory_bank/t2_execution/current_roadmap.md` mirror; no law/current-state/workflow-contract/adapter-state writes.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 # CDD Status Dashboard
@@ -21,7 +27,7 @@ Generate a concise progress dashboard and a durable roadmap at
 `production/project-roadmap.md`. For the expected shape, see
 `docs/examples/project-roadmap.example.md`.
 
-When `memory_bank/` exists, also maintain the T2 governance mirror at
+When `memory_bank/` exists and its exact mirror effect is covered, maintain
 `memory_bank/t2_execution/current_roadmap.md`. This mirror is for project
 memory and does not replace `production/project-roadmap.md`.
 
@@ -36,16 +42,19 @@ This skill bridges `/help` and `/project-stage-detect`:
 
 ## Collaboration Rule
 
-Draft the roadmap first. Before writing, ask:
-
-`May I write this to production/project-roadmap.md and, if memory_bank exists, memory_bank/t2_execution/current_roadmap.md?`
-
-If the user explicitly requested writing or used `/cdd-status --write`, write the
-file after showing the concise draft summary. If the user used `--dry-run`, do
-not write any files.
-
-If `memory_bank/` does not exist, write only `production/project-roadmap.md` and
-note: "Run `/constitute` to establish the memory_bank governance control plane."
+Draft the roadmap and disclose actual paths/effects first. Reuse existing named
+roadmap authority across retries. Missing scope asks: "May I write `production/project-roadmap.md` and the named
+`memory_bank/t2_execution/current_roadmap.md` mirror?" The named mirror may be maintained or created when the
+Memory Bank root exists and that path and effect are covered. The mirror
+is a distinct effect, never a hidden gift from
+report-only approval. An explicit `--write` flag or write instruction covers only its
+documented requested effects; disclose them and ask only for any material new scope.
+`--dry-run` always writes nothing. Without Memory Bank, write only the covered
+roadmap and report mirror skipped; no initialization is required or performed.
+Optional advice when governance setup is requested: "Run `/constitute` to establish the memory_bank governance control plane".
+This is a suggestion only: do not invoke it, initialize Memory Bank, change default
+QA handling, or make independent reporting/qualification depend on optional setup.
+All other law/contract/adapter/session/sprint/stage/index effects remain excluded.
 
 ## 1. Read Authoritative Inputs
 
@@ -62,14 +71,20 @@ Read these files when present:
 - `design/cdd/product-concept.md`
 - `design/ux/surface-profile.md`
 
-Detect domain:
-- `design/cdd/game-concept.md` exists -> Game
-- `design/cdd/product-concept.md` exists -> Product
-- neither exists -> Unknown
+Detect domain from substantive concept bodies and configured values under
+`standards/technical-preferences.md`, including valid populated legacy Product
+aliases. Report Game, Product or Unknown for the current scope. Conflicting
+concepts or mixed scope need a concrete Game or Product selection before dependent
+catalog filtering/routing; do not auto-select Both or qualify completion from
+this choice. Missing concepts never default Game; actual legacy Product remains
+Product. Independent neutral reporting continues.
 
-Detect current phase:
-1. Prefer `production/stage.txt` if it exists.
-2. Otherwise infer from artifacts, using the same phase order as `/help`.
+Report four facts independently:
+1. Declared phase: actual `production/stage.txt` content or owner statement, including conflicts.
+2. Observed bodies/locators/status projections and omitted inputs.
+3. Candidate phase: advisory ongoing-work indicators under `/project-stage-detect`.
+4. Qualified state: only exact governing checks/decisions/reviews/transition or
+   completion authority actually verified; otherwise unverified.
 
 Detect recorded adapter freshness when the state file exists:
 - Read `status`, `checked_commit`, `checked_at`, `manifest_digest`, and
@@ -90,8 +105,9 @@ For each phase:
 - Keep steps with no `applies_to`.
 - Keep `applies_to: [game]` only for Game projects.
 - Keep `applies_to: [product]` only for Product projects.
-- For Unknown projects, keep domain-specific steps but label them as
-  domain-specific.
+- For Unknown projects, label domain-specific steps as applicability pending.
+  Hold dependent single-domain routing/completion claims until a concrete Game or
+  Product scope resolves; independent neutral reporting continues.
 
 For each step, extract:
 - `id`
@@ -110,19 +126,28 @@ Classify every required step:
 
 | Status | Meaning |
 | ------ | ------- |
-| COMPLETE | Artifact glob exists and meets `min_count`, or manual evidence clearly exists |
-| PARTIAL | Some evidence exists but `min_count` or required review status is missing |
+| COMPLETE | Actual governing required checks/decisions/reviews/completion authority verified against exact evidence |
+| PARTIAL | Artifacts observed, but required content/evidence or qualification incomplete/unverified |
 | MISSING | No artifact or manual evidence was found |
 | N/A | `required_when` is false and a rationale exists, usually in `design/ux/surface-profile.md` |
 | MANUAL | The step has no machine-checkable artifact; report what must be verified |
 
 Rules:
-- If a step has `artifact.glob`, use Glob and compare against `min_count`
-  when present.
+- Globs/counts/patterns are catalog structural observations. Read substantive
+  bodies and actual required dependency closure before qualified COMPLETE;
+  missing/failed/unexecuted required checks retain their actual state.
+- Resolve explicitly referenced direct/indirect inputs to their actual paths
+  and read their bodies, including ignored or untracked attachments. A discovery
+  glob or ignore-aware search omission does not establish absence. Check each
+  claimed missing path directly and retain its individual result; a silent test
+  in an aggregate command is not a path-specific absence observation. Confirmed
+  absence, unread inputs and inaccessible inputs remain distinct. Unread or
+  inaccessible required inputs keep the affected check Pending/unverified.
 - If a step has `required_when`, evaluate it from the domain and
   `design/ux/surface-profile.md` when available.
 - If applicability is ambiguous, mark the step `MANUAL`, not `COMPLETE`.
-- Do not invent requirements that are not in the catalog.
+- Catalog governs workflow step ordering/applicability; owning CDD/Story/decisions
+  govern actual required evidence. Do not invent requirements or erase real ones.
 
 ## 4. Determine The Blocker And Next Commands
 
@@ -150,8 +175,11 @@ Write a roadmap with this structure:
 ## Snapshot
 
 - Domain: [Game/Product/Unknown]
-- Current phase: [phase]
-- Required progress: [complete] / [total]
+- Declared phase: [source/value or absent]
+- Observed work / candidate phase: [body evidence and advisory candidate]
+- Qualified state: [verified scope/evidence or unverified]
+- Catalog structural observations: [observed / actual applicable denominator]
+- Qualified required progress: [verified complete / actual applicable denominator]
 - Current blocker: [step or gate]
 - Adapter freshness (recorded): [fresh/stale/uninitialized/not initialized]
 - Adapter state checked: [checked_at at checked_commit, or never]
@@ -164,8 +192,8 @@ Write a roadmap with this structure:
 
 ## Phase Progress
 
-| Phase | Required | Complete | Missing | Status |
-| ----- | -------- | -------- | ------- | ------ |
+| Phase | Applicable Required | Observed | Qualified Complete | Missing/Pending |
+| ----- | ------------------- | -------- | ------------------ | --------------- |
 | ... |
 
 ## Current Phase Checklist
@@ -194,7 +222,8 @@ Write a roadmap with this structure:
 ## Notes
 
 - Catalog is authoritative.
-- Gate checks remain governed advisory: `FAIL` requires explicit override and a risk note.
+- A risk acceptance/exception is separate; it cannot turn required FAIL/NotRun/
+  Blocked/Pending/Unknown into PASS or qualified completion/transition.
 ```
 
 Keep the console response under 60 lines. The saved roadmap may be longer.
@@ -239,16 +268,22 @@ Recommend creating it from `templates/surface-profile.md`.
 
 Always report:
 - Domain
-- Current phase
-- Progress count
+- Declared/observed/candidate/qualified phase facts
+- Structural observations and qualified progress with actual denominator
 - Current blocker
 - Recorded adapter freshness and its checked commit/time, or `not initialized`
 - Next 3 commands
 - Product surface decision table when domain is Product
 - Whether `production/project-roadmap.md` was written or only drafted
 - Whether `memory_bank/t2_execution/current_roadmap.md` was written, skipped
-  because `memory_bank/` is missing, or skipped because this was `--dry-run`
+  because `memory_bank/` is missing, or skipped because this was `--dry-run` or outside covered mirror authority
 
-Do not mark a manual step complete without evidence.
+Do not mark any manual or structural step qualified complete without its actual
+required exact evidence/authority. A recorded done status needs owning closure recheck.
 Do not describe recorded adapter state as live evidence and do not let it
 override the workflow catalog's phase ordering.
+
+Recorded `source_digest` covers only manifest-declared classes; linked neutral
+owners need independent exact identities. Displayed freshness is historical context,
+not live runtime/skill/spec/category qualification. Runtime availability follows
+actual metadata and `adapters/README.md`, not source files or adapter-state values.

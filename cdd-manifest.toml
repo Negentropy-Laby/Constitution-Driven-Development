@@ -88,10 +88,12 @@ replacements = [
   ["CLAUDE", "Codex"],
   ["Claude", "Codex"],
 ]
-# Any surviving literal in a Codex output is an ERROR. Both POSIX and Windows
-# adapter-path forms are forbidden so a Windows-form path is rejected, not
-# guessed. Add a narrow, documented allowlist entry if a legitimate future
-# reference is required.
+# Any surviving literal in an output using `runtime_substitute` is an ERROR.
+# Both POSIX and Windows adapter-path forms are forbidden; neither is guessed.
+# Root/nested instructions use verbatim transforms=[]: intentional comparisons
+# such as "Claude Code auto-loads ...; Codex ..." remain accurate shared guidance.
+# This transform has no allowlist interface. Preserve these scoped checks rather
+# than adding an unsupported manifest key or weakening the forbidden list.
 forbidden_literals = [".claude/", ".claude\\", "CLAUDE", "Claude"]
 
 # `agent_md_to_toml` is a built-in, configuration-free transform registered by

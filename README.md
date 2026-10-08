@@ -67,9 +67,15 @@ release workflows, read [docs/USER-MANUAL.md](docs/USER-MANUAL.md).
 Run `/help` at any time to see the next required step. Run `/cdd-status` when you
 want a saved progress dashboard at `production/project-roadmap.md`; see
 [`docs/examples/project-roadmap.example.md`](docs/examples/project-roadmap.example.md)
-for the expected shape. Gates are
-governed advisory: they must run before normal advancement; a `FAIL` requires
-explicit override and a risk note before `production/stage.txt` advances.
+for the expected shape. Advancement follows the owning workflow and its required
+checks. Optional/advisory risks may be accepted only as the actual policy allows.
+Required `FAIL`, `NotRun`, `Blocked`, `Pending` or `Unknown` remain recorded;
+risk acceptance or unrelated green checks do not turn them into PASS, completion
+or a qualified phase. Record a legitimate scoped exception and explicitly
+authorized independent continuing work separately; neither implies transition.
+Qualified transition requires the owning workflow's exact evidence and named
+authority. Editing `production/stage.txt` alone records a declaration, not
+qualification.
 Each slash command includes a local `User Guide` block covering when to use it,
 inputs, outputs, memory-bank writes, and recommended next steps. Recommended
 next steps never auto-run; users still advance by explicit command and approval.
@@ -138,7 +144,7 @@ The result: you still make every decision, but now you have a team that asks the
 | **Agents** | 53 | Specialized subagents across design, programming, art, audio, narrative, QA, production, and language-specific product implementation |
 | **Skills** | 74 | Slash commands for every workflow phase (`/constitute`, `/help`, `/cdd-status`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
 | **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
-| **Rules** | 16 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network, API, CLI, services, config, migrations, data, and infrastructure code |
+| **Rules** | 16 | Canonical path policies for actual matching capabilities; runtime loading/manual consultation and semantic verification are separate |
 | **Templates** | 82 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, and UI-heavy design systems |
 | **Skill Testing** | 132 files | Cross-project skill/agent test catalog, specs, rubric, and spec templates |
 
@@ -379,15 +385,18 @@ CDD workflows work by reading and maintaining the project brain:
 
 1. `/constitute` creates or refreshes `memory_bank/` T0-T3 governance.
 2. `/help` and `/cdd-status` read workflow evidence and report the next step.
-3. `/gate-check` writes T3 gate evidence and updates T0 current state.
-4. Review, QA, story, sprint, milestone, and release workflows maintain T3 indexes.
+3. `/gate-check` evaluates exact required evidence; report, transition and T0 effects
+   require their covered scope, with no automatic stage advance.
+4. Review/QA/story/sprint/milestone/release workflows maintain only covered T3
+   effects, preserving original evidence and unresolved actual checks.
 5. Detailed work remains in `design/`, `docs/`, `workflow/`, `templates/`,
    `standards/`, `skill_testing/`, and `production/`.
 
 Any high-impact workflow that produces a `PASS/FAIL`, `APPROVED/REJECTED`,
 `GO/NO-GO`, `PROCEED/PIVOT/KILL`, `CUT/KEEP/DEFER`, or `RELEASE/HOLD` decision
-should update T1, T0, or a T3 index when the user approves saving the original
-artifact.
+may update only exact named T1/T0/T3 effects included in continuing authority.
+Saving the original artifact alone excludes these pointers/state/indexes. Without
+optional Memory Bank use established detailed artifact/report/conversation owners.
 
 ### Cross-Project Skill Testing
 
@@ -398,8 +407,10 @@ mount contract at `memory_bank/t2_execution/skill_testing/README.md`. Root
 `skill_testing/` holds reusable standards: `catalog.yaml`, `quality-rubric.md`,
 specs, and templates. T3 holds approved evidence:
 `memory_bank/t3_archive/skill_testing/coverage-index.yaml`, result reports, and
-skill improvement records. `/skill-test` reads T2 and writes T3 only after user
-approval; `/skill-improve` reads T2 and can save improvement evidence in T3.
+skill improvement records. `/skill-test` and `/skill-improve` read actual canonical
+`skill_testing/` assets through the optional mount; covered optional T3 report
+writes and coverage-index effects are separate. Missing Memory Bank uses existing
+fallback without creating another testing tree or activating governance.
 
 ### Agent Coordination
 
@@ -419,13 +430,15 @@ This is **not** an auto-pilot system. Every agent follows a strict collaboration
 2. **Present options** — agents show 2-4 options with pros/cons
 3. **You decide** — the user always makes the call
 4. **Draft** — agents show work before finalizing
-5. **Approve** — nothing gets written without your sign-off
+5. **Approve scope** — named authority continues across sections/roles/retries;
+   only material new effects or unresolved decisions need another approval
 
 You stay in control. The agents provide structure and expertise, not autonomy.
 
 ### Automated Safety
 
-**Hooks** run automatically on every session:
+**Hooks** below declare intended triggers. Actual supported runtime wiring and
+observed execution determine whether a hook ran; generated scripts alone do not:
 
 | Hook | Trigger | What It Does |
 |------|---------|--------------|
@@ -442,29 +455,35 @@ You stay in control. The agents provide structure and expertise, not autonomy.
 | `log-agent-stop.sh` | Agent stops | Audit trail stop — completes subagent record |
 | `validate-generated-adapter-change.sh` | PostToolUse (Write/Edit; Codex `apply_patch`) | Advises the canonical source + adapter regeneration when a generated adapter (skills/agents/hooks/rules, or root/nested instructions) is edited; advises regeneration when a canonical source is edited |
 
-> **Note**: `validate-commit.sh`, `validate-assets.sh`, and `validate-generated-adapter-change.sh` fire on every Bash/Write tool call and exit immediately (exit 0) when the command or file path is not relevant. This is normal hook behavior — not a performance concern.
+> **Note**: When their supported triggers are configured and fire, these hooks
+> exit early for irrelevant commands/paths. Configuration or file presence alone
+> does not prove this session executed them.
 
-**Permission rules** in `settings.json` auto-allow safe operations (git status, test runs) and block dangerous ones (force push, `rm -rf`, reading `.env` files).
+**Permission rules** in hand-authored `settings.json` apply only through the
+actual supported runtime configuration. They do not replace scoped user authority;
+Codex native command policies remain runtime-owned and separate.
 
 ### Path-Scoped Rules
 
-Coding standards are automatically enforced based on file location:
+Canonical policies are selected by their actual path globs. Claude Code supports
+path-based loading; Codex consults canonical `rules/*.md` manually through root
+guidance. Neither source presence nor loading certifies semantic enforcement:
 
-| Path | Enforces |
+| Path | Policy guidance |
 |------|----------|
 | `src/gameplay/**` | Data-driven values, delta time usage, no UI references |
 | `src/core/**` | Zero allocations in hot paths, thread safety, API stability |
 | `src/ai/**` | Performance budgets, debuggability, data-driven parameters |
 | `src/networking/**` | Server-authoritative, versioned messages, security |
-| `src/ui/**` | No game state ownership, localization-ready, accessibility |
+| `src/ui/**` | Applicable Game state/input/audio/thread rules and Product state/workflow/accessibility |
 | `src/api/**` | Contract stability, status/error semantics, schema documentation, security checks |
 | `src/cli/**` | Stable flags, stdout/stderr boundaries, exit codes, help text, scripted usage |
 | `src/app/**`, `src/web/**` | Workflow ownership, accessibility, localization, error states, API handoff |
 | `src/services/**` | Dependency isolation, retries/timeouts, idempotency, observability |
 | `migrations/**` | Reversible or dry-run behavior, data safety, versioned rollout notes |
 | `config/**` | No secrets, environment separation, documented defaults |
-| `design/cdd/**` | Required 8 sections, formula format, edge cases |
-| `tests/**` | Test naming, coverage requirements, fixture patterns |
+| `design/cdd/**` | Module CDD semantic eight; concept/index/support use actual DocKind owners |
+| `tests/**` | Configured naming, required evidence and isolated fixtures |
 | `prototypes/**` | Relaxed standards, README required, hypothesis documented |
 
 ## Design Philosophy
@@ -497,15 +516,16 @@ This is a **template**, not a locked framework. Everything is meant to be custom
 - **Add rules** — create new path-scoped rules for your project's directory structure
 - **Tune hooks** — adjust validation strictness, add new checks
 - **Pick your engine or stack** — use the Godot, Unity, or Unreal agent set for games; use the Python, TypeScript, Rust, or Go specialist path for product projects
-- **Set review intensity** — `full` (all director gates), `lean` (phase gates only), or `solo` (none). Set during `/constitute` or edit `production/review-mode.txt`. Override per-run with `--review solo` on any skill.
+- **Set review intensity** — `full` (all director gates), `lean` (phase gates only), or `solo` (none). Set during `/constitute` or edit `production/review-mode.txt`. Override per-run with `--review solo` only on gate-using skills whose actual interface accepts it; consult that skill's instructions.
 
 ## Platform Support
 
 Template Consistency CI verifies **Ubuntu**, **macOS**, and **Windows** runners
 and includes a credential-free runtime structural smoke. The manually triggered
 Runtime Contract workflow installs the pinned Claude Code and Codex CLIs,
-validates their required command-line capabilities and discovery fixtures, and
-uploads evidence without credentials or model calls. Local hook execution on
+validates required CLI help/structure and discovery fixtures, and uploads evidence
+without credentials or model calls. These checks do not prove live autoload,
+agent execution, semantic skill/spec/category qualification or project completion. Local hook execution on
 Windows requires **Git Bash**; Windows toast notifications are optional and
 fall back to plain hook output when unavailable.
 
@@ -529,3 +549,9 @@ Constitution Driven Development is free and open source. It is maintained in the
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
+
+Runtime transforms and mixed ownership are documented in `adapters/README.md`.
+The framework's generated source adapters remain usable; optional `memory_bank/`
+initialization, actual runtime execution and qualified project state are separate
+facts. Adapter source digests exclude neutral linked supports, whose exact bytes
+must accompany relied-on review evidence under `standards/evidence-lifecycle.md`.

@@ -6,12 +6,49 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Write, AskUserQuestion
 ---
 
+## QA policy, facts and authority
+
+Apply `standards/evidence-lifecycle.md`, `standards/notes-adr-sync.md` and existing
+collaboration authority. Read actual `workflow/workflow-catalog.yaml`, domain,
+current transition and established project QA scope, including initialized
+`memory_bank/t1_axioms/qa_context.md` or the existing owning Story/plan/decision.
+QA orchestration is optional by default; strict obligations need explicit source,
+authority and exact checks/scope. Review mode does not select strict QA. Absent
+optional Memory Bank/QA Context with no actual strict selection uses the catalog's
+default optional orchestration; disclose absence without requiring initialization.
+Unknown applies to unresolved actual required applicability or conflicting policy,
+not optional context absence. Resolve that affected scope before dependent claims;
+Honor actual user-specified per-effect approval conditions when determining coverage;
+do not invent strict obligations or passing results.
+Optional orchestration never waives required Story AC, governing DoD, decisions,
+evidence or required review. Type tables are starting points; actual owners decide
+requirements. Each required check retains PASS/FAIL/NotRun/Blocked/Pending; N/A
+needs a governing applicability reason and cannot erase a failure.
+
+Separate sufficiency, actual execution, independence, acceptance and completion.
+Files/keywords/counts, planning cases and self-checks prove none of the other facts.
+Read relied-on bodies and minimum required direct/indirect dependency closure;
+retain full SHA-256/byte sizes, recoverable originals and original-path witnesses.
+Disclose reading omissions. Exact bound historical results may be reused only
+where selected workflow permits, labeled historical with original runtime/observer,
+inputs and scope; never call them this run's execution. Missing required originals
+or observations leave affected checks incomplete. Risk acceptance is a separate
+scoped record; it cannot change FAIL/NotRun/Blocked/Pending to PASS or completion.
+
+Reuse named paths/effects authority across roles/retries; before new authority show
+draft and complete effect set, asking only for material new scope. Review-only
+invokes no write entrypoint. Report-only writes its new report, excluding inputs,
+indexes, session/sprint/stage state and closure. Existing report paths require a
+new revision with prior evidence preserved; index effects need their own covered
+scope and historical links. Optional Memory Bank absence uses Story/report/
+conversation fallback without initialization, publication or activation.
+
 ## User Guide
 
 - When to use: Run the critical path smoke test gate before QA hand-off. Executes the automated test suite, verifies core functionality, and produces a PASS/FAIL report. Supports both game and product projects. A failed smoke check means the build is not ready for QA.
 - Inputs: Command arguments: `/smoke-check [sprint | quick | --platform pc|console|mobile|web|api|cli|all]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/qa_evidence_index.md`.
+- Memory-bank writes: Only when Memory Bank is initialized and each named write effect is covered: `memory_bank/t3_archive/qa_evidence_index.md`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 # Smoke Check
@@ -70,34 +107,49 @@ Phase 5 outputs a per-platform verdict table in addition to the overall verdict.
 
 Before running anything, understand the environment:
 
-1. **Test framework check**: verify `tests/` directory exists.
-   If it does not: "No test directory found at `tests/`. Run `/test-setup`
-   to scaffold the testing infrastructure, or create the directory manually
-   if tests live elsewhere." Then stop.
+1. **Test configuration/capability check**: read actual project test configuration,
+   pinned tooling, test roots and documented commands (including configured tests
+   outside `tests/`). Verify the configured runner and execution environment are
+   already available. `tests/` is a conventional example, not a prerequisite.
+   Do not scaffold/stop solely because that directory is absent when valid tests
+   live elsewhere. If a required configuration/runner/input is absent, record the
+   affected execution as NotRun with its actual missing dependency (Blocked if
+   setup prevents it), disclose INCOMPLETE hand-off and suggest the scoped
+   `/test-setup` remedy when applicable. Continue independent available checks;
+   do not invent observed FAIL/PASS, fetch/install or initialize anything.
 
 2. **CI check**: check whether `.github/workflows/` contains a workflow file
    referencing tests. Note in the report whether CI is configured.
 
-3. **Technology detection**: read `standards/technical-preferences.md`.
-
-   **[游戏专用]** Extract `Engine:` value. Store for game-specific test command.
-
-   **[通用产品]** Extract `Language:` and `Framework:` values. Store for product
-   test command. Map to test command:
-   - Python → `pytest -x --tb=short`
-   - TypeScript/JavaScript → `npx vitest run` (or `npx jest` if Jest config found)
-   - Rust → `cargo test`
-   - Go → `go test ./...`
+3. **Technology detection**: read actual configured commands/pinned tooling plus
+   `standards/technical-preferences.md`. Record Game Engine or Product
+   Language/Framework when declared, and bind the actual config/runner/command,
+   test roots, relevant inputs and available capability before execution. Language
+   examples below apply only when confirmed by that project's real configuration;
+   a language name or unknown JavaScript framework cannot select a test command.
 
 4. **Smoke test list**: check whether `production/qa/smoke-tests.md` or
    `tests/smoke/` exists. If a smoke test list is found, load it for use in
    Phase 4. If neither exists, smoke tests will be drawn from the current QA
    plan (Phase 4 fallback).
 
-5. **QA plan check**: glob `production/qa/qa-plan-*.md` and take the most
-   recently modified file. If found, note the path — it will be used in
-   Phase 3 and Phase 4. If not found, note: "No QA plan found. Run
-   `/qa-plan sprint` before smoke-checking for best results."
+5. **QA plan check**: resolve the actual current sprint/feature, Story set,
+   domain and requested platform/build scope from the user and owning project
+   records. Honor an explicitly named plan only after directly reading its body
+   and checking that scope. Otherwise glob `production/qa/qa-plan-*.md`, read
+   candidate bodies and their referenced scope owners, and select a plan that
+   covers this run. A filename, date or newest mtime does not establish a match.
+   If multiple matching candidates remain or their scope is ambiguous, present
+   their actual existing paths and scope differences with `AskUserQuestion`;
+   do not invent a path or silently choose one. Keep plan-dependent claims
+   pending until resolved; continue independent available checks.
+   Bind the selected original path, full SHA-256, byte size, collection time
+   and matched scope for Phase 3, Phase 4, the report and QA hand-off.
+   If no usable matching plan exists, disclose the actual absence/mismatch or
+   read failure and use available scoped Story/smoke inputs for independent
+   checks. Suggest `/qa-plan` for that actual scope without running it. Missing
+   optional planning does not invent a strict gate; a plan required by the
+   selected workflow remains incomplete. Never fabricate a hand-off plan.
 
 Report findings before proceeding: "Environment: [technology] | Domain: [game/product]. Test directory:
 [found / not found]. CI configured: [yes / no]. QA plan: [path / not found]."
@@ -106,14 +158,19 @@ Report findings before proceeding: "Environment: [technology] | Domain: [game/pr
 
 ## Phase 2: Run Automated Tests
 
-Attempt to run the test suite via Bash. Select the command based on the
-domain and technology detected in Phase 1.
+Run only the actual configured test command through an available appropriate
+shell/runtime verified in Phase 1. The examples below are conditional references:
+use one only if the actual project config selects that runner/arguments and the
+runner is already available. Respect valid configured roots outside `tests/`.
+Never guess a command from language, add unsupported flags, install/fetch a runner
+or infer current execution from an artifact filename. Missing required setup or
+capability stays NotRun/Blocked and INCOMPLETE for affected hand-off.
 
 **[游戏专用] Godot 4:**
 ```bash
 godot --headless --script tests/gdunit4_runner.gd 2>&1
 ```
-If the GDUnit4 runner script does not exist at that path, try:
+Only if actual configured GDUnit4 uses this alternate runner path and it exists:
 ```bash
 godot --headless -s addons/gdunit4/GdUnitRunner.gd 2>&1
 ```
@@ -121,21 +178,20 @@ If neither path exists, note: "GDUnit4 runner not found — confirm the runner
 path for your test framework."
 
 **[游戏专用] Unity:**
-Unity tests require the editor and cannot be run headlessly via shell in most
-environments. Check for recent test result artifacts:
+Use the configured available Unity editor/CI runner if supported. If it cannot
+execute here, record current NotRun and inspect permitted prior result artifacts:
 ```bash
 ls -t test-results/ 2>&1 | head -5
 ```
-If test result files exist (XML or JSON), read the most recent one and parse
-PASS/FAIL counts. If no artifacts exist: "Unity tests must be run from the
-editor or CI pipeline. Please confirm test status manually before proceeding."
+If XML/JSON results exist, inspect exact originals and matching build/test/config scope, runtime/observer and result. A latest file/mtime is insufficient; label permitted prior results historical, not current execution. If no artifacts exist: "Unity tests must be run from the
+editor or CI pipeline. Supply exact-bound originals for permitted historical reuse; a verbal confirmation does not change current NotRun."
 
 **[游戏专用] Unreal Engine:**
 ```bash
 ls -t Saved/Logs/ 2>&1 | grep -i "test\|automation" | head -5
 ```
 If no matching log found: "UE automation tests must be run via the Session
-Frontend or CI pipeline. Please confirm test status manually."
+Frontend or CI pipeline. Current execution remains NotRun; exact-bound originals are needed for permitted historical reuse."
 
 **[通用产品] Python / pytest:**
 ```bash
@@ -145,17 +201,18 @@ pytest -x --tb=short 2>&1
 **[通用产品] TypeScript / JavaScript:**
 If a Vitest config exists (`vitest.config.*`), run:
 ```bash
-npx vitest run 2>&1
+npx --no-install vitest run 2>&1
 ```
 If a Jest config exists (`jest.config.*` or `package.json` test script clearly
 uses Jest), run:
 ```bash
-npx jest 2>&1
+npx --no-install jest 2>&1
 ```
-If neither is clear, run:
-```bash
-npm test -- --runInBand 2>&1
-```
+If neither runner is selected by actual configuration, do not guess
+`npm test -- --runInBand`. Read the real package test script/runner requirements;
+run only its verified configured command when available. Otherwise record
+NotRun/Blocked with the missing configuration/capability and retain INCOMPLETE
+for required checks.
 
 **[通用产品] Rust / cargo test:**
 ```bash
@@ -167,23 +224,20 @@ cargo test 2>&1
 go test ./... 2>&1
 ```
 
-**Unknown technology / not configured:**
-"Technology not configured in `standards/technical-preferences.md`. Run
-`/setup-engine` to specify the engine or product stack, then re-run
-`/smoke-check`."
+**Unknown technology / no configured command:**
+Inspect actual project configuration independently of the preferences declaration.
+A valid configured command may still run when the language label is absent. If
+required execution configuration remains unknown/unavailable, record NotRun with
+actual missing scope; request the needed project configuration or suggest the
+applicable setup skill. Do not guess a language/runner or emit an observed FAIL.
 
-**If the test runner is not available in this environment** (engine binary not
-on PATH, product test command unavailable, runner script not found, etc.),
-report clearly:
-
-"Automated tests could not be executed — test runner not found in this
-environment.
-Status will be recorded as NOT RUN. Confirm test results from your local IDE
-or CI pipeline. Unconfirmed NOT RUN is treated as PASS WITH WARNINGS, not
-FAIL — the developer must manually confirm results."
-
-Do not treat NOT RUN as an automatic FAIL. Record it as a warning. The
-developer's manual confirmation in Phase 4 can resolve it.
+**If the runner is unavailable**, record local execution NotRun with reason.
+It is neither observed FAIL nor PASS WITH WARNINGS. Required unexecuted/unavailable/
+pending smoke checks make hand-off INCOMPLETE; optional checks remain disclosed
+follow-up. Actual documented manual results do not relabel unexecuted automation.
+Permitted historical IDE/CI output needs exact original build/test/config input
+identity, runtime, observer and recoverable result; label it historical separately.
+An unbound verbal "tests passed" cannot satisfy required automation.
 
 Parse runner output and extract:
 - Total tests run
@@ -197,10 +251,10 @@ Parse runner output and extract:
 ## Phase 3: Check Test Coverage
 
 Draw the story list from, in priority order:
-1. The QA plan found in Phase 1 (its Test Summary table lists expected test
+1. The scope-matched QA plan selected in Phase 1 (its Test Summary table lists expected test
    file paths per story)
-2. The current sprint plan from `production/sprints/` (most recently modified
-   file)
+2. The actual current scope-matched sprint plan from `production/sprints/`,
+   verified against the owning Story set rather than newest mtime
 3. If the `quick` argument was passed, skip this phase entirely and note:
    "Coverage scan skipped — run `/smoke-check sprint` for full coverage
    analysis."
@@ -218,15 +272,13 @@ Assign a coverage status to each story:
 
 | Status | Meaning |
 |--------|---------|
-| **COVERED** | A test file was found matching this story's system and scope |
+| **COVERED** | Read behavioral oracle covers actual required AC; execution is separate |
 | **MANUAL** | Story type is Visual/Feel or UI; a test evidence document was found |
-| **MISSING** | Logic or Integration story with no matching test file |
-| **EXPECTED** | Config/Data story — no test file required; spot-check is sufficient |
+| **MISSING** | Actual required evidence/test absent for the Game/Product Story |
+| **EXPECTED** | Actual owner permits manual/spot-check; required observations still need evidence |
 | **UNKNOWN** | Story file missing or unreadable |
 
-MISSING entries are advisory gaps. They do not cause a FAIL verdict but must
-appear prominently in the report and must be resolved before `/story-done` can
-fully close those stories.
+Resolve MISSING against actual Story/DoD and selected scope: required gaps make affected hand-off/closure incomplete; optional extra coverage is advisory. Filenames, percentages and keywords cannot establish coverage or execution.
 
 ---
 
@@ -238,7 +290,7 @@ Domain detection drives which batches to use:
 - Unknown -> present generic stability checks (never default to game batches)
 
 Draw the smoke test checklist from, in priority order:
-1. The QA plan's "Smoke Test Scope" section (if QA plan was found in Phase 1)
+1. The selected QA plan's "Smoke Test Scope" section (if its actual scope was verified in Phase 1)
 2. `production/qa/smoke-tests.md` (if it exists)
 3. `tests/smoke/` directory contents (if it exists)
 4. The standard fallback list below (used only when none of the above exist)
@@ -247,7 +299,7 @@ Tailor batches 2 and 3 to the actual systems identified from the sprint or QA
 plan. Replace bracketed placeholders with real mechanic or workflow names from
 the current sprint's stories.
 
-Use `AskUserQuestion` to batch-verify. Keep to at most 3 calls.
+Collect actual results with `AskUserQuestion`. For every applicable item offer PASS / FAIL / NotRun / Blocked / Pending; N/A needs a scope reason. Examples below are prompts, never prefilled results. Record observer, actual steps/time, build/input identity and result. Split batches rather than omit required checks.
 
 **[游戏专用] Game Smoke Batches** *(run when a game engine is detected)*:
 
@@ -287,7 +339,7 @@ options:
   - "Performance — not checked in this session"
 ```
 
-Record each response verbatim for the Phase 5 report.
+Record actual response plus observation/evidence binding; absent observations remain NotRun/Pending.
 
 **Platform Batches** *(run only if `--platform` argument was provided)*:
 
@@ -377,24 +429,33 @@ options:
 ```
 options:
   - "Core navigation works without 404 — PASS"
+  - "Core navigation works without 404 — FAIL: [describe issue]"
   - "Core form submission returns success — PASS"
+  - "Core form submission returns success — FAIL: [describe issue]"
   - "Responsive layout on mobile viewport — PASS"
+  - "Responsive layout on mobile viewport — FAIL: [describe issue]"
 ```
 
 **API platform** (`--platform api` or `--platform all`):
 ```
 options:
   - "Core GET endpoint returns expected schema (200) — PASS"
+  - "Core GET endpoint returns expected schema (200) — FAIL: [describe issue]"
   - "Core POST endpoint accepts valid payload (201) — PASS"
+  - "Core POST endpoint accepts valid payload (201) — FAIL: [describe issue]"
   - "Auth-protected endpoint rejects unauthenticated request (401) — PASS"
+  - "Auth-protected endpoint rejects unauthenticated request (401) — FAIL: [describe issue]"
 ```
 
 **CLI platform** (`--platform cli` or `--platform all`):
 ```
 options:
   - "Core command executes with default flags — PASS"
+  - "Core command executes with default flags — FAIL: [describe issue]"
   - "Config file loads correctly (env vars respected) — PASS"
+  - "Config file loads correctly (env vars respected) — FAIL: [describe issue]"
   - "--version prints the correct version — PASS"
+  - "--version prints the correct version — FAIL: [describe issue]"
 ```
 
 ## Phase 5: Generate Report
@@ -406,7 +467,8 @@ Assemble the full smoke check report:
 **Date**: [date]
 **Sprint**: [sprint name / number, or "Not identified"]
 **Technology**: [engine or stack]
-**QA Plan**: [path, or "Not found — run /qa-plan first"]
+**QA Plan**: [verified actual scope-matched path, or "Not found / scope mismatch / candidate choice pending"]
+**QA Plan Binding**: [full SHA-256, bytes, collection time and matched scope; unavailable facts stay explicit]
 **Argument**: [sprint | quick | blank]
 
 ---
@@ -420,8 +482,11 @@ NOT RUN ([reason])]
 - `[test name]` — [brief failure description from runner output]
 
 [If NOT RUN:]
-"Manual confirmation required: did tests pass in your local IDE or CI? This
-will determine whether the automated test row contributes to a FAIL verdict."
+"Current automated execution is NotRun: [reason]. For permitted historical
+reuse, provide recoverable original IDE/CI output bound to exact build/test/config
+inputs, scope, runtime and observer. Record historical outcome separately; a bare
+"yes" or "tests passed" is insufficient and does not change current NotRun.
+Required missing execution/evidence yields INCOMPLETE, not an observed FAIL."
 
 ---
 
@@ -476,12 +541,12 @@ Stories that must have test evidence before they can be marked COMPLETE via
 
 | Platform | Checks Run | Passed | Failed | Platform Verdict |
 |----------|-----------|--------|--------|-----------------|
-| PC | [N] | [N] | [N] | PASS / FAIL |
-| Console | [N] | [N] | [N] | PASS / FAIL |
-| Mobile | [N] | [N] | [N] | PASS / FAIL |
-| Web | [N] | [N] | [N] | PASS / FAIL |
-| API | [N] | [N] | [N] | PASS / FAIL |
-| CLI | [N] | [N] | [N] | PASS / FAIL |
+| PC | [N] | [N] | [N] | PASS / FAIL / NotRun / Blocked / Pending |
+| Console | [N] | [N] | [N] | PASS / FAIL / NotRun / Blocked / Pending |
+| Mobile | [N] | [N] | [N] | PASS / FAIL / NotRun / Blocked / Pending |
+| Web | [N] | [N] | [N] | PASS / FAIL / NotRun / Blocked / Pending |
+| API | [N] | [N] | [N] | PASS / FAIL / NotRun / Blocked / Pending |
+| CLI | [N] | [N] | [N] | PASS / FAIL / NotRun / Blocked / Pending |
 
 Omit rows for platforms that were not requested.
 
@@ -491,47 +556,41 @@ Any platform with one or more FAIL checks contributes to the overall FAIL verdic
 
 ---
 
-### Verdict: [PASS | PASS WITH WARNINGS | FAIL]
+### Verdict: [PASS | PASS WITH WARNINGS | FAIL | INCOMPLETE]
 
-[Verdict rules — first matching rule wins:]
+- **FAIL**: an applicable required executed check failed, including automated,
+  manual, data/performance and requested platform checks in every batch.
+- **INCOMPLETE**: no observed required failure, but required NotRun/Blocked/Pending/
+  Unknown, missing evidence or skipped required scope. Preserve each actual status.
+- **PASS WITH WARNINGS**: every required smoke check actually passes with adequate
+  exact evidence; only optional follow-up remains with owner/due phase.
+- **PASS**: every required smoke check passes, with no pending required gaps.
+  Unexecuted platform/product qualification never becomes actual runtime PASS.
 
-**FAIL** if ANY of:
-- Automated test suite ran and reported one or more test failures
-- Any Batch 1 (core stability) check returned FAIL
-- Any Batch 2 (primary sprint change or regression check) returned FAIL
+`quick` proves only its disclosed checked scope. Omitted checks remain NotRun/
+unreviewed and cannot satisfy full-smoke/strict obligations by omission.
 
-**PASS WITH WARNINGS** if ALL of:
-- Automated tests PASS or NOT RUN (developer has not yet confirmed)
-- All Batch 1 and Batch 2 smoke checks PASS
-- One or more Logic/Integration stories have MISSING test evidence
-
-**PASS** if ALL of:
-- Automated tests PASS
-- All smoke checks in all batches PASS or N/A
-- No MISSING test evidence entries
 ````
 
 ---
 
 ## Phase 6: Write and Gate
 
-Present the full report in conversation, then ask:
+Present the full report in conversation and reuse existing exact report path/effect authorization. Only for missing or materially new write scope ask:
 
 "May I write this smoke check report to `production/qa/smoke-[date].md`?"
 
-Write only after approval.
+Write only when that exact report effect is covered by existing or newly obtained authorization.
 
-When `memory_bank/` exists and the user approves writing the smoke report, also
-update `memory_bank/t3_archive/qa_evidence_index.md`.
-
+When initialized and its named index effect is covered, update
+`memory_bank/t3_archive/qa_evidence_index.md`:
 - Type: `smoke-check`
-- Evidence path: `production/qa/smoke-[date].md`
-- Verdict: PASS, FAIL, or PASS WITH WARNINGS
-- Dedupe by evidence path; update Date, Type, Verdict, and Follow-up Owner for
-  an existing path instead of adding a duplicate row.
-- If `memory_bank/` does not exist, do not create it from `/smoke-check`; keep
-  the existing smoke report behavior and say: "Run `/constitute` to establish
-  the memory_bank governance control plane."
+- Evidence path: `production/qa/smoke-[date].md` (new revision on path collision)
+- Verdict: PASS / FAIL / PASS WITH WARNINGS / INCOMPLETE and actual per-check truth
+- Dedupe by evidence path for an authorized current pointer, retaining historical
+  revision/input links. Report-write approval alone excludes this effect.
+- Without Memory Bank use the report/conversation fallback, disclose absent
+  optional index and do not initialize or imply governance activation.
 
 After writing, deliver the gate verdict:
 
@@ -544,36 +603,43 @@ resolved:
 
 Fix the failures and run `/smoke-check` again to re-gate before QA hand-off."
 
+**If verdict is INCOMPLETE:** disclose required unavailable/unexecuted/pending checks and continue independent evidence work. Do not announce qualified hand-off.
+
 **If verdict is PASS WITH WARNINGS:**
 
-"Smoke check passed with warnings. The build is ready for manual QA.
+"Required smoke checks passed with optional warnings for the exact checked scope.
 
 Advisory items to resolve before running `/story-done` on affected stories:
 [list MISSING test evidence entries]
 
-QA hand-off: share `production/qa/qa-plan-[sprint].md` with the qa-tester
-agent to begin manual verification."
+QA hand-off: share the verified actual QA-plan path and input binding selected
+in Phase 1 with the qa-tester for that matched scope."
 
 **If verdict is PASS:**
 
-"Smoke check passed cleanly. The build is ready for manual QA.
+"Required smoke checks passed for the exact checked scope; broader runtime/platform/product qualification remains as actually recorded.
 
-QA hand-off: share `production/qa/qa-plan-[sprint].md` with the qa-tester
-agent to begin manual verification."
+QA hand-off: share the verified actual QA-plan path and input binding selected
+in Phase 1 with the qa-tester for that matched scope."
+
+For either passing smoke verdict, if no usable plan is selected, replace the
+plan hand-off instruction with the actual unresolved state and scoped `/qa-plan`
+recommendation. Do not substitute an undated/synthesized path, write a plan,
+auto-run QA or imply that plan-dependent hand-off is ready. The smoke outcome
+still covers only its verified checks; required plan gaps remain INCOMPLETE.
 
 ---
 
 ## Collaborative Protocol
 
-- **Never treat NOT RUN as automatic FAIL** — record it as NOT RUN and let
-  the developer confirm status manually. Unconfirmed NOT RUN contributes to
-  PASS WITH WARNINGS, not FAIL.
+- NotRun is not PASS or observed FAIL; required incomplete checks yield INCOMPLETE.
+  Keep current execution and sufficient permitted historical evidence separate.
+
 - **Never auto-fix failures** — report them and state what must be resolved.
   Do not attempt to edit source code or test files.
-- **PASS WITH WARNINGS does not block QA hand-off** — it records advisory
-  gaps for `/story-done` to follow up on.
+- **PASS WITH WARNINGS** applies only to exact checked scope with every required check passing; warnings are optional. Each Story still needs required closure evidence.
 - **`quick` argument** skips Phase 3 (coverage scan) and Phase 4 Batch 3.
   Use it for rapid re-checks after fixing a specific failure.
 - Use `AskUserQuestion` for all manual smoke check verification.
-- **Never write the report without asking** — Phase 6 requires explicit
-  approval before any file is created.
+- **Use named report-write authority**: Phase 6 continues under covered existing
+  authorization; ask only for missing or materially new report paths/effects. Index/state effects need their own coverage.

@@ -7,6 +7,42 @@ allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, Task
 agent: ux-designer
 ---
 
+## Scope, evidence and effects
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse explicit existing authorization for its named paths, effects
+and limits across roles and retries. Present unresolved material choices or new
+effects for approval; a document/batch/synchronization authorization does not
+require another question for each covered section or file. Content agreement,
+write authority, independent review, ADR acceptance and workflow completion
+remain separate.
+
+Analysis defaults to read-only: no write entrypoint, input edits, status/index/
+session/Memory Bank updates. Report-only may write one new assigned report with
+authority; report approval does not authorize indexes or rolling logs. Other
+writes need the named path/effect in existing authority or a concrete draft and
+changeset approval. Unknown paths are findings, not permission to create them.
+No Memory Bank means use the established report/conversation fallback. Next
+steps are recommendations; execute only effects already authorized or explicitly
+selected by the user. Tool availability determines the question interface.
+
+Bind claims to a declared scope and minimum direct/indirect evidence closure:
+record original paths, full SHA-256, byte sizes, source commit plus exact diff
+and uncommitted/ignored/external identities, exclusions and recoverable originals.
+Do not read sensitive local settings or secrets merely to complete discovery.
+Read required inputs back from their actual paths, verify closure and report
+missing inputs as incomplete affected checks. Keywords, timestamps, counts,
+equal hashes at two collections and static checks do not certify semantic review,
+continuous unchanged history, runtime behavior or independent approval.
+
+Classify meaningful choices with the shared disposition record (`cdd-layer`,
+`no-adr`, `covered`, `documentation-update`, `adr-required`, `conflict`). Significant
+trust, public contract, durable format or state ownership changes require an
+Accepted ADR/valid scoped exception before affected implementation continues.
+Keep As-Is observations and their evidence separate from Target promises and
+gaps; implemented behavior cannot lower a governing Target. Continue independent
+work while blocking only affected dependants.
+
 ## User Guide
 
 - When to use: Guided, section-by-section UX spec authoring for a screen, flow, or HUD. Supports both game projects (player journey, HUD, game screens) and product projects (user flows, CLI interaction, API consumer journey). Reads concept doc and relevant CDDs for context-aware design guidance.
@@ -185,10 +221,12 @@ Glob `design/ux/[filename].md` (where `[filename]` is the resolved output path f
 > | Edge Cases & Error States | ... |
 > | Open Questions | ... |
 >
-> I'll work on the [N] incomplete sections only — existing content will not be overwritten."
+> I'll fill the named incomplete sections or revise explicitly selected
+> substantive sections; other existing content and examples will be preserved."
 
 - Skip Section 3 (skeleton creation) — the file already exists
-- In Phase 4 (Section Authoring), only work on sections with Status: Empty or Placeholder
+- In Phase 4, work on named Empty/Placeholder sections or substantive sections
+  explicitly selected in the authorized retrofit/synchronization scope
 - Use `Edit` to fill placeholders in-place rather than creating a new skeleton
 
 **If the file does not exist — fresh authoring mode:**
@@ -198,7 +236,9 @@ Proceed to Phase 3 (Create File Skeleton) as normal.
 
 ## 3. Create File Skeleton
 
-After mode detection, read only the matching skeleton in [UX document skeletons](references/templates.md): screen/flow spec, HUD design, or interaction-pattern library. Obtain approval for the exact output path before creating it.
+After mode detection, read only the matching skeleton in [UX document skeletons](references/templates.md): screen/flow spec, HUD design, or interaction-pattern library. Create a skeleton for a new file only with exact path/effect authority. Existing
+scope persists. The referenced skeleton's automatic session-state wording is
+subject to the separate authorized effect below.
 
 ## 4. Section-by-Section Authoring
 
@@ -217,17 +257,22 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
 4. **Decision**: User picks an approach or provides custom direction.
 5. **Draft**: Write the section content in conversation for review. Flag provisional
    assumptions explicitly.
-6. **Approval**: "Does this capture it? Any changes before I write it to the file?"
+6. **Approval**: Reuse the approved document/retrofit/batch scope; ask "Does
+   this capture it?" for unresolved layout choices, uncovered writes or explicit
+   section-by-section preferences, without repeating settled authority.
 7. **Write**: Use `Edit` to replace the `[To be designed]` placeholder with approved
    content. Confirm the write.
 
-After writing each section, update `production/session-state/active.md`.
+After each section, record progress in conversation. Update
+`production/session-state/active.md` only if its path/effect is authorized.
 
 ---
 
 ### Mode-Specific Section Guidance
 
-Before authoring a section, read the matching mode and section in [UX section guidance](references/section-guidance.md). Load only the current mode. Its product/game branches, accessibility requirements, and specialist-delegation rules remain mandatory.
+Before authoring a section, read the matching mode and section in [UX section guidance](references/section-guidance.md). Load only the current mode. Its product/game content, accessibility and specialist-delegation rules apply.
+Section approval/order means resolved content choices; continuing user scope
+controls covered writes. Preserve Game wireframes/HUD examples and existing bodies.
 
 ## 5. Cross-Reference Check
 
@@ -263,15 +308,16 @@ Present the check results:
 
 ## 6. Handoff
 
-When all sections are approved and written:
+After the scoped authoring changes are written and read back, with actual
+incomplete roles/required dependencies stated:
 
 ### 6a: Update Session State
 
-Update `production/session-state/active.md` with:
+Only with separately scoped authority, update `production/session-state/active.md` with:
 - Task: [screen-name] UX spec
 - Status: Complete (or In Review)
 - File: design/ux/[filename].md
-- Sections: All written
+- Sections: [actual substantive sections complete / missing required content]
 - Next: [suggestion]
 
 ### 6b: Suggest Next Step
@@ -296,7 +342,8 @@ If the user picks "Design another screen first", add a note: "Reminder: run
 ### 6c: Cross-Link Related Specs
 
 When other UX specs link to or from this screen, note which ones should reference
-this spec. Do not edit those files without asking — just name them.
+this spec. Edit only actual named paths/effects covered by the existing changeset;
+otherwise show the proposed links and obtain authority, or just name them.
 
 ---
 
@@ -341,15 +388,16 @@ When delegating to another agent via the Task tool:
 
 This skill follows the collaborative design principle at every step:
 
-1. **Question -> Options -> Decision -> Draft -> Approval** for every section
+1. **Question -> Options -> Decision -> Draft -> Approval** for unresolved choices;
+   approved document/batch scope persists for covered sections
 2. **AskUserQuestion** at every decision point (Explain -> Capture pattern):
    - Phase 2: "Ready to start, or need more context?"
    - Phase 3: "May I create the skeleton?"
    - Phase 4 (each section): design questions, approach options, draft approval
    - Phase 5: "Run cross-reference check? What's next?"
-3. **"May I write to [filepath]?"** before the skeleton and before each section write
+3. **"May I write to [filepath]?"** for effects outside existing authority
 4. **Incremental writing**: Each section is written to file immediately after approval
-5. **Session state updates**: After every section write
+5. **Session state updates**: Only if its exact path/effect is authorized
 
 **Aesthetic deference**: When layout or visual choices come down to personal taste,
 present the options and ask. Do not select a layout because it is "standard" — always
@@ -360,11 +408,16 @@ conflict, surface the conflict and present resolution options. Never silently dr
 a requirement. Never silently expand the layout without flagging it.
 
 **Never** auto-generate the full spec and present it as a fait accompli.
-**Never** write a section without user approval.
+**Never** write outside user-approved scope.
 **Never** contradict an existing approved UX spec without flagging the conflict.
 **Always** show where decisions come from (CDD requirements, player journey, user choices).
 
-Verdict: **COMPLETE** — UX spec written and approved section by section.
+Reread the exact resulting spec and required CDD/journey/pattern/accessibility
+closure before handoff. Verify substantive requirement coverage and preserved
+Target, not headings/placeholders. Required missing rules block only their
+affected sections; continue independent authoring. Verdict: **COMPLETE** means
+the scoped drafting/writes closed, not independent /ux-review or implementation
+readiness. Report incomplete sections, exact evidence and pending review separately.
 
 ---
 

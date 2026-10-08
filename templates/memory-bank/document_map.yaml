@@ -2,7 +2,30 @@
 # Generated or initialized by /constitute. Keep this as the routing map between
 # canonical documents, source documents, mirrors, indexes, and archives.
 
+# Record extensions are metadata/pointers, not copies of detailed source content.
+# Legacy rows remain readable; report-only excludes index/state updates.
+record_contract:
+  evidence_standard: standards/evidence-lifecycle.md
+  decision_standard: standards/notes-adr-sync.md
+  identity: [record_id, revision_id, original_path, sha256, byte_size, retained_bytes_path]
+  baseline: [input_manifest_path, input_manifest_sha256, source_commit, collected_at]
+  review: [author, reviewer, independence, reading_scope, omitted_scope, verdict]
+  authority: [content_agreement, write_scope, adr_acceptance, publication, completion]
+  decision: [disposition, requirement_owner, adr_section, remaining_action, owner, due_phase]
+
 documents:
+  standards/evidence-lifecycle.md:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Shared authority, preservation, review, publication and restore contract
+
+  standards/notes-adr-sync.md:
+    tier: T2
+    role: canonical
+    owner: maintainers
+    description: Shared decision disposition and affected-work closure contract
+
   memory_bank/t0_core/basic_law_index.md:
     tier: T0
     role: canonical

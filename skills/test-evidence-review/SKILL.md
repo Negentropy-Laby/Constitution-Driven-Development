@@ -6,20 +6,64 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 ---
 
+## QA policy, facts and authority
+
+Apply `standards/evidence-lifecycle.md`, `standards/notes-adr-sync.md` and existing
+collaboration authority. Read actual `workflow/workflow-catalog.yaml`, domain,
+current transition and established project QA scope, including initialized
+`memory_bank/t1_axioms/qa_context.md` or the existing owning Story/plan/decision.
+QA orchestration is optional by default; strict obligations need explicit source,
+authority and exact checks/scope. Review mode does not select strict QA. Absent
+optional Memory Bank/QA Context with no actual strict selection uses the catalog's
+default optional orchestration; disclose absence without requiring initialization.
+Unknown applies to unresolved actual required applicability or conflicting policy,
+not optional context absence. Resolve that affected scope before dependent claims;
+Honor actual user-specified per-effect approval conditions when determining coverage;
+do not invent strict obligations or passing results.
+Optional orchestration never waives required Story AC, governing DoD, decisions,
+evidence or required review. Type tables are starting points; actual owners decide
+requirements. Each required check retains PASS/FAIL/NotRun/Blocked/Pending; N/A
+needs a governing applicability reason and cannot erase a failure.
+
+Separate sufficiency, actual execution, independence, acceptance and completion.
+Files/keywords/counts, planning cases and self-checks prove none of the other facts.
+Read relied-on bodies and minimum required direct/indirect dependency closure;
+retain full SHA-256/byte sizes, recoverable originals and original-path witnesses.
+Disclose reading omissions. Exact bound historical results may be reused only
+where selected workflow permits, labeled historical with original runtime/observer,
+inputs and scope; never call them this run's execution. Missing required originals
+or observations leave affected checks incomplete. Risk acceptance is a separate
+scoped record; it cannot change FAIL/NotRun/Blocked/Pending to PASS or completion.
+
+Reuse named paths/effects authority across roles/retries; before new authority show
+draft and complete effect set, asking only for material new scope. Review-only
+invokes no write entrypoint. Report-only writes its new report, excluding inputs,
+indexes, session/sprint/stage state and closure. Existing report paths require a
+new revision with prior evidence preserved; index effects need their own covered
+scope and historical links. Optional Memory Bank absence uses Story/report/
+conversation fallback without initialization, publication or activation.
+
 ## User Guide
 
 - When to use: Quality review of test files and manual evidence documents. Goes beyond existence checks — evaluates assertion coverage, edge case handling, naming conventions, and evidence completeness. Produces ADEQUATE/INCOMPLETE/MISSING verdict per story. Run before QA sign-off or on demand.
 - Inputs: Command arguments: `/test-evidence-review [story-path | sprint | system-name]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/qa_evidence_index.md`, `memory_bank/t3_archive/reviews/review-index.md`.
+- Memory-bank writes: Only when Memory Bank is initialized and each named write effect is covered: `memory_bank/t3_archive/qa_evidence_index.md`, `memory_bank/t3_archive/reviews/review-index.md`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before reviewing evidence:
+Resolve actual domain from substantive concept bodies, configured fields and
+explicit project decisions under `standards/technical-preferences.md` before
+reviewing evidence. Populated legacy Product configuration can establish Product
+without a concept; filenames/placeholders alone cannot. Conflicts or absent actual
+evidence leave the affected route Unknown while neutral checks continue.
+
+For the resolved domain:
 - `design/cdd/game-concept.md` -> **[Game]** review unit/integration tests, smoke checks, manual playtest records, session logs, screenshots, input/platform evidence, and CDD acceptance coverage.
 - `design/cdd/product-concept.md` -> **[Product]** review contract tests, CLI smoke output, migration evidence, auth/permission checks, integration traces, deployment smoke logs, screenshots, user-test notes, and CDD acceptance coverage.
-- If unclear, ask whether evidence should prove game playability or product workflow/API/CLI correctness.
+- If still unresolved after reading those owners, ask whether evidence should
+  prove game playability or product workflow/API/CLI correctness.
 
 Preserve playtest evidence lookup. Product evidence lookup is a parallel branch.
 
@@ -71,7 +115,7 @@ Extract the list of story file paths from the sprint plan. Read each story file.
 **System**: Glob story files under the matching system directory in `production/epics/`. Read each.
 
 For each story, collect:
-- `Type:` field (Logic / Integration / Visual/Feel / UI / Config/Data)
+- Actual Game/Product domain/type, required AC/DoD and selected sign-offs
 - `## Test Evidence` section — the stated expected test file path or evidence doc
 - Story slug (from file name)
 - System name (from directory path)
@@ -81,20 +125,15 @@ For each story, collect:
 
 ## 3. Locate Evidence Files
 
-For each story, find the evidence:
-
-**Logic stories**: Glob `tests/unit/[system]/[story-slug]_test.*`
-  - If not found, also try: Grep in `tests/unit/[system]/` for files
-    containing the story slug
-
-**Integration stories**: Glob `tests/integration/[system]/[story-slug]_test.*`
-  - Also check `production/session-logs/` for playtest records mentioning the story
-
-**Visual/Feel and UI stories**: Glob `production/qa/evidence/[story-slug]-evidence.*`
-
-**Config/Data stories**: Glob `production/qa/smoke-*.md` (any smoke check report)
-
-Note what was found (path) or not found (gap) for each story.
+Read exact named Story evidence first; fallback discovery uses actual domain/type.
+Game: unit/integration, playtest/session, Visual/Feel/UI manual and Config/Data
+smoke. Product: API contract, CLI output/exit codes, migration, auth/permission,
+workflow/integration, UI walkthrough/E2E, deployment smoke and config validation.
+Support actual configured paths/naming rather than imposing one framework directory.
+Read required originals/attachments and exact input bindings; fallback evidence
+must prove the same requirement/implementation scope. Missing evidence is MISSING;
+unreadable required dependencies INCOMPLETE. Current pointers/filenames/report
+keywords do not prove historical evidence or behavioral coverage.
 
 ---
 
@@ -102,30 +141,19 @@ Note what was found (path) or not found (gap) for each story.
 
 For each test file found, read it and evaluate:
 
-### Assertion coverage
+### Assertion and edge-case coverage
 
-Count the number of distinct assertions (lines containing assert, expect,
-check, verify, or engine-specific assertion patterns). Low assertion count is
-a quality signal — a test that makes only 1 assertion per test function may
-not cover the range of expected behaviour.
+Map each required AC to actual setup/stimulus/behavioral oracle and result. Read
+relevant helpers/fixtures, CDD bounds/contracts/edge cases and exact execution
+outputs. One decisive assertion can suffice; multiple vacuous assertions or edge
+keywords cannot prove coverage. No meaningful oracle leaves affected AC unverified.
+Apply actual `standards/coding-standards.md` and `rules/test-standards.md` naming,
+arrange/act/assert, determinism and isolation. Integration/environment checks use
+their declared scope, not blanket unit-only assumptions.
 
-Thresholds:
-- **3+ assertions per test function** → normal
-- **1-2 assertions per test function** → note as potentially thin
-- **0 assertions** (test exists but no asserts) → flag as BLOCKING — the
-  test passes vacuously and proves nothing
-
-### Edge case coverage
-
-For each acceptance criterion in the story that contains a number, threshold,
-or "when X happens" conditional: check whether a test function name or
-test body references that specific case.
-
-Heuristics:
-- Grep test file for "zero", "max", "null", "empty", "min", "invalid",
-  "boundary", "edge" — presence of any is a positive signal
-- If the story has a Formulas section with specific bounds: check whether
-  tests exercise at minimum/maximum values
+Sufficiency ADEQUATE/INCOMPLETE/MISSING, runtime PASS/FAIL/NotRun/Blocked/Pending and
+required independent review are separate. This analysis executes no tests; runtime
+results come from actual matching current or permitted historical records.
 
 ### Naming quality
 
@@ -156,13 +184,12 @@ Missing criteria mean a criterion was never verified.
 
 ### Sign-off completeness
 
-Check for three sign-off lines (or equivalent fields):
-- Developer sign-off
-- Designer / art-lead sign-off (for Visual/Feel)
-- QA lead sign-off
-
-If any are missing or blank: flag as INCOMPLETE — the story cannot be fully
-closed without all required sign-offs.
+Resolve required sign-offs from selected workflow/Story/explicit QA scope.
+Verify actual role/independence, exact inputs/scope, outcome and authority; signature
+keywords do not prove approval. Game designer/art and Product owner/QA roles apply
+when required. Optional QA orchestration creates no unconditional three-role gate.
+Missing required sign-off is INCOMPLETE/Pending. Skips establish no approval or
+independence; author self-review cannot satisfy a required independent reviewer.
 
 ### Screenshot / artefact completeness
 
@@ -174,10 +201,10 @@ log) is present.
 
 ### Date coverage
 
-Evidence doc should have a date. If the date is earlier than the story's
-last major change (heuristic: compare against sprint start date from the sprint
-plan), flag as POTENTIALLY STALE — the evidence may not cover the final
-implementation.
+Compare complete evidence/build/config input identities and scope with current
+implementation. Date/sprint start/mtime are hints, not freshness proof. Permitted
+exact matching historical results remain labeled historical; mismatched/missing
+required originals make affected evidence INCOMPLETE.
 
 ---
 
@@ -187,8 +214,8 @@ For each story, assign a verdict:
 
 | Verdict | Meaning |
 |---------|---------|
-| **ADEQUATE** | Test/evidence exists, passes quality checks, all criteria covered |
-| **INCOMPLETE** | Test/evidence exists but has quality gaps (thin assertions, missing sign-offs) |
+| **ADEQUATE** | Exact evidence sufficiently addresses required AC/DoD and sign-offs; execution result is separate |
+| **INCOMPLETE** | Required behavioral/input/original/reading/sign-off gaps; counts alone do not decide |
 | **MISSING** | No test or evidence found for a story type that requires it |
 
 The overall sprint/system verdict is the worst story verdict present.
@@ -210,14 +237,14 @@ The overall sprint/system verdict is the worst story verdict present.
 **Test/evidence path**: `[path]` (found) / (not found)
 
 **Automated test quality** *(Logic/Integration only)*:
-- Assertion coverage: [N per function on average] — [adequate / thin / none]
+- Required AC behavioral oracle: [AC → setup/stimulus/assertion/result mapping; adequate / partial / missing]
 - Edge cases: [covered / partial / not found]
 - Naming: [consistent / [N] generic names flagged]
 - Formula traceability: [yes / no — formula names not referenced in tests]
 
 **Manual evidence quality** *(Visual/Feel/UI only)*:
 - Criterion linkage: [N/M criteria referenced]
-- Sign-offs: [Developer ✓ | Designer ✗ | QA Lead ✗]
+- Required sign-offs: [actual role / exact input/scope / outcome / Pending / justified N/A]
 - Artefacts: [screenshots present / missing / N/A]
 - Freshness: [dated [date] — current / potentially stale]
 
@@ -246,27 +273,21 @@ The overall sprint/system verdict is the worst story verdict present.
 
 Present the report in conversation.
 
-Ask: "May I write this test evidence review to
+Reuse existing named authority for this new report path/effect. Only if missing or materially new ask: "May I write this test evidence review to
 `production/qa/evidence-review-[date].md`?"
 
 This is optional — the report is useful standalone. Write only if the user
 wants a persistent record.
 
-When `memory_bank/` exists and the user approves writing the evidence review,
-also update:
-
+Only when initialized and both separate pointer effects are covered, update:
 - `memory_bank/t3_archive/reviews/review-index.md`
 - `memory_bank/t3_archive/qa_evidence_index.md`
 
-For the review index, use Review Type `test-evidence-review` and Source Artifact
-`production/qa/evidence-review-[date].md`. For the QA evidence index, use Type
-`test-evidence-review`. Dedupe both indexes by source or evidence path; update
-Date, Verdict, and Follow-up Owner for an existing path instead of adding a
-duplicate row.
-
-If `memory_bank/` does not exist, do not create it from `/test-evidence-review`;
-keep the existing report behavior and say: "Run `/constitute` to establish the
-memory_bank governance control plane."
+Use Review Type `test-evidence-review` and Type `test-evidence-review` with exact
+new report revision, manifest and actual sufficiency/runtime/review states. Dedupe
+authorized current pointers by source/evidence path, preserving historical links.
+Report-only excludes these updates. Without Memory Bank retain Story/report/
+conversation fallback and disclose absent optional indexes without initialization.
 
 After the report:
 
@@ -277,7 +298,7 @@ After the report:
 - For missing sign-offs: "Manual sign-off is required from [role]. Share
   `[evidence-path]` with them to complete sign-off."
 
-Verdict: **COMPLETE** — evidence review finished. Use CONCERNS if BLOCKING items were found.
+Review operation: finished/partial; sufficiency ADEQUATE/INCOMPLETE/MISSING, runtime/review states separate. Finished analysis marks no Story Complete and qualifies no product.
 
 ---
 
@@ -285,8 +306,7 @@ Verdict: **COMPLETE** — evidence review finished. Use CONCERNS if BLOCKING ite
 
 - **Report quality issues, do not fix them** — this skill reads and evaluates;
   it does not modify test files or evidence documents
-- **ADEQUATE means adequate for shipping, not perfect** — avoid nitpicking
-  tests that are functioning and comprehensive enough to give confidence
+- **ADEQUATE is scoped evidence sufficiency** — no runtime PASS, ship approval, publication or Story closure is granted
 - **BLOCKING vs. ADVISORY distinction is important** — only flag BLOCKING when
   the gap leaves a story criterion genuinely unverified
-- **Ask before writing** — the report file is optional; always confirm before writing
+- **Resolve optional report-write authority**: reuse covered named path/effect authorization; only missing authority or materially new scope requires confirmation. Report-only does not authorize inputs/index/state changes.

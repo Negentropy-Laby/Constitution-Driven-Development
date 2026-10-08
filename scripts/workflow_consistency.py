@@ -1332,7 +1332,8 @@ def check_memory_bank_contract() -> list[Finding]:
             "story-done",
             [
                 "memory_bank/t3_archive/sprint_snapshots/story-closure-index.md",
-                "Completion Verdict: COMPLETE, COMPLETE WITH RISKS, or BLOCKED",
+                "Completion Verdict: COMPLETE,",
+                "COMPLETE WITH NOTES, or BLOCKED",
                 "Use `Story Path` as the dedupe key",
             ],
         ),

@@ -2,166 +2,226 @@
 
 ## Skill Summary
 
-`/security-audit` audits the game for security risks including save data
-integrity, network communication, anti-cheat exposure, and data privacy. It
-reads source files in `src/` for security patterns and checks whether sensitive
-data is handled correctly. No director gates are invoked. The skill does not
-write files (findings report only). Verdicts: SECURE, CONCERNS, or
-VULNERABILITIES FOUND.
-
----
+Use actual `[full | network | save | input | quick]` Game/Product surfaces and
+scope-delegate assessment to security-engineer. Preserve severity and actual
+verification. Optional new `production/security/security-audit-[date].md` report
+needs covered authority; no director gate or universal SECURE certification.
 
 ## Static Assertions (Structural)
 
-Verified automatically by `/skill-test static` — no fixture needed.
+These inspect instruction structure; they do not establish runtime behavior.
 
-- [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
-- [ ] Has ≥2 phase headings
-- [ ] Contains verdict keywords: SECURE, CONCERNS, VULNERABILITIES FOUND
-- [ ] Does NOT require "May I write" language (read-only; findings report only)
-- [ ] Has a next-step handoff (what to do with findings)
-
----
+- [ ] Required frontmatter fields exist: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
+- [ ] At least two phase or numbered section headings exist
+- [ ] Declared result vocabulary includes scoped recommendations and PASS / FAIL / NotRun / Blocked / Pending
+- [ ] Scoped authority/shared-contract references and next-step handoff are present
+- [ ] Frontmatter names `security-engineer`; the five documented modes are present
 
 ## Director Gate Checks
 
-None. Security audit is a read-only advisory skill; no gates are invoked.
-
----
+N/A: this skill does not trigger director gates. Specialist delegation,
+where required by the canonical owner, is distinct from a director gate.
 
 ## Test Cases
 
-### Case 1: Happy Path — Save data encrypted, no hardcoded credentials
+### Case 1: Game save/network boundaries
 
 **Fixture:**
-- `src/core/save_system.gd` uses `Crypto` class to encrypt save data before writing
-- No hardcoded API keys, passwords, or credentials in any `src/` file
-- No version numbers or internal build IDs exposed in client-facing output
+Configured Game source validates save bounds and network ownership. Encryption
+exists; a public version string is displayed. No runtime exploit run is supplied.
 
-**Input:** `/security-audit`
+**Input:** `/security-audit full`
 
 **Expected behavior:**
-1. Skill scans `src/` for security patterns: encryption usage, hardcoded credentials, exposed internals
-2. All checks pass: save data encrypted, no credentials found, no exposed internals
-3. Findings report shows all checks PASS
-4. Verdict is SECURE
+1. Read the actual save/network data paths, configuration and governing scope.
+2. Delegate the covered assessment to security-engineer and collect actual findings.
+3. Report scoped findings and unexecuted verification separately.
 
 **Assertions:**
-- [ ] Skill checks save data handling for encryption usage
-- [ ] Skill scans for hardcoded credentials (API keys, passwords, tokens)
-- [ ] Skill checks for version/build numbers exposed to players
-- [ ] All checks shown in findings report
-- [ ] Verdict is SECURE when all checks pass
+- [ ] Encryption alone does not prove safety; plain JSON or a public version alone does not prove a vulnerability.
+- [ ] Findings identify the actual trust boundary, severity and remediation basis.
+- [ ] Static assessment provides no universal SECURE or platform qualification; runtime stays NotRun.
 
----
+**Case Verdict:** PASS / FAIL / PARTIAL
 
-### Case 2: Vulnerabilities Found — Unencrypted save data and exposed version
+### Case 2: Product permission/input/log/deployment finding
 
 **Fixture:**
-- `src/core/save_system.gd` writes save data as plain JSON (no encryption)
-- `src/ui/debug_overlay.gd` contains: `label.text = "Build: " + ProjectSettings.get("application/config/version")`
-  (exposes internal build version to player)
+Configured Product API/CLI source contains a demonstrable permission or input
+boundary issue and a sensitive logging path. Deployment/dependency context is supplied.
 
-**Input:** `/security-audit`
+**Input:** `/security-audit input`
 
 **Expected behavior:**
-1. Skill scans `src/` — finds unencrypted save write in `save_system.gd`
-2. Skill finds exposed version string in `debug_overlay.gd`
-3. Both findings are flagged as VULNERABILITIES
-4. Verdict is VULNERABILITIES FOUND
-5. Skill provides remediation recommendations for each vulnerability
+1. Resolve actual Product surfaces and inspect relevant caller/data/config paths.
+2. Bind each finding to its source, scenario, governing requirement and severity.
+3. Report remediation without executing an exploit or exposing secrets.
 
 **Assertions:**
-- [ ] Unencrypted save data is flagged as a vulnerability with file and approximate line
-- [ ] Exposed version string is flagged as a vulnerability
-- [ ] Remediation suggestion is given for each vulnerability
-- [ ] Verdict is VULNERABILITIES FOUND when any vulnerability is detected
-- [ ] No files are written or modified
+- [ ] Product checks use actual API/CLI/auth/config scope, without routing through Game-only categories.
+- [ ] No project schema, legal ID or runtime exploit result is invented.
+- [ ] The report omits credential contents and distinguishes discovery from observed verification.
 
----
+**Case Verdict:** PASS / FAIL / PARTIAL
 
-### Case 3: Online Features Without Authentication — CONCERNS
+### Case 3: Prior finding resolution requires originals
 
 **Fixture:**
-- `src/networking/lobby.gd` exists with functions: `join_lobby()`, `send_chat()`
-- No authentication check is found before `send_chat()` — players can call it without being verified
-- Game has online multiplayer features (inferred from file presence)
+A prior HIGH finding has original scenario and remediation/result attachments.
+Current code contains the suggested keyword but the original scenario remains vulnerable.
+Variant: one required original is unavailable.
 
-**Input:** `/security-audit`
+**Input:** `/security-audit full`
 
 **Expected behavior:**
-1. Skill scans `src/networking/` — detects online feature code
-2. Skill checks for authentication guard before network calls — finds none on `send_chat()`
-3. Flags: "Online feature without authentication check — CONCERNS"
-4. Verdict is CONCERNS (not VULNERABILITIES FOUND, as this is a missing control, not an exploit)
+1. Read the complete prior finding, required attachments and actual change/results.
+2. Compare the original scenario with current verification before deciding resolution.
+3. Preserve the historical finding and disclose missing required inputs.
 
 **Assertions:**
-- [ ] Skill detects online features by scanning for networking source files
-- [ ] Missing authentication checks before network operations are flagged
-- [ ] Verdict is CONCERNS (advisory severity) for missing authentication guards
-- [ ] Output recommends adding authentication before network calls
+- [ ] Keyword presence, a status label or risk acceptance does not mark the issue Resolved.
+- [ ] Observed continuing failure remains Open/FAIL.
+- [ ] Unavailable required originals or execution leave the affected assessment incomplete.
 
----
+**Case Verdict:** PASS / FAIL / PARTIAL
 
-### Case 4: Edge Case — No Source Files to Analyze
+### Case 4: Risk acceptance and partial/quick audit
 
 **Fixture:**
-- `src/` directory does not exist or is completely empty
+A quick audit observes a HIGH failure; the user separately accepts a named risk.
+Some release surfaces are explicitly excluded.
 
-**Input:** `/security-audit`
+**Input:** `/security-audit quick`
 
 **Expected behavior:**
-1. Skill attempts to scan `src/` — no files found
-2. Skill outputs an error: "No source files found in `src/` — nothing to audit"
-3. No findings report is generated
-4. No verdict is emitted
+1. Keep the observed finding and the exact risk-acceptance record separate.
+2. Report inspected/excluded scope and unresolved dependent readiness.
+3. Continue independent work within the authorized scope.
 
 **Assertions:**
-- [ ] Skill does not crash when `src/` is empty or absent
-- [ ] Output clearly states that no source files were found
-- [ ] No verdict is emitted (there is nothing to assess)
-- [ ] Skill suggests verifying the `src/` directory path
+- [ ] Risk acceptance does not convert the finding or unexecuted checks to PASS.
+- [ ] A partial/quick assessment is not CLEAR TO SHIP or full-scope qualification.
+- [ ] Excluded surfaces and remaining owner/action are explicit.
 
----
+**Case Verdict:** PASS / FAIL / PARTIAL
 
-### Case 5: Gate Compliance — No gate; security-engineer invoked separately
+### Case 5: Report-only, delegated repair and unavailable role/source
 
 **Fixture:**
-- Source files exist; 1 CONCERNS-level finding detected (debug logging enabled in release build)
-- `review-mode.txt` contains `full`
+Authority covers only one new audit report. A delegated security-engineer
+proposes editing auth configuration, source input or a stage/index. Variant: the
+role or required source is unavailable. Write counterexamples use isolated copies.
 
-**Input:** `/security-audit`
+**Input:** `/security-audit full` with the stated report-only scope
 
 **Expected behavior:**
-1. Skill scans source; finds debug logging active in release path
-2. No director gate is invoked regardless of review mode
-3. Verdict is CONCERNS
-4. Output notes: "For formal security review, consider engaging a security-engineer agent"
-5. Findings are presented as a read-only report; no files written
+1. Pass the original report-only scope and exclusions to the security-engineer.
+2. Inspect actual delegated tools/results; reject unapproved remediation effects.
+3. Write only the covered new report and disclose unavailable assessment inputs/roles.
 
 **Assertions:**
-- [ ] No director gate is invoked in any review mode
-- [ ] Security-engineer consultation is suggested (not mandated)
-- [ ] No files are written
-- [ ] Verdict is CONCERNS for advisory-level security findings
+- [ ] No auth/config/source/index/stage repair entrypoint is invoked under report-only authority.
+- [ ] An actual delegated unauthorized repair is reported as a boundary failure; unchanged files alone do not prove compliance.
+- [ ] Only the assigned report may be written, without inventing an independent review or SECURE verdict.
 
----
+**Case Verdict:** PASS / FAIL / PARTIAL
 
 ## Protocol Compliance
 
-- [ ] Reads source files in `src/` before auditing
-- [ ] Checks save data encryption, hardcoded credentials, exposed internals, auth guards
-- [ ] Provides remediation recommendations for each finding
-- [ ] Does not write any files (read-only skill)
-- [ ] No director gates are invoked
-- [ ] Verdict is one of: SECURE, CONCERNS, VULNERABILITIES FOUND
+- [ ] Actual source/prior finding/minimum attachment closure retains full SHA/size/originals.
+- [ ] Actor/reviewer/authority roles and actual runtime state honest and separate.
+- [ ] No implicit repair/acceptance/publication/completion or universal artifact gate.
 
----
+## Shared Contract Cases
+
+Owners: project-root `standards/evidence-lifecycle.md`,
+`standards/notes-adr-sync.md` and the canonical skill's QA policy.
+Evaluate this skill's own actions/findings/recommendations in each fixture;
+uninvoked closure workflows do not become runtime evidence.
+
+### Case 6: Exact QA policy and closure counterexamples
+
+**Fixture:**
+Separate variants: default optional orchestration with actual required PASS;
+explicit strict check unavailable; one required AC untested or Must Have blocked;
+legacy RISKS label with passing vs failing required facts; report-only/self-review/
+stale or missing originals/Unknown scope; exact permitted historical results.
+
+**Input:** `/security-audit [actual supported scope/mode]` with each stated policy/evidence variant
+
+**Expected behavior:**
+1. Read the actual catalog, owning requirements and each variant's policy/authority/evidence.
+2. Keep sufficiency, operation finish, execution, risk acceptance and completion separate.
+3. Report only eligible scope and remaining required owner/actions.
+
+**Assertions:**
+- [ ] Default optional plan/team orchestration, every required AC/check actual PASS: no invented strict gate; optional follow-up retains owner/due phase.
+- [ ] Explicit selected strict check unavailable: actual source/authority/scope recorded; NotRun/Blocked/Pending prevents dependent qualification/closure. Review mode or missing QA Context cannot silently invent/waive strict or passing status.
+- [ ] One required AC untested (even below 50%) or Blocked Must Have: no eligible Story COMPLETE/COMPLETE WITH NOTES/done or all-complete message. Optional orchestration waives no required behavior. Planning cases/ADEQUATE review is not execution.
+- [ ] Legacy COMPLETE WITH RISKS aliases NOTES only after every required actual PASS/ decision/review/completion authority fact verified; original label preserved. Failed/unexecuted scope stays BLOCKED with separate risk acceptance.
+- [ ] Report-only authority, self-review, explicit gate skip, unbound/stale evidence, missing original or Unknown scope leaves required dependent findings incomplete; no index/state/phase repair or broadened partial-scope approval.
+- [ ] Exact permitted historical results retain original runtime/observer/inputs/scope and historical label, never this run's execution. Performance, required distinct sessions, target-platform/Product qualification need actual bound observations; file counts/keywords/line quotes/assumptions do not prove them.
+
+**Case Verdict:** PASS / FAIL / PARTIAL
+
+### Case 7: Optional context absence
+
+**Fixture:**
+No Memory Bank/QA Context exists; no strict selection is recorded. A variant
+has actual conflicting policy or unresolved required applicability.
+
+**Input:** `/security-audit [actual supported scope/mode]`
+
+**Expected behavior:**
+1. Read actual catalog/defaults and required owning inputs.
+2. Continue unaffected work without initializing optional context.
+
+**Assertions:**
+- [ ] No Memory Bank/QA Context exists and no explicit strict selection is recorded: use actual catalog default optional orchestration, disclose optional absence and continue required Story/DoD/evidence checks. Do not invent Unknown policy, a strict gate, passing execution, initialization or stage/closure authority. Actual conflicting policy or unresolved required applicability remains Unknown for dependent claims.
+
+**Case Verdict:** PASS / FAIL / PARTIAL
+
+### Case 8: Continuing named authority
+
+**Fixture:**
+Existing user approval names the exact output path and create/update effect.
+A variant names only a report, excluding inputs/indexes/status/closure; another
+introduces a materially new effect.
+
+**Input:** `/security-audit [actual supported scope/mode]` under the stated authority
+
+**Expected behavior:**
+1. Match current inputs and planned effects to the retained approval.
+2. Execute covered effects and request only the missing material scope.
+
+**Assertions:**
+- [ ] An existing user-authorized changeset already names this exact output path and create/update effect. Reuse that authority through roles/retries and proceed after required facts/reviews pass; do not ask "May I write" again for the same scope. Missing authority or a materially new path/effect asks once after a concrete draft. A new report alone does not cover input/index/status/closure effects; director or content approval does not independently authorize writes.
+
+**Case Verdict:** PASS / FAIL / PARTIAL
+
+### Case 9: Configured legacy Product and conflicting domain
+
+**Fixture:**
+No concept document; actual populated `Language & Framework`,
+`Platform & Deployment` and `Agent Routing` establish a Python CLI Product.
+Newer Product Stack fields remain placeholders. Variant introduces a real
+contradictory Game concept/configuration.
+
+**Input:** `/security-audit [actual supported scope/mode]`
+
+**Expected behavior:**
+1. Read actual populated legacy configuration and relevant concept bodies.
+2. Resolve consistent Product scope; keep contradictory dependent routing Unknown.
+
+**Assertions:**
+- [ ] Resolve the consistent legacy fixture as Product before asking a domain question; use actual Product contracts/workflows and configured routing.
+- [ ] Read substantive bodies/configuration, not filenames or keyword counts.
+- [ ] Conflicting real owners leave affected routing Unknown; neutral checks continue without a silent Game fallback or an invented Both project enum.
+- [ ] No Memory Bank initialization or completion claim follows from routing.
+
+**Case Verdict:** PASS / FAIL / PARTIAL
 
 ## Coverage Notes
 
-- Anti-cheat analysis (client-side value validation, server authority) is not
-  explicitly tested here; it follows the CONCERNS or VULNERABILITIES pattern
-  depending on severity.
-- Data privacy compliance (GDPR, COPPA) is out of scope for this spec; those
-  require legal review beyond code scanning.
+Document fixtures are not penetration tests or runtime/platform/Product qualification.
+Pattern review claims no legal compliance.

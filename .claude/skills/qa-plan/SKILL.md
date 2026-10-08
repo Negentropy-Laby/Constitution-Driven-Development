@@ -7,12 +7,49 @@ allowed-tools: Read, Glob, Grep, Write, AskUserQuestion
 agent: qa-lead
 ---
 
+## QA policy, facts and authority
+
+Apply `standards/evidence-lifecycle.md`, `standards/notes-adr-sync.md` and existing
+collaboration authority. Read actual `workflow/workflow-catalog.yaml`, domain,
+current transition and established project QA scope, including initialized
+`memory_bank/t1_axioms/qa_context.md` or the existing owning Story/plan/decision.
+QA orchestration is optional by default; strict obligations need explicit source,
+authority and exact checks/scope. Review mode does not select strict QA. Absent
+optional Memory Bank/QA Context with no actual strict selection uses the catalog's
+default optional orchestration; disclose absence without requiring initialization.
+Unknown applies to unresolved actual required applicability or conflicting policy,
+not optional context absence. Resolve that affected scope before dependent claims;
+Honor actual user-specified per-effect approval conditions when determining coverage;
+do not invent strict obligations or passing results.
+Optional orchestration never waives required Story AC, governing DoD, decisions,
+evidence or required review. Type tables are starting points; actual owners decide
+requirements. Each required check retains PASS/FAIL/NotRun/Blocked/Pending; N/A
+needs a governing applicability reason and cannot erase a failure.
+
+Separate sufficiency, actual execution, independence, acceptance and completion.
+Files/keywords/counts, planning cases and self-checks prove none of the other facts.
+Read relied-on bodies and minimum required direct/indirect dependency closure;
+retain full SHA-256/byte sizes, recoverable originals and original-path witnesses.
+Disclose reading omissions. Exact bound historical results may be reused only
+where selected workflow permits, labeled historical with original runtime/observer,
+inputs and scope; never call them this run's execution. Missing required originals
+or observations leave affected checks incomplete. Risk acceptance is a separate
+scoped record; it cannot change FAIL/NotRun/Blocked/Pending to PASS or completion.
+
+Reuse named paths/effects authority across roles/retries; before new authority show
+draft and complete effect set, asking only for material new scope. Review-only
+invokes no write entrypoint. Report-only writes its new report, excluding inputs,
+indexes, session/sprint/stage state and closure. Existing report paths require a
+new revision with prior evidence preserved; index effects need their own covered
+scope and historical links. Optional Memory Bank absence uses Story/report/
+conversation fallback without initialization, publication or activation.
+
 ## User Guide
 
 - When to use: Generate a QA test plan for a sprint or feature. Reads CDDs and story files, classifies stories by test type, and produces a structured test plan covering automated tests, manual verification, smoke test scope, and sign-off requirements. Run before sprint begins or when starting a major feature.
 - Inputs: Command arguments: `/qa-plan [sprint | feature: system-name | story: path]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/qa_evidence_index.md`.
+- Memory-bank writes: None; a plan is input, not executed evidence.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 # QA Plan
@@ -33,11 +70,18 @@ plan.
 
 ## Phase 0: Domain Detection
 
-Detect the project domain by checking for concept documents in `design/cdd/`:
+Resolve substantive concept bodies, actual configuration and explicit project
+decisions under `standards/technical-preferences.md` before domain-specific work.
 
-- **Game**: `design/cdd/game-concept.md` exists → use `[Game]` paths below
-- **Product**: `design/cdd/product-concept.md` exists → use `[Product]` paths below
-- **Neither**: default to game paths (preserves backward compatibility)
+- **Game**: consistent Game concept/configured legacy Game evidence → use `[Game]` paths below.
+- **Product**: consistent Product concept or populated legacy Product sections can
+  establish Product without a concept → use `[Product]` paths below.
+- **Unknown**: no substantive evidence or conflicting/mixed owners; resolve the
+  affected scope or ask before applying its requirements. Neutral planning continues.
+
+Filenames, copied placeholders and concept absence do not establish a domain.
+Do not default to Game or require a new concept when configured legacy Product
+facts already resolve the actual scope.
 
 ## Dual-Domain Parity Contract
 
@@ -96,8 +140,9 @@ After reading stories, load supporting context once (not per story):
 - `design/cdd/module-index.md` — to understand system priorities and which
   CDDs are approved
 - For each unique CDD referenced across all stories: read only the
-  **Acceptance Criteria** and **[Game] Formulas** / **[Product] Data Model** sections.
-  Do not load full CDD text — these two sections contain the testable requirements.
+   **Acceptance Criteria**, substantive rules/contracts, edge cases/dependencies and
+   relevant **[Game] Formulas** / **[Product] Data Model**. Follow required attachments
+   to closure and disclose reading limits; two sections do not guarantee all obligations.
 - `docs/architecture/control-manifest.md` — scan for forbidden patterns that
   automated tests should guard against (if the file exists)
 
@@ -110,7 +155,7 @@ The story will be classified using acceptance criteria alone.
 
 For each story, assign a Story Type. If the story already has a `Type:` field
 in its header, use that value and validate it against the criteria below. If the
-field is missing or ambiguous, infer the type from the acceptance criteria.
+field is missing or ambiguous, draft classification from actual AC/owner/surface and resolve required applicability; keywords are hints, not proof of capability or policy.
 
 ### [Game] Game Story Types
 
@@ -257,9 +302,9 @@ A story is DONE when ALL of the following are true:
       manual evidence (screenshot, video, or playtest notes with sign-off)
 - [ ] Test file exists at the specified path for all Logic and Integration stories
 - [ ] Manual evidence document exists for all Visual/Feel and UI stories
-- [ ] Smoke check passes (run `/smoke-check sprint` before QA hand-off)
+- [ ] Required AC/evidence actually passes; `/smoke-check` required only in selected smoke/strict scope, otherwise recommended follow-up
 - [ ] No regressions introduced
-- [ ] Code reviewed (via `/code-review` or documented peer review)
+- [ ] Required review completed under actual selected workflow/input/independence; mode skip stays explicitly skipped
 - [ ] Story file updated to `Status: Complete` (via `/story-done`)
 ````
 
@@ -377,9 +422,9 @@ A story is DONE when ALL of the following are true:
       manual evidence (screenshot, CLI output log, or user testing notes with sign-off)
 - [ ] Test file exists at the specified path for all API, Data/Migration, Auth, and Workflow stories
 - [ ] Manual evidence document exists for all UI and CLI stories
-- [ ] Smoke check passes (run `/smoke-check sprint` before QA hand-off)
+- [ ] Required AC/evidence actually passes; `/smoke-check` required only in selected smoke/strict scope, otherwise recommended follow-up
 - [ ] No regressions introduced (existing test suite passes)
-- [ ] Code reviewed (via `/code-review` or documented peer review)
+- [ ] Required review completed under actual selected workflow/input/independence; mode skip stays explicitly skipped
 - [ ] Story file updated to `Status: Complete` (via `/story-done`)
 ````
 
@@ -392,7 +437,7 @@ test entry should reflect the real requirements of these specific stories.
 ## Phase 5: Write Output
 
 Show the complete plan in conversation (or a summary if the plan is very long),
-then ask:
+then verify existing authorization for the exact plan path/create-or-update effect. Continue when covered; only if missing or materially new ask:
 
 "May I write this QA plan to `production/qa/qa-plan-[sprint-slug]-[date].md`?"
 
@@ -402,6 +447,8 @@ Do not write T3 memory-bank evidence from `/qa-plan`. A QA plan is source
 context for later QA evidence, not an evidence record. `/smoke-check`,
 `/team-qa`, `/playtest-report`, and `/test-evidence-review` maintain
 `memory_bank/t3_archive/qa_evidence_index.md` when approved evidence exists.
+
+Planning/write operation can finish with declared gaps; no runtime/Story qualification is implied. Existing plan updates preserve entries/rationale within named effects; no implicit index/state write.
 
 After writing:
 
@@ -418,17 +465,14 @@ Next steps:
 
 ## Collaborative Protocol
 
-- **Never write the plan without asking** — Phase 5 requires explicit approval.
+- **Use named plan-write authority**: Phase 5 reuses covered existing authorization; only missing authority or materially new paths/effects require a write question. Content agreement and drafting alone do not authorize writing.
 - **Classify conservatively**: **[Game]** when a story is ambiguous between Logic and
   Integration, classify it as Integration — it requires both unit and
   integration tests. **[Product]** when ambiguous between API and Workflow, classify
   as Workflow — it requires end-to-end verification.
 - **Do not invent test cases** beyond what acceptance criteria and CDD content
   support. If critical content is absent from the CDD, flag it rather than guessing.
-- **[Game] Playtest requirements are advisory**: the user decides whether a playtest
-  is warranted for borderline Visual/Feel stories.
-- **[Product] User testing requirements are advisory**: the user decides whether
-  user testing is warranted for borderline UI/Workflow stories.
+- Additional Game playtest/Product user testing is optional unless actual Story/DoD/catalog/current phase or selected QA scope requires it. Required behavior stays unverified until actual evidence; plan drafting does not satisfy it.
 - Use `AskUserQuestion` for scope selection when no argument is provided.
-  Keep all other phases non-interactive — present findings, then ask once to
-  approve the write.
+  Keep other phases non-interactive: present findings, reuse covered plan authority,
+  and ask only for missing or materially new write scope.

@@ -7,6 +7,45 @@ allowed-tools: Read, Glob, Grep, Write, Bash, AskUserQuestion, Task
 agent: technical-director
 ---
 
+## Scope, decisions and exact evidence
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse original authorization only for its exact named paths, effects
+and limits across roles/retries. Content agreement, writes, independent review,
+ADR acceptance and Story/phase completion remain separate. Show a concrete draft
+before asking about unresolved material choices or new effects; covered writes
+need no repeated per-file or per-role permission.
+
+Read/review-only never invokes a write entrypoint, including in memory. Report-only
+may write its assigned new report, not inputs, indexes, session state, logs or T3
+pointers. Each other effect needs existing scope or separate changeset authority.
+No Memory Bank means the existing Story/review/conversation fallback, not activation.
+
+Bind claims to original paths, full SHA-256 (64 hex), byte sizes, collection time
+with timezone, source commit plus exact uncommitted/ignored/external identities.
+Read actual bodies and minimum required direct/indirect evidence closure; retain
+recoverable originals and disclose missing inputs. Resolve CDD DocKind/required
+owner set and module semantic eight through `design/INSTRUCTIONS.md`, preserving
+substantive aliases; headings, counts or existence cannot establish PASS.
+
+Classify each meaningful choice as `covered`, `cdd-layer`, `no-adr`,
+`documentation-update`, `adr-required` or `conflict`, with named requirement/owner,
+existing TR-ID if assigned, exact Accepted ADR revision/section/scope or justified
+no-ADR reason, affected paths/dependencies, evidence and action/owner/due phase.
+Trust boundaries, public contracts, durable formats, state ownership and governing
+architectural constraints require an Accepted decision or valid scoped exception
+under existing governance before affected implementation starts/continues. Continue
+independent work. Proposed, implemented, green tests, write approval and director
+recommendations do not establish acceptance; historical approval needs exact input
+and authority/scope match. Justified `cdd-layer`/`no-adr` waives no other readiness,
+manifest or evidence prerequisite. The existing global Technical Setup minimum of
+three Foundation ADRs in `workflow/workflow-catalog.yaml` remains a separate gate:
+do not bypass it or manufacture ADRs to meet a count.
+
+Absent, conflicting or ambiguous concept/domain evidence means Unknown. Continue
+domain-independent checks; resolve the domain before applying its Game/Product
+rules. Do not silently default to Game.
+
 ## User Guide
 
 - When to use: Guided, section-by-section authoring of the master architecture document. Reads all CDDs, the module index, existing ADRs, and the reference library to produce a complete architecture blueprint before any code is written. Supports both game and general product domains.
@@ -24,11 +63,16 @@ It sits between design and implementation, and must exist before sprint planning
 **Distinct from `/architecture-decision`**: ADRs record individual point decisions.
 This skill creates the whole-system blueprint that gives ADRs their context.
 
-Resolve the review mode (once, store for all gate spawns this run):
-1. If `--review [full|lean|solo]` was passed → use that
-2. Else read `production/review-mode.txt` → use that value
-3. Else → default to `lean`
+Resolve the review mode once and store it for all gate spawns this run:
+1. If `--review` was passed, require an explicit value of `full`, `lean` or `solo`.
+2. Else read the actual `production/review-mode.txt` if present and require its
+   value to be `full`, `lean` or `solo`.
+3. Only when neither override nor global file is present, default to `lean`.
 
+A missing/invalid explicit value or invalid selected global value requires correction
+before gate dispatch. Report the actual source/value error; never silently fall back,
+claim a skipped/completed gate, or infer approval from invalid mode input.
+A valid explicit override takes precedence over the global file. Resolve only once.
 See `standards/director-gates.md` for the full check pattern.
 
 **Domain detection.** The concept document at `design/cdd/` reveals the domain:
@@ -104,8 +148,10 @@ Read all approved design documents and extract technical requirements from each:
    - Threading or timing requirements
 
 Build a **Technical Requirements Baseline** — a flat list of all extracted
-requirements across all CDDs, numbered `TR-[gdd-slug]-[NNN]`. This is the
-complete set of what the architecture must cover. Present it as:
+requirements across in-scope CDDs. Read `docs/architecture/tr-registry.yaml`
+first; reuse active exact IDs, never renumber or fabricate registration. Unassigned
+requirements retain their named CDD section and owning registration action.
+Present the baseline as:
 
 ```
 ## Technical Requirements Baseline
@@ -118,8 +164,9 @@ Extracted from [N] CDDs | [X] total requirements
 | TR-inventory-001 | inventory.md | Inventory | Item persistence | Save/Load |
 ```
 
-This baseline feeds into every subsequent phase. No CDD requirement should be
-left without an architectural decision to support it by the end of this session.
+This baseline feeds every phase. Each requirement needs a justified disposition,
+owner and current evidence, not a separate ADR. Read substantive owner bodies under
+`design/INSTRUCTIONS.md`, preserving existing section aliases.
 
 ### 0c. Existing Architecture Decisions
 
@@ -197,8 +244,10 @@ Map every module from `module-index.md` into an architecture layer.
 - What are its module boundaries?
 - What does it own exclusively? (data, state, behaviour)
 
-Present the proposed layer assignment and ask for approval before proceeding to
-the next section. Write the approved layer map immediately to the skeleton file.
+Present the layer assignment and resolve material choices. Show the skeleton/path-
+and-effect draft before new write authority; within approved scope write sections
+incrementally. Existing files are edited in place, never replaced with skeletons.
+Content agreement alone is not file-write authority.
 
 **[游戏专用]** **Engine awareness check**: For each module assigned to the Core and Foundation
 layers, flag if it touches a HIGH or MEDIUM risk engine domain. Show the relevant
@@ -316,24 +365,27 @@ For each ADR:
 
 ### Traceability Coverage Check
 
-Map every requirement from the Technical Requirements Baseline to existing ADRs.
-For each requirement, check if any ADR's "CDD Requirements Addressed" section
-or decision text covers it:
+Map every requirement/choice to the shared six dispositions. Verify `covered`
+against exact Accepted revision/section/scope; cite named CDD owner for `cdd-layer`
+or local reason/owner for `no-adr`. Missing ADR links alone are not gaps:
 
 | Req ID | Requirement | ADR Coverage | Status |
 |--------|-------------|--------------|--------|
 | TR-combat-001 | Hitbox detection per-frame | ADR-0003 | ✅ |
-| TR-combat-002 | Combo state machine | — | ❌ GAP |
+| TR-combat-002 | Combo state machine | combat.md detailed rules | cdd-layer (verify no new architecture) |
 
-Count: X covered, Y gaps. For each gap, it becomes a **Required New ADR**.
+Count each disposition separately. Only significant `adr-required` choices need a
+new ADR/revision; `conflict` needs owner resolution. Missing evidence is incomplete,
+never falsely covered.
 
 ### Required New ADRs
 
-List all decisions made during this architecture session (Phases 1-4) that do
-not yet have a corresponding ADR, PLUS all uncovered Technical Requirements.
-Group by layer — Foundation first:
+List only `adr-required` choices and conflict resolutions requiring an Accepted
+revision/successor, by affected layer/dependencies, Foundation first. CDD contracts
+and local details do not automatically require ADRs. Preserve the separate global
+Technical Setup minimum of three Foundation ADRs.
 
-**Foundation Layer (must create before any coding):**
+**Foundation Layer (must be Accepted before affected coding):**
 - `/architecture-decision [title]` → covers: TR-[id], TR-[id]
 
 **Core Layer:**
@@ -346,14 +398,14 @@ Group by layer — Foundation first:
 Based on the full architecture, produce a complete list of ADRs that should exist
 but don't yet. Group by priority:
 
-**Must have before coding starts (Foundation & Core decisions):**
+**Must be Accepted before affected coding (significant Foundation & Core decisions):**
 - [e.g. "Scene management and scene loading strategy"]
 - [e.g. "Event bus vs direct signal architecture"]
 
 **Should have before the relevant system is built:**
 - [e.g. "Inventory serialisation format"]
 
-**Can defer to implementation:**
+**Local choices may defer; classify materiality before affected implementation:**
 - [e.g. "Specific shader technique for water"]
 
 ---
@@ -363,7 +415,8 @@ but don't yet. Group by priority:
 Once all sections are approved, write the complete document to
 `docs/architecture/architecture.md`.
 
-Ask: "May I write the master architecture document to `docs/architecture/architecture.md`?"
+Reuse existing exact architecture write authority. Only for uncovered effects ask:
+"May I write the master architecture document to `docs/architecture/architecture.md`?"
 
 The document structure:
 
@@ -418,30 +471,45 @@ After writing the master architecture document, perform an explicit sign-off bef
 Apply gate **TD-ARCHITECTURE** (`standards/director-gates.md`) as a self-review. Check all four criteria from that gate definition against the completed document.
 
 **Review mode check** — apply before spawning LP-FEASIBILITY:
-- `solo` → skip. Note: "LP-FEASIBILITY skipped — Solo mode." Proceed to Phase 8 handoff.
-- `lean` → skip (not a PHASE-GATE). Note: "LP-FEASIBILITY skipped — Lean mode." Proceed to Phase 8 handoff.
+- `solo` → skip LP. Note: "LP-FEASIBILITY skipped — Solo mode." Continue to Step 3 with actual TD assessment and LP Skipped state.
+- `lean` → skip LP (not a PHASE-GATE). Note: "LP-FEASIBILITY skipped — Lean mode." Continue to Step 3 with actual TD assessment and LP Skipped state.
 - `full` → spawn as normal.
 
 **Step 2 — Spawn `lead-programmer` via Task using gate LP-FEASIBILITY (`standards/director-gates.md`):**
 
 Pass: architecture document path, technical requirements baseline summary, ADR list.
 
-**Step 3 — Present both assessments to the user:**
+**Step 3 — Present actual assessment states to the user:**
 
-Show the Technical Director assessment and Lead Programmer verdict side by side.
+Show the actual TD-ARCHITECTURE self-review result (APPROVE/CONCERNS/REJECT).
+In full mode show the completed LP-FEASIBILITY result (FEASIBLE/CONCERNS/INFEASIBLE);
+in lean/solo report LP skipped, never claim that both reviewers completed.
+Record each assessment's run state separately: Completed, Skipped with mode,
+NotRun or Blocked with reason. NotRun/Blocked has no fabricated gate verdict.
+Unavailable required review remains incomplete and blocks affected qualification.
+Required blockers remain unresolved until their owning workflow/evidence closes them.
 
-Use `AskUserQuestion` — "Technical Director and Lead Programmer have reviewed the architecture. How would you like to proceed?"
-Options: `Accept — proceed to handoff` / `Revise flagged items first` / `Discuss specific concerns`
+For unresolved choices use `AskUserQuestion` — "Architecture assessments are shown
+above. How would you like to proceed?"
+Options: `Proceed to handoff with actual status` / `Revise flagged items first` /
+`Discuss specific concerns`. This content choice cannot accept an ADR or clear blockers.
 
 **Step 4 — Record sign-off in the architecture document:**
 
 Update the Document Status section:
 ```
-- Technical Director Sign-Off: [date] — APPROVED / APPROVED WITH CONDITIONS
-- Lead Programmer Feasibility: FEASIBLE / CONCERNS ACCEPTED / REVISED
+- Technical Director Run State: [Completed / NotRun / Blocked with reason]
+- Technical Director Assessment: [date] — [actual APPROVE / CONCERNS / REJECT; N/A if not completed]
+- Lead Programmer Run State: [Completed / Skipped with mode / NotRun / Blocked with reason]
+- Lead Programmer Feasibility: [actual FEASIBLE / CONCERNS / INFEASIBLE; N/A if not completed]
+- Unresolved required actions: [affected scope, owner and required closure]
 ```
 
-Ask: "May I update the Document Status section in `docs/architecture/architecture.md` with the sign-off?"
+Reuse existing authority for this exact Document Status effect; otherwise show the
+actual assessment/status changes and ask:
+"May I update the Document Status section in `docs/architecture/architecture.md` with the sign-off?"
+Report actual reviewed qualification; a status write cannot invent a completed review,
+accept a decision or establish implementation readiness.
 
 ---
 
@@ -450,8 +518,11 @@ Ask: "May I update the Document Status section in `docs/architecture/architectur
 After writing the document, provide a clear handoff:
 
 1. **Run these ADRs next** (from Phase 6, prioritised): list the top 3
-2. **Gate check**: "The master architecture document is complete. Run `/gate-check pre-production` when all required ADRs are also written."
-3. **Update session state**: Write a summary to `production/session-state/active.md`
+2. **Qualification**: Report document-write outcome separately from actual
+   assessment/decision/readiness findings. Run `/gate-check pre-production` only when
+   required decisions are Accepted and the separate global gate is satisfied.
+3. **Session state**: Write `production/session-state/active.md` only within its
+   authorized path/effect; otherwise show the summary in conversation.
 
 ---
 
@@ -463,7 +534,7 @@ This skill follows the collaborative design principle at every phase:
 2. **Present findings** — show the knowledge gap inventory and layer proposals
 3. **Ask before deciding** — present options for each architectural choice
 4. **Get approval before writing** — each phase section is written only after
-   user approves the content
+   the path/effect is authorized and material choices are approved
 5. **Incremental writing** — write each approved section immediately; do not
    accumulate everything and write at the end. This survives session crashes.
 
@@ -475,5 +546,5 @@ unsure, present 2-4 options with pros/cons before asking them to decide.
 ## Recommended Next Steps
 
 - Run `/architecture-decision [title]` for each required ADR listed in Phase 6 — Foundation layer ADRs first
-- Run `/create-control-manifest` once the required ADRs are written to produce the layer rules manifest
-- Run `/gate-check pre-production` when all required ADRs are written and the architecture is signed off
+- Run `/create-control-manifest` once the required ADRs are Accepted to produce the layer rules manifest
+- Run `/gate-check pre-production` when required ADRs are Accepted, the global gate is satisfied and architecture is signed off

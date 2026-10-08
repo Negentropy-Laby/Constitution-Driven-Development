@@ -2,16 +2,13 @@
 
 ## Skill Summary
 
-`/onboard` generates a contextual project onboarding summary tailored for a new
-team member. It reads CLAUDE.md, `technical-preferences.md`, the active sprint
-file, recent git commits, and `production/stage.txt` to produce a structured
-orientation document. The skill runs on the Haiku model (read-only, formatting
-task) and produces no file writes — all output is conversational.
-
-The skill optionally accepts a role argument (e.g., `/onboard artist`) to tailor
-the summary to a specific discipline. When the project is in an early stage or
-unconfigured, the output adapts to reflect what little is known. The verdict is
-always ONBOARDING COMPLETE — the skill is purely informational.
+`/onboard` reads actual root/canonical guidance, technical preferences, declared
+stage, active sprint/Story and role-relevant bodies to produce orientation.
+Game vision/engine/art/playtests and Product user promise/API/CLI/data/auth/
+workflow receive equivalent relevant context. Default output is conversational;
+optional saving uses covered `production/onboarding/onboard-[role]-[date].md`
+authority. ONBOARDING COMPLETE concerns the produced orientation only; missing
+required sources leave affected material BLOCKED with useful partial guidance.
 
 ---
 
@@ -22,7 +19,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keyword: ONBOARDING COMPLETE
-- [ ] Does NOT contain "May I write" language (skill is read-only)
+- [ ] Default analysis writes nothing; optional save applies exact named document authority
 - [ ] Has a next-step handoff suggesting a relevant follow-on skill
 
 ---
@@ -47,8 +44,9 @@ None. `/onboard` is a read-only orientation skill. No director gates apply.
 
 **Expected behavior:**
 1. Skill reads stage.txt, technical-preferences.md, active sprint, and git log
-2. Skill produces an onboarding summary with sections: Project Overview, Tech Stack,
-   Current Stage, Active Sprint Summary, Recent Activity
+2. Skill uses its actual onboarding shape: Project Summary, Your Role, Project
+   Architecture/Key Directories/Files, Conventions, Current Area/Sprint, Dependencies,
+   Pitfalls, First Tasks and Questions; stack/stage/activity come from read sources.
 3. Summary is formatted for readability (headers, bullet points)
 4. Next-step suggestions are appropriate for Production stage (e.g., `/sprint-status`,
    `/dev-story`)
@@ -60,7 +58,7 @@ None. `/onboard` is a read-only orientation skill. No director gates apply.
 - [ ] Active sprint stories are summarized (not just the sprint file name)
 - [ ] Recent commit context is present
 - [ ] Verdict is ONBOARDING COMPLETE
-- [ ] No files are written
+- [ ] Default conversational invocation writes no files
 
 ---
 
@@ -99,15 +97,17 @@ None. `/onboard` is a read-only orientation skill. No director gates apply.
 
 **Expected behavior:**
 1. Skill attempts to read CLAUDE.md and fails
-2. Skill outputs an error: "CLAUDE.md not found — cannot generate onboarding summary"
-3. Skill provides remediation: "Run `/constitute` to initialize the project constitution"
-4. No partial summary is generated
+2. Skill identifies missing guidance precisely and checks available actual root/canonical sources.
+3. Skill uses available actual runtime/canonical guidance and discloses omissions;
+   missing a runtime copy alone does not require constitution activation.
+4. If required guidance is unavailable, retain supported partial orientation and
+   report the affected result BLOCKED instead of fabricating project state.
 
 **Assertions:**
-- [ ] Error message clearly identifies the missing file as CLAUDE.md
-- [ ] Remediation step (`/constitute`) is explicitly named
-- [ ] Skill does NOT produce a partial output when the root config is missing
-- [ ] Verdict is ONBOARDING COMPLETE (with error context, not a crash)
+- [ ] Missing actual source is identified, without confusing generated-copy absence with absent governance
+- [ ] Remediation follows actual source gap; optional Memory Bank is not silently initialized
+- [ ] Supported partial guidance remains available; unknown facts are disclosed
+- [ ] Unavailable required orientation is BLOCKED; no all-path COMPLETE despite failure
 
 ---
 
@@ -148,7 +148,7 @@ None. `/onboard` is a read-only orientation skill. No director gates apply.
 1. Skill completes the full onboarding summary
 2. No director agents are spawned at any point
 3. No gate IDs appear in the output
-4. No "May I write" prompts appear
+4. No save prompts/writes appear for default conversational analysis.
 
 **Assertions:**
 - [ ] No director gate is invoked
@@ -163,8 +163,8 @@ None. `/onboard` is a read-only orientation skill. No director gates apply.
 - [ ] Reads all source files before generating output (no hallucinated project state)
 - [ ] Adapts output to project stage (Production ≠ Concept)
 - [ ] Respects role argument when provided
-- [ ] Does not write any files
-- [ ] Ends with ONBOARDING COMPLETE verdict in all paths
+- [ ] Default analysis writes no files; covered optional save writes only its document
+- [ ] ONBOARDING COMPLETE only for produced orientation; unavailable required scope is BLOCKED
 
 ---
 
@@ -177,3 +177,20 @@ None. `/onboard` is a read-only orientation skill. No director gates apply.
   tested here.
 - Discipline roles beyond "artist" (e.g., programmer, designer, producer) follow
   the same tailoring pattern as Case 4 and are not separately tested.
+
+## Paired Product and authority cases
+
+**Fixture:** Configured Product CLI/API/data/auth project without game concept;
+user promise/contracts, surface profile and stack reference exist. Variant Game
+artist keeps art bible/assets and actual Game input/engine guidance.
+- [ ] Read substantive relevant bodies and active Story/sprint, including applicable
+  user promise/API/CLI/data/auth/workflow or Game art/player/playtest material.
+- [ ] Configured references are distinct from installed/runtime execution claims.
+- [ ] Preserve artist example; absent Product gamepad/engine is not a blocker.
+
+**Fixture:** A names optional onboarding document authority, B is report-only for
+a different path, C is review-only; neither concept/conflicting sources in variant.
+- [ ] A saves only named document without another covered-scope question.
+- [ ] B/C never update onboarding/checkpoint/index/state outside authority.
+- [ ] Unknown/conflict blocks affected domain advice, not supported neutral guidance.
+- [ ] Declared/observed/candidate/qualified facts remain distinct.

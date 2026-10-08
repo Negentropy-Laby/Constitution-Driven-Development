@@ -6,12 +6,12 @@
 the skill traces all downstream artifacts that reference it: ADRs, TR-registry
 entries, stories, and epics. It produces a structured impact report showing what
 needs to change and why. The skill does NOT automatically apply changes — it
-proposes edits for each affected artifact and asks "May I write" per artifact
-before making any modification.
+proposes a concrete path/effect list and reuses the approved changeset scope;
+uncovered effects require "May I write" before modification.
 
-The skill is read-only during analysis and write-gated per artifact during the
-update phase. It has no director gates — the analysis itself is mechanical
-tracing, not a creative review.
+Analysis is read-only; updates require their named scope. The TD-CHANGE-IMPACT
+gate runs after impact analysis in full mode and is skipped in lean/solo. Gate
+approval is neither file authority nor ADR acceptance.
 
 ---
 
@@ -22,7 +22,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keywords: COMPLETE, BLOCKED, NO IMPACT
-- [ ] Contains "May I write" collaborative protocol language (per-artifact approval)
+- [ ] Documents scoped write authority or its shared-contract owner; behavioral compliance is evaluated in fixture cases
 - [ ] Has a next-step handoff at the end
 - [ ] Documents that changes are proposed, not applied automatically
 
@@ -30,9 +30,9 @@ Verified automatically by `/skill-test static` — no fixture needed.
 
 ## Director Gate Checks
 
-No director gates — this skill spawns no director gate agents during analysis.
-The impact report is a mechanical tracing operation; no creative or technical
-director review is required at the analysis stage.
+Resolve `--review`, `production/review-mode.txt` or lean once. Full runs actual
+TD-CHANGE-IMPACT after analysis; lean/solo record it skipped. Missing required
+delegation remains incomplete; no fabricated gate verdict.
 
 ---
 
@@ -53,15 +53,16 @@ director review is required at the analysis stage.
 2. Skill scans ADRs, TR-registry, epics, and stories for references to this GDD
 3. Skill produces an impact report: 1 epic affected, 2 stories affected
 4. Skill shows the proposed change for each artifact
-5. For each artifact: asks "May I update [filepath]?" separately
-6. Applies changes only after per-artifact approval
+5. Presents a concrete draft/path/effect list; reuses complete existing batch
+   authority, otherwise asks "May I update this named changeset?"
+6. Applies only authorized artifact effects; preserves original revisions
 
 **Assertions:**
 - [ ] Impact report identifies all 3 affected artifacts (1 epic + 2 stories)
 - [ ] Each affected artifact's proposed change is shown before asking to write
-- [ ] "May I write" is asked per artifact (not once for all artifacts)
-- [ ] Skill does NOT apply any changes without per-artifact approval
-- [ ] Verdict is COMPLETE after all approved changes are applied
+- [ ] Complete approved changesets persist across covered artifact writes
+- [ ] Skill does NOT apply uncovered artifact/status effects
+- [ ] Report execution COMPLETE is separate from actual required actions/acceptance
 
 ---
 
@@ -131,25 +132,29 @@ director review is required at the analysis stage.
 
 ---
 
-### Case 5: Director Gate — No gate spawned regardless of review mode
+### Case 5: Director Gate — Mode controls technical impact review
 
-**Fixture:**
-- A GDD has been revised with downstream references
-- `production/session-state/review-mode.txt` exists with `full`
+Verify actual gate owner: `skills/propagate-design-change/SKILL.md` Phase 6b owns
+TD-CHANGE-IMPACT criteria and APPROVE/CONCERNS/REJECT outcomes. Shared
+`standards/director-gates.md` governs mode/authority but defines no TD-CHANGE-IMPACT.
+A reviewer must not invent a shared catalog definition or use a different verdict
+interface; CONCERNS and REJECT follow the actual inline handling.
+
+**Fixture:** A Game CDD revision has downstream references; `production/review-mode.txt`
+is full and an actual technical-director reviewer is available.
 
 **Input:** `/propagate-design-change design/cdd/[system].md`
 
-**Expected behavior:**
-1. Skill reads the GDD and traces downstream references
-2. Skill does NOT read `production/session-state/review-mode.txt`
-3. No director gate agents are spawned at any point
-4. Impact report is produced and per-artifact approval proceeds normally
+**Expected behavior:** Resolve full once, perform complete impact tracing, then
+run TD-CHANGE-IMPACT on the exact report inputs. Surface objections and revise
+affected analysis; a gate pass does not mark any Proposed ADR Accepted or authorize
+status/index changes. Repeat in lean/solo and observe the documented skip.
 
 **Assertions:**
-- [ ] No director gate agents are spawned (no CD-, TD-, PR-, AD- prefixed gates)
-- [ ] Skill does NOT read `production/session-state/review-mode.txt`
-- [ ] Output contains no "Gate: [GATE-ID]" or gate-skipped entries
-- [ ] Review mode has no effect on this skill's behavior
+- [ ] Full runs TD-CHANGE-IMPACT; lean/solo report skipped accurately
+- [ ] Gate inputs/actual actor recorded; unavailable review is incomplete
+- [ ] No pending successor is written into a Superseded status
+- [ ] Read-only/report-only runs do not repair ADRs, Stories or indexes
 
 ---
 
@@ -157,9 +162,9 @@ director review is required at the analysis stage.
 
 - [ ] Reads revised GDD and all potentially affected artifacts before producing impact report
 - [ ] Impact report shown in full before any "May I write" ask
-- [ ] "May I write" asked per artifact — never for the entire set at once
+- [ ] Existing concrete batch authorization reused; new effects presented for approval
 - [ ] In Progress stories flagged with elevated warning before their approval ask
-- [ ] No director gates — no review-mode.txt read
+- [ ] TD-CHANGE-IMPACT obeys one resolved full/lean/solo director mode
 - [ ] Ends with next-step handoff appropriate to verdict (COMPLETE or NO IMPACT)
 
 ---
@@ -167,9 +172,36 @@ director review is required at the analysis stage.
 ## Coverage Notes
 
 - ADR impact (when a GDD change requires an ADR update or new ADR) follows the
-  same per-artifact approval pattern as story/epic updates — not independently
-  fixture-tested.
+  same concrete path/effect scope as Story/Epic updates and the shared
+  Notes/ADR disposition; acceptance/retained-history counterexamples appear below.
 - TR-registry impact (when changed GDD requires new or updated TR-IDs) is part
   of the analysis phase but not independently fixture-tested.
-- The git diff comparison method (detecting what changed in the GDD) is a runtime
-  concern — fixtures use pre-arranged content differences.
+- Fixtures bind fixed old/new source identities including uncommitted/ignored
+  dependencies; report mtime or current HEAD alone is not an exact prior baseline.
+
+---
+
+### Semantic case: New/ignored inputs and preserved acceptance history
+
+A new CDD has no Git history but is referenced by an In Progress Story and Epic;
+an ignored contract attachment also changes. Expect declared closure and elevated
+Story warning, not "nothing to propagate." An older Accepted ADR's public/durable
+choice conflicts: record `conflict`/`adr-required` and preserve its accepted bytes.
+Drafting a Proposed successor cannot mark it Superseded by pending ID. Batch
+authority covers only listed artifacts; report-only writes its new assigned
+report and no ADR/TR/Story/Epic/index. Missing old bytes narrows the delta claim.
+
+
+**Observation requirements:** Fixtures are constructed only in isolated test
+workspaces. Record real actions/reads, actor and exact before/after input/report
+identities. Compare excluded input/index/session paths for unchanged bytes.
+Static assertions or expected source counts alone cannot qualify semantic verdict,
+reading depth, runtime execution, independent review or write authority.
+
+
+### Invalid mode/depth input
+
+Supply an invalid explicit mode/depth (or invalid global director mode where
+used). Expect a named corrective error and no silent fallback, reviewer spawn
+or write. Absent settings retain the documented default. Analysis depth,
+director mode and write authority remain distinct.

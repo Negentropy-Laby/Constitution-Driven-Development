@@ -7,12 +7,49 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Task, AskUserQuestion
 model: opus
 ---
 
+## QA policy, facts and authority
+
+Apply `standards/evidence-lifecycle.md`, `standards/notes-adr-sync.md` and existing
+collaboration authority. Read actual `workflow/workflow-catalog.yaml`, domain,
+current transition and established project QA scope, including initialized
+`memory_bank/t1_axioms/qa_context.md` or the existing owning Story/plan/decision.
+QA orchestration is optional by default; strict obligations need explicit source,
+authority and exact checks/scope. Review mode does not select strict QA. Absent
+optional Memory Bank/QA Context with no actual strict selection uses the catalog's
+default optional orchestration; disclose absence without requiring initialization.
+Unknown applies to unresolved actual required applicability or conflicting policy,
+not optional context absence. Resolve that affected scope before dependent claims;
+Honor actual user-specified per-effect approval conditions when determining coverage;
+do not invent strict obligations or passing results.
+Optional orchestration never waives required Story AC, governing DoD, decisions,
+evidence or required review. Type tables are starting points; actual owners decide
+requirements. Each required check retains PASS/FAIL/NotRun/Blocked/Pending; N/A
+needs a governing applicability reason and cannot erase a failure.
+
+Separate sufficiency, actual execution, independence, acceptance and completion.
+Files/keywords/counts, planning cases and self-checks prove none of the other facts.
+Read relied-on bodies and minimum required direct/indirect dependency closure;
+retain full SHA-256/byte sizes, recoverable originals and original-path witnesses.
+Disclose reading omissions. Exact bound historical results may be reused only
+where selected workflow permits, labeled historical with original runtime/observer,
+inputs and scope; never call them this run's execution. Missing required originals
+or observations leave affected checks incomplete. Risk acceptance is a separate
+scoped record; it cannot change FAIL/NotRun/Blocked/Pending to PASS or completion.
+
+Reuse named paths/effects authority across roles/retries; before new authority show
+draft and complete effect set, asking only for material new scope. Review-only
+invokes no write entrypoint. Report-only writes its new report, excluding inputs,
+indexes, session/sprint/stage state and closure. Existing report paths require a
+new revision with prior evidence preserved; index effects need their own covered
+scope and historical links. Optional Memory Bank absence uses Story/report/
+conversation fallback without initialization, publication or activation.
+
 ## User Guide
 
 - When to use: Validate readiness to advance between development phases. Produces a PASS/CONCERNS/FAIL verdict with specific blockers and required artifacts. Supports both game and general product domains — auto-detects domain from the concept document.
 - Inputs: Command arguments: `/gate-check [target-phase] [--review full|lean|solo]. Game phases: systems-design | technical-setup | pre-production | production | polish | release. Product phases: specification | architecture | pre-implementation | implementation | verification | release`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t0_core/current_state.md`, `memory_bank/t3_archive/gate_runs/`, `memory_bank/t3_archive/gate_runs/gate-[phase]-[YYYY-MM-DD].md`.
+- Memory-bank writes: Only when Memory Bank is initialized and each named write effect is covered: `memory_bank/t0_core/current_state.md`, `memory_bank/t3_archive/gate_runs/`, `memory_bank/t3_archive/gate_runs/gate-[phase]-[YYYY-MM-DD].md`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 # Phase Gate Validation
@@ -84,11 +121,19 @@ phase goal.
 **Target phase:** `$ARGUMENTS[0]` (blank = auto-detect current stage, then validate next transition)
 
 Also resolve the review mode (once, store for all gate spawns this run):
-1. If `--review [full|lean|solo]` was passed → use that
-2. Else read `production/review-mode.txt` → use that value
-3. Else → default to `lean`
+1. If `--review` is present, require its nonempty value to be exactly
+   `full`, `lean` or `solo`; use the valid explicit value.
+2. Otherwise, if `production/review-mode.txt` exists, read and trim its value;
+   require exactly `full`, `lean` or `solo`, then use that valid global value.
+3. Only when both override and global file are absent default to `lean`.
 
-Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GATE, AD-PHASE-GATE) are skipped — gate-check becomes artifact-existence checks only. In `lean` mode, all four directors still run (phase gates are the purpose of lean mode).
+Resolve once and reuse the same valid mode for all applicable director spawns.
+Empty/invalid explicit values or an existing empty/invalid global file stop mode
+resolution before any director spawn, gate-skip verdict or status/closure write.
+Report the actual invalid source/value and request correction; do not silently
+fall back to lean or invent a completed gate. Preserve existing legal CLI/modes.
+
+Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GATE, AD-PHASE-GATE) are explicitly skipped; required substantive quality/evidence still applies. Skips establish no independence/approval. In `lean` mode, all four directors still run (phase gates are the purpose of lean mode).
 
 - **With argument**: `/gate-check production` — validate readiness for that specific phase. Supports both game phase names (systems-design, technical-setup, pre-production, production, polish, release) and product phase names (specification, architecture, pre-implementation, implementation, verification, release). The skill auto-detects the domain from the concept document at `design/cdd/`.
 - **No argument**: Auto-detect current stage using the same heuristics as
@@ -106,7 +151,7 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 
 ## 2. Phase Gate Definitions
 
-After resolving the requested transition, read only that transition in [gate definitions](references/gate-definitions.md). Treat its artifacts, checks, blockers, and domain branches as the authoritative requirements for the current gate.
+Resolve actual domain/transition and catalog applicability, then read that transition in [gate definitions](references/gate-definitions.md). Catalog owns normal-progression artifact requirements; reference owns applicable substantive quality/risk checks. Follow required direct/indirect evidence without expanding to every directory or treating optional/later-phase artifacts as universal blockers.
 
 ## 3. Run the Gate Check
 
@@ -126,7 +171,7 @@ For each item in the target gate:
 ### Artifact Checks
 - Use `Glob` and `Read` to verify files exist and have meaningful content
 - Don't just check existence — verify the file has real content (not just a template header)
-- For code checks, verify directory structure and file counts
+- Directory/file counts locate evidence; read substantive implementation/closure/results. Counts cannot prove capability, three actual sessions or product qualification.
 
 **Systems Design → Technical Setup gate — cross-CDD review check**:
 Use `Glob('design/cdd/cross-review-*.md')` to find the `/review-all-gdds` report.
@@ -138,8 +183,8 @@ cross-CDD consistency check failed and must be resolved before advancing.
 
 ### Quality Checks
 - For test checks: Run the test suite via `Bash` if a test runner is configured
-- For design review checks: `Read` the CDD and check for the 8 required sections
-- For performance checks: `Read` technical-preferences.md and compare against any
+- For design review: resolve actual DocKind/owner under `design/INSTRUCTIONS.md` and read substantive required bodies/valid aliases; headings alone do not PASS
+- For performance checks: `Read` `standards/technical-preferences.md` and compare against any
   profiling data in `tests/performance/` or recent `/perf-profile` output
 - For localization checks: `Grep` for hardcoded strings in `src/`
 
@@ -158,7 +203,7 @@ For items that can't be automatically verified, **ask the user**:
 - "No playtest report found. Has informal testing been done?"
 - "Performance profiling data isn't available. Would you like to run `/perf-profile`?"
 
-**Never assume PASS for unverifiable items.** Mark them as MANUAL CHECK NEEDED.
+**Never assume PASS for unverifiable items.** Retain actual NotRun/Blocked/Pending/Unknown (MANUAL CHECK NEEDED is a display hint). Required incomplete checks prevent PASS: gate FAIL indicates unmet normal readiness, not an invented executed test failure. Optional follow-up may be CONCERNS.
 
 ---
 
@@ -263,7 +308,7 @@ For a **FAIL** draft:
 - "Can I provide a minimal path to PASS — the specific 3 things that must change?"
 - "Is the fail condition resolvable, or does it indicate a deeper design problem?"
 
-**Step 2 — Answer each question** independently.
+**Step 2 — Answer each question** as author self-check, not independent review.
 Do NOT reference the draft verdict text — re-check specific files or ask the user.
 
 **Step 3 — Revise if needed:**
@@ -288,28 +333,28 @@ Example: if passing the "Pre-Production → Production" gate:
 echo -n "Production" > production/stage.txt
 ```
 
-**Always ask before writing**: "Gate passed. May I update `production/stage.txt` to 'Production'?"
+**Use covered stage-write authority**: check existing authorization for the exact `production/stage.txt` transition/effect. Continue when covered; only if missing or materially new ask: "Gate passed. May I update `production/stage.txt` to 'Production'?"
 
 When the verdict is **CONCERNS**:
 
 1. Ask whether the user wants to advance with acknowledged risk.
-2. If yes, capture a short risk note in the gate report before updating `production/stage.txt`.
+2. If yes verify separate risk/report and transition path/effect authority; record exact scope/inputs/actor/time and unchanged CONCERNS before any covered stage write.
 3. If no, leave `production/stage.txt` unchanged and list the smallest remediation path.
 
 When the verdict is **FAIL**:
 
 1. Leave `production/stage.txt` unchanged by default.
 2. Ask whether the user wants to override the FAIL verdict.
-3. If the user overrides, capture the override decision and risk note in the gate report before updating `production/stage.txt`.
+3. A separately authorized governance override may change the named stage projection only where existing governance permits. Bind actor/authority/time/scope/inputs/exclusions/risks and covered report/state effects. Preserve FAIL and actual failed/unexecuted checks; create no PASS, Story closure, ADR acceptance or runtime/Product qualification.
 4. If the user does not override, leave `production/stage.txt` unchanged and list the blockers.
 
 ### Memory Bank Audit Record
 
-After presenting the verdict, ask:
+After presenting the verdict, reuse existing authorization for the exact new audit record path/effect. Only if missing or materially new ask:
 
 `May I write this gate result to memory_bank/t3_archive/gate_runs/gate-[phase]-[YYYY-MM-DD].md?`
 
-When `memory_bank/` exists and the user approves, write a T3 audit record under
+When `memory_bank/` exists and that exact record effect is authorized, write a T3 audit record under
 `memory_bank/t3_archive/gate_runs/`.
 
 - Use `gate-[phase]-[YYYY-MM-DD].md`.
@@ -321,9 +366,9 @@ When `memory_bank/` exists and the user approves, write a T3 audit record under
 - The required artifact source is
   `workflow/generated/gate-required-artifacts.md`.
 
-When a PASS verdict, acknowledged CONCERNS advance, or explicit FAIL override
-updates `production/stage.txt`, also update
-`memory_bank/t0_core/current_state.md` when `memory_bank/` exists. The current
+When an authorized transition updates `production/stage.txt`, update
+`memory_bank/t0_core/current_state.md` only when initialized and that separate
+pointer effect is covered in the named transition set. The current
 state update should record current phase, stage source, latest gate evidence
 path, current blocker, next command, and any risk/override note.
 
@@ -405,7 +450,7 @@ Based on the verdict, suggest specific next steps from the domain-appropriate li
 - **No module index?** -> `/map-systems` to decompose the concept into modules.
 - **Missing design docs?** -> `/reverse-document src/[module]` to generate specs from existing code.
 - **Small design change needed?** -> `/quick-design` for changes under about 4 hours.
-- **No UX specs?** -> `/ux-design [screen name]` for UI projects, or `/ux-design interaction-patterns` for API/CLI/SDK surfaces.
+- **No UX specs?** -> `/ux-design [screen name]` for UI projects, or `/ux-design patterns` for API/CLI/SDK surfaces.
 - **UX specs not reviewed?** -> `/ux-review [file]` or `/ux-review all` to validate.
 - **CDDs not cross-reviewed?** -> `/review-all-gdds` after all MVP CDDs are individually approved.
 - **No test framework or example baseline test?** -> `/test-setup` to scaffold the required framework, CI workflow, and example test for your stack. `/test-helpers` is optional after that baseline exists.
@@ -436,7 +481,7 @@ This skill follows the collaborative design principle:
 2. **Ask about unknowns**: Don't assume PASS for things you can't verify
 3. **Present findings**: Show the full checklist with status
 4. **User decides**: The verdict guides the stage decision; user override is allowed only when risks are recorded
-5. **Get approval**: "May I write this gate check report to production/gate-checks/?"
+5. **Resolve write authority**: reuse a covered named report changeset; for missing/new report paths/effects ask "May I write this gate check report to [exact production/gate-checks/ path]?". Report authority does not cover stage/audit/index effects.
 
 Do not silently advance on CONCERNS or FAIL. Document the risks, capture an
 explicit override when needed, and leave `production/stage.txt` unchanged unless

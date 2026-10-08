@@ -4,8 +4,44 @@ description: "Generate design or architecture documents from existing implementa
 argument-hint: "<type> <path> (e.g., 'design src/gameplay/combat' or 'architecture src/core')"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
-# Read-only diagnostic skill — no specialist agent delegation needed
+# Read-only analysis followed by separately authorized documentation writes
 ---
+
+## Scope, evidence and effects
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse explicit existing authorization for its named paths, effects
+and limits across roles and retries. Present unresolved material choices or new
+effects for approval; a document/batch/synchronization authorization does not
+require another question for each covered section or file. Content agreement,
+write authority, independent review, ADR acceptance and workflow completion
+remain separate.
+
+Analysis defaults to read-only: no write entrypoint, input edits, status/index/
+session/Memory Bank updates. Report-only may write one new assigned report with
+authority; report approval does not authorize indexes or rolling logs. Other
+writes need the named path/effect in existing authority or a concrete draft and
+changeset approval. Unknown paths are findings, not permission to create them.
+No Memory Bank means use the established report/conversation fallback. Next
+steps are recommendations; execute only effects already authorized or explicitly
+selected by the user. Tool availability determines the question interface.
+
+Bind claims to a declared scope and minimum direct/indirect evidence closure:
+record original paths, full SHA-256, byte sizes, source commit plus exact diff
+and uncommitted/ignored/external identities, exclusions and recoverable originals.
+Do not read sensitive local settings or secrets merely to complete discovery.
+Read required inputs back from their actual paths, verify closure and report
+missing inputs as incomplete affected checks. Keywords, timestamps, counts,
+equal hashes at two collections and static checks do not certify semantic review,
+continuous unchanged history, runtime behavior or independent approval.
+
+Classify meaningful choices with the shared disposition record (`cdd-layer`,
+`no-adr`, `covered`, `documentation-update`, `adr-required`, `conflict`). Significant
+trust, public contract, durable format or state ownership changes require an
+Accepted ADR/valid scoped exception before affected implementation continues.
+Keep As-Is observations and their evidence separate from Target promises and
+gaps; implemented behavior cannot lower a governing Target. Continue independent
+work while blocking only affected dependants.
 
 ## User Guide
 
@@ -38,7 +74,10 @@ appropriate design or architecture documentation. Use this when:
 
 ## Phase 1: Parse Arguments
 
-**Format**: `/reverse-document <type> <path>`
+**Format**: `/reverse-document <type> <path>`. Keep legacy path-only/multiple-path
+invocations: identify the actual source set and ask for output type only when
+not already specified by user scope. No missing argument authorizes choosing an
+architecture decision or writing arbitrary output paths.
 
 **Type options**:
 - `design` → Generate a constitution-driven development document (CDD section)
@@ -67,7 +106,13 @@ appropriate design or architecture documentation. Use this when:
 
 ## Phase 2: Analyze Implementation
 
-**Read and understand the code/prototype**:
+**Read and understand the code/prototype**: bind a fixed commit plus exact diff
+and uncommitted/ignored/external input identities; retain recoverable source bytes
+and required dependencies at their original paths. Read the selected source set,
+tests and governing documents to minimum closure. Do not inspect sensitive local
+settings or secret values merely to infer intent. If an input is unreadable or
+generated, report it; static reasoning is not runtime verification.
+
 
 **For design docs (CDD):**
 - Identify mechanics, rules, formulas
@@ -157,7 +202,9 @@ UNCLEAR INTENT AREAS:
 Before I draft the design doc, could you clarify these points?
 ```
 
-Wait for user to clarify intent before drafting.
+Ask unresolved material intent/target choices before drafting those claims.
+Reuse already explicit decisions; do not repeatedly ask settled choices. Observed
+code behavior may be documented while unresolved intent remains labeled unknown.
 
 ## Phase 5: Draft Document Using Template
 
@@ -169,16 +216,27 @@ Based on type, use appropriate template:
 | `architecture` | `templates/architecture-doc-from-code.md` | `docs/architecture/[decision-name].md` |
 | `concept` | `templates/concept-doc-from-prototype.md` | `prototypes/[name]/CONCEPT.md` or `design/concepts/[name].md` |
 
-For Product design docs, use the Product CDD section order from `/design-system`:
-`Overview`, `User Promise`, `Detailed Design`, `Data Model`, `Edge Cases`,
-`Dependencies`, `Configuration`, `Integration Requirements`, `UI Requirements`,
-`Acceptance Criteria`, and `Open Questions`.
+For Game/Product CDDs apply `design/INSTRUCTIONS.md`'s semantic eight roles,
+retaining legacy template headings/numbering and adding real missing bodies.
+Keep extra Integration/UI/Open Questions sections. Retrofit edits preserve
+existing prose/examples and modify only named affected sections.
+
+For `architecture`, the observed pattern is a Proposed ADR/working analysis,
+even when implemented. Override template inference/status wording accordingly:
+`status: Proposed`, separately `provenance: reverse-documented`; record unknown
+acceptance authority as unknown. Code, inferred decision makers, draft/write
+approval or tests do not establish Accepted status. Route acceptance and any
+successor through /architecture-decision with preserved history.
 
 **Draft structure**:
-- Capture **what exists** (mechanics, patterns, implementation)
-- Document **why it exists** (intent clarified with user)
-- Identify **what's missing** (edge cases not handled, gaps in design)
-- Flag **follow-up work** (balance tuning, missing features)
+- **As-Is:** observed mechanics/contracts/patterns at the exact source baseline,
+  with evidence and static/runtime limitations.
+- **Target:** governing requirements and explicitly clarified desired intent,
+  with owner/decision sources. Never describe a desired change as already in code.
+- **Discrepancies:** implementation gaps/accidents against Target; do not lower
+  the original promise to make existing code appear compliant.
+- **Follow-up/disposition:** actions, owner and Notes/ADR classification; unknown
+  intent remains unknown rather than inferred acceptance.
 
 ## Phase 6: Show Draft and Request Approval
 
@@ -200,7 +258,8 @@ SECTIONS MARKED AS INCOMPLETE:
 May I write this to design/cdd/[system-name].md?
 ```
 
-Wait for approval. User may request changes before writing.
+If the concrete output path/effect is not covered, wait for approval of the
+shown draft/changeset. Covered authorization persists; preserve before bytes.
 
 ## Phase 7: Write Document with Metadata
 
@@ -208,17 +267,21 @@ When approved, write the file with special markers:
 
 ```markdown
 ---
-status: reverse-documented
-source: [path/]
-date: [today]
-verified-by: [User name]
+status: [Draft for CDD / Proposed for ADR]
+provenance: reverse-documented
+source: [original path + full SHA-256 + size + fixed commit/diff manifest]
+collected-at: [actual time with timezone]
+content-decision: [explicit authority/reference or pending]
+write-authority: [scope/reference]
+independent-review: [pending / bound report and exact baseline]
 ---
 
 # [System Name] Design
 
 > **Note**: This document was reverse-engineered from the existing implementation.
-> It captures current behavior and clarified design intent. Some sections may be
-> incomplete where implementation is partial or intent was unclear.
+> As-Is observations, Target requirements and gaps are recorded separately.
+> Partial implementation/unknown intent remains incomplete; provenance does not
+> establish semantic review, ADR acceptance or workflow completion.
 
 [Rest of document...]
 ```
@@ -308,7 +371,10 @@ This skill follows the collaborative design principle:
 4. **User Clarifies**: Separate intent from accidents
 5. **Draft Document**: Create doc based on reality + intent
 6. **Show Draft**: Display key sections, explain additions
-7. **Get Approval**: "May I write to [filepath]?" On approval: Verdict: **COMPLETE** — document generated. On decline: Verdict: **BLOCKED** — user declined write.
+7. **Write within authority**: "May I write to [filepath]?" only if uncovered.
+   Reread written bytes/closure. Report document execution COMPLETE/PARTIAL or
+   BLOCKED separately from requirement coverage, independent review and ADR
+   acceptance; an incomplete required semantic role cannot become implementation-ready.
 8. **Flag Follow-Up**: Suggest related work, don't auto-execute
 
-**Never assume intent. Always ask before documenting "why".**
+**Never assume intent. Ask unresolved "why"; cite settled explicit decisions.**

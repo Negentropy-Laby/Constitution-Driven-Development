@@ -6,6 +6,45 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 ---
 
+## Scope, decisions and exact evidence
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse original authorization only for its exact named paths, effects
+and limits across roles/retries. Content agreement, writes, independent review,
+ADR acceptance and Story/phase completion remain separate. Show a concrete draft
+before asking about unresolved material choices or new effects; covered writes
+need no repeated per-file or per-role permission.
+
+Read/review-only never invokes a write entrypoint, including in memory. Report-only
+may write its assigned new report, not inputs, indexes, session state, logs or T3
+pointers. Each other effect needs existing scope or separate changeset authority.
+No Memory Bank means the existing Story/review/conversation fallback, not activation.
+
+Bind claims to original paths, full SHA-256 (64 hex), byte sizes, collection time
+with timezone, source commit plus exact uncommitted/ignored/external identities.
+Read actual bodies and minimum required direct/indirect evidence closure; retain
+recoverable originals and disclose missing inputs. Resolve CDD DocKind/required
+owner set and module semantic eight through `design/INSTRUCTIONS.md`, preserving
+substantive aliases; headings, counts or existence cannot establish PASS.
+
+Classify each meaningful choice as `covered`, `cdd-layer`, `no-adr`,
+`documentation-update`, `adr-required` or `conflict`, with named requirement/owner,
+existing TR-ID if assigned, exact Accepted ADR revision/section/scope or justified
+no-ADR reason, affected paths/dependencies, evidence and action/owner/due phase.
+Trust boundaries, public contracts, durable formats, state ownership and governing
+architectural constraints require an Accepted decision or valid scoped exception
+under existing governance before affected implementation starts/continues. Continue
+independent work. Proposed, implemented, green tests, write approval and director
+recommendations do not establish acceptance; historical approval needs exact input
+and authority/scope match. Justified `cdd-layer`/`no-adr` waives no other readiness,
+manifest or evidence prerequisite. The existing global Technical Setup minimum of
+three Foundation ADRs in `workflow/workflow-catalog.yaml` remains a separate gate:
+do not bypass it or manufacture ADRs to meet a count.
+
+Absent, conflicting or ambiguous concept/domain evidence means Unknown. Continue
+domain-independent checks; resolve the domain before applying its Game/Product
+rules. Do not silently default to Game.
+
 ## User Guide
 
 - When to use: Creates an Architecture Decision Record (ADR) documenting a significant technical decision, its context, alternatives considered, and consequences. Supports both game and general product domains. Every major technical choice should have an ADR.
@@ -24,11 +63,16 @@ Sections below are marked **[通用场景]** (both domains), **[游戏专用]** 
 
 ## 0. Parse Arguments — Detect Retrofit Mode
 
-Resolve the review mode (once, store for all gate spawns this run):
-1. If `--review [full|lean|solo]` was passed → use that
-2. Else read `production/review-mode.txt` → use that value
-3. Else → default to `lean`
+Resolve the review mode once and store it for all gate spawns this run:
+1. If `--review` was passed, require an explicit value of `full`, `lean` or `solo`.
+2. Else read the actual `production/review-mode.txt` if present and require its
+   value to be `full`, `lean` or `solo`.
+3. Only when neither override nor global file is present, default to `lean`.
 
+A missing/invalid explicit value or invalid selected global value requires correction
+before gate dispatch. Report the actual source/value error; never silently fall back,
+claim a skipped/completed gate, or infer approval from invalid mode input.
+A valid explicit override takes precedence over the global file. Resolve only once.
 See `standards/director-gates.md` for the full check pattern.
 
 **If the argument starts with `retrofit` followed by a file path**
@@ -57,10 +101,15 @@ Enter **retrofit mode**:
    ✗ ADR Dependencies — HIGH
    ✗ Engine/Stack Compatibility — HIGH
    ```
-4. Ask: "Shall I add the [N] missing sections? I will not modify any existing content."
+4. Show the missing-section draft and named path/effects. Reuse existing retrofit
+   authority; otherwise ask: "May I add these missing sections at [path]?"
+   Preserve existing content outside the approved repair.
 5. If yes:
-   - For **Status**: ask the user — "What is the current status of this decision?"
-     Options: "Proposed", "Accepted", "Deprecated", "Superseded by ADR-XXXX"
+   - For **Status**: verify historical acceptance against retained originals,
+      authority, date and exact revision/scope. Do not infer Accepted from code
+      or a status-choice widget. Unevidenced acceptance stays Proposed with unknown
+      history; acceptance requires a separate authorized decision/effect. Preserve
+      evidenced Deprecated/Superseded history without inventing dates.
    - For **ADR Dependencies**: ask — "Does this decision depend on any other ADR?
      Does it enable or block any other ADR or epic?" Accept "None" for each field.
    - **[游戏专用]** For **Engine Compatibility**: read the engine reference docs (same as Step 0 below)
@@ -181,12 +230,19 @@ Scan `docs/architecture/` for existing ADRs to find the next number.
 
 ## 2. Gather context
 
-Read related code, existing ADRs, and relevant CDDs from `design/cdd/`.
+Read related code, Notes/Story evidence, existing ADRs and relevant CDDs from
+`design/cdd/`. Classify the choice first. Exact `covered`, CDD-owned `cdd-layer`
+or justified local `no-adr` needs no duplicate ADR; report its reason/owner.
+Route significant `adr-required`/`conflict` choices to an Accepted decision/revision
+before affected implementation, continuing independent authorized work.
 
 ### 2a: Architecture Registry Check (BLOCKING gate)
 
 Read `docs/registry/architecture.yaml`. Extract entries relevant to this ADR's
 domain and decision (grep by system name, domain keyword, or state being touched).
+Verify each stance against the actual Accepted revision and scope. Proposed or
+unevidenced registry entries are tentative, not locked constraints. A missing
+registry uses actual governing decisions, never invented stances.
 
 Present any relevant stances to the user **before** the collaborative design
 begins, as locked constraints:
@@ -219,8 +275,9 @@ the conflict immediately:
 > Options: (1) Align with the existing stance, (2) Supersede ADR-[NNNN] with
 > an explicit replacement, (3) Explain why this case is an exception."
 
-Do not proceed to Step 3 (collaborative design) until any conflict is resolved
-or explicitly accepted as an intentional exception.
+Surface conflict before affected implementation. Step 3 may draft alignment or a
+successor; an exception needs explicit existing-governance authority, exact scope,
+risks and duration. It does not relabel a conflict resolved or Proposed ADR Accepted.
 
 ---
 
@@ -262,7 +319,8 @@ Status: Proposed
 [E] Something else needs changing first
 ```
 
-Do not generate the ADR until the user confirms assumptions or provides corrections.
+Resolve new material assumptions with the user; reuse already explicit decisions
+in their exact approved scope. Do not guess unresolved choices.
 
 **After engine specialist and TD reviews return** (Step 4.5/4.6), if unresolved
 decisions remain, present each one as a separate `AskUserQuestion` with the proposed
@@ -292,7 +350,13 @@ Following this format:
 # ADR-[NNNN]: [Title]
 
 ## Status
-[Proposed | Accepted | Deprecated | Superseded by ADR-XXXX]
+Proposed
+
+## Acceptance Record
+[Pending for a new ADR. On separately authorized acceptance record actual authority,
+date/time, exact retained reviewed original/revision/path + full SHA-256 and byte
+size, accepted decision/implementation scope and exceptions. Preserve the reviewed
+Proposed original and predecessor. Write approval is not acceptance.]
 
 ## Date
 [Date of decision]
@@ -442,7 +506,8 @@ developers reading the CDD from implementing the wrong interface.
 
 If no inconsistencies: skip this block silently.
 
-5. **Write approval** — Use `AskUserQuestion`:
+5. **Write authority** — Reuse existing exact scope after presenting the draft.
+Only for uncovered effects use `AskUserQuestion` below:
 
 If CDD sync issues were found:
 - "ADR draft is complete. How would you like to proceed?"
@@ -455,12 +520,24 @@ If no CDD sync issues:
   - [A] Write ADR to `docs/architecture/adr-[NNNN]-[slug].md`
   - [B] Not yet — I need to review further
 
-If yes to any write option, write the file, creating the directory if needed.
-For option [A] with CDD update: also update the CDD file(s) to use the new names.
+Within existing named scope write the new ADR as Proposed; ask only for uncovered
+effects. For [A], name exact CDD paths/sections and update effects. For [B], retain
+required synchronization action/owner and block affected implementation until
+resolved; ADR writing alone does not settle the CDD conflict. Read back exact bytes.
+
+**Acceptance is separate.** Only existing-governance acceptance authority may accept
+the exact reviewed revision and scope. Capture the Acceptance Record and retain the
+reviewed original before an authorized status transition. Specialist/TD approval,
+tests, implemented code, content agreement and write approval do not accept ADRs.
+Changed Accepted choices need a reviewed revision/successor preserving predecessor
+and supersession history.
 
 6. **Update Architecture Registry**
 
-Scan the written ADR for new architectural stances that should be registered:
+Scan the written ADR for candidate stances. Governing registry entries require
+exact-scope acceptance; authorized Proposed entries stay explicitly tentative and
+cannot override Accepted constraints. The registry write is a separate named effect.
+Candidate categories:
 - State it claims ownership of
 - Interface contracts it defines (signal signatures, method APIs)
 - Performance budget it claims
@@ -483,14 +560,16 @@ Registry candidates from this ADR:
 3. Append the new entry AFTER the last existing entry in that section — do not try to replace a `[]` placeholder that may no longer exist
 4. If the section has entries already, use the closing content of the last entry as the `old_string` anchor, and append the new entry after it
 
-**BLOCKING — do not write to `docs/registry/architecture.yaml` without explicit user approval.**
+**Registry writes need exact path/effect authority.** Reuse existing registry scope;
+otherwise show entries and ask below.
 
-Ask using `AskUserQuestion`:
+Only for uncovered registry effects ask using `AskUserQuestion`:
 - "May I update `docs/registry/architecture.yaml` with these [N] new stances?"
   - Options: "Yes — update the registry", "Not yet — I want to review the candidates", "Skip registry update"
 
-Only proceed if the user selects yes. If yes: append new entries. Never modify existing entries — if a stance is
-changing, set the old entry to `status: superseded_by: ADR-[NNNN]` and add the new entry.
+Within authorized scope append entries. A changed governing stance requires an
+Accepted reviewed revision/successor first; preserve old entry/history and add the
+successor with exact identity. Proposed writing cannot supersede Accepted constraints.
 
 ---
 
@@ -523,4 +602,7 @@ If there are no remaining priority ADRs and no undesigned CDD systems, offer onl
 > The reviewing agent must be independent of the authoring context to give an unbiased
 > assessment. Running it here would invalidate the review.
 
-Update any stories that were `Status: Blocked` pending this ADR to `Status: Ready`.
+List affected blocked Stories and recommend `/story-readiness` after exact-scope
+acceptance and required synchronization. Neither ADR writing nor acceptance changes
+Story status automatically. Later status writes need their own effect authority
+and all remaining readiness checks.

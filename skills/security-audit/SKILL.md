@@ -7,6 +7,43 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Task
 agent: security-engineer
 ---
 
+## QA policy, facts and authority
+
+Apply `standards/evidence-lifecycle.md`, `standards/notes-adr-sync.md` and existing
+collaboration authority. Read actual `workflow/workflow-catalog.yaml`, domain,
+current transition and established project QA scope, including initialized
+`memory_bank/t1_axioms/qa_context.md` or the existing owning Story/plan/decision.
+QA orchestration is optional by default; strict obligations need explicit source,
+authority and exact checks/scope. Review mode does not select strict QA. Absent
+optional Memory Bank/QA Context with no actual strict selection uses the catalog's
+default optional orchestration; disclose absence without requiring initialization.
+Unknown applies to unresolved actual required applicability or conflicting policy,
+not optional context absence. Resolve that affected scope before dependent claims;
+Honor actual user-specified per-effect approval conditions when determining coverage;
+do not invent strict obligations or passing results.
+Optional orchestration never waives required Story AC, governing DoD, decisions,
+evidence or required review. Type tables are starting points; actual owners decide
+requirements. Each required check retains PASS/FAIL/NotRun/Blocked/Pending; N/A
+needs a governing applicability reason and cannot erase a failure.
+
+Separate sufficiency, actual execution, independence, acceptance and completion.
+Files/keywords/counts, planning cases and self-checks prove none of the other facts.
+Read relied-on bodies and minimum required direct/indirect dependency closure;
+retain full SHA-256/byte sizes, recoverable originals and original-path witnesses.
+Disclose reading omissions. Exact bound historical results may be reused only
+where selected workflow permits, labeled historical with original runtime/observer,
+inputs and scope; never call them this run's execution. Missing required originals
+or observations leave affected checks incomplete. Risk acceptance is a separate
+scoped record; it cannot change FAIL/NotRun/Blocked/Pending to PASS or completion.
+
+Reuse named paths/effects authority across roles/retries; before new authority show
+draft and complete effect set, asking only for material new scope. Review-only
+invokes no write entrypoint. Report-only writes its new report, excluding inputs,
+indexes, session/sprint/stage state and closure. Existing report paths require a
+new revision with prior evidence preserved; index effects need their own covered
+scope and historical links. Optional Memory Bank absence uses Story/report/
+conversation fallback without initialization, publication or activation.
+
 ## User Guide
 
 - When to use: Audit security vulnerabilities. Game: save tampering, cheat vectors, network exploits, player data, input validation. Product: OWASP/API auth, sessions, secrets, authorization boundaries, privacy, logging, rate limiting, and deployment configuration.
@@ -17,10 +54,17 @@ agent: security-engineer
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before auditing security:
+Resolve actual domain from substantive concept bodies, configured fields and
+explicit project decisions under `standards/technical-preferences.md` before
+auditing security. Populated legacy Product configuration can establish Product
+without a concept; filenames/placeholders alone cannot. Conflicts or absent actual
+evidence leave the affected route Unknown while neutral checks continue.
+
+For the resolved domain:
 - `design/cdd/game-concept.md` -> **[Game]** keep the existing game security audit: save tampering, cheat vectors, multiplayer/network validation, player data exposure, and engine-specific input risks.
 - `design/cdd/product-concept.md` -> **[Product]** run a product security audit: OWASP/API auth, session handling, secrets, dependency risk, authorization boundaries, PII/privacy, logging, data retention, rate limiting, CORS/CSRF, and deployment configuration.
-- If unclear, ask whether the release surface is a game build or a product/service/API/CLI surface.
+- If still unresolved after reading those owners, ask whether the release surface
+  is a game build or a product/service/API/CLI surface.
 
 Game security guidance remains authoritative for games. Product security checks are a parallel branch.
 # Security Audit
@@ -32,7 +76,7 @@ codebase for the most common game security failures and produces a prioritised
 remediation plan.
 
 **Run this skill:**
-- Before any public release (required for the Polish → Release gate)
+- Before public release as selected verification; required artifact status follows actual catalog/current phase and governing scope
 - Before enabling any online/multiplayer feature
 - After implementing any system that reads from disk or network
 - When a security-related bug is reported
@@ -52,9 +96,9 @@ remediation plan.
 - No argument — run `full`
 
 Read `standards/technical-preferences.md` to determine:
-- Engine and language (affects which patterns to search for)
+- Actual domain, Game engine or Product stack/language/pinned version and exposed surfaces
 - Target platforms (affects which attack surfaces apply)
-- Whether multiplayer/networking is in scope
+- Applicable multiplayer/networking or Product auth/API/CLI/UI/data/deployment scope
 
 ---
 
@@ -63,7 +107,12 @@ Read `standards/technical-preferences.md` to determine:
 Spawn `security-engineer` via Task. Pass:
 - The audit scope/mode
 - Engine and language from technical preferences
-- A manifest of all source directories: `src/`, `assets/data/`, any config files
+- Actual selected source/config/dependency scope, exact input manifest and original
+  instruction/authority, exclusions and required independent-review roles; do not
+  expose secrets in output
+- Relied-on prior audit/finding originals and required attachments: read complete
+  original scenario/remediation/acceptance/verification before claiming resolution.
+  Missing or unread required inputs leave affected checks incomplete
 
 The security-engineer runs the audit across 6 categories (see Phase 3). Collect their full findings before proceeding.
 
@@ -71,7 +120,18 @@ The security-engineer runs the audit across 6 categories (see Phase 3). Collect 
 
 ## Phase 3: Audit Categories
 
-The security-engineer evaluates each of the following. Skip categories not applicable to the project scope.
+Evaluate actual applicable categories; Unknown/NotRun is not safety. N/A needs
+surface evidence/reason. Search locates code; read relevant call/data paths and
+actual configuration. Encryption presence, missing keywords or public version
+strings alone prove neither safety nor vulnerability. Runtime/exploit claims need
+actual execution evidence.
+
+Product checks cover auth/session/token lifecycle, permission matrix/trust
+boundaries, API validation/error/rate limits, CLI/path/config handling, secrets/
+logging/PII exposure, durable data/migration/retention, relevant CORS/CSRF, dependency
+provenance and deployment/rollback/operational access. Bind each finding to actual
+requirement/source/verification. Invent no project schema or legal IDs. Preserve
+the Game categories below where applicable.
 
 ### Category 1: Save File and Serialization Security
 - Are save files validated before loading? (no blind deserialization)
@@ -137,7 +197,10 @@ For each finding, assign:
 | **MEDIUM** | Client-side cheat enablement, information disclosure, or input validation gap with limited impact |
 | **LOW** | Defence-in-depth improvement — hardening that reduces attack surface but no direct exploit exists |
 
-**Status:** Open / Accepted Risk / Out of Scope
+**Finding status:** Open / Resolved with exact evidence / Out of Scope with reason.
+**Verification:** static-only / actual PASS / FAIL / NotRun / Blocked / Pending.
+**Risk acceptance:** separate exact finding revision/input/scope, authority/time,
+rationale/owner/due phase; it does not set Resolved or passing verification.
 
 ---
 
@@ -148,7 +211,7 @@ For each finding, assign:
 
 **Date**: [date]
 **Scope**: [full | network | save | input | quick]
-**Engine**: [engine + version]
+**Technology / surfaces**: [Game engine or Product stack + pinned version; actual scope]
 **Audited by**: security-engineer via /security-audit
 **Files scanned**: [N source files, N config files]
 
@@ -163,7 +226,7 @@ For each finding, assign:
 | MEDIUM | [N] | Recommended |
 | LOW | [N] | Optional |
 
-**Release recommendation**: [CLEAR TO SHIP / FIX CRITICALS FIRST / DO NOT SHIP]
+**Scoped recommendation**: [No blocking findings in inspected scope / Remediation required / Assessment incomplete]. Actual runtime/platform/Product qualification: [PASS / FAIL / NotRun / Blocked / Pending with bound evidence]. Static audit is no CLEAR TO SHIP/SECURE certification.
 
 ---
 
@@ -201,7 +264,7 @@ For each finding, assign:
 
 ## Accepted Risk
 
-[Any findings explicitly accepted by the team with rationale]
+[Separately authorized exact finding/input/scope risk acceptance; original finding and actual verification remain unchanged]
 
 ---
 
@@ -223,7 +286,7 @@ For each finding, assign:
 ## Re-Audit Trigger
 
 Run `/security-audit` again after remediating any CRITICAL or HIGH findings.
-The Polish → Release gate requires this report with no open CRITICAL or HIGH items.
+Apply actual catalog/selected security scope. Demonstrated CRITICAL/HIGH quality failures can invalidate the phase goal, but no universal catalog artifact gate is invented. Read original findings before claiming remediation.
 ```
 
 ---
@@ -232,23 +295,22 @@ The Polish → Release gate requires this report with no open CRITICAL or HIGH i
 
 Present the report summary (executive summary + CRITICAL/HIGH findings only) in conversation.
 
-Ask: "May I write the full security audit report to `production/security/security-audit-[date].md`?"
+Reuse covered named report-write authority. Only if missing or materially new ask: "May I write the full security audit report to `production/security/security-audit-[date].md`?"
 
-Write only after approval.
+Write when that exact named report path/effect is covered by existing or newly obtained authorization; do not re-ask for covered scope.
 
 ---
 
 ## Phase 7: Gate Integration
 
-This report is a required artifact for the **Polish → Release gate**.
+Determine actual report/check requirement from selected current catalog/QA/security scope. Otherwise it is advisory; demonstrated failures retain actual impact.
 
 After remediating findings, re-run: `/security-audit quick` to confirm CRITICAL/HIGH items are resolved before running `/gate-check release`.
 
 If CRITICAL findings exist:
 > "⛔ CRITICAL security findings must be resolved before any public release. Do not proceed to `/launch-checklist` until these are addressed."
 
-If no CRITICAL/HIGH findings:
-> "✅ No blocking security findings. Report written to `production/security/`. Include this path when running `/gate-check release`."
+If no CRITICAL/HIGH finding in fully inspected scope, state that limited fact and actual saved/draft path. Missing coverage, unavailable dependencies and unexecuted runtime remain explicit; static review certifies no platform/Product qualification.
 
 ---
 

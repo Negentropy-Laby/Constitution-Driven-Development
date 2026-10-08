@@ -3,40 +3,36 @@
 ## Skill Summary
 
 `/architecture-review` is an Opus-tier skill that validates a technical architecture
-document against the project's 8 required architecture sections and checks that it
+document against its actual architecture/CDD owner requirements and checks that it
 is internally consistent, non-contradictory with existing ADRs, and correctly
-targeting the pinned engine version. It produces a verdict of APPROVED /
-NEEDS REVISION / MAJOR REVISION NEEDED.
+targeting pinned Game/Product technology. It reads substantive CDD/decision owner
+bodies and exact evidence, and produces PASS / CONCERNS / FAIL.
 
-In `full` review mode, the skill spawns two director gate agents in parallel:
-TD-ARCHITECTURE (technical-director) and LP-FEASIBILITY (lead-programmer). In
-`lean` or `solo` mode, both gates are skipped and noted. The skill is read-only —
-no files are written.
+Technology specialist consultation follows the compatibility audit when configured;
+there is no invented TD-ARCHITECTURE/LP-FEASIBILITY gate in this skill. Review-only
+never writes. A separately authorized report may be saved; registry/index/log/
+session/T3 effects remain separate. Existing focus, engine/rtm and path calls work.
 
 ---
 
 ## Static Assertions (Structural)
 
-Verified automatically by `/skill-test static` — no fixture needed.
+Structural checks only; semantic assertions below need actual bound fixtures/review evidence.
 
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
-- [ ] Contains verdict keywords: APPROVED, NEEDS REVISION, MAJOR REVISION NEEDED
-- [ ] Does NOT require "May I write" language (read-only skill)
+- [ ] Contains verdict keywords: PASS, CONCERNS, FAIL
+- [ ] Review-only writes nothing; new report effects require named authority/"May I write"
 - [ ] Has a next-step handoff at the end
-- [ ] Documents gate behavior: TD-ARCHITECTURE + LP-FEASIBILITY in full mode; skipped in lean/solo
+- [ ] Documents actual technology specialist consultation; no invented director gates
 
 ---
 
 ## Director Gate Checks
 
-In `full` mode: TD-ARCHITECTURE (technical-director) and LP-FEASIBILITY
-(lead-programmer) are spawned in parallel after the skill reads the architecture doc.
-
-In `lean` mode: both gates are skipped. Output notes:
-"TD-ARCHITECTURE skipped — lean mode" and "LP-FEASIBILITY skipped — lean mode".
-
-In `solo` mode: both gates are skipped with equivalent notes.
+Technology consultation uses configured specialists after the actual audit.
+No director review-mode gate is introduced. Record actual consultation completion/
+absence, scope and limits; unavailable required checks are incomplete, not PASS.
 
 ---
 
@@ -45,10 +41,11 @@ In `solo` mode: both gates are skipped with equivalent notes.
 ### Case 1: Happy Path — Complete architecture doc in full mode
 
 **Fixture:**
-- `docs/architecture/architecture.md` exists with all 8 required sections populated
+- `docs/architecture/architecture.md` has substantive owner requirements, mapped CDD/TR
+  dispositions, exact accepted sources/justified CDD-local choices and required evidence
 - All sections reference the correct engine version from `docs/engine-reference/`
 - No contradictions with existing Accepted ADRs in `docs/architecture/`
-- `production/session-state/review-mode.txt` contains `full`
+- `production/review-mode.txt` contains `full`
 
 **Input:** `/architecture-review docs/architecture/architecture.md`
 
@@ -56,38 +53,39 @@ In `solo` mode: both gates are skipped with equivalent notes.
 1. Skill reads the architecture document
 2. Skill reads existing ADRs for cross-reference
 3. Skill reads engine version reference
-4. TD-ARCHITECTURE and LP-FEASIBILITY gate agents spawn in parallel
-5. Both gates return APPROVED
-6. Skill outputs section-by-section completeness check (8/8 sections present)
-7. Verdict: APPROVED
+4. Configured technology specialist consultation reviews actual compatibility findings
+5. Actual evidence supports the findings; no invented director gate approval
+6. Skill outputs actual requirement/disposition traceability, conflicts, technology
+   findings and architecture coverage against CDD layers/data flow/API boundaries
+7. Verdict: PASS
 
 **Assertions:**
-- [ ] All 8 required sections are checked and reported
-- [ ] TD-ARCHITECTURE and LP-FEASIBILITY spawn in parallel (not sequentially)
-- [ ] Verdict is APPROVED when all sections are present and no conflicts exist
-- [ ] Skill does NOT write any files
+- [ ] Actual architecture/CDD owners and substantive bodies are checked, not fixed eight headings
+- [ ] Actual configured specialist consultation is reported
+- [ ] PASS requires justified current dispositions and complete required evidence, no unresolved required conflict/decision
+- [ ] Review-only writes no files; report-only saves only its new report
 - [ ] Next-step handoff to `/create-control-manifest` or `/create-epics` is present
 
 ---
 
-### Case 2: Failure Path — Missing required sections
+### Case 2: Failure Path — Missing required architecture/CDD evidence
 
 **Fixture:**
-- `docs/architecture/architecture.md` exists but is missing at least 2 required sections
-  (e.g., no data model section, no error handling section)
-- `production/session-state/review-mode.txt` contains `full`
+- `docs/architecture/architecture.md` exists but omits required data model/error
+  handling ownership for affected CDD requirements; material decisions/evidence remain unresolved
+- `production/review-mode.txt` contains `full`
 
 **Input:** `/architecture-review docs/architecture/architecture.md`
 
 **Expected behavior:**
-1. Skill reads the document and identifies missing sections
-2. Section completeness shows fewer than 8/8 sections present
-3. Missing sections are listed by name with specific remediation guidance
-4. Verdict: MAJOR REVISION NEEDED (≥2 missing sections)
+1. Skill reads actual architecture/CDD bodies and identifies unresolved required owners
+2. Disposition/evidence matrix shows missing inputs and affected dependencies
+3. Required repairs are named with actual owner/action and specific remediation
+4. Verdict: FAIL because required decisions/evidence remain incomplete, not a section count
 
 **Assertions:**
-- [ ] Verdict is MAJOR REVISION NEEDED (not APPROVED or NEEDS REVISION) for ≥2 missing sections
-- [ ] Each missing section is named explicitly in the output
+- [ ] Verdict is FAIL for the fixture's incomplete required architecture/decision evidence
+- [ ] Each missing required owner/input is named explicitly with affected scope
 - [ ] Remediation guidance is specific (what to add, not just "add missing sections")
 - [ ] Skill does NOT pass a document missing required sections
 
@@ -96,7 +94,7 @@ In `solo` mode: both gates are skipped with equivalent notes.
 ### Case 3: Partial Path — Architecture contradicts an existing ADR
 
 **Fixture:**
-- `docs/architecture/architecture.md` exists with all 8 sections present
+- `docs/architecture/architecture.md` has substantive required architecture owners
 - One Accepted ADR in `docs/architecture/` establishes a constraint that the architecture doc contradicts
   (e.g., ADR-001 mandates ECS pattern; architecture.md describes a different pattern for the same system)
 
@@ -106,10 +104,10 @@ In `solo` mode: both gates are skipped with equivalent notes.
 1. Skill reads the architecture doc and all existing ADRs
 2. Conflict is detected between the architecture doc and the named ADR
 3. Conflict entry names: the ADR number/title, the contradicting sections, and impact
-4. Verdict: NEEDS REVISION (conflict exists but structure is otherwise sound)
+4. Verdict: FAIL (conflict exists but structure is otherwise sound)
 
 **Assertions:**
-- [ ] Verdict is NEEDS REVISION (not MAJOR REVISION NEEDED for a single contradiction)
+- [ ] Verdict is FAIL for an unresolved conflict with exact governing Accepted scope
 - [ ] The specific ADR number and title are named in the conflict entry
 - [ ] The contradicting sections in both documents are identified
 - [ ] Skill does NOT auto-resolve the contradiction
@@ -132,61 +130,72 @@ In `solo` mode: both gates are skipped with equivalent notes.
 
 **Assertions:**
 - [ ] Skill outputs a clear error when the file is not found
-- [ ] No verdict is produced (APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED)
+- [ ] No verdict for the missing target is produced (PASS / CONCERNS / FAIL);
+  independently completed checks may be reported with limits
 - [ ] Skill suggests a corrective action
-- [ ] Skill does NOT crash or produce a partial report
+- [ ] Skill reports missing input clearly and may report completed independent checks with limits
 
 ---
 
-### Case 5: Director Gate — Full mode spawns both gates; solo mode skips both
+### Case 5: Exact dispositions, evidence and report scope
 
-**Fixture (full mode):**
-- `docs/architecture/architecture.md` exists with all 8 sections
-- `production/session-state/review-mode.txt` contains `full`
+**Fixture:** Game hitbox and combo requirements; Accepted ADR covers exact hitbox
+choice, combo timing is a CDD-owned detailed rule, persistent storage choice changes
+without Accepted scope, and a test file exists with no execution evidence.
 
-**Full mode expected behavior:**
-1. TD-ARCHITECTURE gate spawns
-2. LP-FEASIBILITY gate spawns in parallel with TD-ARCHITECTURE
-3. Both gates complete before verdict is issued
+**Expected:** covered/cdd-layer/adr-required classified distinctly; no ADR generated
+for combo timing. Changed significant storage choice blocks affected implementation.
+Test path is LINKED / NOT RUN, never PASS. Report-only approval saves only its new
+report and does not update TR registry, indexes, consistency log, session or T3.
 
-**Assertions (full mode):**
-- [ ] TD-ARCHITECTURE and LP-FEASIBILITY both appear in the output as completed gates
-- [ ] Both gates spawn in parallel (not one after the other)
-- [ ] Verdict reflects gate feedback
-
-**Fixture (solo mode):**
-- Same architecture doc
-- `production/session-state/review-mode.txt` contains `solo`
-
-**Solo mode expected behavior:**
-1. Skill reads the architecture doc
-2. Gates are NOT spawned
-3. Output notes: "TD-ARCHITECTURE skipped — solo mode" and "LP-FEASIBILITY skipped — solo mode"
-4. Verdict is based on structural checks only
-
-**Assertions (solo mode):**
-- [ ] Neither TD-ARCHITECTURE nor LP-FEASIBILITY appears as an active gate
-- [ ] Both skipped gates are noted in the output
-- [ ] Verdict is still produced based on the structural check alone
+**Assertions:**
+- [ ] All six dispositions have current named owners/reasons/evidence.
+- [ ] No missing-link shortcut or automatic no-ADR gap.
+- [ ] No test PASS from file existence.
+- [ ] Actual old engine/rtm/path invocations retain their legal routing.
 
 ---
 
 ## Protocol Compliance
 
-- [ ] Does NOT write any files (read-only skill)
-- [ ] Presents section completeness check before issuing verdict
-- [ ] TD-ARCHITECTURE and LP-FEASIBILITY spawn in parallel in full mode
-- [ ] Skipped gates are noted by name and mode in lean/solo output
-- [ ] Verdict is one of exactly: APPROVED, NEEDS REVISION, MAJOR REVISION NEEDED
+- [ ] Review-only invokes no write entrypoint; report-only never extends to inputs/indexes/state
+- [ ] Presents actual traceability/disposition/evidence and architecture coverage before verdict
+- [ ] No invented TD-ARCHITECTURE/LP-FEASIBILITY gate; actual configured specialist is reported
+- [ ] Actual consultation absence/unavailability and incomplete checks are reported
+- [ ] Verdict is one of exactly: PASS, CONCERNS, FAIL
 - [ ] Ends with next-step handoff appropriate to verdict
 
 ---
 
 ## Coverage Notes
 
-- The 8 required architecture sections are project-specific; tests use the
-  section list defined in the skill body — not re-enumerated here.
+- Actual architecture owner requirements come from create-architecture and this
+  skill's Phase 6 CDD coverage checks; no universal eight-section architecture schema.
+  Module CDD semantic eight and other DocKinds follow `design/INSTRUCTIONS.md`.
 - Engine version compatibility checking (cross-referencing `docs/engine-reference/`)
   is part of Case 1's happy path but not independently fixture-tested.
 - RTM (requirement traceability matrix) mode is a separate concern covered by
   the `/architecture-review` skill's own `rtm` argument mode, not tested here.
+
+## Exact scope and decision counterexamples
+
+These are required semantic cases, not claims that keyword/static checks ran them.
+Fixtures use actual UTF-8 bytes/complete dependencies and preserve Game/Product
+owner requirements under `design/INSTRUCTIONS.md`.
+
+- CDD-owned detail and local helper: classify cdd-layer/no-adr with named owner/
+  reason; do not manufacture an ADR or waive CDD/TR/manifest/evidence prerequisites.
+- Significant new trust/public-contract/durable-format/state-ownership choice:
+  adr-required before affected implementation; independent scoped work may continue.
+- Exact Accepted section conflicts with actual choice: conflict, named affected
+  dependencies/action/owner; green tests or implemented status cannot establish covered.
+- Content agreement, report/write permission or director PASS: no automatic
+  ADR acceptance, Story readiness/completion or phase advancement.
+- Historical approval with changed raw bytes/scope: retain history, do not reuse it
+  as current approval. Preserve originals, full hashes/sizes/paths and UTC collection.
+- Report-only saves only its new report; inputs/index/session/log/T3 effects require
+  separate named scope. Review-only invokes no write entrypoint, including in memory.
+- Unknown/both/neither domain: common checks continue, domain-specific findings
+  remain incomplete until resolved; no silent Game fallback.
+- Separate global Technical Setup min-three Foundation ADR rule remains in force;
+  local no-ADR classifications neither waive it nor justify fabricated ADRs.

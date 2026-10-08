@@ -19,13 +19,13 @@ Agents:
 - Research and present options
 - Explain trade-offs and reasoning
 - Draft proposals for review
-- Wait for user approval before writing
+- Check existing scoped approval; ask only for material new write effects
 
 Users:
 - Make all creative and strategic decisions
 - Approve or reject agent suggestions
 - Direct the design vision
-- Sign off before anything is written to files
+- Authorize concrete paths/effects; retain that scope across roles and retries
 ```
 
 ### ❌ The Wrong Model: Autonomous Generator
@@ -41,7 +41,7 @@ Users:
 
 ## 🔄 Collaborative Workflow Pattern
 
-Every agent interaction should follow this pattern:
+For unresolved material decisions or new authority, follow this pattern:
 
 ### Pattern: Question → Options → Decision → Draft → Approval
 
@@ -120,16 +120,16 @@ Every agent interaction should follow this pattern:
 8. USER APPROVES NEXT STEP
    User: "Formulas are good. Continue with Edge Cases."
 
-9. [REPEAT CYCLE FOR EACH SECTION]
+9. [REPEAT AS NEEDED; HONOR EXPLICIT PER-SECTION REVIEW PREFERENCES]
 
-10. FINAL APPROVAL BEFORE WRITING
+10. CHECK EXISTING SCOPE OR REQUEST NEW WRITE APPROVAL
     Agent: "The full CDD draft is complete. I've covered:
            ✓ Overview, ✓ Player Fantasy, ✓ Detailed Rules, ✓ Formulas,
            ✓ Edge Cases, ✓ Dependencies, ✓ Tuning Knobs, ✓ Acceptance Criteria
 
            May I write this to design/cdd/crafting-system.md?"
 
-    User: "Yes, write it."  ← ONLY NOW does file get created
+    User: "Yes, write it."  ← This example grants the previously missing write scope
 
 11. AGENT WRITES FILE
     Agent: [Uses Write tool]
@@ -331,7 +331,7 @@ Skill: "Writing design/concept.md..."
 
 ## 🎛️ Structured Decision UI (AskUserQuestion)
 
-Use the `AskUserQuestion` tool to present decisions as a **selectable UI** instead
+Use the available runtime's question mechanism (Claude's `AskUserQuestion` where present) to present decisions as a **selectable UI** instead
 of plain markdown text. This gives the user a clean interface to pick from options
 (or type "Other" for a custom answer).
 
@@ -450,11 +450,46 @@ Orchestrator uses AskUserQuestion:
 
 ---
 
+## Approval and Authority Contract
+
+This shared contract governs all examples below. Their approval questions show
+cases without matching prior authority; when the user already approved the same
+concrete scope, execute it without repeating the question for every role, file,
+section, retry or context recovery. Honor explicit per-section/per-file preferences.
+
+| Fact/authority | Establishes | Does not establish |
+|---|---|---|
+| Content agreement | Chosen approach/draft | Unlisted writes/publication/state changes |
+| File-write authority | Named paths/effects, including a full changeset | Independent review, ADR acceptance or completion |
+| Independent review | Separate review of exact identified inputs | Authority to repair inputs or accept choices |
+| ADR acceptance | Binding exact decision revision/scope | Other decisions or unrelated writes |
+| Evidence publication | Authorized preserved immutable revision/set | Content/release approval or completion |
+| Completion/transition | Workflow state disposition after required checks | Every other authority above |
+
+Record original instruction/approval reference, actor/authority, scope, paths/
+effects, exclusions and unresolved choices. Delegation passes these original
+limits and never expands them. Request new authority only for material new scope/
+effects. Historic approval applies only to matching exact inputs and authority.
+
+Review-only invokes no write entrypoint, including in-memory publication/resealing.
+Report-only writes only a new assigned report, excluding inputs, status and indexes.
+Repair is a separate writer action; required independent review binds a fresh
+baseline without adopting the author's conclusion. Write counterexamples/restore
+tests use isolated copies. No commits without user instruction.
+
+Apply `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md`.
+Required ADRs are Accepted before affected implementation or have a valid scoped
+exception. Continue independent work while affected dependencies wait. Document
+sync, green tests and saved reports alone do not accept ADRs, publish evidence,
+advance phases or close Stories. Use Game pillars/Player Fantasy and Product
+principles/User Promise/JTBD for their respective domains. No Memory Bank activation
+as a review/report/setup side effect; absent optional memory uses existing fallback.
+
 ## 📄 File Writing Protocol
 
-### NEVER Write Files Without Explicit Approval
+### Write Within Explicit Scoped Approval
 
-Every file write must follow:
+When relevant scoped authority is absent, use this pattern (matching existing approval continues without another question):
 
 ```
 1. Agent: "I've completed the [design/code/doc]. Here's a summary:
@@ -476,22 +511,22 @@ Every file write must follow:
 ### Incremental Section Writing (Design Documents)
 
 For multi-section documents (design docs, lore entries, architecture docs), write
-each section to the file as it's approved instead of building the full document
+each section within the approved document scope instead of building the full document
 in conversation. This prevents context overflow during long iterative sessions.
 
 ```
-1. Agent creates file with skeleton (all section headers, empty bodies)
+1. Agent prepares skeleton (all section headers, empty bodies); checks its write scope
    Agent: "May I create design/cdd/crafting-system.md with the section skeleton?"
    User: "Yes"
 
-2. For EACH section:
+2. For each section (questions below apply when per-section review is requested or new scope is needed):
    Agent: [Drafts section in conversation]
    User: [Reviews, requests changes]
    Agent: [Revises until approved]
    Agent: "May I write this section to the file?"
    User: "Yes"
    Agent: [Edits section into file]
-   Agent: [Updates production/session-state/active.md with progress]
+   Agent: [Updates production/session-state/active.md only when that path/effect is authorized]
    ─── Context for this section can now be safely compacted ───
    ─── The decisions are IN THE FILE ───
 
@@ -521,7 +556,7 @@ Agent: "This implementation requires changes to 3 files:
        B) Implement one file at a time with approval between each
        C) Write all 3 now (fastest, but less review)
 
-       For complex features, I recommend B."
+       One approval may cover the full named changeset; choose per-file review if preferred."
 ```
 
 ---
@@ -592,11 +627,20 @@ Skill (Coordinator):
  - sound-designer: Whoosh + impact SFX
  - ai-programmer: Enemy reactions to being grappled
 
- Each will show you their work before writing files. Proceed?"
+ [Before requesting implementation authority, the coordinator resolves every
+ output path against the current project architecture and shows the complete
+ path-and-effect list plus the draft/summary. Role names alone are not that list.
+ If a path or effect remains unresolved, prepare that list first; do not claim
+ implementation approval from a generic 'Proceed'.]
 
-User: "Yes"
+ May I implement the resolved path-and-effect changeset just shown?
+ Each role will execute only its listed effects and reuse this approved scope."
 
-[Each agent shows their work, gets approval, then writes]
+User: "Yes, implement the listed changeset"
+
+[Each agent executes only the resolved listed paths/effects within that approval;
+ material new scope returns to the coordinator. If no concrete list was shown,
+ this exchange does not authorize file writes.]
 
 Skill (Coordinator):
 "All 4 subsystems implemented. Would you like me to:
@@ -613,13 +657,13 @@ The orchestration is automated, but **decision points stay with the user**.
 
 After any agent interaction, check:
 
-- [ ] Did the agent ask clarifying questions?
-- [ ] Did the agent present multiple options with trade-offs?
+- [ ] Did the agent resolve material ambiguities, reusing previously supplied context?
+- [ ] Did material undecided choices receive relevant options/trade-offs?
 - [ ] Did you make the final decision?
-- [ ] Did the agent get your approval before writing files?
+- [ ] Did writes stay within your approved paths/effects?
 - [ ] Did the agent explain WHY it recommended something?
 
-If you answered "No" to any, the agent wasn't collaborative enough!
+Use these checks for applicable actions; fully specified authorized work need not repeat discovery or approval.
 
 ---
 
@@ -638,13 +682,13 @@ If you answered "No" to any, the agent wasn't collaborative enough!
  your reasoning."
 ```
 
-❌ **Bad User Prompts (Enable Autonomous Behavior):**
+**Prompts needing scope interpretation (not automatic rejection):**
 ```
-"Create a combat system" ← No guidance, agent forced to guess
+"Create a combat system" ← Clarify material design choices when they remain unspecified
 
-"Just do it" ← No collaboration opportunity
+"Just do it" ← Continue existing concrete scope; clarify only missing material authority
 
-"Implement everything in the design doc" ← No approval points
+"Implement everything in the design doc" ← Read its concrete scope and governing decisions; new effects need relevant authority
 ```
 
 ### For Agents:
@@ -658,15 +702,15 @@ BEFORE proposing solutions:
 3. Gather context about user's vision and constraints
 
 WHEN proposing solutions:
-1. Present 2-4 options (not just one)
+1. Present relevant options for material unresolved choices
 2. Explain trade-offs for each
 3. Reference game design theory, user's pillars, or comparable games
 4. Make a recommendation but defer final decision to user
 
 BEFORE writing files:
 1. Show draft or summary
-2. Explicitly ask: "May I write this to [file]?"
-3. Wait for "yes"
+2. Check original scoped authority; if missing, ask: "May I write this to [file]?"
+3. Reuse matching approval or wait for the new scope to be granted
 
 WHEN implementing:
 1. Explain architectural choices
@@ -678,7 +722,7 @@ WHEN implementing:
 
 ## Implementation Status
 
-This principle has been fully embedded across the project:
+The following historical integration list is context, not certification of current runtime behavior. Validate applicable canonical sources and generated adapters; documentation alone does not establish execution compliance:
 
 - **CLAUDE.md** — Collaboration protocol section added
 - **All 48 agent definitions** — Updated to enforce question-asking and approval

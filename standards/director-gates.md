@@ -4,12 +4,18 @@ This document defines the standard gate prompts for all director and lead review
 across every workflow stage. Skills reference gate IDs from this document instead
 of embedding full prompts inline — eliminating drift when prompts need updating.
 
-**Scope**: All 7 production stages (Concept → Release), all 3 Tier 1 directors,
+**Scope**: All 7 production stages (Concept → Release), all 4 Tier 1 directors,
 all key Tier 2 leads. Any skill, team orchestrator, or workflow may invoke these gates.
 
 ---
 
 ## How to Use This Document
+
+Task spawning and `AskUserQuestion` examples describe Claude Code interfaces.
+Use the current runtime's available delegation/question mechanism with the
+same scope and decision choices. If no structured question tool is available,
+use conversation; a tool limitation or synthetic answer is not human approval
+or observed manual verification. Gate IDs and review obligations are shared.
 
 In any skill, replace an inline director prompt with a reference:
 
@@ -49,15 +55,20 @@ Examples:
 
 **Check pattern — apply before every gate spawn:**
 
+Resolve the mode once per skill run from the per-run override, then global config,
+then `lean`; apply that same result before every gate. The compact pattern below
+and expanded invocation are two presentations of this single resolver, including
+all four PHASE-GATE IDs.
+
 ```
 Before spawning gate [GATE-ID]:
 1. If skill was called with --review [mode], use that
 2. Else read production/review-mode.txt
-3. Else default to full
+3. Else default to lean
 
 Apply the resolved mode:
 - solo → skip all gates. Note: "[GATE-ID] skipped — Solo mode"
-- lean → skip unless this is a PHASE-GATE (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GATE)
+- lean → skip unless this is a PHASE-GATE (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GATE, AD-PHASE-GATE)
          Note: "[GATE-ID] skipped — Lean mode"
 - full → spawn as normal
 ```
@@ -100,9 +111,9 @@ All gates return one of three verdicts. Skills must handle all three:
 
 | Verdict | Meaning | Default action |
 |---------|---------|----------------|
-| **APPROVE / READY** | No issues. Proceed. | Continue the workflow |
-| **CONCERNS [list]** | Issues present but not blocking. | Surface to user via `AskUserQuestion` — options: `Revise flagged items` / `Accept and proceed` / `Discuss further` |
-| **REJECT / NOT READY [blockers]** | Blocking issues. Do not proceed. | Surface blockers to user. Do not write files or advance stage until resolved. |
+| **APPROVE / READY** | Review recommendation has no issues. | Continue within existing authority/checks; verdict alone does not accept ADRs, authorize writes/publication or complete Stories |
+| **CONCERNS [list]** | Issues present but not blocking. | Surface through the available runtime question mechanism — options: `Revise flagged items` / `Accept and proceed` / `Discuss further` |
+| **REJECT / NOT READY [blockers]** | Dependent work blocked. | Surface impact/owner and stop affected writes/transition until resolved; continue independent authorized work |
 
 **Escalation rule**: When multiple directors are spawned in parallel, apply the
 strictest verdict — one NOT READY overrides all READY verdicts.
@@ -111,7 +122,9 @@ strictest verdict — one NOT READY overrides all READY verdicts.
 
 ## Recording Gate Outcomes
 
-After a gate resolves, record the verdict in the relevant document's status header:
+Record a resolved gate recommendation in the status header only when authorized.
+Report-only uses the new report; review-only returns it in conversation. Bind exact
+reviewed inputs and distinguish acceptance/transition authority:
 
 ```markdown
 > **[Director] Review ([GATE-ID])**: APPROVED [date] / CONCERNS (accepted) [date] / REVISED [date]
@@ -836,7 +849,7 @@ authored, or when a design decision has narrative implications
 introduced, or when a tech art decision affects visual style
 
 **Context to pass**:
-- Art bible path (if exists at `design/art-bible.md`)
+- Art bible path (if exists at `design/art/art-bible.md`)
 - The specific asset type, style decision, or visual direction being reviewed
 - Reference images or style descriptions
 - Platform and performance constraints

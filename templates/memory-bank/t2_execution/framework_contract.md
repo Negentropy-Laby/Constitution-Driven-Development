@@ -9,7 +9,9 @@ project-specific laws in T0 and axioms in T1).
 - **Manifest:** `cdd-manifest.toml` is the single source of truth mapping
   canonical sources to generated runtime adapter outputs.
 - **Generator:** `scripts/sync_adapters.py` renders adapters (`--write`) and
-  checks freshness (`--check`). Read-only; it never mutates Memory Bank state.
+  checks freshness (`--check`). `--check` is read-only; `--write` modifies only
+  declared generated adapters. Neither mode mutates Memory Bank state or
+  constitutes publication, acceptance or completion.
 - **Boundary checker:** `scripts/workflow_consistency.py` enforces boundary and
   freshness contracts.
 
@@ -65,5 +67,6 @@ python scripts/workflow_consistency.py             # boundary + freshness contra
 
 `/constitute` initializes `adapter_state.yaml` as `uninitialized` without
 fabricating evidence. `/constitute-check` is the sole recorder: after showing the
-live state JSON result, it may write fresh or stale values only with explicit
-approval. `/cdd-status` reads the recorded state and never owns it.
+live state JSON result, it may record fresh/stale values when the exact path/
+effect is authorized. Existing scoped approval persists; report-only/review-only
+does not cover that update. `/cdd-status` reads the recorded state and never owns it.

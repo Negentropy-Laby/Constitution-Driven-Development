@@ -1,19 +1,58 @@
 ---
 name: architecture-review
 description: "Use this skill when module CDDs and ADRs need a pre-implementation architecture audit for traceability gaps, conflicts, technology compatibility, and a PASS/CONCERNS/FAIL verdict."
-argument-hint: "[focus: full | coverage | consistency | compatibility | single-cdd path/to/cdd.md]"
+argument-hint: "[focus: full | coverage | consistency | compatibility | engine | single-cdd path/to/cdd.md | rtm | architecture-file-path]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
 agent: technical-director
 model: opus
 ---
 
+## Scope, decisions and exact evidence
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse original authorization only for its exact named paths, effects
+and limits across roles/retries. Content agreement, writes, independent review,
+ADR acceptance and Story/phase completion remain separate. Show a concrete draft
+before asking about unresolved material choices or new effects; covered writes
+need no repeated per-file or per-role permission.
+
+Read/review-only never invokes a write entrypoint, including in memory. Report-only
+may write its assigned new report, not inputs, indexes, session state, logs or T3
+pointers. Each other effect needs existing scope or separate changeset authority.
+No Memory Bank means the existing Story/review/conversation fallback, not activation.
+
+Bind claims to original paths, full SHA-256 (64 hex), byte sizes, collection time
+with timezone, source commit plus exact uncommitted/ignored/external identities.
+Read actual bodies and minimum required direct/indirect evidence closure; retain
+recoverable originals and disclose missing inputs. Resolve CDD DocKind/required
+owner set and module semantic eight through `design/INSTRUCTIONS.md`, preserving
+substantive aliases; headings, counts or existence cannot establish PASS.
+
+Classify each meaningful choice as `covered`, `cdd-layer`, `no-adr`,
+`documentation-update`, `adr-required` or `conflict`, with named requirement/owner,
+existing TR-ID if assigned, exact Accepted ADR revision/section/scope or justified
+no-ADR reason, affected paths/dependencies, evidence and action/owner/due phase.
+Trust boundaries, public contracts, durable formats, state ownership and governing
+architectural constraints require an Accepted decision or valid scoped exception
+under existing governance before affected implementation starts/continues. Continue
+independent work. Proposed, implemented, green tests, write approval and director
+recommendations do not establish acceptance; historical approval needs exact input
+and authority/scope match. Justified `cdd-layer`/`no-adr` waives no other readiness,
+manifest or evidence prerequisite. The existing global Technical Setup minimum of
+three Foundation ADRs in `workflow/workflow-catalog.yaml` remains a separate gate:
+do not bypass it or manufacture ADRs to meet a count.
+
+Absent, conflicting or ambiguous concept/domain evidence means Unknown. Continue
+domain-independent checks; resolve the domain before applying its Game/Product
+rules. Do not silently default to Game.
+
 ## User Guide
 
-- When to use: Validates completeness and consistency of the project architecture against all CDDs. Builds a traceability matrix mapping every CDD technical requirement to ADRs, identifies coverage gaps, detects cross-ADR conflicts, verifies technology compatibility consistency across all decisions, and produces a PASS/CONCERNS/FAIL verdict. Supports both game and general product domains.
+- When to use: Validates completeness and consistency of the project architecture against all CDDs. Builds a traceability matrix recording each CDD technical requirement's justified disposition and exact governing owner, identifies coverage gaps, detects cross-ADR conflicts, verifies technology compatibility consistency across all decisions, and produces a PASS/CONCERNS/FAIL verdict. Supports both game and general product domains.
 - Inputs: Command arguments: `/architecture-review [focus: full | coverage | consistency | compatibility | single-cdd path/to/cdd.md]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Memory-bank writes: Only when Memory Bank is initialized and each named write effect is covered: `memory_bank/t3_archive/reviews/review-index.md`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 # Architecture Review
@@ -28,14 +67,18 @@ Sections below are marked **[通用场景]**, **[游戏专用]**, or **[通用�
 
 **Argument modes:**
 - **No argument / `full`**: Full review — all phases
-- **`coverage`**: Traceability only — which CDD requirements have no ADR
+- **`coverage`**: Traceability/dispositions — requirements or choices lacking justified current coverage
 - **`consistency`**: Cross-ADR conflict detection only
 - **`compatibility`**: Technology compatibility audit only (engine or stack)
+- **`engine`**: Legacy game compatibility alias
+- **Architecture file path**: Preserve legacy direct-path invocation; read that body
+  and required CDD/decision dependencies. Missing path means incomplete input,
+  never a fabricated passing verdict.
 - **`single-cdd [path]`**: Review architecture coverage for one specific CDD
 - **`rtm`**: Requirements Traceability Matrix — extends the standard matrix
   to include story file paths and test file paths; outputs
   `docs/architecture/requirements-traceability.md` with the full
-  CDD requirement → ADR → Story → Test chain. Use in Production phase when
+  CDD requirement → exact Accepted decision or justified CDD/local disposition → Story → evidence chain. Use in Production phase when
   stories and tests exist.
 
 ---
@@ -102,6 +145,7 @@ at the top of the Phase 4 conflict detection output.
 
 ### Pre-load the TR Registry
 
+All Phase 2 ID/text changes are read-only proposals until authorized Phase 8 writes.
 Before extracting any requirements, read `docs/architecture/tr-registry.yaml`
 if it exists. Index existing entries by `id` and by normalized `requirement`
 text (lowercase, trimmed). This prevents ID renumbering across review runs.
@@ -123,7 +167,7 @@ It was removed from the CDD intentionally.
 
 For each CDD, read it and extract all **technical requirements** — things the
 architecture must provide for the system to work. A technical requirement is any
-statement that implies a specific architectural decision.
+statement relevant to architecture or a CDD-owned detailed contract; classify before requiring an ADR.
 
 Categories to extract:
 
@@ -154,32 +198,26 @@ architecture must cover.
 
 ## Phase 3: Build the Traceability Matrix
 
-For each technical requirement extracted in Phase 2, search the ADRs:
+For every requirement/choice read governing CDD bodies, Notes, ADRs and actual
+in-scope implementation/evidence when present. Missing ADR links never skip review.
+Apply the shared dispositions: `covered` requires exact Accepted revision/section/
+scope; `cdd-layer` cites its detailed contract owner; `no-adr` states local reason/
+owner; `documentation-update` names factual repairs; `adr-required` resolves the
+significant choice before affected implementation; `conflict` resolves with its owner.
 
-1. Read every ADR's "CDD Requirements Addressed" section
-2. Check if it explicitly references the requirement or its CDD
-3. Check if the ADR's decision text implicitly covers the requirement
-4. Mark coverage status:
+Build a matrix with named CDD path/section, existing TR-ID or unassigned requirement,
+choice/disposition, exact Accepted scope or no-ADR reason, evidence, affected paths/
+dependencies and remaining action/owner. Preserve the Game examples:
 
-| Status | Meaning |
-|--------|---------|
-| ✅ **Covered** | An ADR explicitly addresses this requirement |
-| ⚠️ **Partial** | An ADR partially covers this, or coverage is ambiguous |
-| ❌ **Gap** | No ADR addresses this requirement |
+| Requirement ID | CDD | System | Requirement | Coverage / disposition |
+|---|---|---|---|---|
+| TR-combat-001 | combat.md | Combat | Hitbox detection < 1 frame | ADR-0003 exact Accepted scope: covered |
+| TR-combat-002 | combat.md | Combat | Combo window timing | CDD detailed rule: cdd-layer, verify evidence |
+| TR-inventory-001 | inventory.md | Inventory | Persistent item storage | ADR-0005 exact Accepted scope: covered |
 
-Build the full matrix:
-
-```
-## Traceability Matrix
-
-| Requirement ID | CDD | System | Requirement | ADR Coverage | Status |
-|---------------|-----|--------|-------------|--------------|--------|
-| TR-combat-001 | combat.md | Combat | Hitbox detection < 1 frame | ADR-0003 | ✅ |
-| TR-combat-002 | combat.md | Combat | Combo window timing | — | ❌ GAP |
-| TR-inventory-001 | inventory.md | Inventory | Persistent item storage | ADR-0005 | ✅ |
-```
-
-Count the totals: X covered, Y partial, Z gaps.
+Count each disposition/incomplete check. Only significant `adr-required` choices
+create ADR gaps; justified CDD/local coverage does not require manufactured ADRs.
+No-ADR coverage removes no Story/test/manifest/global Technical Setup prerequisite.
 
 ---
 
@@ -212,9 +250,9 @@ actually exists. Note MISSING if the stated path does not exist.
 For each TR-ID in the Phase 3 matrix, add:
 - **Story**: the story file path(s) that reference this TR-ID (may be multiple)
 - **Test File**: the test file path stated in the story's Test Evidence section
-- **Test Status**: COVERED (test file exists) / MISSING (path stated but not
-  found) / NONE (no test path stated, story type may be Visual/Feel/UI) /
-  NO STORY (requirement has no story yet — pre-production gap)
+- **Test Status**: LINKED / NOT RUN (file exists), PASS/FAIL only from actual
+  identified execution evidence, MISSING, NONE (justified manual evidence type),
+  or NO STORY. Exact test/report identities are required; existence is not PASS.
 
 Extended matrix format:
 
@@ -223,17 +261,17 @@ Extended matrix format:
 
 | TR-ID | CDD | Requirement | ADR | Story | Test File | Test Status |
 |-------|-----|-------------|-----|-------|-----------|-------------|
-| TR-combat-001 | combat.md | Hitbox < 1 frame | ADR-0003 | story-001-hitbox.md | tests/unit/combat/hitbox_test.gd | COVERED |
+| TR-combat-001 | combat.md | Hitbox < 1 frame | ADR-0003 | story-001-hitbox.md | tests/unit/combat/hitbox_test.gd | LINKED / NOT RUN |
 | TR-combat-002 | combat.md | Combo window | — | story-002-combo.md | — | NONE (Visual/Feel) |
 | TR-inventory-001 | inventory.md | Persistent storage | ADR-0005 | — | — | NO STORY |
 ```
 
 RTM coverage summary:
-- COVERED: [N] — requirements with ADR + story + passing test
+- VERIFIED: [N] — justified disposition + Story + exact passing required evidence; count LINKED / NOT RUN separately
 - MISSING test: [N] — story exists but test file not found
 - NO STORY: [N] — requirements with ADR but no story yet
-- NO ADR: [N] — requirements without architectural coverage (from Phase 3 gaps)
-- Full chain complete (COVERED): [N/total] ([%])
+- ADR REQUIRED: [N] — significant choices without Accepted scope; cdd-layer/no-adr count separately
+- Full chain verified: [N/total] ([%]); report unknowns without inferring execution from paths
 
 ---
 
@@ -449,11 +487,13 @@ ADRs Reviewed: [M]
 
 ### Traceability Summary
 Total requirements: [N]
-✅ Covered: [X]
-⚠️ Partial: [Y]
-❌ Gaps: [Z]
+Dispositions: covered [N], cdd-layer [N], no-adr [N], documentation-update [N],
+              adr-required [N], conflict [N]
+Incomplete required inputs/evidence: [actual list]
+Permitted advisory actions: [owner/due phase]
+Affected blocked scope: [paths/dependencies; independent checks may continue]
 
-### Coverage Gaps (no ADR exists)
+### Required Decision Gaps (adr-required; missing link alone is not a gap)
 For each gap:
   ❌ TR-[id]: [CDD] → [module] → [requirement]
      Suggested ADR: "/architecture-decision [suggested title]"
@@ -481,10 +521,11 @@ For each gap:
 
 ### Verdict: [PASS / CONCERNS / FAIL]
 
-PASS: All requirements covered, no conflicts, technology consistent
-CONCERNS: Some gaps or partial coverage, but no blocking conflicts
-FAIL: Critical gaps (Foundation/Core layer requirements uncovered),
-      or blocking cross-ADR conflicts detected
+PASS: Every in-scope requirement/choice has current justified disposition/evidence,
+      no required unresolved decision/conflict, technology consistent
+CONCERNS: Only permitted advisory repairs remain with owner/due phase
+FAIL: Required adr-required/conflict or incomplete required evidence;
+      name affected dependencies and continue independent checks
 
 ### Blocking Issues (must resolve before PASS)
 [List items that must be resolved — FAIL verdict only]
@@ -497,7 +538,9 @@ FAIL: Critical gaps (Foundation/Core layer requirements uncovered),
 
 ## Phase 8: Write and Update Traceability Index
 
-Use `AskUserQuestion` for the write approval:
+Review-only stays read-only, including no in-memory write entrypoint. Report-only
+writes only its assigned new report. Reuse existing named effects; for new effects
+show the concrete changeset and use `AskUserQuestion` for approval:
 - "Review complete. What would you like to write?"
   - [A] Write all three files (review report + traceability index + TR registry)
   - [B] Write review report only — `docs/architecture/architecture-review-[date].md`
@@ -505,7 +548,8 @@ Use `AskUserQuestion` for the write approval:
 
 ### RTM Output (rtm mode only)
 
-For `rtm` mode, additionally ask: "May I write the full Requirements Traceability
+For `rtm` mode, reuse existing exact matrix effect authority. Only for uncovered
+effects additionally ask: "May I write the full Requirements Traceability
 Matrix to `docs/architecture/requirements-traceability.md`?"
 
 RTM file format:
@@ -515,7 +559,7 @@ RTM file format:
 
 > Last Updated: [date]
 > Mode: /architecture-review rtm
-> Coverage: [N]% full chain complete (CDD → ADR → Story → Test)
+> Coverage: [N]% full chain verified (CDD → justified disposition → Story → actual evidence)
 
 ## How to read this matrix
 
@@ -523,10 +567,10 @@ RTM file format:
 |--------|---------|
 | TR-ID | Stable requirement ID from tr-registry.yaml |
 | CDD | Source design document |
-| ADR | Architectural decision governing implementation |
+| ADR | Exact governing Accepted scope, or justified CDD/local disposition |
 | Story | Story file that implements this requirement |
 | Test File | Automated test file path |
-| Test Status | COVERED / MISSING / NONE / NO STORY |
+| Test Status | LINKED / NOT RUN, actual PASS/FAIL, MISSING, NONE or NO STORY |
 
 ## Full Traceability Matrix
 
@@ -538,10 +582,10 @@ RTM file format:
 
 | Status | Count | % |
 |--------|-------|---|
-| COVERED — full chain complete | [N] | [%] |
+| VERIFIED — full chain with actual required evidence | [N] | [%] |
 | MISSING test — story exists, no test | [N] | [%] |
 | NO STORY — ADR exists, not yet implemented | [N] | [%] |
-| NO ADR — architectural gap | [N] | [%] |
+| ADR REQUIRED — significant choice lacks Accepted scope | [N] | [%] |
 | **Total requirements** | **[N]** | **100%** |
 
 ## Uncovered Requirements (Priority Fix List)
@@ -566,8 +610,10 @@ Requirements where the full chain is broken, prioritised by layer:
 
 ### TR Registry Update
 
-Also ask: "May I update `docs/architecture/tr-registry.yaml` with new requirement
-IDs from this review?"
+Only if the registry effect is not already covered, ask: "May I update
+`docs/architecture/tr-registry.yaml` with these proposed IDs/repairs?"
+Report-only approval never covers this. IDs remain prospective until the authorized
+registry update is read back; never claim fabricated active registration.
 
 If yes:
 - **Append** any new TR-IDs that weren't in the registry before this review
@@ -583,8 +629,9 @@ across every subsequent architecture review.
 
 ### Reflexion Log Update
 
-After writing the review report, append any 🔴 CONFLICT entries found in Phase 4
-to `docs/consistency-failures.md` (if the file exists):
+Only within separately authorized log-append scope, add identified 🔴 CONFLICT
+entries to `docs/consistency-failures.md` if it exists. Report approval does not
+permit the log effect; otherwise retain action/owner in the report:
 
 ```markdown
 ### [YYYY-MM-DD] — /architecture-review — 🔴 CONFLICT
@@ -601,8 +648,8 @@ append when it already exists.
 
 ### Session State Update
 
-After writing all approved files, silently append to
-`production/session-state/active.md`:
+Only within its authorized path/append effect, update
+`production/session-state/active.md`; otherwise give the summary in conversation:
 
     ## Session Extract — /architecture-review [date]
     - Verdict: [PASS / CONCERNS / FAIL]
@@ -612,13 +659,14 @@ After writing all approved files, silently append to
     - Top ADR gaps: [top 3 gap titles from the report, or "None"]
     - Report: docs/architecture/architecture-review-[date].md
 
-If `active.md` does not exist, create it with this block as the initial content.
-Confirm in conversation: "Session state updated."
+Create `active.md` only if creation is authorized. Confirm actual writes only;
+otherwise report the pending effect without writing.
 
 ### Memory Bank Review Index
 
-When `memory_bank/` exists and the user approves writing the review report, also
-update `memory_bank/t3_archive/reviews/review-index.md`.
+When `memory_bank/` exists, update its index/pointer only within separately covered
+effect authority. Report-only approval does not cover this write. Bind entries to
+immutable report revisions and exact reviewed input manifests.
 
 - Review Type: `architecture-review`
 - Source Artifact: `docs/architecture/architecture-review-[date].md`
@@ -693,6 +741,14 @@ If any spawned agent returns BLOCKED, errors, or fails to complete:
    anything; let the user see the state
 3. **Don't guess** — if a requirement is ambiguous, ask: "Is [X] a technical
    requirement or a design preference?"
-4. **Ask before writing** — always confirm before writing the report file
-5. **Non-blocking** — the verdict is advisory; the user decides whether to continue
-   despite CONCERNS or even FAIL findings
+4. **Scope before writing** — reuse covered effects; show drafts for new ones
+5. **Affected blockers** — unresolved required decisions/conflicts block affected
+   implementation unless existing governance permits an explicit scoped exception.
+   Record authority/risks without relabeling findings; no automatic PASS.
+
+## Exact-byte check availability
+
+Use available read-only tools to collect complete raw-file SHA-256/byte size without
+normalizing line endings. If exact bytes/digest or a required dependency cannot be
+read, report the affected check incomplete; do not substitute a date, text rendering,
+short hash or file existence. Analysis invokes no write entrypoint.

@@ -47,9 +47,14 @@ memory_bank/t3_archive/skill_testing/
   improvements/
 ```
 
-`/skill-test` reads this directory and, with user approval, writes results to
-T3. `/skill-improve` reads this directory, performs a test-fix-retest loop, and
-writes approved improvement evidence to T3.
+`/skill-test` reads here and writes only result/index paths included in current
+authority. `/skill-improve` performs a scoped test-fix-retest loop. Named approval
+persists across roles/files; report-only excludes inputs/coverage/state, review-only
+invokes no write entrypoint. Without project memory use existing fallback, never
+side-effect activation. Apply `standards/evidence-lifecycle.md` and
+`standards/notes-adr-sync.md` for identity/disposition. Static counts/keywords
+or spec reasoning are not runtime/independent verification. Current Check 1-8
+fixtures must use that set and disclose unexecuted behavior/reading omissions.
 
 ## Catalog Rules
 

@@ -5,22 +5,22 @@ Canonical path-policy rules live in `rules/*.md` and are generated into
 path-glob equivalent; consult the matching `rules/*.md` file manually there.
 Codex's native `.codex/rules/*.rules` files are unrelated command-approval policy.
 
-| Rule File | Path Pattern | Enforces |
+| Rule File | Path Pattern | Policy guidance |
 | ---- | ---- | ---- |
 | `gameplay-code.md` | `src/gameplay/**` | Data-driven values, delta time, no UI references |
 | `engine-code.md` | `src/core/**` | Zero allocs in hot paths, thread safety, API stability |
 | `ai-code.md` | `src/ai/**` | Performance budgets, debuggability, data-driven params |
 | `network-code.md` | `src/networking/**` | Server-authoritative, versioned messages, security |
-| `ui-code.md` | `src/ui/**`, `src/app/**`, `src/web/**` | No game state ownership; Product workflow state, localization-ready, accessibility |
+| `ui-code.md` | `src/ui/**`, `src/app/**`, `src/web/**` | Applicable Game input/audio/thread; Product state/workflow/accessibility |
 | `api-code.md` | `src/api/**` | Product API contracts, schemas, auth/error semantics, compatibility |
 | `cli-code.md` | `src/cli/**` | Product CLI flags, stdout/stderr, exit codes, help text, dry-run safety |
 | `service-code.md` | `src/services/**`, `src/jobs/**`, `src/workers/**` | Product service boundaries, retries, idempotency, observability |
 | `migration-code.md` | `migrations/**`, `db/migrations/**` | Product migration reversibility, batching, rollback/dry-run evidence |
 | `config-files.md` | `config/**`, `.env.example`, `*.config.*` | Product config defaults, no secrets, environment separation |
-| `design-docs.md` | `design/cdd/**` | Required 8 sections, formula format, edge cases |
+| `design-docs.md` | `design/cdd/**` | Module CDD semantic eight; actual DocKind owner for concept/index/support |
 | `narrative.md` | `design/narrative/**` | Lore consistency, character voice, canon levels |
 | `data-files.md` | `assets/data/**`, `src/data/**` | JSON/data validity, naming conventions, schema rules, pipeline fixtures |
-| `test-standards.md` | `tests/**` | Test naming, coverage requirements, fixture patterns |
+| `test-standards.md` | `tests/**` | Configured naming, actual required evidence and isolated fixtures |
 | `prototype-code.md` | `prototypes/**` | Relaxed standards, README required, hypothesis documented |
 | `shader-code.md` | `assets/shaders/**` | Naming conventions, performance targets, cross-platform rules |
 
@@ -33,3 +33,11 @@ Feel, and historical GDD material by keeping it in a **[游戏专用]** section,
 moving it to `docs/reference/archive/`, or retaining it in a
 game-specific template. Product guidance should be added alongside game
 guidance, not as a replacement.
+
+Paths select policy guidance, not automated semantic certification. Resolve
+actual domain/capabilities under `standards/technical-preferences.md` and
+DocKind under `design/INSTRUCTIONS.md`; matching paths do not make Game-only
+constraints universal. Rule loading/manual reading and actual enforcement/
+execution/independent verification are separate facts. Apply
+`standards/evidence-lifecycle.md`; use canonical owners without duplicate platform
+policy/testing/memory directories.

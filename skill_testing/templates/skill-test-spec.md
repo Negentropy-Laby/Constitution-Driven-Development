@@ -10,14 +10,14 @@
 
 ---
 
-## Static Assertions
+## Static Assertions (Structural)
 
 These should pass before any behavioral testing:
 
 - [ ] Frontmatter has all required fields (`name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`)
 - [ ] 2+ phase headings found
-- [ ] At least one verdict keyword present (`PASS`, `FAIL`, `CONCERNS`, `APPROVED`, `BLOCKED`, `COMPLETE`, `READY`)
-- [ ] If `allowed-tools` includes Write/Edit: `"May I write"` language present
+- [ ] At least one verdict keyword present (`PASS`, `FAIL`, `CONCERNS`, `APPROVED`, `BLOCKED`, `COMPLETE`, `INCOMPLETE`, `READY`, `COMPLIANT`, `NON-COMPLIANT`)
+- [ ] Write/Edit paths document scoped authority or its shared-contract owner (evaluate actual behavior in cases)
 - [ ] Next-step handoff section present at end
 
 ---
@@ -40,6 +40,8 @@ These should pass before any behavioral testing:
 **Fixture** (assumed project state):
 - [file/condition 1]
 - [file/condition 2]
+
+**Input**: `/[skill-name] [actual arguments]`
 
 **Expected behavior**:
 1. [Step 1]
@@ -129,7 +131,7 @@ These should pass before any behavioral testing:
 
 ## Protocol Compliance
 
-- [ ] Uses `"May I write"` before any file writes (or is read-only and skips this)
+- [ ] Applies existing scope and asks only for material new effects after draft/summary; review-only invokes no write entrypoint
 - [ ] Presents findings/draft to user before requesting approval
 - [ ] Ends with a recommended next step or follow-up action
 - [ ] Does not auto-create files without user approval
@@ -140,3 +142,17 @@ These should pass before any behavioral testing:
 
 [Any gaps in coverage, known edge cases not tested, or conditions that would require
 a live skill run to verify.]
+
+## Shared Contract Cases
+
+Include applicable fixtures for named batch authority across roles/retries,
+report-only vs review-only, stale exact-input/historic authority, required indirect
+attachments, writer checks vs fresh independent review, and justified `cdd-layer`/
+`no-adr` vs material `adr-required`/`conflict`. Assert observable behavior rather
+than keywords/line counts. Preserve partial findings, originals/full hashes and
+unaffected work; disclose unexecuted verification. Do not install enforcement or
+activate Memory Bank through testing.
+
+Use the same per-case Fixture, Input, numbered Expected behavior, checkbox
+Assertions and Case Verdict fields here as in Test Cases. Bind each applicable
+case to its existing contract owner; these expectations are not runtime results.

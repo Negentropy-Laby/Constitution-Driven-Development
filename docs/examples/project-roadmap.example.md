@@ -7,8 +7,11 @@
 ## Snapshot
 
 - Domain: Product
-- Current phase: Architecture
-- Required progress: 13 / 42
+- Declared phase: Architecture (illustrative fixture declaration)
+- Observed work / candidate: architecture artifacts / Architecture (advisory)
+- Qualified state: unverified; this example supplies no bound completion evidence
+- Catalog structural observations: illustrative 13 / 42, not live catalog counts
+- Qualified required progress: unknown; actual denominator/evidence must be checked
 - Current blocker: Accessibility Requirements
 
 ## Next Commands
@@ -19,10 +22,10 @@
 
 ## Phase Progress
 
-| Phase | Required | Complete | Missing | Status |
-| ----- | -------- | -------- | ------- | ------ |
-| Concept | 3 | 3 | 0 | COMPLETE |
-| Specification | 4 | 4 | 0 | COMPLETE |
+| Phase | Required (illustrative) | Observed | Missing | Observation |
+| ----- | ---------------------- | -------- | ------- | ----------- |
+| Concept | 3 | 3 | 0 | OBSERVED |
+| Specification | 4 | 4 | 0 | OBSERVED |
 | Architecture | 7 | 5 | 2 | BLOCKED |
 | Pre-Implementation | 9 | 1 | 8 | UPCOMING |
 | Implementation | 7 | 0 | 7 | UPCOMING |
@@ -33,11 +36,11 @@
 
 | Step | Required | Evidence | Status |
 | ---- | -------- | -------- | ------ |
-| Technology Setup | Yes | `standards/technical-preferences.md` | COMPLETE |
-| Architecture Document | Yes | `docs/architecture/architecture.md` | COMPLETE |
-| Architecture Decisions | Yes | `docs/architecture/adr-001.md`, `adr-002.md`, `adr-003.md` | COMPLETE |
-| Architecture Review | Yes | `docs/architecture/architecture-review-2026-06-04.md` | COMPLETE |
-| Control Manifest | Yes | `docs/architecture/control-manifest.md` | COMPLETE |
+| Technology Setup | Yes | `standards/technical-preferences.md` | OBSERVED |
+| Architecture Document | Yes | `docs/architecture/architecture.md` | OBSERVED |
+| Architecture Decisions | Yes | `docs/architecture/adr-001.md`, `adr-002.md`, `adr-003.md` | OBSERVED |
+| Architecture Review | Yes | `docs/architecture/architecture-review-2026-06-04.md` | OBSERVED |
+| Control Manifest | Yes | `docs/architecture/control-manifest.md` | OBSERVED |
 | Accessibility Requirements | Yes | `design/accessibility-requirements.md` | MISSING |
 | Test Framework Baseline | Yes | `tests/unit/`, `tests/integration/`, `.github/workflows/tests.yml` | MISSING |
 
@@ -68,4 +71,11 @@
 ## Notes
 
 - Catalog is authoritative.
-- Gate checks remain governed advisory: `FAIL` requires explicit override and a risk note.
+- Risk acceptance/exception is separate; it does not convert required FAIL/NotRun/
+  Blocked/Pending/Unknown into PASS or qualified transition/completion.
+
+Observed rows name locators only. Read actual substantive bodies, required
+checks/decisions/reviews and authority before qualified completion; file counts/
+paths/recorded statuses alone are insufficient. Exact runtime/support evidence
+is not supplied by this illustrative example. No initialization or state write
+occurs under `--dry-run`.

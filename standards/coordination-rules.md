@@ -12,6 +12,16 @@
 5. **No Unilateral Cross-Domain Changes**: An agent must never modify files
    outside its designated directories without explicit delegation.
 
+## Scoped Authority Across Roles
+
+Pass original instruction/approval, paths/effects, limits, exact inputs and pending
+choices to each role. Execute matching scope without repeated per-role/per-file
+questions; delegation never expands authority. Apply the collaboration/evidence/
+decision contracts in `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
+`standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md`.
+Report-only excludes inputs/indexes/state; review-only invokes no write entrypoint.
+Escalate material new scope/choices and continue unaffected authorized work.
+
 ## Model Tier Assignment
 
 > **Claude Code-specific.** The model IDs and `model:` frontmatter below apply to

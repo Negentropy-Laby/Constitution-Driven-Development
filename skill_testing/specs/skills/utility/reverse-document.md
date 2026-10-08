@@ -3,15 +3,15 @@
 ## Skill Summary
 
 `/reverse-document` generates design or architecture documentation from existing
-source code. It reads the specified source file(s), infers design intent from
-class structure, method names, constants, and comments, and produces either a
+source code. It reads the exact specified source set, documents observed behavior,
+asks unresolved intent and preserves governing Target separately, producing either a
 GDD skeleton (for gameplay systems) or an architecture overview (for technical
 systems). The output is a best-effort inference — magic numbers and undocumented
 logic may result in a PARTIAL verdict.
 
 The skill asks "May I write to [inferred path]?" before creating the document.
-No director gates apply. Verdicts: COMPLETE (clean inference), PARTIAL (some
-fields are ambiguous and need human review).
+No director gates apply. COMPLETE/PARTIAL describes document execution/coverage,
+not independent review or decision acceptance. Architecture output remains Proposed.
 
 ---
 
@@ -22,7 +22,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keywords: COMPLETE, PARTIAL
-- [ ] Contains "May I write" collaborative protocol language before writing the doc
+- [ ] Documents scoped write authority or its shared-contract owner; behavioral compliance is evaluated in fixture cases
 - [ ] Has a next-step handoff (e.g., `/design-review` to validate the generated doc)
 
 ---
@@ -48,14 +48,15 @@ None. `/reverse-document` is a documentation utility. No director gates apply.
 
 **Expected behavior:**
 1. Skill reads the source file and identifies the health system
-2. Skill infers design intent: max health, take_damage behavior, health signal
-3. Skill produces GDD skeleton for health system with 8 required sections:
+2. Skill observes max health, take_damage behavior and health signal at the
+   bound baseline; intent is clarified or labeled unknown
+3. Skill produces substantive Game bodies mapped to eight required roles:
    Overview, Player Fantasy, Detailed Rules, Formulas, Edge Cases, Dependencies,
    Tuning Knobs, Acceptance Criteria
 4. Formulas section includes the inferred clamping formula
 5. Tuning Knobs notes `max_health = 100` as a configurable value
 6. Skill asks "May I write to `design/cdd/health-system.md`?"
-7. File written; verdict is COMPLETE
+7. Authorized file written/read back; document outcome COMPLETE with review pending
 
 **Assertions:**
 - [ ] All 8 required GDD sections are present in the output
@@ -102,7 +103,8 @@ None. `/reverse-document` is a documentation utility. No director gates apply.
 
 **Expected behavior:**
 1. Skill reads both files and detects the dependency relationship
-2. Skill produces a cross-system architecture overview (not individual GDDs)
+2. With architecture type selected, skill produces a Proposed cross-system
+   ADR/analysis; multiple filenames alone do not authorize architecture acceptance
 3. Overview describes: Combat System → Damage Resolver interaction, shared
    interfaces, data flow between the two
 4. Skill asks "May I write to `docs/architecture/combat-damage-overview.md`?"
@@ -162,7 +164,7 @@ None. `/reverse-document` is a documentation utility. No director gates apply.
 - [ ] Reads source file(s) before generating any content
 - [ ] Produces all 8 required GDD sections when target is a gameplay system
 - [ ] Annotates ambiguous values with AMBIGUOUS VALUE markers
-- [ ] Produces cross-system overview (not individual GDDs) for multiple files
+- [ ] Multiple source files form an exact declared input set; explicit type controls output
 - [ ] Asks "May I write" before creating any output file
 - [ ] Verdict is COMPLETE (clean inference) or PARTIAL (ambiguous fields)
 
@@ -170,11 +172,30 @@ None. `/reverse-document` is a documentation utility. No director gates apply.
 
 ## Coverage Notes
 
-- Architecture overview format (for technical/infrastructure systems) differs
-  from GDD format; the inferred output type is determined by the nature of the
-  source file (gameplay logic → GDD; engine/infra code → architecture doc).
+- Architecture and CDD formats differ; explicit type/scope controls output,
+  while legacy path-only invocations ask unresolved type rather than accepting a decision.
 - The case where a source file is readable but contains only auto-generated
   boilerplate with no meaningful logic is not tested; skill would likely produce
   a near-empty skeleton with a PARTIAL verdict.
 - C# and Blueprint source files follow the same inference pattern as GDScript;
   language-specific differences are handled in the skill body.
+
+---
+
+### Semantic case: Shipped code does not accept a decision
+
+Use the original Game health/damage fixture and a Product public contract whose
+implemented error behavior violates its governing Target. With explicit existing
+CDD update scope, record exact source/test identities and As-Is/Target/gap bodies;
+preserve original promised behavior and unknown intent. Select architecture type:
+the generated decision is Proposed with reverse-documentation provenance, even
+with green tests and write approval. No inferred decision maker/date accepts it.
+A read-only analysis and assigned report never change code, status/indexes or
+sensitive settings; missing retained source bytes prevents exact reconstruction.
+
+
+**Observation requirements:** Fixtures are constructed only in isolated test
+workspaces. Record real actions/reads, actor and exact before/after input/report
+identities. Compare excluded input/index/session paths for unchanged bytes.
+Static assertions or expected source counts alone cannot qualify semantic verdict,
+reading depth, runtime execution, independent review or write authority.

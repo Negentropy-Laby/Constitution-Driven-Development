@@ -7,6 +7,42 @@ allowed-tools: Read, Glob, Grep, Write
 agent: producer
 ---
 
+## Scope, evidence and effects
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse explicit existing authorization for its named paths, effects
+and limits across roles and retries. Present unresolved material choices or new
+effects for approval; a document/batch/synchronization authorization does not
+require another question for each covered section or file. Content agreement,
+write authority, independent review, ADR acceptance and workflow completion
+remain separate.
+
+Analysis defaults to read-only: no write entrypoint, input edits, status/index/
+session/Memory Bank updates. Report-only may write one new assigned report with
+authority; report approval does not authorize indexes or rolling logs. Other
+writes need the named path/effect in existing authority or a concrete draft and
+changeset approval. Unknown paths are findings, not permission to create them.
+No Memory Bank means use the established report/conversation fallback. Next
+steps are recommendations; execute only effects already authorized or explicitly
+selected by the user. Tool availability determines the question interface.
+
+Bind claims to a declared scope and minimum direct/indirect evidence closure:
+record original paths, full SHA-256, byte sizes, source commit plus exact diff
+and uncommitted/ignored/external identities, exclusions and recoverable originals.
+Do not read sensitive local settings or secrets merely to complete discovery.
+Read required inputs back from their actual paths, verify closure and report
+missing inputs as incomplete affected checks. Keywords, timestamps, counts,
+equal hashes at two collections and static checks do not certify semantic review,
+continuous unchanged history, runtime behavior or independent approval.
+
+Classify meaningful choices with the shared disposition record (`cdd-layer`,
+`no-adr`, `covered`, `documentation-update`, `adr-required`, `conflict`). Significant
+trust, public contract, durable format or state ownership changes require an
+Accepted ADR/valid scoped exception before affected implementation continues.
+Keep As-Is observations and their evidence separate from Target promises and
+gaps; implemented behavior cannot lower a governing Target. Continue independent
+work while blocking only affected dependants.
+
 ## User Guide
 
 - When to use: Audit GDD-specified content counts against implemented content. Identifies what's planned vs built.
@@ -28,7 +64,7 @@ When this skill is invoked:
 Parse the argument:
 - No argument → full audit across all systems
 - `[system-name]` → audit that single system only
-- `--summary` → summary table only, no file write
+- `--summary` → same selected audit reading scope, condensed table output, no file write
 
 ---
 
@@ -43,16 +79,17 @@ Parse the argument:
    Grep pattern="(## Summary|N enemies|N levels|N items|N abilities|enemy types|item types)" glob="design/cdd/*.md" output_mode="files_with_matches"
    ```
    For a single-system audit: skip this step and go straight to full-read.
-   For a full audit: full-read only the CDDs that matched content-count keywords.
-   CDDs with no content-count language (pure mechanics CDDs) are noted as
-   "No auditable content counts" without a full read.
+    For a full audit, read every in-scope CDD body and required inventory
+    references. Keyword results are discovery only; declare "No auditable
+    content counts" only after reading. A targeted audit names its exclusions.
 
    **[Product] Product surface pre-scan**: For product projects, also grep CDDs,
    UX specs, architecture docs, docs, and release notes for product surface keywords:
    ```
    Grep pattern="(endpoint|API|CLI command|screen|workflow|migration|config key|docs page|SDK example|template|seed data|release bundle|user role)" glob="{design,docs,production}/**/*.md" output_mode="files_with_matches"
    ```
-   Full-read only matched files for the Product audit unless a single module was requested.
+    Use matches to locate evidence, then read the declared Product module/surface
+    requirements and minimum closure. A keyword filter does not qualify a full audit.
 
 3. **Full-read in-scope CDD files** (or the single system CDD if a system
    name was given).
@@ -146,24 +183,43 @@ what has been implemented. Use Glob and Grep to locate files.
 
 ## Phase 3 — Gap Report
 
-Produce the gap table:
+Compare required names/aliases, formats and shipping scope as well as counts.
+Resolve each found object to evidence identity and distinguish duplicates,
+editor/test-only items and unavailable/generated evidence. For example, flag
+`jump.wav` as FORMAT ISSUE when OGG is required even if the audio count matches.
+Do not infer runtime behavior from folders or filenames. Produce the gap table:
 
 ```
-| System | Content Type | Specified | Found | Gap | Status |
-|--------|-------------|-----------|-------|-----|--------|
+| System | Content Type | Specified | Found | Gap | Missing members / format issues | Status |
+|--------|-------------|-----------|-------|-----|--------------------------------|--------|
 ```
 
 **Status categories:**
-- `COMPLETE` — Found ≥ Specified (100%+)
+- `COMPLETE` — count target and every specified named member/required format are
+  evidenced in the declared scope. Extra unrelated items cannot cover a missing
+  member (e.g. another enemy cannot replace Boss). Count progress alone is not
+  behavioral correctness, release or runtime verification.
 - `IN PROGRESS` — Found is 50–99% of Specified
 - `EARLY` — Found is 1–49% of Specified
 - `NOT STARTED` — Found is 0
+- `GAPS FOUND` — a required named member is absent, even if Found reaches the count
+- `FORMAT ISSUE` — a found member violates its required format/package constraint
+- `UNVERIFIED` — identity, format or shipping classification lacks evidence;
+  report the missing verification, not COMPLETE or a percentage-only status
+
+A count-progress percentage is a separate metric. When multiple issues apply,
+show all applicable issue labels and missing members/format/verification reasons
+in the row. Observed missing/invalid members produce GAPS FOUND (or MISSING
+CRITICAL CONTENT when the governing source marks them critical); required unknown
+evidence produces INCOMPLETE with UNVERIFIED rows. Extra counts never clear them.
 
 **Priority flags:**
 Flag a system as `HIGH PRIORITY` in the report if:
 - Status is `NOT STARTED` or `EARLY`, AND
 - The system is tagged MVP or Vertical Slice in the systems index, OR
 - The systems index shows the system is blocking downstream systems
+Also flag governing-critical/MVP named-member or format gaps, or required unknown
+verification that blocks a named downstream workflow, regardless of count percentage.
 
 **Summary line:**
 - Total content items specified (sum of all Specified column values)
@@ -171,11 +227,16 @@ Flag a system as `HIGH PRIORITY` in the report if:
 - Overall gap percentage: `(Specified - Found) / Specified * 100`
 
 **[Product] Product status categories:**
-- `COMPLETE` — Documented surface exists and has matching implementation or artifact evidence
+- `COMPLETE` — each specified surface/contract obligation has matching identified
+  implementation/artifact evidence and required format/package coverage; existence
+  alone does not verify behavior. Record runtime/test evidence separately.
 - `PARTIAL` — Surface exists but lacks docs, tests, migration/config evidence, or release packaging
 - `DESIGNED ONLY` — CDD/UX/docs mention it but implementation/artifact is absent
 - `IMPLEMENTED ONLY` — Code/artifact exists but no CDD/UX/docs source claims it
 - `NOT STARTED` — Required Product surface has no found implementation
+- `GAPS FOUND` / `FORMAT ISSUE` — missing named obligation or invalid required format,
+  even if aggregate surface count matches
+- `UNVERIFIED` — required identity/contract/format evidence is unavailable
 
 Flag a Product gap as `HIGH PRIORITY` if it blocks the primary workflow, public API/CLI compatibility, migration safety, deployment, support/onboarding, or the Product Concept user promise.
 
@@ -199,13 +260,14 @@ If yes, write the file:
 - **Scope**: [Full audit | System: name]
 
 > Note: Counts are approximations based on file scanning.
-> The audit cannot distinguish shipped content from editor/test assets.
+> Unverified shipped/editor/test classification stays UNVERIFIED; do not count
+> uncertain artifacts as proof of required shipped content.
 > Manual verification is recommended for any HIGH PRIORITY gaps.
 
 ## Gap Table
 
-| System | Content Type | Specified | Found | Gap | Status |
-|--------|-------------|-----------|-------|-----|--------|
+| System | Content Type | Specified | Found | Gap | Missing members / format issues | Status |
+|--------|-------------|-----------|-------|-----|--------------------------------|--------|
 
 ## HIGH PRIORITY Gaps
 
@@ -242,7 +304,8 @@ to `/create-stories [epic-slug]` or `/quick-design` depending on the size of the
 ### --summary mode
 
 Print the Gap Table and Summary directly to conversation. Do not write a file.
-End with: "Run `/content-audit` without `--summary` to write the full report."
+End with: "Run `/content-audit` without `--summary` to request an authorized
+new report; summary changes output length, not the declared reading scope."
 
 ### Product full audit and summary modes
 
@@ -262,8 +325,8 @@ Use this report when the Product branch is active:
 
 ## Gap Table
 
-| Module / Workflow | Surface Type | Specified | Found | Gap | Status |
-|-------------------|--------------|-----------|-------|-----|--------|
+| Module / Workflow | Surface Type | Specified | Found | Gap | Missing members / format issues | Status |
+|-------------------|--------------|-----------|-------|-----|--------------------------------|--------|
 
 ## HIGH PRIORITY Product Gaps
 [Primary-workflow, API/CLI compatibility, migration, deployment, onboarding, or docs blockers]
@@ -296,4 +359,8 @@ After the audit, recommend the highest-value follow-up actions:
 - If migration/config/release artifacts are missing, run `/release-checklist` after the fixes are added.
 - If docs examples are stale or missing, run `/asset-audit` Product mode after docs and package artifacts are regenerated.
 
-Verdict: **COMPLETE** — content audit finished.
+Audit outcome: **COMPLETE** / **GAPS FOUND** / **MISSING CRITICAL CONTENT** /
+**INCOMPLETE** (required specifications/evidence unavailable). Execution may
+finish with gaps; report coverage, count/identity/format findings and semantic/
+runtime verification separately. No content specifications means completeness
+is unverified, not COMPLETE.

@@ -7,6 +7,45 @@ allowed-tools: Read, Glob, Grep, AskUserQuestion, Task
 model: haiku
 ---
 
+## Scope, decisions and exact evidence
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse original authorization only for its exact named paths, effects
+and limits across roles/retries. Content agreement, writes, independent review,
+ADR acceptance and Story/phase completion remain separate. Show a concrete draft
+before asking about unresolved material choices or new effects; covered writes
+need no repeated per-file or per-role permission.
+
+Read/review-only never invokes a write entrypoint, including in memory. Report-only
+may write its assigned new report, not inputs, indexes, session state, logs or T3
+pointers. Each other effect needs existing scope or separate changeset authority.
+No Memory Bank means the existing Story/review/conversation fallback, not activation.
+
+Bind claims to original paths, full SHA-256 (64 hex), byte sizes, collection time
+with timezone, source commit plus exact uncommitted/ignored/external identities.
+Read actual bodies and minimum required direct/indirect evidence closure; retain
+recoverable originals and disclose missing inputs. Resolve CDD DocKind/required
+owner set and module semantic eight through `design/INSTRUCTIONS.md`, preserving
+substantive aliases; headings, counts or existence cannot establish PASS.
+
+Classify each meaningful choice as `covered`, `cdd-layer`, `no-adr`,
+`documentation-update`, `adr-required` or `conflict`, with named requirement/owner,
+existing TR-ID if assigned, exact Accepted ADR revision/section/scope or justified
+no-ADR reason, affected paths/dependencies, evidence and action/owner/due phase.
+Trust boundaries, public contracts, durable formats, state ownership and governing
+architectural constraints require an Accepted decision or valid scoped exception
+under existing governance before affected implementation starts/continues. Continue
+independent work. Proposed, implemented, green tests, write approval and director
+recommendations do not establish acceptance; historical approval needs exact input
+and authority/scope match. Justified `cdd-layer`/`no-adr` waives no other readiness,
+manifest or evidence prerequisite. The existing global Technical Setup minimum of
+three Foundation ADRs in `workflow/workflow-catalog.yaml` remains a separate gate:
+do not bypass it or manufacture ADRs to meet a count.
+
+Absent, conflicting or ambiguous concept/domain evidence means Unknown. Continue
+domain-independent checks; resolve the domain before applying its Game/Product
+rules. Do not silently default to Game.
+
 ## User Guide
 
 - When to use: Validate that a story file is implementation-ready. Checks for embedded CDD requirements, ADR references, technology notes, clear acceptance criteria, and no open design questions. Produces READY / NEEDS WORK / BLOCKED verdict with specific gaps.
@@ -31,12 +70,16 @@ gap list for each non-ready story.
 
 ## Phase 0: Resolve Review Mode
 
-Resolve the review mode once at startup (store for all gate spawns this run):
+Resolve the review mode once and store it for all gate spawns this run:
+1. If `--review` was passed, require an explicit value of `full`, `lean` or `solo`.
+2. Else read the actual `production/review-mode.txt` if present and require its
+   value to be `full`, `lean` or `solo`.
+3. Only when neither override nor global file is present, default to `lean`.
 
-1. If skill was called with `--review [full|lean|solo]` → use that value
-2. Else read `production/review-mode.txt` → use that value
-3. Else → default to `lean`
-
+A missing/invalid explicit value or invalid selected global value requires correction
+before gate dispatch. Report the actual source/value error; never silently fall back,
+claim a skipped/completed gate, or infer approval from invalid mode input.
+A valid explicit override takes precedence over the global file. Resolve only once.
 See `standards/director-gates.md` for the full check pattern and mode definitions.
 
 ---
@@ -69,11 +112,12 @@ Before checking any stories, load reference documents once (not per-story):
 - `design/cdd/module-index.md` — to know which systems have approved CDDs
 - `docs/architecture/control-manifest.md` — to know which manifest rules exist
   (if the file does not exist, note it as missing once; do not re-flag per story)
-  Also extract the `Manifest Version:` date from the header block if the file exists.
+  Read complete raw bytes/full SHA-256/byte size and retain the readable date
+  separately. Missing required manifest means incomplete affected checks, not PASS.
 - `docs/architecture/tr-registry.yaml` — index all entries by `id`. Used to
-  validate TR-IDs in stories. If the file does not exist, note it once; TR-ID
-  checks will auto-pass for all stories (registry predates stories, so missing
-  registry means stories are from before TR tracking was introduced).
+  validate exact current CDD requirements/active IDs. Missing required registry
+  means incomplete affected checks, not assumed legacy success. Report owning repair/
+  registration; do not fabricate IDs or provenance.
 - All ADR status fields — for each unique ADR referenced across the stories being
   checked, read the ADR file and note its `Status:` field. Cache these so you
   don't re-read the same ADR for every story.
@@ -108,43 +152,32 @@ items pass or are explicitly marked N/A with a stated reason.
 
 ### Architecture Completeness
 
-- [ ] **ADR referenced or N/A stated**: The story references at least one ADR,
-  OR explicitly states "No ADR applies" with a brief reason.
-  A story with no ADR reference and no explicit N/A note fails this check.
-- [ ] **ADR is Accepted (not Proposed)**: For each referenced ADR, check its
-  `Status:` field using the cached ADR statuses loaded in Section 2.
-  - If `Status: Accepted` → pass.
-  - If `Status: Proposed` → **BLOCKED**: the ADR may change before it is accepted,
-    and the story's implementation guidance could be wrong.
-    Fix: `BLOCKED: ADR-NNNN is Proposed — wait for acceptance before implementing.`
-  - If the ADR file does not exist → **BLOCKED**: referenced ADR is missing.
-  - Auto-pass if story has an explicit "No ADR applies" N/A note.
-- [ ] **TR-ID is valid and active**: If the story contains a `TR-[system]-NNN`
-  reference, look it up in the TR registry loaded in Section 2.
-  - If the ID exists and `status: active` → pass.
-  - If the ID exists and `status: deprecated` or `status: superseded-by: ...` →
-    NEEDS WORK: the requirement was removed or replaced.
-    Fix: update the story to reference the current requirement ID or remove if no longer applicable.
-  - If the ID does not exist in the registry → NEEDS WORK: ID was not registered
-    (story may predate registry, or registry needs an `/architecture-review` run).
-  - Auto-pass if the story has no TR-ID reference OR if the registry does not exist.
-- [ ] **Manifest version is current**: If the story has a `Manifest Version:` date
-  in its header AND `docs/architecture/control-manifest.md` exists:
-  - If story version matches current manifest `Manifest Version:` → pass.
-  - If story version is older than current manifest → NEEDS WORK: new rules may
-    apply. Fix: review changed manifest rules, update story if any forbidden/required
-    entries changed, then update the story's `Manifest Version:` to current.
-  - Auto-pass if either the story has no `Manifest Version:` field OR the manifest
-    does not exist.
+- [ ] **Decision disposition justified**: classify actual planned choices under
+  all six dispositions. No ADR link/N/A text alone is insufficient; read CDD/Notes/
+  evidence. Valid CDD/local reason passes only ADR-specific checks, never the others.
+- [ ] **Required governing decision Accepted**: verify retained original/revision,
+  full SHA-256/size, acceptance authority/time and exact choice/scope. Required
+  Proposed/missing/unevidenced acceptance, adr-required/conflict is BLOCKED unless a
+  valid existing-governance scoped exception is evidenced; retain status/findings.
+- [ ] **TR-ID valid and active**: verify current registry/CDD relation. Deprecated/
+  superseded/unknown ID is NEEDS WORK; missing required registry or unassigned
+  requirement keeps affected readiness incomplete/Blocked. No absent-field auto-pass.
+- [ ] **Manifest identity current**: compare `Manifest SHA-256` (full 64 hex),
+  `Manifest Bytes` and original path against complete current raw bytes. Same-date
+  changes are stale too. Mismatch is NEEDS WORK pending current rules/decision/
+  dependency recheck; material new constraints stay Blocked before implementation.
+  Missing required bytes block affected checks. Date-only/absent hash is
+  `LegacyRecheck`, not PASS: inspect rules/dependencies and recommend an authorized
+  Story identity update. Do not invent old hashes or edit files in this skill.
+  Old-rules exceptions require recoverable exact old bytes and explicit authority.
 - [ ] **Technology notes present**: For any post-cutoff engine API (game) or
   stack/framework API (product) this story is likely to touch, implementation
   notes or a verification requirement are included. If the story clearly does
   not touch technology APIs (e.g., it is a
   pure data/config change), "N/A — no technology API involved" is acceptable.
-- [ ] **Control manifest rules noted**: Relevant layer rules from the control
-  manifest are referenced, OR "N/A — manifest not yet created" is stated.
-  This item auto-passes if `docs/architecture/control-manifest.md` does not
-  exist yet (do not penalize stories written before the manifest was created).
+- [ ] **Control manifest rules noted**: bind relevant layer rules to current bytes,
+  or evidence governing-workflow scoped N/A. "Not yet created" is incomplete,
+  not automatic success.
 
 ### Scope Clarity
 
@@ -222,8 +255,8 @@ The story can be assigned immediately.
 exist and are not DRAFT. The story can be fixed before assignment.
 
 **BLOCKED** — One or more dependency stories are missing or in DRAFT state,
-OR a critical design question (flagged UNRESOLVED in a criterion or rule) has
-no owner. The story cannot be assigned until the blocker is resolved. Note:
+OR required decision acceptance/manifest/TR inputs are incomplete, unresolved
+adr-required/conflict affects the Story, or a critical UNRESOLVED question has no owner. The story cannot be assigned until the blocker is resolved. Note:
 a story that is BLOCKED may also have NEEDS WORK items — list both.
 
 ---
@@ -353,7 +386,7 @@ Pass the following context:
 - Overall verdict (READY / NEEDS WORK / BLOCKED) from Phase 4
 
 Handle the verdict per standard rules in `director-gates.md`:
-- **ADEQUATE** → story is cleared. Proceed to close.
+- **ADEQUATE** → QA assessment passes; preserve overall readiness and remaining prerequisites. Proceed to the read-only report.
 - **GAPS [list]** → surface the specific gaps to the user via `AskUserQuestion`:
   options: `Update story with suggested gaps` / `Accept and proceed anyway` / `Discuss further`.
 - **INADEQUATE** → surface the specific gaps; ask user whether to update the story or proceed anyway.
@@ -365,3 +398,10 @@ Handle the verdict per standard rules in `director-gates.md`:
 - Run `/dev-story [story-path]` to begin implementation once the story is READY
 - Run `/story-readiness sprint` to check all stories in the current sprint at once
 - Run `/create-stories [epic-slug]` if a story file is missing entirely
+
+## Exact-byte check availability
+
+Use available read-only tools to collect complete raw-file SHA-256/byte size without
+normalizing line endings. If exact bytes/digest or a required dependency cannot be
+read, report the affected check incomplete; do not substitute a date, text rendering,
+short hash or file existence. Analysis invokes no write entrypoint.

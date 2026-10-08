@@ -7,6 +7,45 @@ allowed-tools: Read, Glob, Grep, Write, Task
 agent: technical-director
 ---
 
+## Scope, decisions and exact evidence
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse original authorization only for its exact named paths, effects
+and limits across roles/retries. Content agreement, writes, independent review,
+ADR acceptance and Story/phase completion remain separate. Show a concrete draft
+before asking about unresolved material choices or new effects; covered writes
+need no repeated per-file or per-role permission.
+
+Read/review-only never invokes a write entrypoint, including in memory. Report-only
+may write its assigned new report, not inputs, indexes, session state, logs or T3
+pointers. Each other effect needs existing scope or separate changeset authority.
+No Memory Bank means the existing Story/review/conversation fallback, not activation.
+
+Bind claims to original paths, full SHA-256 (64 hex), byte sizes, collection time
+with timezone, source commit plus exact uncommitted/ignored/external identities.
+Read actual bodies and minimum required direct/indirect evidence closure; retain
+recoverable originals and disclose missing inputs. Resolve CDD DocKind/required
+owner set and module semantic eight through `design/INSTRUCTIONS.md`, preserving
+substantive aliases; headings, counts or existence cannot establish PASS.
+
+Classify each meaningful choice as `covered`, `cdd-layer`, `no-adr`,
+`documentation-update`, `adr-required` or `conflict`, with named requirement/owner,
+existing TR-ID if assigned, exact Accepted ADR revision/section/scope or justified
+no-ADR reason, affected paths/dependencies, evidence and action/owner/due phase.
+Trust boundaries, public contracts, durable formats, state ownership and governing
+architectural constraints require an Accepted decision or valid scoped exception
+under existing governance before affected implementation starts/continues. Continue
+independent work. Proposed, implemented, green tests, write approval and director
+recommendations do not establish acceptance; historical approval needs exact input
+and authority/scope match. Justified `cdd-layer`/`no-adr` waives no other readiness,
+manifest or evidence prerequisite. The existing global Technical Setup minimum of
+three Foundation ADRs in `workflow/workflow-catalog.yaml` remains a separate gate:
+do not bypass it or manufacture ADRs to meet a count.
+
+Absent, conflicting or ambiguous concept/domain evidence means Unknown. Continue
+domain-independent checks; resolve the domain before applying its Game/Product
+rules. Do not silently default to Game.
+
 ## User Guide
 
 - When to use: After architecture is complete, produces a flat actionable rules sheet for programmers — what you must do, what you must never do, per module and per layer. Extracted from all Accepted ADRs, technical preferences, and reference docs. Supports both game and general product domains.
@@ -37,8 +76,11 @@ Sections below are marked **[通用场景]**, **[游戏专用]**, or **[通用�
 ### ADRs
 - Glob `docs/architecture/adr-*.md` and read every file
 - Filter to only Accepted ADRs (Status: Accepted) — skip Proposed, Deprecated,
-  Superseded
-- Note the ADR number and title for every rule sourced
+  Superseded; report excluded decisions and affected scope
+- Verify actual Accepted authority/revision/scope and required decision dependencies,
+  not status text alone. Required Proposed/conflict remains incomplete, not satisfied
+  by omission.
+- Note exact ADR revision/section/source identity for each sourced rule
 
 ### Technical Preferences
 - Read `standards/technical-preferences.md`
@@ -60,6 +102,14 @@ Sections below are marked **[通用场景]**, **[游戏专用]**, or **[通用�
 - Read `docs/reference/[stack]/current-best-practices.md` if it exists
 
 Report: "Loaded [N] Accepted ADRs, technology: [name + version]."
+If required governing decisions/architecture review are incomplete, report BLOCKED
+for affected rules; do not label the result Active/complete. With no ADRs the separate
+global Technical Setup minimum is unsatisfied; recommend its owning decision workflow.
+An explicitly authorized Draft/Blocked preview does not bypass those prerequisites.
+Retain this qualification through every later phase: incomplete required architecture,
+Accepted decisions, global Technical Setup gate or dependencies mean Draft/Blocked,
+with named findings/actions; only a verified complete required closure may be Active.
+A skipped/approved director review or preview write cannot change that qualification.
 
 ---
 
@@ -158,12 +208,18 @@ Ask: "Does this look complete? Any rules to add or remove before I write the man
 
 ## 4b. Director Gate — Technical Review
 
+Resolve mode once: explicit `--review full|lean|solo`, else
+`production/review-mode.txt`, else lean. Validate supplied/global values; invalid
+values require correction, never silent fallback. Retain the existing update command.
+
 **Review mode check** — apply before spawning TD-MANIFEST:
 - `solo` → skip. Note: "TD-MANIFEST skipped — Solo mode." Proceed to Phase 5.
 - `lean` → skip. Note: "TD-MANIFEST skipped — Lean mode." Proceed to Phase 5.
 - `full` → spawn as normal.
 
-Spawn `technical-director` via Task using gate **TD-MANIFEST** (`standards/director-gates.md`).
+Spawn `technical-director` via Task using **TD-MANIFEST**, whose criteria/verdicts
+are defined inline in this Phase 4b of `skills/create-control-manifest/SKILL.md`.
+`standards/director-gates.md` supplies shared mode/authority guidance, not this gate definition.
 
 Pass: the Control Manifest Preview from Phase 4 (rule counts per layer, full extracted rule list), the list of ADRs covered, engine version, and any rules sourced from technical-preferences.md or engine reference docs.
 
@@ -182,7 +238,14 @@ Apply the verdict:
 
 ## 5. Write the Control Manifest
 
-Ask: "May I write this to `docs/architecture/control-manifest.md`?"
+Reuse existing authority for this exact manifest create/overwrite effect. Only
+for uncovered effects show the qualified draft and ask:
+"May I write this to `docs/architecture/control-manifest.md`?"
+
+Before writing, enforce Phase 1's qualification. Use Active only when all required
+architecture/Accepted-decision/global-gate/dependency checks actually pass.
+An authorized incomplete preview keeps Draft/Blocked and its findings in the file;
+never fall through to Active because Phase 4b approved or skipped review.
 
 Format:
 
@@ -193,12 +256,19 @@ Format:
 > **Last Updated**: [date]
 > **Manifest Version**: [date]
 > **ADRs Covered**: [ADR-NNNN, ADR-MMMM, ...]
-> **Status**: [Active — regenerate with `/create-control-manifest update` when ADRs change]
+> **Status**: [Active only after required checks pass / Draft or Blocked preview]
+> **Qualification Findings**: [None with evidence / missing inputs, affected rules, action and owner]
+> **Regeneration**: `/create-control-manifest update` when governing inputs change
 
-`Manifest Version` is the date this manifest was generated. Story files embed
-this date when created. `/story-readiness` compares a story's embedded version
-to this field to detect stories written against stale rules. Always matches
-`Last Updated` — they are the same date, serving different consumers.
+`Manifest Version`/`Last Updated` retain readable dates for legacy consumers.
+Dates are descriptive, not content identity. After an authorized write, read the
+complete saved raw bytes and compute full SHA-256 and byte size. Store this
+`Manifest SHA-256`/`Manifest Bytes` with original path/time in Story/review/consumer
+records, outside this manifest's own hashed bytes. Do not put its full-file hash
+inside itself or normalize/omit bytes before hashing. Consumers compare complete
+digests even on the same date. Existing date-only records are `LegacyRecheck`:
+inspect current rules/dependencies and resolve affected Stories before an authorized
+identity upgrade. Historical equality cannot be inferred from dates; invent no old hash.
 
 This manifest is a programmer's quick-reference extracted from all Accepted ADRs,
 technical preferences, and engine reference docs. For the reasoning behind each
@@ -314,12 +384,18 @@ These APIs are deprecated or unverified for [technology + version]:
 
 ## 6. Suggest Next Steps
 
-After writing the manifest:
+After writing the manifest, read back exact bytes and report path, full SHA-256,
+byte size and collection time. Consumer identity remains outside the manifest.
+This write does not automatically update Stories, registry, indexes or session state.
 
-- If epics/stories don't exist yet: "Run `/create-epics layer: foundation` then `/create-stories [epic-slug]` — programmers
-  can now use this manifest when writing story implementation notes."
-- If this is a regeneration (manifest already existed): "Updated. Recommend
-  notifying the team of changed rules — especially any new Forbidden entries."
+
+- If Active and epics/stories don't exist yet: "Run `/create-epics layer: foundation`
+  then `/create-stories [epic-slug]`; validate each Story's remaining readiness checks."
+- If Draft/Blocked: report the preview status, unresolved findings/action/owner and
+  affected scope. Recommend the owning repair workflow; the preview grants no readiness.
+- If this is a regeneration (manifest already existed): report the actual status and
+  changed rules — especially new Forbidden entries. Any team notification needs its
+  own explicit authority.
 
 ---
 
@@ -327,8 +403,20 @@ After writing the manifest:
 
 1. **Load silently** — read all inputs before presenting anything
 2. **Show the summary first** — let the user see the scope before writing
-3. **Ask before writing** — always confirm before creating or overwriting the manifest. On write: Verdict: **COMPLETE** — control manifest written. On decline: Verdict: **BLOCKED** — user declined write.
+3. **Scope before writing** — reuse exact covered authority; otherwise show the draft
+   and ask before creating/overwriting. Report saved-path/readback as an operation
+   outcome separately from qualification. **COMPLETE** qualification requires all
+   required checks to pass and an Active manifest. A saved Draft/Blocked preview
+   remains **BLOCKED/INCOMPLETE** with findings; writing never establishes readiness.
+   On decline: **BLOCKED** — user declined write.
 4. **Source every rule** — never add a rule that doesn't trace to an ADR, a
    technical preference, or an engine reference doc
 5. **No interpretation** — extract rules as stated in ADRs; do not paraphrase
    in ways that change meaning
+
+## Exact-byte check availability
+
+Use available read-only tools to collect complete raw-file SHA-256/byte size without
+normalizing line endings. If exact bytes/digest or a required dependency cannot be
+read, report the affected check incomplete; do not substitute a date, text rendering,
+short hash or file existence. Analysis invokes no write entrypoint.

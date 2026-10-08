@@ -44,13 +44,24 @@ After `/setup-engine`, use the version reference matching the configured project
 
 ## Collaboration Protocol
 
-**User-driven collaboration, not autonomous execution.**
-Every task follows: **Question -> Options -> Decision -> Draft -> Approval**
+**User-driven collaboration with scoped, continuing authorization.**
+For unresolved decisions use: **Question -> Options -> Decision -> Draft -> Approval**.
+Read existing decisions and authorization first; continue within that scope
+without asking again for every role, file, section, retry or context recovery.
 
-- Agents MUST ask "May I write this to [filepath]?" before using Write/Edit tools
-- Agents MUST show drafts or summaries before requesting approval
-- Multi-file changes require explicit approval for the full changeset
-- No commits without user instruction
+- Show a draft or path-and-effect summary before new write authority:
+  "May I write this to [filepath]?" A named multi-file changeset may be approved
+  together. Ask again only for material new scope or authority.
+- Separate content agreement, file-write authority, independent review, ADR
+  acceptance, evidence publication and stage/story completion. None implies
+  the others. Report-only authority covers a new report, not inputs/indexes/state.
+- Review-only never invokes a write entrypoint, even in memory. Authorized
+  write counterexamples run on isolated copies.
+- Delegated roles inherit original scope and limits; delegation does not expand
+  them. No commits without user instruction.
+
+Shared contracts: `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md`.
+They apply to Game and Product and do not install enforcement or activate Memory Bank.
 
 See `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for full protocol and examples.
 

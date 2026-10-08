@@ -6,12 +6,49 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Write, Edit, AskUserQuestion, Task
 ---
 
+## QA policy, facts and authority
+
+Apply `standards/evidence-lifecycle.md`, `standards/notes-adr-sync.md` and existing
+collaboration authority. Read actual `workflow/workflow-catalog.yaml`, domain,
+current transition and established project QA scope, including initialized
+`memory_bank/t1_axioms/qa_context.md` or the existing owning Story/plan/decision.
+QA orchestration is optional by default; strict obligations need explicit source,
+authority and exact checks/scope. Review mode does not select strict QA. Absent
+optional Memory Bank/QA Context with no actual strict selection uses the catalog's
+default optional orchestration; disclose absence without requiring initialization.
+Unknown applies to unresolved actual required applicability or conflicting policy,
+not optional context absence. Resolve that affected scope before dependent claims;
+Honor actual user-specified per-effect approval conditions when determining coverage;
+do not invent strict obligations or passing results.
+Optional orchestration never waives required Story AC, governing DoD, decisions,
+evidence or required review. Type tables are starting points; actual owners decide
+requirements. Each required check retains PASS/FAIL/NotRun/Blocked/Pending; N/A
+needs a governing applicability reason and cannot erase a failure.
+
+Separate sufficiency, actual execution, independence, acceptance and completion.
+Files/keywords/counts, planning cases and self-checks prove none of the other facts.
+Read relied-on bodies and minimum required direct/indirect dependency closure;
+retain full SHA-256/byte sizes, recoverable originals and original-path witnesses.
+Disclose reading omissions. Exact bound historical results may be reused only
+where selected workflow permits, labeled historical with original runtime/observer,
+inputs and scope; never call them this run's execution. Missing required originals
+or observations leave affected checks incomplete. Risk acceptance is a separate
+scoped record; it cannot change FAIL/NotRun/Blocked/Pending to PASS or completion.
+
+Reuse named paths/effects authority across roles/retries; before new authority show
+draft and complete effect set, asking only for material new scope. Review-only
+invokes no write entrypoint. Report-only writes its new report, excluding inputs,
+indexes, session/sprint/stage state and closure. Existing report paths require a
+new revision with prior evidence preserved; index effects need their own covered
+scope and historical links. Optional Memory Bank absence uses Story/report/
+conversation fallback without initialization, publication or activation.
+
 ## User Guide
 
 - When to use: End-of-story completion review. Reads the story file, verifies each acceptance criterion against the implementation, checks for CDD/ADR deviations, prompts code review, updates story status to Complete, and surfaces the next ready story from the sprint.
 - Inputs: Command arguments: `/story-done [story-file-path] [--review full|lean|solo]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`.
+- Memory-bank writes: Only when Memory Bank is initialized and each named write effect is covered: `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 # Story Done
@@ -22,16 +59,24 @@ before the story is marked done, CDD and ADR deviations are explicitly
 documented rather than silently introduced, code review is prompted rather than
 forgotten, and the story file reflects actual completion status.
 
-**Output:** Updated story file (Status: Complete) + surfaced next story.
+**Output:** Completion report; eligible scoped Story/state writes and next eligible story.
 
 ---
 
 ## Phase 1: Find the Story
 
 Resolve the review mode (once, store for all gate spawns this run):
-1. If `--review [full|lean|solo]` was passed → use that
-2. Else read `production/review-mode.txt` → use that value
-3. Else → default to `lean`
+1. If `--review` is present, require its nonempty value to be exactly
+   `full`, `lean` or `solo`; use the valid explicit value.
+2. Otherwise, if `production/review-mode.txt` exists, read and trim its value;
+   require exactly `full`, `lean` or `solo`, then use that valid global value.
+3. Only when both override and global file are absent default to `lean`.
+
+Resolve once and reuse the same valid mode for all applicable director spawns.
+Empty/invalid explicit values or an existing empty/invalid global file stop mode
+resolution before any director spawn, gate-skip verdict or status/closure write.
+Report the actual invalid source/value and request correction; do not silently
+fall back to lean or invent a completed gate. Preserve existing legal CLI/modes.
 
 See `standards/director-gates.md` for the full check pattern.
 
@@ -40,13 +85,22 @@ read that file directly.
 
 **If no argument is provided:**
 
-1. Check `production/session-state/active.md` for the currently active story.
-2. If not found there, read the most recent file in `production/sprints/` and
-   look for stories marked IN PROGRESS.
-3. If multiple in-progress stories are found, use `AskUserQuestion`:
-   - "Which story are we completing?"
-   - Options: list the in-progress story file names.
-4. If no story can be found, ask the user to provide the path.
+1. Read `production/session-state/active.md`, if present, for its explicit active
+   Story path and sprint reference; verify these against the actual Story body.
+2. Read `production/sprint-status.yaml`, if present, and the sprint plans whose
+   bodies reference that Story/sprint. Use real IDs, paths and ownership, not file
+   modification time. An `in-progress` YAML entry or equivalent documented Story
+   state may identify a candidate only when its scope and owner agree.
+3. For multiple candidates or conflicting active/status/plan references, use the
+   runtime's available question mechanism to list the real paths and scope
+   differences and resolve which Story/sprint is intended. Do not pick the newest
+   file or silently override a contradictory owner.
+4. If no Story or owning sprint can be established, request the missing path/scope.
+   Continue independent checks, leaving dependent closure and next-Story selection
+   unresolved; do not create or repair state as a discovery step.
+
+Retain the resolved owning sprint and references for Phase 8. A provided Story path
+also requires this ownership reconciliation before making sprint-specific claims.
 
 ---
 
@@ -56,7 +110,7 @@ Read the full story file. Extract and hold in context:
 
 - **Story name and ID**
 - **CDD Requirement TR-ID(s)** referenced (e.g., `TR-combat-001`)
-- **Manifest Version** embedded in the story header (e.g., `2026-03-10`)
+- **Manifest Version**, full raw-byte SHA-256/size, original path/collection time and retained snapshot; date-only identity is LegacyRecheck
 - **ADR reference(s)** referenced
 - **Acceptance Criteria** — the complete list (every checkbox item)
 - **Implementation files** — files listed under "files to create/modify"
@@ -67,16 +121,19 @@ Read the full story file. Extract and hold in context:
 - **Definition of Done** — if present, the story-level DoD
 - **Estimated vs actual scope** — if an estimate was noted
 
-Also read:
-- `docs/architecture/tr-registry.yaml` — look up each TR-ID in the story.
-  Read the *current* `requirement` text from the registry entry. This is the
-  source of truth for what the CDD required — do not use any requirement text
-  that may be quoted inline in the story (it may be stale).
-- The referenced CDD section — just the acceptance criteria and key rules, not
-  the full document. Use this to cross-check the registry text is still accurate.
-- The referenced ADR(s) — just the Decision and Consequences sections
-- `docs/architecture/control-manifest.md` header — extract the current
-  `Manifest Version:` date (used in Phase 4 staleness check)
+Also read actual disposition and required inputs:
+- Governing CDD substantive rules/ACs, required attachments and dependencies;
+  current TR registry for assigned IDs. Missing required owners are incomplete;
+  do not manufacture TR-IDs or treat quoted Story text as current authority.
+- Exact Accepted ADR revision/section/scope for `covered`; justified `cdd-layer`/
+  `no-adr` uses its substantive named CDD/local owner/reason instead. Reconcile
+  actual Notes/code choices under `standards/notes-adr-sync.md`; unresolved required
+  decisions/conflicts/documentation updates block affected closure.
+- Complete current control-manifest bytes and applicable rules. Bind full SHA-256,
+  byte size, original path, timezone-qualified CollectedAt and recoverable snapshot,
+  with commit plus uncommitted/ignored identities. Historical approval needs exact
+  input/scope/authority match. Disclose an absent optional manifest/Memory Bank;
+  missing required owners block affected checks.
 
 ---
 
@@ -100,7 +157,7 @@ three methods:
 - Criteria about subjective qualities ("feels responsive", "animations play correctly")
 - Criteria about gameplay behaviour ("player takes damage when...", "enemy responds to...")
 - Criteria about product workflow behaviour ("user can approve invoice", "CLI prints the expected table")
-- Performance criteria ("completes within Xms") — ask if profiled or accept as assumed
+- Performance criteria ("completes within Xms") — require measured output, method, budget and exact target runtime/hardware/input identity; absent measurement is NotRun
 
 Batch up to 4 manual verification questions into a single `AskUserQuestion` call:
 
@@ -109,12 +166,12 @@ question: "Does [criterion]?"
 options: "Yes — passes", "No — fails", "Not tested yet"
 ```
 
-### Unverifiable (flag without blocking)
+### Unexecuted or unavailable verification
 
-- Criteria that require a full build, deployment, or end-to-end user session to test
-- Mark as:
-  - **[游戏专用]** `DEFERRED — requires playtest session`
-  - **[通用产品]** `DEFERRED — requires user test, deployment, or end-to-end session`
+- Game playtest, Product user/workflow sessions, deployment and full-build checks
+  need actual observations. Record NotRun for unexecuted checks, Blocked for missing
+  prerequisites and Pending for required confirmation. Every required incomplete
+  item prevents both completion levels; optional follow-up needs owner/due phase.
 
 ### Test-Criterion Traceability
 
@@ -142,18 +199,13 @@ For each acceptance criterion in the story:
 | AC-3: [criterion text] | — | UNTESTED |
 ```
 
-3. Apply these escalation rules:
-
-   - If **>50% of criteria are UNTESTED**: escalate to **BLOCKING** — test
-     coverage is insufficient to confirm the story is actually done. The verdict
-     in Phase 6 cannot be COMPLETE until coverage improves.
-   - If **some (≤50%) criteria are UNTESTED**: remain ADVISORY — does not block
-     completion, but must appear in Completion Notes.
-   - If **all criteria are COVERED**: no action needed beyond including the
-     table in the report.
-
-4. For any ADVISORY untested criteria, add to the Completion Notes in Phase 7:
-   `"Untested criteria: [AC-N list]. Recommend adding tests in a follow-up story."`
+3. Resolve each required AC to actual test setup/stimulus/behavioral assertion and
+   result, or documented manual observation. Candidate filenames/keywords locate
+   evidence only. Coverage is not execution. A bare "Yes" without observer, actual
+   steps, exact build/input identity, time and result is Pending confirmation.
+4. Any required AC lacking adequate actual PASS evidence blocks closure regardless
+   of percentage covered. Keep FAIL/NotRun/Blocked/Pending; only optional additional
+   checks may remain advisory with owner/due phase.
 
 ### Test Evidence Requirement
 
@@ -162,9 +214,9 @@ Based on the Story Type extracted in Phase 2, check for required evidence:
 First determine the project domain from the story's CDD path or nearby concept
 document (`game-concept.md` vs `product-concept.md`). Use the game table for game
 stories and the product table for product stories. If domain is unknown and the
-type exists in both domains (`UI`, `Integration`), use the stricter product rule
-when the story references API/CLI/data/workflow/service terms; otherwise ask the
-user which domain applies.
+type exists in both domains (`UI`, `Integration`), resolve actual governing owner/
+surface or ask. Keywords cannot determine required applicability; unresolved scope
+remains Unknown.
 
 **[游戏专用]** Game evidence table:
 | Story Type | Required Evidence | Gate Level |
@@ -244,7 +296,7 @@ If none: flag as **ADVISORY** — "No smoke check report found. Run `/smoke-chec
 `Logic|Integration|Visual/Feel|UI|Config/Data`, or Product
 `API|CLI|Data/Migration|Auth/Permission|Workflow|UI|Integration|Ops/Deployment|Config`."
 
-Any BLOCKING test evidence gap prevents the COMPLETE verdict in Phase 6.
+Any required gap prevents both COMPLETE and COMPLETE WITH NOTES. ADVISORY type-table rows mean only additional evidence not required by the actual Story/DoD; each required AC still needs actual PASS evidence. File existence alone cannot prove passing tests or sign-off.
 
 ---
 
@@ -257,19 +309,17 @@ Run these checks automatically:
 1. **CDD rules check**: Using the current requirement text from `tr-registry.yaml`
    (looked up by the story's TR-ID), check that the implementation reflects what
    the CDD actually requires now — not what it required when the story was written.
-   `Grep` the implemented files for key function names, data structures, or class
-   names mentioned in the current CDD section.
+    Search locates paths; read actual implementation behavior and bound results
+    against substantive rules. Matching identifiers establish no behavioral PASS.
 
-2. **Manifest version staleness check**: Compare the `Manifest Version:` date
-   embedded in the story header against the `Manifest Version:` date in the
-   current `docs/architecture/control-manifest.md` header.
-   - If they match → pass silently.
-   - If the story's version is older → flag as ADVISORY:
-     "ADVISORY: Story was written against manifest v[story-date]; current manifest
-     is v[current-date]. New rules may apply. Run /story-readiness to check."
-   - If control-manifest.md does not exist → skip this check.
+2. **Manifest identity/freshness check**: compare full raw-byte SHA-256/size,
+   original path/CollectedAt and retained snapshot with actual current manifest.
+   Date-only legacy references are LegacyRecheck; date equality is not PASS.
+   Reconcile actual affected rules, decisions, dependencies and verification.
+   Mismatched/unknown required scope blocks closure until checked. Disclose an
+   absent optional manifest; never silently skip required inputs.
 
-3. **ADR constraints check**: Read the referenced ADR's Decision section. Check
+3. **ADR constraints check**: Apply the actual disposition's Accepted ADR/CDD/local owner and required Notes synchronization. Check
    for forbidden patterns from `docs/architecture/control-manifest.md` (if it
    exists). `Grep` for patterns explicitly forbidden in the ADR.
 
@@ -309,7 +359,7 @@ The qa-lead reviews whether the tests actually cover what was specified — not 
 
 Apply the verdict:
 - **ADEQUATE** → proceed to Phase 5
-- **GAPS** → flag as **ADVISORY**: "QA lead identified coverage gaps: [list]. Story can complete but gaps should be addressed in a follow-up story."
+- **GAPS** → classify actual required AC/DoD gaps as blocking; only optional extra coverage remains advisory with owner/due phase.
 - **INADEQUATE** → flag as **BLOCKING**: "QA lead: critical logic is untested. Verdict cannot be COMPLETE until coverage improves. Specific gaps: [list]."
 
 Skip this phase for advisory-only evidence story types when no code test is
@@ -334,7 +384,7 @@ Present the verdict to the user. If CONCERNS, surface them via `AskUserQuestion`
 - Options: `Revise flagged issues` / `Accept and proceed` / `Discuss further`
 If REJECT, do not proceed to Phase 6 verdict until the issues are resolved.
 
-If the story has no implementation files yet (verdict is being run before coding is done), skip this phase and note: "LP-CODE-REVIEW skipped — no implementation files found. Run after implementation is complete."
+No files requires actual applicability: a documented non-code Story may be N/A; missing required implementation/review is Blocked/NotRun. Mode skips establish no independence/approval and cannot waive an explicitly required independent review.
 
 ---
 
@@ -378,70 +428,52 @@ Before updating any files, present the full report:
 ```
 
 **Verdict definitions:**
-- **COMPLETE**: all criteria pass, no blocking deviations
-- **COMPLETE WITH NOTES**: all criteria pass, advisory deviations documented
-- **BLOCKED**: failing criteria or blocking deviations must be resolved first
+- **COMPLETE**: every required AC/check has adequate actual PASS evidence; required
+  decisions/reviews and relevant completion authority are satisfied, no blocking deviations.
+- **COMPLETE WITH NOTES**: the same required conditions pass, with only permitted
+  advisory actions and owner/due phase.
+- **BLOCKED**: any required FAIL/NotRun/Blocked/Pending/Unknown or missing required
+  decision/review/authority; unresolved required deviations must be resolved.
+
+Legacy `COMPLETE WITH RISKS` aliases COMPLETE WITH NOTES only after verifying those
+same required facts. Preserve the original historical record. Otherwise project
+BLOCKED with actual findings, never normalize risk acceptance into completion.
 
 If the verdict is **BLOCKED**: do not proceed to Phase 7. List what must be
 fixed. Offer to help fix the blocking items.
 
 ---
 
-## Phase 7: Update Story Status
+## Phase 7: Authorized Closure Changeset
 
-Ask before writing: "May I update the story file to mark it Complete and log
-the completion notes?"
+Establish eligible COMPLETE/COMPLETE WITH NOTES first. Present exact closure
+revision/input manifest, findings and all proposed paths/effects. Reuse existing
+covered authority; otherwise ask "May I write this named closure changeset?"
+List each intended effect separately:
 
-If yes, edit the story file:
+1. `[story path]`: `Status: Complete` and Completion Notes with canonical verdict,
+   required outcomes, exact evidence/decision/review inputs, actual observer/runtime/
+   time, historical/current execution, independence, completion authority and remaining
+   advisory action/owner/due phase.
+2. `production/sprint-status.yaml`, if selected/present: matching Story `status: done`
+   only from that exact eligible closure revision; retain source/completed date and
+   change top-level timestamp only when listed. Never infer done from risk/label.
+3. `production/session-state/active.md`, only in covered scope: append actual verdict,
+   Story/closure/evidence source and next recommendation. Creation also needs authority.
+4. `docs/tech-debt-register.md`, if listed/authorized: permitted advisory action rows;
+   no entry changes test facts, required acceptance or completion.
+5. Initialized `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`, only
+   with its covered pointer effect. Completion Verdict: COMPLETE,
+   COMPLETE WITH NOTES, or BLOCKED. Use `Story Path` as the dedupe key for authorized
+   current pointers; retain historical closure links. Legacy RISKS follows Phase 6.
 
-1. Update the status field: `Status: Complete`
-2. Add a `## Completion Notes` section at the bottom:
-
-```markdown
-## Completion Notes
-**Completed**: [date]
-**Criteria**: [X/Y passing] ([any deferred items listed])
-**Deviations**: [None] or [list of advisory deviations]
-**Test Evidence**: [story type: test/smoke/evidence path, or manual evidence deferred]
-**Code Review**: [Pending / Complete / Skipped]
-```
-
-3. If advisory deviations exist, ask: "Should I log these as tech debt in
-   `docs/tech-debt-register.md`?"
-
-4. **Update `production/sprint-status.yaml`** (if it exists):
-   - Find the entry matching this story's file path or ID
-   - Set `status: done` and `completed: [today's date]`
-   - Update the top-level `updated` field
-   - This is a silent update — no extra approval needed (already approved in step above)
-
-### Session State Update
-
-After updating the story file, silently append to
-`production/session-state/active.md`:
-
-    ## Session Extract — /story-done [date]
-    - Verdict: [COMPLETE / COMPLETE WITH NOTES / BLOCKED]
-    - Story: [story file path] — [story title]
-    - Tech debt logged: [N items, or "None"]
-    - Next recommended: [next ready story title and path, or "None identified"]
-
-If `active.md` does not exist, create it with this block as the initial content.
-Confirm in conversation: "Session state updated."
-
-### Memory Bank Story Closure Index
-
-When `memory_bank/` exists and the story is marked Complete, also update
-`memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`.
-
-- Completion Verdict: COMPLETE, COMPLETE WITH RISKS, or BLOCKED
-- Use `Story Path` as the dedupe key.
-- If the same story path already exists, update Date, Completion Verdict,
-  Evidence Paths, Review Path, and Remaining Risks instead of adding a duplicate
-  row.
-- If `memory_bank/` does not exist, do not create it from `/story-done`; keep
-  the existing story, sprint-status, and session-state behavior and say:
-  "Run `/constitute` to establish the memory_bank governance control plane."
+Story-write approval authorizes none of the other paths/effects. Report-only cannot
+set Complete/done or alter any input/index/state. With partial authority perform
+only covered effects and disclose pending projections. Freshly verify inputs before
+dependent writes; stop affected effects on mismatch/failure and preserve evidence.
+Immutable closure publication requires its own explicit authority; checks/reports/
+adapter writes are not publication. Without Memory Bank use Story/report fallback,
+disclosing absent optional index without initialization.
 
 ---
 
@@ -449,11 +481,19 @@ When `memory_bank/` exists and the story is marked Complete, also update
 
 After completion, help the developer keep momentum:
 
-1. Read the current sprint plan from `production/sprints/`.
-2. Find stories that are:
-   - Status: READY or NOT STARTED
-   - Not blocked by other incomplete stories
-   - In the Must Have or Should Have tier
+1. Read the owning sprint resolved in Phase 1 and its referenced Story bodies;
+   reconcile matching entries in `production/sprint-status.yaml` when present.
+2. Use the actual storage vocabulary, without adding serialized status values:
+   - Markdown `Ready` and YAML `ready-for-dev` identify ready candidates.
+   - Markdown `Draft` and YAML `backlog` identify candidates needing
+     `/story-readiness`; do not present them as already ready for development.
+   - Exclude `Blocked` / `blocked`, `Complete` / `done`, and stories already
+     `in-progress` or `review` from the next ready list.
+   - Require no blocking incomplete dependency and Must Have / Should Have priority
+     (YAML `must-have` / `should-have`). A Ready label alone does not prove readiness.
+3. If Story and YAML states conflict, or sprint ownership is still ambiguous,
+   list the actual paths/states for resolution; do not invent READY/NOT STARTED
+   storage values, fix statuses or choose a sprint by mtime.
 
 Present:
 
@@ -467,20 +507,25 @@ Run `/story-readiness [path]` to confirm a story is implementation-ready
 before starting.
 ```
 
-If no more Must Have stories remain in this sprint (all are Complete or Blocked):
+List Draft/backlog candidates separately as "Needs readiness review" with their
+actual paths and unresolved requirements. Surfacing recommendations writes no
+Story, sprint or session state.
+
+If every in-scope Must Have has an exact eligible closure (not merely a Complete
+label), surface current selected QA follow-up:
 
 ```
 ### Sprint Close-Out Sequence
-
-All Must Have stories are complete. QA sign-off is required before advancing.
-Run these in order:
-
-1. `/smoke-check sprint` — verify the critical path still works end-to-end
-2. `/team-qa sprint` — full QA cycle: test case execution, bug triage, sign-off report
-3. `/gate-check` — advance to the next phase once QA approves
-
-Do not run `/gate-check` until `/team-qa` returns APPROVED or APPROVED WITH CONDITIONS.
+Every required Must Have closure condition passes.
+1. `/smoke-check sprint` — recommended critical-path evidence collection
+2. `/team-qa sprint` — optional default orchestration when useful
+3. `/gate-check` — assess actual transition, no automatic advancement
 ```
+
+Explicitly selected strict obligations remain required for their named scope;
+NotRun/Blocked/Pending cannot be represented as passing. Optional orchestration
+waives no required AC/evidence. A Blocked Must Have prevents "all complete";
+list its actual unresolved checks and continue independent work.
 
 If there are Should Have stories still unstarted, surface them alongside the close-out sequence so the user can choose: close the sprint now, or pull in more work first.
 
@@ -491,20 +536,19 @@ If no more stories are ready but Must Have stories are still In Progress (not Co
 
 ## Collaborative Protocol
 
-- **Never mark a story complete without user approval** — Phase 7 requires an
-  explicit "yes" before any file is edited.
-- **Never auto-fix failing criteria** — report them and ask what to do.
-- **Deviations are facts, not judgments** — present them neutrally; the user
-  decides if they are acceptable.
-- **BLOCKED verdict is advisory** — the user can override and mark complete
-  anyway; document the risk explicitly if they do.
-- Use `AskUserQuestion` for the code review prompt and for batching manual
-  criteria confirmations.
+- Completion requires actual required PASS evidence, decisions/reviews and relevant
+  scope/authority. Reuse continuing authority without repeated per-role/file prompts.
+- Authorized remediation is a separate writer action with fresh required review.
+  Risk acceptance records its own exact authority/scope and cannot alter test facts.
+- Governance exceptions/actions preserve required failures/unexecuted facts and
+  actual BLOCKED closure. File-write approval cannot mark an untested Story Complete.
+- Manual confirmation identifies actual observations; skips/self-checks do not
+  satisfy required independent review.
 
 ---
 
 ## Recommended Next Steps
 
 - Run `/story-readiness [next-story-path]` to validate the next story before starting implementation
-- If all Must Have stories are complete: run `/smoke-check sprint` → `/team-qa sprint` → `/gate-check`
+- After all exact Must Have closures are eligible: consider optional `/smoke-check` and `/team-qa`; apply actual strict obligations, then assess `/gate-check`
 - If tech debt was logged: track it via `/tech-debt` to keep the register current

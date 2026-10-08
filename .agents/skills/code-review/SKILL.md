@@ -7,21 +7,80 @@ allowed-tools: Read, Glob, Grep, Bash, Task, Write, Edit
 agent: lead-programmer
 ---
 
+## Scope, decisions and exact evidence
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse original authorization only for its exact named paths, effects
+and limits across roles/retries. Content agreement, writes, independent review,
+ADR acceptance and Story/phase completion remain separate. Show a concrete draft
+before asking about unresolved material choices or new effects; covered writes
+need no repeated per-file or per-role permission.
+
+Read/review-only never invokes a write entrypoint, including in memory. Report-only
+may write its assigned new report, not inputs, indexes, session state, logs or T3
+pointers. Each other effect needs existing scope or separate changeset authority.
+No Memory Bank means the existing Story/review/conversation fallback, not activation.
+
+Invoking a target writer callback is a write entrypoint even when it only appends
+to an in-memory list. Review-only and report-only do not authorize non-dry-run
+target validation that invokes a writer, or a constructor/factory that enters its
+write path. Creating an inert observer or obtaining `calls.append` without calling
+it is not a writer invocation. Authorized dry-run checks may use that spy to prove
+zero calls; any unexpected callback is still a real scope breach, even without
+disk effects. Trace the owning public caller, actual parameters, branch and
+callback receiver before diagnostics; a private default does not establish the
+public default. Static source ordering can establish write-before-validation
+without exercising the writer. A write counterexample needs separately covered
+repair/test authority and an isolated copy, not the reviewed original.
+
+Bind claims to original paths, full SHA-256 (64 hex), byte sizes, collection time
+with timezone, source commit plus exact uncommitted/ignored/external identities.
+Read actual bodies and minimum required direct/indirect evidence closure; retain
+recoverable originals and disclose missing inputs. Resolve CDD DocKind/required
+owner set and module semantic eight through `design/INSTRUCTIONS.md`, preserving
+substantive aliases; headings, counts or existence cannot establish PASS.
+
+Classify each meaningful choice as `covered`, `cdd-layer`, `no-adr`,
+`documentation-update`, `adr-required` or `conflict`, with named requirement/owner,
+existing TR-ID if assigned, exact Accepted ADR revision/section/scope or justified
+no-ADR reason, affected paths/dependencies, evidence and action/owner/due phase.
+Trust boundaries, public contracts, durable formats, state ownership and governing
+architectural constraints require an Accepted decision or valid scoped exception
+under existing governance before affected implementation starts/continues. Continue
+independent work. Proposed, implemented, green tests, write approval and director
+recommendations do not establish acceptance; historical approval needs exact input
+and authority/scope match. Justified `cdd-layer`/`no-adr` waives no other readiness,
+manifest or evidence prerequisite. The existing global Technical Setup minimum of
+three Foundation ADRs in `workflow/workflow-catalog.yaml` remains a separate gate:
+do not bypass it or manufacture ADRs to meet a count.
+
+Absent, conflicting or ambiguous substantive concept/configuration/owner evidence
+means Unknown. Apply `standards/technical-preferences.md` before that conclusion;
+a missing concept alone does not erase configured legacy Product facts. Continue
+domain-independent checks while unresolved domain-specific rules remain pending.
+
 ## User Guide
 
 - When to use: Architectural code review after each story implementation. Works for both game and product projects. Checks coding standards, architecture, SOLID, testability, and domain-specific concerns.
 - Inputs: Command arguments: `/code-review [path-to-file-or-directory]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Memory-bank writes: Only when Memory Bank is initialized and each named write effect is covered: `memory_bank/t3_archive/reviews/review-index.md`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Detection
 
-Detect the project domain by checking for concept documents in `design/cdd/`:
+Resolve the actual domain from substantive concept bodies, configured fields and
+explicit project decisions under `standards/technical-preferences.md`:
 
-- **Game**: `design/cdd/game-concept.md` exists → use `[Game]` paths below
-- **Product**: `design/cdd/product-concept.md` exists → use `[Product]` paths below
-- **Neither**: default to game paths (preserves backward compatibility)
+- **Game**: consistent Game concept/configured legacy Game evidence → use `[Game]` paths below.
+- **Product**: consistent Product concept or populated legacy Product configuration,
+  including `Language & Framework`, `Platform & Deployment` and `Agent Routing`,
+  can establish Product without a concept → use `[Product]` paths below.
+- **Unknown**: absent substantive evidence or conflicting/mixed owners; continue
+  common read-only checks and resolve the affected route before applying its rules.
+
+Filenames, copied placeholders and the existence of both/neither concept files
+alone do not establish a domain or override consistent actual configuration.
 
 ---
 
@@ -42,7 +101,13 @@ Read the target file(s) in full. Read AGENTS.md for project coding standards.
 
 If the section reads `[TO BE CONFIGURED]`, no engine is pinned — skip engine specialist steps.
 
-**[Product]** Read `standards/technical-preferences.md`, section `## Language` or `## Technology Stack`. Identify the primary language. Map to the language specialist:
+**[Product]** Read the actual configured `Product Stack`, `Language & Framework`,
+`Language` or `Technology Stack` values in `standards/technical-preferences.md`.
+Resolve populated `Agent Routing` and `File Extension Routing` in that Product
+context; valid legacy headings do not need renaming. Placeholder values establish
+no configured fact, and conflicting values block the affected specialist route.
+Identify the primary language and actual configured specialist. The default
+language mapping is:
 
 | Language | Specialist Agent |
 |----------|-----------------|
@@ -57,15 +122,33 @@ If no language is configured, skip language specialist steps.
 
 ## Phase 3: ADR Compliance Check
 
-Search for ADR references in the story file, commit messages, and header comments. Look for patterns like `ADR-NNN` or `docs/architecture/ADR-`.
+Read actual code choices, owning Story/relevant Notes, named CDD requirements,
+current TR registry/control manifest and governing Accepted decisions. Story/commit/
+comment links are discovery aids; no ADR link never skips actual-choice review.
 
-If no ADR references found, note: "No ADR references found — skipping ADR compliance check."
+- `covered`: verify retained exact Accepted revision/section/authority/scope and
+  actual current code/evidence, not filenames, green tests or implemented status.
+- `cdd-layer`: cite substantive CDD-owned detailed contract without new architecture.
+- `no-adr`: state the local implementation/testing/process reason and owner.
+- `documentation-update`: required facts/links repaired before closure; only
+  permitted advisory actions remain with owner/due phase.
+- `adr-required`: significant choice lacks Accepted scope; CHANGES REQUIRED,
+  route `/architecture-decision` before affected implementation continues.
+- `conflict`: contradicts governing CDD/Accepted decision; CHANGES REQUIRED,
+  report immediately and resolve through the owner before affected continuation.
 
-For each referenced ADR: read the file, extract the **Decision** and **Consequences** sections, then classify any deviation:
+Retain applicable deviation severities:
+- **ARCHITECTURAL VIOLATION** (BLOCKING): explicitly rejected governing pattern
+- **ADR DRIFT** (WARNING): divergence without forbidden pattern; classify materiality
+- **MINOR DEVIATION** (INFO): local difference with no architectural impact
 
-- **ARCHITECTURAL VIOLATION** (BLOCKING): Uses a pattern explicitly rejected in the ADR
-- **ADR DRIFT** (WARNING): Meaningfully diverges from the chosen approach without using a forbidden pattern
-- **MINOR DEVIATION** (INFO): Small difference from ADR guidance that doesn't affect overall architecture
+Record exact source/Story/Notes/CDD/decision/test identities (full SHA-256/byte size/
+original paths, source commit plus changed/ignored inputs), evidence and affected
+dependencies. Read complete manifest bytes; date-only identity is LegacyRecheck,
+not automatic compliance. No-ADR waives no other required check. Required Proposed/
+unknown acceptance cannot become approved through missing links or green tests.
+Valid exceptions record authority/risks/exact scope without relabeling findings.
+Continue independent review and report incomplete affected checks without code edits.
 
 ---
 
@@ -140,6 +223,15 @@ For each referenced ADR: read the file, extract the **Decision** and **Consequen
 
 Spawn all applicable specialists simultaneously via Task — do not wait for one before starting the next.
 
+Pass every delegate the original named paths/effects, review-only or report-only
+limits, exact inputs and pending decisions. Report-only permits its assigned new
+report, not target writer probes; explicitly include the no-write-entrypoint rule
+for in-memory callbacks. Inspect actual returned commands and callback receivers
+before relying on diagnostic findings. Unchanged files, a delegate's assurance or
+a parent's later stop/exclusion do not undo an observed scope breach. Retain and
+label the breach; continue only unaffected authorized findings. If the actual
+execution trace is unavailable, leave that diagnostic/scope assertion incomplete.
+
 ### [Game] Engine Specialists
 
 If an engine is configured, determine which specialist applies to each file and spawn in parallel:
@@ -196,8 +288,9 @@ Collect all specialist findings before producing output.
 [qa-tester findings: test hooks, coverage gaps, untestable paths, new edge cases]
 [If BLOCKING: implementation must expose [X] before tests can run]
 
-### ADR Compliance: [NO ADRS FOUND / COMPLIANT / DRIFT / VIOLATION]
-[List each ADR checked, result, and any deviations with severity]
+### Decision Dispositions and ADR Compliance: [JUSTIFIED / INCOMPLETE / DRIFT / VIOLATION]
+[Each actual choice: disposition, named owner/requirement, exact Accepted scope or
+no-ADR reason, full input identities, affected dependencies and action/owner]
 
 ### Standards Compliance: [X/6 passing]
 [List failures with line references]
@@ -228,13 +321,16 @@ Collect all specialist findings before producing output.
 ### Verdict: [APPROVED / APPROVED WITH SUGGESTIONS / CHANGES REQUIRED]
 ```
 
-Default behavior is read-only. After presenting the review, ask whether the user
-wants to save the review artifact:
+Default behavior is read-only. After presenting the review, reuse existing
+report-only authority for its assigned new artifact. Only when this report effect
+is uncovered ask whether the user wants to save it:
 
 > "May I write this code review to `production/code-reviews/code-review-[scope]-[YYYY-MM-DD].md`?"
 
-If the user approves, write the review artifact. If `memory_bank/` exists, also
-update `memory_bank/t3_archive/reviews/review-index.md`.
+Within report-only scope write only the assigned new review artifact/readback.
+Memory Bank index/pointer updates need separately named effect authority; report
+approval does not cover them. Review-only invokes no write entrypoint, including
+in memory, and makes no source/session/status edits.
 
 Review index row:
 
@@ -243,7 +339,8 @@ Review index row:
 - Verdict: `APPROVED`, `APPROVED WITH SUGGESTIONS`, or `CHANGES REQUIRED`
 - Scope: reviewed story, file set, module, or system
 
-Use `Source Artifact` as the dedupe key. Do not create `memory_bank/` from
+Use immutable Source Artifact revision plus exact input manifest identity; retain
+older review/approval scope when an authorized current pointer updates. Do not create `memory_bank/` from
 `/code-review`; if it does not exist, keep the saved review artifact and tell
 the user to run `/constitute` to establish the memory_bank governance control
 plane.
@@ -255,3 +352,10 @@ plane.
 - If verdict is APPROVED: run `/story-done [story-path]` to close the story.
 - If verdict is CHANGES REQUIRED: fix the issues and re-run `/code-review`.
 - If an ARCHITECTURAL VIOLATION is found: run `/architecture-decision` to record the correct approach.
+
+## Exact-byte check availability
+
+Use available read-only tools to collect complete raw-file SHA-256/byte size without
+normalizing line endings. If exact bytes/digest or a required dependency cannot be
+read, report the affected check incomplete; do not substitute a date, text rendering,
+short hash or file existence. Analysis invokes no write entrypoint.
