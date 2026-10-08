@@ -1,0 +1,6 @@
+{
+  "format": "lossless UTF-8 text in JSON; original CRLF and trailing spaces retained",
+  "raw_sha256": "adac1863acf5e0d5b585875a2c7b3c3601e18a6fccd5fe2d88c2824b314a53ef",
+  "raw_bytes": 823,
+  "raw_text": "Traceback (most recent call last):\r\n  File \"D:\\users\\wsman\\desktop\\coding task\\constitution-driven-development\\production\\qa\\evidence\\pr2-template-review-2026-10-08\\verify.py\", line 88, in <module>\r\n    main()\r\n  File \"D:\\users\\wsman\\desktop\\coding task\\constitution-driven-development\\production\\qa\\evidence\\pr2-template-review-2026-10-08\\verify.py\", line 51, in main\r\n    warnings = list(csv.DictReader(handle, delimiter=\"\\t\"))\r\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"E:\\llms\\python312\\Lib\\csv.py\", line 115, in __next__\r\n    self.fieldnames\r\n  File \"E:\\llms\\python312\\Lib\\csv.py\", line 102, in fieldnames\r\n    self._fieldnames = next(self.reader)\r\n                       ^^^^^^^^^^^^^^^^^\r\nUnicodeDecodeError: 'gbk' codec can't decode byte 0x94 in position 456: illegal multibyte sequence\r\n"
+}

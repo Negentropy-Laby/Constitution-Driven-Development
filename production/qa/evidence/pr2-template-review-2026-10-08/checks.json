@@ -1,0 +1,251 @@
+{
+  "source_commit": "fb0511c02128841eb11686d19322672452861513",
+  "base_commit": "40c2f7629fb8e04fdc2ea4ec34afc13d77096348",
+  "predecessor_head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+  "collected_at": "2026-10-08T23:46:54.377509+08:00",
+  "timezone": "Asia/Shanghai (+08:00)",
+  "python": "3.12.9 (main, Mar 17 2025, 21:01:58) [Clang 20.1.0 ]",
+  "platform": "Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+  "scope": "local template and evidence encoding checks; not Agent or Game qualification",
+  "observer": "Codex author/check operator",
+  "independent_review": "Old-head CONCERNS received from independent reviewer; final-head independent follow-up Pending",
+  "checks": [
+    {
+      "id": "unittest",
+      "command": [
+        "/root/cdd-revision-closeout-20261008/test-env/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-v",
+        "-s",
+        "tests",
+        "-p",
+        "*_test.py"
+      ],
+      "started_at": "2026-10-08T23:46:35.104722+08:00",
+      "ended_at": "2026-10-08T23:46:47.186383+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_path": "check-output/unittest.txt",
+      "log_sha256": "634e24e44b325646d3f4434cfb6b294c55f71afe95d6b9b65dffca0fa8f63c51",
+      "log_bytes": 25723,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 178 tests in 11.972s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "id": "lint-self-test",
+      "command": [
+        "/root/cdd-revision-closeout-20261008/test-env/bin/python",
+        "-B",
+        "scripts/skill_lint.py",
+        "--self-test"
+      ],
+      "started_at": "2026-10-08T23:46:47.187251+08:00",
+      "ended_at": "2026-10-08T23:46:47.269356+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_path": "check-output/lint-self-test.txt",
+      "log_sha256": "19b030328bca8461100a0ef475bbdb04867130f1e2886a2040d4fad44f8e4169",
+      "log_bytes": 99,
+      "summary": [
+        "SELF-TEST PASSED: broken frontmatter, command refs, bad words, headings, and code fences detected."
+      ]
+    },
+    {
+      "id": "strict-lint",
+      "command": [
+        "/root/cdd-revision-closeout-20261008/test-env/bin/python",
+        "-B",
+        "scripts/skill_lint.py",
+        "--strict",
+        "skills"
+      ],
+      "started_at": "2026-10-08T23:46:47.269584+08:00",
+      "ended_at": "2026-10-08T23:46:48.034172+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_path": "check-output/strict-lint.txt",
+      "log_sha256": "76645127d159aefff19a90d5f8654a1b022c57a9e5c17b9577bc2da113fa4abf",
+      "log_bytes": 61923,
+      "summary": [
+        "WARN: skills/ux-review/SKILL.md:55: artifact path has no existing file or same-name template: design/ux/interaction-patterns.md",
+        "WARN: skills/ux-review/SKILL.md:75: artifact path has no existing file or same-name template: design/ux/interaction-patterns.md",
+        "WARN: skills/ux-review/SKILL.md:88: artifact path has no existing file or same-name template: design/ux/interaction-patterns.md",
+        "skill-lint summary: 0 error(s), 465 warning(s), 84 file(s) checked"
+      ]
+    },
+    {
+      "id": "adapters",
+      "command": [
+        "/root/cdd-revision-closeout-20261008/test-env/bin/python",
+        "-B",
+        "scripts/sync_adapters.py",
+        "--check"
+      ],
+      "started_at": "2026-10-08T23:46:48.034582+08:00",
+      "ended_at": "2026-10-08T23:46:48.955955+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_path": "check-output/adapters.txt",
+      "log_sha256": "9b45edc1292b658a00245b47bff8512ce827b50638fb3e1db72d83484efc88fd",
+      "log_bytes": 70,
+      "summary": [
+        "sync-adapters summary: 322 ok, 0 stale, 0 missing, 0 extra, 0 invalid"
+      ]
+    },
+    {
+      "id": "adapter-state",
+      "command": [
+        "/root/cdd-revision-closeout-20261008/test-env/bin/python",
+        "-B",
+        "scripts/sync_adapters.py",
+        "--check",
+        "--state-json"
+      ],
+      "started_at": "2026-10-08T23:46:48.956489+08:00",
+      "ended_at": "2026-10-08T23:46:49.811415+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_path": "check-output/adapter-state.txt",
+      "log_sha256": "a040eef8d34794bb000c78a5421da0461c91ed5e0fb8bdee415babb82699e2eb",
+      "log_bytes": 481,
+      "summary": [
+        "{\"check_command\": \"python scripts/sync_adapters.py --check\", \"checked_at\": \"2026-10-08T15:46:49Z\", \"checked_commit\": \"fb0511c02128841eb11686d19322672452861513\", \"counts\": {\"extra\": 0, \"invalid\": 0, \"missing\": 0, \"ok\": 322, \"stale\": 0}, \"diagnostics\": [], \"drifts\": [], \"manifest_digest\": \"34e71d1fff5224db0e5783b8983302c47b3740e6215b5009c0f712c4cea97e3a\", \"schema_version\": 1, \"source_digest\": \"ac832d6307c373d9df3c5d5d32b78864a4931609cfae40938edffb18b9816af1\", \"status\": \"fresh\"}"
+      ]
+    },
+    {
+      "id": "structural-smoke",
+      "command": [
+        "/root/cdd-revision-closeout-20261008/test-env/bin/python",
+        "-B",
+        "scripts/runtime_smoke.py",
+        "--structural"
+      ],
+      "started_at": "2026-10-08T23:46:49.811599+08:00",
+      "ended_at": "2026-10-08T23:46:50.578067+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_path": "check-output/structural-smoke.txt",
+      "log_sha256": "eb6943074956199a477c3341c0970a71d5412c18c6e2e2e67cc11698145c365b",
+      "log_bytes": 28,
+      "summary": [
+        "runtime-smoke summary: PASS"
+      ]
+    },
+    {
+      "id": "hook-syntax",
+      "command": [
+        "bash",
+        "-c",
+        "for hook in hooks/*.sh; do bash -n \"$hook\" || exit; done"
+      ],
+      "started_at": "2026-10-08T23:46:50.578252+08:00",
+      "ended_at": "2026-10-08T23:46:50.597679+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_path": "check-output/hook-syntax.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_bytes": 0,
+      "summary": []
+    },
+    {
+      "id": "workflow",
+      "command": [
+        "/root/cdd-revision-closeout-20261008/test-env/bin/python",
+        "-B",
+        "scripts/workflow_consistency.py"
+      ],
+      "started_at": "2026-10-08T23:46:50.597877+08:00",
+      "ended_at": "2026-10-08T23:46:51.760669+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_path": "check-output/workflow.txt",
+      "log_sha256": "737f3d87f1f1ac22cf3a28c129d948cf9eb5cdc4aa472e4d252b1c076c645d85",
+      "log_bytes": 55,
+      "summary": [
+        "workflow-consistency summary: 0 error(s), 0 warning(s)"
+      ]
+    },
+    {
+      "id": "whitespace",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "40c2f7629fb8e04fdc2ea4ec34afc13d77096348...HEAD"
+      ],
+      "started_at": "2026-10-08T23:46:51.760845+08:00",
+      "ended_at": "2026-10-08T23:46:53.701458+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_path": "check-output/whitespace.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_bytes": 0,
+      "summary": []
+    }
+  ],
+  "posix_tests": [
+    {
+      "test": "test_special_file_in_managed_root_is_invalid",
+      "actual_execution": true,
+      "result": "PASS",
+      "log_line": "test_special_file_in_managed_root_is_invalid (sync_adapters_test.FreshnessTests.test_special_file_in_managed_root_is_invalid) ... ok"
+    },
+    {
+      "test": "test_generated_mode_is_exactly_0644",
+      "actual_execution": true,
+      "result": "PASS",
+      "log_line": "test_generated_mode_is_exactly_0644 (sync_adapters_test.WriteMechanicsTests.test_generated_mode_is_exactly_0644) ... ok"
+    },
+    {
+      "test": "test_mode_only_repair_preserves_bytes_and_mtime",
+      "actual_execution": true,
+      "result": "PASS",
+      "log_line": "test_mode_only_repair_preserves_bytes_and_mtime (sync_adapters_test.WriteMechanicsTests.test_mode_only_repair_preserves_bytes_and_mtime) ... ok"
+    },
+    {
+      "test": "test_generated_hook_is_not_executable",
+      "actual_execution": true,
+      "result": "PASS",
+      "log_line": "test_generated_hook_is_not_executable (sync_adapters_test.WriteMechanicsTests.test_generated_hook_is_not_executable) ... ok"
+    },
+    {
+      "test": "test_fchmod_failure_is_reported_cleaned_and_does_not_prune",
+      "actual_execution": true,
+      "result": "PASS",
+      "log_line": "test_fchmod_failure_is_reported_cleaned_and_does_not_prune (sync_adapters_test.WriteMechanicsTests.test_fchmod_failure_is_reported_cleaned_and_does_not_prune) ... ok"
+    },
+    {
+      "test": "test_mode_only_chmod_failure_preserves_content_mtime_and_extras",
+      "actual_execution": true,
+      "result": "PASS",
+      "log_line": "test_mode_only_chmod_failure_preserves_content_mtime_and_extras (sync_adapters_test.WriteMechanicsTests.test_mode_only_chmod_failure_preserves_content_mtime_and_extras) ... ok"
+    }
+  ],
+  "generated_permissions": {
+    "count": 322,
+    "all_mode": "0644",
+    "contract_unchanged": true
+  },
+  "worktree_before": "",
+  "worktree_after": "",
+  "environment_override": "prepend existing Python 3.12.9 venv bin to PATH for env-python test shims; no UTF-8 mode override",
+  "tests": {
+    "total": 178,
+    "passed": 178,
+    "skipped": 0
+  },
+  "source_inputs_sha256": "d0b1a13110e51c7fc91ed467963ae09c374bd140483b21cebc6c57ed511dea2a",
+  "historical_check_record": {
+    "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+    "path": "production/qa/evidence/pr2-template-review-2026-10-08/checks.json",
+    "sha256": "dfc36d326f7563c7589440a3c3ebe99d0db191fe43ef3575f7ee4344ad9aaa32",
+    "bytes": 10251
+  }
+}

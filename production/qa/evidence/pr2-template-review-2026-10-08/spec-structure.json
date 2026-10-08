@@ -1,0 +1,286 @@
+{
+  "source_commit": "fb0511c02128841eb11686d19322672452861513",
+  "source_inputs_sha256": "d0b1a13110e51c7fc91ed467963ae09c374bd140483b21cebc6c57ed511dea2a",
+  "cases": [
+    {
+      "spec": "skill_testing/specs/skills/analysis/security-audit.md",
+      "case": "### Case 1: Game save/network boundaries",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/security-audit.md",
+      "case": "### Case 2: Product permission/input/log/deployment finding",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/security-audit.md",
+      "case": "### Case 3: Prior finding resolution requires originals",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/security-audit.md",
+      "case": "### Case 4: Risk acceptance and partial/quick audit",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/security-audit.md",
+      "case": "### Case 5: Report-only, delegated repair and unavailable role/source",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/security-audit.md",
+      "case": "### Case 6: Exact QA policy and closure counterexamples",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/security-audit.md",
+      "case": "### Case 7: Optional context absence",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/security-audit.md",
+      "case": "### Case 8: Continuing named authority",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/security-audit.md",
+      "case": "### Case 9: Configured legacy Product and conflicting domain",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/regression-suite.md",
+      "case": "### Case 1: Critical-path audit",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/regression-suite.md",
+      "case": "### Case 2: Original Bug before regression claim",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/regression-suite.md",
+      "case": "### Case 3: Drift/quarantine and required gaps",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/regression-suite.md",
+      "case": "### Case 4: Report-only and audit preservation",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/regression-suite.md",
+      "case": "### Case 5: Historical regression input changes",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/regression-suite.md",
+      "case": "### Case 6: Exact QA policy and closure counterexamples",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/regression-suite.md",
+      "case": "### Case 7: Optional context absence",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/regression-suite.md",
+      "case": "### Case 8: Continuing named authority",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/regression-suite.md",
+      "case": "### Case 9: Configured legacy Product and conflicting domain",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/test-evidence-review.md",
+      "case": "### Case 1: Game evidence with one decisive assertion",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/test-evidence-review.md",
+      "case": "### Case 2: Unit timing or external API isolation gap",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/test-evidence-review.md",
+      "case": "### Case 3: Product contract/CLI/migration evidence",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/test-evidence-review.md",
+      "case": "### Case 4: Selected sign-off and historical results",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/test-evidence-review.md",
+      "case": "### Case 5: Report-only and separate completion",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/test-evidence-review.md",
+      "case": "### Case 6: Exact QA policy and closure counterexamples",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/test-evidence-review.md",
+      "case": "### Case 7: Optional context absence",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/test-evidence-review.md",
+      "case": "### Case 8: Continuing named authority",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/analysis/test-evidence-review.md",
+      "case": "### Case 9: Configured legacy Product and conflicting domain",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/skill-test.md",
+      "case": "### Case 1: Static Mode — Current checks and both domains",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/skill-test.md",
+      "case": "### Case 2: Missing scoped collaborative behavior",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/skill-test.md",
+      "case": "### Case 3: Spec mode resolves canonical assets",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/skill-test.md",
+      "case": "### Case 4: Audit mode with absent optional memory",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/skill-test.md",
+      "case": "### Case 5: Category mode reads current rubric",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/skill-test.md",
+      "case": "### Case 6: Report-only differs from named report-and-index approval",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/skill-test.md",
+      "case": "### Case 7: Changed indirect attachment and claimed independence",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/skill-test.md",
+      "case": "### Case 8: Four-mode interface and genuine reading parity",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/skill-test.md",
+      "case": "### Case 9: Legacy report format is inventory, not execution coverage",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 1: Happy Path — Godot base factory scaffold",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 2: Missing configured test root — redirects to test setup",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 3: Existing helper — authorized additive extension",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 4: Missing system CDD — no invented business defaults",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 5: No director gate for scaffold",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 6: Pytest fixtures are shared with sibling test files",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 7: Existing conftest is extended without replacing custom behavior",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 8: App/database scaffold stays explicitly unimplemented",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 9: Configured alternative test root",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    },
+    {
+      "spec": "skill_testing/specs/skills/utility/test-helpers.md",
+      "case": "### Case 10: Unknown and configured legacy Product domain",
+      "structure": "PASS",
+      "runtime": "NotRun"
+    }
+  ],
+  "shared_contract_groups": 12,
+  "claim": "document structure only; no assertion execution or independent review",
+  "predecessor_head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+  "reuse": "Recorded structural-case source bytes unchanged; create-epics verdict repair is recorded separately, not a new runtime assertion"
+}

@@ -1,22 +1,31 @@
 ---
 name: skill-test
-description: "Validate skill files for structural compliance and behavioral correctness. Three modes: static (linter), spec (behavioral), audit (coverage report)."
+description: "Validate skill files for structural compliance and behavioral correctness. Four modes: static (structure/parity), spec (instruction reasoning), category (rubric), audit (coverage report)."
 argument-hint: "static [skill-name | all] | spec [skill-name] | category [skill-name | all] | audit"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 ---
+Read and apply `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
+`standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` for scoped
+authority, exact evidence and decision ownership. Existing named authority
+continues; analysis is read-only and report-only excludes input/index/state writes.
+
 
 ## User Guide
 
-- When to use: Validate skill files for structural compliance and behavioral correctness. Three modes: static (linter), spec (behavioral), audit (coverage report).
+- When to use: Validate skill files for structural compliance and behavioral correctness. Four modes: static (structure/parity), spec (instruction reasoning), category (rubric), audit (coverage report).
 - Inputs: Command arguments: `/skill-test static [skill-name | all] | spec [skill-name] | category [skill-name | all] | audit`; project artifacts referenced below; user decisions and approvals before writes.
-- Outputs: Static/spec/category/audit reports. Approved writes go to `memory_bank/t3_archive/skill_testing/results/` and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`.
-- Memory-bank writes: Reads canonical test assets from `skill_testing/`; with approval writes T3 test evidence under `memory_bank/t3_archive/skill_testing/`.
+- Outputs: Conversational static/spec/category/audit findings; covered optional
+  result writes use existing T3 paths/fallback. Coverage index is a distinct effect.
+- Memory-bank writes: Only when Memory Bank is initialized and each named write effect is covered: T3 test evidence under `memory_bank/t3_archive/skill_testing/`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Routing
 
-Detect the skill domain before testing:
+Determine the target skill's advertised domain capability before testing.
+`[Both]` below describes an artifact supporting both domains, not a project-domain
+enum. Project routing uses the concrete Game or Product scope, or unresolved
+Unknown, under `standards/technical-preferences.md`.
 - **[Game]** verify game examples, player/gameplay/engine language, playtest references, and game CDD paths remain valid.
 - **[Product]** verify product examples, API/CLI/web/data language, product-concept paths, stack references, and product evidence paths remain valid.
 - **[Both]** check that dual-domain skills preserve both branches and do not hide game-only content from game workflows.
@@ -32,7 +41,7 @@ existing skill/hook/template architecture.
 
 | Mode | Command | Purpose | Token Cost |
 |------|---------|---------|------------|
-| `static` | `/skill-test static [name\|all]` | Structural linter — 7 compliance checks per skill | Low (~1k/skill) |
+| `static` | `/skill-test static [name\|all]` | Structural/parity review — current 8 checks per skill | Low (~1k/skill) |
 | `spec` | `/skill-test spec [name]` | Behavioral verifier — evaluates assertions in test spec | Medium (~5k/skill) |
 | `category` | `/skill-test category [name\|all]` | Category rubric — checks skill against its category-specific metrics | Low (~2k/skill) |
 | `audit` | `/skill-test audit` | Coverage report — skills, agent specs, last test dates | Low (~3k total) |
@@ -50,7 +59,8 @@ Determine mode from the first argument:
 - `category all` → run category rubric for every skill that has a `category:` in catalog
 - `audit` (or no argument) → read catalog, list all skills and agents, show coverage
 
-If argument is missing or unrecognized, output usage and stop.
+No argument selects `audit`. Unrecognized modes or missing required names for
+`static`/`spec`/`category` output usage and stop; do not reject the legal no-argument audit.
 
 ---
 
@@ -78,18 +88,19 @@ The skill must have ≥2 numbered phase headings. Look for patterns like:
 
 ### Check 3 — Verdict Keywords
 The skill must contain at least one of: `PASS`, `FAIL`, `CONCERNS`, `APPROVED`,
-`BLOCKED`, `COMPLETE`, `READY`, `COMPLIANT`, `NON-COMPLIANT`
+`BLOCKED`, `COMPLETE`, `INCOMPLETE`, `READY`, `COMPLIANT`, `NON-COMPLIANT`
 
 **FAIL** if none are present.
 
 ### Check 4 — Collaborative Protocol Language
-The skill must contain ask-before-write language. Look for:
-- `"May I write"` (canonical form)
-- `"before writing"` or `"approval"` near file-write instructions
-- `"ask"` + `"write"` in close proximity (within same section)
 
-**WARN** if absent (some read-only skills legitimately skip this).
-**FAIL** if `allowed-tools` includes `Write` or `Edit` but no ask-before-write language is found.
+Evaluate actual actions and shared-owner application. Write-capable skills must
+reuse covered named paths/effects, show concrete scope before new authority and
+exclude inputs/index/state from report-only. Review-only invokes no write
+entrypoint. A valid shared-contract reference with consistent behavior can PASS
+without repeated per-file questions. Magic phrase/nearby keyword presence cannot
+overcome conflicting writes; FAIL for a real authority gap. Read-only behavior is
+N/A for write authority rather than WARN solely for absent permission wording.
 
 ### Check 5 — Next-Step Handoff
 The skill must end with a recommended next action or follow-up path. Look for:
@@ -115,23 +126,17 @@ hint against the first phase's "Parse Arguments" section.
 
 ### Check 8 — Dual-Domain Parity
 
-If the skill advertises Product support in frontmatter or Phase 0, it must also
-contain Product-specific implementation guidance beyond the first 50 lines.
-Look for at least two of:
-- Product context reads (`product-concept.md`, Product CDDs, `docs/reference/<stack>/`, language specialist, API/CLI/UI/data docs)
-- Product-specific steps/checks/templates
-- Product output report/spec format
-- Product next-step handoff
-
-**WARN** if Product appears only near the top of the file.
-**FAIL** if the skill claims Product support but the body remains game-only and
-would route a Product project through engine/player/playtest/HUD-only behavior.
-
-Also check that game content is preserved:
-- Game markers, player/gameplay/engine examples, playtest references, or game
-  CDD paths must not be removed when Product support is added.
-- A passing dual-domain skill may include game-only sections, as long as Product
-  sections are present beside them for Product workflows.
+Read the entire skill and applicable referenced owner bodies. Determine actual
+advertised scope, domain routing and capabilities, then reason through Game and
+Product fixtures for its job: context, substantive actions/output and handoff.
+Required Product behavior must not route through engine/player/playtest-only
+instructions; Game examples and applicable Game behavior remain preserved.
+Game-only skills justify their scope rather than invent Product features.
+Meaningful guidance in the first 50 lines is valid; line position, two keyword
+hits, total line counts or quoting the last line do not prove full reading.
+Disclose inaccessible/omitted bodies and leave affected checks incomplete.
+PASS needs actual supported behavior; WARN/PARTIAL identifies ambiguity, FAIL
+identifies a specific contradictory/missing required behavior.
 
 ---
 
@@ -144,10 +149,11 @@ For a single skill:
 Check 1 — Frontmatter Fields:    PASS
 Check 2 — Multiple Phases:       PASS (7 phases found)
 Check 3 — Verdict Keywords:      PASS (PASS, FAIL, CONCERNS)
-Check 4 — Collaborative Protocol: PASS ("May I write" found)
+Check 4 — Collaborative Protocol: PASS (actual scoped actions verified)
 Check 5 — Next-Step Handoff:     WARN (no follow-up section found)
 Check 6 — Fork Context Complexity: PASS (8 phases, context: fork set)
 Check 7 — Argument Hint:         PASS
+Check 8 — Dual-Domain Parity:     PASS (both actual branches evaluated)
 
 Verdict: WARNINGS (1 warning, 0 failures)
 Recommended: Add a "Follow-Up Actions" section at the end of the skill.
@@ -155,7 +161,7 @@ Recommended: Add a "Follow-Up Actions" section at the end of the skill.
 
 For `static all`, produce a summary table then list any non-compliant skills:
 ```
-=== Skill Static Check: All 74 Skills ===
+=== Skill Static Check: All [actual enumerated count] Skills ===
 
 Skill                  | Result       | Issues
 -----------------------|--------------|-------
@@ -170,8 +176,8 @@ Aggregate Verdict: N WARNINGS / N FAILURES
 
 ### Static Mode Optional Evidence Write
 
-Static mode displays results by default. If the user wants to preserve the run,
-ask:
+Static mode displays findings by default. Reuse existing named report/index scope;
+if preservation is requested without coverage, show actual effects then ask:
 
 "May I write this static check to
 `memory_bank/t3_archive/skill_testing/results/static/skill-test-static-[name|all]-[YYYY-MM-DD].md`
@@ -213,8 +219,8 @@ For each **Test Case** in the spec:
 3. Read each **Assertion** checkbox
 
 For each assertion, evaluate whether the skill's written instructions, if
-followed correctly given the fixture state, would satisfy it. This is a
-Claude-evaluated reasoning check, not code execution.
+followed correctly given the fixture state, would satisfy it. This is an
+instruction-reasoning check, not fixture/runtime execution.
 
 Mark each assertion:
 - **PASS** — skill instructions clearly satisfy this assertion
@@ -222,7 +228,7 @@ Mark each assertion:
 - **FAIL** — skill instructions would NOT satisfy this assertion given the fixture
 
 For **Protocol Compliance** assertions (always present):
-- Check whether the skill requires "May I write" before file writes
+- Check actual named scope/authority and shared-contract application before writes
 - Check whether the skill presents findings before requesting approval
 - Check whether the skill ends with a recommended next step
 - Check whether the skill avoids auto-creating files without approval
@@ -247,7 +253,7 @@ Case 2: [Edge Case — name]
   Case Verdict: PASS
 
 Protocol Compliance:
-  [PASS] Uses "May I write" before file writes
+  [PASS] Applies actual scoped authority before file writes
   [PASS] Presents findings before asking approval
   [WARN] No explicit next-step handoff at end
 
@@ -256,20 +262,32 @@ Overall Verdict: FAIL (1 case failed, 1 warning)
 
 ### Step 4b — Dual-Domain Spec Assertions
 
-For any spec that covers a dual-domain skill, evaluate both branches:
-- Game fixture: `design/cdd/game-concept.md` exists. The skill should preserve
-  game terminology, paths, examples, and next steps.
-- Product fixture: `design/cdd/product-concept.md` exists. The skill should use
-  Product terminology, paths, examples, and next steps.
+For a spec covering a dual-domain skill, read substantive bodies/configuration,
+the actual job, selected scope and inputs for each advertised branch:
+- Game fixture: actual Game concept or configured legacy Game evidence plus its
+  gameplay/engine task and owning CDD/Story; preserve applicable examples and paths.
+- Product fixture: actual Product contract or configured legacy Product evidence
+  (including populated aliases without a concept) plus its actual API/CLI/data/
+  auth/workflow job and owning inputs; use applicable Product behavior and paths.
+- Absent concepts, copied placeholders and conflicting bodies do not establish a
+  domain. Mixed/conflicting scope needs a concrete Game or Product selection
+  before dependent routing; neutral analysis continues without an invented Both
+  project route or completion claim.
 
-Mark assertions:
-- **PASS** — both branches are clearly supported.
-- **PARTIAL** — Product is mentioned but lacks equivalent depth.
-- **FAIL** — Product fixture would still execute only game-specific behavior, or
-  the Product change removed game content.
+Reasoning through a fixture is not fixture execution. Record which assertions
+were reasoned about and which supported behaviors were actually run; disclose
+unexecuted/inaccessible cases and do not infer runtime qualification.
+
+Mark semantic assertions:
+- **PASS** — both advertised branches satisfy the evaluated assertions for their
+  actual scope; execution and qualification are reported separately.
+- **PARTIAL** — required body/scope evidence or applicable behavior is incomplete.
+- **FAIL** — actual Product scope is routed through Game-only behavior, or a
+  Product change removes required Game behavior.
 
 ### Step 5 — Offer to Write Results
 
+Reuse exact named report/index authority; only missing/new effects ask:
 "May I write these results to
 `memory_bank/t3_archive/skill_testing/results/spec/skill-test-spec-[name]-[YYYY-MM-DD].md`
 and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`?"
@@ -283,7 +301,7 @@ If yes:
 
 ---
 
-## Phase 2D: Category Mode — Rubric Evaluation
+## Phase 2C: Category Mode — Rubric Evaluation
 
 ### Step 1 — Locate Skill and Category
 
@@ -292,7 +310,7 @@ Look up `category:` field in `skill_testing/catalog.yaml`.
 
 If skill not found: "Skill '[name]' not found."
 If no `category:` field: "No category assigned for '[name]' in catalog.yaml.
-Add `category: [name]` to the skill entry first."
+Report the absent registration; do not modify catalog as a testing side effect."
 
 For `category all`: collect all skills with a `category:` field and process each.
 `category: utility` skills are evaluated against U1 (static checks pass) and U2
@@ -334,6 +352,7 @@ Fix: Add TD-PHASE-GATE, PR-PHASE-GATE, and AD-PHASE-GATE to the full-mode direct
 
 ### Step 6 — Offer to Write Results
 
+Reuse exact named report/index authority; only missing/new effects ask:
 "May I write this category check to
 `memory_bank/t3_archive/skill_testing/results/category/skill-test-category-[name]-[YYYY-MM-DD].md`
 and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`
@@ -347,16 +366,17 @@ and update `memory_bank/t3_archive/skill_testing/coverage-index.yaml`
 
 Read `skill_testing/catalog.yaml` for the registry and
 `memory_bank/t3_archive/skill_testing/coverage-index.yaml` for test history.
-If either is missing, note the missing file and recommend running `/constitute`
-to initialize the memory-bank testing templates.
+A missing canonical catalog is an affected coverage gap. Optional project history
+absence stays unknown and uses established report/conversation fallback; do not
+initialize Memory Bank or copy specs as a test side effect.
 
 ### Step 2 — Enumerate All Skills and Agents
 
 Glob `skills/*/SKILL.md` to get the complete list of skills.
 Extract skill name from each path (directory name).
 
-Also read the `agents:` section from `skill_testing/catalog.yaml` to get the
-complete list of agents.
+Enumerate actual canonical `agents/*.md` as well as catalog `agents:` entries;
+report missing/uncataloged definitions instead of treating catalog count as reality.
 
 ### Step 3 — Build Skill Coverage Table
 
@@ -382,8 +402,8 @@ For each agent in catalog's `agents:` section:
 === Skill Test Coverage Audit ===
 Date: [date]
 
-SKILLS (74 total)
-Specs written: 74 (100%) | Never static tested: 74 | Never category tested: 74
+SKILLS ([actual total])
+Specs present: [count/actual total] | Untested/unknown history: [actual counts]
 
 Skill                  | Cat      | Has Spec | Last Static | S.Result | Last Cat | D.Result | Priority
 -----------------------|----------|----------|-------------|----------|----------|----------|----------
@@ -391,8 +411,8 @@ gate-check             | gate     | YES      | never       | —        | never 
 design-review          | review   | YES      | never       | —        | never    | —        | critical
 ...
 
-AGENTS (53 total)
-Agent specs written: 53 (100%)
+AGENTS ([actual total])
+Agent specs present: [count/actual total]
 
 Agent                  | Category   | Has Spec | Last Spec   | Result
 -----------------------|------------|----------|-------------|--------
@@ -403,15 +423,33 @@ technical-director     | director   | YES      | never       | —
 Top 5 Priority Gaps (skills with no spec, critical/high priority):
 (none if all specs are written)
 
-Skill coverage:  74/74 specs (100%)
-Agent coverage:  53/53 specs (100%)
+Spec presence coverage: [actual present/actual total] with explicit denominator;
+behavior/runtime qualification and test history remain separate.
+```
+
+Legacy report-format illustration only: this fixture declares 74 source skills
+and 74 spec files, with no execution records. Its 100% means declared spec
+inventory, not executed test coverage, semantic correctness or runtime
+qualification. The legacy "Never" labels mean no recorded runs in this fixture;
+absence of a record does not prove a run never occurred. Do not copy these
+literals as current totals: enumerate actual definitions/specs and read raw
+records for the live report, disclosing absent history as unknown.
+
+```text
+ILLUSTRATIVE FIXTURE — declared source and spec inventory only
+SKILLS (74 total)
+Specs written: 74 (100%)
+Never static tested: 74
+Never category tested: 74
+Skill coverage: 74/74 specs
 ```
 
 Audit mode is read-only by default.
 
-Optional write: ask "May I write this audit report to
+Optional write: reuse the named new-report scope, otherwise ask after findings
+"May I write this audit report to
 `memory_bank/t3_archive/skill_testing/results/audit/skill-test-audit-[YYYY-MM-DD].md`?"
-Only write the audit report if the user approves.
+Write only within exact report authority; approval of this report excludes index/state.
 
 Offer: "Would you like to run `/skill-test static all` to check structural
 compliance across all skills? `/skill-test category all` to run category rubric
@@ -433,3 +471,16 @@ After any mode completes, offer contextual follow-up:
   or the test spec to resolve the mismatch."
 - After `audit`: "Start with the critical-priority gaps. Use the spec template at
   `skill_testing/templates/skill-test-spec.md` to create new specs."
+
+## Evidence write boundary
+
+All four analyses invoke no write entrypoint. For the optional paths above,
+reuse named report/index authority; ask only for missing/new effects after the
+findings. Report-only writes its new result, never coverage/input/state. If
+Memory Bank is absent, use the established assigned report/conversation fallback.
+Bind exact canonical skill/spec/catalog/rubric and required indirect owner bytes
+under `standards/evidence-lifecycle.md`; retain originals and historical revisions.
+The T2 testing mount references `skill_testing/`; never copy a second testing tree.
+Structural CLI checks differ from this eight-check semantic review, spec/category
+reasoning, actual fixture execution and independent verification. Disclose which
+occurred; no test verdict grants acceptance, publication or Story/stage completion.

@@ -42,7 +42,7 @@
 ├── tools/                       # Build and pipeline tools (ci, build, asset-pipeline)
 ├── prototypes/                  # Throwaway prototypes (isolated from src/)
 ├── production/                  # Production management (sprints, milestones, releases)
-│   ├── session-state/           # Ephemeral session state (gitignored)
+│   ├── session-state/           # Ephemeral contents gitignored; .gitkeep retained
 │   └── session-logs/            # Session audit trail (gitignored)
 └── memory_bank/                 # Project governance brain (created from templates/ by /constitute)
 ```
@@ -55,3 +55,20 @@ for Codex, the native `.codex/rules/*.rules` command-approval namespace, none of
 which the generator owns. `.agents/` is the **Codex** skill adapter tree (not
 Copilot). Codex has no path-glob rule equivalent and consults canonical `rules/`
 through root guidance rather than automatic loading.
+
+## Discovery and evidence boundaries
+
+The layout records ownership, not activation. Skills copy verbatim to
+`.claude/skills/` and use manifest `runtime_substitute` for `.agents/skills/`.
+Agent Markdown copies to Claude; Codex TOML retains only `name`, `description`
+and `developer_instructions`, dropping the seven known operational fields in
+`adapters/README.md`. Generated files do not promise equivalent model, tools,
+memory, isolation or execution.
+
+The generator source digest covers manifest-declared source classes. Relied-on
+neutral support in `standards/`, `templates/`, `workflow/` and `skill_testing/`
+needs its own exact identity; freshness does not certify linked semantics.
+Optional `memory_bank/` requires separately authorized initialization. Its T2
+testing mount references canonical `skill_testing/` without another testing tree.
+Read `standards/evidence-lifecycle.md` and actual runtime metadata for evidence,
+loading, execution and qualification claims.

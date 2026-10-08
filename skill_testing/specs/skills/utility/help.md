@@ -10,7 +10,7 @@ to surface relevant skills for a specific topic.
 
 The output is always informational — no files are written and no director gates
 are invoked. The verdict is always HELP COMPLETE. The skill serves as a workflow
-navigator, suggesting 2-3 next skills based on the current project state.
+navigator, giving one primary recommendation with relevant optional/coming-up guidance.
 
 ---
 
@@ -22,7 +22,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keyword: HELP COMPLETE
 - [ ] Does NOT contain "May I write" language (skill is read-only)
-- [ ] Has a next-step handoff (suggests 2-3 relevant skills based on state)
+- [ ] Has one primary next-step handoff, with relevant optional/coming-up guidance
 
 ---
 
@@ -54,7 +54,7 @@ None. `/help` is a read-only navigation skill. No director gates apply.
 **Assertions:**
 - [ ] Current stage is shown (Production)
 - [ ] Active sprint number and story count are mentioned
-- [ ] Exactly 2-3 next-skill suggestions are given (not a list of all skills)
+- [ ] One primary recommendation is clear; optional/coming-up advice is relevant
 - [ ] Suggestions are appropriate for Production stage
 - [ ] Verdict is HELP COMPLETE
 - [ ] No files are written
@@ -166,7 +166,40 @@ None. `/help` is a read-only navigation skill. No director gates apply.
 
 - The case where the active sprint is complete (all stories Done) is not
   separately tested; the skill would suggest `/sprint-plan` for the next sprint.
-- The `/help` skill does not validate whether suggested skills are available —
-  it assumes standard skill catalog availability.
+- Actual runtime support is verified or disclosed unverified; canonical definitions
+  do not prove installed/invocable skills.
 - Stage detection fallback (when stage.txt is absent) delegates to the same
   logic as `/project-stage-detect` and is not re-tested here in detail.
+
+## False completion and domain cases
+
+**Fixture:** A Product module has artifact paths/min_count and YAML `done` but
+required AC remains NotRun; user says “just finished”. Variant retains valid
+Game combat/engine/player evidence. Optional Memory Bank is absent.
+- [ ] Both branches read applicable substantive contracts/context; neither absent
+  concept nor optional memory defaults Game or forces initialization.
+- [ ] Paths/counts/keywords are observed, YAML/user statement is declared; required
+  NotRun stays unqualified. No checkmark/phase advance from these alone.
+- [ ] A copied basic-law template does not establish constitutional ratification.
+- [ ] Existing accepted project governance supports independent neutral advice.
+
+**Fixture:** Catalog and canonical skill definitions exist; runtime discovery/
+execution is unobserved, and both concept bodies contradict.
+- [ ] Conflict/Unknown blocks affected domain advice; neutral guidance continues.
+- [ ] Definitions are labeled canonical, not installed; model/tools/memory/loading/
+  execution claims need actual runtime evidence.
+- [ ] No write entrypoint/state/index repair or automatic next-skill invocation.
+
+### Concrete domain scope and legacy Product aliases
+
+**Fixture:** Two substantive concepts conflict; variant explicitly has mixed
+domains but no concrete Game or Product selection. Another variant has no concept
+but populated legacy `Language & Framework`, `Platform & Deployment` and
+`Agent Routing` with its `File Extension Routing`; new Product Stack is absent.
+- [ ] Conflict/mixed variants remain unresolved for dependent catalog filtering
+  and single-domain recommendations; do not emit Both as a project route or
+  infer completed phases. Neutral guidance continues.
+- [ ] Valid legacy Product values route the selected Product scope without
+  rewriting/moving them or requiring a new concept/Product Stack.
+- [ ] Placeholder aliases do not establish a domain; conflicting new/legacy
+  values block only the affected route until clarified.

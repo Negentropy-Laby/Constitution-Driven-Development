@@ -3,7 +3,7 @@
 ## Skill Summary
 
 `/story-readiness` validates that a story file is ready for a developer to
-pick up and implement. It checks four dimensions: Design (embedded GDD
+pick up and implement. It checks four dimensions: Design (embedded CDD
 requirements), Architecture (ADR references and status), Scope (clear
 boundaries and DoD), and Definition of Done (testable criteria). It produces
 a READY / NEEDS WORK / BLOCKED verdict. It is a read-only skill and runs
@@ -13,7 +13,7 @@ before any developer picks up a story.
 
 ## Static Assertions (Structural)
 
-Verified automatically by `/skill-test static` — no fixture needed.
+Structural checks only; semantic assertions below need actual bound fixtures/review evidence.
 
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings or numbered check sections
@@ -30,14 +30,14 @@ Verified automatically by `/skill-test static` — no fixture needed.
 **Fixture:**
 - Story file exists at `production/epics/core/story-light-pickup.md`
 - Story contains:
-  - `TR-ID: TR-light-001` (GDD requirement reference)
+  - `TR-ID: TR-light-001` (CDD requirement reference)
   - `ADR: docs/architecture/adr-003-inventory.md`
   - Referenced ADR exists and has status `Accepted`
   - Referenced TR-ID exists in `docs/architecture/tr-registry.yaml`
   - Story has `## Acceptance Criteria` with ≥3 testable items
   - Story has `## Definition of Done` section
   - Story has `Status: Ready for Dev`
-  - Manifest version in story header matches current `docs/architecture/control-manifest.md`
+  - Full Manifest SHA-256/Bytes/path from raw bytes match current `docs/architecture/control-manifest.md`
 
 **Input:** `/story-readiness production/epics/core/story-light-pickup.md`
 
@@ -45,7 +45,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 1. Skill reads the story file
 2. Skill reads the referenced ADR — verifies status is `Accepted`
 3. Skill reads `docs/architecture/tr-registry.yaml` — verifies TR-ID exists
-4. Skill reads `docs/architecture/control-manifest.md` — verifies manifest version matches
+4. Skill reads `docs/architecture/control-manifest.md` — compares complete manifest raw-byte SHA-256/size/path, retaining date separately
 5. Skill evaluates all 4 dimensions (Design, Architecture, Scope, DoD)
 6. Skill outputs READY verdict with all checks passing
 
@@ -89,7 +89,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 - Story file exists but has no `## Acceptance Criteria` section
 - ADR reference exists and is `Accepted`
 - TR-ID exists in registry
-- Manifest version matches
+- Complete raw-byte manifest identity matches
 
 **Input:** `/story-readiness production/epics/core/story-oxygen-drain.md`
 
@@ -118,16 +118,17 @@ Verified automatically by `/skill-test static` — no fixture needed.
 **Input:** `/story-readiness production/epics/core/story-mirror-rotation.md`
 
 **Expected behavior:**
-1. Skill reads the story and extracts manifest version `2026-01-15`
-2. Skill reads control manifest header and extracts current version `2026-03-10`
-3. Skill detects version mismatch
-4. Skill flags this as an ADVISORY issue (not blocking, but worth noting)
-5. Verdict is NEEDS WORK with manifest staleness noted
+1. Skill reads Story/complete current manifest bytes and detects legacy date-only identity
+2. LegacyRecheck reports that historical identity cannot be proved from dates
+3. Current rules/decision/dependencies are inspected; no old digest invented
+4. Verdict is NEEDS WORK pending authorized Story identity repair; required missing
+   inputs/material decision blockers remain BLOCKED
+5. No writes occur, including no in-memory write entrypoint
 
 **Assertions:**
 - [ ] Skill reads `docs/architecture/control-manifest.md` to get current version
-- [ ] Skill compares story's embedded manifest version against current manifest version
-- [ ] Stale manifest version results in NEEDS WORK (not BLOCKED, not READY)
+- [ ] Skill compares complete raw-byte SHA-256/size/path; date-only records require LegacyRecheck
+- [ ] This legacy-only fixture is NEEDS WORK; required missing input/material blockers still make affected scope BLOCKED
 - [ ] Output explains that the story's embedded guidance may be outdated
 
 ---
@@ -138,7 +139,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 
 **Fixture:**
 - Story file exists and is READY (all 4 dimensions pass, ADR Accepted, criteria present)
-- `production/session-state/review-mode.txt` exists
+- `production/review-mode.txt` exists
 
 **Case 5a — full mode:**
 - `review-mode.txt` contains `full`
@@ -149,13 +150,14 @@ Verified automatically by `/skill-test static` — no fixture needed.
 1. Skill reads review mode — determines `full`
 2. After completing its own 4-dimension check, skill invokes QL-STORY-READY gate
 3. QA lead reviews the story for readiness
-4. If QA lead verdict is INADEQUATE → story verdict is BLOCKED regardless of 4-dimension result
+4. If QA verdict is GAPS/INADEQUATE, report actual gaps and the current workflow's
+   user-choice interface; required decision/input/dependency blockers stay BLOCKED
 5. If QA lead verdict is ADEQUATE → verdict proceeds normally
 
 **Assertions (5a):**
 - [ ] Skill reads review mode before deciding whether to invoke QL-STORY-READY
 - [ ] QL-STORY-READY gate is invoked in full mode after the 4-dimension check completes
-- [ ] A QA lead INADEQUATE verdict overrides a READY 4-dimension result → final verdict BLOCKED
+- [ ] QA feedback is reported; required decision/input blockers remain regardless of QA ADEQUATE or user preference
 - [ ] Gate invocation is noted in output: "Gate: QL-STORY-READY — [result]"
 
 **Case 5b — lean or solo mode:**
@@ -193,3 +195,50 @@ Verified automatically by `/skill-test static` — no fixture needed.
   which is hard to fixture reliably.
 - Stories with multiple ADR references are not tested; behavior is assumed to
   be additive (all ADRs must be Accepted for READY verdict).
+
+## Exact scope and decision counterexamples
+
+These are required semantic cases, not claims that keyword/static checks ran them.
+Fixtures use actual UTF-8 bytes/complete dependencies and preserve Game/Product
+owner requirements under `design/INSTRUCTIONS.md`.
+
+- CDD-owned detail and local helper: classify cdd-layer/no-adr with named owner/
+  reason; do not manufacture an ADR or waive CDD/TR/manifest/evidence prerequisites.
+- Significant new trust/public-contract/durable-format/state-ownership choice:
+  adr-required before affected implementation; independent scoped work may continue.
+- Exact Accepted section conflicts with actual choice: conflict, named affected
+  dependencies/action/owner; green tests or implemented status cannot establish covered.
+- Content agreement, report/write permission or director APPROVED: no automatic
+  ADR acceptance, Story readiness/completion or phase advancement.
+- Historical approval with changed raw bytes/scope: retain history, do not reuse it
+  as current approval. Preserve originals, full hashes/sizes/paths and UTC collection.
+- Report-only saves only its new report; inputs/index/session/log/T3 effects require
+  separate named scope. Review-only invokes no write entrypoint, including in memory.
+- Unknown/both/neither domain: common checks continue, domain-specific findings
+  remain incomplete until resolved; no silent Game fallback.
+- Separate global Technical Setup min-three Foundation ADR rule remains in force;
+  local no-ADR classifications neither waive it nor justify fabricated ADRs.
+
+### Case 6: Missing prerequisite is not automatic success
+
+Missing required TR registry/manifest or absent digest never auto-passes. No ADR
+link with local reason requires classification and evidence, not blanket N/A.
+Exact Accepted scope or valid cdd-layer/no-adr passes only the ADR-specific check;
+missing criteria, active TR, dependency, evidence or manifest remains unmet.
+Readiness never writes Stories/statuses/indexes/state, even with a repair offer.
+
+### Review-mode input counterexamples
+
+Verify the actual once-per-run resolver before any gate dispatch:
+
+| Fixture | Expected actual result |
+|---|---|
+| No override and no `production/review-mode.txt` | Resolve lean once; report actual documented gate skips |
+| Valid explicit full/lean/solo plus a different global value | Explicit override wins and stays fixed for this run |
+| No override, present global full/lean/solo | Use the actual validated global value |
+| `--review` missing its value, or invalid explicit value | Report input error and require correction; no fallback/gate verdict |
+| No override, present invalid or empty global file | Report its actual path/value error and require correction; never default lean/full |
+
+These are semantic cases to execute or independently review, not claims of test
+execution from keyword presence. Invalid mode cannot fabricate gate completion or
+ADR/Story/phase acceptance; independent read-only findings may be reported with limits.

@@ -1,3 +1,15 @@
+## Actual Quality Applicability
+
+Apply actual catalog/domain/current transition and selected QA scope. Optional
+orchestration waives no required Story AC/evidence. Each row below applies only to
+its actual requirement/surface; Unknown cannot become N/A/PASS. Missing required
+observations stay NotRun/Blocked/Pending. Files/counts locate evidence: required
+unguided Game/Product sessions must be distinct actual observations bound to
+observer/method/time/exact build/input/result and recoverable originals. Three
+files/repeated summaries do not prove three sessions. Unmeasured performance,
+platform or Product qualification remains NotRun. Historical matching results
+stay labeled and must be allowed by selected workflow. Risks preserve test truth.
+
 # Phase Gate Definitions
 
 > Loaded on demand from `gate-check/SKILL.md`. Follow these requirements as part of the parent skill; do not treat this file as a separately invocable skill.
@@ -297,7 +309,7 @@ Use `workflow/generated/gate-required-artifacts.md`, section
 - [ ] All features from the milestone plan are implemented or explicitly deferred
 - [ ] Content is complete (all integrations, APIs, screens referenced in design docs exist) or explicitly deferred
 - [ ] Localization strings are externalized (no hardcoded user-facing text in `src/`)
-- [ ] All Must Have story test evidence is present (Logic/Integration: test files pass; Visual/UI: sign-off docs in `production/qa/evidence/`)
+- [ ] All required Must Have Product AC/evidence actually passes for applicable API/CLI/Data-Migration/Auth-Permission/Workflow/UI/Integration/Ops-Deployment/Config; required sign-off/review has exact input/authority binding
 - [ ] No test regressions from previous sprint (test suite passes fully)
 - [ ] QA plan, `/team-qa` sign-off, smoke check, deployment strategy, changelog, release notes, and rollback plan are recorded as Release-phase follow-up or CONCERNS unless strict QA is explicitly enabled
 - [ ] If strict QA is explicitly enabled, missing QA plan, missing QA sign-off, or failing smoke check is a blocker

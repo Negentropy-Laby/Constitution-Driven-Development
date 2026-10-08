@@ -6,6 +6,10 @@ paths:
 ---
 
 # Product Config Rules
+Apply to actual matching capabilities in Game or Product; the title does not make
+a shared path Product-only. Read `standards/technical-preferences.md` for domain/
+capability evidence and `standards/notes-adr-sync.md` for decision disposition.
+
 
 - Do not commit real secrets, tokens, private keys, or production credentials.
 - Every config key must have a documented purpose, default, valid range or enum, and environment ownership.

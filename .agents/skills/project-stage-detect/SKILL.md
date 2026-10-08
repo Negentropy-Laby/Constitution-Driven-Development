@@ -7,6 +7,11 @@ allowed-tools: Read, Glob, Grep, Bash, Write
 model: haiku
 # Read-only diagnostic skill — no specialist agent delegation needed
 ---
+Read and apply `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
+`standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` for scoped
+authority, exact evidence and decision ownership. Existing named authority
+continues; analysis is read-only and report-only excludes input/index/state writes.
+
 
 ## User Guide
 
@@ -38,16 +43,24 @@ Analyze project structure and content:
 - Check for game-concept.md or product-concept.md, principles.md, module-index.md
 - If module-index.md exists, count total systems vs. designed systems
 - Analyze completeness (Overview, Detailed Design, Edge Cases, etc.)
-- Count narrative docs in `design/narrative/`
-- Count level designs in `design/levels/`
+- [Game] Locate narrative and level docs in their existing paths.
+- [Product] Read actual user promises/API/CLI/data/auth/workflow contracts and
+  surface profile; locate modules from the actual layout.
 
 **Source Code** (`src/`):
 - Count source files (language-agnostic)
 - Identify major systems (directories with 5+ files)
-- Check for core/, gameplay/, ai/, networking/, ui/ directories
+- [Game] Locate actual core/gameplay/AI/networking/UI systems.
+- [Product] Locate actual API/CLI/services/data/jobs/workers/app/web systems;
+  established alternative paths remain valid.
 - Estimate lines of code (rough scale)
 
 **Production Artifacts** (`production/`):
+- Read `stage.txt` directly before classifying the declared stage. Discovery
+  filters, file-extension lists and ignore-aware searches can omit existing
+  files. Preserve its actual body/value even when observed work disagrees.
+  Claim absence only from a direct path-specific check; an unperformed or
+  inaccessible read remains unverified, never "no explicit stage found".
 - Check for active sprint plans
 - Look for milestone definitions
 - Find roadmap documents
@@ -63,13 +76,17 @@ Analyze project structure and content:
 
 **Tests** (`tests/`):
 - Count test files
-- Estimate test coverage (rough heuristic)
+- Read measured execution/coverage evidence with exact scope/denominator;
+  unavailable measurement stays unknown, never inferred from test-file count.
 
 ### 2. Classify Project Stage
 
-Based on scanned artifacts, determine stage. Check `production/stage.txt` first —
-if it exists, use its value (explicit override from `/gate-check`). Otherwise,
-auto-detect using these heuristics (check from most-advanced backward):
+Apply `standards/technical-preferences.md` actual domain/capability evidence;
+missing concepts never default Game. Separate **declared** stage/owner statement,
+**observed** bodies/artifacts, **candidate** advisory ongoing-work stage, and
+**qualified** transition only with exact required checks, decisions/reviews and
+transition authority. Preserve discrepant declarations and report gaps; never
+write stage/current state. Indicators below suggest candidates only:
 
 **[游戏专用] Game stage indicators:**
 | Stage | Indicators |
@@ -77,8 +94,8 @@ auto-detect using these heuristics (check from most-advanced backward):
 | **Concept** | No concept doc, brainstorming phase |
 | **Systems Design** | Game concept exists, module index missing or incomplete |
 | **Technical Setup** | Module index exists, engine not configured |
-| **Pre-Production** | Engine configured, `src/` has <10 source files |
-| **Production** | `src/` has 10+ source files, active development |
+| **Pre-Production** | Configured Game setup and observed implementation planning |
+| **Production** | Actual ongoing Game implementation; counts describe scale only |
 | **Polish** | Explicit only (set by `/gate-check` Production → Polish gate) |
 | **Release** | Explicit only (set by `/gate-check` Polish → Release gate) |
 
@@ -88,8 +105,8 @@ auto-detect using these heuristics (check from most-advanced backward):
 | **Concept** | No concept doc, discovery phase |
 | **Specification** | Product concept exists, module index missing |
 | **Architecture** | Module index exists, technology stack not configured |
-| **Pre-Implementation** | Stack configured, `src/` has <10 source files |
-| **Implementation** | `src/` has 10+ source files, active development |
+| **Pre-Implementation** | Configured Product setup and implementation planning |
+| **Implementation** | Actual ongoing Product implementation; counts describe scale only |
 | **Verification** | Explicit only (set by `/gate-check` Implementation → Verification gate) |
 | **Release** | Explicit only (set by `/gate-check` Verification → Release gate) |
 
@@ -119,14 +136,17 @@ Use template: `templates/project-stage-report.md`
 
 **Date**: [date]
 **Stage**: [Concept / Systems Design or Specification / Technical Setup or Architecture / Pre-Production or Pre-Implementation / Production or Implementation / Polish or Verification / Release]
-**Stage Confidence**: [PASS — clearly detected / CONCERNS — ambiguous signals / FAIL — critical gaps block progress]
+**Declared / Observed / Candidate / Qualified**: [separate values/exact sources;
+qualified unverified until governing evidence checked]
+**Diagnostic Confidence**: [HIGH/MEDIUM/LOW with actual evidence/omissions;
+file existence does not establish HIGH qualification]
 
 ## Completeness Overview
-- Design: [X%] ([N] docs, [gaps])
-- Code: [X%] ([N] files, [systems])
-- Architecture: [X%] ([N] ADRs, [gaps])
-- Production: [X%] ([status])
-- Tests: [X%] ([coverage estimate])
+- Design: [observed substantive bodies and required-owner gaps]
+- Code: [observed files/systems; count is not completion percentage]
+- Architecture: [observed decisions and exact acceptance/coverage evidence]
+- Production: [recorded planning/status and verified evidence separately]
+- Tests: [measured coverage/execution scope or unknown; counts only locate files]
 
 ## Gaps Identified
 1. [Gap description + clarifying question]
@@ -176,7 +196,9 @@ Recommended next steps:
 May I write the full stage analysis to production/project-stage-report.md?
 ```
 
-Wait for user approval before creating the file.
+Default output is conversational. Reuse exact report-write authority; ask after
+summary only for missing/new effects. Preserve prior revisions; report-only
+excludes stage/index/checkpoint. Review-only/declined saving invokes no write entrypoint.
 
 ---
 
@@ -216,6 +238,10 @@ This skill follows the collaborative design principle:
 2. **Present Options**: "Should I create X, or is it tracked elsewhere?"
 3. **User Decides**: Wait for direction
 4. **Show Draft**: Display report summary
-5. **Get Approval**: "May I write to production/project-stage-report.md?"
+5. **Scoped report write**: reuse named authority, asking "May I write to
+   production/project-stage-report.md?" only for missing/new effects.
 
-**Never** silently write files. **Always** show findings and ask before creating artifacts.
+Never silently expand scope. Show findings before new authority; covered scope
+continues. Definitions/metadata cannot certify autoload, agent execution, spec/
+category qualification or installed versions. Read `adapters/README.md` and actual
+supported runtime evidence.

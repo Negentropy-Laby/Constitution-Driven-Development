@@ -11,7 +11,7 @@ freshness without recomputing or owning that state.
 
 ---
 
-## Static Assertions
+## Static Assertions (Structural)
 
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has at least two phase or numbered workflow headings
@@ -65,7 +65,7 @@ phase advancement decisions and does not invoke director gates.
 3. T2 mirror identifies itself as a governance memory mirror.
 
 **Assertions:**
-- [ ] Both roadmap paths are written only after approval or `--write`
+- [ ] Each roadmap/mirror effect is covered by actual named authority; `--write` does not gift unrelated state writes
 - [ ] T2 mirror names `/cdd-status` and workflow catalog as sources
 - [ ] Output reports both write destinations
 
@@ -82,12 +82,12 @@ phase advancement decisions and does not invoke director gates.
 **Expected behavior:**
 1. Writes only `production/project-roadmap.md`.
 2. Does not create `memory_bank/`.
-3. Tells the user to run `/constitute` to establish the governance layer.
+3. Reports optional mirror skipped; initialization is neither performed nor required.
 
 **Assertions:**
 - [ ] No `memory_bank/` directory is created
 - [ ] Output explains that T2 mirror was skipped
-- [ ] Output recommends `/constitute`
+- [ ] Optional absence is disclosed without forcing initialization or blocking independent reporting
 
 ---
 
@@ -126,7 +126,7 @@ phase advancement decisions and does not invoke director gates.
 **Assertions:**
 - [ ] Manual steps are not silently marked complete
 - [ ] Missing evidence appears in risks or current phase checklist
-- [ ] Gate checks remain governed advisory
+- [ ] No automatic transition; risk acceptance cannot convert required failed/unexecuted checks to PASS
 
 ### Case 6: Recorded adapter freshness
 
@@ -154,3 +154,52 @@ phase advancement decisions and does not invoke director gates.
 
 Live verification should include both `--dry-run` and `--write` paths in a test
 fixture with and without `memory_bank/`.
+
+### Case 7: Locator/recorded facts are not qualified completion
+
+**Fixture:** Globs/min_count/patterns met; YAML/user says done; required check
+NotRun, and adapter_state records fresh at an old exact baseline. Both concepts
+conflict. Variant has no concept but actual configured Product or legacy Game.
+- [ ] Preserve declared facts, read observed bodies and report candidate separately;
+  required qualified completion remains incomplete, with actual denominator.
+- [ ] Recorded adapter freshness is historical context, not live runtime/spec/
+  category qualification. Neutral supports need their own exact identity.
+- [ ] Conflict blocks affected domain branch; configured Product never defaults Game,
+  and legacy Game needs actual evidence. Independent neutral report continues.
+
+### Case 8: Dry run, report-only and named mirror authority
+
+**Fixture:** A authorizes only new roadmap, B names roadmap and existing T2 mirror;
+C selects `--dry-run`, with optional Memory Bank absent in variant.
+- [ ] A writes only roadmap; B reuses both exact effects across retries.
+- [ ] C writes nothing; absent memory creates no memory/testing tree.
+- [ ] No laws/current-state/workflow-contract/adapter-state/index/session/sprint/stage
+  writes. Full draft/path-effect disclosure precedes only missing/new authority.
+
+### Concrete domain scope, optional governance and legacy aliases
+
+**Fixture:** Substantive Game/Product concepts conflict or explicitly mixed scope
+has no concrete Game or Product selection. Variant has no concept but populated
+legacy Product language/framework, deployment and routing sections; Product Stack
+is absent. Optional Memory Bank is absent in both variants.
+- [ ] Unresolved variants keep dependent catalog applicability pending, do not
+  select Both or qualify phase completion; neutral roadmap reporting continues.
+- [ ] Valid legacy Product aliases route the actual Product scope without moving/
+  overwriting sections; placeholders/conflicting new values do not qualify routing.
+- [ ] Governance setup advice may suggest `/constitute` when requested, but neither
+  it nor default QA/neutral reports initialize Memory Bank or require optional
+  setup. Covered roadmap writes remain separate from mirror/state effects.
+
+### Referenced ignored attachment is present, then genuinely absent
+
+For paired Game/Product fixtures, an owning CDD or required evidence references
+an ignored `production/qa/inputs/assumptions.txt` with substantive body content.
+Its existence is stable across the dry-run and continuing read-only turn. A
+separate fixture removes only that attachment while preserving its references.
+- [ ] Directly read the existing attachment and bind its actual path/full hash/
+  bytes; discovery omissions never produce a missing-attachment finding.
+- [ ] The absent variant uses a direct path-specific result and reports only
+  affected required evidence missing/incomplete; it cannot qualify COMPLETE.
+- [ ] Unread/inaccessible is Pending/unverified, distinct from confirmed absence.
+- [ ] Retain each original fixture and actual observations; no write entrypoint
+  or repair of the fixture is part of this read-only acceptance.

@@ -9,7 +9,8 @@ composes a numbered, ordered migration plan, and writes it to `docs/adoption-pla
 after explicit user approval via `AskUserQuestion`.
 
 This skill is distinct from `/project-stage-detect` (which checks what exists).
-`/adopt` checks whether what exists will actually work with the template's skills.
+`/adopt` checks selected substantive format/owner compatibility; this is not
+runtime execution or qualification proof.
 
 No director gates apply. The skill does NOT invoke any director agents.
 
@@ -17,12 +18,12 @@ No director gates apply. The skill does NOT invoke any director agents.
 
 ## Static Assertions (Structural)
 
-Verified automatically by `/skill-test static` — no fixture needed.
+Structural observations by `/skill-test static` are separate from behavioral reasoning/execution.
 
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
 - [ ] Contains severity tier keywords: BLOCKING, HIGH, MEDIUM, LOW
-- [ ] Contains "May I write" or `AskUserQuestion` language before writing the adoption plan
+- [ ] Documents scoped write authority or its shared-contract owner; behavioral compliance is evaluated in fixture cases
 - [ ] Has a next-step handoff at the end (e.g., offering to fix the highest-priority gap immediately)
 
 ---
@@ -54,7 +55,8 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 4. ADR audit: all required sections present
 5. Infrastructure audit: all critical files exist
 6. Phase 3: zero BLOCKING, zero HIGH, zero MEDIUM, zero LOW gaps
-7. Summary reports: "No blocking gaps — this project is template-compatible"
+7. Summary reports no blocking gaps in the audited format scope; runtime/project
+   qualification remains separately unverified.
 8. Uses `AskUserQuestion` to ask about writing the plan; user selects write
 9. Adoption plan is written to `docs/adoption-plan-[date].md`
 10. Phase 7 offers next action: no blocking gaps, offers options for next steps
@@ -63,7 +65,7 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 - [ ] Skill reads silently before presenting any output
 - [ ] "Scanning project artifacts..." appears before the silent read phase
 - [ ] Gap counts show 0 BLOCKING, 0 HIGH, 0 MEDIUM (or only LOW)
-- [ ] `AskUserQuestion` is used before writing the adoption plan
+- [ ] Existing named plan authority continues; absent scope uses `AskUserQuestion` before writing
 - [ ] Adoption plan file is written to `docs/adoption-plan-[date].md`
 - [ ] Phase 7 offers a specific next action (not just a list)
 
@@ -87,7 +89,7 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
    - `adr-0001.md`: missing `## Status` — BLOCKING impact
    - `tr-registry.yaml`: missing — HIGH impact
 3. Phase 3 classifies:
-   - BLOCKING: `adr-0001.md` missing `## Status` (story-readiness silently passes)
+   - BLOCKING: relied-on `adr-0001.md` lacks verifiable status/acceptance
    - HIGH: `tr-registry.yaml` missing; `combat.md` missing Acceptance Criteria (can't generate stories)
    - MEDIUM: `combat.md` missing Formulas
 4. Phase 4 builds ordered migration plan:
@@ -104,7 +106,7 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 - [ ] HIGH and MEDIUM shown as counts in Gap Preview
 - [ ] Migration plan items are in BLOCKING-first order
 - [ ] Each plan item includes the fix command or manual steps
-- [ ] `AskUserQuestion` is used before writing
+- [ ] Missing/new scope is requested before writing; matching named authority continues
 - [ ] Phase 7 offers to immediately retrofit the first BLOCKING item
 
 ---
@@ -129,16 +131,16 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
    - MEDIUM: 2 GDDs with missing sections; 2 stories missing TR-IDs
    - LOW: none
 4. Migration plan lists HIGH gap first, then MEDIUM gaps in order
-5. Note included: "Existing stories continue to work — do not regenerate stories
-   that are in progress or done"
+5. Note preserves existing stories and requires current legacy recheck for missing
+   required identity/evidence; it does not promise missing-field auto-pass.
 6. `AskUserQuestion` to write plan; writes after approval
 
 **Assertions:**
 - [ ] Per-artifact compliance tallies are shown (N compliant, M with gaps)
-- [ ] Existing story compatibility note is included in the plan
+- [ ] Existing bodies/history preserved; absent required fields do not auto-pass
 - [ ] No BLOCKING gaps results in no BLOCKING section in migration plan
 - [ ] HIGH gap precedes MEDIUM gaps in plan ordering
-- [ ] `AskUserQuestion` is used before writing
+- [ ] Missing/new scope is requested before writing; matching named authority continues
 
 ---
 
@@ -194,21 +196,46 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 - [ ] Emits "Scanning project artifacts..." before silent read phase
 - [ ] Reads all artifacts silently before presenting any results
 - [ ] Shows Adoption Audit Summary and Gap Preview before asking to write
-- [ ] Uses `AskUserQuestion` before writing the adoption plan file
+- [ ] Reuses exact named plan authority; requests absent/new effects after concrete scope
 - [ ] Adoption plan written to `docs/adoption-plan-[date].md` — not to any other path
 - [ ] Migration plan items ordered: BLOCKING first, HIGH second, MEDIUM third, LOW last
 - [ ] Phase 7 always offers a single specific next action (not a generic list)
-- [ ] Never regenerates existing artifacts — only fills gaps in what exists
+- [ ] Preserves existing bodies/history and repairs only named approved gaps
 - [ ] Does not invoke director gates at any point
 
 ---
 
 ## Coverage Notes
 
-- The `gdds`, `adrs`, `stories`, and `infra` argument modes narrow the audit scope;
+- The `cdds`, `adrs`, `stories`, and `infra` argument modes narrow the audit scope;
   each follows the same pattern as the full audit but limited to that artifact type.
   Not separately fixture-tested here.
 - The module-index.md parenthetical status value check (BLOCKING) is a special case
   that triggers an immediate fix offer before writing the plan; not separately tested.
 - The review-mode.txt prompt (Phase 6b) runs after plan writing if `production/review-mode.txt`
   does not exist; not separately tested here.
+
+## Domain, owner and effect counterexamples
+
+**Fixture A:** Game combat/movement CDDs keep Player Fantasy/formulas/tuning
+bodies. Product CLI/API/data/auth CDDs use substantive User Promise/JTBD,
+Detailed Behavior, Contracts/Data Model and Configuration Knobs aliases.
+Concept/index/support documents use their own actual DocKind contracts.
+- [ ] Read actual bodies/owners; both module branches are audited without requiring
+  a module-eight shape on concept/index/support or deleting Game examples.
+- [ ] Placeholder headings/keyword hits cannot establish compliance/qualification.
+
+**Fixture B:** Existing Story lacks manifest identity and references no ADR;
+its local detail has a valid named CDD/no-ADR disposition. Variant changes a
+public trust boundary without Accepted decision.
+- [ ] First receives required current LegacyRecheck, not missing-field auto-PASS
+  or manufactured ADR/TR-ID. Second blocks affected decision coverage under
+  `standards/notes-adr-sync.md`, with independent audit continuing.
+
+**Fixture C:** Report-only/declined plan save; absent review-mode or an existing
+empty/invalid review-mode; source definitions and adapter copies exist.
+- [ ] No repair/review-mode/state writes from report-only or preference selection.
+- [ ] Invalid existing modes are surfaced instead of silently skipped.
+- [ ] Scoped named plan authority continues without repeated requests.
+- [ ] Zero high/blocking format gaps and adapter presence do not prove runtime
+  execution, qualification, acceptance, publication or completion.

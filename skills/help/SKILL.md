@@ -8,6 +8,11 @@ context: |
   !echo "=== Live Project State ===" && echo "Stage: $(cat production/stage.txt 2>/dev/null | tr -d '[:space:]' || echo 'not set')" && echo "Latest sprint: $(ls -t production/sprints/*.md 2>/dev/null | head -1 || echo 'none')" && echo "Session state: $(head -5 production/session-state/active.md 2>/dev/null || echo 'none')"
 model: haiku
 ---
+Read and apply `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
+`standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` for scoped
+authority, exact evidence and decision ownership. Existing named authority
+continues; analysis is read-only and report-only excludes input/index/state writes.
+
 
 ## User Guide
 
@@ -32,23 +37,23 @@ tells you what comes next. Works for both game and product projects. It is
 
 Read `workflow/workflow-catalog.yaml`. This is the authoritative list of all
 phases, their steps (in order), whether each step is required or optional, and
-the artifact globs that indicate completion.
+artifact locators/structural conditions; owning workflow evidence establishes completion.
 
 ---
 
 ## Step 1b: Find Skills Not in the Catalog
 
 After reading the catalog, Glob `skills/*/SKILL.md` to get the full list of
-installed skills. For each file, extract the `name:` field from its frontmatter.
+canonical skill definitions. For each file, extract the `name:` field from its frontmatter.
 
 Compare against the `command:` values in the catalog. Any skill whose name does
-not appear as a catalog command is an **uncataloged skill** — still usable but not
+not appear as a catalog command is an **uncataloged skill** — a canonical definition outside
 part of the phase-gated workflow.
 
 Collect these for the output in Step 8 — show them as a footer block:
 
 ```
-### Also installed (not in workflow)
+### Other canonical definitions (not in workflow)
 - `/skill-name` — [description from SKILL.md frontmatter]
 - `/skill-name` — [description]
 ```
@@ -63,20 +68,24 @@ skills in production/polish, etc.).
 
 Before determining phase, check if the project has a constitution:
 
-1. **Glob for `memory_bank/t0_core/basic_law_index.md`** — if it exists, the
-   project has been constitutionally onboarded.
-2. **If no constitution is detected**, surface this as the first recommendation:
-   "No constitution detected. Run `/constitute` to establish your project's
-   governing principles."
-3. **If constitution exists**, read the core thesis from `basic_law_index.md`
-   and the current state from `active_context.md` for richer output in Step 8.
+1. Read substantive laws/acceptance when `memory_bank/t0_core/basic_law_index.md`
+   exists; a copied template/path does not prove ratification.
+2. Missing optional Memory Bank uses actual root instructions, accepted decisions
+   and established artifacts. Recommend `/constitute` for requested initialization
+   or unresolved governance, without blocking valid independent legacy work solely
+   on optional absence.
+3. Read applicable current-state and established active context when present;
+   compare declarations with exact relied-on evidence.
 
 ## Step 2b: Detect Project Domain
 
-Check which concept document exists to determine the project domain:
-- `design/cdd/game-concept.md` exists → **game** domain
-- `design/cdd/product-concept.md` exists → **product** domain
-- Neither → unknown; show both game and product guidance where applicable
+Read concept bodies and `standards/technical-preferences.md` domain/capability
+evidence, including populated legacy Product aliases. Classify the current scope
+as Game, Product or Unknown from consistent actual sources. Conflicting concepts
+or mixed scope need a concrete Game or Product selection before dependent advice
+and catalog filtering; do not auto-select Both or qualify completion from this
+choice. Missing concepts never default Game; actual configured legacy Product
+remains Product. Independent neutral guidance continues.
 
 For product projects, also check `design/ux/surface-profile.md` if present. It
 records which API, CLI, SDK, UI, admin, operator, docs-driven, or headless
@@ -93,7 +102,7 @@ The domain affects which catalog steps are shown as required. Steps with an
 Check in this order:
 
 1. **Read `production/stage.txt`** — if it exists and has content, this is the
-   authoritative phase name. Map it to a catalog phase key:
+   declared phase name, not a verified transition. Map it to a catalog phase key:
    **[游戏专用] Game phases:**
    - "Concept" → `concept`
    - "Systems Design" → `systems-design`
@@ -112,8 +121,10 @@ Check in this order:
    - "Verification" → `polish`
    - "Release" → `release`
 
-2. **If stage.txt is missing**, infer phase from artifacts (most-advanced match wins):
-   - `src/` has 10+ source files → `production`
+2. **Advisory candidate phase** uses observed work below when needed; indicators
+   locate workflow, not qualified preceding phases:
+   - Actual ongoing implementation evidence → candidate `production`; file
+      counts indicate scale only
    - `production/epics/**/*.md` story files exist (excluding `EPIC.md`) → `pre-production`
    - `docs/architecture/adr-*.md` exists → `technical-setup`
    - `design/cdd/module-index.md` exists → `systems-design`
@@ -141,8 +152,9 @@ Before checking completion, filter the current phase's steps by the detected
 domain:
 - If domain is `game`, skip steps whose `applies_to` exists and does not include `game`
 - If domain is `product`, skip steps whose `applies_to` exists and does not include `product`
-- If domain is `unknown`, keep all steps, but label any `applies_to`-limited step
-  as domain-specific in the output so the user knows it may not apply
+- If domain is `unknown`, label `applies_to`-limited steps as applicability pending.
+  Hold dependent single-domain routing/completion claims until a concrete Game or
+  Product scope resolves; independent neutral guidance continues.
 
 For each remaining step in the current phase:
 
@@ -152,8 +164,11 @@ If the step has `artifact.glob`:
 - Use Glob to check if files matching the pattern exist
 - If `min_count` is specified, verify at least that many files match
 - If `artifact.pattern` is specified, use Grep to verify the pattern exists in the matched file
-- **Complete** = artifact condition is met
-- **Incomplete** = artifact is missing or pattern not found
+- **Observed** = locator/count/pattern condition met; read bodies/required closure.
+- **Complete** = exact current required checks, decisions/reviews and completion
+  authority verified under the owning workflow. Otherwise report pending/unverified;
+  file/keyword/count presence is insufficient.
+- **Incomplete** = required artifact/evidence missing or unsatisfied.
 
 If the step has `artifact.note` (no glob):
 - Mark as **MANUAL** — cannot auto-detect, will ask user
@@ -165,7 +180,8 @@ If the step has no `artifact` field:
 
 When a product step has `required_when`, evaluate applicability before marking
 it incomplete:
-- If the required artifact exists, mark the step **Complete**.
+- Existing required artifacts are observed; read bodies/required evidence before
+  qualifying Complete under their actual owner.
 - If `design/ux/surface-profile.md` explicitly marks the artifact N/A with a
   reason, mark the step **N/A** and show the rationale.
 - If the artifact is missing and there is no surface profile, mark the step
@@ -181,11 +197,13 @@ before doing any glob-based story checks. If it exists, read it directly:
 
 - Stories with `status: in-progress` → surface as "currently active"
 - Stories with `status: ready-for-dev` → surface as "next up"
-- Stories with `status: done` → count as complete
+- Stories with `status: done` → recorded done; verify exact owning closure
+  evidence before counting qualified complete
 - Stories with `status: blocked` → surface as blocker with the `blocker` field
 
 This gives precise per-story status without markdown scanning. Skip the glob
-artifact check for the `implement` and `story-done` steps — the YAML is authoritative.
+artifact check for `implement`/`story-done` locators; YAML is a status projection,
+not independent closure or execution proof.
 
 ### Special case: `repeatable: true` (non-production)
 
@@ -208,7 +226,8 @@ From the completion data, determine:
    (show as "coming up" so user can plan ahead)
 
 If the user provided an argument (e.g. "just finished design-review"), use that
-to advance past the step they named even if the artifact check is ambiguous.
+to locate relevant evidence and acknowledge declared completion, not advance
+qualified progress from ambiguous evidence. Identify the affected recheck.
 
 ---
 
@@ -257,7 +276,8 @@ Approaching **[next phase]** gate → run `/gate-check` when ready.
 - If a step has no command (e.g. "Implement Stories"), explain what to do instead of showing a slash command
 - For MANUAL steps, ask the user: "I can't tell if [step] is done — has it been completed?"
 
-Verdict: **COMPLETE** — next steps identified.
+Verdict: **HELP COMPLETE** — guidance produced. The concise output separates
+declared phase, observed work, candidate phase and verified qualification.
 
 ---
 
@@ -299,3 +319,9 @@ Only show this if the user's input suggested confusion (e.g. "I don't know", "st
   reassuring and give one action, not a list of six.
 - **One primary recommendation** — the user should leave knowing exactly one thing
   to do next. Optional steps and "coming up" are secondary context.
+
+Canonical definitions and recorded adapter state do not prove runtime availability.
+Consult actual runtime metadata and `adapters/README.md` before invocation claims;
+disclose unsupported/unverified execution without installing/activating anything.
+Next commands follow actual catalog order and evidence; unavailable commands are
+disclosed rather than invented.

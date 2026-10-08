@@ -45,3 +45,11 @@ Status: [Proposed / Accepted / Accepted (amended YYYY-MM-DD) / Superseded by BL-
 - **Supported by T1:** `../t1_axioms/system_patterns.md#`,
   `../t1_axioms/behavior_context.md#`, `../t1_axioms/tech_context.md#`
 - **Validated or executed through T2:** `../t2_execution/`
+
+## Acceptance and Evidence References
+
+For accepted laws/amendments link exact source revision/baseline, acceptance
+authority/scope, T1/T2 support, retained evidence and remaining owner/due phase.
+Draft/content/write approval does not accept laws. Use full hashes/recoverable
+bytes under `standards/evidence-lifecycle.md`. Preserve legacy IDs/sections;
+unknown evidence stays unknown. Do not import another project's laws/dates.

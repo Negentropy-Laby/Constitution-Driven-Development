@@ -6,6 +6,11 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, AskUserQuestion
 agent: technical-director
 ---
+Read and apply `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
+`standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` for scoped
+authority, exact evidence and decision ownership. Existing named authority
+continues; analysis is read-only and report-only excludes input/index/state writes.
+
 
 ## User Guide
 
@@ -24,9 +29,9 @@ the template's skill pipeline, then produces a prioritised migration plan.
 `/project-stage-detect` answers: *what exists?*
 `/adopt` answers: *will what exists actually work with the template's skills?*
 
-A project can have CDDs, ADRs, and stories — and every format-sensitive skill
-will still fail silently or produce wrong results if those artifacts are in the
-wrong internal format.
+Existing CDDs/ADRs/Stories may lack required substantive contracts or exact
+identity. Report the actual affected gap; do not claim already-repaired consumers
+silently auto-pass, or certify runtime behavior from an artifact format.
 
 **Output:** `docs/adoption-plan-[date].md` — a persistent, checkable migration plan.
 
@@ -50,7 +55,8 @@ skill is running during the silent read phase.
 Then read silently before presenting anything else.
 
 ### Existence check
-- `production/stage.txt` — if present, read it (authoritative phase)
+- `production/stage.txt` — read declared phase; verify relied-on transition evidence
+  separately, without inferring qualification from the value/path
 - `design/cdd/game-concept.md` or `design/cdd/product-concept.md` — concept exists?
 - `design/cdd/module-index.md` — module index exists?
 - Count CDD files: `design/cdd/*.md` (excluding game-concept.md, product-concept.md, module-index.md, and principles.md)
@@ -60,11 +66,14 @@ Then read silently before presenting anything else.
 - `docs/engine-reference/` or `docs/reference/` — reference docs present?
 - Glob `docs/adoption-plan-*.md` — note the filename of the most recent prior plan if any exist
 
-### Infer phase (if no stage.txt)
-Use the same heuristic as `/project-stage-detect`. Phase names are shown as
+### Candidate phase
+Read `standards/technical-preferences.md` domain/capability evidence and concept
+bodies; missing/ambiguous concepts never default Game. Use advisory indicators
+from `/project-stage-detect`, not completion proofs. Phase names are shown as
 **[游戏专用] Game** / **[通用产品] Product**:
 
-- 10+ source files in `src/` → Production / Implementation
+- Actual ongoing implementation evidence → candidate Production / Implementation;
+  source counts indicate scale only
 - Stories in `production/epics/` → Pre-Production / Pre-Implementation
 - ADRs exist → Technical Setup / Architecture
 - module-index.md exists → Systems Design / Specification
@@ -81,7 +90,9 @@ If the project appears fresh (no artifacts at all), use `AskUserQuestion`:
 Then stop — do not proceed with the audit regardless of which option the user picks
 (each option leads to a different skill or manual investigation).
 
-Report: "Detected phase: [phase]. Found: [N] CDDs, [M] ADRs, [P] stories."
+Report declared phase, observed artifacts, candidate phase and verified qualified
+state separately, including CDD/ADR/Story counts. Missing qualification stays
+unverified; this format audit does not execute runtime skills.
 
 ---
 
@@ -92,8 +103,10 @@ the file exists but that it contains the internal structure the template require
 
 ### 2a: CDD Format Audit
 
-For each CDD file found, check for the required sections by scanning headings.
-The required sections differ by domain — detect from concept doc content:
+Resolve DocKind/owners under `design/INSTRUCTIONS.md`. Module CDDs use semantic
+eight in `rules/design-docs.md`; concept/index/support documents use their own
+contract. Read substantive bodies and valid historical aliases. Heading scans
+locate content, not compliance. Preserved Game/Product heading examples follow:
 
 **[游戏专用]** Game CDD sections:
 
@@ -113,12 +126,12 @@ The required sections differ by domain — detect from concept doc content:
 | Required Section | Heading pattern to look for |
 |---|---|
 | Overview | `## Overview` |
-| User Promise | `## User Promise` |
-| Detailed Design | `## Detailed Design` or `## Core Specification` |
-| Data Model | `## Data Model` or `## Data` |
+| User Promise / JTBD | `## User Promise` or `## User Promise / JTBD` |
+| Detailed Behavior | `## Detailed Behavior`, `## Detailed Design` or `## Core Specification` |
+| Contracts / Data Model | `## Contracts / Data Model`, `## Data Model` or `## Data` |
 | Edge Cases | `## Edge Cases` |
 | Dependencies | `## Dependencies` or `## Depends` |
-| Configuration | `## Configuration` |
+| Configuration Knobs | `## Configuration Knobs` or `## Configuration` |
 | Acceptance Criteria | `## Acceptance` |
 
 For each CDD, record:
@@ -136,7 +149,7 @@ For each ADR file found, check for these critical sections:
 
 | Section | Impact if missing |
 |---|---|
-| `## Status` | **BLOCKING** — `/story-readiness` ADR status check silently passes everything |
+| `## Status` | **BLOCKING** for relied-on coverage — decision status/acceptance unverified |
 | `## ADR Dependencies` | HIGH — dependency ordering in `/architecture-review` breaks |
 | **[游戏专用]** `## Engine Compatibility` / **[通用产品]** `## Technology Compatibility` | HIGH — post-cutoff API risk is unknown |
 | `## CDD Requirements Addressed` | MEDIUM — traceability matrix loses coverage |
@@ -165,11 +178,14 @@ If `design/cdd/module-index.md` exists:
 
 For each story file found:
 
-- **`Manifest Version:` field** — present in story header? (LOW — auto-passes if absent)
-- **TR-ID reference** — does story contain `TR-[a-z]+-[0-9]+` pattern? (MEDIUM — no staleness tracking)
-- **ADR reference** — does story reference at least one ADR? (check for `ADR-` pattern)
-- **Status field** — present and readable?
-- **Acceptance criteria** — does the story have a checkbox list (`- [ ]`)?
+- Read actual governing requirements/AC, status and linked decisions, not patterns
+  alone. Resolve assigned TR-IDs against the registry without manufacturing IDs.
+- Bind manifest raw bytes/full digest/size; absent legacy identity needs current
+  LegacyRecheck, not auto-pass from dates or missing fields.
+- Apply `standards/notes-adr-sync.md`: Accepted ADR where required, named
+  `cdd-layer` or justified `no-adr` where valid. Not every Story needs an ADR.
+- Preserve in-progress/done Story content/history. Audit required evidence and
+  authority separately; never regenerate or grant completion from format alone.
 
 ### 2e: Infrastructure Audit
 
@@ -199,7 +215,8 @@ Read `standards/technical-preferences.md`. Check each field for `[TO BE CONFIGUR
 
 Organise every gap found across all audits into four severity tiers:
 
-**BLOCKING** — Will cause template skills to silently produce wrong results *right now*.
+**BLOCKING** — An actual required contract/decision/evidence gap blocks its
+dependent workflow or qualification; name the owner and affected scope.
 Examples: ADR missing Status field, module-index parenthetical status values,
 technology stack not configured when ADRs exist.
 
@@ -216,7 +233,8 @@ sprint-status.yaml missing.
 Examples: Stories missing Manifest Version stamps, CDDs missing Open Questions section.
 
 Count totals per tier. If zero BLOCKING and zero HIGH gaps: report that the project
-is template-compatible and only advisory improvements remain.
+meets the selected format checks with only advisory gaps; runtime/project
+qualification remains separately unverified.
 
 ---
 
@@ -248,18 +266,19 @@ List each ADR as a separate checkable item.
 For each affected CDD, list which sections are missing and the fix:
 `/design-system retrofit design/cdd/[filename].md`
 
-**Infrastructure bootstrap ordering** — always present in this sequence:
+**Infrastructure bootstrap ordering** — include only applicable missing effects,
+after checking actual owners and authority, in this sequence:
 1. Fix ADR formats first (registry depends on reading ADR Status fields)
 2. Run `/architecture-review` → bootstraps `tr-registry.yaml`
 3. Run `/create-control-manifest` → creates manifest with version stamp
 4. Run `/sprint-plan update` → creates `sprint-status.yaml`
-5. Run `/gate-check [phase]` → writes `stage.txt` authoritatively
+5. Run `/gate-check [phase]` → evaluate actual required evidence; stage writes
+   need separately covered transition authority
 
 **Existing stories** — note explicitly:
-> "Existing stories continue to work with all template skills — all new format
-> checks auto-pass when the fields are absent. They won't benefit from TR-ID
-> staleness tracking or manifest version checks until they're regenerated. This
-> is intentional: do not regenerate stories that are already in progress."
+> Preserve in-progress/done bodies and historical labels. Missing TR/manifest
+> identity needs owning-workflow legacy recheck; it never automatically passes.
+> Repair approved gaps only, preserving exact reviewed baselines.
 
 ---
 
@@ -270,7 +289,7 @@ Present a compact summary before writing:
 ```
 ## Adoption Audit Summary
 Phase detected: [phase]
-Engine: [configured / NOT CONFIGURED]
+Domain / engine or stack: [evidence-backed; configured / NOT CONFIGURED]
 CDDs audited: [N] ([X] fully compliant, [Y] with gaps)
 ADRs audited: [N] ([X] fully compliant, [Y] with gaps)
 Stories audited: [N]
@@ -296,14 +315,14 @@ If a prior adoption plan was detected in Phase 1, add a note:
 > "A previous plan exists at `docs/adoption-plan-[prior-date].md`. The new plan will
 > reflect current project state — it does not diff against the prior run."
 
-Use `AskUserQuestion`:
+When exact plan authority is absent, use `AskUserQuestion` after the summary:
 - "Ready to write the migration plan?"
   - "Yes — write `docs/adoption-plan-[date].md`"
   - "Show me the full plan preview first (don't write yet)"
   - "Cancel — I'll handle migration manually"
 
 If the user picks "Show me the full plan preview", output the complete plan as a
-fenced markdown block. Then ask again with the same three options.
+fenced markdown block. Then request only missing write authority; matching named plan scope continues.
 
 ---
 
@@ -316,7 +335,7 @@ If approved, write `docs/adoption-plan-[date].md` with this structure:
 
 > **Generated**: [date]
 > **Project phase**: [phase]
-> **Engine**: [name + version, or "Not configured"]
+> **Domain / Engine or Stack**: [actual source + configured reference; installed state unverified]
 > **Template version**: v0.2.0
 
 Work through these steps in order. Check off each item as you complete it.
@@ -354,10 +373,10 @@ Run `/sprint-plan update`
 **Time**: 5 min (if sprint plan already exists as markdown)
 - [ ] production/sprint-status.yaml created
 
-### 3d. Set authoritative project stage
+### 3d. Verify proposed project transition
 Run `/gate-check [current-phase]`
 **Time**: 5 min
-- [ ] production/stage.txt written
+- [ ] Required transition evidence/authority verified; only covered stage effects written
 
 ---
 
@@ -375,10 +394,9 @@ Run `/gate-check [current-phase]`
 
 ## What to Expect from Existing Stories
 
-Existing stories continue to work with all template skills. New format checks
-(TR-ID validation, manifest version staleness) auto-pass when the fields are
-absent — so nothing breaks. They won't benefit from staleness tracking until
-regenerated. Do not regenerate stories that are in progress or done.
+Preserve existing bodies and historical status. Missing legacy TR/manifest fields
+need current owning-workflow recheck, not automatic PASS or regeneration. Format
+audits cannot certify qualified Story/project state.
 
 ---
 
@@ -392,10 +410,12 @@ are resolved. The new run will reflect the current state of the project.
 
 ## Phase 6b: Set Review Mode
 
-After writing the adoption plan (or if the user cancels writing), check whether
+Only when review-mode setup is in requested scope, check whether
 `production/review-mode.txt` exists.
 
-**If it exists**: Read it and note the current mode — "Review mode is already set to `[current]`." — skip the prompt.
+**If it exists**: Read/trim its actual value. Valid `full`/`lean`/`solo` may be
+reused without another prompt; an empty/invalid value is reported for correction
+before dependent mode claims, never silently skipped, defaulted or rewritten.
 
 **If it does not exist**: Use `AskUserQuestion`:
 
@@ -405,7 +425,9 @@ After writing the adoption plan (or if the user cancels writing), check whether
   - `Lean (recommended)` — Directors only at phase gate transitions (/gate-check). Skips per-skill reviews. Balanced for solo devs and small teams.
   - `Solo` — No director reviews at all. Maximum speed. Best for game jams, prototypes, or if reviews feel like overhead.
 
-Write the choice to `production/review-mode.txt` immediately after selection — no separate "May I write?" needed:
+Review preference is content agreement, not a hidden write effect. Reuse authority
+naming `production/review-mode.txt`; otherwise show that path/effect and ask
+"May I write this review mode?" before persisting:
 - `Full` → write `full`
 - `Lean (recommended)` → write `lean`
 - `Solo` → write `solo`
@@ -432,7 +454,7 @@ Use `AskUserQuestion`:
 **If ADRs are missing `## Status` (and no parenthetical issue):**
 Use `AskUserQuestion`:
 - "The most urgent fix is adding `## Status` to [N] ADR(s): [list filenames].
-  Without it, /story-readiness silently passes all ADR checks. Start with
+  Without it, required decision status/acceptance remains unverified. Start with
   [first affected filename]?"
   - "Yes — retrofit [first affected filename] now"
   - "Retrofit all [N] ADRs one by one"
@@ -449,7 +471,8 @@ Use `AskUserQuestion`:
 
 **If no BLOCKING or HIGH gaps exist:**
 Use `AskUserQuestion`:
-- "No blocking gaps — this project is template-compatible. What next?"
+- "No blocking gaps in the audited format scope. Runtime/project qualification is
+  separate. What next?"
   - "Walk me through the medium-priority improvements"
   - "Run /project-stage-detect for a broader health check"
   - "Done — I'll work through the plan at my own pace"
@@ -460,9 +483,16 @@ Use `AskUserQuestion`:
 
 1. **Read silently** — complete the full audit before presenting anything
 2. **Show the summary first** — let the user see scope before asking to write
-3. **Ask before writing** — always confirm before creating the adoption plan file
+3. **Scoped writes** — reuse named plan authority; ask only for missing/new effects.
+   Plan-only excludes repairs, review mode and state.
 4. **Offer, don't force** — the plan is advisory; the user decides what to fix and when
 5. **One action at a time** — after handing off the plan, offer one specific next step,
    not a list of six things to do simultaneously
-6. **Never regenerate existing artifacts** — only fill gaps in what exists;
-   do not rewrite CDDs, ADRs, or stories that already have content
+6. **Preserve existing bodies/history** — repair named approved gaps only;
+   do not silently regenerate CDDs/ADRs/Stories or destroy unique prior content.
+
+Read actual Product user promise/API/CLI/SDK/data/auth/workflow contracts, surface
+profile and `docs/reference/[stack]/VERSION.md` as applicable. Retain Game Player
+Fantasy/formulas/tuning/engine/playtest examples. Missing inapplicable infrastructure
+gets justified N/A. Diagnose/offer repairs independently of plan saving; zero
+BLOCKING/HIGH counts do not certify runtime/template qualification.

@@ -9,6 +9,15 @@ A metric is WARN when the instructions partially address the criterion.
 
 ---
 
+## Shared Evaluation Contract
+
+Apply `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`, `standards/evidence-lifecycle.md`
+and `standards/notes-adr-sync.md` across categories. Phrase/count presence is
+structural evidence only; evaluate actual behavior and disclose unexecuted cases.
+Named changeset authority persists across roles/files/retries. Report-only excludes
+input/index/state; review-only invokes no write entrypoint. Separate content/write/
+review/acceptance/publication/completion; required decisions block affected work.
+
 ## Skill Categories
 
 ### `gate`
@@ -20,11 +29,11 @@ auto-advancing stage and must respect the three review modes.
 
 | Metric | PASS criteria |
 |---|---|
-| **G1 — Review mode read** | Skill reads `production/session-state/review-mode.txt` (or equivalent) before deciding which directors to spawn |
+| **G1 — Review mode read** | Skill resolves the per-run review override, then `production/review-mode.txt`, then `lean` once per run and applies it before each director gate |
 | **G2 — Full mode: all 4 directors spawn** | In `full` mode, all 4 Tier-1 directors (CD, TD, PR, AD) PHASE-GATE prompts are invoked in parallel |
 | **G3 — Lean mode: PHASE-GATE only** | In `lean` mode, only `*-PHASE-GATE` gates run; inline gates (CD-PILLARS, TD-ARCHITECTURE, etc.) are skipped |
 | **G4 — Solo mode: no directors** | In `solo` mode, no director gates spawn; each is noted as "skipped — Solo mode" |
-| **G5 — No auto-advance** | Skill never writes `production/stage.txt` without explicit user confirmation via "May I write" |
+| **G5 — No auto-advance** | Stage/current-state changes need explicit transition authority and required checks; report-write approval alone is insufficient |
 
 ---
 
@@ -37,15 +46,18 @@ read-only and must not trigger director gates during the analysis phase.
 
 | Metric | PASS criteria |
 |---|---|
-| **R1 — Read-only enforcement** | Skill does not modify the reviewed document without explicit user approval; any write operations (review logs, index updates) are gated behind "May I write" |
-| **R2 — 8-section check** | Skill evaluates all 8 required GDD sections (or equivalent architectural sections) explicitly |
+| **R1 — Read-only enforcement** | Review-only invokes no write entrypoint. Report-only writes the new assigned report, excluding inputs/index/state. Input repair is a separate writer action with fresh review baseline |
+| **R2 — Required owner/body check** | Skill resolves actual DocKind and required owners under `design/INSTRUCTIONS.md`. Module CDDs satisfy semantic eight through substantive bodies/valid aliases; concept/index/support docs and architecture use their own owner contract. Counts/headings alone are not PASS. |
 | **R3 — Correct verdict vocabulary** | Verdict is exactly one of: APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED (design) or PASS / CONCERNS / FAIL (architecture) |
-| **R4 — No director gates during analysis** | Skill does not spawn director gates during its analysis phases; post-analysis director review (as in architecture-review) is acceptable when the skill's scope and stakes warrant it |
+| **R4 — Actual review workflow** | Skill follows its selected workflow's actual gate/consultation definition, mode, scope and required reviewer independence. Never invent director gates, actor completion or a passing result; unavailable required review remains incomplete. |
 | **R5 — Structured findings** | Output contains a per-section status table or checklist before the final verdict |
 
 > **Exceptions:**
 > - `design-review`: Has `Write, Edit` in allowed-tools to support an optional "Revise now" path (all writes gated behind user approval) and to write review logs. R1 is satisfied because the reviewed document is never silently modified.
-> - `architecture-review`: Spawns TD-ARCHITECTURE and LP-FEASIBILITY gates after its analysis is complete. This is intentional — architecture review is high-stakes and benefits from director sign-off. R4 is satisfied because the gates run post-analysis, not during it.
+> - `architecture-review`: Performs its actual traceability/disposition/technology audit
+>   and configured technology specialist consultation. It has no TD-ARCHITECTURE or
+>   LP-FEASIBILITY gate; those belong to `create-architecture`. Required independence
+>   follows `standards/evidence-lifecycle.md`, not an invented global gate.
 
 ---
 
@@ -59,11 +71,11 @@ a single-draft pattern appropriate to their smaller scope.
 
 | Metric | PASS criteria |
 |---|---|
-| **A1 — Section-by-section cycle** | Full authoring skills (design-system, ux-design, art-bible) author one section at a time, presenting content for approval before proceeding to the next. Lightweight skills (quick-design, architecture-decision, create-architecture) may draft the complete document then ask for approval — single-draft is acceptable for documents under ~4 hours of implementation scope. |
-| **A2 — May-I-write per section** | Full authoring skills ask "May I write this to [filepath]?" before each section write. Lightweight skills ask once for the complete document. |
+| **A1 — Scoped iterative drafting** | Full authoring skills (design-system, ux-design, art-bible) draft and verify sections incrementally within an approved document, batch or synchronization scope without repeated approval before the next section. Ask for material unresolved choices, new effects, or explicit per-section review preferences. Lightweight skills (quick-design, architecture-decision, create-architecture) may present one complete draft/summary for appropriate small scope; matching existing authority continues. |
+| **A2 — Scoped authority** | Named document/changeset approval covers listed sections, skeletons and checkpoint effects. Ask only for material new scope; honor explicit per-section review preferences. |
 | **A3 — Retrofit mode** | Skill detects if the target file already exists and offers to update specific sections rather than overwriting the whole document. Lightweight skills (quick-design) that always create new files are exempt. |
 | **A4 — Director gate at correct tier** | If a director gate is defined for this skill (e.g., CD-GDD-ALIGN, TD-ADR), it runs at the correct mode threshold (full/lean) — NOT in solo |
-| **A5 — Skeleton-first** | Full authoring skills create a file skeleton with all section headers before filling content, to preserve progress on session interruption. Lightweight skills are exempt. |
+| **A5 — Preserve progress and existing content** | For new full documents, create the authorized section skeleton before filling it. For retrofit/synchronization, preserve existing body, named sections and evidence, updating only approved scope; never replace it with an empty skeleton. Lightweight new documents may use a complete single draft. Checkpoint writes need their own effect in scope. |
 
 > **Full authoring skills** (must pass all 5 metrics): `design-system`, `ux-design`, `art-bible`
 > **Lightweight authoring skills** (A1, A2, A5 use single-draft pattern; A3 exempt for new-file-only skills): `quick-design`, `architecture-decision`, `create-architecture`
@@ -81,8 +93,8 @@ multi-dimensional verdicts and integrate correctly with director gate mode.
 | Metric | PASS criteria |
 |---|---|
 | **RD1 — Multi-dimensional check** | Skill checks ≥3 independent dimensions (e.g., Design, Architecture, Scope, DoD) and reports each separately |
-| **RD2 — Three verdict levels** | Verdict hierarchy is clearly defined: READY/COMPLETE > NEEDS WORK/COMPLETE WITH NOTES > BLOCKED |
-| **RD3 — BLOCKED requires external action** | BLOCKED verdict is reserved for issues that cannot be fixed by the story author alone (e.g., Proposed ADR, unresolvable dependency) |
+| **RD2 — Three verdict levels** | Readiness READY/NEEDS WORK/BLOCKED; closure COMPLETE/COMPLETE WITH NOTES/BLOCKED. Both closure completion levels require every required AC/evidence/review/authority satisfied. Legacy RISKS aliases NOTES only with those same facts. |
+| **RD3 — Required gaps retain truth** | Readiness distinguishes remediable NEEDS WORK from external/decision BLOCKED. Closure is BLOCKED for any required FAIL/NotRun/Blocked/Pending/Unknown or missing required decision/review/authority, even if author can repair. Optional orchestration/risk acceptance waives no required AC or test truth. |
 | **RD4 — Director gate at correct mode** | QL-STORY-READY or LP-CODE-REVIEW gate spawns in `full` mode, skips in `lean`/`solo` with a noted skip message |
 | **RD5 — Next-story handoff** | After completion, skill surfaces the next READY story from the active sprint |
 
@@ -99,7 +111,7 @@ with correct schema, respect layer/priority ordering, and gate before writing.
 |---|---|
 | **P1 — Correct output schema** | Each produced file follows the project template (EPIC.md, story frontmatter, etc.); skill references the template path |
 | **P2 — Layer/priority ordering** | Skills that produce epics or stories respect layer ordering (core → extended → meta) and priority fields |
-| **P3 — May-I-write before each artifact** | Skill asks "May I write [artifact]?" before creating each output file, not batch-approving all files at once |
+| **P3 — Named changeset approval** | Present draft/summary plus paths/effects before new authority. One named batch may cover all listed artifacts; scope continues across roles/files/retries, asking only for material new effects |
 | **P4 — Director gate at correct tier** | In-scope gates (PR-EPIC, QL-STORY-READY, LP-CODE-REVIEW, etc.) run in `full`, skip in `lean`/`solo` with noted skip |
 | **P5 — Reads before writes** | Skill reads the relevant GDD/ADR/manifest before producing artifacts to ensure alignment |
 
@@ -117,7 +129,7 @@ analysis and must ask before recommending any file writes.
 |---|---|
 | **AN1 — Read-only scan** | Analysis phase uses only Read/Glob/Grep tools; no Write or Edit during the scan itself |
 | **AN2 — Structured findings table** | Output includes a findings table or checklist (not prose only) with severity/priority per finding |
-| **AN3 — No auto-write** | Any suggested file writes (e.g., tech-debt register, fix patches) are gated behind "May I write" |
+| **AN3 — No auto-write** | New effects require scope after draft/summary; existing authority continues. Report-only does not authorize repair/index/state |
 | **AN4 — No director gates during analysis** | Analysis skills do not spawn director gates; they produce findings for human review |
 
 ---
@@ -152,7 +164,7 @@ They have a PR-SPRINT or PR-MILESTONE gate at specific mode thresholds.
 | **SP1 — Reads sprint/milestone state** | Skill reads `production/sprints/` or `production/milestones/` before producing output |
 | **SP2 — Correct sprint gate** | PR-SPRINT (for planning) or PR-MILESTONE (for milestone review) gate runs in `full` mode, skips in `lean`/`solo` |
 | **SP3 — Structured output** | Output uses a consistent structure (velocity table, risk list, action items) rather than free prose |
-| **SP4 — No auto-commit** | Skill never writes sprint files or milestone records without "May I write" |
+| **SP4 — No auto-commit** | Sprint/milestone writes and transitions have relevant scoped authority; report writing alone does not complete/advance state |
 
 ---
 
@@ -164,19 +176,19 @@ regression-suite, qa-plan, bug-triage, bug-report, playtest-report, asset-spec,
 reverse-document, project-stage-detect, setup-engine, skill-test, skill-improve,
 day-one-patch, and any other skills not in categories above
 
-Utility skills pass the 7 standard static checks. If they happen to spawn director
+Utility skills pass the current structural/parity check set declared by `/skill-test`. If they happen to spawn director
 gates, the gate mode logic must also be correct.
 
 | Metric | PASS criteria |
 |---|---|
-| **U1 — Passes all 7 static checks** | `/skill-test static [name]` returns COMPLIANT with 0 FAILs |
+| **U1 — Passes current static checks** | `/skill-test static [name]` returns COMPLIANT with 0 FAILs |
 | **U2 — Gate mode correct (if applicable)** | If the skill spawns any director gate, it reads review-mode and applies full/lean/solo logic correctly |
 
 ---
 
 ## Agent Categories
 
-Used to validate agent spec files in `tests/agents/`.
+Used to validate canonical agent specs in `skill_testing/specs/agents/`.
 
 ### `director`
 

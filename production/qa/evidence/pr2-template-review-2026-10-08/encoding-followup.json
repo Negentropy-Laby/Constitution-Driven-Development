@@ -1,0 +1,357 @@
+{
+  "revision": "pr2-encoding-follow-up",
+  "source_commit": "fb0511c02128841eb11686d19322672452861513",
+  "source_inputs_sha256": "d0b1a13110e51c7fc91ed467963ae09c374bd140483b21cebc6c57ed511dea2a",
+  "predecessor_head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+  "collected_at": "2026-10-08T23:51:50.090698+08:00",
+  "timezone": "Asia/Shanghai (+08:00)",
+  "observer": "Codex author/check operator",
+  "inputs": {
+    "verifier_before": {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/verify.py",
+      "sha256": "289ba008e43b2d0f5f8658445fe1f6e9e19c618c0bd242de99bc313cb4600403",
+      "bytes": 4245
+    },
+    "verifier_after": {
+      "commit": "fb0511c02128841eb11686d19322672452861513",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/verify.py",
+      "sha256": "ce312453c43bbadc941e75c576e25b2e49f3906a35a6e834df5c91d10402f152",
+      "bytes": 4279
+    },
+    "regression_test": {
+      "commit": "fb0511c02128841eb11686d19322672452861513",
+      "path": "tests/evidence_verifier_test.py",
+      "sha256": "544dd5f73a0e476616a8c00dac5c8b9aa564ab21aef7dd5590757366d2893fbb",
+      "bytes": 6391
+    },
+    "verdict_spec": {
+      "commit": "fb0511c02128841eb11686d19322672452861513",
+      "path": "skill_testing/specs/skills/pipeline/create-epics.md",
+      "sha256": "d688e1c7cba5b208670f00668f037e792ab27da5b57b528169729da1e1a1ccf9",
+      "bytes": 10515
+    }
+  },
+  "attempts": {
+    "regression-before": {
+      "command": [
+        "/root/cdd-revision-closeout-20261008/test-env/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-v",
+        "-s",
+        "tests",
+        "-p",
+        "evidence_verifier_test.py"
+      ],
+      "started_at": "2026-10-08T23:41:35.619713+08:00",
+      "exit_code": 1,
+      "log_bytes": 3149,
+      "log_sha256": "c2073dcb3c9a7bb31e4f8cffe72084827d969221785a9133725fa1d0774b8302",
+      "scope": "author regression on isolated fixtures, not native Agent qualification",
+      "log_path": "check-output/encoding-regression-before.json",
+      "source_commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "expected_result": "FAIL exposes both TSV and source-text GBK decode errors; tamper counterexample PASS",
+      "raw_log_sha256": "a9375645d06b13f1ab830f437c6132aafc364d553bd66018311f032e2576c2eb",
+      "raw_log_bytes": 2878,
+      "log_storage": "JSON raw_text; reconstruct original bytes using UTF-8 encoding"
+    },
+    "regression-after": {
+      "command": [
+        "/root/cdd-revision-closeout-20261008/test-env/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-v",
+        "-s",
+        "tests",
+        "-p",
+        "evidence_verifier_test.py"
+      ],
+      "started_at": "2026-10-08T23:42:09.558230+08:00",
+      "exit_code": 0,
+      "log_bytes": 368,
+      "log_sha256": "ccb9d4d9d3e5d351f423d57c215d252251112d128c26858fa0c743ad1a70fe97",
+      "log_path": "check-output/encoding-regression-after.txt",
+      "source_commit": "fb0511c02128841eb11686d19322672452861513",
+      "result": "PASS; both text readers exercised, source tamper rejected"
+    },
+    "windows-before": {
+      "command": [
+        "/mnt/e/llms/python312/python.exe",
+        "-B",
+        "production/qa/evidence/pr2-template-review-2026-10-08/verify.py"
+      ],
+      "started_at": "2026-10-08T23:44:20.588072+08:00",
+      "ended_at": "2026-10-08T23:44:47.601986+08:00",
+      "exit_code": 1,
+      "log_bytes": 1098,
+      "log_sha256": "e5589b456e5562271d20b98cc65ca102c0c45d809d84a6ff34de9057bffb65e2",
+      "head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "native_process": true,
+      "utf8_mode": 0,
+      "default_encoding": "cp936",
+      "scope": "author native Windows reproduction; no source modification",
+      "log_path": "check-output/encoding-windows-before.json",
+      "raw_log_sha256": "adac1863acf5e0d5b585875a2c7b3c3601e18a6fccd5fe2d88c2824b314a53ef",
+      "raw_log_bytes": 823,
+      "log_storage": "JSON raw_text; reconstruct original bytes using UTF-8 encoding"
+    },
+    "windows-after": {
+      "command": [
+        "/mnt/e/llms/python312/python.exe",
+        "-B",
+        "production/qa/evidence/pr2-template-review-2026-10-08/verify.py"
+      ],
+      "started_at": "2026-10-08T23:55:46.686233+08:00",
+      "ended_at": "2026-10-08T23:56:13.922700+08:00",
+      "exit_code": 0,
+      "result": "PASS",
+      "log_bytes": 501,
+      "log_sha256": "27aeeeeabac0bba1c7c1826bd3674141f39430866cfd8ca74ff072eb8e9b8202",
+      "native_process": true,
+      "python": {
+        "version": "3.12.9 (tags/v3.12.9:fdb8142, Feb  4 2025, 15:27:58) [MSC v.1942 64 bit (AMD64)]",
+        "utf8_mode": 0,
+        "default_encoding": "cp936"
+      },
+      "encoding_overrides_added": false,
+      "source_commit": "fb0511c02128841eb11686d19322672452861513",
+      "collection_state": "Candidate records on source S2; committed recovery and E2 parent checks run separately after commit",
+      "read_record_identities": [
+        {
+          "path": "production/qa/evidence/pr2-template-review-2026-10-08/verify.py",
+          "sha256": "ce312453c43bbadc941e75c576e25b2e49f3906a35a6e834df5c91d10402f152",
+          "bytes": 4279
+        },
+        {
+          "path": "production/qa/evidence/pr2-template-review-2026-10-08/source-inputs.json",
+          "sha256": "d0b1a13110e51c7fc91ed467963ae09c374bd140483b21cebc6c57ed511dea2a",
+          "bytes": 153107
+        },
+        {
+          "path": "production/qa/evidence/pr2-template-review-2026-10-08/checks.json",
+          "sha256": "de678f4301b0bdf229aa8b2c8e1b1916abd6f96775437c88eb81ac124a2b4577",
+          "bytes": 9681
+        },
+        {
+          "path": "production/qa/evidence/pr2-template-review-2026-10-08/lint-summary.json",
+          "sha256": "2c993098e42601b76ad2160d878bf75d09897ff9e44d5a94b44c66c364614253",
+          "bytes": 105425
+        },
+        {
+          "path": "production/qa/evidence/pr2-template-review-2026-10-08/review-dispositions.json",
+          "sha256": "292f5fa15c4409c2c3aa39d5703773494941acc9778699ae6d4c039b86b53977",
+          "bytes": 11913
+        },
+        {
+          "path": "production/qa/evidence/pr2-template-review-2026-10-08/spec-structure.json",
+          "sha256": "e6e2994965224914413f005f7af93683032fb9c2dad47b009863cc9ba39c3d3a",
+          "bytes": 10035
+        },
+        {
+          "path": "production/qa/evidence/pr2-template-review-2026-10-08/lint-classification.tsv",
+          "sha256": "bad6386782e38873b5be420b449c2c30031c2b873a73e1ba8341d840cae3e12d",
+          "bytes": 550009
+        },
+        {
+          "path": "production/qa/evidence/pr2-template-review-2026-10-08/history-rewrite.json",
+          "sha256": "e4a59422dc22d9e5add5b6095346409f809ed0d55edb268331516615fedeec4d",
+          "bytes": 4195
+        }
+      ],
+      "log_path": "check-output/encoding-windows-after.json",
+      "raw_log_sha256": "eefeff1111c464f945de6e9b905ef16ff23feac24718f1eaef1f44d68e6731d9",
+      "raw_log_bytes": 267,
+      "log_storage": "JSON raw_text; reconstruct original bytes using UTF-8 encoding"
+    }
+  },
+  "previous_records": [
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/README.md",
+      "sha256": "ce6d834e4b0f7bfa621d840f225091d9731205e49dee9f7a0cae0bdd6253e644",
+      "bytes": 3556,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/README.md"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/author-review.md",
+      "sha256": "7a9918ccdbe2b9df3c8f50fefd464fda1b3fa68fee688f43b01d8ad40c39a059",
+      "bytes": 5515,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/author-review.md"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/adapter-state.txt",
+      "sha256": "c46f737e3ad0b6901580cc3d95c98c7be2d89cb2ec74749106c4e057d64a6394",
+      "bytes": 481,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/adapter-state.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/adapters.txt",
+      "sha256": "9b45edc1292b658a00245b47bff8512ce827b50638fb3e1db72d83484efc88fd",
+      "bytes": 70,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/adapters.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/hook-syntax.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/hook-syntax.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/lint-self-test.txt",
+      "sha256": "19b030328bca8461100a0ef475bbdb04867130f1e2886a2040d4fad44f8e4169",
+      "bytes": 99,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/lint-self-test.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/strict-lint.txt",
+      "sha256": "76645127d159aefff19a90d5f8654a1b022c57a9e5c17b9577bc2da113fa4abf",
+      "bytes": 61923,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/strict-lint.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/structural-smoke.txt",
+      "sha256": "eb6943074956199a477c3341c0970a71d5412c18c6e2e2e67cc11698145c365b",
+      "bytes": 28,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/structural-smoke.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/unittest-initial.txt",
+      "sha256": "d04bf282bd95884269b8652438adfe7c062a7cabd963a1b23bf77e832c46c80f",
+      "bytes": 29301,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/unittest-initial.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/unittest.txt",
+      "sha256": "5862bf0db61f0cb57d58be42de9fd31c6c304b66f430cc7f6ebeb80e751d5b70",
+      "bytes": 25452,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/unittest.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/whitespace.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/whitespace.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/check-output/workflow.txt",
+      "sha256": "737f3d87f1f1ac22cf3a28c129d948cf9eb5cdc4aa472e4d252b1c076c645d85",
+      "bytes": 55,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/check-output/workflow.txt"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/checks.json",
+      "sha256": "dfc36d326f7563c7589440a3c3ebe99d0db191fe43ef3575f7ee4344ad9aaa32",
+      "bytes": 10251,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/checks.json"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/history-rewrite.json",
+      "sha256": "b50b9f05b919eb217b310f53e7a9986699e5fc49ad7ec611ef1fbdce2c974b4d",
+      "bytes": 3969,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/history-rewrite.json"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/lint-classification.tsv",
+      "sha256": "bad6386782e38873b5be420b449c2c30031c2b873a73e1ba8341d840cae3e12d",
+      "bytes": 550009,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/lint-classification.tsv"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/lint-summary.json",
+      "sha256": "2bc4cd86f276f5f058adf394441569568e5e73e08017e14ef41b58ef3fb658aa",
+      "bytes": 105022,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/lint-summary.json"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/review-dispositions.json",
+      "sha256": "555d1fb651ad8772676c1755522c2791c5c490aa68c2db47fc197f69df2e1ae7",
+      "bytes": 11662,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/review-dispositions.json"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/source-inputs.json",
+      "sha256": "436f8677220a11cf71896c3bc1760fd167303907d531d157d0f7e236ca97afe0",
+      "bytes": 152835,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/source-inputs.json"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/spec-structure.json",
+      "sha256": "2caf239a455d18c0ddc7fe7290b1475c588c46adf41bb453a4f33df40332bda1",
+      "bytes": 9826,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/spec-structure.json"
+    },
+    {
+      "commit": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+      "path": "production/qa/evidence/pr2-template-review-2026-10-08/verify.py",
+      "sha256": "289ba008e43b2d0f5f8658445fe1f6e9e19c618c0bd242de99bc313cb4600403",
+      "bytes": 4245,
+      "recovery": "git show d82d470ba55b90cc62c73d6d124deeed132e0dd5:production/qa/evidence/pr2-template-review-2026-10-08/verify.py"
+    }
+  ],
+  "received_independent_review": {
+    "head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+    "conclusion": "CONCERNS",
+    "source": "user supplied independent acceptance results in this conversation; not an author-generated independent report",
+    "completed_26_dispositions": true,
+    "p2": "UTF-8 missing in two verifier text readers; default Windows GBK fails",
+    "p3": "Non-blocking create-epics success token APPROVE differs from REALISTIC"
+  },
+  "findings": [
+    {
+      "id": "P2",
+      "change": "Explicit UTF-8 for both readers, original byte/revision assertions preserved",
+      "author_status": "Fixed; isolated regression and native Windows CP936 candidate verification PASS; committed E2 verification external",
+      "independent_resolution": "Pending; original acceptance reviewer to inspect final E2"
+    },
+    {
+      "id": "P3",
+      "change": "PR-EPIC happy-path expectation uses REALISTIC",
+      "author_status": "Fixed; spec/owner cross-check; Agent runtime NotRun",
+      "independent_resolution": "Pending; original acceptance reviewer to inspect final E2"
+    }
+  ],
+  "limits": "No Agent/Game requalification; original FAIL/Blocked/NotRun unchanged; no independent final PASS; no remote physical erasure claim",
+  "prior_ci": {
+    "run_id": 37788217558,
+    "associated_head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+    "actual_checkout": "3784791454ad9bf6be76835121f3c06fb5e20d53",
+    "head_tree": "492e31aefdc1156ace631c3c7fe9c1915c323ee1",
+    "checkout_tree": "492e31aefdc1156ace631c3c7fe9c1915c323ee1",
+    "trees_equal": true,
+    "tree_observation": "Both Git commit tree IDs re-read through GitHub API; runner checkout verified in job log",
+    "ubuntu_macos_tests": {
+      "total": 176,
+      "passed": 176,
+      "skipped": 0
+    },
+    "windows_tests": {
+      "total": 176,
+      "passed": 170,
+      "skipped": 6
+    },
+    "claim": "Historical old-head CI only; not final-head follow-up CI"
+  }
+}

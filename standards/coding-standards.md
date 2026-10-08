@@ -1,7 +1,12 @@
 # Coding Standards
 
 - All game and product code must include doc comments on public APIs
-- Every system must have a corresponding architecture decision record in `docs/architecture/`
+- Classify choices under `standards/notes-adr-sync.md`: covered, cdd-layer, no-adr,
+  documentation-update, adr-required, conflict. Significant trust/public-contract/
+  durable-format/state-ownership/governing choices need exact Accepted ADR scope or
+  valid scoped exception before affected implementation. CDD/local details need no
+  manufactured ADR; other readiness/evidence gates and the global Technical Setup
+  minimum of three Foundation ADRs in `workflow/workflow-catalog.yaml` still apply.
 - All public methods must be unit-testable (dependency injection over singletons)
 - Commits must reference the relevant design document or task ID
 - **Game**: gameplay values must be data-driven (external config), never
@@ -20,9 +25,10 @@
 # Design Document Standards
 
 - All design docs use Markdown
-- Each game mechanic or product module/workflow has a dedicated document in
-  `design/cdd/`
-- Game CDDs must include these 8 required sections:
+- Each game mechanic/product module has its governing module CDD in `design/cdd/`.
+  Resolve DocKind/required owner through `design/INSTRUCTIONS.md`; Concepts, indexes
+  and Quick Specs use their own actual owner sets, not Module8.
+- Game module CDDs substantively cover these 8 semantic roles, retaining valid aliases:
   1. **Overview** -- one-paragraph summary
   2. **Player Fantasy** -- intended feeling and experience
   3. **Detailed Rules** -- unambiguous mechanics
@@ -32,7 +38,7 @@
   7. **Tuning Knobs** -- configurable values identified
   8. **Acceptance Criteria** -- testable success conditions
 - Balance values must link to their source formula or rationale
-- Product CDDs use equivalent required sections:
+- Product module CDDs substantively cover equivalent semantic roles, retaining valid aliases:
   1. **Overview** -- one-paragraph summary of the module or workflow
   2. **User Promise / JTBD** -- what the user is trying to accomplish and what
      the product must reliably do
@@ -68,7 +74,10 @@ All stories must have appropriate test evidence before they can be marked Done:
 
 ## Automated Test Rules
 
-- **Naming**: `[system]_[feature]_test.[ext]` for files; `test_[scenario]_[expected]` for functions
+- **Naming**: Follow the configured language/framework's discovery and naming
+  conventions. Game examples include `[system]_[feature]_test.[ext]`; Python
+  examples include `test_[scenario]_[expected]`. These examples do not override
+  valid pytest, Vitest/Jest, Rust or Go conventions selected by the project.
 - **Determinism**: Tests must produce the same result every run — no random seeds, no time-dependent assertions
 - **Isolation**: Each test sets up and tears down its own state; tests must not depend on execution order
 - **No hardcoded data**: Test fixtures use constant files or factory functions, not inline magic numbers

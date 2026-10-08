@@ -7,40 +7,36 @@ a new Architecture Decision Record (ADR). Required sections are: Status, Context
 Decision, Consequences, Alternatives, and Related ADRs. The skill also stamps the
 engine version reference from `docs/engine-reference/` into the ADR for traceability.
 
-In `full` review mode, TD-ADR (technical-director) and LP-FEASIBILITY
-(lead-programmer) gate agents spawn after the draft is complete. If both gates
-return APPROVED, the ADR status is set to Accepted. In `lean` or `solo` mode,
-both gates are skipped and the ADR is written with Status: Proposed. The skill
-asks "May I write" per section during authoring. ADRs are written to
-`docs/architecture/adr-NNN-[name].md`.
+Configured technology specialist validation precedes TD-ADR in full mode. Lean/
+solo skip TD-ADR as documented. New ADRs are written Proposed in every mode.
+Director recommendations and write approval never accept an ADR; a separate
+existing-governance authority must accept exact retained original/revision/scope.
+Writes go to `docs/architecture/adr-NNNN-[name].md` within named authorization.
 
 ---
 
 ## Static Assertions (Structural)
 
-Verified automatically by `/skill-test static` — no fixture needed.
+Structural checks only; semantic assertions below need actual bound fixtures/review evidence.
 
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keywords: ACCEPTED, PROPOSED, CONCERNS
-- [ ] Contains "May I write" collaborative protocol language (per-section approval)
+- [ ] Documents scoped write authority or its shared-contract owner; behavioral compliance is evaluated in fixture cases
 - [ ] Has a next-step handoff at the end
-- [ ] Documents gate behavior: TD-ADR + LP-FEASIBILITY in full mode; skipped in lean/solo
-- [ ] Documents that ADR status is Accepted (full, gates approve) or Proposed (otherwise)
+- [ ] Documents configured specialist validation followed by TD-ADR in full; lean/solo skip TD-ADR
+- [ ] New ADR remains Proposed until a separate evidenced exact-scope acceptance
 - [ ] Mentions engine version stamp from `docs/engine-reference/`
 
 ---
 
 ## Director Gate Checks
 
-In `full` mode: TD-ADR (technical-director) and LP-FEASIBILITY (lead-programmer)
-spawn after the ADR draft is complete. If both return APPROVED, ADR Status is set
-to Accepted. If either returns CONCERNS or FAIL, ADR stays Proposed.
-
-In `lean` mode: both gates are skipped. ADR is written with Status: Proposed.
-Output notes: "TD-ADR skipped — lean mode" and "LP-FEASIBILITY skipped — lean mode".
-
-In `solo` mode: both gates are skipped. ADR is written with Status: Proposed.
+Configured specialist validation runs where technology is configured; TD-ADR runs
+after it in full mode and is skipped in lean/solo. This skill has no LP-FEASIBILITY
+gate. Every new ADR starts Proposed. Approval/skip of gates does not create an
+Acceptance Record. Acceptance needs actual authority/time, retained original,
+full SHA-256/size, exact scope and separately authorized status effect.
 
 ---
 
@@ -51,26 +47,26 @@ In `solo` mode: both gates are skipped. ADR is written with Status: Proposed.
 **Fixture:**
 - `docs/architecture/` exists with no existing ADR for rendering
 - `docs/engine-reference/[engine]/VERSION.md` exists
-- `production/session-state/review-mode.txt` contains `full`
+- `production/review-mode.txt` contains `full`
 
 **Input:** `/architecture-decision rendering-approach`
 
 **Expected behavior:**
 1. Skill guides user through each required section (Status, Context, Decision, Consequences, Alternatives, Related ADRs)
 2. Engine version is stamped into the ADR from `docs/engine-reference/`
-3. For each section: draft shown, "May I write this section?" asked, approved
-4. After all sections: TD-ADR and LP-FEASIBILITY gates spawn in parallel
-5. Both gates return APPROVED
-6. ADR Status is set to Accepted
+3. Draft shown; reuse covered changeset authority, ask "May I write" only for new effects
+4. Configured specialist validates the draft, then TD-ADR runs in full mode
+5. TD-ADR returns APPROVE; its recommendation is reported separately
+6. ADR Status remains Proposed pending separate exact-scope acceptance
 7. Skill writes `docs/architecture/adr-NNN-rendering-approach.md`
-8. `docs/architecture/tr-registry.yaml` updated if new TR-IDs are defined
+8. Registry/TR updates run only through their owning workflow with named effect authority
 
 **Assertions:**
 - [ ] All 6 required sections are authored and written
 - [ ] Engine version reference is stamped in the ADR
-- [ ] TD-ADR and LP-FEASIBILITY spawn in parallel (not sequentially)
-- [ ] ADR Status is Accepted when both gates return APPROVED in full mode
-- [ ] "May I write" is asked per section during authoring
+- [ ] Configured specialist validation precedes TD-ADR; no invented LP-FEASIBILITY gate
+- [ ] ADR remains Proposed despite director approval unless separate exact acceptance is evidenced
+- [ ] Existing exact write scope is reused; new effects have concrete draft approval
 - [ ] File is written to `docs/architecture/adr-NNN-[name].md`
 
 ---
@@ -79,7 +75,7 @@ In `solo` mode: both gates are skipped. ADR is written with Status: Proposed.
 
 **Fixture:**
 - ADR draft is complete (all sections filled)
-- `production/session-state/review-mode.txt` contains `full`
+- `production/review-mode.txt` contains `full`
 - TD-ADR gate returns CONCERNS: "The decision does not address [specific concern]"
 
 **Input:** `/architecture-decision [topic]`
@@ -99,25 +95,25 @@ In `solo` mode: both gates are skipped. ADR is written with Status: Proposed.
 
 ---
 
-### Case 3: Lean Mode — Both gates skipped; ADR written as Proposed
+### Case 3: Lean Mode — TD-ADR skipped; ADR written as Proposed
 
 **Fixture:**
-- `production/session-state/review-mode.txt` contains `lean`
+- `production/review-mode.txt` contains `lean`
 - ADR draft is authored for a new technical decision
 
 **Input:** `/architecture-decision [topic]`
 
 **Expected behavior:**
 1. Skill guides user through all 6 sections
-2. After draft is complete: both TD-ADR and LP-FEASIBILITY are skipped
-3. Output notes: "TD-ADR skipped — lean mode" and "LP-FEASIBILITY skipped — lean mode"
-4. ADR is written with Status: Proposed (not Accepted, since gates did not approve)
-5. "May I write" is still asked before the final file write
+2. After configured specialist validation: TD-ADR is skipped
+3. Output notes: "TD-ADR skipped — Lean mode"
+4. ADR is written Proposed; gate skip/approval cannot accept the decision
+5. Existing exact write authority is reused; ask "May I write" only for uncovered effects
 
 **Assertions:**
-- [ ] Both gate skip notes appear in output
+- [ ] TD-ADR skip note appears; configured specialist behavior is separate
 - [ ] ADR Status is Proposed (not Accepted) in lean mode
-- [ ] "May I write" is still asked before writing the file
+- [ ] Exact named write scope is reused; uncovered effects get draft/path/effect approval
 - [ ] Skill writes the ADR after user approval
 
 ---
@@ -144,45 +140,55 @@ In `solo` mode: both gates are skipped. ADR is written with Status: Proposed.
 
 ---
 
-### Case 5: Director Gate — Status set correctly based on mode and gate outcome
+### Case 5: Acceptance is separate from review/write authority
 
-**Fixture:**
-- ADR draft is complete
-- Two scenarios: (a) full mode, both gates APPROVED; (b) full mode, one gate CONCERNS
+**Fixture:** Rendering ADR draft, full/lean/solo review outcomes, approved file write
+and no acceptance authority for the exact retained revision.
 
-**Full mode, both APPROVED:**
-- ADR Status is set to Accepted
+**Expected:** New file is Proposed in all modes; reviews/write approval cannot
+produce Accepted or automatically unlock blocked Stories. With separately evidenced
+acceptance authority, preserve the reviewed Proposed original and record actual
+revision/path/full SHA-256/size, time and exact Accepted scope before an authorized
+status transition. Changed Accepted choices require revision/successor history.
 
-**Assertions (both approved):**
-- [ ] ADR frontmatter/header shows `Status: Accepted`
-- [ ] Both TD-ADR and LP-FEASIBILITY appear as APPROVED in output
-
-**Full mode, one gate returns CONCERNS:**
-- ADR Status stays Proposed
-
-**Assertions (CONCERNS):**
-- [ ] ADR frontmatter/header shows `Status: Proposed`
-- [ ] Concerns are listed in output
-- [ ] Skill does NOT set Status: Accepted when any gate returns CONCERNS
-
-**Lean/solo mode:**
-- ADR Status is always Proposed regardless of content quality
-
-**Assertions (lean/solo):**
-- [ ] ADR Status is Proposed in lean mode
-- [ ] ADR Status is Proposed in solo mode
-- [ ] No gate output appears in lean or solo mode
+**Assertions:**
+- [ ] Missing retrofit status does not invent historical Accepted status.
+- [ ] TD-ADR recommendation does not accept a decision.
+- [ ] Existing Accepted exact scope may be reused; changed bytes/scope may not.
+- [ ] No automatic Blocked-to-Ready Story writes.
 
 ---
+
+### Case 6: Domain-specific compatibility template preserves both branches
+
+**Fixture:**
+Separate Game and Product fixtures supply actual configured versions and
+references. Game selects an engine; Product selects Python/runtime/framework and
+a CLI/API contract. Variant has conflicting/Unknown domain or unverified version.
+
+**Input:** `/architecture-decision [fixture topic]`
+
+**Expected behavior:**
+1. Resolve actual domain/version sources and select the matching template branch.
+2. Draft Engine Compatibility for Game or Stack Compatibility for Product.
+3. Keep Proposed status and disclose unresolved version/domain facts.
+
+**Assertions:**
+- [ ] Game retains its engine-specific fields and examples.
+- [ ] Product records actual runtime/framework/library/surface/reference/verification fields without
+      Game engine placeholders.
+- [ ] Writing or gate approval does not accept the ADR; Unknown/version gaps are not guessed.
+
+**Case Verdict:** PASS / FAIL / PARTIAL
 
 ## Protocol Compliance
 
 - [ ] All 6 required sections authored before gate review
 - [ ] Engine version stamped in ADR from `docs/engine-reference/`
-- [ ] "May I write" asked per section during authoring
-- [ ] TD-ADR and LP-FEASIBILITY spawn in parallel in full mode
+- [ ] Covered section writes continue under original named authority; only new effects need approval
+- [ ] Configured specialist then TD-ADR follow actual full-mode workflow
 - [ ] Skipped gates noted by name and mode in lean/solo output
-- [ ] ADR Status: Accepted only when full mode AND both gates APPROVED
+- [ ] Accepted only with separate evidenced authority for exact retained revision/scope
 - [ ] Ends with next-step handoff: `/architecture-review` or `/create-control-manifest`
 
 ---
@@ -193,5 +199,44 @@ In `solo` mode: both gates are skipped. ADR is written with Status: Proposed.
   the skill reads existing ADR filenames to assign the next number.
 - Related ADRs section linking (supersedes / related-to) is tested structurally
   via Case 4 but not all link types are individually verified.
-- The TR-registry update (when new TR-IDs are defined in the ADR) is part of the
-  write phase — tested implicitly via Case 1.
+- TR registration belongs to its owning workflow and separately authorized effect;
+  an ADR file write does not implicitly update that input.
+
+## Exact scope and decision counterexamples
+
+These are required semantic cases, not claims that keyword/static checks ran them.
+Fixtures use actual UTF-8 bytes/complete dependencies and preserve Game/Product
+owner requirements under `design/INSTRUCTIONS.md`.
+
+- CDD-owned detail and local helper: classify cdd-layer/no-adr with named owner/
+  reason; do not manufacture an ADR or waive CDD/TR/manifest/evidence prerequisites.
+- Significant new trust/public-contract/durable-format/state-ownership choice:
+  adr-required before affected implementation; independent scoped work may continue.
+- Exact Accepted section conflicts with actual choice: conflict, named affected
+  dependencies/action/owner; green tests or implemented status cannot establish covered.
+- Content agreement, report/write permission or director APPROVED: no automatic
+  ADR acceptance, Story readiness/completion or phase advancement.
+- Historical approval with changed raw bytes/scope: retain history, do not reuse it
+  as current approval. Preserve originals, full hashes/sizes/paths and UTC collection.
+- Report-only saves only its new report; inputs/index/session/log/T3 effects require
+  separate named scope. Review-only invokes no write entrypoint, including in memory.
+- Unknown/both/neither domain: common checks continue, domain-specific findings
+  remain incomplete until resolved; no silent Game fallback.
+- Separate global Technical Setup min-three Foundation ADR rule remains in force;
+  local no-ADR classifications neither waive it nor justify fabricated ADRs.
+
+### Review-mode input counterexamples
+
+Verify the actual once-per-run resolver before any gate dispatch:
+
+| Fixture | Expected actual result |
+|---|---|
+| No override and no `production/review-mode.txt` | Resolve lean once; report actual documented gate skips |
+| Valid explicit full/lean/solo plus a different global value | Explicit override wins and stays fixed for this run |
+| No override, present global full/lean/solo | Use the actual validated global value |
+| `--review` missing its value, or invalid explicit value | Report input error and require correction; no fallback/gate verdict |
+| No override, present invalid or empty global file | Report its actual path/value error and require correction; never default lean/full |
+
+These are semantic cases to execute or independently review, not claims of test
+execution from keyword presence. Invalid mode cannot fabricate gate completion or
+ADR/Story/phase acceptance; independent read-only findings may be reported with limits.

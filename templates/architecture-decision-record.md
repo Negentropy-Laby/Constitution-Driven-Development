@@ -2,7 +2,23 @@
 
 ## Status
 
-[Proposed | Accepted | Deprecated | Superseded by ADR-XXXX]
+Proposed
+
+<!-- New ADRs start Proposed. Writing, tests, implementation and director verdicts
+     do not accept them. Acceptance is a separate authorized decision/effect. -->
+
+## Acceptance Record
+
+- **Acceptance Authority**: [Pending; actual actor/governance authority]
+- **Accepted At**: [Pending; actual time with timezone, never fabricated]
+- **Reviewed Original**: [retained immutable Proposed revision/path, complete
+  raw-byte SHA-256 (64 hex) and byte size; preserve predecessor/successor history]
+- **Accepted Scope**: [exact choice, implementation paths/dependencies, consequences
+  and permitted exceptions; write approval alone does not establish this]
+- **Supporting Notes / Evidence**: [original paths/revisions and full identities]
+
+<!-- Later states Accepted, Deprecated or Superseded by ADR-XXXX require evidence/
+     authority. Changed Accepted choices need reviewed revision/successor history. -->
 
 ## Date
 
@@ -11,7 +27,7 @@
 ## Last Verified
 
 [YYYY-MM-DD — when this ADR was last confirmed accurate against the current
-engine version and design. Update this date when you re-read and confirm it
+engine/stack version and design. Update this date when you re-read and confirm it
 is still correct, even if nothing changed.]
 
 ## Decision Makers
@@ -25,6 +41,11 @@ tiered context loading — a skill scanning 20 ADRs uses this to decide whether
 to read the full decision. Be specific: name the system, the problem, and the
 chosen approach.]
 
+<!-- Select exactly the resolved domain's compatibility section below. Game ADRs
+     retain Engine Compatibility; Product ADRs retain Stack Compatibility. Remove
+     the other illustrative section from the authored ADR. Unknown/conflicting
+     domain or unverified versions remain unresolved, not guessed. -->
+
 ## Engine Compatibility
 
 | Field | Value |
@@ -37,7 +58,27 @@ chosen approach.]
 | **Verification Required** | [Concrete behaviours to test against the target engine version before shipping, or "None"] |
 
 > **Note**: If Knowledge Risk is MEDIUM or HIGH, this ADR must be re-validated if the
-> project upgrades engine versions. Flag it as "Superseded" and write a new ADR.
+> project upgrades engine versions. Record the affected compatibility as requiring
+> revalidation; if the choice changes, draft a Proposed successor and preserve the
+> existing Accepted revision. Supersede only after the successor is actually
+> Accepted and the exact predecessor status/link effects are authorized.
+
+## Stack Compatibility
+
+| Field | Value |
+|-------|-------|
+| **Language / Runtime** | [actual configured language/runtime and pinned version] |
+| **Framework / Libraries** | [actual relevant framework/library versions, or justified N/A] |
+| **Surface / Contract** | [API / CLI / SDK / Web / Data / Auth / Deployment; actual affected interfaces] |
+| **Knowledge Risk** | [LOW / MEDIUM / HIGH, with verification basis for the configured versions] |
+| **References Consulted** | [actual `docs/reference/[stack]/` documents and primary version/API references] |
+| **Version-Sensitive APIs / Formats** | [actual APIs, durable formats or compatibility promises, or "None"] |
+| **Verification Required** | [concrete contract, integration, migration or deployment checks, or "None"] |
+
+> Recheck affected compatibility when the configured runtime/framework/library
+> changes. A changed Accepted choice needs a reviewed Proposed successor and
+> separately authorized acceptance/supersession; verification alone does not
+> accept it. Product ADRs do not copy Game engine/version placeholders.
 
 ## ADR Dependencies
 
@@ -61,7 +102,7 @@ cost of not deciding?]
 
 ### Constraints
 
-- [Technical constraints -- engine limitations, platform requirements]
+- [Technical constraints -- engine or stack limitations, platform requirements]
 - [Timeline constraints -- deadline pressures, dependencies]
 - [Resource constraints -- team size, expertise available]
 - [Compatibility requirements -- must work with existing systems]
@@ -137,6 +178,10 @@ creates. These become the contracts that implementers must respect.]
 | Memory | [X]MB | [Y]MB | [Z]MB |
 | Load Time | [X]s | [Y]s | [Z]s |
 | Network (if applicable) | [X]KB/s | [Y]KB/s | [Z]KB/s |
+
+For Product, replace Game-specific metrics with actual relevant latency,
+throughput, resource, startup or migration budgets. Keep justified N/A explicit;
+do not manufacture performance measurements from this illustrative table.
 
 ## Migration Plan
 

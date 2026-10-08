@@ -1,0 +1,270 @@
+{
+  "source_commit": "fb0511c02128841eb11686d19322672452861513",
+  "source_inputs_sha256": "d0b1a13110e51c7fc91ed467963ae09c374bd140483b21cebc6c57ed511dea2a",
+  "author": "Codex",
+  "independent_review": "Old-head independent CONCERNS supplied by user; current-head targeted P2/P3 independent resolution Pending",
+  "runtime_scope": "NotRun for new Agent behavior assertions; this round is template closeout",
+  "items": [
+    {
+      "review_item": 1,
+      "status": "Fixed",
+      "change": "test-helpers resolves real Game/Product/Unknown evidence and blocks domain-dependent Unknown generation",
+      "references": [
+        "skills/test-helpers/SKILL.md",
+        "skill_testing/specs/skills/utility/test-helpers.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 2,
+      "status": "Fixed",
+      "change": "Next Story uses Ready/ready-for-dev; Draft/backlog needs readiness, with blocked/complete/active states excluded",
+      "references": [
+        "skills/story-done/SKILL.md",
+        "skill_testing/specs/skills/readiness/story-done.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 3,
+      "status": "Fixed",
+      "change": "Actual configured test-root/framework prerequisite exists; absent root stops every write; valid empty/alternative roots remain supported",
+      "references": [
+        "skills/test-helpers/SKILL.md",
+        "skill_testing/specs/skills/utility/test-helpers.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 4,
+      "status": "Fixed with clarification",
+      "change": "Security audit has authorized report writing and inherits the shared write boundary; its spec now uses actual delegated security repair counterexamples",
+      "references": [
+        "skill_testing/specs/skills/analysis/security-audit.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 5,
+      "status": "Fixed",
+      "change": "CDD semantic roles/aliases and configured test naming agree across rule and standard",
+      "references": [
+        "rules/design-docs.md",
+        "rules/test-standards.md",
+        "standards/coding-standards.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 6,
+      "status": "Fixed",
+      "change": "ADR template selects Game Engine Compatibility or Product Stack Compatibility, retaining real-version and Proposed/acceptance boundaries",
+      "references": [
+        "templates/architecture-decision-record.md",
+        "skill_testing/specs/skills/authoring/architecture-decision.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 7,
+      "status": "Resolved by selected history rewrite",
+      "change": "Large archive removed from source tree and reachable PR history; no LFS or ignored force-add exception",
+      "references": [
+        "history-rewrite.json"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 8,
+      "status": "Fixed",
+      "change": "Current checks bind source S; evidence-only E is verified separately and exact final head bound externally by PR/CI",
+      "references": [
+        "source-inputs.json",
+        "checks.json"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 9,
+      "status": "Fixed",
+      "change": "Product handoff invokes the existing patterns keyword",
+      "references": [
+        "skills/gate-check/SKILL.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 10,
+      "status": "Fixed",
+      "change": "Resolve actual active Story/sprint ownership instead of newest mtime; ambiguity requires actual paths",
+      "references": [
+        "skills/story-done/SKILL.md",
+        "skill_testing/specs/skills/readiness/story-done.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 11,
+      "status": "Fixed",
+      "change": "Art Bible path is design/art/art-bible.md throughout director gates",
+      "references": [
+        "standards/director-gates.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 12,
+      "status": "Fixed with clarification",
+      "change": "Restore structured cases in three compressed specs; preserve and structure skill-test existing assertions and relocate its late cases",
+      "references": [
+        "skill_testing/specs/skills/analysis/security-audit.md",
+        "skill_testing/specs/skills/utility/regression-suite.md",
+        "skill_testing/specs/skills/analysis/test-evidence-review.md",
+        "skill_testing/specs/skills/utility/skill-test.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 13,
+      "status": "Fixed",
+      "change": "Structural section contains inspectable metadata/phase/vocabulary/reference checks; behavior resides in fixture cases",
+      "references": [
+        "skill_testing/templates/skill-test-spec.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 14,
+      "status": "Fixed",
+      "change": "Existing shared standards/protocol own normative metadata and authority; nine templates retain table/example shapes and owner pointers",
+      "references": [
+        "standards/evidence-lifecycle.md",
+        "docs/COLLABORATIVE-DESIGN-PRINCIPLE.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 15,
+      "status": "Fixed",
+      "change": "Define Working Notes as editable project-established working rationale/evidence, distinct from CDD requirements and Accepted ADR decisions",
+      "references": [
+        "standards/notes-adr-sync.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 16,
+      "status": "Fixed",
+      "change": "Split dense evidence closure prose; use general caller/effective-argument reasoning rather than a special-case default ruling",
+      "references": [
+        "standards/evidence-lifecycle.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 17,
+      "status": "Fixed",
+      "change": "Test-evidence results include Unknown for unresolved applicability/conflict with dependent closure blocked",
+      "references": [
+        "templates/test-evidence.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 18,
+      "status": "Fixed",
+      "change": "Director gates use available runtime question/delegation interfaces; Claude examples and unavailable-tool limits are explicit",
+      "references": [
+        "standards/director-gates.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 19,
+      "status": "Resolved by archive replacement",
+      "change": "New collection has one explicit current source binding; historical missing numbering/index relationships are not reconstructed",
+      "references": [
+        "README.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 20,
+      "status": "Fixed",
+      "change": "Collection timezone explicitly Asia/Shanghai +08:00; original external UTC timestamps remain explicit",
+      "references": [
+        "README.md",
+        "checks.json"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 21,
+      "status": "Fixed",
+      "change": "All four reviewed specs restore explicit Director Gate Checks with N/A reason",
+      "references": [
+        "skill_testing/specs/skills/analysis/security-audit.md",
+        "skill_testing/specs/skills/utility/regression-suite.md",
+        "skill_testing/specs/skills/analysis/test-evidence-review.md",
+        "skill_testing/specs/skills/utility/skill-test.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 22,
+      "status": "Fixed",
+      "change": "Twelve affected specs use Shared Contract Cases with structured cases; INCOMPLETE appears in the current verdict checker/template/smoke spec",
+      "references": [
+        "skills/skill-test/SKILL.md",
+        "skill_testing/templates/skill-test-spec.md",
+        "skill_testing/specs/skills/utility/smoke-check.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 23,
+      "status": "Fixed",
+      "change": "Actual factory vocabulary, Technology Risk and INCOMPLETE/finding distinction; changed spec authorization assertions inspect behavior rather than magic phrases",
+      "references": [
+        "skill_testing/specs/skills/utility/test-helpers.md",
+        "skill_testing/specs/skills/pipeline/create-epics.md",
+        "skill_testing/specs/skills/analysis/consistency-check.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 24,
+      "status": "Fixed in revised skills",
+      "change": "Memory-write declarations require initialized memory and exact named authority; correct None/read-only declarations preserved",
+      "references": [
+        "skills/smoke-check/SKILL.md",
+        "skills/story-done/SKILL.md",
+        "skills/skill-test/SKILL.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 25,
+      "status": "Fixed",
+      "change": "Every Product Web/API/CLI platform example has a matching FAIL option; master unexecuted/blocked/pending choices remain required",
+      "references": [
+        "skills/smoke-check/SKILL.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    },
+    {
+      "review_item": 26,
+      "status": "Fixed with clarification",
+      "change": "Clarify actual runtime_substitute scope without inventing an allowlist; ignore session-state contents while retaining .gitkeep; normalize cdd-status spec heading",
+      "references": [
+        "cdd-manifest.toml",
+        ".gitignore",
+        "standards/directory-structure.md",
+        "skill_testing/specs/skills/utility/cdd-status.md"
+      ],
+      "verification": "author source/spec reasoning plus recorded local CI checks; not native interaction"
+    }
+  ],
+  "predecessor_head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+  "preservation": "Original 26-item review and records recoverable verbatim from predecessor Git commit"
+}

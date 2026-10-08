@@ -1,4 +1,18 @@
+# Compatible current pointers; blanks mean no recorded evidence.
+# Canonical assets stay in skill_testing/; templates fabricate no project runs.
+# Index writes require scoped authority, never a report-only side effect.
 version: 1
+record_contract:
+  evidence_standard: standards/evidence-lifecycle.md
+  decision_standard: standards/notes-adr-sync.md
+  identity: [record_id, revision_id, original_path, sha256, byte_size, retained_bytes_path]
+  baseline: [input_manifest_path, input_manifest_sha256, source_commit, collected_at]
+  review: [author, reviewer, independence, reading_scope, omitted_scope, verdict]
+  authority: [write_scope, adr_acceptance, publication, completion]
+  decision: [disposition, requirement_owner, adr_section, remaining_action, owner, due_phase]
+# Records link owning report metadata; historical revisions remain preserved.
+# latest_result_path is a current pointer, not a historical identity.
+records: {}
 skills:
   gate-check:
     last_static: ""

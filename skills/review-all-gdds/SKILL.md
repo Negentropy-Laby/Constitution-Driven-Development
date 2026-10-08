@@ -7,12 +7,48 @@ allowed-tools: Read, Glob, Grep, Write, Bash, AskUserQuestion, Task
 model: opus
 ---
 
+## Scope, evidence and effects
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse explicit existing authorization for its named paths, effects
+and limits across roles and retries. Present unresolved material choices or new
+effects for approval; a document/batch/synchronization authorization does not
+require another question for each covered section or file. Content agreement,
+write authority, independent review, ADR acceptance and workflow completion
+remain separate.
+
+Analysis defaults to read-only: no write entrypoint, input edits, status/index/
+session/Memory Bank updates. Report-only may write one new assigned report with
+authority; report approval does not authorize indexes or rolling logs. Other
+writes need the named path/effect in existing authority or a concrete draft and
+changeset approval. Unknown paths are findings, not permission to create them.
+No Memory Bank means use the established report/conversation fallback. Next
+steps are recommendations; execute only effects already authorized or explicitly
+selected by the user. Tool availability determines the question interface.
+
+Bind claims to a declared scope and minimum direct/indirect evidence closure:
+record original paths, full SHA-256, byte sizes, source commit plus exact diff
+and uncommitted/ignored/external identities, exclusions and recoverable originals.
+Do not read sensitive local settings or secrets merely to complete discovery.
+Read required inputs back from their actual paths, verify closure and report
+missing inputs as incomplete affected checks. Keywords, timestamps, counts,
+equal hashes at two collections and static checks do not certify semantic review,
+continuous unchanged history, runtime behavior or independent approval.
+
+Classify meaningful choices with the shared disposition record (`cdd-layer`,
+`no-adr`, `covered`, `documentation-update`, `adr-required`, `conflict`). Significant
+trust, public contract, durable format or state ownership changes require an
+Accepted ADR/valid scoped exception before affected implementation continues.
+Keep As-Is observations and their evidence separate from Target promises and
+gaps; implemented behavior cannot lower a governing Target. Continue independent
+work while blocking only affected dependants.
+
 ## User Guide
 
 - When to use: Holistic cross-CDD consistency and design review. Reads all module CDDs simultaneously and checks for contradictions between them, stale references, ownership conflicts, and design theory issues. Supports both game and general product domains. Run after all MVP CDDs are written, before architecture begins.
 - Inputs: Command arguments: `/review-all-gdds [focus: full | consistency | design-theory | since-last-review]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Memory-bank writes: Only with initialized Memory Bank and separately authorized review-index effect; none in read-only/report-only.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 # Review All CDDs
@@ -37,12 +73,19 @@ completeness. This skill reviews the *relationships* between all CDDs.
 
 **Argument modes:**
 
-**Focus:** `$ARGUMENTS[0]` (blank = `full`)
+**Focus:** `$ARGUMENTS[0]` (absent = `full`)
+
+Validate before spawn/write/verdict: only `full`, `consistency`,
+`design-theory` and `since-last-review` are legal focus values. Reject unknown
+focus, additional selectors and unknown explicit flags with a corrective error
+and usage `/review-all-gdds [full|consistency|design-theory|since-last-review]`.
+Do not silently default an invalid supplied argument.
 
 - **No argument / `full`**: Both consistency and design theory passes
 - **`consistency`**: Cross-CDD consistency checks only (faster)
 - **`design-theory`**: Domain-appropriate design holism checks only
-- **`since-last-review`**: Only CDDs modified since the last review report (git-based)
+- **`since-last-review`**: Incremental review from an exact prior bound baseline,
+  including changed required dependencies; it is not a new Full review.
 
 ---
 
@@ -65,10 +108,23 @@ Found [N] CDDs. Summaries:
   ...
 ```
 
-For `since-last-review` mode: run `git log --name-only` to identify CDDs
-modified since the last review report file was written. Show the user which
-CDDs are in scope based on summaries before doing any full reads. Only
-proceed to L1 for those CDDs plus any CDDs listed in their "Key deps".
+For `since-last-review`, compare the prior review's exact input manifest and
+retained bytes with current commit+diff, staged/unstaged, untracked/ignored and
+external inputs. Include changed direct/indirect dependencies and affected
+relationships, not only CDD filenames. Mtime/report creation date/git log cannot
+be the baseline. If the baseline is unavailable, offer a new Full review or
+explicitly narrower current-scope review; never claim no changes from missing
+history.
+
+Declare the exact set, exclusions and reading coverage before L1. Full reads
+every module CDD and required closure for the declared project/module scope.
+`consistency`/`design-theory` are focused claims even when every scoped file is
+read. Incremental findings bind old/new identities and say which prior checks
+were reused. Same-byte continuation resumes an interrupted review only when the
+exact input/rule/dependency scope matches; it is neither incremental review of
+changes nor proof of a completed new Full review. Historical review reports
+retain their original scope and actors.
+
 
 ### Phase 1b — Registry Pre-Load (fast baseline)
 
@@ -86,7 +142,8 @@ what to look for.
 
 If the registry is empty or absent: proceed without it. Note in the report:
 "Entity registry is empty — consistency checks rely on full CDD reads only.
-Run `/consistency-check` after this review to populate the registry."
+Registry additions can be proposed through /design-system with authority;
+/consistency-check does not populate it as a review side effect."
 
 ### Phase 1c — L1/L2: Full Document Load
 
@@ -98,6 +155,10 @@ Full-read the in-scope documents:
 4. **Every in-scope system CDD in `design/cdd/`** — read completely (skip
    game-concept.md, product-concept.md, and module-index.md — those are read above)
 
+Report actual full-reading closure, semantic eight-role coverage for module
+CDDs under `design/INSTRUCTIONS.md`, concept context under its actual template
+owner, inaccessible dependencies and specialist completion.
+Summaries/grep/counts discover inputs; they do not qualify Full semantic review.
 Report: "Loaded [N] system CDDs covering [M] systems. Pillars: [list]. Anti-pillars: [list]."
 
 If fewer than 2 system CDDs exist, stop:
@@ -402,7 +463,8 @@ Scenarios walked: [N]
 
 PASS: No blocking issues. Warnings present but don't prevent architecture.
 CONCERNS: Warnings present that should be resolved but are not blocking.
-FAIL: One or more blocking issues must be resolved before architecture begins.
+FAIL: Required issues block named affected architecture/dependants; continue
+independent work. Missing required review/input is incomplete, not fabricated PASS.
 
 ### If FAIL — required actions before re-running:
 [Specific list of what must change in which CDD]
@@ -412,12 +474,14 @@ FAIL: One or more blocking issues must be resolved before architecture begins.
 
 ## Phase 6: Write Report and Flag CDDs
 
-Use `AskUserQuestion` for write permission:
+Reuse existing authority for the new assigned report. If absent, show findings
+and use `AskUserQuestion` (when available) for its exact path/effect:
 - Prompt: "May I write this review to `design/cdd/cross-review-[date].md`?"
 - Options: `[A] Yes — write the report` / `[B] No — skip`
 
-When `memory_bank/` exists and the user approves writing the report, also update
-`memory_bank/t3_archive/reviews/review-index.md`.
+When `memory_bank/` exists, update
+`memory_bank/t3_archive/reviews/review-index.md` only if its separate path/effect
+is authorized. A report-only run never updates this index.
 
 - Review Type: `cross-cdd-review`
 - Source Artifact: `design/cdd/cross-review-[date].md`
@@ -425,10 +489,11 @@ When `memory_bank/` exists and the user approves writing the report, also update
 - If the same source artifact already exists, update Date, Verdict, and
   Follow-up Owner instead of adding a duplicate row.
 - If `memory_bank/` does not exist, do not create it from `/review-all-gdds`;
-  keep the existing report behavior and say: "Run `/constitute` to establish the
-  memory_bank governance control plane."
+  use the authorized report/conversation fallback and disclose the absent
+  optional index; initialization is not a review side effect.
 
-If any CDDs are flagged for revision, use a second `AskUserQuestion`:
+If flagged CDD status updates are authorized, apply the concrete named changes.
+Otherwise optionally request this separate effect with `AskUserQuestion`:
 - Prompt: "Should I update the module index to mark these CDDs as needing revision? ([list of flagged CDDs])"
 - Options: `[A] Yes — update module index` / `[B] No — leave as-is`
 - If yes: update each flagged CDD's Status field in module-index.md to "Needs Revision".
@@ -437,8 +502,8 @@ If any CDDs are flagged for revision, use a second `AskUserQuestion`:
 
 ### Session State Update
 
-After writing the report (and updating module index if approved), silently
-append to `production/session-state/active.md`:
+Only if separately authorized (never in report-only), append the following
+progress to `production/session-state/active.md`:
 
     ## Session Extract — /review-all-gdds [date]
     - Verdict: [PASS / CONCERNS / FAIL]
@@ -448,14 +513,15 @@ append to `production/session-state/active.md`:
     - Recommended next: [the Phase 7 handoff action, condensed to one line]
     - Report: design/cdd/cross-review-[date].md
 
-If `active.md` does not exist, create it with this block as the initial content.
-Confirm in conversation: "Session state updated."
+Create `active.md` only if creation is authorized. Otherwise keep progress in
+conversation. Confirm only actual effects.
 
 ---
 
 ## Phase 7: Handoff
 
-After all file writes are complete, use `AskUserQuestion` for a closing widget.
+After actual authorized effects, recommend applicable next steps. Use a closing
+question when a new action/choice is needed; no next workflow auto-runs.
 
 Before building options, check project state:
 - Are there any Warning-level items that are simple edits (flagged with "30-second edit", "brief addition", or similar)? → offer inline quick-fix option
@@ -468,7 +534,7 @@ Build the option list dynamically — only include options that apply:
 **Option pool:**
 - `[_] Apply quick fix: [W-XX description] in [cdd-name].md — [effort estimate]` (one option per simple-edit warning; only for Warning-level, not Blocking)
 - `[_] Run /design-review [flagged-cdd-path] — address flagged warnings` (one per flagged CDD, if any)
-- `[_] Run /design-system [next-system] — next in design order` (always include, name the actual system)
+- `[_] Run /design-system [next-system] — next in design order` (include only if an actual undesigned system remains)
 - `[_] Run /create-architecture — begin architecture (verdict is PASS/CONCERNS)` (include if verdict is not FAIL)
 - `[_] Run /gate-check — validate Systems Design phase gate` (include if verdict is PASS)
 - `[_] Stop here`

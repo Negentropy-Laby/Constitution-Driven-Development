@@ -6,6 +6,11 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 model: haiku
 ---
+Read and apply `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
+`standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` for scoped
+authority, exact evidence and decision ownership. Existing named authority
+continues; analysis is read-only and report-only excludes input/index/state writes.
+
 
 ## User Guide
 
@@ -17,15 +22,17 @@ model: haiku
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before generating onboarding material:
-- `design/cdd/game-concept.md` -> **[Game]** onboard roles to game vision, CDDs, game pillars, engine setup, asset/content pipelines, playtest evidence, and team workflows.
-- `design/cdd/product-concept.md` -> **[Product]** onboard roles to product principles, user promise, modules, APIs/CLIs, architecture, test/deploy workflow, observability, and support practices.
-- If unclear, ask which domain and role the onboarding doc should target.
+Read concept bodies and `standards/technical-preferences.md` domain/capability
+evidence. Game keeps vision/pillars/engine/assets/playtests; Product uses user
+promise/API/CLI/data/auth/architecture/workflows. Missing concepts never default
+Game. Disclose Unknown/conflicts; neutral orientation continues.
 
-Preserve game role onboarding examples. Product onboarding is added as an equivalent path.
 ## Phase 1: Load Project Context
 
-Read CLAUDE.md for project overview and standards.
+Read actual runtime root guidance and canonical `INSTRUCTIONS.md` where available,
+`standards/technical-preferences.md`, declared stage, active sprint/Story bodies
+and established session context. Missing runtime copies do not imply missing
+governance; disclose source gaps and retain supported partial guidance.
 
 Read the relevant agent definition from `agents/` if a specific role is specified.
 
@@ -35,8 +42,11 @@ Read the relevant agent definition from `agents/` if a specific role is specifie
 
 - For programmers: scan `src/` for architecture, patterns, key files
 - For designers: scan `design/` for existing design documents
-- For narrative: scan `design/narrative/` for world-building and story docs
-- For QA: scan `tests/` for existing test coverage
+- [Game] For narrative: read `design/narrative/` world-building/story docs
+- For QA: read actual tests/QA evidence; counts do not prove coverage/execution.
+- [Product] Read relevant CDD user promises/contracts, surface profile, API/CLI/
+  data/auth/workflow docs and `docs/reference/[stack]/VERSION.md`.
+- [Game] Read applicable engine references, art bible/assets, pillars and playtests.
 - For production: scan `production/` for current sprint and milestone
 
 Read recent changes (git log if available) to understand current momentum.
@@ -49,7 +59,8 @@ Read recent changes (git log if available) to understand current momentum.
 # Onboarding: [Role/Area]
 
 ## Project Summary
-[2-3 sentence summary of what this game is and its current state]
+[Game vision/player experience or Product user promise/workflow; state declared,
+observed/candidate and verified qualification separately]
 
 ## Your Role
 [What this role does on this project, key responsibilities, who you report to]
@@ -66,7 +77,8 @@ Read recent changes (git log if available) to understand current momentum.
 |------|---------|--------------|
 
 ## Current Standards and Conventions
-[Summary of conventions relevant to this role from CLAUDE.md and agent definition]
+[Relevant current root/standard and canonical role guidance; source metadata
+is not proof of runtime model/tools/memory behavior or completed agent execution]
 
 ## Current State of Your Area
 [What has been built, what is in progress, what is planned next]
@@ -97,15 +109,19 @@ Read recent changes (git log if available) to understand current momentum.
 
 Present the onboarding document to the user.
 
-Ask: "May I write this to `production/onboarding/onboard-[role]-[date].md`?"
-
-If yes, write the file, creating the directory if needed.
+Default output is conversational. Reuse covered exact onboarding path/effect;
+if saving is requested without coverage, show draft and ask "May I write this to
+`production/onboarding/onboard-[role]-[date].md`?" Write only that document.
+Report-only excludes checkpoint/index/state; declined saving/review-only writes nothing.
 
 ---
 
 ## Phase 5: Next Steps
 
-Verdict: **COMPLETE** — onboarding document generated.
+Verdict: **ONBOARDING COMPLETE** for produced orientation, disclosing omissions
+and save outcome; it does not certify project/Story/runtime qualification.
+Unavailable required sources leave affected orientation BLOCKED with useful
+partial guidance retained; do not call the missing result complete.
 
 - Share the onboarding doc with the new contributor before their first session.
 - Run `/sprint-status` to show the new contributor current progress.

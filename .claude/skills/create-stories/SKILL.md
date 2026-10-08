@@ -7,6 +7,45 @@ allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
 agent: lead-programmer
 ---
 
+## Scope, decisions and exact evidence
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse original authorization only for its exact named paths, effects
+and limits across roles/retries. Content agreement, writes, independent review,
+ADR acceptance and Story/phase completion remain separate. Show a concrete draft
+before asking about unresolved material choices or new effects; covered writes
+need no repeated per-file or per-role permission.
+
+Read/review-only never invokes a write entrypoint, including in memory. Report-only
+may write its assigned new report, not inputs, indexes, session state, logs or T3
+pointers. Each other effect needs existing scope or separate changeset authority.
+No Memory Bank means the existing Story/review/conversation fallback, not activation.
+
+Bind claims to original paths, full SHA-256 (64 hex), byte sizes, collection time
+with timezone, source commit plus exact uncommitted/ignored/external identities.
+Read actual bodies and minimum required direct/indirect evidence closure; retain
+recoverable originals and disclose missing inputs. Resolve CDD DocKind/required
+owner set and module semantic eight through `design/INSTRUCTIONS.md`, preserving
+substantive aliases; headings, counts or existence cannot establish PASS.
+
+Classify each meaningful choice as `covered`, `cdd-layer`, `no-adr`,
+`documentation-update`, `adr-required` or `conflict`, with named requirement/owner,
+existing TR-ID if assigned, exact Accepted ADR revision/section/scope or justified
+no-ADR reason, affected paths/dependencies, evidence and action/owner/due phase.
+Trust boundaries, public contracts, durable formats, state ownership and governing
+architectural constraints require an Accepted decision or valid scoped exception
+under existing governance before affected implementation starts/continues. Continue
+independent work. Proposed, implemented, green tests, write approval and director
+recommendations do not establish acceptance; historical approval needs exact input
+and authority/scope match. Justified `cdd-layer`/`no-adr` waives no other readiness,
+manifest or evidence prerequisite. The existing global Technical Setup minimum of
+three Foundation ADRs in `workflow/workflow-catalog.yaml` remains a separate gate:
+do not bypass it or manufacture ADRs to meet a count.
+
+Absent, conflicting or ambiguous concept/domain evidence means Unknown. Continue
+domain-independent checks; resolve the domain before applying its Game/Product
+rules. Do not silently default to Game.
+
 ## User Guide
 
 - When to use: Break a single epic into implementable story files. Reads the epic, its CDD, governing ADRs, and control manifest. Each story embeds its CDD requirement TR-ID, ADR guidance, acceptance criteria, story type, and test evidence path. Run after /create-epics for each epic.
@@ -19,7 +58,7 @@ agent: lead-programmer
 
 A story is a single implementable behaviour — small enough to complete in one
 focused session, self-contained, and fully traceable to a CDD requirement and
-an ADR decision. Stories are what developers pick up. Epics are what architects
+a justified decision disposition. Stories are what developers pick up. Epics are what architects
 define.
 
 **Run this skill per epic**, not per layer. Run it for Foundation epics first,
@@ -34,11 +73,10 @@ then Core, and so on — matching the dependency order.
 
 ## 1. Parse Argument
 
-Extract `--review [full|lean|solo]` if present and store as the review mode
-override for this run. If not provided, read `production/review-mode.txt`
-(default `full` if missing). This resolved mode applies to all gate spawns
-in this skill — apply the check pattern from `standards/director-gates.md`
-before every gate invocation.
+Resolve review mode once: explicit `--review full|lean|solo`, else the actual
+`production/review-mode.txt`, else lean when absent. Validate explicit/global values;
+invalid values require correction and cannot silently fall back. This single mode
+applies to all gate spawns under `standards/director-gates.md`.
 
 - `/create-stories [epic-slug]` — e.g. `/create-stories combat`
 - `/create-stories production/epics/combat/EPIC.md` — full path also accepted
@@ -52,20 +90,31 @@ before every gate invocation.
 Read in full:
 
 - `production/epics/[epic-slug]/EPIC.md` — epic overview, governing ADRs, CDD requirements table
-- The epic's CDD (`design/cdd/[filename].md`) — read all 8 sections, especially Acceptance Criteria, Formulas, and Edge Cases
+- The actual CDD (`design/cdd/[filename].md`) — resolve DocKind under
+  `design/INSTRUCTIONS.md`, read substantive owner bodies/references; module CDDs
+  map semantic eight, preserving existing aliases
 - All governing ADRs listed in the epic — read the Decision, Implementation Guidelines, and Technology Compatibility (Engine Compatibility for game, Technology/Stack Compatibility for product) sections
-- `docs/architecture/control-manifest.md` — extract rules for this epic's layer; note the Manifest Version date from the header
+- `docs/architecture/control-manifest.md` — read complete raw bytes and layer rules;
+  compute full SHA-256 and byte size, retaining the readable date separately
 - `docs/architecture/tr-registry.yaml` — load all TR-IDs for this system
 
-**ADR existence validation**: After reading the governing ADRs list from the epic, confirm each ADR file exists on disk. If any ADR file cannot be found, **stop immediately** before decomposing any story:
+**ADR existence validation**: After reading the governing ADRs list from the epic, confirm each referenced ADR file exists on disk. Missing required ADRs block only
+ their affected drafts before decomposition; independent stories may continue:
 
 > "Epic references [ADR-NNNN: title] but `docs/architecture/[adr-file].md` was not found.
 > Check the filename in the epic's Governing ADRs list, or run `/architecture-decision`
-> to create it. Cannot create stories until all referenced ADR files are present."
+> to create it. Affected drafts remain Blocked until required governing inputs are present and Accepted."
 
-Do not proceed to Step 3 until all referenced ADR files are confirmed present.
+Existence does not establish acceptance. Verify exact Accepted revision/section/
+scope for required decisions. Proposed/conflict/missing inputs keep affected drafts
+Blocked; independent stories may be decomposed. CDD-layer/no-adr stories need no
+invented ADR, but still satisfy CDD/TR/manifest and all other readiness checks.
 
-Report: "Loaded epic [name], CDD [filename], [N] governing ADRs (all confirmed present), control manifest v[date]."
+Report actual inputs: epic/CDD paths and identities; ADRs found/missing, their
+statuses and six dispositions; manifest readable date plus full raw SHA-256/size
+or LegacyRecheck/incomplete identity; affected Draft/Blocked stories and independent
+eligible scope. Say "all confirmed present" only when actually verified. Missing
+required inputs remain visible throughout decomposition and the closing summary.
 
 ---
 
@@ -113,16 +162,23 @@ group of criteria would take longer, split into two stories.
 
 For each story, determine:
 - **CDD requirement**: which acceptance criterion(ia) does this satisfy?
-- **TR-ID**: look up in `tr-registry.yaml`. Use the stable ID. If no match, use `TR-[system]-???` and warn.
-- **Governing ADR**: which ADR governs how to implement this?
-  - `Status: Accepted` → embed normally
-  - `Status: Proposed` → set story `Status: Blocked` with note: "BLOCKED: ADR-NNNN is Proposed — run `/architecture-decision` to advance it"
+- **TR-ID**: verify the current active registry entry and exact CDD requirement.
+  Reuse its stable ID. No match is an explicit unassigned requirement/registration
+  action, never fabricated `TR-[system]-???`; affected draft stays Blocked.
+- **Decision disposition**: exact Accepted revision/scope for covered, named CDD/
+  owner/evidence for cdd-layer, local reason/owner for no-adr. Required Proposed,
+  adr-required/conflict means Blocked with action/owner. Draft writing is not readiness.
 - **Story Type**: from Step 3 classification
-- **Technology risk**: from the ADR's Knowledge Risk field
+- **Technology risk**: for covered, read the actual ADR Knowledge Risk and pinned
+  compatibility evidence. For cdd-layer/no-adr, use the named CDD/local owner and
+  configured VERSION/stack references; mark ADR-only fields N/A with reason.
+  Unknown required technology risk/evidence is incomplete, never assumed LOW.
 
 ---
 
 ## 4b. QA Lead Story Readiness Gate
+
+Resolve explicit required QA scope before consuming a mode skip; missing required assessment stays NotRun/Blocked/Pending for dependent readiness. Default optional orchestration creates no extra gate.
 
 **Review mode check** — apply before spawning QL-STORY-READY:
 - `solo` → skip. Note: "QL-STORY-READY skipped — Solo mode." Proceed to Step 5 (present stories for review).
@@ -157,7 +213,19 @@ Manual check: [criterion text]
   Pass condition: [unambiguous pass description]
 ```
 
-These test case specs are embedded directly into each story's `## QA Test Cases` section. The developer implements against these cases. The programmer does not write tests from scratch — QA has already defined what "done" looks like.
+Embed test case specs actually produced in each Story's `## QA Test Cases` section,
+with actual author/source identity and review run state. When qa-lead completed
+this work, the developer implements against those cases. A skipped/NotRun QA
+assessment does not create a QA-authored plan; record its absence and any outstanding
+planning/evidence action under the applicable Story checks, without inventing execution.
+
+Read actual catalog/selected QA scope: QA plan/team orchestration optional by
+default; explicit strict obligations need source/authority/scope. Mode-skipped
+QL-STORY-READY is not completed assessment. Actual-author planning cases can define
+later verification, but draft/ADEQUATE/write approval is not executed PASS. Required
+Story AC/DoD/evidence remains binding in every mode. Explicitly required assessment
+cannot be waived by a mode skip; retain NotRun/Blocked/Pending and block only its
+dependent readiness/closure. Preserve actual author/source/review-state fields.
 
 ---
 
@@ -194,7 +262,7 @@ Story 002: [title] — Workflow — ADR-MMMM
 ```
 
 Use `AskUserQuestion`:
-- Prompt: "May I write these [N] stories to `production/epics/[epic-slug]/`?"
+- Prompt (for uncovered effects): "May I write these [N] stories to `production/epics/[epic-slug]/` and the described EPIC table?"
 - Options: `[A] Yes — write all [N] stories` / `[B] Not yet — I want to review or adjust first`
 
 ---
@@ -207,22 +275,31 @@ For each story, write a file under `production/epics/[epic-slug]/` named `story-
 # Story [NNN]: [title]
 
 > **Epic**: [epic name]
-> **Status**: Ready
+> **Status**: [Draft / Ready after all applicable readiness checks / Blocked with reason]
 > **Layer**: [Foundation / Core / Feature / Presentation]
 > **Type**: [one Story Type from the game or product list]
-> **Manifest Version**: [date from control-manifest.md header]
+> **Manifest Version**: [readable header date; legacy compatibility]
+> **Manifest SHA-256**: [full 64-hex digest of complete saved raw bytes]
+> **Manifest Bytes**: [exact byte size]
+> **Manifest Path / Collected At**: [original path / time with timezone]
 
 ## Context
 
 **CDD**: `design/cdd/[filename].md`
+**CDD / TR Registry Identity**: [exact paths, full SHA-256, sizes, collection time]
+**CDD Requirement Section**: [named requirement/criterion; preserve aliases]
 **Requirement**: `TR-[system]-NNN`
 *(Requirement text lives in `docs/architecture/tr-registry.yaml` — read fresh at review time)*
 
-**ADR Governing Implementation**: [ADR-NNNN: title]
-**ADR Decision Summary**: [1-2 sentence summary of what the ADR decided]
+**Decision Disposition**: [covered / cdd-layer / no-adr / documentation-update / adr-required / conflict]
+**ADR Governing Implementation**: [exact path/revision/section/Accepted scope OR justified CDD/local owner/reason]
+**Decision Identity / Evidence**: [full hashes/sizes, retained original, acceptance authority/time/scope if applicable]
+**ADR Decision Summary**: [governing Accepted choice or named CDD/local rationale]
 
 **Technology**: [engine or stack name + version] | **Risk**: [LOW / MEDIUM / HIGH]
-**Technology Notes**: [from ADR Engine Compatibility or Technology/Stack Compatibility section — post-cutoff APIs, verification required]
+**Technology Notes**: [covered: actual ADR Engine Compatibility or Technology/Stack Compatibility; cdd-layer/no-adr: exact CDD/local owner + configured VERSION/stack references]
+**ADR-only Fields**: [actual values for covered / N/A with no-ADR reason]
+**Required Technology Gaps**: [None with evidence / unknown risk or missing verification; affected Draft/Blocked scope]
 
 **Control Manifest Rules (this layer)**:
 - Required: [relevant required pattern]
@@ -243,10 +320,13 @@ For each story, write a file under `production/epics/[epic-slug]/` named `story-
 
 ## Implementation Notes
 
-*Derived from ADR-NNNN Implementation Guidelines:*
+*Source selected by disposition: covered — actual Accepted ADR Implementation
+Guidelines; cdd-layer/no-adr — named substantive CDD/local owner contract.
+Record the actual path/section/identity and justified N/A ADR-only fields.*
 
-[Specific, actionable guidance from the ADR. Do not paraphrase in ways that
-change meaning. This is what the programmer reads instead of the ADR.]
+[Specific guidance from actual Accepted ADR/CDD-owned contract, without changing
+meaning. Programmers read current exact owner inputs too; embedded notes do not
+replace that check. No-ADR rationale must not fabricate a decision.]
 
 ---
 
@@ -260,7 +340,10 @@ change meaning. This is what the programmer reads instead of the ADR.]
 
 ## QA Test Cases
 
-*Written by qa-lead at story creation. The developer implements against these — do not invent new test cases during implementation.*
+*Actual author/source: [identified qa-lead output or authorized plan owner/source].
+QA review state: [Completed / Skipped with mode / NotRun / Blocked with reason].
+Use the actual approved cases; absent cases remain a declared planning/evidence action,
+never a claim that qa-lead already authored or reviewed them.*
 
 **[For automated-evidence stories — Game Logic/Integration; Product API/Data-Migration/Auth-Permission/Workflow/Integration]:**
 
@@ -314,15 +397,17 @@ change meaning. This is what the programmer reads instead of the ADR.]
 
 ### Also update `production/epics/[epic-slug]/EPIC.md`
 
-Replace the "Stories: Not yet created" line with a populated table:
+Only with named EPIC update authority, replace "Stories: Not yet created" with a
+table retaining actual Draft/Blocked/readiness states. Story-set approval does not
+implicitly authorize this adjacent file; report its pending action otherwise:
 
 ```markdown
 ## Stories
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [title] | Logic | Ready | ADR-NNNN |
-| 002 | [title] | Integration | Ready | ADR-MMMM |
+| 001 | [title] | Logic | [actual Draft/Blocked/Ready] | ADR-NNNN |
+| 002 | [title] | Integration | [actual Draft/Blocked/Ready] | ADR-MMMM |
 ```
 
 ---
@@ -336,9 +421,12 @@ Check:
 - Is this the last epic? If so, include `/sprint-plan` as an option.
 
 Widget:
-- Prompt: "[N] stories written to `production/epics/[epic-slug]/`. What next?"
+- Prompt: "[N] stories written to `production/epics/[epic-slug]/`: [D] Draft,
+  [B] Blocked, [R] Ready after applicable checks. Pending inputs/actions: [actual list].
+  What next?"
 - Options (include all that apply):
-  - `[A] Start implementing — run /story-readiness [first-story-path]` (Recommended)
+   - `[A] Check readiness — run /story-readiness [first-eligible-story-path]`
+     (only for eligible scope; resolve listed blockers before affected implementation)
   - `[B] Create stories for [next-epic-slug] — run /create-stories [slug]` (only if other epics have no stories yet)
   - `[C] Plan the sprint — run /sprint-plan` (only if all epics have stories)
   - `[D] Stop here for this session`
@@ -352,11 +440,22 @@ Note in output: "Work through stories in order — each story's `Depends on:` fi
 1. **Read before presenting** — load all inputs silently before showing the story list
 2. **Ask once** — present all stories for the epic in one summary, not one at a time
 3. **Warn on blocked stories** — flag any story with a Proposed ADR before writing
-4. **Ask before writing** — get approval for the full story set before writing files
+4. **Scope before writing** — reuse exact approved story-set/EPIC effects; show the
+   full qualified draft and ask only for uncovered paths/effects
 5. **No invention** — acceptance criteria come from CDDs, implementation notes from ADRs, rules from the manifest
 6. **Never start implementation** — this skill stops at the story file level
 
 After writing (or declining):
 
-- **Verdict: COMPLETE** — [N] stories written to `production/epics/[epic-slug]/`. Run `/story-readiness` → `/dev-story` to begin implementation.
+- **Write operation: COMPLETE** — [N] stories written to `production/epics/[epic-slug]/`;
+  report [D] Draft / [B] Blocked / [R] Ready, actual findings and pending actions.
+  This operation verdict grants no Story readiness or implementation authority.
+  Run `/story-readiness` for eligible scope before `/dev-story`; resolve affected blockers.
 - **Verdict: BLOCKED** — user declined. No story files written.
+
+## Exact-byte check availability
+
+Use available read-only tools to collect complete raw-file SHA-256/byte size without
+normalizing line endings. If exact bytes/digest or a required dependency cannot be
+read, report the affected check incomplete; do not substitute a date, text rendering,
+short hash or file existence. Analysis invokes no write entrypoint.

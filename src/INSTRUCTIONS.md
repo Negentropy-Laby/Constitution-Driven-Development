@@ -28,7 +28,12 @@ Do not guess at post-cutoff API signatures -- look them up first.
 
 - All public APIs require doc comments
 - Prefer dependency injection over singletons for testability
-- Every new system needs a corresponding ADR in `docs/architecture/`
+- Classify actual choices under `standards/notes-adr-sync.md`. Significant trust/
+  public-contract/durable-format/state-ownership/governing changes need exact
+  Accepted scope or valid scoped exception before affected implementation. CDD/local
+  no-ADR details still satisfy other readiness/manifest/evidence checks and do not
+  bypass the global Technical Setup minimum of three Foundation ADRs. Missing links
+  require classification, never a skip.
 - Commits must reference the relevant story ID or design document
 
 **Game-specific standards:**

@@ -5,7 +5,9 @@
 #   - /constitute-check runs the state JSON check, reports the live result, and
 #     records fresh or stale values only after explicit approval.
 #   - /cdd-status reads this recorded state but never recomputes or owns it.
-#   - scripts/sync_adapters.py is read-only and never writes here.
+#   - scripts/sync_adapters.py --check is read-only; --write regenerates only
+#     declared adapters. Neither mode writes this state or approves decisions.
+#   - Scoped authority persists; report-only/review-only does not update state.
 #
 # Digests are deterministic:
 #   manifest_digest = sha256(cdd-manifest.toml bytes)

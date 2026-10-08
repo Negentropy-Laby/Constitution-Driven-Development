@@ -6,7 +6,8 @@
 items specified there (enemies, items, levels, etc.) are accounted for in
 `assets/`. It produces a gap table: Content Type → Specified Count → Found Count
 → Missing Items. No director gates are invoked. The skill does not write without
-user approval. Verdicts: COMPLETE, GAPS FOUND, or MISSING CRITICAL CONTENT.
+user approval. Outcomes: COMPLETE, GAPS FOUND, MISSING CRITICAL CONTENT, or
+INCOMPLETE. These describe inventory coverage, separately from execution/runtime checks.
 
 ---
 
@@ -16,7 +17,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
-- [ ] Contains verdict keywords: COMPLETE, GAPS FOUND, MISSING CRITICAL CONTENT
+- [ ] Contains inventory outcomes COMPLETE, GAPS FOUND, MISSING CRITICAL CONTENT, INCOMPLETE
 - [ ] Does NOT require "May I write" language (read-only output; write is optional report)
 - [ ] Has a next-step handoff (what to do after gap table is reviewed)
 
@@ -36,6 +37,8 @@ None. Content audit is a read-only analysis skill; no gates are invoked.
 - `design/cdd/enemies.md` specifies 4 enemy types: Grunt, Sniper, Tank, Boss
 - `assets/art/characters/` contains folders: `grunt/`, `sniper/`, `tank/`, `boss/`
 - `design/cdd/items.md` specifies 3 item types; all 3 found in `assets/data/items/`
+- Named asset identities/required formats are inspected in the isolated fixture;
+  these observations establish inventory coverage only, not runtime behavior
 
 **Input:** `/content-audit`
 
@@ -49,7 +52,7 @@ None. Content audit is a read-only analysis skill; no gates are invoked.
 **Assertions:**
 - [ ] Gap table covers all content types found in GDDs
 - [ ] Each row shows Specified Count and Found Count
-- [ ] No missing items when counts match
+- [ ] Each named required item matches evidence; equal counts alone do not prove completeness
 - [ ] Verdict is COMPLETE
 - [ ] No files are written
 
@@ -89,7 +92,7 @@ None. Content audit is a read-only analysis skill; no gates are invoked.
 1. Skill reads all GDDs — finds no content inventory sections
 2. Skill outputs: "No content specifications found in GDDs — run /design-system first to define content lists"
 3. No gap table is produced
-4. Verdict is GAPS FOUND (cannot confirm completeness without specs)
+4. Outcome is INCOMPLETE (cannot confirm completeness without required specifications)
 
 **Assertions:**
 - [ ] Skill does not produce a gap table when no GDD content specs exist
@@ -151,7 +154,7 @@ None. Content audit is a read-only analysis skill; no gates are invoked.
 - [ ] Gap table shows Content Type, Specified Count, Found Count, Missing Items
 - [ ] Does not write files without explicit user approval
 - [ ] No director gates are invoked
-- [ ] Verdict is one of: COMPLETE, GAPS FOUND, MISSING CRITICAL CONTENT
+- [ ] Inventory outcome is COMPLETE, GAPS FOUND, MISSING CRITICAL CONTENT or INCOMPLETE
 
 ---
 
@@ -160,5 +163,36 @@ None. Content audit is a read-only analysis skill; no gates are invoked.
 - MISSING CRITICAL CONTENT verdict (vs. GAPS FOUND) is triggered when the
   missing item is tagged as critical in the GDD; this is not explicitly tested
   but follows the same detection path.
-- The case where `assets/` directory does not exist is not tested; the skill
-  would produce a MISSING CRITICAL CONTENT verdict for all specified items.
+- A missing required assets/evidence directory is INCOMPLETE evidence or a
+  demonstrated named-content gap; criticality follows the governing requirement,
+  not blanket inference from directory absence.
+
+---
+
+### Semantic case: Equal counts and summary output do not prove coverage
+
+Retain Game Grunt/Sniper/Tank/Boss and OGG fixtures. Substitute an extra Grunt
+for the missing Boss while total count stays four; expect named Boss gap.
+Keep `jump.wav` where OGG is required: report format gap despite matching count.
+Put a named inventory only in a body that misses all L0 keywords and a required
+Product operation in an indirect schema: a full audit reads them. `--summary`
+condenses the same scoped findings without any write. Folder/count/source-static
+success does not claim behavioral/runtime or shipped-release correctness.
+
+
+**Observation requirements:** Fixtures are constructed only in isolated test
+workspaces. Record real actions/reads, actor and exact before/after input/report
+identities. Compare excluded input/index/session paths for unchanged bytes.
+Static assertions or expected source counts alone cannot qualify semantic verdict,
+reading depth, runtime execution, independent review or write authority.
+
+---
+
+### Row-status counterexamples with equal counts
+
+A four-enemy inventory has four files but Boss is missing; expect GAPS FOUND and
+Boss in the row even at 100%. Required OGG with WAV present yields FORMAT ISSUE,
+and unresolved shipping/identity evidence yields UNVERIFIED with reason.
+Rows retain all applicable labels; observed defects drive GAPS FOUND/critical
+outcome while required unknown evidence prevents COMPLETE through INCOMPLETE.
+Count progress and named/format/verification status are reported separately.

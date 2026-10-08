@@ -33,3 +33,10 @@ memory_bank/t3_archive/skill_testing/
   results/
   improvements/
 ```
+
+## Authority and Identity
+
+The project-root owner is `standards/evidence-lifecycle.md`: apply
+"Authority and review modes", "Identity and preservation" and "Evidence
+record metadata" to results and separately authorized coverage updates.
+Canonical asset ownership and T2/T3 destinations are defined above.

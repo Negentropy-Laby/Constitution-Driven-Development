@@ -1,0 +1,7 @@
+test_changed_source_bytes_are_rejected (evidence_verifier_test.EvidenceVerifierTests.test_changed_source_bytes_are_rejected) ... ok
+test_utf8_records_pass_with_cp936_default (evidence_verifier_test.EvidenceVerifierTests.test_utf8_records_pass_with_cp936_default) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.019s
+
+OK

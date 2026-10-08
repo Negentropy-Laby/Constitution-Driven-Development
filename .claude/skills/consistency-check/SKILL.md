@@ -6,6 +6,42 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
+## Scope, evidence and effects
+
+Read `standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` from the
+project root. Reuse explicit existing authorization for its named paths, effects
+and limits across roles and retries. Present unresolved material choices or new
+effects for approval; a document/batch/synchronization authorization does not
+require another question for each covered section or file. Content agreement,
+write authority, independent review, ADR acceptance and workflow completion
+remain separate.
+
+Analysis defaults to read-only: no write entrypoint, input edits, status/index/
+session/Memory Bank updates. Report-only may write one new assigned report with
+authority; report approval does not authorize indexes or rolling logs. Other
+writes need the named path/effect in existing authority or a concrete draft and
+changeset approval. Unknown paths are findings, not permission to create them.
+No Memory Bank means use the established report/conversation fallback. Next
+steps are recommendations; execute only effects already authorized or explicitly
+selected by the user. Tool availability determines the question interface.
+
+Bind claims to a declared scope and minimum direct/indirect evidence closure:
+record original paths, full SHA-256, byte sizes, source commit plus exact diff
+and uncommitted/ignored/external identities, exclusions and recoverable originals.
+Do not read sensitive local settings or secrets merely to complete discovery.
+Read required inputs back from their actual paths, verify closure and report
+missing inputs as incomplete affected checks. Keywords, timestamps, counts,
+equal hashes at two collections and static checks do not certify semantic review,
+continuous unchanged history, runtime behavior or independent approval.
+
+Classify meaningful choices with the shared disposition record (`cdd-layer`,
+`no-adr`, `covered`, `documentation-update`, `adr-required`, `conflict`). Significant
+trust, public contract, durable format or state ownership changes require an
+Accepted ADR/valid scoped exception before affected implementation continues.
+Keep As-Is observations and their evidence separate from Target promises and
+gaps; implemented behavior cannot lower a governing Target. Continue independent
+work while blocking only affected dependants.
+
 ## User Guide
 
 - When to use: Scan all CDDs against the entity registry to detect cross-document inconsistencies. Works for both game and product CDDs. Grep-first approach — reads registry then targets only conflicting CDD sections rather than full document reads.
@@ -37,6 +73,13 @@ catches too late.
 
 ## Phase 1: Parse Arguments and Load Registry
 
+Validate before spawn/write/verdict: accept absent/full, `since-last-review`
+or one documented `entity:`/`item:`/`schema:`/`api:`/`permission:`/`config:`
+selector with a nonempty name. Reject unknown modes/selectors, empty or whitespace
+names (`entity:`, `schema:`), extra selectors and unknown explicit flags. Give the
+legal usage `/consistency-check [full|since-last-review|entity:<name>|item:<name>|schema:<name>|api:<name>|permission:<name>|config:<name>]`
+and a correction; stop rather than default, spawn, write or issue a verdict.
+
 **Modes:**
 - No argument / `full` — check all registered entries against all CDDs
 - `since-last-review` — check only CDDs modified since the last review report
@@ -57,11 +100,11 @@ catches too late.
 Read path="design/registry/entities.yaml"
 ```
 
-If the file does not exist or has no entries:
-> "Entity registry is empty. Run `/design-system` to write CDDs — the registry
-> is populated automatically after each CDD is completed. Nothing to check yet."
-
-Stop and exit.
+If the registry is absent/empty, disclose that the registry check cannot verify
+coverage; issue no PASS. Recommend the owning /design-system registry proposal
+workflow without invoking it or creating entries. Governing required registry
+inputs are incomplete affected checks; optional absence uses conversation/report
+fallback. No CDDs likewise produces guidance without a verdict.
 
 Build lookup tables from the registry. Game and product CDDs register different
 types of cross-document facts:
@@ -95,22 +138,32 @@ Glob pattern="design/cdd/*.md"
 Exclude: `game-concept.md`, `product-concept.md`, `module-index.md`, and `principles.md` — these are not
 system CDDs.
 
-For `since-last-review` mode:
-```bash
-git log --name-only --pretty=format: -- design/cdd/ | grep "\.md$" | sort -u
-```
-Limit to CDDs modified since the most recent `design/cdd/cross-review-*.md`
-file's creation date.
+For `since-last-review`, compare a prior exact registry/input manifest and
+recoverable bytes to current commit+diff and uncommitted/ignored/external
+identities. Include changed registry entries, referenced sources and indirect
+contract dependencies. Missing baseline permits only a disclosed current-scope
+scan/new full registry scan, never a timestamp-based incremental PASS.
 
-Report the in-scope CDD list before scanning.
+Report the registry entries, source/reference paths, exclusions and exact
+baseline before scanning. Here `full` means the full registry-derived comparison
+closure, not a Full-body CDD design review; recommend /review-all-gdds for that.
 
 ---
 
 ## Phase 3: Grep-First Conflict Scan
 
+Searches and deep interpretation must use the same bound input bytes. Use already
+retained exact bytes for both, or verify each path's full digest before/after its
+search/read against the manifest. If bytes change mid-run, stop affected PASS
+qualification, preserve valid earlier scoped findings and rebind a fresh baseline
+before rechecking the affected comparisons/closure. Never combine old grep
+results with a new file body into one verified comparison.
+
+
 For each registered entry, grep every in-scope CDD for the entry's name.
-Do NOT do full reads — extract only the matching lines and their immediate
-context (-C 3 lines).
+Use matching lines as discovery. Read complete relevant definitions, source and
+reference sections and required indirect evidence before deciding equivalence;
+-C 3 lines alone cannot qualify a semantic comparison. Record actual coverage.
 
 This is the core optimization: instead of reading 10 CDDs × 400 lines each
 (4,000 lines), you grep 50 entity names × 10 CDDs (50 targeted searches,
@@ -213,22 +266,23 @@ conflicting CDD to get precise context:
 ```
 Read path="design/cdd/[conflicting_cdd].md"
 ```
-(Or use Grep with wider context if the file is large)
+Read the complete affected definition/contract and its required dependencies;
+grep excerpts alone may miss qualifiers, aliases or exception rules.
 
 Confirm the conflict with full context. Determine:
-1. **Which CDD is correct?** Check the `source:` field in the registry — the
-   source CDD is the authoritative owner. Any other CDD that contradicts it
-   is the one that needs updating.
-2. **Is the registry itself out of date?** If the source CDD was updated after
-   the registry entry was written (check git log), the registry may be stale.
-3. **Is this a genuine design change?** If the conflict represents an intentional
-   design decision, the resolution is: update the source CDD, update the registry,
-   then fix all other CDDs.
+1. **Owner and authority:** The registry `source:` identifies a candidate owner;
+   verify the governing CDD/Accepted decision and exact approved scope. It does
+   not prove that a contradictory downstream or implemented value is wrong.
+2. **Freshness:** Compare exact retained baselines/current bytes and choices.
+   Git log or mtime alone cannot prove the registry stale.
+3. **Resolution:** Separate As-Is from Target and classify the decision under
+   `standards/notes-adr-sync.md`. Propose authorized source/registry/dependant
+   edits; required acceptance precedes affected implementation.
 
 For each conflict, classify:
 - **🔴 CONFLICT** — same named entity/item/formula/constant/schema/API/permission/config
   with different values or contracts in different CDDs. Must resolve before
-  architecture begins.
+   affected architecture proceeds; name dependants and continue independent work.
 - **⚠️ STALE REGISTRY** — source CDD value changed but registry not updated.
   Registry needs updating; other CDDs may be correct already.
 - **ℹ️ UNVERIFIABLE** — entity mentioned but no comparable attribute stated.
@@ -281,10 +335,15 @@ Verdict: PASS | CONFLICTS FOUND
 ```
 
 **Verdict:**
-- **PASS** — no conflicts. Registry and CDDs agree on all checked values.
+- **PASS** — all declared registry comparisons verified, no conflicts or missing
+  required inputs. This is scoped registry agreement, not full CDD review approval.
+- **INCOMPLETE** — required input/definition/dependency cannot be verified.
 - **CONFLICTS FOUND** — one or more conflicts detected. List resolution steps.
 
 ---
+
+A requested report-only run may save one new assigned report with scoped
+authority; registry corrections and reflexion logs remain untouched.
 
 ## Phase 6: Registry Corrections
 
@@ -305,13 +364,15 @@ Only add entries that appear in more than one CDD (true cross-system facts).
 **Never delete registry entries.** Set `status: deprecated` if an entry is removed
 from all CDDs.
 
-After writing: Verdict: **COMPLETE** — consistency check finished.
-If conflicts remain unresolved: Verdict: **BLOCKED** — [N] conflicts need manual resolution before architecture begins.
+After authorized repair, reread changed inputs/closure and collect a fresh
+baseline. Completion of execution is separate from PASS, CONFLICTS FOUND or
+INCOMPLETE; unresolved choices block only named affected dependants.
 
 ### 6b: Append to Reflexion Log
 
-If any 🔴 CONFLICT entries were found (regardless of whether they were resolved),
-append an entry to `docs/consistency-failures.md` for each conflict:
+If conflicts were found, propose the following reflexion entry. Append to
+`docs/consistency-failures.md` only with authority for that exact log effect,
+never as a read-only/report-only side effect:
 
 ```markdown
 ### [YYYY-MM-DD] — /consistency-check — 🔴 CONFLICT
@@ -324,7 +385,7 @@ referenced in economy CDD before authoring — always check entities.yaml first"
 ```
 
 Only append if `docs/consistency-failures.md` exists. If the file is missing,
-skip this step silently — do not create the file from this skill.
+disclose the omitted optional log; do not create it from this skill.
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: test-helpers
-description: "Generate test helper libraries for the project's test suite. Game: engine-specific helpers (Godot, Unity, Unreal). Product: language-appropriate helpers (pytest fixtures, vitest factories, etc.). Reads existing test patterns and produces tests/helpers/ with assertion utilities, factory functions, and mock objects tailored to the project's systems."
+description: "Generate test helper libraries for the project's test suite. Game: engine-specific helpers (Godot, Unity, Unreal). Product: language-appropriate helpers (pytest fixtures, vitest factories, etc.). Reads existing test patterns and produces tests/helpers/ utilities and tests/conftest.py pytest fixtures tailored to the project's systems."
 argument-hint: "[system-name | all | scaffold]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
@@ -8,7 +8,7 @@ allowed-tools: Read, Glob, Grep, Write
 
 ## User Guide
 
-- When to use: Generate test helper libraries for the project's test suite. Game: engine-specific helpers (Godot, Unity, Unreal). Product: language-appropriate helpers (pytest fixtures, vitest factories, etc.). Reads existing test patterns and produces tests/helpers/ with assertion utilities, factory functions, and mock objects tailored to the project's systems.
+- When to use: Generate test helper libraries for the project's test suite. Game: engine-specific helpers (Godot, Unity, Unreal). Product: language-appropriate helpers, with pytest fixtures in tests/conftest.py and ordinary utilities in tests/helpers/.
 - Inputs: Command arguments: `/test-helpers [system-name | all | scaffold]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
 - Memory-bank writes: None.
@@ -21,7 +21,13 @@ and assertion patterns are abstracted into helpers. This skill generates a
 `tests/helpers/` library tailored to the project's actual engine/stack, language,
 and systems — so every developer writes less boilerplate and more assertions.
 
-**Output:** `tests/helpers/` directory with domain-specific helper files
+**Output:** `tests/helpers/` domain-specific utilities; Python/pytest shared
+fixtures in `tests/conftest.py` for tests in that directory and its descendants.
+
+Apply `standards/evidence-lifecycle.md` and existing named path/effect authority.
+Read existing originals before proposing create/extend effects. Review-only
+produces conversation guidance without invoking a writer; helper generation,
+actual usability, test execution and independent acceptance are separate facts.
 
 **When to run:**
 - After `/test-setup` scaffolds the framework (first time)
@@ -32,10 +38,17 @@ and systems — so every developer writes less boilerplate and more assertions.
 
 ## Phase 0: Domain Detection
 
-Check for concept documents in `design/cdd/`:
-- `design/cdd/game-concept.md` → `[Game]` paths below
-- `design/cdd/product-concept.md` → `[Product]` paths below
-- Neither → default to game paths (backward compatible)
+Resolve Game or Product from substantive concept bodies, configured fields and
+explicit project decisions under `standards/technical-preferences.md`. Populated
+legacy Product configuration can establish Product without a concept. Filenames
+and placeholder fields alone do not establish either domain.
+
+- **Game** → engine-specific helpers below; retain the Game examples.
+- **Product** → configured language/framework helpers below.
+- **Unknown** → disclose absent or conflicting evidence and ask for the unresolved
+  domain decision. Neutral inspection may continue; do not generate domain-dependent
+  helpers or silently fall back to Game. Supporting both domains does not create
+  a Both project-domain value.
 
 ---
 
@@ -61,6 +74,23 @@ Read `standards/technical-preferences.md` and extract:
 **[Game]** If engine is not configured: "Engine not configured. Run `/setup-engine` first."
 **[Product]** If language is not configured: "Language/stack not configured. Run `/setup-engine` first."
 
+### Test setup prerequisite
+
+Read the actual testing configuration and `/test-setup` output to resolve the
+framework, test root and discovery patterns. `tests/` is the default used by the
+examples below, not a requirement to replace a valid configured alternative.
+For a different root, place utilities beneath that root and pytest shared fixtures
+in its applicable parent conftest; preserve the project's actual import layout.
+
+Directly check the resolved test root before any scaffold/create/extend entrypoint.
+If it is absent, report:
+"Test directory not found — test framework must be set up first".
+Name the actual missing path and recommend `/test-setup`. If the testing
+framework is unconfigured, disclose that prerequisite too. Stop affected generation
+without calling a write tool, creating the test root, installing a framework or
+returning COMPLETE. An existing empty root with a configured framework is valid
+for an authorized `scaffold`; no existing test file is required for that mode.
+
 ---
 
 ## 3. Load Existing Test Patterns
@@ -77,6 +107,15 @@ For a representative sample (up to 5 files), read the test files and extract:
 - Object creation patterns (how game objects or scenes are instantiated in tests)
 - Mock/stub patterns (how dependencies are replaced)
 
+For Python/pytest, use the configured test discovery patterns (including
+`test_*.py` when selected), rather than only the generic glob above. Directly
+read existing `tests/conftest.py` and applicable
+nested conftest files, fixture dependencies, hooks and the actual import layout.
+Preserve their custom setup/teardown and names. Shared fixtures belong in the
+parent `tests/conftest.py`; a conftest inside the sibling helpers directory is
+not discovered by tests elsewhere under `tests/`. Ordinary helper functions
+need explicit imports through the project's actual supported module layout.
+
 This ensures generated helpers match the project's existing style, not a
 generic template.
 
@@ -84,6 +123,12 @@ Also read:
 - `design/cdd/module-index.md` — to know which systems exist
 - In-scope GDD(s) — to understand what data types and values need testing
 - `docs/architecture/tr-registry.yaml` — to map requirements to tested systems
+
+If a required system CDD or implementation is missing, disclose the exact missing
+context and leave that system's business defaults/usability Pending. Do not invent
+values from the illustrative templates. A separately covered generic `scaffold`
+may proceed without system-specific behavior; generation COMPLETE does not make
+missing business context, unimplemented fixtures or unexecuted tests pass.
 
 ---
 
@@ -320,16 +365,22 @@ namespace GameTestHelpers
 
 #### Python (pytest)
 
-**Base helper** (`tests/helpers/conftest.py` — auto-loaded by pytest):
+**Shared fixtures** (`tests/conftest.py` — discovered for its test subtree):
+
+Read the real application/database setup before implementing these fixtures.
+The examples below are **unimplemented scaffolds**, not runnable clients or
+database sessions. Generate only fixtures needed by the selected test scope.
+If their actual factory/session dependency is unavailable, disclose the missing
+implementation and keep usability Pending; preserve `NotImplementedError` in
+an explicitly authorized scaffold instead of inventing a working dependency.
 
 ```python
-"""Shared fixtures and assertion helpers for [Project Name] tests.
+"""Application-specific fixture scaffolds for [Project Name] tests.
 
-Usage: fixtures in this file are auto-discovered by pytest.
-No explicit import needed — just use fixture names as test arguments.
+Pytest discovers these names under tests/ without fixture imports.
+app_client/db_session remain unimplemented until real setup is supplied.
 """
 import pytest
-from typing import Any, Callable
 
 
 @pytest.fixture
@@ -351,8 +402,12 @@ def db_session():
     """
     # Import your DB session here
     raise NotImplementedError("Implement db_session for your database")
+```
 
+**Ordinary assertion helpers** (`tests/helpers/assertions.py`):
 
+```python
+"""Explicitly imported assertions; these are not pytest fixtures."""
 def assert_response_ok(response, status_code: int = 200):
     """Assert response has expected status code and valid JSON body."""
     assert response.status_code == status_code, \
@@ -671,20 +726,31 @@ Base helpers (engine: [engine]):
 
 **[Product]**
 Base helpers (language: [language]):
-- tests/helpers/conftest.py / test-utils.ts / helpers.go / mod.rs
+- Python/pytest: tests/conftest.py fixtures; tests/helpers/assertions.py utilities
+- Other stacks: tests/helpers/test-utils.ts / helpers.go / mod.rs
 - tests/helpers/factories.[ext]
 
 System helpers ([mode]):
 - tests/helpers/[system]_factory.[ext]  ← from [system] CDD
 ```
 
-Ask: "May I write these helper files to `tests/helpers/`?"
+Show every actual output path and its create/extend effect, including
+`tests/conftest.py` when selected. Reuse existing exact named authority; only
+missing or materially new effects ask "May I write/extend these named files?"
 
-**Never overwrite existing files.** If a file already exists, report:
-"Skipping `[path]` — already exists. Remove the file manually if you want it
-regenerated."
+**Preserve existing files.** Read the complete file before an authorized
+extension. Add only the approved missing fixtures/functions; retain existing
+imports, fixtures, hooks, setup/teardown and custom helper code. Never replace
+the file with a template, delete it for regeneration or silently redefine an
+existing name. On a name/behavior conflict, present actual alternatives and
+resolve the affected extension before writing; continue independent new files
+within their existing authority.
 
-After writing: Verdict: **COMPLETE** — helper files created.
+After writing, report **COMPLETE** only for the exact generation operation.
+List created/extended paths and preserved content separately from usability:
+unimplemented application/database fixtures stay Pending, and tests stay
+NotRun until actual configured execution is observed. A written scaffold is
+not a runnable fixture, passing test or independently accepted result.
 
 **[Game]** "Helper files created. To use them in a test:
 - Godot: `class_name` is auto-imported — no explicit import needed
@@ -692,7 +758,13 @@ After writing: Verdict: **COMPLETE** — helper files created.
 - Unreal: `#include \"tests/helpers/GameTestHelpers.h\"`"
 
 **[Product]** "Helper files created. To use them in a test:
-- Python: imports are path-based — add `tests/` to `PYTHONPATH` or use relative imports
+- Python/pytest: request fixtures from tests/conftest.py as test arguments;
+  explicitly import ordinary assertions/factories through the verified project
+  module layout. For an existing tests/helpers package, for example:
+  `from tests.helpers.assertions import assert_response_ok`. Do not import
+  conftest as a utility module or claim ordinary functions are auto-discovered.
+  Missing package/import configuration remains disclosed; any new package
+  markers or configuration need their own covered named effects
 - TypeScript: use `import { assertOk } from '../helpers/test-utils'`
 - Rust: add `mod helpers;` to test module or use `#[path = \"helpers/mod.rs\"]`
 - Go: import `\"module/tests/helpers\"` in test files"
@@ -701,14 +773,16 @@ After writing: Verdict: **COMPLETE** — helper files created.
 
 ## Collaborative Protocol
 
-- **Never overwrite existing helpers** — they may contain hand-written
-  customisations. Only generate new files that don't exist yet
+- **Preserve existing helpers and conftest** — create new files or perform only
+  authorized additive extensions after reading originals; no template replacement
+  or silent fixture/function redefinition
 - **Generated code is a starting point** — the generated factory functions use
   metadata patterns for simplicity; adapt to the actual class structure once
   the code exists
 - **Helpers should reflect the CDD** — **[Game]** bounds and constants in helpers should
   trace to CDD Formulas sections. **[Product]** test data and assertions should trace to CDD Data Model and acceptance criteria. Not invented values.
-- **Ask before writing** — always confirm before creating files in `tests/`
+- **Use scoped write authority** — reuse named create/extend approval and ask
+  only for missing or materially new file effects after showing their draft
 
 ## Next Steps
 

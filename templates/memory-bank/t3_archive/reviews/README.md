@@ -23,3 +23,9 @@ Keep full review artifacts in their existing `design/`, `docs/`, or
 Use `review-index.md` as the durable review evidence index. Index rows are keyed
 by source artifact path; update an existing row for the same source artifact
 instead of adding a duplicate.
+
+## Evidence Record Extensions
+
+Use the project-root owner `standards/evidence-lifecycle.md`, section
+"Evidence record metadata", for companion fields and historical pointers.
+Keep this template's existing columns and link the owning records.
