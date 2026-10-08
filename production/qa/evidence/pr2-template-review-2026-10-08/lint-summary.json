@@ -1,0 +1,1909 @@
+{
+  "source_commit": "037615b9c3f1d38ab4abc570980a1558db067d8c",
+  "source_inputs_sha256": "436f8677220a11cf71896c3bc1760fd167303907d531d157d0f7e236ca97afe0",
+  "checker_sha256": "6d600e99d8b4f593c8240087c29b95cf4528176d09ea5a74487da2930592859f",
+  "scan": "same 84 canonical package Markdown files, same unmodified checker",
+  "comparison_key": [
+    "path",
+    "severity",
+    "diagnostic",
+    "occurrence multiplicity"
+  ],
+  "matching": "exact source-line matches first, then remaining same diagnostic instances; line shifts alone are not new",
+  "scans": {
+    "main": {
+      "files_checked": 84,
+      "errors": 0,
+      "warnings": 470
+    },
+    "review_input": {
+      "files_checked": 84,
+      "errors": 0,
+      "warnings": 463
+    },
+    "candidate": {
+      "files_checked": 84,
+      "errors": 0,
+      "warnings": 465
+    }
+  },
+  "main_comparison": {
+    "inherited": 453,
+    "added": 12,
+    "removed": 17
+  },
+  "review_input_comparison": {
+    "inherited": 463,
+    "added": 2,
+    "removed": 0
+  },
+  "classifications": {
+    "normal project/generated path": 215,
+    "placeholder/glob": 250
+  },
+  "unresolved_new_defects": 0,
+  "review_input_added": [
+    {
+      "path": "skills/story-done/SKILL.md",
+      "line": 90,
+      "diagnostic": "artifact path has no existing file or same-name template: production/sprint-status.yaml",
+      "context": [
+        "1. Read `production/session-state/active.md`, if present, for its explicit active",
+        "   Story path and sprint reference; verify these against the actual Story body.",
+        "2. Read `production/sprint-status.yaml`, if present, and the sprint plans whose",
+        "   bodies reference that Story/sprint. Use real IDs, paths and ownership, not file",
+        "   modification time. An `in-progress` YAML entry or equivalent documented Story"
+      ]
+    },
+    {
+      "path": "skills/story-done/SKILL.md",
+      "line": 485,
+      "diagnostic": "artifact path has no existing file or same-name template: production/sprint-status.yaml",
+      "context": [
+        "",
+        "1. Read the owning sprint resolved in Phase 1 and its referenced Story bodies;",
+        "   reconcile matching entries in `production/sprint-status.yaml` when present.",
+        "2. Use the actual storage vocabulary, without adding serialized status values:",
+        "   - Markdown `Ready` and YAML `ready-for-dev` identify ready candidates."
+      ]
+    }
+  ],
+  "removed_main": [
+    {
+      "path": "skills/consistency-check/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: design/cdd/cross-review-*.md",
+      "occurrence": 1,
+      "line": 102,
+      "source_sha256": "a2f87ea8e905e629a28cdda0417d07ecb44b633165d818e8991ae60ee9375e3e",
+      "source_bytes": 12633,
+      "context": [
+        "git log --name-only --pretty=format: -- design/cdd/ | grep \"\\.md$\" | sort -u",
+        "```",
+        "Limit to CDDs modified since the most recent `design/cdd/cross-review-*.md`",
+        "file's creation date.",
+        ""
+      ],
+      "source_line": "Limit to CDDs modified since the most recent `design/cdd/cross-review-*.md`"
+    },
+    {
+      "path": "skills/design-review/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: design/cdd/reviews/[doc-name]-review-log.md",
+      "occurrence": 1,
+      "line": 39,
+      "source_sha256": "7b5512a0e982407f4b6131b2ff8f46b8cb0a6ce5b3999d7d242125bdec27ff97",
+      "source_bytes": 17213,
+      "context": [
+        "- **[通用产品]** If `design/cdd/product-concept.md` exists, read it. Note any module choices in this CDD that contradict the product principles, user promise, JTBD statement, or target workflow. Pass this context to `lead-programmer`, the language specialist, and `creative-director` in Phase 3b.",
+        "",
+        "**Prior review check:** Check whether `design/cdd/reviews/[doc-name]-review-log.md` exists. If it does, read the most recent entry — note what verdict was given and what blocking items were listed. This session is a re-review; track whether prior items were addressed.",
+        "",
+        "---"
+      ],
+      "source_line": "**Prior review check:** Check whether `design/cdd/reviews/[doc-name]-review-log.md` exists. If it does, read the most recent entry — note what verdict was given and what blocking items were listed. This session is a re-review; track whether prior items were addressed."
+    },
+    {
+      "path": "skills/dev-story/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: docs/architecture/control-manifest.md",
+      "occurrence": 1,
+      "line": 57,
+      "source_sha256": "de970d58f5261df2944d09299ed8284c7b21dfb454e4fba26906b239292b368c",
+      "source_bytes": 18900,
+      "context": [
+        "| TR registry | `docs/architecture/tr-registry.yaml` | **STOP** — \"TR registry not found. Run `/create-epics` to generate it.\" |",
+        "| Governing ADR | path from story's ADR field | **STOP** — \"ADR file [path] not found. Run `/architecture-decision` to create it, or correct the filename in the story's ADR field.\" |",
+        "| Control manifest | `docs/architecture/control-manifest.md` | **WARN and continue** — \"Control manifest not found — layer rules cannot be checked. Run `/create-control-manifest`.\" |",
+        "",
+        "If the TR registry or governing ADR is missing, set the story status to **BLOCKED** in the session state and do not spawn any programmer agent."
+      ],
+      "source_line": "| Control manifest | `docs/architecture/control-manifest.md` | **WARN and continue** — \"Control manifest not found — layer rules cannot be checked. Run `/create-control-manifest`.\" |"
+    },
+    {
+      "path": "skills/dev-story/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: docs/architecture/[adr-file].md",
+      "occurrence": 1,
+      "line": 83,
+      "source_sha256": "de970d58f5261df2944d09299ed8284c7b21dfb454e4fba26906b239292b368c",
+      "source_bytes": 18900,
+      "context": [
+        "",
+        "### The governing ADR",
+        "Read `docs/architecture/[adr-file].md`. Extract:",
+        "- The full Decision section",
+        "- The Implementation Guidelines section (this is what the programmer follows)"
+      ],
+      "source_line": "Read `docs/architecture/[adr-file].md`. Extract:"
+    },
+    {
+      "path": "skills/gate-check/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: production/stage.txt",
+      "occurrence": 9,
+      "line": 325,
+      "source_sha256": "167415f9d83f0b1ff8b476e4b35f25b35157ac08241a247991170e87c6990e23",
+      "source_bytes": 24099,
+      "context": [
+        "",
+        "When a PASS verdict, acknowledged CONCERNS advance, or explicit FAIL override",
+        "updates `production/stage.txt`, also update",
+        "`memory_bank/t0_core/current_state.md` when `memory_bank/` exists. The current",
+        "state update should record current phase, stage source, latest gate evidence"
+      ],
+      "source_line": "updates `production/stage.txt`, also update"
+    },
+    {
+      "path": "skills/project-stage-detect/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: production/stage.txt",
+      "occurrence": 1,
+      "line": 70,
+      "source_sha256": "94ec83ff0d01401e9e5369839b0a74a2c4e04307f4bf9c6f76bcbc36f1d8dbcc",
+      "source_bytes": 8148,
+      "context": [
+        "### 2. Classify Project Stage",
+        "",
+        "Based on scanned artifacts, determine stage. Check `production/stage.txt` first —",
+        "if it exists, use its value (explicit override from `/gate-check`). Otherwise,",
+        "auto-detect using these heuristics (check from most-advanced backward):"
+      ],
+      "source_line": "Based on scanned artifacts, determine stage. Check `production/stage.txt` first —"
+    },
+    {
+      "path": "skills/smoke-check/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: production/qa/qa-plan-[sprint].md",
+      "occurrence": 1,
+      "line": 554,
+      "source_sha256": "b2c7c49e0e297a13f191ce6b2ee81ad7dbe21aa73396c6ca9cc7be865e2ff371",
+      "source_bytes": 22474,
+      "context": [
+        "[list MISSING test evidence entries]",
+        "",
+        "QA hand-off: share `production/qa/qa-plan-[sprint].md` with the qa-tester",
+        "agent to begin manual verification.\"",
+        ""
+      ],
+      "source_line": "QA hand-off: share `production/qa/qa-plan-[sprint].md` with the qa-tester"
+    },
+    {
+      "path": "skills/smoke-check/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: production/qa/qa-plan-[sprint].md",
+      "occurrence": 2,
+      "line": 561,
+      "source_sha256": "b2c7c49e0e297a13f191ce6b2ee81ad7dbe21aa73396c6ca9cc7be865e2ff371",
+      "source_bytes": 22474,
+      "context": [
+        "\"Smoke check passed cleanly. The build is ready for manual QA.",
+        "",
+        "QA hand-off: share `production/qa/qa-plan-[sprint].md` with the qa-tester",
+        "agent to begin manual verification.\"",
+        ""
+      ],
+      "source_line": "QA hand-off: share `production/qa/qa-plan-[sprint].md` with the qa-tester"
+    },
+    {
+      "path": "skills/sprint-plan/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: production/qa/qa-plan-sprint-[N].md",
+      "occurrence": 1,
+      "line": 94,
+      "source_sha256": "d00416de93e5db7ba2a21e8577332b115499d07e27cb86e6df7bcf784822e499",
+      "source_bytes": 9526,
+      "context": [
+        "- [ ] All Must Have tasks completed",
+        "- [ ] All tasks pass acceptance criteria",
+        "- [ ] QA plan exists (`production/qa/qa-plan-sprint-[N].md`)",
+        "- [ ] All Logic/Integration stories have passing unit/integration tests",
+        "- [ ] Smoke check passed (`/smoke-check sprint`)"
+      ],
+      "source_line": "- [ ] QA plan exists (`production/qa/qa-plan-sprint-[N].md`)"
+    },
+    {
+      "path": "skills/sprint-plan/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: production/qa/qa-plan-sprint-[N].md",
+      "occurrence": 2,
+      "line": 206,
+      "source_sha256": "d00416de93e5db7ba2a21e8577332b115499d07e27cb86e6df7bcf784822e499",
+      "source_bytes": 9526,
+      "context": [
+        "Before closing the sprint plan, check whether a QA plan exists for this sprint.",
+        "",
+        "Use `Glob` to look for `production/qa/qa-plan-sprint-[N].md` or any file in `production/qa/` referencing this sprint number.",
+        "",
+        "**If a QA plan is found**: note it in the sprint plan output — \"QA Plan: `[path]`\" — and proceed."
+      ],
+      "source_line": "Use `Glob` to look for `production/qa/qa-plan-sprint-[N].md` or any file in `production/qa/` referencing this sprint number."
+    },
+    {
+      "path": "skills/story-done/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: docs/architecture/control-manifest.md",
+      "occurrence": 1,
+      "line": 78,
+      "source_sha256": "a3a7f4c20efa9aa78555606f9fc74a55b2501b411b8d4228c791137ff543a086",
+      "source_bytes": 23712,
+      "context": [
+        "  the full document. Use this to cross-check the registry text is still accurate.",
+        "- The referenced ADR(s) — just the Decision and Consequences sections",
+        "- `docs/architecture/control-manifest.md` header — extract the current",
+        "  `Manifest Version:` date (used in Phase 4 staleness check)",
+        ""
+      ],
+      "source_line": "- `docs/architecture/control-manifest.md` header — extract the current"
+    },
+    {
+      "path": "skills/story-done/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: docs/architecture/control-manifest.md",
+      "occurrence": 2,
+      "line": 265,
+      "source_sha256": "a3a7f4c20efa9aa78555606f9fc74a55b2501b411b8d4228c791137ff543a086",
+      "source_bytes": 23712,
+      "context": [
+        "2. **Manifest version staleness check**: Compare the `Manifest Version:` date",
+        "   embedded in the story header against the `Manifest Version:` date in the",
+        "   current `docs/architecture/control-manifest.md` header.",
+        "   - If they match → pass silently.",
+        "   - If the story's version is older → flag as ADVISORY:"
+      ],
+      "source_line": "   current `docs/architecture/control-manifest.md` header."
+    },
+    {
+      "path": "skills/story-readiness/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: docs/architecture/control-manifest.md",
+      "occurrence": 2,
+      "line": 132,
+      "source_sha256": "515cdeefcdb8e54afc3586eb73b084b286473201a618a2df14fdca3fdf8d7ed4",
+      "source_bytes": 16938,
+      "context": [
+        "  - Auto-pass if the story has no TR-ID reference OR if the registry does not exist.",
+        "- [ ] **Manifest version is current**: If the story has a `Manifest Version:` date",
+        "  in its header AND `docs/architecture/control-manifest.md` exists:",
+        "  - If story version matches current manifest `Manifest Version:` → pass.",
+        "  - If story version is older than current manifest → NEEDS WORK: new rules may"
+      ],
+      "source_line": "  in its header AND `docs/architecture/control-manifest.md` exists:"
+    },
+    {
+      "path": "skills/story-readiness/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: docs/architecture/control-manifest.md",
+      "occurrence": 3,
+      "line": 146,
+      "source_sha256": "515cdeefcdb8e54afc3586eb73b084b286473201a618a2df14fdca3fdf8d7ed4",
+      "source_bytes": 16938,
+      "context": [
+        "- [ ] **Control manifest rules noted**: Relevant layer rules from the control",
+        "  manifest are referenced, OR \"N/A — manifest not yet created\" is stated.",
+        "  This item auto-passes if `docs/architecture/control-manifest.md` does not",
+        "  exist yet (do not penalize stories written before the manifest was created).",
+        ""
+      ],
+      "source_line": "  This item auto-passes if `docs/architecture/control-manifest.md` does not"
+    },
+    {
+      "path": "skills/test-evidence-review/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: production/qa/smoke-*.md",
+      "occurrence": 1,
+      "line": 95,
+      "source_sha256": "dabedc46197b0af8c2a5e2a791a1b29a5102c32a6693db4b042c9f644c339cbc",
+      "source_bytes": 12501,
+      "context": [
+        "**Visual/Feel and UI stories**: Glob `production/qa/evidence/[story-slug]-evidence.*`",
+        "",
+        "**Config/Data stories**: Glob `production/qa/smoke-*.md` (any smoke check report)",
+        "",
+        "Note what was found (path) or not found (gap) for each story."
+      ],
+      "source_line": "**Config/Data stories**: Glob `production/qa/smoke-*.md` (any smoke check report)"
+    },
+    {
+      "path": "skills/test-evidence-review/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: production/qa/evidence-review-[date].md",
+      "occurrence": 4,
+      "line": 262,
+      "source_sha256": "dabedc46197b0af8c2a5e2a791a1b29a5102c32a6693db4b042c9f644c339cbc",
+      "source_bytes": 12501,
+      "context": [
+        "",
+        "For the review index, use Review Type `test-evidence-review` and Source Artifact",
+        "`production/qa/evidence-review-[date].md`. For the QA evidence index, use Type",
+        "`test-evidence-review`. Dedupe both indexes by source or evidence path; update",
+        "Date, Verdict, and Follow-up Owner for an existing path instead of adding a"
+      ],
+      "source_line": "`production/qa/evidence-review-[date].md`. For the QA evidence index, use Type"
+    },
+    {
+      "path": "skills/test-helpers/SKILL.md",
+      "severity": "WARN",
+      "diagnostic": "artifact path has no existing file or same-name template: tests/helpers/conftest.py",
+      "occurrence": 1,
+      "line": 323,
+      "source_sha256": "4302b3958470e6d73449cb772255b5899ff1a90a8e4434c78aecdb0e7fcc3bce",
+      "source_bytes": 22402,
+      "context": [
+        "#### Python (pytest)",
+        "",
+        "**Base helper** (`tests/helpers/conftest.py` — auto-loaded by pytest):",
+        "",
+        "```python"
+      ],
+      "source_line": "**Base helper** (`tests/helpers/conftest.py` — auto-loaded by pytest):"
+    }
+  ],
+  "owners": [
+    {
+      "artifact": "production/stage.txt",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/gate-check/SKILL.md",
+        "workflow/workflow-catalog.yaml"
+      ],
+      "rationale": "Gate-check explicitly writes the governed project stage projection; users/callers read actual project state. Its absence in the reusable unconfigured framework is expected and never establishes a qualified stage.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "design/INSTRUCTIONS.md",
+        "skills/design-system/SKILL.md"
+      ],
+      "rationale": "Project module names and CDD filenames come from the module index or source document. Design-system declares the new-file target; other callers read exact project CDDs or glob them. DocKind rules distinguish concept/index/review records from module CDDs.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/adr-*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/architecture-decision/SKILL.md"
+      ],
+      "rationale": "Architecture-decision explicitly writes a numbered/sluggified ADR; callers glob the project architecture folder or resolve an ADR named by the Story. These syntax forms do not denote literal missing static files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/epics/**/*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/create-epics/SKILL.md",
+        "skills/create-stories/SKILL.md"
+      ],
+      "rationale": "Create-epics owns the per-epic EPIC.md and index; create-stories owns named Story outputs and epic updates. Caller globs are discovery patterns over target-project artifacts, not literal filenames.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/control-manifest.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/create-control-manifest/SKILL.md"
+      ],
+      "rationale": "Create-control-manifest explicitly writes the project programming contract at this path. Callers read its exact current bytes when present; this filename is not the differently named repository adapter cdd-manifest.toml.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/sprint-status.yaml",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/scope-check/SKILL.md",
+        "skills/sprint-plan/SKILL.md"
+      ],
+      "rationale": "Sprint-plan explicitly writes the named sprint plan and YAML projection. Scope-check labels sprint-03.md an e.g. or similar project input; it is not a required third framework sprint.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/engine-reference/[engine]/VERSION.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/engine-reference/README.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Engine/domain variables are resolved from configured Game scope. Setup-engine declares the same VERSION/reference-set shape; actual godot/unity/unreal retained reference filenames corroborate suffix spelling. Modules may be generated only for relevant subsystems.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/reference/[stack]/VERSION.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/INSTRUCTIONS.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Product setup explicitly creates VERSION.md and the equivalent full reference set under docs/reference/<stack>. Stack/domain must resolve from actual configuration; these parameterized project paths are not pre-shipped framework files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/review-mode.txt",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/adopt/SKILL.md",
+        "skills/constitute/SKILL.md",
+        "standards/director-gates.md"
+      ],
+      "rationale": "Constitute/adopt explicitly establish the project full/lean/solo mode file. Reading skills legitimately consume that global mode and fall back only where declared; no framework-level default file is missing.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/engine-reference/[engine]/modules/[domain].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/engine-reference/README.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Engine/domain variables are resolved from configured Game scope. Setup-engine declares the same VERSION/reference-set shape; actual godot/unity/unreal retained reference filenames corroborate suffix spelling. Modules may be generated only for relevant subsystems.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/engine-reference/[engine]/breaking-changes.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/engine-reference/README.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Engine/domain variables are resolved from configured Game scope. Setup-engine declares the same VERSION/reference-set shape; actual godot/unity/unreal retained reference filenames corroborate suffix spelling. Modules may be generated only for relevant subsystems.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/engine-reference/[engine]/deprecated-apis.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/engine-reference/README.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Engine/domain variables are resolved from configured Game scope. Setup-engine declares the same VERSION/reference-set shape; actual godot/unity/unreal retained reference filenames corroborate suffix spelling. Modules may be generated only for relevant subsystems.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/reference/[stack]/modules/[domain].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/INSTRUCTIONS.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Product setup explicitly creates VERSION.md and the equivalent full reference set under docs/reference/<stack>. Stack/domain must resolve from actual configuration; these parameterized project paths are not pre-shipped framework files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/reference/[stack]/breaking-changes.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/INSTRUCTIONS.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Product setup explicitly creates VERSION.md and the equivalent full reference set under docs/reference/<stack>. Stack/domain must resolve from actual configuration; these parameterized project paths are not pre-shipped framework files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/reference/[stack]/deprecated-apis.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/INSTRUCTIONS.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Product setup explicitly creates VERSION.md and the equivalent full reference set under docs/reference/<stack>. Stack/domain must resolve from actual configuration; these parameterized project paths are not pre-shipped framework files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/reference/django/modules/orm.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/architecture-decision/SKILL.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "The table labels this as an e.g. reference consulted; ORM is an illustrative Product subsystem. Setup creates relevant modules as needed. The example does not assert this checkout has a configured Django module.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/adr-[NNNN]-[slug].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/architecture-decision/SKILL.md"
+      ],
+      "rationale": "Architecture-decision explicitly writes a numbered/sluggified ADR; callers glob the project architecture folder or resolve an ADR named by the Story. These syntax forms do not denote literal missing static files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/requirements-traceability.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/architecture-review/SKILL.md"
+      ],
+      "rationale": "Architecture-review explicitly offers the review report or the RTM file as separately scoped writes. The fixed RTM is produced by rtm mode, not required to exist in this framework checkout.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/architecture.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/create-architecture/SKILL.md"
+      ],
+      "rationale": "Create-architecture explicitly writes the target-project master architecture; readers conditionally consume it or report project readiness gaps. Framework ADRs can exist without a target-project master document.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/architecture-review-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/architecture-review/SKILL.md"
+      ],
+      "rationale": "Architecture-review explicitly offers the review report or the RTM file as separately scoped writes. The fixed RTM is produced by rtm mode, not required to exist in this framework checkout.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/session-state/active.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "standards/context-management.md"
+      ],
+      "rationale": "The context standard explicitly defines the authorized project checkpoint file; authoring/implementation skill callers read or create/append it within named scope. It is optional project state, not canonical framework memory.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/interaction-patterns.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/ux-design/SKILL.md",
+        "skills/ux-design/references/templates.md"
+      ],
+      "rationale": "The UX authoring mode table defines HUD/patterns/API/CLI or a normalized named flow output. Its skeleton writer uses the resolved filename; team/review callers and globs reference those project outputs. The pattern library has an explicit creation route.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/cross-review-*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/review-all-gdds/SKILL.md"
+      ],
+      "rationale": "The dated cross-CDDs review report is a declared optional output. The wildcard searches historical reports written by that owner.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/assets/specs/[target]-assets.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/asset-spec/SKILL.md"
+      ],
+      "rationale": "Asset-spec explicitly writes Game/Product target specs and creates or appends the manifest. Related-spec glob and target aliases denote project outputs; absence in the reusable framework is expected.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/assets/asset-manifest.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/asset-spec/SKILL.md"
+      ],
+      "rationale": "Asset-spec explicitly writes Game/Product target specs and creates or appends the manifest. Related-spec glob and target aliases denote project outputs; absence in the reusable framework is expected.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/assets/specs/[target]-artifacts.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/asset-spec/SKILL.md"
+      ],
+      "rationale": "Asset-spec explicitly writes Game/Product target specs and creates or appends the manifest. Related-spec glob and target aliases denote project outputs; absence in the reusable framework is expected.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/[target-name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "design/INSTRUCTIONS.md",
+        "skills/design-system/SKILL.md"
+      ],
+      "rationale": "Project module names and CDD filenames come from the module index or source document. Design-system declares the new-file target; other callers read exact project CDDs or glob them. DocKind rules distinguish concept/index/review records from module CDDs.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/levels/[target-name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/team-level/SKILL.md"
+      ],
+      "rationale": "Team-level writes named project level documents and checks actual adjacent-area dependencies; asset-spec reads that project target. A missing real adjacent area remains a reported project gap, not a framework typo.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/narrative/characters/[target-name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/asset-spec/SKILL.md"
+      ],
+      "rationale": "Optional named character-profile project input; source also explicitly searches design/narrative for the actual profile. Target-name is supplied by the character task, not a static framework filename.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/assets/specs/*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/asset-spec/SKILL.md"
+      ],
+      "rationale": "Asset-spec explicitly writes Game/Product target specs and creates or appends the manifest. Related-spec glob and target aliases denote project outputs; absence in the reusable framework is expected.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/assets/specs/[target-name]-assets.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/asset-spec/SKILL.md"
+      ],
+      "rationale": "Asset-spec explicitly writes Game/Product target specs and creates or appends the manifest. Related-spec glob and target aliases denote project outputs; absence in the reusable framework is expected.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/assets/specs/[target-name]-artifacts.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/asset-spec/SKILL.md"
+      ],
+      "rationale": "Asset-spec explicitly writes Game/Product target specs and creates or appends the manifest. Related-spec glob and target aliases denote project outputs; absence in the reusable framework is expected.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/ux-design/SKILL.md",
+        "skills/ux-design/references/templates.md"
+      ],
+      "rationale": "The UX authoring mode table defines HUD/patterns/API/CLI or a normalized named flow output. Its skeleton writer uses the resolved filename; team/review callers and globs reference those project outputs. The pattern library has an explicit creation route.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/architecture-decision/SKILL.md"
+      ],
+      "rationale": "Architecture-decision explicitly writes a numbered/sluggified ADR; callers glob the project architecture folder or resolve an ADR named by the Story. These syntax forms do not denote literal missing static files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/reference/<stack>/VERSION.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/INSTRUCTIONS.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Product setup explicitly creates VERSION.md and the equivalent full reference set under docs/reference/<stack>. Stack/domain must resolve from actual configuration; these parameterized project paths are not pre-shipped framework files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/balance/balance-check-[system]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/balance-check/SKILL.md"
+      ],
+      "rationale": "The balance analysis offers this dated report as its save destination; system/date are resolved at execution.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/principles.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/brainstorm/SKILL.md",
+        "skills/map-systems/SKILL.md"
+      ],
+      "rationale": "Explicit optional legacy project principles input; both workflows say 'if either exists' or 'optional'. Brainstorm stores newly authored principles in the domain concept, so this is not asserted to be a required missing standalone framework file.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/bugs/[BUG-ID].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/bug-report/SKILL.md"
+      ],
+      "rationale": "Bug-report declares numbered new reports and reads/updates the actual selected BUG-ID for verify/close; the two aliases resolve to the same project naming contract.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/bug-triage-*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/bug-report/SKILL.md",
+        "skills/bug-triage/SKILL.md"
+      ],
+      "rationale": "Bug-report writes individual reports; bug-triage reads their glob, an explicitly labeled consolidated-log fallback or QA-plan table, then writes a dated report. The optional fallback is not a missing static framework input.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/bugs/BUG-[NNNN].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/bug-report/SKILL.md"
+      ],
+      "rationale": "Bug-report declares numbered new reports and reads/updates the actual selected BUG-ID for verify/close; the two aliases resolve to the same project naming contract.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/bug-triage-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/bug-report/SKILL.md",
+        "skills/bug-triage/SKILL.md"
+      ],
+      "rationale": "Bug-report writes individual reports; bug-triage reads their glob, an explicitly labeled consolidated-log fallback or QA-plan table, then writes a dated report. The optional fallback is not a missing static framework input.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/bugs/*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/bug-report/SKILL.md",
+        "skills/bug-triage/SKILL.md"
+      ],
+      "rationale": "Bug-report writes individual reports; bug-triage reads their glob, an explicitly labeled consolidated-log fallback or QA-plan table, then writes a dated report. The optional fallback is not a missing static framework input.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/bugs.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/bug-report/SKILL.md",
+        "skills/bug-triage/SKILL.md"
+      ],
+      "rationale": "Bug-report writes individual reports; bug-triage reads their glob, an explicitly labeled consolidated-log fallback or QA-plan table, then writes a dated report. The optional fallback is not a missing static framework input.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/qa-plan-*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/qa-plan/SKILL.md",
+        "skills/team-qa/SKILL.md"
+      ],
+      "rationale": "Qa-plan/team-qa explicitly write dated scope/sprint project plans. Generic discovery globs correctly include both owner naming variants; parameter names do not denote different literal files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/project-roadmap.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/cdd-status/SKILL.md"
+      ],
+      "rationale": "Cdd-status explicitly creates the public project roadmap at this fixed path and distinguishes it from the optional memory mirror and dry-run draft.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/code-reviews/code-review-[scope]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/code-review/SKILL.md"
+      ],
+      "rationale": "Code-review explicitly declares its assigned optional new report destination; scope/date parameterization matches the reviewed project record.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/amendments/amendment-v[version]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/constitute/SKILL.md"
+      ],
+      "rationale": "Constitute declares the per-amendment immutable evidence destination, with collision handling. Optional project Memory Bank is not initialized by this lint audit.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/[file].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "design/INSTRUCTIONS.md",
+        "skills/design-system/SKILL.md"
+      ],
+      "rationale": "Project module names and CDD filenames come from the module index or source document. Design-system declares the new-file target; other callers read exact project CDDs or glob them. DocKind rules distinguish concept/index/review records from module CDDs.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/engine-reference/[engine]/current-best-practices.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/engine-reference/README.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Engine/domain variables are resolved from configured Game scope. Setup-engine declares the same VERSION/reference-set shape; actual godot/unity/unreal retained reference filenames corroborate suffix spelling. Modules may be generated only for relevant subsystems.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/reference/[stack]/current-best-practices.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/INSTRUCTIONS.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Product setup explicitly creates VERSION.md and the equivalent full reference set under docs/reference/<stack>. Stack/domain must resolve from actual configuration; these parameterized project paths are not pre-shipped framework files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/epics/[epic-slug]/EPIC.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/create-epics/SKILL.md",
+        "skills/create-stories/SKILL.md"
+      ],
+      "rationale": "Create-epics owns the per-epic EPIC.md and index; create-stories owns named Story outputs and epic updates. Caller globs are discovery patterns over target-project artifacts, not literal filenames.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/epics/index.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/create-epics/SKILL.md",
+        "skills/create-stories/SKILL.md"
+      ],
+      "rationale": "Create-epics owns the per-epic EPIC.md and index; create-stories owns named Story outputs and epic updates. Caller globs are discovery patterns over target-project artifacts, not literal filenames.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/[filename].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "design/INSTRUCTIONS.md",
+        "skills/design-system/SKILL.md"
+      ],
+      "rationale": "Project module names and CDD filenames come from the module index or source document. Design-system declares the new-file target; other callers read exact project CDDs or glob them. DocKind rules distinguish concept/index/review records from module CDDs.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/smoke-*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/smoke-check/SKILL.md"
+      ],
+      "rationale": "Smoke-check writes dated run reports; callers glob those outputs. smoke-tests.md is explicitly optional legacy project check-list input, with tests/smoke and QA-plan scope as alternatives; it is not claimed to be a shipped framework test.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/epics/*/EPIC.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/create-epics/SKILL.md",
+        "skills/create-stories/SKILL.md"
+      ],
+      "rationale": "Create-epics owns the per-epic EPIC.md and index; create-stories owns named Story outputs and epic updates. Caller globs are discovery patterns over target-project artifacts, not literal filenames.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/[adr-file].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/architecture-decision/SKILL.md"
+      ],
+      "rationale": "Architecture-decision explicitly writes a numbered/sluggified ADR; callers glob the project architecture folder or resolve an ADR named by the Story. These syntax forms do not denote literal missing static files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/evidence/[story-slug]-evidence.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/create-stories/SKILL.md",
+        "skills/dev-story/SKILL.md",
+        "skills/smoke-check/SKILL.md",
+        "templates/test-evidence.md"
+      ],
+      "rationale": "Owning Story/QA workflows declare human or automated project evidence destinations by Story slug and type. These are anticipated evidence records, not shipped implementation/evidence assertions in this framework.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/evidence/smoke/[story-slug].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/create-stories/SKILL.md",
+        "skills/dev-story/SKILL.md",
+        "skills/smoke-check/SKILL.md",
+        "templates/test-evidence.md"
+      ],
+      "rationale": "Owning Story/QA workflows declare human or automated project evidence destinations by Story slug and type. These are anticipated evidence records, not shipped implementation/evidence assertions in this framework.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/releases/day-one-patch-[version].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/day-one-patch/SKILL.md"
+      ],
+      "rationale": "Day-one-patch explicitly writes the versioned patch and rollback project records; the rollback link refers to its own declared output.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/security/security-audit-*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/security-audit/SKILL.md"
+      ],
+      "rationale": "Security-audit explicitly writes the dated project audit; day-one-patch's wildcard reads those project outputs.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/releases/rollback-plan-[version].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/day-one-patch/SKILL.md"
+      ],
+      "rationale": "Day-one-patch explicitly writes the versioned patch and rollback project records; the rollback link refers to its own declared output.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/reviews/[doc-name]-review-log.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/design-review/SKILL.md"
+      ],
+      "rationale": "Design-review declares this separately authorized appendable project review log and its index locator; doc-name comes from the reviewed input.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/[system-name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "design/INSTRUCTIONS.md",
+        "skills/design-system/SKILL.md"
+      ],
+      "rationale": "Project module names and CDD filenames come from the module index or source document. Design-system declares the new-file target; other callers read exact project CDDs or glob them. DocKind rules distinguish concept/index/review records from module CDDs.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/[screen].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/ux-design/SKILL.md",
+        "skills/ux-design/references/templates.md"
+      ],
+      "rationale": "The UX authoring mode table defines HUD/patterns/API/CLI or a normalized named flow output. Its skeleton writer uses the resolved filename; team/review callers and globs reference those project outputs. The pattern library has an explicit creation route.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/evidence/[slug]-evidence.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/create-stories/SKILL.md",
+        "skills/dev-story/SKILL.md",
+        "skills/smoke-check/SKILL.md",
+        "templates/test-evidence.md"
+      ],
+      "rationale": "Owning Story/QA workflows declare human or automated project evidence destinations by Story slug and type. These are anticipated evidence records, not shipped implementation/evidence assertions in this framework.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/gate_runs/gate-[phase]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/gate-check/SKILL.md"
+      ],
+      "rationale": "Gate-check declares a dated phase-gate evidence record for an initialized, authorized project archive; this named output is not a missing template file.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/release_evidence/hotfix-[short-name]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/hotfix/SKILL.md"
+      ],
+      "rationale": "Hotfix explicitly names both its project incident record and optional initialized-memory evidence output; identifiers/date are execution values.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/hotfixes/hotfix-[date]-[short-name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/hotfix/SKILL.md"
+      ],
+      "rationale": "Hotfix explicitly names both its project incident record and optional initialized-memory evidence output; identifiers/date are execution values.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/releases/launch-checklist-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/launch-checklist/SKILL.md"
+      ],
+      "rationale": "Launch-checklist explicitly writes this dated project readiness report, except in dry-run.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/live-ops/content-calendar.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "agents/live-ops-designer.md"
+      ],
+      "rationale": "The live-ops agent explicitly owns and documents all three project files. Callers read them conditionally or report an absent ethics policy; absence in this uninitialized framework is not silently certified as a completed project gate.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/localization/translator-brief-[locale]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/localize/SKILL.md"
+      ],
+      "rationale": "Localize has explicit write instructions for each report and the fixed freeze-status record. Locale/date are project execution parameters; freeze-status is conditionally read and created by its owner.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/localization/cultural-review-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/localize/SKILL.md"
+      ],
+      "rationale": "Localize has explicit write instructions for each report and the fixed freeze-status record. Locale/date are project execution parameters; freeze-status is conditionally read and created by its owner.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/localization/vo-scripts-[locale]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/localize/SKILL.md"
+      ],
+      "rationale": "Localize has explicit write instructions for each report and the fixed freeze-status record. Locale/date are project execution parameters; freeze-status is conditionally read and created by its owner.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/localization/rtl-check-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/localize/SKILL.md"
+      ],
+      "rationale": "Localize has explicit write instructions for each report and the fixed freeze-status record. Locale/date are project execution parameters; freeze-status is conditionally read and created by its owner.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/localization/freeze-status.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/localize/SKILL.md"
+      ],
+      "rationale": "Localize has explicit write instructions for each report and the fixed freeze-status record. Locale/date are project execution parameters; freeze-status is conditionally read and created by its owner.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/localization/loc-qa-[locale]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/localize/SKILL.md"
+      ],
+      "rationale": "Localize has explicit write instructions for each report and the fixed freeze-status record. Locale/date are project execution parameters; freeze-status is conditionally read and created by its owner.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/sprint_snapshots/milestone-[name]-review-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/milestone-review/SKILL.md"
+      ],
+      "rationale": "Milestone-review explicitly writes its project report and optional initialized-memory snapshot; milestone names and date resolve from selected scope.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/milestones/[milestone-name]-review.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/milestone-review/SKILL.md"
+      ],
+      "rationale": "Milestone-review explicitly writes its project report and optional initialized-memory snapshot; milestone names and date resolve from selected scope.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/onboarding/onboard-[role]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/onboard/SKILL.md"
+      ],
+      "rationale": "Onboard explicitly offers this role-specific new report path; role/date values resolve from the user's requested onboarding scope.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/releases/[version]/changelog.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/changelog/SKILL.md",
+        "skills/patch-notes/SKILL.md"
+      ],
+      "rationale": "Patch-notes explicitly accepts this optional project-internal archive and falls back to docs/CHANGELOG.md or Git. Changelog's normal output is docs/CHANGELOG.md; the extra archive is not required or presumed generated by that skill.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/community/tone-guide.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "agents/community-manager.md",
+        "skills/patch-notes/SKILL.md"
+      ],
+      "rationale": "Optional project-specific tone input ('if it exists') under the communication owner's domain. Patch-notes also searches docs style instructions and can proceed without this custom file.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/releases/[version]/patch-notes.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/patch-notes/SKILL.md"
+      ],
+      "rationale": "Patch-notes explicitly writes the internal versioned archive copy alongside public docs notes.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/evidence/playtests/playtest-[date]-[tester].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/playtest-report/SKILL.md"
+      ],
+      "rationale": "Playtest-report explicitly distinguishes the Game playtest and Product validation save paths; date/tester/surface derive from the actual run.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/evidence/user-tests/validation-[date]-[surface].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/playtest-report/SKILL.md"
+      ],
+      "rationale": "Playtest-report explicitly distinguishes the Game playtest and Product validation save paths; date/tester/surface derive from the actual run.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/combat-system.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/project-stage-detect/SKILL.md",
+        "skills/reverse-document/SKILL.md"
+      ],
+      "rationale": "These concrete names are explicitly quoted example gap questions contrasting discovered project source with absent project documentation; they are not imports of framework files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/api-service.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/project-stage-detect/SKILL.md",
+        "skills/reverse-document/SKILL.md"
+      ],
+      "rationale": "These concrete names are explicitly quoted example gap questions contrasting discovered project source with absent project documentation; they are not imports of framework files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/change-impact-[date]-[system-slug].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/propagate-design-change/SKILL.md"
+      ],
+      "rationale": "The change-impact report save instruction explicitly declares this dated system report output.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "prototypes/[concept-name]/REPORT.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/prototype/SKILL.md"
+      ],
+      "rationale": "Prototype explicitly offers and later links the named experiment report; concept-name resolves from the selected isolated prototype.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/qa-plan-[sprint-slug]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/qa-plan/SKILL.md",
+        "skills/team-qa/SKILL.md"
+      ],
+      "rationale": "Qa-plan/team-qa explicitly write dated scope/sprint project plans. Generic discovery globs correctly include both owner naming variants; parameter names do not denote different literal files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/qa-plan-[scope]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/qa-plan/SKILL.md",
+        "skills/team-qa/SKILL.md"
+      ],
+      "rationale": "Qa-plan/team-qa explicitly write dated scope/sprint project plans. Generic discovery globs correctly include both owner naming variants; parameter names do not denote different literal files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/session-logs/playtest-[sprint]-[story-slug].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/qa-plan/SKILL.md",
+        "standards/directory-structure.md"
+      ],
+      "rationale": "Qa-plan declares Game/Product tester-note outputs by Story/sprint. Directory standard owns the project session-log namespace; actual retention/exact-evidence checks remain required and do not follow from path presence.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/session-logs/usertest-[sprint]-[story-slug].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/qa-plan/SKILL.md",
+        "standards/directory-structure.md"
+      ],
+      "rationale": "Qa-plan declares Game/Product tester-note outputs by Story/sprint. Directory standard owns the project session-log namespace; actual retention/exact-evidence checks remain required and do not follow from path presence.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/quick-specs/[name]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/quick-design/SKILL.md"
+      ],
+      "rationale": "Quick-design declares the dated new-spec output. The overview and filing placeholders describe the same project naming convention with resolved title/date.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/quick-specs/[kebab-case-title]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/quick-design/SKILL.md"
+      ],
+      "rationale": "Quick-design declares the dated new-spec output. The overview and filing placeholders describe the same project naming convention with resolved title/date.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/regression-suite.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/regression-suite/SKILL.md",
+        "skills/test-flakiness/SKILL.md"
+      ],
+      "rationale": "Regression-suite explicitly writes this project coverage manifest; test-flakiness owns a declared quarantine update. It is a project inventory output, not this framework's Python unittest suite.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/releases/release-checklist-[version].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/release-checklist/SKILL.md"
+      ],
+      "rationale": "Release-checklist explicitly writes this named version readiness report as its output.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/sprint_snapshots/milestone-[name]-closeout-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/retrospective/SKILL.md"
+      ],
+      "rationale": "Retrospective explicitly accepts historical alternative locations and writes a named sprint report plus optional closeout archive. Wildcards and naming aliases select real project records.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/sprint_snapshots/sprint-[id]-closeout-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/retrospective/SKILL.md"
+      ],
+      "rationale": "Retrospective explicitly accepts historical alternative locations and writes a named sprint report plus optional closeout archive. Wildcards and naming aliases select real project records.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/retrospectives/retro-[sprint-slug]-*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/retrospective/SKILL.md"
+      ],
+      "rationale": "Retrospective explicitly accepts historical alternative locations and writes a named sprint report plus optional closeout archive. Wildcards and naming aliases select real project records.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/sprints/sprint-[N]-retrospective.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/retrospective/SKILL.md"
+      ],
+      "rationale": "Retrospective explicitly accepts historical alternative locations and writes a named sprint report plus optional closeout archive. Wildcards and naming aliases select real project records.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/retrospectives/retro-[milestone-name]-*.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/retrospective/SKILL.md"
+      ],
+      "rationale": "Retrospective explicitly accepts historical alternative locations and writes a named sprint report plus optional closeout archive. Wildcards and naming aliases select real project records.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "src/cli/commands/deploy.ts",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/reverse-document/SKILL.md"
+      ],
+      "rationale": "Reverse-document labels this concrete TypeScript CLI path an illustrative source-input example, not an imported framework command.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/architecture/[decision-name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/reverse-document/SKILL.md"
+      ],
+      "rationale": "Reverse-document explicitly lists these alternative per-mode output paths alongside its actual templates; names are execution parameters, not literal static dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "prototypes/[name]/CONCEPT.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/reverse-document/SKILL.md"
+      ],
+      "rationale": "Reverse-document explicitly lists these alternative per-mode output paths alongside its actual templates; names are execution parameters, not literal static dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/concepts/[name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/reverse-document/SKILL.md"
+      ],
+      "rationale": "Reverse-document explicitly lists these alternative per-mode output paths alongside its actual templates; names are execution parameters, not literal static dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/cross-review-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/review-all-gdds/SKILL.md"
+      ],
+      "rationale": "The dated cross-CDDs review report is a declared optional output. The wildcard searches historical reports written by that owner.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/[feature].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "design/INSTRUCTIONS.md",
+        "skills/design-system/SKILL.md"
+      ],
+      "rationale": "Project module names and CDD filenames come from the module index or source document. Design-system declares the new-file target; other callers read exact project CDDs or glob them. DocKind rules distinguish concept/index/review records from module CDDs.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/sprints/sprint-03.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/scope-check/SKILL.md",
+        "skills/sprint-plan/SKILL.md"
+      ],
+      "rationale": "Sprint-plan explicitly writes the named sprint plan and YAML projection. Scope-check labels sprint-03.md an e.g. or similar project input; it is not a required third framework sprint.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/milestones/[name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "agents/producer.md",
+        "skills/scope-check/SKILL.md"
+      ],
+      "rationale": "Scope-check reads the user's actual selected milestone planning input. [name] is an external/project producer-owned milestone, not a specific framework dependency.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/scope/scope-check-[target]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/scope-check/SKILL.md"
+      ],
+      "rationale": "Scope-check explicitly offers the dated new assessment report and uses the same path for its optional locator.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/security/security-audit-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/security-audit/SKILL.md"
+      ],
+      "rationale": "Security-audit explicitly writes the dated project audit; day-one-patch's wildcard reads those project outputs.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "docs/engine-reference/<engine>/VERSION.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "docs/engine-reference/README.md",
+        "skills/setup-engine/SKILL.md"
+      ],
+      "rationale": "Engine/domain variables are resolved from configured Game scope. Setup-engine declares the same VERSION/reference-set shape; actual godot/unity/unreal retained reference filenames corroborate suffix spelling. Modules may be generated only for relevant subsystems.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/skill_testing/improvements/skill-improve-[name]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/skill-improve/SKILL.md"
+      ],
+      "rationale": "Skill-improve explicitly names the optional dated improvement result output, separately from its canonical skill input.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/skill_testing/results/static/skill-test-static-[name|all]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/skill-test/SKILL.md"
+      ],
+      "rationale": "Each skill-test mode explicitly offers the corresponding new result path under initialized project memory or an assigned-report fallback. [name|all] describes an argument choice, not a filesystem literal.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/skill_testing/results/spec/skill-test-spec-[name]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/skill-test/SKILL.md"
+      ],
+      "rationale": "Each skill-test mode explicitly offers the corresponding new result path under initialized project memory or an assigned-report fallback. [name|all] describes an argument choice, not a filesystem literal.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/skill_testing/results/category/skill-test-category-[name]-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/skill-test/SKILL.md"
+      ],
+      "rationale": "Each skill-test mode explicitly offers the corresponding new result path under initialized project memory or an assigned-report fallback. [name|all] describes an argument choice, not a filesystem literal.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/skill_testing/results/audit/skill-test-audit-[YYYY-MM-DD].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/skill-test/SKILL.md"
+      ],
+      "rationale": "Each skill-test mode explicitly offers the corresponding new result path under initialized project memory or an assigned-report fallback. [name|all] describes an argument choice, not a filesystem literal.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/smoke-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/smoke-check/SKILL.md"
+      ],
+      "rationale": "Smoke-check writes dated run reports; callers glob those outputs. smoke-tests.md is explicitly optional legacy project check-list input, with tests/smoke and QA-plan scope as alternatives; it is not claimed to be a shipped framework test.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/smoke-tests.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/smoke-check/SKILL.md"
+      ],
+      "rationale": "Smoke-check writes dated run reports; callers glob those outputs. smoke-tests.md is explicitly optional legacy project check-list input, with tests/smoke and QA-plan scope as alternatives; it is not claimed to be a shipped framework test.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/epics/combat/story-001.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/create-stories/SKILL.md",
+        "skills/smoke-check/SKILL.md"
+      ],
+      "rationale": "Smoke-check explicitly labels this concrete path as an e.g. for extracting the system slug; it is an illustrative project Story, not a required framework Story.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/evidence/manual/[slug]-screenshots.md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/create-stories/SKILL.md",
+        "skills/dev-story/SKILL.md",
+        "skills/smoke-check/SKILL.md",
+        "templates/test-evidence.md"
+      ],
+      "rationale": "Owning Story/QA workflows declare human or automated project evidence destinations by Story slug and type. These are anticipated evidence records, not shipped implementation/evidence assertions in this framework.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/soak-test-[date]-[duration].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/soak-test/SKILL.md"
+      ],
+      "rationale": "Soak-test declares its dated duration-specific new protocol/report output; this framework does not pre-run target-project soak sessions.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/sprints/sprint-[N].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/scope-check/SKILL.md",
+        "skills/sprint-plan/SKILL.md"
+      ],
+      "rationale": "Sprint-plan explicitly writes the named sprint plan and YAML projection. Scope-check labels sprint-03.md an e.g. or similar project input; it is not a required third framework sprint.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/cdd/audio-[feature].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/team-audio/SKILL.md"
+      ],
+      "rationale": "Team-audio explicitly compiles Game audio or Product feedback documents under these separate paths; feature resolves from the user's task.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/feedback-signals-[feature].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/team-audio/SKILL.md"
+      ],
+      "rationale": "Team-audio explicitly compiles Game audio or Product feedback documents under these separate paths; feature resolves from the user's task.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/levels/[area-name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/team-level/SKILL.md"
+      ],
+      "rationale": "Team-level writes named project level documents and checks actual adjacent-area dependencies; asset-spec reads that project target. A missing real adjacent area remains a reported project gap, not a framework typo.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/levels/[level-name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/team-level/SKILL.md"
+      ],
+      "rationale": "Team-level writes named project level documents and checks actual adjacent-area dependencies; asset-spec reads that project target. A missing real adjacent area remains a reported project gap, not a framework typo.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/live-ops/economy-rules.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "agents/live-ops-designer.md"
+      ],
+      "rationale": "The live-ops agent explicitly owns and documents all three project files. Callers read them conditionally or report an absent ethics policy; absence in this uninitialized framework is not silently certified as a completed project gate.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/live-ops/ethics-policy.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "agents/live-ops-designer.md"
+      ],
+      "rationale": "The live-ops agent explicitly owns and documents all three project files. Callers read them conditionally or report an absent ethics policy; absence in this uninitialized framework is not silently certified as a completed project gate.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/qa-plan-[sprint]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/qa-plan/SKILL.md",
+        "skills/team-qa/SKILL.md"
+      ],
+      "rationale": "Qa-plan/team-qa explicitly write dated scope/sprint project plans. Generic discovery globs correctly include both owner naming variants; parameter names do not denote different literal files.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/qa-signoff-[sprint]-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/team-qa/SKILL.md"
+      ],
+      "rationale": "Team-qa explicitly writes this dated signoff report and binds its evidence/index locator; sprint/date resolve at execution.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "memory_bank/t3_archive/release_evidence/release-[version].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/team-release/SKILL.md"
+      ],
+      "rationale": "Team-release declares the optional project-memory release evidence record; version is the selected release and no archive is expected in this framework checkout.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/[feature-name].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/ux-design/SKILL.md",
+        "skills/ux-design/references/templates.md"
+      ],
+      "rationale": "The UX authoring mode table defines HUD/patterns/API/CLI or a normalized named flow output. Its skeleton writer uses the resolved filename; team/review callers and globs reference those project outputs. The pattern library has an explicit creation route.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/hud.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/ux-design/SKILL.md",
+        "skills/ux-design/references/templates.md"
+      ],
+      "rationale": "The UX authoring mode table defines HUD/patterns/API/CLI or a normalized named flow output. Its skeleton writer uses the resolved filename; team/review callers and globs reference those project outputs. The pattern library has an explicit creation route.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/evidence-review-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/test-evidence-review/SKILL.md"
+      ],
+      "rationale": "Test-evidence-review explicitly offers this dated new report, without implying a write to inputs or optional Memory Bank indexes.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "production/qa/flakiness-report-[date].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/test-flakiness/SKILL.md"
+      ],
+      "rationale": "Test-flakiness explicitly offers this dated optional full report alongside the project regression manifest update.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/conftest.py",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "The canonical helper skill explicitly places shared pytest fixtures in the actual test-root conftest, and ordinary functions in explicitly imported helper modules. Unimplemented fixtures remain Pending; the reusable framework does not need these project outputs to exist.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/game_assertions.gd",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/game_factory.gd",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/scene_runner_helper.gd",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/GameAssertions.cs",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/GameFactory.cs",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/assertions.py",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "The canonical helper skill explicitly places shared pytest fixtures in the actual test-root conftest, and ordinary functions in explicitly imported helper modules. Unimplemented fixtures remain Pending; the reusable framework does not need these project outputs to exist.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/factories.py",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/test-utils.ts",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/factories.ts",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/mod.rs",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/factories.rs",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/helpers.go",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/helpers/factories.go",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-helpers/SKILL.md"
+      ],
+      "rationale": "Test-helpers explicitly supplies and offers the matching language-specific helper scaffold. These code examples describe generated project helper files rather than missing framework helper imports.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": ".github/workflows/tests.yml",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/gdunit4_runner.gd",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/unit/example_movement_test.gd",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/EditMode/ExampleTests.cs",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/unit/test_example.py",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/unit/example.test.ts",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/unit/example_test.rs",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/unit.rs",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/unit/example_test.go",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "tests/smoke/critical-paths.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/test-setup/SKILL.md"
+      ],
+      "rationale": "Explicit target-project scaffold creation instructions; tests.yml is the scaffold destination, not this framework's existing CI workflow. Language-specific tests and smoke seeds are declared outputs, not missing framework dependencies.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/[argument].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/ux-design/SKILL.md",
+        "skills/ux-design/references/templates.md"
+      ],
+      "rationale": "The UX authoring mode table defines HUD/patterns/API/CLI or a normalized named flow output. Its skeleton writer uses the resolved filename; team/review callers and globs reference those project outputs. The pattern library has an explicit creation route.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/cli-interaction.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/ux-design/SKILL.md",
+        "skills/ux-design/references/templates.md"
+      ],
+      "rationale": "The UX authoring mode table defines HUD/patterns/API/CLI or a normalized named flow output. Its skeleton writer uses the resolved filename; team/review callers and globs reference those project outputs. The pattern library has an explicit creation route.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/api-consumer-journey.md",
+      "classification": "normal project/generated path",
+      "owner_paths": [
+        "skills/ux-design/SKILL.md",
+        "skills/ux-design/references/templates.md"
+      ],
+      "rationale": "The UX authoring mode table defines HUD/patterns/API/CLI or a normalized named flow output. Its skeleton writer uses the resolved filename; team/review callers and globs reference those project outputs. The pattern library has an explicit creation route.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    },
+    {
+      "artifact": "design/ux/[filename].md",
+      "classification": "placeholder/glob",
+      "owner_paths": [
+        "skills/ux-design/SKILL.md",
+        "skills/ux-design/references/templates.md"
+      ],
+      "rationale": "The UX authoring mode table defines HUD/patterns/API/CLI or a normalized named flow output. Its skeleton writer uses the resolved filename; team/review callers and globs reference those project outputs. The pattern library has an explicit creation route.",
+      "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
+    }
+  ],
+  "audit_kind": "author warning classification; not independent review or Agent runtime qualification"
+}
