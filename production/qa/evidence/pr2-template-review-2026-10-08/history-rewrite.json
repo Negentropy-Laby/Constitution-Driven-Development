@@ -1,5 +1,5 @@
 {
-  "source_commit": "037615b9c3f1d38ab4abc570980a1558db067d8c",
+  "source_commit": "fb0511c02128841eb11686d19322672452861513",
   "base_commit": "40c2f7629fb8e04fdc2ea4ec34afc13d77096348",
   "old_head": "d4908af40d5e59f6b8a124fef88a0ee082f8f45b",
   "old_files": 165,
@@ -7,7 +7,7 @@
   "compressed_blobs": 69,
   "compressed_logical_bytes": 688294639,
   "old_compressed_blobs_reachable_from_source": 0,
-  "source_parent": "40c2f7629fb8e04fdc2ea4ec34afc13d77096348",
+  "source_parent": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
   "rollback": "local-only refs/local-backups/pr2-before-template-review-20261008",
   "scope": "new PR history excludes obsolete archive; this does not assert remote object deletion or reclaimed storage",
   "old_archive_blob_oids": [
@@ -80,5 +80,8 @@
     "5dfeddaa6d17f976e94eb4ec67764d19d473fb0e",
     "e630b75df140b1359bc34488b1252da56b179fe5",
     "4ca8a942c6ece5289cb2fce7960f2c121e3bdf3d"
-  ]
+  ],
+  "predecessor_head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+  "original_rewrite_source": "037615b9c3f1d38ab4abc570980a1558db067d8c",
+  "current_delivery": "append S2/E2; preserved S/E; no new rewrite or archive upload"
 }

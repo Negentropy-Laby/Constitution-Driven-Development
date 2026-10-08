@@ -1,0 +1,6 @@
+{
+  "format": "lossless UTF-8 text in JSON; original CRLF and trailing spaces retained",
+  "raw_sha256": "eefeff1111c464f945de6e9b905ef16ff23feac24718f1eaef1f44d68e6731d9",
+  "raw_bytes": 267,
+  "raw_text": "{\"result\": \"PASS\", \"source_commit\": \"fb0511c02128841eb11686d19322672452861513\", \"head\": \"fb0511c02128841eb11686d19322672452861513\", \"source_files\": 878, \"warnings\": 465, \"scope\": \"byte/reference/source-binding integrity only; no independent or Agent qualification\"}\r\n"
+}

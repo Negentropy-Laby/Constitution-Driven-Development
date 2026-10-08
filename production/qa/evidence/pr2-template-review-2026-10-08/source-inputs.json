@@ -1,8 +1,8 @@
 {
-  "source_commit": "037615b9c3f1d38ab4abc570980a1558db067d8c",
+  "source_commit": "fb0511c02128841eb11686d19322672452861513",
   "base_commit": "40c2f7629fb8e04fdc2ea4ec34afc13d77096348",
-  "review_input": "d4908af40d5e59f6b8a124fef88a0ee082f8f45b",
-  "collected_at": "2026-10-08T21:39:11.298651+08:00",
+  "review_input": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+  "collected_at": "2026-10-08T23:51:50.090698+08:00",
   "timezone": "Asia/Shanghai (+08:00)",
   "scope": "all tracked non-evidence files at source commit; original bytes recoverable from this commit",
   "retention": "preserved in Git source commit; no duplicate source archive",
@@ -3194,8 +3194,8 @@
     },
     {
       "path": "skill_testing/specs/skills/pipeline/create-epics.md",
-      "sha256": "443247c367453854825595c2e80e9a096751a4375c6bf8ee15b372638416d32c",
-      "bytes": 10513
+      "sha256": "d688e1c7cba5b208670f00668f037e792ab27da5b57b528169729da1e1a1ccf9",
+      "bytes": 10515
     },
     {
       "path": "skill_testing/specs/skills/pipeline/create-stories.md",
@@ -4363,6 +4363,11 @@
       "bytes": 30062
     },
     {
+      "path": "tests/evidence_verifier_test.py",
+      "sha256": "544dd5f73a0e476616a8c00dac5c8b9aa564ab21aef7dd5590757366d2893fbb",
+      "bytes": 6391
+    },
+    {
       "path": "tests/runtime_smoke_test.py",
       "sha256": "fc7b4972c799d13c9d6e0e06e27fd415877317a217271bbc11cb49da809faf3b",
       "bytes": 2706
@@ -4392,5 +4397,7 @@
       "sha256": "d28d599f4535b715673a4f72e199204a66a4b5ed6fd60a9adcbe8c33d2511d42",
       "bytes": 22334
     }
-  ]
+  ],
+  "predecessor_head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+  "revision": "pr2-encoding-follow-up"
 }

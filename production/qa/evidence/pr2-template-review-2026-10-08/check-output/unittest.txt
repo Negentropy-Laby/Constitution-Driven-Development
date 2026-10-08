@@ -41,6 +41,8 @@ test_repeated_skills_segment_keeps_full_canonical_path (authoring_paths_test.Val
 test_root_generated_instruction_warned (authoring_paths_test.ValidateGeneratedAdapterChangeHookTests.test_root_generated_instruction_warned) ... ok
 test_unrelated_path_is_silent (authoring_paths_test.ValidateGeneratedAdapterChangeHookTests.test_unrelated_path_is_silent) ... ok
 test_unrelated_skills_path_is_silent (authoring_paths_test.ValidateGeneratedAdapterChangeHookTests.test_unrelated_skills_path_is_silent) ... ok
+test_changed_source_bytes_are_rejected (evidence_verifier_test.EvidenceVerifierTests.test_changed_source_bytes_are_rejected) ... ok
+test_utf8_records_pass_with_cp936_default (evidence_verifier_test.EvidenceVerifierTests.test_utf8_records_pass_with_cp936_default) ... ok
 test_runtime_cli_help_missing_option_is_rejected (runtime_smoke_test.RuntimeCliContractTests.test_runtime_cli_help_missing_option_is_rejected) ... ok
 test_runtime_cli_help_with_required_options_is_accepted (runtime_smoke_test.RuntimeCliContractTests.test_runtime_cli_help_with_required_options_is_accepted) ... ok
 test_runtime_fixture_each_runtime_has_discovery_contract (runtime_smoke_test.RuntimeFixtureTests.test_runtime_fixture_each_runtime_has_discovery_contract) ... ok
@@ -176,6 +178,6 @@ test_runtime_contract_workflows_are_complete (workflow_consistency_test.RuntimeC
 test_doc_command_check_allows_codex_skills_browser (workflow_consistency_test.RuntimeNativeCommandReferenceTest.test_doc_command_check_allows_codex_skills_browser) ... ok
 
 ----------------------------------------------------------------------
-Ran 176 tests in 8.432s
+Ran 178 tests in 11.972s
 
 OK

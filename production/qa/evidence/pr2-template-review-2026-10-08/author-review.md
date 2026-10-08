@@ -1,3 +1,6 @@
+Historical author review below remains bound to source 037615b9c3f1d38ab4abc570980a1558db067d8c.
+The subsequent independent CONCERNS applies to head d82d470ba55b90cc62c73d6d124deeed132e0dd5; final independent resolution remains Pending.
+
 # Author source/spec review
 
 This is the implementing author's instruction review of source S, not an
@@ -37,3 +40,11 @@ Fresh independent PR review remains Pending; owner: PR maintainer and independen
 reviewer. Next action: inspect the exact S/E source and applicable fixture assertions.
 Original blocked/unexecuted platform work requires separately arranged runtime,
 login and observers and remains outside this template-closeout round.
+
+## Encoding and verdict follow-up
+
+Source S2: `fb0511c02128841eb11686d19322672452861513`. Only two UTF-8 reader arguments, the PR-EPIC REALISTIC
+expectation and two isolated regression tests change. The new tests run the actual
+verifier with mocked Git responses/default codec and real file/CSV/hash logic.
+Both original decode failures are retained; the byte-tamper counterexample is
+still rejected. This is author validation, not a new independent approval.

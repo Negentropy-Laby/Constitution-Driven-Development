@@ -1,6 +1,6 @@
 {
-  "source_commit": "037615b9c3f1d38ab4abc570980a1558db067d8c",
-  "source_inputs_sha256": "436f8677220a11cf71896c3bc1760fd167303907d531d157d0f7e236ca97afe0",
+  "source_commit": "fb0511c02128841eb11686d19322672452861513",
+  "source_inputs_sha256": "d0b1a13110e51c7fc91ed467963ae09c374bd140483b21cebc6c57ed511dea2a",
   "checker_sha256": "6d600e99d8b4f593c8240087c29b95cf4528176d09ea5a74487da2930592859f",
   "scan": "same 84 canonical package Markdown files, same unmodified checker",
   "comparison_key": [
@@ -1905,5 +1905,13 @@
       "owner_identity": "current source-inputs.json; prior line numbers are not reused as current anchors"
     }
   ],
-  "audit_kind": "author warning classification; not independent review or Agent runtime qualification"
+  "audit_kind": "author warning classification; not independent review or Agent runtime qualification",
+  "predecessor_head": "d82d470ba55b90cc62c73d6d124deeed132e0dd5",
+  "encoding_input_comparison": {
+    "inherited": 465,
+    "added": 0,
+    "removed": 0,
+    "source_context_and_owner_bytes_unchanged": true
+  },
+  "classification_reuse": "465 exact diagnostics, source lines/digests and owner bytes rechecked; old-head independent classification reported by user; this refresh is author verification"
 }
