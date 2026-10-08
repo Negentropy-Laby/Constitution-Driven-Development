@@ -103,7 +103,7 @@ In `solo` mode: PR-EPIC is skipped. Output notes: "PR-EPIC skipped — solo mode
 **Full mode expected behavior:**
 1. Skill drafts both epics
 2. PR-EPIC gate spawns and reviews the epic drafts
-3. If PR-EPIC returns APPROVE: report actual review outcome; covered writes proceed,
+3. If PR-EPIC returns REALISTIC: report actual review outcome; covered writes proceed,
    uncovered effects get concrete "May I write" approval
 4. Epic files are written after approval
 

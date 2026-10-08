@@ -47,7 +47,7 @@ def main():
         for path in row["references"]:
             assert (ROOT / path).is_file() or (HERE / path).is_file(), path
 
-    with (HERE / "lint-classification.tsv").open(newline="") as handle:
+    with (HERE / "lint-classification.tsv").open(encoding="utf-8", newline="") as handle:
         warnings = list(csv.DictReader(handle, delimiter="\t"))
     lint = json.loads((HERE / "lint-summary.json").read_bytes())
     assert len(warnings) == lint["scans"]["candidate"]["warnings"]
@@ -55,7 +55,7 @@ def main():
         bound = files[row["path"]]
         assert row["source_sha256"] == bound["sha256"], row["path"]
         assert int(row["source_bytes"]) == bound["bytes"]
-        lines = (ROOT / row["path"]).read_text().splitlines()
+        lines = (ROOT / row["path"]).read_text(encoding="utf-8").splitlines()
         assert lines[int(row["line"]) - 1] == row["source_line"], row["path"]
         for path in row["owner_paths"].split(";"):
             assert path in files and (ROOT / path).is_file(), path
