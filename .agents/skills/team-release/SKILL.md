@@ -194,7 +194,10 @@ Verdict: **BLOCKED** — release halted; go/no-go was NO or a hard blocker is un
 
 - Monitor post-release dashboards for 48 hours.
 - Run `/retrospective` if significant issues occurred during the release.
-- Update `production/stage.txt` to `Live` after successful deployment.
+- Keep `production/stage.txt` within the legitimate stages in `workflow/workflow-catalog.yaml`;
+  deployment success alone does not authorize a stage transition. Record actual
+  deployed/live status in the authorized release report or release-state fields.
+  Any stage update requires its own scoped transition authority and valid gate evidence.
 - When `memory_bank/` exists and evidence recording is approved, update
   `memory_bank/t0_core/release_state.md` and write or append
   `memory_bank/t3_archive/release_evidence/release-[version].md`.

@@ -709,11 +709,17 @@ Before delegating a section, read the matching domain and module category in [sp
 
 If the session is interrupted (compaction, crash, new session):
 
-1. Read `production/session-state/active.md` — it records the current system and
-   which sections are complete
-2. Read `design/cdd/[system-name].md` — sections with real content are done;
-   sections with placeholders or unresolved required content still need work
-3. Resume from the next incomplete section — no need to re-discuss completed ones
+1. If `production/session-state/active.md` exists and belongs to this task, Read
+   it for the recorded system and progress. Otherwise recover the actual module,
+   CDD path and scoped approvals from the existing conversation and saved project
+   decisions. Clarify an ambiguous target before dependent work; recovery does not
+   authorize creating or repairing session state.
+2. Read the actual module CDD, such as `design/cdd/[system-name].md` after binding
+   the known module name. Retain substantive sections; placeholders and unresolved
+   required content still need work. Content presence alone does not establish
+   approval or completion; keep unresolved approvals pending.
+3. Resume within the existing scope from the next incomplete section, preserving
+   approved content and separate review/status authority.
 
 This is why incremental writing matters: every approved section survives any
 disruption.

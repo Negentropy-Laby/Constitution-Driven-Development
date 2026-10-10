@@ -461,7 +461,11 @@ If [B]: ask which section to revise using `AskUserQuestion`. **游戏专用** op
 
 After revising, show the updated section as a diff or clear before/after, then use `AskUserQuestion` — "Ready to write the updated concept document?"
 Options: `[A] Yes — write it` / `[B] Revise another section`
-Repeat until the user selects [A].
+Repeat until the user selects [A]. With scoped write authority, write only the
+chosen domain's resolved concept path and Read it back. Report a failed write or
+unreadable result as Incomplete and retain the draft in conversation. Only a
+successfully saved, verified concept supports the saved-file summary and COMPLETE
+verdict below; concept content approval does not grant separate legal acceptance.
 
 **Scope consistency rule**: The "Estimated Scope" field must match the full-vision
 timeline from Scope Tiers — not just "Large (9+ months)". Write as "Large (X–Y months,
@@ -522,11 +526,15 @@ Verdict: **COMPLETE** — concept created and handed off for next steps.
 ## Context Window Awareness
 
 This is a multi-phase skill. If context reaches or exceeds 70% during any phase,
-append this notice:
+report the actual persistence state:
 
-> **Context is approaching the limit (≥70%).** The concept document is saved
-> to disk. **游戏专用**: `design/cdd/game-concept.md`. **通用产品**: `design/cdd/product-concept.md`.
-> Open a fresh Claude Code session to continue — progress is not lost.
+- If the approved concept was written and Read back successfully, name its actual
+  saved path: **游戏专用** `design/cdd/game-concept.md` or **通用产品**
+  `design/cdd/product-concept.md`, as applicable. A fresh session can resume from it.
+- If it has not been saved, or the write/read-back failed, say that the draft and
+  unresolved decisions remain in conversation. Provide a compact recovery summary
+  to carry into the next session; do not claim a saved file or automatically write
+  one because context is low. Continue only within the existing authority.
 
 ---
 
