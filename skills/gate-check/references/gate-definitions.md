@@ -14,6 +14,15 @@ stay labeled and must be allowed by selected workflow. Risks preserve test truth
 
 > Loaded on demand from `gate-check/SKILL.md`. Follow these requirements as part of the parent skill; do not treat this file as a separately invocable skill.
 
+Apply the architecture, implementation, verification and release checks below
+only to their matching Game or Product transition. Resolve the actual domain and
+transition before loading their required evidence; missing files do not determine
+which gate applies. At Product Pre-Implementation -> Implementation, read
+`design/ux/surface-profile.md` when a surface requirement is ambiguous or a UX
+artifact is marked N/A, and verify its actual decision/evidence. Unknown transition
+or surface stays Pending. Catalog requirements and separate progression/write
+authority remain controlling.
+
 ## 2. Phase Gate Definitions
 
 For every gate below, normal-progression required artifacts are generated from

@@ -138,7 +138,15 @@ Use the user's response as the title, then proceed to Step 0.
 
 ## 0. Load Technology Context (ALWAYS FIRST)
 
-Before doing anything else, establish the technology environment.
+Before doing anything else, establish the technology environment. Read the actual
+pinned VERSION original first and bind the engine/stack and relevant domain.
+A valid LOW-risk baseline from `/setup-engine` requires VERSION, without requiring
+an otherwise optional full reference library. Read the additional references below
+when the actual risk is MEDIUM/HIGH or a governing requirement, migration or concrete
+compatibility question requires them; an existing applicable reference remains useful.
+Do not infer LOW from absent reference files. Unknown risk, an unreadable VERSION,
+or a missing required reference leaves the affected technology check Incomplete.
+LOW does not waive a genuine required compatibility or safety check.
 
 **[游戏专用]** Engine context:
 
@@ -154,10 +162,12 @@ Before doing anything else, establish the technology environment.
 3. Read the corresponding module reference if it exists:
    `docs/engine-reference/[engine]/modules/[domain].md`
 
-4. Read `docs/engine-reference/[engine]/breaking-changes.md` — flag any
+4. When required by the established risk/compatibility scope, Read
+   `docs/engine-reference/[engine]/breaking-changes.md` — flag any
    changes in the relevant domain that post-date the LLM's training cutoff.
 
-5. Read `docs/engine-reference/[engine]/deprecated-apis.md` — flag any APIs
+5. When required by the established risk/compatibility scope, Read
+   `docs/engine-reference/[engine]/deprecated-apis.md` — flag any APIs
    in the relevant domain that should not be used.
 
 6. **Display a knowledge gap warning** before proceeding if the domain carries
@@ -194,10 +204,12 @@ Before doing anything else, establish the technology environment.
 3. Read the corresponding module reference if it exists:
    `docs/reference/[stack]/modules/[domain].md`
 
-4. Read `docs/reference/[stack]/breaking-changes.md` — flag any
+4. When required by the established risk/compatibility scope, Read
+   `docs/reference/[stack]/breaking-changes.md` — flag any
    changes in the relevant domain that post-date the LLM's training cutoff.
 
-5. Read `docs/reference/[stack]/deprecated-apis.md` — flag any APIs
+5. When required by the established risk/compatibility scope, Read
+   `docs/reference/[stack]/deprecated-apis.md` — flag any APIs
    in the relevant domain that should not be used.
 
 6. **Display a knowledge gap warning** before proceeding if the domain carries

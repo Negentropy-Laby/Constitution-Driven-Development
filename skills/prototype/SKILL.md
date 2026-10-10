@@ -208,11 +208,20 @@ Ask: "May I write this report to `prototypes/[concept-name]/REPORT.md`?"
 
 If yes, write the file.
 
-If `memory_bank/` exists after the user approves writing the report, update
-`memory_bank/t3_archive/reviews/review-index.md` with the prototype decision.
+If `memory_bank/` exists and the separately named index effect is authorized,
+update `memory_bank/t3_archive/reviews/review-index.md` with the prototype decision
+after saving the approved report.
 Use `Source Artifact` as the dedupe key; if the same source artifact already
 exists, update Date, Verdict, and Follow-up Owner instead of appending a
 duplicate row.
+
+Update the Memory Bank index only after the report is saved and only with authority
+for that named index effect. Initialization alone, read-only scope and report-only
+scope do not authorize it. If initialization or the intended effect is unresolved,
+retain Unknown and leave the index unchanged. Before an authorized update, read
+the saved immutable report revision and its exact input/evidence identities;
+a proposed report or an INFO result is insufficient. This step does not initialize
+Memory Bank.
 
 Review index row:
 

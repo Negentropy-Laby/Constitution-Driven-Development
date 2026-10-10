@@ -19,9 +19,9 @@ Brief description of what this PR does.
 
 ## Checklist
 
-- [ ] I've tested this in a Claude Code session
+- [ ] Actual verification and any unrun Claude/Codex session trials are identified
 - [ ] New agents include the Collaboration Protocol section
-- [ ] New skills use the subdirectory format (`skills/<name>/SKILL.md`) (then run `python scripts/sync_adapters.py --write --class skills`)
+- [ ] New skills use `skills/<name>/SKILL.md` in the Source; matching platform outputs are reviewed from an authorized Source stage
 - [ ] Reference docs are updated (agent-roster, skills-reference, hooks-reference, rules-reference)
 - [ ] Hooks use `grep -E` (POSIX) and fail gracefully without jq/python
 - [ ] No hardcoded paths or platform-specific assumptions

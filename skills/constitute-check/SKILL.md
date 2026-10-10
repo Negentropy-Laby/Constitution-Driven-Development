@@ -126,38 +126,71 @@ Read T3 indexes when present:
 
 ## Step 3: Adapter Freshness Check
 
-When `cdd-manifest.toml` and `scripts/sync_adapters.py` exist, run this exact
-read-only command from the repository root:
+First read the actual project role, sole Source binding, installed paths,
+required neutral inputs and customizations in `framework_contract.md` or the
+project's established portable import configuration. A local manifest or copied
+script alone does not establish that this is the CDD Source library.
+
+For a consumer, directly read the selected installed entries and their actual
+required references. Report missing/unread originals with their affected scope.
+These observations work offline and need no local maintenance toolkit. They do
+not establish live Source freshness. A consumer freshness comparison must bind
+its exact installed allowlist against the actual sole Source revision/expected
+outputs and approved project differences; a Source-only check is insufficient.
+
+If the Source is unavailable, the binding is unresolved, or no valid comparison
+covers the consumer's installed files, report `Live adapter freshness: NOT AVAILABLE`
+with the exact limitation. Preserve any recorded state and continue
+independent constitution/installed-input checks. Do not copy general source
+trees/checkers into the consumer or label an uninitialized record fresh.
+
+Only in a verified CDD Source-library checkout with a separately provided
+checker available and the diagnostic within scope, run this exact read-only
+command from that Source root:
 
 ```bash
 python scripts/sync_adapters.py --check --state-json
 ```
 
-Parse stdout as one JSON object even when the command exits non-zero for a
-stale adapter set. Require `schema_version: 1`, a `status` of `fresh` or
+When no applicable live check ran (including a Source checkout without its
+optional checker), keep NOT AVAILABLE and continue at Step 4 without entering
+the JSON/record branch. This does not hide a failed check that actually ran.
+
+For an applicable check that ran, parse stdout as one JSON object even when the
+command exits non-zero for a stale adapter set. Require `schema_version: 1`, a `status` of `fresh` or
 `stale`, 64-character lowercase hexadecimal `manifest_digest` and
 `source_digest` values, ISO-8601 UTC `checked_at`, `checked_commit`, `counts`,
 and `check_command`. If stdout is absent or invalid, report the adapter check as
 `INVALID`, include stderr, and do not offer a state write.
 
-Compare the live result with `memory_bank/t2_execution/adapter_state.yaml`:
+Bind a valid live result to the actual checked owner, Source revision and
+complete compared paths. For a consumer, retain the installed allowlist and
+customization comparison evidence in the report; do not use the Source-library
+result alone as that evidence. Without valid scope/identity/comparison evidence,
+report NOT AVAILABLE and offer no state write.
+
+Compare an applicable valid live result with
+`memory_bank/t2_execution/adapter_state.yaml`:
 
 | Recorded state | Meaning |
 |----------------|---------|
 | `MISSING` | The memory bank exists but the adapter-state template was not initialized |
 | `UNINITIALIZED` | The deterministic template exists and has no recorded evidence |
-| `CURRENT` | Recorded status and both digests match the live result |
+| `CURRENT` | Applicable checked owner/scope, recorded status and both digests match the live result |
 | `OUTDATED` | A prior record exists but status or either digest differs |
+| `UNVERIFIED` | A prior record exists but no applicable live comparison is available |
 
-Report both values separately: `Live adapter freshness: FRESH/STALE/INVALID`
-and `Recorded adapter state: CURRENT/OUTDATED/UNINITIALIZED/MISSING`. Include
+Report both values separately: `Live adapter freshness: FRESH/STALE/INVALID/NOT AVAILABLE`
+and `Recorded adapter state: CURRENT/OUTDATED/UNINITIALIZED/MISSING/UNVERIFIED`. Include
 all non-zero counts and drift paths. A clean `checked_commit` is contextual;
 the two digests are the authoritative identity of the checked inputs.
 
 ### Optional approved state record
 
-For a valid live result, prepare the complete YAML draft with this exact field
-order and the live values:
+Only for a valid live result covering the actual checked owner/inputs, prepare
+the complete YAML draft with this field order and actual live values. Use its
+actual portable check description; do not store host-specific paths in a target
+project. No unavailable or Source-only consumer check is recordable:
 
 ```yaml
 schema_version: 1
@@ -167,11 +200,12 @@ manifest_digest: "[live manifest_digest]"
 source_digest: "[live source_digest]"
 checked_commit: "[live checked_commit]"
 checked_at: "[live checked_at]"
-check_command: "python scripts/sync_adapters.py --check"
+check_command: "[actual live portable check command/description]"
 ```
 
 Use `stale` instead of `fresh` when the live check reports drift. Show the
-entire draft, then ask exactly:
+entire draft. Reuse existing matching authority for this exact record; otherwise
+ask exactly:
 
 `May I write this adapter freshness record to memory_bank/t2_execution/adapter_state.yaml?`
 
@@ -226,7 +260,8 @@ Identify what's missing or stale:
 | **Missing T2 current roadmap** | Project has roadmap evidence but `memory_bank/t2_execution/current_roadmap.md` is missing |
 | **Missing framework contract** | `memory_bank/t2_execution/framework_contract.md` does not exist |
 | **Missing adapter state** | `memory_bank/t2_execution/adapter_state.yaml` does not exist |
-| **Uninitialized adapter state** | State exists with `status: uninitialized`; run the live check before recording |
+| **Uninitialized adapter state** | State exists with `status: uninitialized`; only valid applicable live evidence can initialize the record |
+| **Unavailable live comparison** | Exact Source/binding/check evidence unavailable; preserve recorded state and continue independent checks |
 | **Stale adapters** | Live state JSON reports `status: stale` or non-zero stale/missing/extra/invalid counts |
 | **Outdated adapter record** | Recorded status or digests differ from the live result |
 | **Missing T3 archive README** | `memory_bank/t3_archive/README.md` does not exist |
@@ -269,7 +304,8 @@ Keep it concise. Use this format:
 - Current roadmap: [present/missing/not started]
 - Framework contract: [present/missing]
 - Live adapter freshness: [fresh/stale/invalid/not available]
-- Recorded adapter state: [current/outdated/uninitialized/missing]
+- Installed inputs: [observed complete / affected missing or unread paths]
+- Recorded adapter state: [current/outdated/uninitialized/missing/unverified]
 
 ### T3 Archive Indexes
 - Archive README: [present/missing]
@@ -314,7 +350,8 @@ the specific evidence found for each alignment check.
 - **No constitution**: "No constitution detected. Run `/constitute` to establish your project's governing principles." Stop.
 - **Old T0/T1-only memory bank**: "Your constitution exists, but the T2/T3 governance control plane is not initialized. Run `/constitute` to refresh the memory-bank skeleton." Continue with `NEEDS ATTENTION`.
 - **Missing adapter templates in an older memory bank**: Recommend `/constitute` to initialize both framework files; do not create the control plane from this audit.
-- **Stale live check**: Report every drift class and offer to record `status: stale`; regeneration remains a separate, explicitly requested action.
+- **Unavailable Source/comparison**: Report NOT AVAILABLE and any historical recorded state separately; preserve it. Complete installed-input and constitution observations offline without adding Source trees or tools.
+- **Stale live check**: Report every drift class for the actual compared owner/paths and offer to record `status: stale`; regeneration remains a separate, explicitly requested action.
 - **Invalid state JSON**: Report `INVALID`, preserve any prior state file, and do not write partial or fabricated values.
 - **Constitution exists but is very old**: Note the date — "Your constitution was established [N months] ago. Much may have changed. Consider running `/constitute` to refresh it."
 - **Path D project (existing code, new constitution)**: Flag likely drift — "Your constitution was recently established. Some existing code may not yet align. This is normal for brownfield adoption — prioritize alignment iteratively."

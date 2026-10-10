@@ -83,3 +83,51 @@ has no path-glob equivalent, so consult them manually there.)
 ## Context Management
 
 @standards/context-management.md
+
+## Source Repository Submission Scope
+
+This section applies only to the actual `Constitution-Driven-Development` Source
+repository as the shared development-template library. Importing these instructions
+into a consuming Game or Product project does not make it a template-source
+repository or apply this Source-only submission restriction.
+
+本项目提交的内容仅限开发模板。
+
+开发模板与维护工具必须严格分离，哪怕是维护用注释也不得写入开发模板文件。
+
+Necessary instructions explaining template use may accompany the development
+templates. Maintenance tools, checkers, test fixtures and maintenance-process
+artifacts must remain in separate local files and must not be submitted. Do not
+write unrelated comments, maintenance metadata or maintenance-process records into
+development-template files, or substitute other hidden comments for them. Use
+precise exclusions in the shared repository `.gitignore`, not `.git/info/exclude`;
+do not use blanket exclusions for business, template or platform trees. For affected
+already-tracked maintenance files, remove only the explicitly approved Git tracking
+entries while preserving complete local working copies; ignore rules alone do not
+remove tracked entries. Shared template usage must not depend on these local-only
+maintenance files. This restriction is limited to the actual Source repository;
+consumer projects retain their own submission rules and existing approval and safety
+requirements. It grants no commit or deletion authority.
+
+## CDD Target Project Separation
+
+A CDD target project retains its business code, project design and production
+documents, business control manifests and genuine QA evidence, preserving historical
+records. Platform-adapter files and portable project-specific configuration needed
+for normal use may be delivered under the project's rules. General CDD agent and
+skill sources remain in the designated external Source repository; do not keep root
+source copies as a second general CDD source. Normal use of templates and installed
+platform adapters must not depend on a local CDD maintenance toolkit.
+
+Tools, checkers, maintenance test fixtures, annotations, metadata, host-path records,
+maintenance locks, caches and process materials used only for local CDD template
+maintenance must remain in separate local files, with precise shared `.gitignore`
+exclusions, and must not be submitted with the target project. Do not embed this
+maintenance material in development-template files or replace it with hidden
+comments. This boundary does not classify business build or runtime files, business
+tests, business control manifests or genuine project QA records as local-only CDD
+maintenance. For an import or update, verify the actual external Source and
+independently review the exact delivery allowlist, preserving project customizations
+and recoverable before bytes. Existing collaboration, approval, safety and commit
+requirements remain controlling; this section grants no new execution authority or
+permission to remove files.

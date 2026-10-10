@@ -236,8 +236,16 @@ Present the report in conversation, then ask:
 
 Write only after approval.
 
-If `memory_bank/` exists after approval, update
-`memory_bank/t3_archive/qa_evidence_index.md`.
+If `memory_bank/` exists and the separately named index effect is authorized,
+update `memory_bank/t3_archive/qa_evidence_index.md` after saving the approved report.
+
+Update the Memory Bank index only after the report is saved and only with authority
+for that named index effect. Initialization alone, read-only scope and report-only
+scope do not authorize it. If initialization or the intended effect is unresolved,
+retain Unknown and leave the index unchanged. Before an authorized update, read
+the saved immutable report revision and its exact input/evidence identities;
+a proposed report or an INFO result is insufficient. This step does not initialize
+Memory Bank.
 
 QA evidence index row:
 

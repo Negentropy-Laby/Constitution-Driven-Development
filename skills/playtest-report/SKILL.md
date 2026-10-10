@@ -224,6 +224,11 @@ Route Product findings:
 - `lean` → skip (not a PHASE-GATE). Note: "CD-PLAYTEST skipped — Lean mode." Proceed to Phase 4 (save the report).
 - `full` → spawn as normal.
 
+Enter this director handoff only in resolved full review mode. Lean and solo skip
+it as stated above; Unknown mode or phase scope stays unresolved. For an actual
+Game handoff, read the required Game concept. A skipped review or report filename
+does not establish validation.
+
 After categorising findings, spawn `creative-director` via Task using gate **CD-PLAYTEST** (`standards/director-gates.md`).
 
 Pass: the structured report content, game pillars and core fantasy (from `design/cdd/game-concept.md`), the specific hypothesis being tested. For Product, pass product principles, User Promise, JTBD, target workflow, and the structured Product Validation Report.
@@ -240,8 +245,10 @@ For Product, ask: "May I write this validation report to `production/qa/evidence
 
 If yes, write the file, creating the directory if needed.
 
-When `memory_bank/` exists and the user approves writing the report, also update
-`memory_bank/t3_archive/qa_evidence_index.md`.
+When `memory_bank/` exists, update `memory_bank/t3_archive/qa_evidence_index.md`
+only within separately covered named index-write authority. Approval to save the
+report alone does not authorize that index effect; report-only writes only the
+approved report. Preserve original evidence and historical index revisions.
 
 - Keep the full report in `production/qa/evidence/...`.
 - Add or update one index row for the evidence path.

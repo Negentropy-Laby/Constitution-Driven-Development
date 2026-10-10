@@ -151,6 +151,8 @@ Before running anything, understand the environment:
    optional planning does not invent a strict gate; a plan required by the
    selected workflow remains incomplete. Never fabricate a hand-off plan.
 
+When discovering a plan with the glob above, disclose a truthful empty result and use only the existing independent fallback. Read the actual selected plan completely, wherever located, with its scope owners and exact identity; an empty discovery does not make a workflow-required plan optional. Unresolved branch/scope stays Unknown.
+
 Report findings before proceeding: "Environment: [technology] | Domain: [game/product]. Test directory:
 [found / not found]. CI configured: [yes / no]. QA plan: [path / not found]."
 
@@ -263,10 +265,13 @@ For each story in scope:
 
 1. Extract the system slug from the story's file path
    (e.g., `production/epics/combat/story-001.md` → `combat`)
-2. Glob `tests/unit/[system]/` and `tests/integration/[system]/` for files
-   whose name contains the story slug or a closely related term
-3. Check the story file itself for a `Test file:` header field or a
-   "Test Evidence" section
+2. Read the Story's `Test file:` header or "Test Evidence" section and its
+   exact named files first; keep missing required originals visible.
+3. Search the actual configured roots and runner-discovered paths from Phase 1
+   for additional evidence covering the Story's required ACs. Roots outside
+   `tests/` are valid; `tests/unit/[system]/` and `tests/integration/[system]/`
+   are conventional examples, not requirements. Filenames locate candidates
+   only; read the assertions and exact result binding.
 
 Assign a coverage status to each story:
 
@@ -581,6 +586,8 @@ Present the full report in conversation and reuse existing exact report path/eff
 "May I write this smoke check report to `production/qa/smoke-[date].md`?"
 
 Write only when that exact report effect is covered by existing or newly obtained authorization.
+
+Update the Memory Bank index only when this run enters its separately named, authorized effect after saving the actual report. Initialized Memory Bank alone is insufficient; read-only and report-only scopes exclude indexing. If the intended effect or initialization is unresolved, retain Unknown. Before indexing, read the saved immutable report and exact input/evidence identities; a proposed output or INFO is insufficient. This effect does not initialize Memory Bank.
 
 When initialized and its named index effect is covered, update
 `memory_bank/t3_archive/qa_evidence_index.md`:

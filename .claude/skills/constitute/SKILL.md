@@ -28,6 +28,62 @@ through discovery.
 
 ---
 
+## Reusable Project Boundary Template
+
+The reusable source is `templates/memory-bank/t0_core/basic_law_index.md`,
+section "CDD Source and Target Project Boundaries". Include that section in each
+new or derived `memory_bank/t0_core/basic_law_index.md` draft. It is separate
+from the project's three to five numbered laws; retain their IDs and approval
+or ratification status. Existing projects receive only an approved, additive
+merge into their governing project instructions or law index.
+
+An installed consumer can use the complete template text below directly.
+Reading it and creating approved project documents require no local maintenance
+scripts, profile, lock or copy of the general source trees. When the source
+template is available, use its structure; when only this installed entry is
+available, include the same boundary text while drafting the project laws.
+Missing other skeleton inputs remain separate pending work.
+
+```markdown
+## CDD Source and Target Project Boundaries
+
+These rules apply to two distinct owners: the CDD development-template source
+library and a business project using its installed platform files. Source-library
+submission restrictions do not become restrictions on the business project's
+own code, project documents or delivery evidence.
+
+### CDD source library
+
+Only development templates and necessary template-use instructions belong in
+the CDD source library's submission. Development templates must remain strictly
+separate from maintenance tools, maintenance annotations and process data used
+only to maintain the template library. Keep those materials in separate local
+files with precise shared ignore rules; never embed them in development templates
+or replace them with hidden comments. Template use must not require that local
+maintenance toolkit.
+
+### Target business project
+
+Keep business code and project documents separate from the general CDD template
+sources and template-maintenance tools. Deliver approved CDD platform-adapter
+files, portable project-specific configuration, and the neutral templates,
+standards, workflow views and reusable skill-testing assets required by the
+selected workflows. Resolve actual required references into a reviewed per-file
+allowlist; missing required originals remain pending. General CDD source trees,
+including root `agents/` and `skills/`, remain in the designated external source
+library and are not copied into the target as another source.
+
+Keep template-maintenance scripts, checkers, annotations, tool-only metadata,
+host-path records, maintenance locks, caches and maintenance-process artifacts
+outside the target's delivery. Ordinary use of installed platform files must
+work without them. The target retains its business build/runtime files, business
+tests, project design and production documents, control manifests and genuine
+QA, acceptance and historical project evidence under its own project rules.
+
+These boundaries grant no write, deletion, commit or push authority and do not
+ratify project laws, accept ADRs or establish execution or qualification evidence.
+```
+
 ## Phase 1: Silent State Detection
 
 Before asking anything, gather context silently. Do NOT show these results
@@ -112,8 +168,9 @@ Use `AskUserQuestion` to present draft principles. Each law gets:
 - Current-state requirement
 - A design test
 
-Once approved, write `memory_bank/t0_core/basic_law_index.md`.
-All laws start as `Status: Proposed`.
+Include the reusable source/target boundary section in the draft. Once approved,
+write `memory_bank/t0_core/basic_law_index.md`. Keep that fixed section separate
+from the numbered laws; all new project laws start as `Status: Proposed`.
 
 ### Phase 3c: Technology & Constraints
 
@@ -155,6 +212,16 @@ After ratification, create the project memory-bank skeleton from
 `templates/memory-bank/`. Do not move detailed work files out of
 `design/`, `docs/`, `workflow/`, `templates/`, `standards/`, or `production/`;
 the memory bank indexes and mirrors those paths.
+
+Before writing, directly read the delivered originals for the listed memory-bank
+templates, `docs/PHASE-CHECKLISTS.md`,
+`workflow/generated/gate-required-artifacts.md`, and the listed `skill_testing/`
+assets. Include `workflow/workflow-catalog.yaml` and the authority, decision and
+collaboration standards referenced by those contracts. These are necessary
+neutral inputs permitted by the project boundary and `adapters/README.md`.
+Resolve further required references for the selected workflow into the reviewed
+per-file delivery allowlist. Missing/unread originals leave the affected files
+pending; installed skill text or a same-name placeholder is not their substitute.
 
 Create or update these files:
 
@@ -201,16 +268,26 @@ Canonical knowledge graph path is `memory_bank/t1_axioms/knowledge_graph.md`.
 If an older project has `memory_bank/t0_core/knowledge_graph.md`, treat it as a deprecated compatibility pointer and migrate future updates to the T1 path.
 
 `memory_bank/t2_execution/phase_checklists.md` and
-`memory_bank/t2_execution/gate_required_artifacts.md` are generated mirrors.
-Refresh them with `python scripts/generate_phase_checklists.py --write --memory-bank`
-and `python scripts/generate_gate_required_sections.py --write --memory-bank`.
+`memory_bank/t2_execution/gate_required_artifacts.md` are derived mirrors of
+`docs/PHASE-CHECKLISTS.md` and `workflow/generated/gate-required-artifacts.md`,
+respectively. Populate the approved mirrors from those delivered workflow views
+using normal file tools, preserving project customizations and the authoritative
+views. If a required view is unavailable, report that exact missing input and
+leave its mirror pending. Local template-maintenance scripts are not a
+prerequisite for constitution initialization.
 `memory_bank/t2_execution/current_roadmap.md` is maintained by `/cdd-status`.
-Copy `framework_contract.md` and `adapter_state.yaml` from their matching
-`templates/memory-bank/t2_execution/` sources. The adapter state must remain the
-exact deterministic `uninitialized` template: do not fabricate digests, a
-commit, a timestamp, or a `fresh` result during `/constitute`. After the
-skeleton is approved and written, tell the user to run `/constitute-check` to
-perform the live read-only check and optionally record its result.
+Initialize `framework_contract.md` from its matching delivered template. Bind
+it to the project's actual installed platform paths, reviewed neutral inputs,
+retained customizations and sole external CDD Source locator/revision using
+existing project decisions. Leave unresolved bindings explicitly unconfigured;
+do not invent a Source, copy general root sources, or add maintenance tools.
+Copy `adapter_state.yaml` from its matching template unchanged. It must remain
+exactly `uninitialized`: do not fabricate digests, a commit, a timestamp, a check
+command or a `fresh` result during `/constitute`. After the approved skeleton is
+written, recommend `/constitute-check` for installed-file observations and any
+available, authorized Source comparison. An unavailable Source/check leaves live
+freshness unavailable and the recorded state unchanged; offline use of complete
+installed inputs remains possible.
 `skill_testing/` defines cross-project CDD skill and agent test standards.
 `memory_bank/t2_execution/skill_testing/README.md` records the project-memory
 mount contract for those canonical assets. `memory_bank/t3_archive/skill_testing/`
@@ -270,9 +347,19 @@ Present each section with `AskUserQuestion`:
 
 ### Step 4c: Write Approved Sections
 
-Write each approved section to the appropriate `memory_bank/` file immediately.
-Create directories as needed. All derived laws start as `Status: Accepted`
-since they come from already-approved concept documents.
+Include the reusable source/target boundary section in the law-index draft
+submitted for approval. Its inclusion does not make it an already-approved
+source-derived law or ratify new project laws. Write each approved section to
+the appropriate `memory_bank/` file immediately.
+Create directories as needed. All newly derived laws start as `Status: Proposed`.
+Concept/content approval and permission to write the law index do not accept laws.
+Independently verify any existing law-acceptance authority against the exact
+presented text/revision, Support IDs and scope before recording `Accepted`;
+retain the matching authority/date/evidence and preserve prior history.
+When that authority is absent or does not match, keep the laws Proposed and use
+Phase 3e to present the exact law set for explicit ratification. Reuse verified
+matching ratification authority without asking again; missing acceptance stays
+pending, never inferred from concept approval or a successful file write.
 
 Also create the T0-T3 memory-bank control plane skeleton listed in Phase 3e.1.
 For derived projects, populate `document_map.yaml`, `current_state.md`,
@@ -285,7 +372,7 @@ evidence exists; otherwise leave template placeholders with clear `missing` or
 Generate:
 ```
 ## Constitution Alignment Report
-Constitution Version: 1.0
+Constitution Version: [actual version and Draft/ratified status]
 
 ### Principles
 ✓ [Law 1]: [name] — supported by ADR-0001, ADR-0003
@@ -300,14 +387,20 @@ Overall: ALIGNED / NEEDS ATTENTION
 
 ### Step 4e: Write Version and Sign-Off
 
-Write version 1.0 to `active_context.md` with changelog entry:
+Write the actual version/status to `active_context.md`: use version 0.1 (Draft)
+while initial derived laws remain Proposed; version 1.0 requires the separately
+verified ratification above. Append the derivation source entry:
 `Initial constitution derived from concept doc and [N] CDDs / [M] ADRs`.
-Record sign-off with current date.
+Record content/write approval separately from exact law-acceptance sign-off.
+Only a verified ratification records its actual authority, scope and date; do not
+manufacture sign-off or reuse a concept approval as the acceptance record.
 
 ### Step 4f: Review Mode and Stage-Aware Handoff
 
-Constitution is established. Now set review mode and route to the correct
-next phase based on the detected stage.
+Report whether the constitution is a Proposed draft or a ratified law set.
+Then set review mode within its write authority and route to the correct next
+phase based on the detected stage. A draft does not satisfy a gate requiring
+Accepted laws.
 
 **Review Mode**: Check `production/review-mode.txt`. If not set, use
 `AskUserQuestion`: Full / Lean (recommended) / Solo. Write choice.
@@ -335,7 +428,9 @@ When confirmed: "Type `[skill command]` to begin."
 ## Phase 5: Alignment Report (standalone audit)
 
 When invoked on a project with an existing constitution and CDDs/ADRs/code,
-generate this report. Already integrated into Stage 3-4 routing.
+generate this report. Already integrated into Stage 3-4 routing. If the reusable
+source/target boundary section is missing from the actual governing instructions
+or law index, report an additive merge proposal; an audit does not write it.
 
 ---
 
@@ -399,7 +494,12 @@ Law 5 (BL-07): [name] — no change
 
 ### Step 6d: User Review Each Change
 
-Present each changed/new/deprecated principle individually using `AskUserQuestion`:
+Present each changed/new/deprecated principle's exact draft and Support ID.
+Verify separate authority to accept/amend/supersede that precise law revision;
+content agreement or permission to write alone leaves acceptance pending.
+The following choice requests that explicit law action, separately from its
+file-write scope. Reuse matching existing authority when verified.
+Present each principle individually using `AskUserQuestion`:
 - **Prompt**: "Amendment: [change description]. Approve this change?"
 - **Options**:
   - `Approve — apply this amendment`
@@ -407,6 +507,10 @@ Present each changed/new/deprecated principle individually using `AskUserQuestio
   - `Reject — keep the current version for this principle`
 
 ### Step 6e: Write Amended Constitution
+
+Only apply accepted-law status changes when Step 6d verified the exact legal
+action and the file-write effects are covered; otherwise retain a Proposed
+amendment without altering the binding prior law.
 
 1. Update `basic_law_index.md`:
    - Changed laws: update text, keep Support ID, set Status to `Accepted (amended [date])`
@@ -563,8 +667,8 @@ All laws in `basic_law_index.md` must have a `Status` field:
 
 | Status | Meaning | When to use |
 |--------|---------|-------------|
-| `Proposed` | Drafted, not yet ratified | During Phase 3 interactive legislation, before ratification |
-| `Accepted` | In effect | After ratification (Phase 3e) or derivation (Phase 4) |
+| `Proposed` | Drafted, not yet ratified | New interactive or derived laws before exact acceptance authority is verified |
+| `Accepted` | In effect | After exact ratification (Phase 3e), including independently verified ratification for Phase 4 derived laws |
 | `Accepted (amended [date])` | In effect, text changed | After amendment (Phase 6) |
 | `Superseded by BL-XX ([date])` | Replaced by another law | When a new law makes this one obsolete |
 | `Deprecated ([date])` | Intentionally removed | When a principle is no longer relevant with no replacement |

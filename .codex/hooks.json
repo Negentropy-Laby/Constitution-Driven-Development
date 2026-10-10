@@ -25,11 +25,6 @@
             "type": "command",
             "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/validate-assets.sh\"",
             "timeout": 10
-          },
-          {
-            "type": "command",
-            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/validate-generated-adapter-change.sh\"",
-            "timeout": 5
           }
         ]
       }

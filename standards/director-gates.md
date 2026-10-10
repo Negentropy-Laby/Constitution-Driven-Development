@@ -804,7 +804,9 @@ done, or at `/gate-check` Production → Polish
 
 **Context to pass**:
 - List of implemented stories with story types (Logic / Integration / Visual / UI / Config)
-- Test file paths in `tests/`
+- Game: test file paths in `tests/`
+- Product: exact Story test/evidence paths, actual configured runner/discovery
+  roots and commands, discovered test paths and original execution results
 - CDD acceptance criteria for the system
 - Product contract, migration, workflow validation, and smoke evidence paths (if product)
 
@@ -813,6 +815,10 @@ done, or at `/gate-check` Production → Polish
 > covered by passing unit tests? Are Integration stories covered by integration
 > tests, documented playtests, or product workflow validation evidence? Are the CDD acceptance criteria each mapped to at
 > least one test? Are there untested edge cases from the CDD Edge Cases section?
+> For Product, read exact Story evidence and actual configured discovery roots;
+> conventional tests/ paths are examples. Confirm required tests are discovered
+> and pass using their recorded commands and original results. Missing required
+> originals, required FAIL or NotRun do not support ADEQUATE or progression.
 > Return ADEQUATE (coverage meets standards), GAPS [specific missing tests], or
 > INADEQUATE [critical logic is untested — do not advance]."
 

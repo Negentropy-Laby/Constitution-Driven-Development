@@ -143,3 +143,31 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
+
+# CDD maintenance tooling and retained local execution records.
+# Keep full working copies; only the explicitly reviewed paths are untracked.
+# Canonical templates, platform skills, project customizations and business files are excluded from this block.
+/scripts/generate_gate_required_sections.py
+/scripts/generate_phase_checklists.py
+/scripts/runtime_smoke.py
+/scripts/skill_lint.py
+/scripts/sync_adapters.py
+/scripts/workflow_consistency.py
+/tests/authoring_paths_test.py
+/tests/evidence_verifier_test.py
+/tests/runtime_smoke_test.py
+/tests/skill_lint_test.py
+/tests/sync_adapters_test.py
+/tests/workflow_consistency_test.py
+/tests/skill_lint_artifact_test.py
+/.github/workflows/template-consistency.yml
+/.github/workflows/runtime-contract.yml
+/production/qa/evidence/pr2-template-review-2026-10-08/
+/.aby/
+/.claude/scheduled_tasks.lock
+/scripts/maintenance-contexts.json
+/docs/optimization-audit-2026-06-03.md
+/hooks/validate-generated-adapter-change.sh
+/.claude/hooks/validate-generated-adapter-change.sh
+/.codex/hooks/validate-generated-adapter-change.sh
+/cdd-manifest.toml

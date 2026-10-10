@@ -43,24 +43,46 @@ artifact locators/structural conditions; owning workflow evidence establishes co
 
 ## Step 1b: Find Skills Not in the Catalog
 
-After reading the catalog, Glob `skills/*/SKILL.md` to get the full list of
-canonical skill definitions. For each file, extract the `name:` field from its frontmatter.
+Use the installed skill entrypoints for the platform actually in use; select that
+platform before enumeration. The projected instruction below names its matching
+directory. A local maintenance script, import profile or lock is not required.
 
-Compare against the `command:` values in the catalog. Any skill whose name does
-not appear as a catalog command is an **uncataloged skill** — a canonical definition outside
-part of the phase-gated workflow.
+- Glob `.agents/skills/*/SKILL.md` in the current project.
+- Use bounded Read ranges to read only each entry's YAML frontmatter through its
+  closing `---`. Extract actual `name:` and `description:` plus any supplied
+  invocation metadata. This builds a definition list; inputs and availability
+  remain unverified until the selected instructions are read.
+- After Steps 2b–6 establish domain, phase and the user's task, shortlist relevant
+  definitions before reading their full bodies in Step 6b.
+- If both platforms are installed, use the one actually running this skill rather
+  than combining their directories. If the platform is unknown, clarify the
+  affected selection; do not infer it from a missing file.
+- A missing installed entry or unreadable/invalid frontmatter leaves that lookup
+  Incomplete or unverified. Do not invent its description, copy general Source
+  skills into the project, or fetch Source merely for ordinary orientation.
+
+Keep this skill's Read/Glob/Grep limits; no command facility is added. Installed
+file observations do not prove current Source reproduction, supported execution
+or completed workflow. An import/update still requires the actual designated
+Source, project authority and independent review of the exact delivery allowlist.
+
+Compare against the `command:` values in the catalog. Any skill whose actual
+name is absent is an **uncataloged skill** outside the phase-gated workflow.
+Report its selected platform and installed path; a definition alone does not
+qualify runtime invocation.
 
 Collect these for the output in Step 8 — show them as a footer block:
 
 ```
-### Other canonical definitions (not in workflow)
+### Other definitions (not in workflow; state selected platform)
 - `/skill-name` — [description from SKILL.md frontmatter]
 - `/skill-name` — [description]
 ```
 
 Only show this block if at least one uncataloged skill exists. Limit to the 10
-most relevant based on the user's current phase (QA skills in production, team
-skills in production/polish, etc.).
+most relevant after the domain/phase/task filtering in Step 6b. Label unread
+definitions as instructions/execution unverified; recommend only selected skills
+whose full instructions and required inputs have been checked.
 
 ---
 
@@ -228,6 +250,32 @@ From the completion data, determine:
 If the user provided an argument (e.g. "just finished design-review"), use that
 to locate relevant evidence and acknowledge declared completion, not advance
 qualified progress from ambiguous evidence. Identify the affected recheck.
+
+---
+
+## Step 6b: Read the Selected Instructions
+
+Use the actual domain, current phase, catalog `applies_to` and step order, and the
+user's task to filter the frontmatter list. Description matches identify
+candidates; they do not establish applicability. Prioritize one primary next
+step and a few relevant optional or uncataloged definitions. When domain is
+Unknown, keep neutral guidance and mark domain-limited candidates pending.
+
+Before recommending an actionable command, Read its complete installed
+`SKILL.md`. Resolve and directly Read its required original references for the
+applicable branch, inputs, routing and conditions, following their owning paths.
+Use Glob for referenced locators as needed; optional references and future
+outputs do not become required inputs merely because they are mentioned.
+There is no full-body pre-read of every installed skill or every reference tree.
+
+Apply this check to next-up, optional, coming-up, gate and escalation commands
+you intend to recommend. An entry whose body is unread may only be identified
+as a definition with instructions/execution unverified, never as an executable
+next step. Missing required entries/originals leave the affected recommendation
+Incomplete; inaccessible or unread inputs remain unverified. Unresolved domain
+or scope keeps dependent advice Unknown while independent guidance continues.
+File observations and complete instructions still do not qualify runtime
+invocation or workflow completion.
 
 ---
 

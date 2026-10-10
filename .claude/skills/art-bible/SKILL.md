@@ -298,7 +298,7 @@ Before presenting next steps, check project state:
 - Does `design/cdd/module-index.md` exist? → map-systems is done, skip that option
 - Does `standards/technical-preferences.md` contain a configured engine (not `[TO BE CONFIGURED]`)? → setup-engine is done, skip that option
 - Does `design/cdd/` contain any `*.md` files? → design-system has been run, skip that option
-- Does `design/cdd/cross-review-*.md` exist? → review-all-gdds is done
+- Locate any saved `design/cdd/cross-review-*.md` records, then read their substantive verdict, reviewed scope and current input identities, required review coverage, and unresolved blockers. File existence only locates evidence. Treat /review-all-gdds as complete only when that evidence establishes an applicable completed review; otherwise keep the review pending and offer it below.
 - Do CDDs exist (check above)? → include /consistency-check option
 
 Use `AskUserQuestion` for next steps. Only include options that are genuinely next based on the state check above:
@@ -307,7 +307,7 @@ Use `AskUserQuestion` for next steps. Only include options that are genuinely ne
 - `[_] Run /map-systems — decompose the concept into systems before writing CDDs` (skip if module-index.md exists)
 - `[_] Run /setup-engine — configure the engine (asset standards may need revisiting after engine is set)` (skip if engine configured)
 - `[_] Run /design-system — start the first CDD` (skip if any CDDs exist)
-- `[_] Run /review-all-gdds — cross-CDD consistency check (required before Technical Setup gate)` (skip if cross-review-*.md exists)
+- `[_] Run /review-all-gdds — cross-CDD consistency check (required before Technical Setup gate)` (skip only after the saved substantive review, required coverage, current input identities, and resolved blockers establish an applicable completed review; file existence alone is insufficient)
 - `[_] Run /asset-spec — generate per-asset visual specs and AI generation prompts from approved CDDs` (include if CDDs exist)
 - `[_] Run /consistency-check — scan existing CDDs against the art bible for visual direction conflicts` (include if CDDs exist)
 - `[_] Run /create-architecture — author the master architecture document (next Technical Setup step)`

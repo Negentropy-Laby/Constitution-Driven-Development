@@ -173,6 +173,11 @@ For each item in the target gate:
 - Don't just check existence — verify the file has real content (not just a template header)
 - Directory/file counts locate evidence; read substantive implementation/closure/results. Counts cannot prove capability, three actual sessions or product qualification.
 
+The cross-CDD lookup below applies to the actual Game Systems Design -> Technical
+Setup transition. Resolve an unknown transition before applying that lookup;
+other transitions follow their own catalog requirements and substantive review
+checks.
+
 **Systems Design → Technical Setup gate — cross-CDD review check**:
 Use `Glob('design/cdd/cross-review-*.md')` to find the `/review-all-gdds` report.
 If no file matches, mark the "cross-CDD review report exists" artifact as **FAIL** and
@@ -180,6 +185,12 @@ surface it prominently: "No `/review-all-gdds` report found in `design/cdd/`. Ru
 `/review-all-gdds` before advancing to Technical Setup."
 If a file is found, read it and check the verdict line: a FAIL verdict means the
 cross-CDD consistency check failed and must be resolved before advancing.
+
+Run performance, localization and cross-reference checks only where applicable
+to the active gate under its catalog and reference rules. Unresolved applicability
+stays Unknown. A directory's existence neither makes a check applicable nor adds
+a universal progression prerequisite. Applicable checks still require actual
+measurements and substantive source/evidence reads.
 
 ### Quality Checks
 - For test checks: Run the test suite via `Bash` if a test runner is configured

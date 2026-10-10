@@ -1,85 +1,74 @@
 # Customer Acceptance Checklist
 
-Use this page to validate that the template is ready for a customer pilot or
-delivery review. Run these checks from a clean clone before marking a release as
-accepted.
+Use this page to review a clean template delivery and its intended installed
+workflow. Bind the exact delivery revision, scope and observed results before
+acceptance; file presence or a static walkthrough does not prove live execution.
 
 ## 1. Repository Setup
 
 ```bash
-git clone https://github.com/Negentropy-Laby/Constitution-Driven-Development.git
-cd Constitution-Driven-Development
-python --version
-```
-
-Expected result:
-- Python 3.11+ is available (required for the adapter generator and consistency checks; `scripts/sync_adapters.py` and `scripts/workflow_consistency.py` use the stdlib `tomllib`).
-- The repository opens without missing submodules or generated bootstrap steps.
-
-## 2. Local Validation
-
-```bash
-python scripts/skill_lint.py --self-test
-python -m unittest discover -s tests -p "*_test.py"
-python scripts/skill_lint.py --strict skills
-python scripts/sync_adapters.py --check
-python scripts/sync_adapters.py --check --state-json
-python scripts/runtime_smoke.py --structural
-python scripts/workflow_consistency.py
+git clone https://github.com/Negentropy-Laby/Constitution-Driven-Development.git cdd-source
+cd cdd-source
+git rev-parse HEAD
 git diff --check
 ```
 
 Expected result:
-- `skill_lint.py --self-test` passes.
-- The unittest suite reports `OK` (a few tests skip on Windows; they run on Ubuntu/macOS CI).
-- Strict canonical skill lint reports `0 error(s)` for `skills/`.
-- `sync_adapters.py --check` reports `0 stale, 0 missing, 0 extra, 0 invalid`.
-- State JSON parses as schema version 1 with `status: fresh` and 64-character digests.
-- Credential-free runtime structural smoke reports `PASS`.
-- Workflow consistency reports `0 error(s), 0 warning(s)`.
-- `git diff --check` reports no whitespace errors.
+- The Source-library checkout opens without missing submodules or bootstrap steps.
+- Git and the selected AI agent runtime are available. Python is needed only
+  for separately supplied, authorized local maintenance diagnostics.
+- A target project installs only its independently reviewed platform/configuration
+  allowlist and necessary neutral support, following `adapters/README.md`.
+  General root `agents/` and `skills/` stay in the designated external Source.
+- Retain exact before bytes and project customizations for any existing target.
 
-Warnings about placeholder artifact paths are acceptable in strict skill lint
-for a template repository, because consuming projects create those artifacts
-later.
+## 2. Delivery Validation
 
-## 3. CI Validation
-
-Confirm the `Template Consistency` workflow has passed on:
-- `ubuntu-latest`
-- `macos-latest`
-- `windows-latest`
-
-For the release commit being accepted, identify the matching workflow run:
-
-```bash
-git rev-parse HEAD
-gh run list --workflow "Template Consistency" --branch main --limit 20 --json databaseId,headSha,status,conclusion,workflowName,createdAt
-gh run view <run-id> --json jobs,headSha,conclusion
-```
+Read the installed skill entry and its required references for each reviewed
+workflow. For initialization this includes `templates/memory-bank/`,
+`templates/game-concept.md` or `templates/product-concept.md` for the chosen
+domain, `workflow/workflow-catalog.yaml`, `docs/PHASE-CHECKLISTS.md`,
+`workflow/generated/gate-required-artifacts.md`, and the required standards,
+instruction and `skill_testing/` originals described in `adapters/README.md`.
+Use the actual entry's input closure; a same-name template does not replace a
+missing governing project original.
 
 Expected result:
-- The selected run's `headSha` matches the release commit.
-- `consistency (ubuntu-latest)` is `success`.
-- `consistency (macos-latest)` is `success`.
-- `consistency (windows-latest)` is `success`.
-- The final GitHub Release or annotated tag records the release commit SHA,
-  workflow run ID, and PASS result for all three platforms.
+- Required installed originals exist and their complete contents can be read.
+  Missing required inputs leave affected use Pending or Incomplete.
+- Platform entries and required resources correspond to the reviewed Source
+  revision and retain approved project differences.
+- T0 boundaries and T2 installed-path/external-Source contracts agree.
+- Ordinary use and T2 mirror synchronization work from the delivered files
+  without maintenance scripts, credentials, local locks or host-path records.
+- `git diff --check` reports no whitespace errors.
+- In a configured project, run its actual test/QA commands and preserve exact
+  Story evidence, runner output, configuration and outstanding failures.
+  Source diagnostics are not substitutes for project tests.
 
-Before a stable release, manually dispatch `Runtime Contract`. Both
-credential-free CLI jobs must pass for the same `headSha`; record the run ID,
-Claude/Codex CLI versions, validated help surfaces, and uploaded artifact names
-in the GitHub Release or annotated tag. This gate installs the CLIs but makes no
-model calls and requires no API keys.
+Separately supplied maintenance diagnostics may provide extra checks when
+authorized and available. Their absence is not a normal-use prerequisite;
+record any unavailable diagnostic as NotRun instead of fabricating a PASS.
 
-This automated gate does not claim to validate model response quality. A
-maintainer may run the New Project Smoke Path below with an existing local
-interactive login, but that optional check is not a release blocker and does
-not require repository-managed credentials.
+## 3. Release Evidence
+
+Use the actual release and QA contract for the delivery under review. Preserve
+the revision, exact inputs, applicable test/CI results, runtime versions and
+unresolved checks. A required FAIL, Blocked or NotRun remains unresolved unless
+the owning policy has a valid scoped exception; it never becomes PASS by wording.
+
+Historical `Template Consistency` evidence covers its identified Ubuntu, macOS
+and Windows jobs. Historical `Runtime Contract` evidence covers its identified
+credential-free CLI checks, not live model behavior. If such evidence is cited,
+verify its run ID, job results and `headSha` against the exact historical release
+commit. Neither workflow is promised by the current clean template delivery.
+New delivery results must be collected for the new exact inputs; an old successful
+run cannot certify changed or uncommitted bytes.
 
 ## 4. New Project Smoke Path
 
-In a fresh test project, run:
+Use a fresh isolated target and its reviewed installation. With an available
+configured runtime, invoke:
 
 ```text
 Claude Code: /constitute -> /help -> /cdd-status --dry-run
@@ -87,15 +76,22 @@ Codex:      $constitute -> $help -> $cdd-status --dry-run
 ```
 
 Expected result:
-- `/constitute` establishes governing principles.
-- `/help` identifies the next required catalog step.
+- `/constitute` presents governing principles and the exact project write scope.
+  Concept agreement and file writes do not independently ratify Proposed laws.
+- `/help` selects the next catalog step using the actual Game or Product scope,
+  including populated legacy Product configuration without a concept.
 - `/cdd-status --dry-run` produces a roadmap draft without writing files.
-- The draft follows the structure shown in `docs/examples/project-roadmap.example.md`.
+- The draft follows `docs/examples/project-roadmap.example.md`.
+- Installed-file reads continue offline; unavailable external Source checks stay
+  unavailable and do not cause a second general CDD source to be installed.
+
+Report file-level materialization, instruction reasoning and actual interactive
+runtime execution separately. If no live runtime was used, mark that trial NotRun.
 
 ## 5. Brownfield Smoke Path
 
-In a repository with existing `src/`, `tests/`, `design/`, or
-`docs/architecture/` artifacts, run:
+In a fresh isolated copy containing representative existing source, tests,
+design and architecture, invoke:
 
 ```text
 /project-stage-detect
@@ -103,9 +99,14 @@ In a repository with existing `src/`, `tests/`, `design/`, or
 ```
 
 Expected result:
-- The current stage is detected from artifacts.
-- Missing template-format artifacts are listed as migration work.
-- Existing project files are not overwritten without approval.
+- The current stage is assessed from substantive artifacts and actual configuration.
+- Required migration work is scoped without inventing completed evidence.
+- Existing project code, design, configuration, test roots, valid customizations
+  and historical evidence are preserved.
+- Import/update uses the unique designated Source, an independently reviewed
+  delivery allowlist and recoverable before bytes.
+- Memory Bank initialization, hook activation and project writes need their
+  own covered effects; a review does not authorize them.
 
 ## 6. Workflow Surface Checks
 
@@ -120,24 +121,21 @@ Review these customer-visible entry points:
 - `RELEASE_NOTES.md`
 
 Expected result:
-- Platform support consistently says Template Consistency CI is configured for
-  Ubuntu, macOS, and Windows.
-- Runtime documentation distinguishes Claude `/skill` invocation from Codex
-  `/skills` browsing and `$skill` explicit invocation.
-- README links to the latest stable GitHub Release.
-- Skill and template counts match the repository.
-- Release order is `/release-checklist` -> `/launch-checklist` ->
-  `/team-release`.
-- Product surface N/A decisions point to `design/ux/surface-profile.md`.
+- Current setup, use, upgrade and acceptance do not require unshipped local tools
+  or historical Source CI.
+- Runtime documentation distinguishes Claude `/skill` from Codex `/skills`
+  browsing and `$skill` invocation.
+- README links to the stable release; counts are checked against actual assets.
+- Release order is `/release-checklist` -> `/launch-checklist` -> `/team-release`.
+- Product surface N/A decisions identify an owner and reason in
+  `design/ux/surface-profile.md`; actual Game/UI requirements remain applicable.
 
 ## 7. Known Limits To Accept Explicitly
 
-- This repository is a template and governance system, not an application build.
-- Generated artifact path warnings can appear before a consuming project creates
-  project-specific files.
-- `/skill-test static all` is a skill workflow, not a CI-enforced command unless
-  a project adds automation for it.
-- Gate checks are governed advisory. A `FAIL` blocks normal advancement, but the
-  user may explicitly override it with a documented risk note.
-- Runtime Contract is intentionally manual to keep pinned CLI installation out
-  of every PR; it is credential-free and incurs no model inference cost.
+- This repository supplies development templates and necessary usage guidance.
+- Missing future project outputs differ from missing required input originals.
+- `/skill-test static all` is an instruction workflow; reasoning through specs,
+  executing fixtures and running a live agent are distinct evidence.
+- Gates retain the owning workflow's required checks and scoped override rules.
+- Local maintenance tools and process records are supplied separately and excluded
+  from delivery. Their existence does not establish runtime support or freshness.

@@ -16,7 +16,7 @@
   <img src="https://img.shields.io/badge/version-0.1.0-informational" alt="Version 0.1.0">
   <a href="agents"><img src="https://img.shields.io/badge/agents-53-blueviolet" alt="53 Agents"></a>
   <a href="skills"><img src="https://img.shields.io/badge/skills-74-green" alt="74 Skills"></a>
-  <a href="hooks"><img src="https://img.shields.io/badge/hooks-12-orange" alt="12 Hooks"></a>
+  <a href="hooks"><img src="https://img.shields.io/badge/hooks-11-orange" alt="11 Hooks"></a>
   <a href="rules"><img src="https://img.shields.io/badge/rules-16-red" alt="16 Rules"></a>
   <a href="https://docs.anthropic.com/en/docs/claude-code"><img src="https://img.shields.io/badge/runtime-Claude%20Code-f5f5f5?logo=anthropic" alt="Claude Code runtime"></a>
   <a href="https://learn.chatgpt.com/docs/agent-configuration/agents-md"><img src="https://img.shields.io/badge/runtime-Codex-10a37f" alt="Codex runtime"></a>
@@ -33,8 +33,9 @@
 
 ## Runtimes
 
-CDD is runtime-neutral. Canonical sources (`skills/`, `agents/`, `hooks/`, `rules/`,
-`INSTRUCTIONS.md`) generate into their declared runtime targets:
+CDD is runtime-neutral. In the designated Source library, canonical sources
+(`skills/`, `agents/`, `hooks/`, `rules/`, `INSTRUCTIONS.md`) generate into their
+declared runtime targets:
 
 | Runtime | Root instructions | Skills | Agents | Hooks | Path rules |
 |---|---|---|---|---|---|
@@ -45,6 +46,16 @@ Both runtimes share `INSTRUCTIONS.md`, `workflow/`, `templates/`, `standards/`,
 `skill_testing/`, and nested `src/`/`design/`/`docs/` `INSTRUCTIONS.md` guidance.
 Codex's native `.codex/rules/*.rules` command-approval policy is unrelated and
 never generator-owned.
+
+An import-mode consumer uses its approved installed platform files directly and
+keeps necessary support and project customizations. General `agents/` and `skills/`
+remain in the designated Source library; the consumer does not keep root copies
+as a second source. Read installed entries and their required references to use
+them; a local maintenance kit, import profile or lock is not a normal-use gate.
+Optional maintenance readers can provide additional identity diagnostics, but
+installed-file observations do not verify current Source or completed workflows.
+Reproduction, generation and common-source edits still need the actual Source
+and their own reviewed scope; ordinary installed use grants none of that authority.
 
 Documentation uses slash-prefixed names as logical CDD command notation. Invoke
 that form directly in Claude Code. In Codex, use `/skills` to browse
@@ -143,7 +154,7 @@ The result: you still make every decision, but now you have a team that asks the
 | **Memory Bank** | T0-T3 | Project governance brain for current laws, supporting context, execution mirrors, and audit evidence |
 | **Agents** | 53 | Specialized subagents across design, programming, art, audio, narrative, QA, production, and language-specific product implementation |
 | **Skills** | 74 | Slash commands for every workflow phase (`/constitute`, `/help`, `/cdd-status`, `/brainstorm`, `/design-system`, `/create-epics`, `/dev-story`, `/story-done`, etc.) |
-| **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
+| **Hooks** | 11 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
 | **Rules** | 16 | Canonical path policies for actual matching capabilities; runtime loading/manual consultation and semantic verification are separate |
 | **Templates** | 82 | Document templates for CDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, product surface profiles, product style guides, memory-bank governance, and UI-heavy design systems |
 | **Skill Testing** | 132 files | Cross-project skill/agent test catalog, specs, rubric, and spec templates |
@@ -165,7 +176,7 @@ memory_bank/  — project brain & governance control plane
 Studio Hierarchy — Directors (Opus) · Leads (Sonnet) · Specialists (Sonnet/Haiku)
       │  drive
       ▼
-74 Skills (slash commands)   ──   12 Hooks + 16 Rules (automated safety)
+74 Skills (slash commands)   ──   11 Hooks + 16 Rules (automated safety)
       │
       ▼
 Gate Checks — governed advisory: PASS / CONCERNS / FAIL
@@ -231,14 +242,19 @@ Product projects use language-specialist agents for stack-specific implementatio
 
 - [Git](https://git-scm.com/)
 - An AI agent runtime — **Claude Code** (`npm install -g @anthropic-ai/claude-code`), **Codex**, or both
-- [Python](https://www.python.org/) 3.11+ (required for the adapter generator and consistency checks; uses the stdlib `tomllib`)
+- Optional local maintenance only: [Python](https://www.python.org/) 3.11+ when running separately provided adapter-generation or consistency scripts (stdlib `tomllib`).
 - **Recommended**: [jq](https://jqlang.github.io/jq/) for hook validation (hooks fall back to `grep` when absent)
 
-Python 3.11+ is required to run the local validation commands and the `Template Consistency` CI gate. `jq` is optional — hooks degrade gracefully to `grep` when it is missing.
+Normal template and installed-platform use does not require Python or a local maintenance kit. Maintenance scripts are local-only and supplied separately; a fresh Source clone need not contain them. Python 3.11+ is required if those scripts are used. `jq` is optional for separately configured hooks, which fall back to `grep` when it is missing.
 
 ### Setup
 
-1. **Clone or use as template**:
+These steps use a Source-library checkout's installed platform files. In a
+consumer project, use its approved installed files and project instructions;
+do not copy general root `agents/` or `skills/` there. An optional maintenance
+profile may describe import/update work, but is not needed for ordinary use.
+
+1. **Clone the Source library**:
    ```bash
    git clone https://github.com/Negentropy-Laby/Constitution-Driven-Development.git my-cdd-project
    cd my-cdd-project
@@ -257,6 +273,106 @@ Python 3.11+ is required to run the local validation commands and the `Template 
    **Game**: `/brainstorm game ideas` or `/setup-engine godot 4.6`
    **Product**: `/brainstorm product ideas` or `/setup-engine python 3.13 flask`
    **Either**: `/project-stage-detect` — analyze an existing project
+
+### Project rules inherited by initialization and import
+
+The reusable project-rule template is
+`templates/memory-bank/t0_core/basic_law_index.md`, section "CDD Source and
+Target Project Boundaries". It distinguishes the source library's template-only
+delivery from the target's own business code, project documents and genuine QA
+or acceptance evidence.
+
+The complete boundary text is bundled inside the installed `constitute` entry
+for both runtimes. A new target uses its approved platform package and project
+instructions, then `/constitute` or `$constitute` includes this section in the
+draft `memory_bank/t0_core/basic_law_index.md`. It does not need a local
+maintenance toolkit or copies of general root `agents/` or `skills/`.
+The skill still requires approval for project writes and separate ratification.
+
+For imports, include the full installed `constitute` and `adopt` entries in
+the approved platform delivery. `adopt full` or `adopt infra` checks the actual
+project-owned instructions or existing law index and proposes only an additive,
+approved merge when these boundary rules are missing. Importing them does not
+force Memory Bank creation, replace project rules or exclude normal business
+design, QA, acceptance and historical documents. Use the delivered template
+version; an older Git pin or clone does not acquire unpublished working changes.
+
+### Importing an existing project with a source-only profile
+
+For an authorized import or update, use the consumer's project rules and actual
+designated Source rather than cloning this Source tree into the product. An
+optional, separately provided maintenance profile may record the Source pin,
+working-byte identities and exact installation scope. Ordinary use reads the
+installed platform files directly; project instructions retain their authority.
+
+Store reviewed skill differences as narrow JSON hunks in the profile's declared
+standard directory, `standards/cdd-overrides/skill-overlays/*.json`. Each
+`cdd-skill-overlay.v1` record binds `source_path`, full `base_sha256`/`base_bytes`,
+full `result_sha256`/`result_bytes` and ordered `edits` with exact `offset`,
+`delete_hex` and `insert_utf8` witnesses. Preserve complete frontmatter and the
+original customization evidence; this metadata is not a copied full skill body.
+Role differences use the separate directory declared by the profile. Do not
+move whole general `agents/` or `skills/` trees into the consumer, or treat a
+platform copy as a new canonical source.
+
+For an existing project, carry out only an explicitly approved migration scope:
+
+1. Inventory actual instructions, root/platform definitions, customizations,
+   consumers, uncommitted files and protected local state. Name the exact paths,
+   intended effects, Source pin and conflict owners; exclude secrets from reads.
+2. Retain recoverable full raw before bytes and per-file identities. Independently
+   restore them into a fresh isolated directory and compare complete bytes and
+   frontmatter before any retirement; an archive label alone is not restoration.
+3. Extract project differences against the exact Source bases. Reconstruct and
+   review each complete effective result. Stop on a base/delete/result mismatch,
+   overlapping changes, unknown owner or authority conflict; preserve the old
+   customization instead of automatically replacing it with an upstream default.
+4. Use the actual Source and approved isolated source stage for original-renderer
+   generation. Review complete class-wide effects, diagnostics and the exact
+   added/changed deployment allowlist; generic write/prune never targets the
+   consumer's working tree. No offline runtime context authorizes this step.
+5. Deploy and independently read back only the approved platform/consumer paths.
+   Close configured literal skill/role/spec inputs using installed readers;
+   verify installed artifact identities and report Source provenance separately.
+   Optional maintenance diagnostics stay outside the target delivery. Do not call
+   a Task fixture, catalog or offline result current
+   Source reproduction, runtime qualification or business completion.
+6. Only after backups, independent restoration and consumer closure pass, retire
+   obsolete root copies through a separately reviewed recoverable operation with
+   exact per-path intent/completion/resume records. Late extras, identity drift or
+   incomplete recovery stop the operation. Preserve unrelated templates, support,
+   project facts and history; do not enable hooks or overwrite runtime settings.
+
+If a separately provided local maintenance kit implements the import interface,
+its optional diagnostics/readers may expose commands such as:
+
+```powershell
+python -B scripts/cdd_import.py --list-agents
+python -B scripts/cdd_import.py --read-agent lead-programmer
+python -B scripts/cdd_import.py --list-skills
+python -B scripts/cdd_import.py --read-skill help
+python -B scripts/cdd_import.py --artifact-check --state-json
+python -B scripts/skill_lint.py --strict
+```
+
+These are optional local-maintenance interface examples, not files promised by
+a fresh Source clone or prerequisites for reading installed templates. Use them
+only if actually provided and authorized; no skill gains a command facility or
+write permission from this example. Without the kit, Read the actual installed
+platform entries and references. Missing required installed files leave the
+affected use pending, rather than inventing a command or copying Source trees.
+When provided, `--prepare-stage` is an approved fresh diagnostic context, not
+Source regeneration authority. `--check` and `--prepare-source-stage` need the
+actual Source and separately scoped approval. Missing profile/lock bindings
+block those maintenance operations, not ordinary authorized installed-file use.
+
+On upgrade, retain the old lock, differences, originals and approved evidence.
+Review/rebase each difference against the new exact Source base and reconstruct
+its effective result before generating new platforms. A changed base is a
+conflict to resolve, not permission to overwrite project customizations. Repeat
+the isolated generation, allowlist review and actual readback sequence; do not
+copy Source directories into the consumer or activate hooks as an upgrade side
+effect.
 
 ### 3-Minute Smoke Test
 
@@ -285,12 +401,11 @@ versions, and which files are safe to overwrite vs. which need a manual merge.
 ## Project Structure
 
 ```
-# --- Canonical common sources (hand-authored) ---
+# --- Canonical common sources in the Source library (hand-authored) ---
 INSTRUCTIONS.md                     # Canonical root instructions (generated to CLAUDE.md + AGENTS.md)
-cdd-manifest.toml                   # Canonical -> generated adapter contract
 skills/                             # 74 slash commands (canonical; generated into adapter runtimes)
 agents/                             # Canonical agents (53; generated into adapter runtimes)
-hooks/                              # Canonical hooks (12; generated into adapter runtimes)
+hooks/                              # Canonical hooks (11; generated into adapter runtimes)
 rules/                              # Canonical path-scoped policies (16; -> .claude/rules/)
 workflow/                           # Canonical workflow catalog + generated views
   workflow-catalog.yaml             # 7-phase pipeline definition (read by /help)
@@ -453,7 +568,6 @@ observed execution determine whether a hook ran; generated scripts alone do not:
 | `session-stop.sh` | Session close | Archives `active.md` to session log and records git activity |
 | `log-agent.sh` | Agent spawned | Audit trail start — logs subagent invocation |
 | `log-agent-stop.sh` | Agent stops | Audit trail stop — completes subagent record |
-| `validate-generated-adapter-change.sh` | PostToolUse (Write/Edit; Codex `apply_patch`) | Advises the canonical source + adapter regeneration when a generated adapter (skills/agents/hooks/rules, or root/nested instructions) is edited; advises regeneration when a canonical source is edited |
 
 > **Note**: When their supported triggers are configured and fire, these hooks
 > exit early for irrelevant commands/paths. Configuration or file presence alone
@@ -508,7 +622,12 @@ For **product projects**, it uses equivalent product-development discipline:
 
 ## Customization
 
-This is a **template**, not a locked framework. Everything is meant to be customized:
+The Source library is a **template**, not a locked framework. The choices below
+apply to authorized source-authoring changes, not automatic writes in an imported
+project. An import-mode project prepares reviewed project differences with exact
+base/result identities and installs only an approved platform allowlist; common
+improvements require a separately approved Source changeset. Do not recreate
+root `agents/` or `skills/` in the consumer as a customization shortcut:
 
 - **Add/remove agents** — delete agent files you don't need, add new ones for your domains
 - **Edit agent prompts** — tune agent behavior, add project-specific knowledge
@@ -520,16 +639,19 @@ This is a **template**, not a locked framework. Everything is meant to be custom
 
 ## Platform Support
 
-Template Consistency CI verifies **Ubuntu**, **macOS**, and **Windows** runners
-and includes a credential-free runtime structural smoke. The manually triggered
-Runtime Contract workflow installs the pinned Claude Code and Codex CLIs,
-validates required CLI help/structure and discovery fixtures, and uploads evidence
-without credentials or model calls. These checks do not prove live autoload,
-agent execution, semantic skill/spec/category qualification or project completion. Local hook execution on
-Windows requires **Git Bash**; Windows toast notifications are optional and
-fall back to plain hook output when unavailable.
+Installed adapters target Claude Code and Codex. Windows local hook execution
+requires Git Bash; Windows toast notifications are optional and fall back to
+plain hook output when unavailable. Read the actual runtime configuration and
+required installed inputs before claiming a supported action ran.
 
-Release evidence records Template Consistency on Ubuntu, macOS, and Windows.
+Historical Source releases may carry `Template Consistency` evidence for
+**Ubuntu**, **macOS**, and **Windows**, plus credential-free `Runtime Contract`
+CLI trials. Those local-only workflows are excluded from the current template
+delivery; their results cover only the identified release commit and actual
+checks. They do not prove live autoload, agent execution, semantic qualification
+or project completion. Current delivery acceptance follows
+[docs/CUSTOMER-ACCEPTANCE.md](docs/CUSTOMER-ACCEPTANCE.md) and the target's real
+test/QA contract without requiring a local maintenance kit.
 
 ## Community
 

@@ -218,7 +218,8 @@ values require correction, never silent fallback. Retain the existing update com
 - `full` → spawn as normal.
 
 Spawn `technical-director` via Task using **TD-MANIFEST**, whose criteria/verdicts
-are defined inline in this Phase 4b of `skills/create-control-manifest/SKILL.md`.
+are defined inline in this skill's current Phase 4b; no project-root skill copy
+is required to read the gate.
 `standards/director-gates.md` supplies shared mode/authority guidance, not this gate definition.
 
 Pass: the Control Manifest Preview from Phase 4 (rule counts per layer, full extracted rule list), the list of ADRs covered, engine version, and any rules sourced from technical-preferences.md or engine reference docs.

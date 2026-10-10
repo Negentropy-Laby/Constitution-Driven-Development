@@ -1,8 +1,11 @@
 # Setup Requirements
 
-This template requires a few tools for full functionality. Python 3.11+ is required (the adapter generator and consistency checks use the stdlib `tomllib`); `jq` is optional.
-All hooks fail gracefully if tools are missing — nothing will break, but
-you'll lose validation features.
+Normal template and installed-platform use requires Git and an available AI
+agent runtime. The selected project stack supplies its actual build/test tools.
+Python 3.11+ is needed only for separately provided, authorized local maintenance
+diagnostics; these tools are excluded from clean template delivery. `jq` is
+optional for configured hooks. Missing validation leaves the affected check
+unverified; it does not establish PASS or runtime execution.
 
 ## Required
 
@@ -10,7 +13,13 @@ you'll lose validation features.
 | ---- | ---- | ---- |
 | **Git** | Version control, branch management | [git-scm.com](https://git-scm.com/) |
 | **AI agent runtime** | Governed agent session | Claude Code (`npm install -g @anthropic-ai/claude-code`) and/or Codex — both share the same canonical sources |
-| **Python 3.11+** | Adapter generator, consistency checks, and test suite (`scripts/sync_adapters.py`, `scripts/workflow_consistency.py`, `unittest`); uses the stdlib `tomllib` | [python.org](https://www.python.org/) |
+
+## Optional Local Maintenance
+
+Python 3.11+ is required when separately supplied maintenance tools are used
+(their TOML parser uses stdlib `tomllib`). Verify their actual availability and
+authority before invoking them. Ordinary use reads installed entries and required
+neutral support directly; it does not install a second general CDD Source.
 
 ## Recommended
 
@@ -61,7 +70,7 @@ Run these commands to check prerequisites:
 git --version          # Should show git version
 bash --version         # Should show bash version
 jq --version           # Should show jq version (optional)
-python3 --version      # Python 3.11+ required for validation
+python3 --version      # Only if separately supplied maintenance diagnostics are used
 ```
 
 ## What Happens Without Optional Tools

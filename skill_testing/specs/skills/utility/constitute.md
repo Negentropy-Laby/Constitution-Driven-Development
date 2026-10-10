@@ -92,10 +92,42 @@ uninitialized adapter-state template without fabricating freshness evidence.
 - No existing `memory_bank/t2_execution/adapter_state.yaml`
 
 **Expected behavior:**
-- Copies `framework_contract.md` and `adapter_state.yaml` from the matching templates
-- Leaves adapter state at `status: uninitialized` with empty digests, commit, and timestamp
+- Initializes `framework_contract.md` from its matching delivered template and binds actual installed paths, required neutral inputs, project customizations and the sole external CDD Source; unresolved bindings remain unconfigured
+- Copies `adapter_state.yaml` unchanged from its matching template, at `status: uninitialized` with empty digests, commit, timestamp and check command
 - Does not claim adapters are fresh without running `/constitute-check`
 - Recommends `/constitute-check` after writing the approved skeleton
+
+---
+
+### Case 6: Concept and draft approval are not law acceptance
+
+**Fixture:**
+- A Game or Product concept was approved
+- Exact draft/file-write scope covers the law-index sections
+- No acceptance authority covers the displayed derived law text/revision and Support IDs
+
+**Expected behavior:**
+- Newly derived laws remain `Proposed`, with initial version 0.1 (Draft)
+- Derivation source and content/write approval are recorded separately from ratification
+- Missing law acceptance is not manufactured from concept approval, a director recommendation or successful writing
+- Presents the exact law set for Phase 3e ratification; only verified acceptance of that set allows Accepted status and its actual sign-off
+- Matching existing exact acceptance authority is reused; unrelated or changed-text approval does not match
+- An unratified draft does not satisfy a gate that requires Accepted laws
+
+### Case 7: Consumer initialization from delivered neutral originals
+
+**Fixture:**
+- Selected installed entries and required neutral originals are delivered
+- No local general `agents/` or `skills/` source trees and no maintenance scripts
+- External Source is temporarily unavailable
+- Variant: a required workflow view or listed skeleton original is missing while a similarly named placeholder exists
+
+**Expected behavior:**
+- Complete delivered originals support authorized offline skeleton initialization
+- T2 mirrors use actual delivered `docs/PHASE-CHECKLISTS.md` and `workflow/generated/gate-required-artifacts.md` inputs through ordinary file tools
+- Adapter state remains exactly the deterministic uninitialized template; Source freshness is unavailable
+- The variant identifies the exact missing/unread original and leaves its affected output pending; a placeholder does not satisfy it
+- Keeps approved project customizations and recoverable before bytes; never recreates general CDD source trees or installs a maintenance kit to proceed
 
 ---
 
@@ -107,3 +139,5 @@ uninitialized adapter-state template without fabricating freshness evidence.
 - [ ] Does not reference any deleted onboarding command as an active command
 - [ ] Produces clear next steps after constitution work
 - [ ] Never fabricates adapter freshness evidence
+- [ ] Concept/content/write approval does not accept laws; exact ratification is independently verified
+- [ ] Required neutral originals remain necessary; unavailable Source alone does not block complete offline installed inputs

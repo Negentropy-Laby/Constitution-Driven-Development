@@ -180,12 +180,15 @@ criterion to the test that covers it:
 
 For each acceptance criterion in the story:
 
-1. Ask: is there a test — unit, integration, confirmed manual playtest, or
-   confirmed manual user test — that
-   directly verifies this criterion?
-   - **Unit test**: check `tests/unit/` for a test file or function name that
-     matches the criterion's subject (use `Glob` and `Grep`)
-   - **Integration test**: check `tests/integration/` similarly
+1. Read the Story's exact Test Evidence paths and the actual test configuration
+   first, including configured roots outside `tests/` and runner discovery rules.
+   Ask whether a unit, integration or confirmed manual test directly verifies
+   this criterion:
+   - **Unit test**: read the exact named file first, then search the configured
+     unit-test roots/discovered paths for candidates (`tests/unit/` is a
+     conventional example; `Glob`/`Grep` locate candidates only).
+   - **Integration test**: use the exact named file and configured integration
+     roots/discovered paths similarly (`tests/integration/` is an example).
    - **Manual confirmation**: if the criterion was verified via `AskUserQuestion`
      above with a "Yes — passes" answer, count that as a manual test
 
@@ -228,13 +231,22 @@ remains Unknown.
 | **Config/Data** | Smoke check pass report in `production/qa/smoke-*.md` | ADVISORY |
 
 **[通用产品]** Product evidence table:
+
+Resolve automated evidence from the Story's exact paths and actual configured test
+roots, naming and runner discovery, including tests outside `tests/`. Read required
+originals and verify matching actual PASS results for the named ACs and inputs.
+Conventional directories are discovery examples, not prerequisites. A missing
+required original remains visible; fallback discovery does not waive it or erase
+a failure. Where the owning workflow permits an alternate location, reconcile
+that exact path with its owner before closure and verify the same required checks.
+
 | Story Type | Required Evidence | Gate Level |
 |---|---|---|
-| **API** | Contract test (pytest/Vitest/cargo/go) in `tests/api/` — must pass | BLOCKING |
+| **API** | Contract test at the exact Story-bound configured path — must exist and pass | BLOCKING |
 | **CLI** | Smoke command output in `production/qa/evidence/smoke/` — `--help` + core command | ADVISORY |
-| **Data/Migration** | Migration test against fresh instance in `tests/integration/` | BLOCKING |
-| **Auth/Permission** | Permission test in `tests/unit/auth/` or `tests/api/` — must pass | BLOCKING |
-| **Workflow** | Integration test in `tests/integration/[module]/` — must pass | BLOCKING |
+| **Data/Migration** | Migration test against fresh instance at the exact Story-bound configured path — must exist and pass | BLOCKING |
+| **Auth/Permission** | Permission test at the exact Story-bound configured path — must exist and pass | BLOCKING |
+| **Workflow** | Integration test at the exact Story-bound configured path — must exist and pass | BLOCKING |
 | **UI** | Walkthrough doc OR screenshot in `production/qa/evidence/` | ADVISORY |
 | **Integration** | Integration test OR API contract test | BLOCKING |
 | **Ops/Deployment** | Deployment smoke in `production/qa/smoke-*.md` | BLOCKING |
@@ -242,26 +254,38 @@ remains Unknown.
 
 **Product evidence checks:**
 
-- **API**: read the story's Test Evidence path first. If absent or missing,
-  search `tests/api/` for a contract test referencing the story slug, endpoint,
-  or TR-ID. If none found, flag **BLOCKING**.
+- **API**: read the Story's exact Test Evidence path first, then search actual
+  configured roots/discovered paths for contract tests covering its endpoint,
+  schema and TR-ID (`tests/api/` is an example). Verify actual matching PASS;
+  missing required evidence or incomplete required checks are **BLOCKING**.
 - **CLI**: check `production/qa/evidence/smoke/`, `production/qa/evidence/manual/`, or
   `production/qa/smoke-*.md` for command output covering `--help` and the core
   command path. If none found, flag **ADVISORY**.
 - **Data/Migration**: read the exact Test Evidence path first, then search
-  `tests/integration/` for migration or fresh-instance tests. If none found,
-  flag **BLOCKING**.
-- **Auth/Permission**: search `tests/unit/auth/` and `tests/api/` for permission
-  tests covering the role, token, or access boundary named by the story. If none
-  found, flag **BLOCKING**.
-- **Workflow**: read the exact Test Evidence path first, then search
-  `tests/integration/[module]/` and `tests/integration/` for workflow coverage.
-  If none found, flag **BLOCKING**.
+  actual configured roots/discovered paths for migration or fresh-instance tests
+  (`tests/integration/` is an example). Verify actual matching PASS; missing
+  required evidence or incomplete required checks are **BLOCKING**.
+- **Auth/Permission**: first read the Story's exact Test Evidence files and
+  actual test configuration. Verify the configured runner discovers those files,
+  that their behavioral assertions cover the required role, token and access
+  boundaries (including required allow/deny and invalid/expired cases), and that
+  matching actual execution passes. Search actual configured roots/discovered
+  paths for additional candidates only as needed; `tests/unit/auth/` and
+  `tests/api/` are conventional examples. Missing required evidence, failed tests
+  or incomplete required boundary coverage/execution remain **BLOCKING**.
+- **Workflow**: read the exact Test Evidence path first, then search actual
+  configured roots/discovered paths for required workflow coverage
+  (`tests/integration/[module]/` is an example). Verify actual matching PASS;
+  missing required evidence or incomplete required checks are **BLOCKING**.
 - **UI**: check `production/qa/evidence/` for walkthrough or screenshot evidence,
   or an interaction test named in the story. If none found, flag **ADVISORY**.
-- **Integration**: read the exact Test Evidence path first, then search
-  `tests/integration/` and `tests/api/` for service, webhook, queue, or contract
-  coverage. If none found, flag **BLOCKING**.
+- **Integration**: read the exact Test Evidence path first, then search actual
+  configured roots/discovered paths for required service, webhook, queue or
+  contract coverage (`tests/integration/` and `tests/api/` are examples). Verify
+  actual matching PASS; missing required evidence or incomplete required checks
+  are **BLOCKING**.
+For Ops/Deployment, resolve the actual conventional smoke report, confirmed CI evidence or exact Story-named deployment artifact used by this review. Read its original source and verify the required matching PASS deployment evidence; no route bypasses that requirement. Unresolved source selection remains Unknown.
+
 - **Ops/Deployment**: check for `production/qa/smoke-*.md`, CI evidence, or a
   deployment smoke artifact named in the story. If none found, flag **BLOCKING**.
 - **Config**: check for a config validation test, smoke report, or evidence doc
