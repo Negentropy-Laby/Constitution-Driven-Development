@@ -20,11 +20,27 @@ model: haiku
 
 ## Phase 0: Domain Detection
 
-Detect the project domain by checking for concept documents in `design/cdd/`:
+Read `AGENTS.md`, `standards/technical-preferences.md`, existing scoped domain
+decisions, and the substantive bodies of any `design/cdd/game-concept.md` or
+`design/cdd/product-concept.md` before selecting domain-dependent paths. Filenames,
+placeholders and shared file extensions do not establish the domain.
 
-- **Game**: `design/cdd/game-concept.md` exists → use `[Game]` paths below
-- **Product**: `design/cdd/product-concept.md` exists → use `[Product]` paths below
-- **Neither**: default to game paths (preserves backward compatibility)
+Populated legacy `Language & Framework`, `Platform & Deployment`, and
+`Agent Routing` / `File Extension Routing` sections remain valid Product
+configuration alongside `Product Stack`. Read their actual values; a missing new
+section or concept does not erase configured TypeScript/Bun API/CLI facts.
+
+- **Game**: consistent substantive Game concept/decision or actual engine/domain
+  and Game behavior evidence supports `[Game]` paths.
+- **Product**: consistent substantive Product concept/decision or actual Product
+  configuration supports `[Product]` paths, including legacy projects without a concept.
+- **Unknown**: insufficient, conflicting or mixed evidence leaves the affected
+  domain branch unresolved. Use an existing scoped decision or clarify with the
+  user/configured project lead. Neutral changelog analysis may continue.
+
+Record the supporting sections and values. Never silently default to Game.
+Missing or inaccessible required branch inputs leaves the affected check Incomplete;
+domain selection alone does not establish readiness or completion.
 
 ---
 

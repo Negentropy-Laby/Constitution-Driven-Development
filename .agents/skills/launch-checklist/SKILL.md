@@ -18,17 +18,45 @@ allowed-tools: Read, Glob, Grep, Write
 
 ## Phase 0: Domain Detection
 
-Detect the project domain by checking for concept documents in `design/cdd/`:
+**Required Read before domain-dependent routing:** read `AGENTS.md` and
+`standards/technical-preferences.md`, the existing explicit domain decision for
+the current scope, and any existing `design/cdd/game-concept.md` or
+`design/cdd/product-concept.md` bodies. Read actual configuration before deciding
+what the absence of a concept means. Filenames, copied templates, placeholders
+and shared file extensions do not establish a domain.
 
-- **Game**: `design/cdd/game-concept.md` exists → use `[Game]` paths below
-- **Product**: `design/cdd/product-concept.md` exists → use `[Product]` paths below
-- **Neither**: default to game paths (preserves backward compatibility)
+In technical preferences, read populated legacy Product sections as valid aliases:
+`Language & Framework` supplies language/framework/runtime choices;
+`Platform & Deployment` supplies targets/deployment; `Agent Routing`, including
+its `File Extension Routing`, supplies specialist routing in its owning domain.
+Compare their actual values with `Product Stack` and applicable concept/decision
+evidence. A missing parallel section does not erase valid configured facts or
+require relocating them. Conflicting values block the affected route.
+
+Classify the current scope after these reads:
+
+- **Game**: consistent substantive Game concept/decision evidence, or actual
+  configured engine/domain plus Game behavior evidence, supports `[Game]` paths.
+- **Product**: consistent substantive Product concept/decision evidence or actual
+  configured Product facts supports `[Product]` paths. Populated legacy
+  TypeScript/Bun API/CLI targets and Product specialist routing, for example,
+  remain Product without a concept or a new `Product Stack` section.
+- **Unknown**: evidence is insufficient, conflicting or mixed without a concrete
+  governing scope. Resolve Game or Product using an existing scoped decision or
+  confirmation from the user/configured project lead before dependent branches.
+  Both concept filenames do not select a branch; independent neutral reporting
+  continues while the affected domain-specific work waits.
+
+Record the chosen domain and the actual source sections/values supporting it.
+Never silently default to Game. Missing/inaccessible required configuration or
+branch inputs leaves the affected check Incomplete; domain selection alone does
+not prove runtime availability, test execution, readiness or completion.
 
 ## Dual-Domain Parity Contract
 
 | Area | Game branch | Product branch |
 |------|-------------|----------------|
-| Context reads | Game Concept, milestone, release checklist, content calendar, build/store/legal/community/QA artifacts | Product Concept, milestone, release checklist, deployment config/IaC, migration/rollback docs, monitoring/on-call/support/security/docs artifacts |
+| Context reads | Game domain evidence/configuration, milestone, release checklist, content calendar, build/store/legal/community/QA artifacts | Product domain evidence/configuration, milestone, release checklist, deployment config/IaC, migration/rollback docs, monitoring/on-call/support/security/docs artifacts |
 | Steps | Validate code, content, platform certification, store metadata, localization, analytics, community/support, team readiness | Validate code, data/migrations, deployment strategy, rollback, monitoring/alerts, on-call/support, security/privacy, docs/customer communication, team readiness |
 | Outputs | `production/releases/launch-checklist-[date].md` or dry-run report with game launch readiness and sign-offs | Same path/report with product launch readiness, deployment/rollback/on-call/monitoring support sign-offs |
 | Next steps | `/team-release`, final store/platform submission, monitor launch, hotfix if needed | `/team-release`, staged production deployment, monitor/on-call, incident or hotfix if needed |

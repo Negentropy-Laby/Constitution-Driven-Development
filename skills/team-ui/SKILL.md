@@ -132,6 +132,8 @@ Before implementation begins, spawn the **engine UI specialist** (from `standard
 
 If no engine is configured, skip this step.
 
+When implementation uses an established library, read the actual interaction patterns, including option (a) after its separately approved creation. Explicit option (b) proceeds with new patterns. Keep the initial absent-library warning and user choice visible, do not invent existing patterns, and retain new-pattern documentation plus the final actual library check. Unresolved choice stays Unknown.
+
 Delegate to **ui-programmer**:
 - Implement the UI following the UX spec and visual design spec
 - **Use patterns from `design/ux/interaction-patterns.md`** — do not reinvent patterns that are already specified. If a pattern almost fits but needs modification, note the deviation and flag it for ux-designer review.
@@ -159,6 +161,8 @@ All three review streams must report before proceeding to Phase 5.
 - Confirm UI sounds trigger through the audio event system (no direct audio calls)
 - Test at all supported resolutions and aspect ratios
 - **Verify `design/ux/interaction-patterns.md` is up to date** — if any new patterns were introduced during this feature's implementation, confirm they have been added to the library
+Apply HUD budget checks when the actual agreed feature scope includes HUD elements. A confirmed non-HUD surface has no HUD branch; unresolved scope stays Unknown. Actual HUD budget checks and required current visual inputs remain unchanged.
+
 - **Confirm all HUD elements respect the visual budget** defined in `design/ux/hud.md` (element count, screen region allocations, maximum opacity values)
 
 ## Product Interaction Pipeline

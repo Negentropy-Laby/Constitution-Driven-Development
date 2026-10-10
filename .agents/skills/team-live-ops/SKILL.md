@@ -1,6 +1,6 @@
 ---
 name: team-live-ops
-description: "Orchestrate live operations. Game: seasons, events, economy rewards, community messaging. Product: staged rollout, feature flags, lifecycle campaigns, analytics, A/B tests, customer communication, incident watch, and adoption/retention improvements."
+description: "Orchestrate the implemented Game seasonal/event live-ops planning workflow. Product or Unknown requests are handed to the configured project lead to clarify scope and owner, then stop before the Game pipeline."
 argument-hint: "[season name or event description]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite
@@ -8,7 +8,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 
 ## User Guide
 
-- When to use: Orchestrate live operations. Game: seasons, events, economy rewards, community messaging. Product: staged rollout, feature flags, lifecycle campaigns, analytics, A/B tests, customer communication, incident watch, and adoption/retention improvements.
+- When to use: Plan Game seasons or events, including economy rewards and community messaging, through the implemented Game workflow below. For Product or Unknown requests, clarify scope and owner with the configured project lead and stop; this skill has no implemented Product lifecycle/operations pipeline.
 - Inputs: Command arguments: `/team-live-ops [season name or event description]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
 - Memory-bank writes: None.
@@ -16,18 +16,18 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before orchestrating live operations:
-- `design/cdd/game-concept.md` -> **[Game]** keep seasonal events, retention hooks, economy rewards, community messaging, analytics, and live content planning.
-- `design/cdd/product-concept.md` -> **[Product]** use this command for product operations: staged rollout, feature flags, lifecycle campaigns, usage analytics, A/B tests, customer communication, incident watch, and adoption/retention improvements.
-- If unclear, ask whether the operation is game live-ops or product lifecycle/ops.
+Perform the argument check below before reading any files or selecting a domain. With a valid argument, resolve the actual project domain from substantive existing concepts and project configuration before orchestrating Game live operations:
+- `design/cdd/game-concept.md` -> continue the Game seasonal/event pipeline only when substantive content and actual configuration establish Game scope.
+- `design/cdd/product-concept.md` -> hand the Product request to the configured project lead to clarify its actual operation, scope, owner, and applicable authorized Product workflow; then stop before Game delegates, Game artifact writes, or any completion claim.
+- Missing or conflicting domain/configuration -> keep the domain Unknown, ask the user or configured project lead to clarify scope and owner, and stop before the Game pipeline. Absence of a concept is not Game evidence.
 
-Do not remove game live-ops examples. Product lifecycle operations are a parallel branch.
+The existing seasonal/event examples and all phases below are Game-only. Product and Unknown routing above is a clarification hand-off, not an invented parallel execution branch.
 
 **Argument check:** If no season name or event description is provided, output:
 > "Usage: `/team-live-ops [season name or event description]` — Provide the name or description of the season or live event to plan."
 Then stop immediately without spawning any subagents or reading any files.
 
-When this skill is invoked with a valid argument, orchestrate the live-ops team through a structured planning pipeline.
+When this skill is invoked with a valid argument and resolved Game scope, orchestrate the live-ops team through the structured Game planning pipeline below.
 
 **Decision Points:** At each phase transition, use `AskUserQuestion` to present
 the user with the subagent's proposals as selectable options. Write the agent's

@@ -16,12 +16,23 @@ allowed-tools: Read, Glob, Grep, Write
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before creating a soak protocol:
-- `design/cdd/game-concept.md` -> **[Game]** keep the extended play-session soak test: memory, stability, content exhaustion, save/load, playtest watch points, and engine monitors.
-- `design/cdd/product-concept.md` -> **[Product]** create a reliability/endurance soak protocol: sustained API load, CLI batch duration, worker queue stability, memory leaks, database connection churn, cache behavior, deployment health, and observability alerts.
-- If unclear, ask whether the target is a game play session or a product/service endurance run.
+Read actual domain configuration in `standards/technical-preferences.md`, existing
+scoped decisions and substantive available concept content before routing. A
+concept filename or absent concept alone does not establish the domain; populated
+legacy Product stack, target and specialist-routing sections remain valid facts.
 
-Preserve all engine-specific game soak instructions. Product reliability soak checks are additional.
+- **Game**: when consistent evidence establishes a game play-session scope,
+  continue with the Game protocol below, using the actual engine and budgets.
+- **Product**: the protocol below is Game-specific and does not implement a
+  Product reliability/endurance run. Stop that affected branch before reading
+  Game-only inputs or generating Game monitors. Identify the actual API/CLI/service
+  surface, runner, reliability Owner and required inputs, then propose a separately
+  scoped Product protocol for agreement and write authority. Do not claim a Product
+  test was designed or executed from the Game template.
+- **Unknown/conflicting**: clarify the actual domain and endurance scope before
+  dependent steps. Neutral observations may continue without selecting Game.
+
+The remaining phases apply to the established Game scope.
 # Soak Test
 
 A soak test (also called an endurance test) is an extended play session run
@@ -74,10 +85,15 @@ Read:
   monitoring guidance), performance budgets (memory ceiling, target FPS)
 - `design/cdd/game-concept.md` — intended session length (for comparison against
   soak duration), core loop description
-- Most recent file in `production/qa/evidence/playtests/` — prior playtest findings
-  (to avoid re-documenting known issues)
-- Most recent file in `production/qa/qa-plan-*.md` — current sprint test coverage
-  (to understand what has been formally tested vs. what the soak covers)
+- Select and Read the actual applicable prior playtest original from
+  `production/qa/evidence/playtests/`, matching this build/session scope.
+- Select and Read the actual current-scope QA plan from
+  `production/qa/qa-plan-*.md`, including its original execution evidence.
+  A newest timestamp alone does not establish scope or test execution.
+
+An empty candidate set, unreadable file or unresolved scope leaves the affected
+required input Incomplete. Resolve the real Owner/path before dependent analysis;
+do not create a placeholder, infer PASS from a plan or borrow another scope's evidence.
 
 Note any performance budget targets from technical-preferences.md:
 - Memory ceiling: [N MB, or "not set"]
@@ -169,7 +185,7 @@ Before starting the soak:
   - **Unity**: Memory Profiler window open
   - **Unreal**: `stat memory` ready in console
 - [ ] Soak target confirmed: [session design intent from game concept]
-- [ ] Prior known issues to watch for: [from most recent playtest / qa-plan]
+- [ ] Prior known issues to watch for: [from the actual applicable prior playtest and current-scope QA plan]
 
 ---
 
