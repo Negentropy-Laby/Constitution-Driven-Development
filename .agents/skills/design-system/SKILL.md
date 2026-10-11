@@ -496,13 +496,19 @@ the former external game design document template has been folded into this skil
 If the new-file effect is not already authorized, show the skeleton and ask:
 "May I create the skeleton file at `design/cdd/[system-name].md`?"
 
-After writing, update `production/session-state/active.md` only when its exact
-path/effect is authorized; otherwise present the following progress in conversation:
-- Use Glob to check if the file exists.
-- If it **does not exist**: use the **Write** tool to create it. Never attempt Edit on a file that may not exist.
-- If it **already exists**: use the **Edit** tool to update the relevant fields.
+After writing, choose one checkpoint branch from the existing exact path/effect
+authorization for `production/session-state/active.md`:
 
-File content:
+- **Authorized checkpoint write:** only in this branch, use Glob to check whether
+  the checkpoint exists. If it exists, Read it and use Edit for the authorized
+  fields. If it does not exist, use Write only when creation is also covered by
+  the existing scope; never Edit a missing file. If only an existing-file update
+  was authorized, present the creation draft and obtain that new effect first.
+- **No checkpoint write authority:** present the progress below in conversation
+  only. Do not enter the checkpoint Glob/Write/Edit branch or create session
+  state as a side effect of permission to write the CDD.
+
+Progress fields (for either branch):
 - Task: Designing [system-name] CDD
 - Current section: Starting (skeleton created)
 - File: design/cdd/[system-name].md
