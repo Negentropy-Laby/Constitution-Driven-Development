@@ -16,126 +16,79 @@
 The canonical-to-generated decision remains in force. Installed projects use
 the complete delivered platform adapters and their required neutral template and
 standard inputs directly, including offline use. They do not rebuild adapters
-or require a local CDD maintenance toolkit. Updates use the designated external
+or require a local CDD maintenance toolkit. Updates use the designated
 CDD Source; a target keeps its business documents, configuration and customizations
 without becoming a second general CDD Source.
 
-The manifest, generator, checkers and CI descriptions below record the original
-Source implementation and its historical validation. These maintenance files are
-local-only under the current Source submission boundary. References to their
-commands do not make them clone-and-use prerequisites or authorize restoring
-maintenance CI. Where separately available for authorized Source maintenance,
-their safety and deterministic projection contracts still apply.
+This delivery-facing summary preserves the Accepted choices and introduces no
+new decision or acceptance. The complete pre-separation text remains in Git
+revision `2dfbe67e67a01ee70e8da74ab13523c7cd40785a` at this path and in the
+separately retained original. Historical implementation recipes and validation
+records remain recoverable and are excluded from template Git submission/publication.
+Their local storage location does not determine compliance.
 
 ## Context
 
-CDD supports multiple agent runtimes (Claude Code primary, Codex secondary). Until
-this decision, the same authority content was duplicated across hand-maintained
-runtime trees and CI only *checked* that the copies agreed — no generator produced
-them. Four asset classes were duplicated this way:
-
-| Class | Claude surface | Codex surface |
-|---|---|---|
-| Skills (74) | `.claude/skills/<n>/SKILL.md` + mirrored `.claude/skills/<n>/references/*.md` | `.agents/skills/<n>/SKILL.md` + mirrored `.agents/skills/<n>/references/*.md` |
-| Agents (53) | `.claude/agents/<n>.md` | `.codex/agents/<n>.toml` |
-| Hooks (12) | `.claude/hooks/<n>.sh` | `.codex/hooks/<n>.sh` |
-| Root instructions | `CLAUDE.md` | `AGENTS.md` |
-
-`scripts/workflow_consistency.py` hardcoded `.claude/` as the source of truth and
-the duplicated trees were kept in step by hand (recent history shows both skill
-trees edited in the same commit). Drift risk is structural: an edit to one runtime
-tree can ship without its counterpart, and the Codex agent TOMLs had already
-accumulated literal `\r` escape pollution (49 of 53 files) and inconsistent
-quoting because no canonical serialization defined them.
+Duplicating authority content across independently edited runtime trees creates
+structural drift. Runtime discovery and metadata capabilities differ; the
+canonical owners and deterministic platform projections make those differences
+explicit while keeping installed adapters ready for use.
 
 ## Decision
 
-Establish one committed **canonical** source per asset class and deterministically
-**generate** every runtime adapter from it:
+1. The hand-authored canonical owners are `skills/`, `agents/`, `hooks/` and
+   `INSTRUCTIONS.md`. Claude-origin wording is projected deterministically for
+   Codex; it does not claim runtime-neutral source prose.
+2. Platform outputs stay committed and directly usable at their installed paths.
+   Derived files are never independently hand-authored after cutover; canonical
+   changes and their complete platform projections are reviewed together.
+3. The single source/output/transform/ownership mapping uses the Accepted TOML
+   contract. Its strict standard-library parser has the Accepted Python 3.11
+   baseline and adds no dependency. This Source maintenance mapping is external
+   to normal delivered-project inputs; its Accepted choice has not been replaced.
+4. Each declared managed destination tree contains exactly its projected file
+   set; EXTRA/orphan files fail the comparison. Root instruction files are
+   individually owned and their parent is never pruned. Recognition of EXTRA
+   does not itself confer deletion authority.
+5. Comparison uses exact UTF-8/LF bytes and the Accepted 0644 mode contract,
+   rather than newline-normalized text.
+6. All outputs are rendered and validated before any mutation. Writes are
+   per-file atomic; invalid expected counts or empty source coverage must not
+   erase usable adapters. This retains the Accepted complete preflight and
+   atomic-write contract.
+7. Codex agent metadata intentionally retains only `name`, `description` and
+   `developer_instructions`; `tools`, `model`, `maxTurns`, `memory`, `skills`,
+   `disallowedTools` and `isolation` have no corresponding agent-schema fields.
+   Unknown future frontmatter fields block projection instead of being silently
+   discarded. Canonical `agents/*.md` retains the full metadata.
 
-```
-canonical source (skills/, agents/, hooks/, INSTRUCTIONS.md)
-    └── cdd-manifest.toml + scripts/sync_adapters.py
-            ├── Claude runtime adapters (.claude/..., CLAUDE.md)
-            └── Codex runtime adapters  (.agents/..., .codex/..., AGENTS.md)
-```
+## ADR Dependencies
 
-Specifically:
-
-1. **Canonical roots** are hand-authored: `skills/`, `agents/`, `hooks/`,
-   `INSTRUCTIONS.md`. Initial canonical text is copied verbatim from the current
-   Claude assets (Codex wording remains a deterministic transform, not a claim of
-   runtime-neutral prose).
-2. **Generated outputs** (`.claude/skills`, `.agents/skills`, `.claude/agents`,
-   `.codex/agents`, `.claude/hooks`, `.codex/hooks`, `CLAUDE.md`, `AGENTS.md`)
-   stay committed for clone-and-use behavior and are **never hand-edited** after
-   cutover. The original Source implementation used
-   `python scripts/sync_adapters.py --write` to regenerate them and `--check`
-   to detect drift in its then-configured maintenance CI. These are historical
-   maintenance operations, not delivered-project dependencies.
-3. **`cdd-manifest.toml`** is the single source/output/transform/ownership
-   contract, read by both the generator and `workflow_consistency.py`. TOML is
-   used (not YAML) because the unconditional `tomllib` import already makes Python
-   3.11 the effective minimum, giving a strict standard-library parser with no
-   new dependency.
-4. **Managed-tree ownership**: each `owns_tree = true` destination must contain
-   exactly the generated file set — the original maintenance checks rejected
-   `EXTRA`/orphan files. Root files
-   (`CLAUDE.md`, `AGENTS.md`) are individually owned; their parent is never pruned.
-5. **Freshness is exact UTF-8/LF bytes plus a 0644 mode contract** — not
-   newline-normalized text — so CRLF churn and executable-bit drift are caught.
-6. **Full preflight before mutation**: the generator renders every output in
-   memory and validates it before any file is written or pruned; writes are
-   per-file atomic (`tempfile` + `fsync` + `os.replace`). A typo'd `expected_count`
-   or empty glob can therefore never erase usable adapters.
-7. **Codex agent metadata loss is intentional**: `agent_md_to_toml` retains only
-   `name`, `description`, `developer_instructions` and drops `tools`, `model`,
-   `maxTurns`, `memory`, `skills`, `disallowedTools`, `isolation` (Codex's agent
-   schema carries no equivalents). Unknown future frontmatter fields **block**
-   generation rather than being silently lost. The canonical `agents/*.md` keeps
-   the full frontmatter as canonical metadata.
+ADR-0002 extends runtime parity, rules, nested instructions and mixed ownership.
+Its separately Accepted D7/D8 amendment governs initialization, evidenced
+freshness and the maintenance-delivery boundary. This summary preserves the
+original Accepted record and does not ratify a changed choice.
 
 ## Alternatives considered
 
-- **Keep manual parity checks (status quo).** Rejected: drift is structural and
-  had already produced real corruption (`\r` pollution, inconsistent quoting).
-- **Symlinks from runtime trees to canonical roots.** Rejected: cross-platform
-  (Windows) and runtime-discovery semantics make symlinks unreliable, and runtimes
-  expect real files at the adapter paths.
-- **Untracked generated adapters (build on clone).** Rejected: regresses the
-  template's clone-and-use UX; every user would need a build step before skills
-  exist.
-- **Fully tokenized, runtime-neutral source prose** (e.g. `{{ROOT_INSTRUCTIONS}}`
-  placeholders). Rejected for now: adds templating syntax to source files and a
-  substitution surface for little gain, given Codex's agent schema already cannot
-  represent the full Claude frontmatter. Tokenization can be revisited if a third
-  runtime with different wording needs is added.
+Independent manual copies retain drift risk. Symlinks are unreliable across
+Windows and runtime discovery. Building adapters after clone would remove
+ready-to-use entries. Fully tokenized runtime-neutral prose remains rejected:
+it adds source syntax and substitution complexity while platform capabilities
+still differ. A future runtime may justify a separately reviewed decision.
 
 ## Consequences
 
-- **Source contributors** author canonical roots and deliver the matching
-  reviewed platform projections. A separately available local maintenance
-  generator can regenerate them (class-scoped or all); a fresh clone does not
-  require this retired delivery dependency. The historical
-  authoring-path cutover (Gate 5) updates `skill-improve`, `skill-test`,
-  `setup-engine`, `godot-specialist`, and `validate-skill-change.sh` so no
-  supported workflow directs edits at a generated file.
-- **Validators** (Gate 6) read canonical roots for semantic checks and generated
-  outputs for runtime checks; duplicated Claude/Codex semantic loops are removed.
-- **Downstream template users** see no behavior change at clone time; generated
-  trees are present and identical in spirit to before. The 49 Codex TOMLs gain a
-  one-time, reviewed normalization (literal `\r` escape removal + consistent
-  quoting).
-- **Historical maintenance CI** gained a `sync_adapters.py --check` step and
-  a Python 3.11 baseline during this migration. This records that implementation;
-  it is not a current submission requirement or an instruction to restore CI.
+Source authors maintain canonical definitions and deliver their reviewed platform
+projections. Consuming projects use the installed entries and required neutral
+inputs offline, retain project customizations and exclude general Source mirrors
+from consumer Git submission/publication.
+Installation alone is not proof of loading, execution or current freshness.
 
 ## Rollback / compatibility
 
-- Generated adapters remain usable until the read-only golden comparison passes,
-  so the migration can be aborted before the authoring cutover with no loss.
-- The manifest never reads from a destination, so rollback cannot create a
-  self-fed authority loop.
-- A failed/invalid preflight performs zero writes and zero pruning.
-- After cutover, deterministic regeneration plus Git history restore generated
-  outputs; no destructive `git checkout` is built into the generator.
+Keep usable installed adapters until an applicable read-only comparison succeeds.
+Owner inputs never come from their own destination projections. Invalid preflight
+performs zero writes and zero pruning. Any authorized restore retains exact
+before/after identities, complete output context and unrelated changes; history
+remains recoverable. A change to an Accepted choice requires its own ADR acceptance.

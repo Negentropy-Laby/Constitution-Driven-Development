@@ -2,21 +2,21 @@
 
 The tree below describes the designated Source-library checkout. An import-mode
 consumer keeps approved platform outputs, necessary neutral support and its
-project-custom inputs; it does not copy general root `agents/` or `skills/`.
+project-custom inputs; it excludes general root `agents/` or `skills/` mirrors
+from Git submission/publication. This is a content boundary, not a local-directory
+restriction: ignored maintenance files may remain in either repository.
 Use the project's reviewed delivery allowlist, actual installed readers and
 portable Source binding. Required neutral inputs are listed in
 `adapters/README.md` and extend through the selected workflow's actual required
-references; do not omit them or copy entire general source trees. Ordinary
+references; do not omit them or add general source mirrors to Git delivery. Ordinary
 installed-file use needs no maintenance reader, profile or lock. Source-dependent
 updates preserve reviewed project differences and require the sole actual Source.
-When the project uses an import profile, reviewed skill hunks use its declared
-`standards/cdd-overrides/skill-overlays/*.json`, with exact base/result identities.
+Retain approved portable project differences in the project's established configuration.
 
 ```text
 /
 # --- Canonical common sources in the Source library (hand-authored) ---
 ├── INSTRUCTIONS.md              # Canonical root instructions (generated to CLAUDE.md + AGENTS.md)
-├── cdd-manifest.toml            # Canonical -> generated adapter contract
 ├── skills/                      # Canonical skills (generated into adapter runtimes)
 ├── agents/                      # Canonical agents (generated into adapter runtimes)
 ├── hooks/                       # Canonical hooks (generated into adapter runtimes)
@@ -31,7 +31,7 @@ When the project uses an import profile, reviewed skill hunks use its declared
 ├── src/INSTRUCTIONS.md          # Canonical src/ guidance (-> src/CLAUDE.md + src/AGENTS.md)
 ├── design/INSTRUCTIONS.md       # Canonical design/ guidance (-> design/CLAUDE.md + design/AGENTS.md)
 ├── docs/INSTRUCTIONS.md         # Canonical docs/ guidance (-> docs/CLAUDE.md + docs/AGENTS.md)
-# --- Generated runtime adapters (NEVER hand-edit; regenerate via scripts/sync_adapters.py) ---
+# --- Installed runtime adapters (derived from the canonical owners) ---
 ├── CLAUDE.md                    # Generated root instructions (Claude)
 ├── AGENTS.md                    # Generated root instructions (Codex)
 ├── .claude/                     # MIXED OWNERSHIP: generated subtrees + hand-authored config
@@ -59,9 +59,9 @@ When the project uses an import profile, reviewed skill hunks use its declared
 └── memory_bank/                 # Project governance brain (created from templates/ by /constitute)
 ```
 
-In the Source-library checkout, generated adapter subtrees are owned by
-`scripts/sync_adapters.py` — only the
-manifest-declared subtrees above are generated, and they must never be hand-edited.
+In the Source-library checkout, the listed adapter subtrees derive from their
+canonical owners. Review canonical changes and the exact platform projections
+together; do not independently author the derived files.
 `.claude/` and `.codex/` are **mixed-ownership** roots: they also contain
 hand-authored runtime config (`settings.json`, `statusline.sh`, `hooks.json`) and,
 for Codex, the native `.codex/rules/*.rules` command-approval namespace, none of
@@ -78,17 +78,18 @@ inputs and separate approved maintenance scope. Never recover a consumer's
 missing canonical root by copying installed outputs back into `agents/` or `skills/`.
 
 The layout records ownership, not activation. Skills copy verbatim to
-`.claude/skills/` and use manifest `runtime_substitute` for `.agents/skills/`.
+`.claude/skills/` and use platform-specific wording for `.agents/skills/`.
 Agent Markdown copies to Claude; Codex TOML retains only `name`, `description`
 and `developer_instructions`, dropping the seven known operational fields in
 `adapters/README.md`. Generated files do not promise equivalent model, tools,
 memory, isolation or execution.
 
-The generator source digest covers manifest-declared source classes. Relied-on
+A platform-definition comparison does not certify every linked input. Relied-on
 neutral support in `standards/`, `templates/`, `workflow/`, `skill_testing/`,
 `rules/`, `docs/` and `adapters/` needs its own exact identity; freshness does not
 certify linked semantics. The consumer's T2 framework contract binds installed
-paths and the sole external Source, not absent local general sources or tools.
+paths and designated Source authority; local general-source/tool presence does
+not confer that authority and does not determine submission compliance.
 Optional `memory_bank/` requires separately authorized initialization. Its T2
 testing mount references canonical `skill_testing/` without another testing tree.
 Read `standards/evidence-lifecycle.md` and actual runtime metadata for evidence,

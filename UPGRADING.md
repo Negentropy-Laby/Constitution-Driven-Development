@@ -60,9 +60,10 @@ SDK/library, and internal headless projects may record it as not applicable.
 
 1. Record the exact current revision and retain recoverable before bytes. Use a
    short-lived branch if the project's trunk-based policy calls for one.
-2. Verify the unique designated external Source and independently review the
+2. Verify the unique designated Source and independently review the
    exact platform/configuration and necessary neutral-support delivery allowlist
-   from `adapters/README.md`. Do not copy general root `agents/` or `skills/`.
+   from `adapters/README.md`. Do not add general root `agents/` or `skills/`
+   mirrors to the target Git submission/publication set.
 3. Preserve project-owned artifacts under `design/`, `docs/architecture/`,
    `production/`, `prototypes/`, `src/`, and `tests/`, including actual test roots,
    valid customizations, production configuration and historical evidence.
@@ -77,48 +78,31 @@ decisions, merge the new template structure into it rather than overwriting it.
 
 ## Common Migration Fixes
 
-### Manifest v2
+### Platform adapters and project configuration
 
-The Source adapter manifest (`cdd-manifest.toml`) is version 2. This migration
-applies to the designated Source or separately authorized Source generation;
-an installed target does not recreate canonical roots to satisfy the manifest.
-A version-1 manifest needs these changes before Source rendering:
+A consuming project keeps its approved platform adapters, neutral inputs and
+project-specific configuration. The designated Source owns general CDD definitions;
+exclude general source mirrors and template-maintenance tools from target Git
+submission/publication. Local copies may remain inside or outside the repository;
+the boundary does not require moving them or changing log locations. Back up complete project customizations and
+review the exact changed delivery before applying an authorized update.
 
-1. Set `version = 2`.
-2. Declare each runtime:
-   ```toml
-   [runtimes.claude]
-   label = "Claude Code"
-   [runtimes.codex]
-   label = "Codex"
-   ```
-3. Each source may add a `targets` list (default: all runtimes). Use
-   `targets = ["claude"]` for Claude-only sources such as path-policy `rules`.
-4. Source IDs remain configurable, but `all` is reserved for the CLI
-   `--class all` selector. Rename any `[sources.all]` table before validation.
-5. Path-policy rules moved from `.claude/rules/` to canonical `rules/`. If you
-   have **custom or untracked** rule files in `.claude/rules/`, back them up
-   first. Preserve target-owned rules in their approved project location; merge
-   actual Source rules and update `expected_count` only within Source authority.
-   With an available authorized renderer, inspect every added/changed/extra
-   output before rendering in an isolated stage. `owns_tree` may prune extras;
-   unknown or unapproved removal stops the operation, even for untracked files.
-6. Codex's native `.codex/rules/*.rules` command-approval files are unrelated to
-   CDD path policies and are never generator-owned; leave them alone.
-7. The generated-file hook was renamed; after upgrading, re-trust changed Codex
-   hooks via the runtime hook browser and restart Codex.
+Preserve target-owned policies and runtime settings. Codex native
+`.codex/rules/*.rules` command-approval files are independent of CDD path policies.
+Changed business hooks follow the runtime's actual trust requirements and separate
+activation authority; an upgrade does not enable a maintenance hook.
 
 ### v0.2 adapter freshness state
 
 1. Read the installed `/constitute` entry and its required neutral originals.
    Initialize T2 only within covered project-write authority; retain existing
    project-owned memory files.
-2. Bind `framework_contract.md` to the actual installed paths and unique external
+2. Bind `framework_contract.md` to the actual installed paths and unique designated
    Source. `adapter_state.yaml` starts uninitialized; file reads alone are not
    Source freshness evidence.
 3. Run `/constitute-check`. Ordinary installed-file observations work without
    maintenance tools. A live Source check requires the actual Source and a
-   separately supplied authorized checker; unavailable checks retain the last
+   valid applicable read-only comparison; unavailable checks retain the last
    recorded state and are reported unavailable, never fresh.
 4. Review the complete state draft and permit only covered writes. `/cdd-status`
    reads recorded state and does not run generation or impose a new phase gate.
@@ -208,8 +192,8 @@ simulation from live agent execution.
 
 Source generators and maintenance checks are local-only and supplied separately.
 Use them only when available and authorized; their absence is not an ordinary
-installed-use dependency. Do not copy Source trees or maintenance tools into a
-target to make an upgrade appear complete. Sync project documentation after
+installed-use dependency. Do not add general Source mirrors or maintenance tools
+to target Git delivery to make an upgrade appear complete. Sync project documentation after
 meaningful batches or at the user's request, while retaining required decision
 and safety checks; do not add a per-code-baseline synchronization gate.
 

@@ -33,12 +33,9 @@ whole runtime roots also contain hand-authored/runtime-owned configuration:
 | `.agents/` | Codex slash-command skill adapter copy (generated) |
 | `.codex/` | Mixed: generated agents/hooks; hand-authored hooks.json and runtime-owned native command rules/config |
 
-For separately authorized maintenance, a separately provided local kit can
-regenerate or check a Source-library checkout. A fresh Source clone need not
-include these scripts; they are not prerequisites for using installed adapters:
-
-- `python scripts/sync_adapters.py --write` — regenerate every generated tree
-- `python scripts/sync_adapters.py --check` — fail if any generated tree is stale
+Read the installed adapters and their required neutral originals directly.
+Changing canonical definitions and their projections requires covered write
+authority, an exact delivery allowlist and review of the complete result.
 
 Do not move canonical workflow catalogs, templates, standards, or skill testing
 assets into adapter runtime trees. Adapter directories may contain wrappers,
@@ -62,8 +59,9 @@ import package. Their use does not need the general source trees or local
 maintenance tools, and it does not authorize a project write or law acceptance.
 
 A consumer uses its approved installed platform files, necessary neutral support
-and project rules. General root `agents/` and `skills/` are not copied there as
-another source. Read complete installed entries and the actual required references
+and project rules. General root `agents/` and `skills/` mirrors are excluded from
+consumer Git submission/publication. Local presence inside or outside a project
+is allowed and does not establish another Source or authorize moving/deleting files. Read complete installed entries and the actual required references
 for the selected platform; a local maintenance reader, profile or lock is not a
 normal-use prerequisite. Optional diagnostics can verify additional identities
 when provided, but installed-file observations alone do not prove current Source,
@@ -75,7 +73,8 @@ review exact candidates and deploy only the approved allowlist. Do not run this
 Source library's generic generator main/write against a consumer. Installed
 Codex TOML, a catalog, an offline context or a copied checker is not full source
 authority. Template-maintenance checkers remain separate local maintenance
-files outside the consumer delivery; they are not normal-use dependencies or
+files excluded from consumer Git submission/publication regardless of local
+placement; they are not normal-use dependencies or
 permission to activate hooks.
 
 ## Required delivery inputs
@@ -107,37 +106,19 @@ installed inputs remain usable offline; common updates require the sole Source.
 
 ## Consumer differences and migration order
 
-An import profile records its sole Source locator/pin and used raw working-byte
-identities in the project lock. The standard skill-difference directory is the
-profile-declared `standards/cdd-overrides/skill-overlays/*.json`; use narrow
-`cdd-skill-overlay.v1` hunks with exact base/result SHA-256 and byte sizes,
-ordered offsets and delete/insert witnesses. Preserve operational frontmatter
-and old customization evidence. These are project differences, not whole Source
-skill files relocated into the project; role differences have a separate owner.
-
-Existing projects first inventory actual consumers and customizations, retain
-raw backups and obtain an independent complete-byte/frontmatter restore. Then
-extract/review differences and reconstruct effective inputs, generate in an
-approved isolated stage using the actual Source/original renderer, review the
-exact allowlist, and close platform/consumer readback plus offline identity
-checks. Only afterward may a separately approved recoverable retirement remove
-obsolete root copies. Identity/patch/ownership conflicts stop rather than
-overwrite customization; upgrades retain old records and explicitly rebase each
-changed Source base. Preserve unrelated support and runtime-owned settings; no
-hook activation or blanket pruning is part of import/upgrade.
-
-A separately provided optional maintenance kit may offer installed list/read,
-`--artifact-check` or checker diagnostics. Its `--prepare-stage` is an approved
-disposable diagnostic context, not regeneration authority. These tools are not
-promised by a fresh Source clone and are not normal-use gates: use the selected
-platform's installed entries and references directly. Actual Source reproduction
-and `--prepare-source-stage` still require Source and their own approved scope.
-See the Source README's importing-existing-project section for optional examples.
+A consumer retains portable project differences and the actual selected platform
+paths. Preserve the designated Source authority independently of local placement;
+exclude general source mirrors from consumer Git delivery. Preserve project customizations,
+runtime-owned settings and complete historical originals. Updates require the
+actual Source, exact input identities, scoped authority, independent candidate
+review and readback of the approved delivery. Unresolved identity or ownership
+conflicts stop affected updates. Normal installed-file use remains available
+without a maintenance reader or lock and does not establish live freshness.
 
 ## Transforms and actual runtime claims
 
-`skills/` copies verbatim to `.claude/skills/`; `.agents/skills/` uses the manifest's
-blind `runtime_substitute`. Agent Markdown copies to Claude; Codex TOML keeps
+`skills/` copies verbatim to `.claude/skills/`; `.agents/skills/` uses platform-specific
+wording. Agent Markdown copies to Claude; Codex TOML keeps
 `name`, `description` and `developer_instructions`. The seven known dropped
 fields are `tools`, `model`, `maxTurns`, `memory`, `skills`, `disallowedTools`
 and `isolation`. Unknown agent fields block generation; canonical metadata is
@@ -151,7 +132,7 @@ help and discovery fixtures do not certify live autoload or skill/spec/category
 qualification. This framework source generates real usable adapters; optional
 project initialization or a different project's state is not its activation truth.
 
-Source digest covers manifest classes, not all linked neutral supports. Review
+A platform comparison does not certify all linked neutral supports. Review
 inputs bind needed support bytes separately under `standards/evidence-lifecycle.md`.
 Projected skill text should use canonical owner paths/actual runtime metadata,
 avoiding cross-runtime comparison literals that blind substitution can corrupt.

@@ -49,8 +49,9 @@ never generator-owned.
 
 An import-mode consumer uses its approved installed platform files directly and
 keeps necessary support and project customizations. General `agents/` and `skills/`
-remain in the designated Source library; the consumer does not keep root copies
-as a second source. Read installed entries and their required references to use
+are owned by the designated Source library; the consumer excludes a general
+source mirror from its Git submission/publication set. Local placement is allowed
+inside or outside the project and does not confer Source authority. Read installed entries and their required references to use
 them; a local maintenance kit, import profile or lock is not a normal-use gate.
 Optional maintenance readers can provide additional identity diagnostics, but
 installed-file observations do not verify current Source or completed workflows.
@@ -251,7 +252,7 @@ Normal template and installed-platform use does not require Python or a local ma
 
 These steps use a Source-library checkout's installed platform files. In a
 consumer project, use its approved installed files and project instructions;
-do not copy general root `agents/` or `skills/` there. An optional maintenance
+do not add general root `agents/` or `skills/` mirrors to consumer Git delivery. An optional maintenance
 profile may describe import/update work, but is not needed for ordinary use.
 
 1. **Clone the Source library**:
@@ -297,82 +298,23 @@ force Memory Bank creation, replace project rules or exclude normal business
 design, QA, acceptance and historical documents. Use the delivered template
 version; an older Git pin or clone does not acquire unpublished working changes.
 
-### Importing an existing project with a source-only profile
+### Using CDD in an existing project
 
-For an authorized import or update, use the consumer's project rules and actual
-designated Source rather than cloning this Source tree into the product. An
-optional, separately provided maintenance profile may record the Source pin,
-working-byte identities and exact installation scope. Ordinary use reads the
-installed platform files directly; project instructions retain their authority.
+Read the approved installed platform entries, their required references and the
+project's instructions. Ordinary use works offline without a local maintenance
+reader, profile or lock. Missing required installed originals leave the affected
+work incomplete; installation alone does not prove loading, execution or freshness.
 
-Store reviewed skill differences as narrow JSON hunks in the profile's declared
-standard directory, `standards/cdd-overrides/skill-overlays/*.json`. Each
-`cdd-skill-overlay.v1` record binds `source_path`, full `base_sha256`/`base_bytes`,
-full `result_sha256`/`result_bytes` and ordered `edits` with exact `offset`,
-`delete_hex` and `insert_utf8` witnesses. Preserve complete frontmatter and the
-original customization evidence; this metadata is not a copied full skill body.
-Role differences use the separate directory declared by the profile. Do not
-move whole general `agents/` or `skills/` trees into the consumer, or treat a
-platform copy as a new canonical source.
-
-For an existing project, carry out only an explicitly approved migration scope:
-
-1. Inventory actual instructions, root/platform definitions, customizations,
-   consumers, uncommitted files and protected local state. Name the exact paths,
-   intended effects, Source pin and conflict owners; exclude secrets from reads.
-2. Retain recoverable full raw before bytes and per-file identities. Independently
-   restore them into a fresh isolated directory and compare complete bytes and
-   frontmatter before any retirement; an archive label alone is not restoration.
-3. Extract project differences against the exact Source bases. Reconstruct and
-   review each complete effective result. Stop on a base/delete/result mismatch,
-   overlapping changes, unknown owner or authority conflict; preserve the old
-   customization instead of automatically replacing it with an upstream default.
-4. Use the actual Source and approved isolated source stage for original-renderer
-   generation. Review complete class-wide effects, diagnostics and the exact
-   added/changed deployment allowlist; generic write/prune never targets the
-   consumer's working tree. No offline runtime context authorizes this step.
-5. Deploy and independently read back only the approved platform/consumer paths.
-   Close configured literal skill/role/spec inputs using installed readers;
-   verify installed artifact identities and report Source provenance separately.
-   Optional maintenance diagnostics stay outside the target delivery. Do not call
-   a Task fixture, catalog or offline result current
-   Source reproduction, runtime qualification or business completion.
-6. Only after backups, independent restoration and consumer closure pass, retire
-   obsolete root copies through a separately reviewed recoverable operation with
-   exact per-path intent/completion/resume records. Late extras, identity drift or
-   incomplete recovery stop the operation. Preserve unrelated templates, support,
-   project facts and history; do not enable hooks or overwrite runtime settings.
-
-If a separately provided local maintenance kit implements the import interface,
-its optional diagnostics/readers may expose commands such as:
-
-```powershell
-python -B scripts/cdd_import.py --list-agents
-python -B scripts/cdd_import.py --read-agent lead-programmer
-python -B scripts/cdd_import.py --list-skills
-python -B scripts/cdd_import.py --read-skill help
-python -B scripts/cdd_import.py --artifact-check --state-json
-python -B scripts/skill_lint.py --strict
-```
-
-These are optional local-maintenance interface examples, not files promised by
-a fresh Source clone or prerequisites for reading installed templates. Use them
-only if actually provided and authorized; no skill gains a command facility or
-write permission from this example. Without the kit, Read the actual installed
-platform entries and references. Missing required installed files leave the
-affected use pending, rather than inventing a command or copying Source trees.
-When provided, `--prepare-stage` is an approved fresh diagnostic context, not
-Source regeneration authority. `--check` and `--prepare-source-stage` need the
-actual Source and separately scoped approval. Missing profile/lock bindings
-block those maintenance operations, not ordinary authorized installed-file use.
-
-On upgrade, retain the old lock, differences, originals and approved evidence.
-Review/rebase each difference against the new exact Source base and reconstruct
-its effective result before generating new platforms. A changed base is a
-conflict to resolve, not permission to overwrite project customizations. Repeat
-the isolated generation, allowlist review and actual readback sequence; do not
-copy Source directories into the consumer or activate hooks as an upgrade side
-effect.
+The designated CDD Source owns general definitions independently of local storage.
+CDD separation rules concern Git submission/publication content, not directories.
+Local maintenance files may stay inside or outside either repository; their
+presence alone does not authorize a move, deletion or log-path change. Retain
+project-specific configuration, reviewed differences, business documents and
+recoverable history. Updates require the actual Source, scoped write authority,
+an independently reviewed exact delivery allowlist and readback of the installed
+result. Source absence or identity/ownership conflicts block affected updates.
+Preserve runtime settings and project customizations; hook activation and changes
+to project state need their own authority.
 
 ### 3-Minute Smoke Test
 
@@ -418,7 +360,7 @@ adapters/                           # Adapter boundary notes (Claude, Codex, fut
 src/INSTRUCTIONS.md                 # -> src/CLAUDE.md + src/AGENTS.md
 design/INSTRUCTIONS.md              # -> design/CLAUDE.md + design/AGENTS.md
 docs/INSTRUCTIONS.md                # -> docs/CLAUDE.md + docs/AGENTS.md
-# --- Generated runtime adapters (NEVER hand-edit; scripts/sync_adapters.py) ---
+# --- Installed runtime adapters (derived from their declared canonical owners) ---
 CLAUDE.md                           # Generated root instructions (Claude)
 AGENTS.md                           # Generated root instructions (Codex)
 .claude/                            # MIXED OWNERSHIP: generated adapters + hand-authored config
@@ -627,7 +569,7 @@ apply to authorized source-authoring changes, not automatic writes in an importe
 project. An import-mode project prepares reviewed project differences with exact
 base/result identities and installs only an approved platform allowlist; common
 improvements require a separately approved Source changeset. Do not recreate
-root `agents/` or `skills/` in the consumer as a customization shortcut:
+root `agents/` or `skills/` mirrors in consumer Git delivery as a customization shortcut:
 
 - **Add/remove agents** — delete agent files you don't need, add new ones for your domains
 - **Edit agent prompts** — tune agent behavior, add project-specific knowledge
