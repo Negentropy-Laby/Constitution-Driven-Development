@@ -126,10 +126,26 @@ Read T3 indexes when present:
 
 ## Step 3: Adapter Freshness Check
 
-First read the actual project role, sole Source binding, installed paths,
-required neutral inputs and customizations in `framework_contract.md` or the
-project's established portable import configuration. A local manifest or copied
-script alone does not establish that this is the CDD Source library.
+For the submission boundary, inspect actual diffs, the Git index and intended
+publication contents under the governing Source/Target rules. Local maintenance
+files, including ignored session logs, may stay inside or outside the repository;
+location/presence alone is not a finding. `.gitignore` does not exclude tracked
+content. Preserve business QA and required neutral inputs; this audit does not
+authorize moving/deleting files, untracking or changing log locations.
+
+First read `memory_bank/t2_execution/framework_contract.md` when it exists.
+Its project/Source binding section records the actual project role, sole Source,
+installed revision and runtime, exact installed paths, required neutral inputs
+and project-owned customizations. Unknown values remain unconfigured.
+
+If that control-plane file is absent or lacks a binding, use only existing
+project-owned documentation/configuration selected by the project's governing
+instructions and defining those same fields and their owners. Do not invent a
+configuration path/schema, restore a maintenance profile/lock, or create the
+Memory Bank for this audit. Without a documented binding, report its affected
+scope as Unknown/NOT AVAILABLE and continue independent installed-input checks;
+no freshness state write is available. A local manifest or copied script alone
+does not establish that this is the CDD Source library.
 
 For a consumer, directly read the selected installed entries and their actual
 required references. Report missing/unread originals with their affected scope.
@@ -141,33 +157,30 @@ outputs and approved project differences; a Source-only check is insufficient.
 If the Source is unavailable, the binding is unresolved, or no valid comparison
 covers the consumer's installed files, report `Live adapter freshness: NOT AVAILABLE`
 with the exact limitation. Preserve any recorded state and continue
-independent constitution/installed-input checks. Do not copy general source
-trees/checkers into the consumer or label an uninitialized record fresh.
+independent constitution/installed-input checks. Do not add general source
+mirrors/checkers to consumer Git delivery or label an uninitialized record fresh.
 
-Only in a verified CDD Source-library checkout with a separately provided
-checker available and the diagnostic within scope, run this exact read-only
-command from that Source root:
+Use only an actually available, authorized read-only comparison that covers the
+applicable owner and exact installed paths. Without such a comparison, keep
+NOT AVAILABLE and continue at Step 4 without offering a state write. A missing
+optional checker does not hide a failed comparison that actually ran.
 
-```bash
-python scripts/sync_adapters.py --check --state-json
-```
-
-When no applicable live check ran (including a Source checkout without its
-optional checker), keep NOT AVAILABLE and continue at Step 4 without entering
-the JSON/record branch. This does not hide a failed check that actually ran.
-
-For an applicable check that ran, parse stdout as one JSON object even when the
-command exits non-zero for a stale adapter set. Require `schema_version: 1`, a `status` of `fresh` or
-`stale`, 64-character lowercase hexadecimal `manifest_digest` and
-`source_digest` values, ISO-8601 UTC `checked_at`, `checked_commit`, `counts`,
-and `check_command`. If stdout is absent or invalid, report the adapter check as
-`INVALID`, include stderr, and do not offer a state write.
-
-Bind a valid live result to the actual checked owner, Source revision and
-complete compared paths. For a consumer, retain the installed allowlist and
-customization comparison evidence in the report; do not use the Source-library
-result alone as that evidence. Without valid scope/identity/comparison evidence,
-report NOT AVAILABLE and offer no state write.
+For an applicable comparison, bind the actual owner, Source revision, full input
+identities, complete compared paths, approved project differences, result and
+verification time. A consumer comparison must include its installed allowlist;
+a Source-library result alone is insufficient. Record the real comparison
+method without inventing an invocation. Missing, malformed or mismatched evidence
+is INVALID or NOT AVAILABLE for its affected scope; preserve recorded state and
+offer no state write. Valid evidence may establish fresh/stale only for its
+declared scope. Evidence used with the existing adapter-state schema must include
+`schema_version: 1`, a `status` of `fresh` or `stale`, full 64-character
+lowercase hexadecimal `manifest_digest` and `source_digest`, ISO-8601 UTC
+`checked_at`, the actual `checked_commit`, `counts` and `check_command`.
+Validate all fields and complete input scope; record the actual comparison method
+in `check_command`, never a fabricated invocation. Missing, malformed or
+scope-mismatched fields are INVALID and offer no state write. Manual observations
+that do not supply this valid record remain separate from CURRENT/OUTDATED and
+the optional YAML-record branch below.
 
 Compare an applicable valid live result with
 `memory_bank/t2_execution/adapter_state.yaml`:
@@ -262,7 +275,7 @@ Identify what's missing or stale:
 | **Missing adapter state** | `memory_bank/t2_execution/adapter_state.yaml` does not exist |
 | **Uninitialized adapter state** | State exists with `status: uninitialized`; only valid applicable live evidence can initialize the record |
 | **Unavailable live comparison** | Exact Source/binding/check evidence unavailable; preserve recorded state and continue independent checks |
-| **Stale adapters** | Live state JSON reports `status: stale` or non-zero stale/missing/extra/invalid counts |
+| **Stale adapters** | Valid live comparison evidence reports `status: stale` or non-zero stale/missing/extra/invalid counts |
 | **Outdated adapter record** | Recorded status or digests differ from the live result |
 | **Missing T3 archive README** | `memory_bank/t3_archive/README.md` does not exist |
 | **Missing T3 gate archive** | Gate evidence exists but `memory_bank/t3_archive/gate_runs/README.md` is missing |
@@ -324,7 +337,7 @@ Keep it concise. Use this format:
 - [Any concerns]
 
 ### → Gaps
-- [Gap 1 — with concrete fix, e.g. "Run /constitute-check to regenerate"]
+- [Gap 1 — with concrete fix, e.g. "Run /constitute-check for a read-only audit; updates need separate authority"]
 - [Gap 2]
 
 ### → Recommendations
@@ -350,9 +363,9 @@ the specific evidence found for each alignment check.
 - **No constitution**: "No constitution detected. Run `/constitute` to establish your project's governing principles." Stop.
 - **Old T0/T1-only memory bank**: "Your constitution exists, but the T2/T3 governance control plane is not initialized. Run `/constitute` to refresh the memory-bank skeleton." Continue with `NEEDS ATTENTION`.
 - **Missing adapter templates in an older memory bank**: Recommend `/constitute` to initialize both framework files; do not create the control plane from this audit.
-- **Unavailable Source/comparison**: Report NOT AVAILABLE and any historical recorded state separately; preserve it. Complete installed-input and constitution observations offline without adding Source trees or tools.
+- **Unavailable Source/comparison**: Report NOT AVAILABLE and any historical recorded state separately; preserve it. Complete installed-input and constitution observations offline without requiring Source trees or tools.
 - **Stale live check**: Report every drift class for the actual compared owner/paths and offer to record `status: stale`; regeneration remains a separate, explicitly requested action.
-- **Invalid state JSON**: Report `INVALID`, preserve any prior state file, and do not write partial or fabricated values.
+- **Invalid comparison evidence**: Report `INVALID`, preserve any prior state file, and do not write partial or fabricated values.
 - **Constitution exists but is very old**: Note the date — "Your constitution was established [N months] ago. Much may have changed. Consider running `/constitute` to refresh it."
 - **Path D project (existing code, new constitution)**: Flag likely drift — "Your constitution was recently established. Some existing code may not yet align. This is normal for brownfield adoption — prioritize alignment iteratively."
 - **All laws are abstract (can't auto-check)**: "Your principles are abstract — they can't be automatically verified. Consider adding falsifiable current-state requirements to each law for future audits."
@@ -362,7 +375,7 @@ the specific evidence found for each alignment check.
 ## Collaborative Protocol
 
 - **Read-only by default.** The sole exception is an exact adapter-state YAML record after explicit approval.
-- **No hidden writes.** Running the checker, declining the draft, or encountering invalid JSON must leave the repository unchanged.
+- **No hidden writes.** Running the comparison, declining the draft, or encountering invalid comparison evidence must leave the repository unchanged.
 - **Be honest.** Don't sugarcoat drift or gaps.
 - **Be specific.** Every gap must come with a concrete fix suggestion.
 - **One primary recommendation.** The user should leave knowing exactly one thing to do next.

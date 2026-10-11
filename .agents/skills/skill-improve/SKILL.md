@@ -159,31 +159,31 @@ For dual-domain parity fixes:
 - Reuse existing Product paths: `design/cdd/`, `design/ux/`, `docs/architecture/`, `production/qa/`, `production/releases/`, `tests/`, and `docs/reference/<stack>/`.
 - Prefer a focused additive patch over a broad rewrite.
 
-Before writing, reuse exact canonical/adapter/rollback authority or ask once after
-the concrete patch and full effect list. `--class skills` regenerates the entire
-manifest skills class (all skill/resource projections), not only this skill.
-Inspect the real supported generator check/plan for all changed paths, EXTRA/
-INVALID and other-owner drift. EXTRA stops generation unless its exact object-list
-removal has separate independent authority; internally recognized extras are not
-human approval. Write only when every actual changed output effect
-is covered and unrelated changes are excluded. Never invent a per-skill generator
-flag/API or hand-edit adapters. With absent coverage, keep the candidate/draft and
-request only the missing scope. Declined writes mean NO CHANGE.
+Before writing, reuse the exact authority for canonical changes, corresponding
+platform projections and rollback, or ask once after presenting the concrete
+patch and full effect list. Review every actually changed output and ownership
+conflict. Unexpected or other-owner files stop the affected update until their
+exact treatment is separately authorized. Preserve unrelated content and never
+independently author derived platform files. Never invent a per-skill generator
+flag, command or API; verify a proposed interface and its complete effect scope
+against the actual authoritative Source before using it. If the required Source,
+comparison or write coverage is unavailable, retain the candidate and request only the
+missing scope. Declined writes mean NO CHANGE.
 
 ---
 
 ## Phase 5: Write and Retest
 
 Retain recoverable snapshots of the exact invocation baseline bytes/full hashes
-for the canonical skill and every potentially changed adapter, manifest/generator
-and necessary owner inputs.
+for the canonical skill, every potentially changed platform projection and
+necessary owner inputs.
 Capture expected after identities for this writer's effects. Before applying,
 confirm live inputs still equal the bound baseline; stop on other-author drift.
 
-Write only covered canonical effects, then use the existing supported command
-`python scripts/sync_adapters.py --write --class skills` only after the class-wide
-plan/effect check above. Recheck all current eight static checks and assigned
-category metrics against the same scope, plus affected existing spec/semantics.
+Write only covered canonical effects and their reviewed deterministic platform
+projections. Apply the approved delivery only after all changed-path and ownership
+checks above pass. Recheck all current eight static checks and assigned category
+metrics against the same scope, plus affected existing spec/semantics.
 Retests are writer checks, not independent review. Required independent review
 uses a fresh exact baseline after edits; unavailable review remains pending.
 
@@ -211,11 +211,13 @@ execution limits; a score gain alone does not establish IMPROVED.
 still pending (state the retained candidate/live outcome precisely).
 
 For a permitted rollback, first verify each live touched canonical/adapter equals
-this invocation's exact after identity and manifest/generator context still
-matches. Other-author changes stop affected restore; never overwrite them or use
+this invocation's exact after identity and actual owner-input identities,
+projection rules and complete output scope still match. Other-author changes
+stop affected restore; never overwrite them or use
 `git checkout`. Reuse scoped rollback authority or ask only when absent. Restore
-the exact retained invocation before bytes, and regenerate only covered class
-effects after a fresh plan with no unrelated drift. Verify restored identities.
+the exact retained invocation before bytes, and restore only covered deterministic
+platform effects after a fresh complete-output plan with no unrelated drift.
+Verify restored identities.
 **REVERTED** means the exact covered restore actually succeeded. Preserve failed
 candidate/evidence; rollback does not grant independent approval or completion.
 

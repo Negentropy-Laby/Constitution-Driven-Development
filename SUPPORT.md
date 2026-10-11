@@ -23,26 +23,18 @@ The supported workflow contract is defined by:
 
 - The template provides process, documentation, and agent orchestration. It does
   not replace project-specific engineering review.
-- Generated artifact path warnings from `skill_lint.py` are expected before a
-  consuming project has created those files.
+- Required project outputs may be absent before their owning workflow creates them.
 - `/skill-test static all` is a skill workflow, not a CI-enforced command unless
   a project adds non-interactive automation for it.
 - Local maintenance tools and historical Source CI are supplied separately,
   excluded from template delivery and not ordinary-use requirements.
-- Historical Runtime Contract checks were credential-free CLI trials; their
-  results apply only to their identified inputs and do not prove live agents.
-- Optional interactive Claude/Codex trials use the maintainer's existing local
-  login and are not required release evidence.
 
 ## Platform Support
 
-- Historical Template Consistency records identify Ubuntu, macOS and Windows
-  results for exact Source release commits. Current clean delivery does not
-  include that workflow or the local Runtime Contract workflow.
 - Current acceptance uses `docs/CUSTOMER-ACCEPTANCE.md` and the actual project's
   configured tests/QA; unavailable live trials remain NotRun.
 - Windows 10/11 local hook execution requires Git Bash on PATH.
-- Hook scripts use POSIX-compatible shell patterns and are smoke-tested through Bash.
+- Hook scripts use POSIX-compatible shell patterns; verify applicable hooks within authorized scope.
 - Windows toast notifications are optional and fall back to plain hook output when unavailable.
 
 ## Getting Help

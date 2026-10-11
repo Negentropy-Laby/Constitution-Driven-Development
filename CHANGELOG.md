@@ -12,12 +12,20 @@ All notable template changes should be recorded here.
   `SKILL.md` stays the only entrypoint, and `expected_count` continues to count
   the 74 skill packages rather than Markdown files.
 
-### Reference-Aware Tooling
+### Template Use and Submission Boundaries
 
-- `skill_lint.py --strict skills` now also lint-checks
-  `skills/<name>/references/*.md` (frontmatter checks stay entrypoint-only), and
-  the edit-protection hook advises adapter regeneration when only a reference
-  file changes.
+- Clarified the Source and consumer Git delivery boundaries independently of
+  local file placement, while preserving project-owned configuration and inputs.
+- Kept installed adapters and required neutral templates usable without a local
+  template-maintenance reader or lock.
+- Updated `/adopt`, `/constitute`, `/constitute-check`, `/setup-engine` and
+  `/skill-improve`, with matching installed platform copies and safe missing-input
+  behavior.
+- Kept adapter-state initialization deterministic and `uninitialized`; current
+  freshness still requires an applicable comparison and separate write authority.
+- Clarified deterministic projection limits, canonical ownership, project-binding
+  fallbacks and the prohibition on inventing interfaces or editing derived copies
+  independently.
 
 ## [0.2.0] - 2026-07-11
 
@@ -30,19 +38,27 @@ All notable template changes should be recorded here.
 - Added schema-v1 adapter state JSON with manifest/source digests and wired its
   approved Memory Bank lifecycle through `/constitute`, `/constitute-check`,
   and `/cdd-status`.
-- Added credential-free structural smoke to Template Consistency and a manually
-  triggered, pinned Claude/Codex CLI contract release gate with no model calls.
 - Made Codex apply-patch hook header parsing portable across GNU and BSD `sed`.
 - Documented Claude `/skill` invocation and Codex `/skills`/`$skill` invocation.
 
+### Historical Compatibility Scope
+
+- Documented credential-free structural and CLI contract coverage for the
+  released Claude Code and Codex surfaces.
+- Documented package structure and metadata consistency across the 74 released
+  skill entries.
+- Documented consistency between required workflow steps and published
+  checklist/gate views.
+
+These are historical release statements from the
+[v0.2.0 release tree](https://github.com/Negentropy-Laby/Constitution-Driven-Development/blob/bac9e4da71c5694825723f9a7790d27b589a6c71/CHANGELOG.md).
+They do not qualify later inputs or authenticated, model-backed sessions.
+
 ### Customer Delivery Hardening
 
-- Enforced full strict lint across all 74 skills.
 - Repaired customer-visible Markdown errors in required workflow skills.
 - Aligned `UPGRADING.md` with the current workflow catalog and evidence paths.
 - Made `/team-release` a required Release phase step after `/release-checklist`
   and `/launch-checklist`.
 - Synchronized the documented template count with the actual template tree.
 - Added support, security, contribution, changelog, and release-note documents.
-- Strengthened workflow consistency checks for phase boundaries, release order,
-  evidence paths, art bible phase status, and template counts.

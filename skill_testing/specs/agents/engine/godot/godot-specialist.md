@@ -74,7 +74,7 @@ No gate IDs assigned.
 - [ ] Treats `docs/engine-reference/godot/VERSION.md` as authoritative over LLM training data
 - [ ] Flags post-cutoff API usage (4.4, 4.5, 4.6) with verification requirements
 - [ ] Defers language-selection decisions to lead-programmer when trade-offs exist
-- [ ] When documenting engine-level project conventions (e.g., autoload purposes) in root instructions, edits the canonical `INSTRUCTIONS.md` and regenerates via `python scripts/sync_adapters.py --write --class root-instructions`; does not hand-edit the generated `CLAUDE.md`/`AGENTS.md`
+- [ ] When documenting engine-level project conventions (e.g., autoload purposes) in root instructions, edits the canonical `INSTRUCTIONS.md` and regenerates via the reviewed deterministic root-instruction projections; does not hand-edit the generated `CLAUDE.md`/`AGENTS.md`
 
 ---
 

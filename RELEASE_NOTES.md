@@ -3,8 +3,7 @@
 ## v0.2.0 — Runtime-Neutral CDD Governance
 
 This release establishes Claude Code and Codex as first-class runtime peers over
-one neutral CDD governance source, with recorded adapter freshness and
-credential-free release evidence.
+one neutral CDD governance source, with explicit adapter ownership and governed evidence.
 
 ### What Is Included
 
@@ -17,17 +16,10 @@ credential-free release evidence.
   architecture review, control manifest, accessibility requirements, and tests.
 - Canonical story paths under `production/epics/[epic-slug]/`.
 - Canonical QA evidence under `production/qa/evidence/`.
-- Full strict lint coverage for all skill files.
 - Manifest-v2 canonical-to-runtime adapter generation with root and nested
   instructions, skills, agents, hooks, and path-policy ownership boundaries.
-- `sync_adapters.py --check --state-json` with deterministic manifest and
-  canonical-source digests.
 - Memory Bank adapter-state initialization, approved recording, and read-only
   status display.
-- Credential-free structural runtime smoke on every Template Consistency run.
-- Manually triggered Runtime Contract for pinned Claude Code 2.1.207 and Codex
-  CLI 0.144.1, validating CLI flags and disposable discovery fixtures without
-  credentials or model calls.
 
 ### Important Upgrade Notes
 
@@ -40,24 +32,22 @@ credential-free release evidence.
 - Claude Code invokes CDD skills as `/skill-name`; Codex uses `/skills` to
   browse or `$skill-name` for explicit and non-interactive invocation.
 
-### Historical Validation Model
+### Historical Release Context
 
-The items below describe the v0.2.0 release contract and its exact historical
-evidence. Local maintenance scripts and Source CI are no longer part of clean
-template delivery. Current installation/upgrade/acceptance follows
-`docs/CUSTOMER-ACCEPTANCE.md` and the target's configured test/QA contract; an old
-run cannot certify newer or uncommitted inputs.
+The v0.2.0 release recorded structural compatibility for Windows, Ubuntu and
+macOS, with Claude Code 2.1.207 and Codex CLI 0.144.1 as its historical CLI
+baselines. That coverage was credential-free CLI contract/discovery validation;
+it did not establish authenticated, model-backed runtime sessions. See the
+[immutable v0.2.0 notes](https://github.com/Negentropy-Laby/Constitution-Driven-Development/blob/bac9e4da71c5694825723f9a7790d27b589a6c71/RELEASE_NOTES.md).
 
-- Template Consistency CI is configured for Ubuntu, macOS, and Windows runners.
-- Windows local hook execution requires Git Bash; Windows toast notifications
-  are optional and fall back to plain hook output when unavailable.
-- Validation status: recorded on the GitHub Release or annotated tag for the
-  immutable release commit, not self-referenced from this committed Markdown file.
-- Required workflow: `Template Consistency`.
-- Required release evidence: release commit SHA, GitHub Actions run ID, and PASS
-  result for `ubuntu-latest`, `macos-latest`, and `windows-latest`.
-- Required runtime evidence: a manually triggered `Runtime Contract` run for
-  the same release commit, successful Claude/Codex jobs, pinned CLI versions,
-  validated help surfaces, and uploaded text evidence artifacts.
-- Customer acceptance checklist: `docs/CUSTOMER-ACCEPTANCE.md`.
-- `v0.1.0` and `v0.1.0-rc.1` remain available as historical release evidence.
+The [pre-separation notes](https://github.com/Negentropy-Laby/Constitution-Driven-Development/blob/2dfbe67e67a01ee70e8da74ab13523c7cd40785a/RELEASE_NOTES.md)
+also retained `v0.1.0` and `v0.1.0-rc.1` as historical release evidence. Those
+older labels are not the current acceptance target. Neither those records nor
+the historical CLI versions qualify newer or uncommitted inputs.
+
+### Acceptance
+
+Use `docs/CUSTOMER-ACCEPTANCE.md` and the project's actual configured tests/QA.
+Validate applicable installed inputs, platform behavior and exact execution evidence
+within existing authority. Historical runs do not qualify newer or uncommitted inputs.
+Unavailable live checks remain NotRun.

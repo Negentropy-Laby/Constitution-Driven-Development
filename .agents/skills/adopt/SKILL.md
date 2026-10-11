@@ -64,8 +64,11 @@ Deliver approved platform files, portable project-specific configuration and
 neutral templates, standards, workflow views and reusable skill-testing assets
 required by the selected workflows. Review the exact per-file allowlist and its
 required reference closure under `adapters/README.md`; do not omit an actual
-required original because it is neutral. Keep general CDD source trees and
-template-maintenance materials outside the target.
+required original because it is neutral. Exclude general CDD source mirrors and
+template-maintenance materials from the target Git submission/publication set.
+Local presence inside or outside the project is allowed; it does not justify
+a move, deletion, log-path change or untracking. Review actual diffs/index and
+delivery contents; ignore rules alone do not exclude already-tracked material.
 Plan approval does not authorize that merge, activate Memory Bank or accept laws.
 If the installed boundary text is missing, report that precise delivery gap.
 
