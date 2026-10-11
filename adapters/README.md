@@ -58,8 +58,11 @@ instructions or law index. Include those full entries in an initialization or
 import package. Their use does not need the general source trees or local
 maintenance tools, and it does not authorize a project write or law acceptance.
 
-A consumer uses its approved installed platform files, necessary neutral support
-and project rules. General root `agents/` and `skills/` mirrors are excluded from
+A consumer uses its approved installed platform files, required local neutral
+inputs and project rules. Its CDD Git candidates contain only required platform
+adaptations and portable project-specific configuration. Reusable templates,
+generic standards/workflow originals and testing definitions remain local-only.
+General root `agents/` and `skills/` mirrors are excluded from
 consumer Git submission/publication. Local presence inside or outside a project
 is allowed and does not establish another Source or authorize moving/deleting
 files. Read complete installed entries and the actual required references
@@ -78,12 +81,14 @@ files excluded from consumer Git submission/publication regardless of local
 placement; they are not normal-use dependencies or
 permission to activate hooks.
 
-## Required delivery inputs
+## Required local-use inputs and Git submission candidates
 
-Build a reviewed per-file allowlist for the selected runtime and intended
+Build a reviewed per-file local-input allowlist for the selected runtime and intended
 workflows. Include its installed entries, required relative references, actual
 agent readers and applicable policies; follow required direct/indirect references
-to closure. Include necessary neutral originals at their owner paths. Example,
+to closure. Keep necessary neutral originals locally at their owner paths. This
+readable-input set is separate from Target Git candidates; a required local
+original does not gain tracking, staging, commit or publication eligibility. Example,
 future-output and inapplicable references do not silently become required inputs,
 but missing required originals cannot be replaced by similarly named placeholders.
 
@@ -96,9 +101,10 @@ but missing required originals cannot be replaced by similarly named placeholder
 | Stack setup and project work | The selected skill's installed references, actual document templates, standards, version references and policy originals required by its configured domain/capabilities |
 
 Expand the selected directory entries into exact files and independently review
-the resulting allowlist before import/update. `/constitute` uses its listed
-neutral originals; other scopes need their own smaller required closure. These
-reusable templates/specs are normal-use inputs, distinct from local-only CDD
+the resulting local-input allowlist before import/update. `/constitute` uses its
+listed neutral originals; other scopes need their own smaller required closure.
+These reusable templates/specs are normal-use local-only inputs in a target,
+distinct from CDD
 maintenance scripts, test fixtures and process evidence. Preserve existing
 project-owned inputs and customizations. Do not deliver general root `agents/`
 or `skills/`, maintenance tools/metadata or an entire Source checkout to fill a

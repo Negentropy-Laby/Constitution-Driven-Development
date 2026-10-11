@@ -1,14 +1,18 @@
 # Directory Structure
 
 The tree below describes the designated Source-library checkout. An import-mode
-consumer keeps approved platform outputs, necessary neutral support and its
-project-custom inputs; it excludes general root `agents/` or `skills/` mirrors
+consumer keeps approved platform outputs, required local neutral inputs and its
+project-custom inputs. Its CDD Git candidates contain only required installed
+platform adaptations and portable project-specific configuration; reusable
+templates, generic standards/workflow originals and testing definitions remain
+local-only. It excludes general root `agents/` or `skills/` mirrors
 from Git submission/publication. This is a content boundary, not a local-directory
 restriction: ignored maintenance files may remain in either repository.
-Use the project's reviewed delivery allowlist, actual installed readers and
-portable Source binding. Required neutral inputs are listed in
-`adapters/README.md` and extend through the selected workflow's actual required
-references; do not omit them or add general source mirrors to Git delivery. Ordinary
+Use the project's separately reviewed Git candidates and local-input allowlist,
+actual installed readers and portable Source binding. Required neutral inputs are
+listed in `adapters/README.md` and extend through the selected workflow's actual
+required references; retain them locally without adding generic templates/specs
+or general source mirrors to Target Git delivery. Ordinary
 installed-file use needs no maintenance reader, profile or lock. Source-dependent
 updates preserve reviewed project differences and require the sole actual Source.
 Retain approved portable project differences in the project's established configuration.

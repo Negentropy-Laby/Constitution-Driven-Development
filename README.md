@@ -44,6 +44,11 @@ declared runtime targets:
 
 Both runtimes share `INSTRUCTIONS.md`, `workflow/`, `templates/`, `standards/`,
 `skill_testing/`, and nested `src/`/`design/`/`docs/` `INSTRUCTIONS.md` guidance.
+The Source library publishes reusable templates. In a business target, required
+local CDD templates, generic standards/workflow originals and testing definitions
+remain readable local-only inputs; they are excluded from Target Git candidates.
+Only required installed platform adaptations and portable project-specific
+configuration belong to the target's CDD submission set.
 Codex's native `.codex/rules/*.rules` command-approval policy is unrelated and
 never generator-owned.
 

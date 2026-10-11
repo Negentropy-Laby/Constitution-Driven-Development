@@ -17,9 +17,12 @@ Expected result:
 - The Source-library checkout opens without missing submodules or bootstrap steps.
 - Git and the selected AI agent runtime are available. Python is needed only
   for separately supplied, authorized local maintenance diagnostics.
-- A target project installs only its independently reviewed platform/configuration
-  allowlist and necessary neutral support, following `adapters/README.md`.
-  General root `agents/` and `skills/` stay in the designated external Source.
+- A target separately reviews required local inputs and its Git candidates,
+  following `adapters/README.md`. Required templates/specs and generic standards/
+  workflow originals remain readable local-only inputs. Its CDD Git candidates
+  contain only required platform adaptations and portable project configuration.
+  General root `agents/` and `skills/` remain owned by the designated Source and
+  are excluded from Target Git submission/publication regardless of local placement.
 - Retain exact before bytes and project customizations for any existing target.
 
 ## 2. Delivery Validation
@@ -39,7 +42,10 @@ Expected result:
 - Platform entries and required resources correspond to the reviewed Source
   revision and retain approved project differences.
 - T0 boundaries and T2 installed-path/external-Source contracts agree.
-- Ordinary use and T2 mirror synchronization work from the delivered files
+- Required local originals remain readable even when ignored in the Target. Git
+  tracking is not a prerequisite for these reads; a fresh Target clone may need
+  their separate local installation before affected workflows can run.
+- Ordinary use and T2 mirror synchronization work from the installed local files
   without maintenance scripts, credentials, local locks or host-path records.
 - `git diff --check` reports no whitespace errors.
 - In a configured project, run its actual test/QA commands and preserve exact

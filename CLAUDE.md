@@ -133,11 +133,17 @@ or prevent forced addition or separate publication. Already-tracked maintenance
 content needs separately authorized exclusion from tracking/delivery while keeping
 recoverable originals. This rule alone grants no such action.
 
-A target project submits its business code and project documents, required CDD
-platform adaptations, portable project-specific configuration and the neutral
-templates, standards, workflow views and reusable `skill_testing/` assets required
-by enabled workflows and their actual reference closure. Review an exact per-file
-delivery allowlist; missing required originals remain pending. Do not submit a
+A target project submits its business code and substantive project documents.
+The CDD portion of its Git submission/publication set contains only required
+installed platform adaptations and portable project-specific configuration.
+Reusable CDD development templates, generic standards/workflow originals and
+`skill_testing/` catalog/spec/rubric/template assets stay local-only in a target.
+A required local read or input allowlist does not grant Git tracking, staging,
+commit or publication eligibility. Keep actual required originals locally; missing
+or unread originals leave the affected workflow pending. A fresh target clone may
+need these inputs installed separately before the affected CDD workflow can run.
+Review Target Git candidates separately from the local required-input allowlist.
+Do not submit a
 general CDD source mirror, template-maintenance tools/annotations, tool-only
 metadata, maintenance locks/caches or actual template-maintenance process output.
 The designated CDD Source owns general agent/skill definitions; that ownership

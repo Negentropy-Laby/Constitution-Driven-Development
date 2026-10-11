@@ -61,8 +61,9 @@ SDK/library, and internal headless projects may record it as not applicable.
 1. Record the exact current revision and retain recoverable before bytes. Use a
    short-lived branch if the project's trunk-based policy calls for one.
 2. Verify the unique designated Source and independently review the
-   exact platform/configuration and necessary neutral-support delivery allowlist
-   from `adapters/README.md`. Do not add general root `agents/` or `skills/`
+   exact platform/project-configuration Git candidates separately from the required
+   local-input allowlist in `adapters/README.md`. Reusable templates/specs and generic
+   standards/workflow originals remain local-only in a target. Do not add general root `agents/` or `skills/`
    mirrors to the target Git submission/publication set.
 3. Preserve project-owned artifacts under `design/`, `docs/architecture/`,
    `production/`, `prototypes/`, `src/`, and `tests/`, including actual test roots,
@@ -80,8 +81,11 @@ decisions, merge the new template structure into it rather than overwriting it.
 
 ### Platform adapters and project configuration
 
-A consuming project keeps its approved platform adapters, neutral inputs and
-project-specific configuration. The designated Source owns general CDD definitions;
+A consuming project keeps its approved platform adapters, required local neutral
+inputs and project-specific configuration. Only required platform adaptations and
+portable project-specific configuration enter its CDD Git candidates; reusable
+templates/specs and generic standards/workflow originals remain local-only.
+The designated Source owns general CDD definitions;
 exclude general source mirrors and template-maintenance tools from target Git
 submission/publication. Local copies may remain inside or outside the repository;
 the boundary does not require moving them or changing log locations. Back up complete project customizations and

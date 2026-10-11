@@ -132,6 +132,10 @@ files, including ignored session logs, may stay inside or outside the repository
 location/presence alone is not a finding. `.gitignore` does not exclude tracked
 content. Preserve business QA and required neutral inputs; this audit does not
 authorize moving/deleting files, untracking or changing log locations.
+Check required local inputs and Target Git candidates separately. In a target, reusable
+templates, generic standards/workflow originals and skill-testing definitions stay local-only;
+locally readable ignored inputs are not missing Git deliverables and do not become
+Git candidates merely because a workflow requires them.
 
 First read `memory_bank/t2_execution/framework_contract.md` when it exists.
 Its project/Source binding section records the actual project role, sole Source,

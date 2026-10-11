@@ -93,9 +93,12 @@ Install these tools before using the template:
 - `jq`, recommended for hook validation (hooks fall back to `grep` when absent).
 
 Clone the designated Source library to inspect its delivered templates.
-For a business target, install its independently reviewed platform/configuration
-allowlist and necessary neutral support from `adapters/README.md`; do not copy
-the Source root `agents/` or `skills/`. Preserve project-specific inputs and
+For a business target, review required platform/project-configuration Git candidates
+separately from the local-input allowlist in `adapters/README.md`. Install required
+neutral templates/specs and generic standards/workflow originals as readable
+local-only inputs; do not add them or general Source mirrors to Target Git delivery.
+A fresh Target clone may need those local inputs installed before affected use.
+Preserve project-specific inputs and
 customizations before import or update.
 
 ```bash

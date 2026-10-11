@@ -60,11 +60,12 @@ If the two owner scopes are missing, include an additive merge into the actual
 project-owned instruction file, or into an already-authorized
 `memory_bank/t0_core/basic_law_index.md`, in the migration plan. Preserve business
 code, project design/QA/acceptance documents, histories and existing authorities.
-Deliver approved platform files, portable project-specific configuration and
-neutral templates, standards, workflow views and reusable skill-testing assets
-required by the selected workflows. Review the exact per-file allowlist and its
-required reference closure under `adapters/README.md`; do not omit an actual
-required original because it is neutral. Exclude general CDD source mirrors and
+Prepare required neutral templates/spec assets for authorized local use, following
+their actual reference closure under `adapters/README.md`. Review Target Git
+candidates separately: required installed platform adaptations, portable
+project-specific configuration and substantive project documents. Required local
+inputs remain readable but do not become Git candidates. Missing/unread required
+originals leave affected use incomplete. Exclude general CDD source mirrors and
 template-maintenance materials from the target Git submission/publication set.
 Local presence inside or outside the project is allowed; it does not justify
 a move, deletion, log-path change or untracking. Review actual diffs/index and

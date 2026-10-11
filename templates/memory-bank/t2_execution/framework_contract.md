@@ -24,7 +24,11 @@ leave only their affected workflow pending.
 ## Authority contract
 
 For a consumer, installed platform paths and approved neutral inputs are the
-normal-use readers. The designated CDD Source owns general root `skills/` and
+normal-use readers. Required local inputs do not gain Target Git eligibility:
+reusable templates, generic standards/workflow originals and testing definitions
+remain local-only. Review CDD Git candidates separately, retaining only required
+installed platform adaptations and portable project-specific configuration.
+The designated CDD Source owns general root `skills/` and
 `agents/`. Exclude general source mirrors and template-maintenance tools from
 project Git submission/publication; local storage inside or outside the project
 is allowed and grants no Source authority or move/delete/log-path authority.
@@ -37,8 +41,10 @@ The designated CDD Source owns the canonical-to-platform mapping.
 Canonical `INSTRUCTIONS.md`, `skills/`, `agents/`, `hooks/` and `rules/`
 belong to that Source. Source reproduction and generation have separate
 maintenance authority and are not prerequisites for ordinary consumer use.
-Delivered templates, standards, workflow views and reusable `skill_testing/`
-assets are neutral support, not another general skill/agent source tree.
+Locally installed templates, generic standards, workflow views and reusable
+`skill_testing/` assets are neutral local-use inputs excluded from Target Git
+submission/publication, not another general skill/agent source tree. A fresh
+Target checkout may need these originals installed separately for affected use.
 
 ## Installed platform ownership
 
