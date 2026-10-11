@@ -11,6 +11,22 @@
 > ADR-0002. This ADR's core canonical→generated decision and its rejection of
 > fully tokenized prose remain valid.
 
+## Current delivery applicability
+
+The canonical-to-generated decision remains in force. Installed projects use
+the complete delivered platform adapters and their required neutral template and
+standard inputs directly, including offline use. They do not rebuild adapters
+or require a local CDD maintenance toolkit. Updates use the designated external
+CDD Source; a target keeps its business documents, configuration and customizations
+without becoming a second general CDD Source.
+
+The manifest, generator, checkers and CI descriptions below record the original
+Source implementation and its historical validation. These maintenance files are
+local-only under the current Source submission boundary. References to their
+commands do not make them clone-and-use prerequisites or authorize restoring
+maintenance CI. Where separately available for authorized Source maintenance,
+their safety and deterministic projection contracts still apply.
+
 ## Context
 
 CDD supports multiple agent runtimes (Claude Code primary, Codex secondary). Until
@@ -53,15 +69,18 @@ Specifically:
 2. **Generated outputs** (`.claude/skills`, `.agents/skills`, `.claude/agents`,
    `.codex/agents`, `.claude/hooks`, `.codex/hooks`, `CLAUDE.md`, `AGENTS.md`)
    stay committed for clone-and-use behavior and are **never hand-edited** after
-   cutover. `python scripts/sync_adapters.py --write` regenerates them; `--check`
-   fails CI on drift.
+   cutover. The original Source implementation used
+   `python scripts/sync_adapters.py --write` to regenerate them and `--check`
+   to detect drift in its then-configured maintenance CI. These are historical
+   maintenance operations, not delivered-project dependencies.
 3. **`cdd-manifest.toml`** is the single source/output/transform/ownership
    contract, read by both the generator and `workflow_consistency.py`. TOML is
    used (not YAML) because the unconditional `tomllib` import already makes Python
    3.11 the effective minimum, giving a strict standard-library parser with no
    new dependency.
 4. **Managed-tree ownership**: each `owns_tree = true` destination must contain
-   exactly the generated file set — `EXTRA`/orphan files fail CI. Root files
+   exactly the generated file set — the original maintenance checks rejected
+   `EXTRA`/orphan files. Root files
    (`CLAUDE.md`, `AGENTS.md`) are individually owned; their parent is never pruned.
 5. **Freshness is exact UTF-8/LF bytes plus a 0644 mode contract** — not
    newline-normalized text — so CRLF churn and executable-bit drift are caught.
@@ -94,8 +113,10 @@ Specifically:
 
 ## Consequences
 
-- **Contributors** author only canonical roots, then run
-  `python scripts/sync_adapters.py --write` (class-scoped or all). The
+- **Source contributors** author canonical roots and deliver the matching
+  reviewed platform projections. A separately available local maintenance
+  generator can regenerate them (class-scoped or all); a fresh clone does not
+  require this retired delivery dependency. The historical
   authoring-path cutover (Gate 5) updates `skill-improve`, `skill-test`,
   `setup-engine`, `godot-specialist`, and `validate-skill-change.sh` so no
   supported workflow directs edits at a generated file.
@@ -105,7 +126,9 @@ Specifically:
   trees are present and identical in spirit to before. The 49 Codex TOMLs gain a
   one-time, reviewed normalization (literal `\r` escape removal + consistent
   quoting).
-- **CI** gains a `sync_adapters.py --check` step and a Python 3.11 baseline.
+- **Historical maintenance CI** gained a `sync_adapters.py --check` step and
+  a Python 3.11 baseline during this migration. This records that implementation;
+  it is not a current submission requirement or an instruction to restore CI.
 
 ## Rollback / compatibility
 
