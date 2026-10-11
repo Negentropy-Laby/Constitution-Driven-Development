@@ -296,7 +296,8 @@ maintenance toolkit or copies of general root `agents/` or `skills/`.
 The skill still requires approval for project writes and separate ratification.
 
 For imports, include the full installed `constitute` and `adopt` entries in
-the approved platform delivery. `adopt full` or `adopt infra` checks the actual
+the approved platform delivery. Review its Git candidates separately from required
+local template/spec inputs. `adopt full` or `adopt infra` checks the actual
 project-owned instructions or existing law index and proposes only an additive,
 approved merge when these boundary rules are missing. Importing them does not
 force Memory Bank creation, replace project rules or exclude normal business

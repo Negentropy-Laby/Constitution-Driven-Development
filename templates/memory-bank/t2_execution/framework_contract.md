@@ -12,7 +12,7 @@ Source comparison, runtime execution and law acceptance remain distinct facts.
 - **Installed Source revision:** [verified revision/pin / unknown]
 - **Selected runtime:** [actual installed runtime / unconfigured]
 - **Installed CDD paths:** [exact approved platform files and their references]
-- **Required neutral inputs:** [reviewed per-file allowlist and required closure]
+- **Required local neutral inputs:** [reviewed per-file local-input allowlist and required closure]
 - **Project customizations:** [existing project-owned differences/configuration]
 
 Reuse the project's established portable configuration and decisions. Keep

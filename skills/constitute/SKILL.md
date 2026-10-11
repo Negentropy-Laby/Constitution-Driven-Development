@@ -237,14 +237,15 @@ After ratification, create the project memory-bank skeleton from
 `design/`, `docs/`, `workflow/`, `templates/`, `standards/`, or `production/`;
 the memory bank indexes and mirrors those paths.
 
-Before writing, directly read the delivered originals for the listed memory-bank
+Before writing, directly read the actual local originals for the listed memory-bank
 templates, `docs/PHASE-CHECKLISTS.md`,
 `workflow/generated/gate-required-artifacts.md`, and the listed `skill_testing/`
 assets. Include `workflow/workflow-catalog.yaml` and the authority, decision and
-collaboration standards referenced by those contracts. These are necessary
-neutral inputs permitted by the project boundary and `adapters/README.md`.
+collaboration standards referenced by those contracts. These are required local-use
+inputs under `adapters/README.md`, separate from Target Git candidates.
 Resolve further required references for the selected workflow into the reviewed
-per-file delivery allowlist. Missing/unread originals leave the affected files
+per-file local-input allowlist. Reusable templates and skill-testing definitions
+remain local-only in a target. Missing/unread originals leave the affected files
 pending; installed skill text or a same-name placeholder is not their substitute.
 
 Create or update these files:
