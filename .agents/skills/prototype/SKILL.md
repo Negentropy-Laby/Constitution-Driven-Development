@@ -18,11 +18,33 @@ isolation: worktree
 
 ## Phase 0: Domain Detection
 
-Detect the project domain by checking for concept documents in `design/cdd/`:
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
 
-- **Game**: `design/cdd/game-concept.md` exists → use `[Game]` paths below
-- **Product**: `design/cdd/product-concept.md` exists → use `[Product]` paths below
-- **Neither**: ask the user whether this is a game or product prototype before proceeding
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+Use `[Game]` or `[Product]` paths below only after that domain is resolved.
 
 ---
 

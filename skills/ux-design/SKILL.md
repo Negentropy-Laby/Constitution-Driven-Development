@@ -53,9 +53,36 @@ work while blocking only affected dependants.
 
 When this skill is invoked:
 
-**Domain detection.** Read the concept document to determine domain:
-- `design/cdd/game-concept.md` → **[游戏专用]** Game mode
-- `design/cdd/product-concept.md` → **[通用产品]** Product mode
+**Domain detection.**
+
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
+
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+Use **[游戏专用]** Game modes only for resolved Game; use **[通用产品]**
+Product modes only for resolved Product.
 
 ## 1. Parse Arguments & Determine Mode
 
@@ -160,7 +187,16 @@ must satisfy the accessibility tier committed to there.
 
 ### 2h: Input Method (from Project Config)
 
-Read `standards/technical-preferences.md` and extract the `## Input & Platform`
+**[Product]** Read actual surface and input constraints from the owning CDD,
+API/CLI contract, existing surface profile where applicable, and populated
+Product/legacy configuration. CLI argument/stdin/stdout interaction and API
+request/response workflows do not require Game input, gamepad or safe-zone
+fields. For actual web/native UI, retain its configured keyboard, pointer, touch
+and accessibility constraints. Unresolved applicable input constraints need
+clarification; do not use unconfigured Game fields to ask a Product what this
+game targets. Continue with 2i after recording the Product constraints.
+
+**[Game]** Read `standards/technical-preferences.md` and extract the `## Input & Platform`
 section. Store these values for use throughout the skill — they drive the
 Interaction Map and inform accessibility requirements:
 

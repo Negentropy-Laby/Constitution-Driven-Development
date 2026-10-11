@@ -16,12 +16,36 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before orchestrating the team:
-- `design/cdd/game-concept.md` -> **[Game]** keep the existing level team workflow for area design, pacing, layout, landmarks, encounters, art, accessibility, and playtest checklist.
-- `design/cdd/product-concept.md` -> **[Product]** this skill has no executable Product area/workflow pipeline. Clarify the requested area and owner with the user or configured project lead, then stop before the Game team or artifact writes; a Product workflow must be separately designed and approved before that area work can proceed.
-- If unclear, ask whether the target is a game level/area or a product workflow/module area.
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
 
-The steps and delegation below implement Game level guidance only. Product routing above is a clarification and stop, not an added Product pipeline. If the domain is Unknown or both concepts are present, clarify the governing domain and scope from explicit project instructions or a confirmed decision; stop affected domain-specific branches until resolved.
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+- **[Game]** keep the existing level team workflow for area design, pacing, layout, landmarks, encounters, art, accessibility, and playtest checklist.
+- **[Product]** this skill has no executable Product area/workflow pipeline. Clarify the requested area and owner with the user or configured project lead, then stop before the Game team or artifact writes; a Product workflow must be separately designed and approved before that area work can proceed.
+
+The steps and delegation below implement Game level guidance only. Product routing above is a clarification and stop, not an added Product pipeline. If the domain is Unknown or substantive evidence conflicts, clarify the governing domain and scope from explicit project instructions or a confirmed decision; stop affected domain-specific branches until resolved.
 When this skill is invoked:
 
 **Decision Points:** At each step transition, use `AskUserQuestion` to present

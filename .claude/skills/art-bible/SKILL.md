@@ -16,10 +16,34 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before running the workflow:
-- `design/cdd/game-concept.md` -> **[Game]** keep the existing art bible workflow: visual identity, shape language, color, character direction, asset standards, and engine-aware constraints.
-- `design/cdd/product-concept.md` -> **[Product]** use this same command as a product brand style guide workflow. Product outputs go to `design/brand/style-guide.md`; they do not use the game art bible path.
-- If both exist, ask which domain to run. If neither exists, ask whether this is a game art bible or a product style guide.
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
+
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+- **[Game]** keep the existing art bible workflow: visual identity, shape language, color, character direction, asset standards, and engine-aware constraints.
+- **[Product]** use this same command as a product brand style guide workflow. Product outputs go to `design/brand/style-guide.md`; they do not use the game art bible path.
 
 Never delete or replace the game art bible guidance below. Product guidance is an additional branch beside it.
 

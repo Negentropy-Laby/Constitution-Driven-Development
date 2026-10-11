@@ -33,10 +33,41 @@ When this skill is invoked:
    and terminology apply at each phase — sections below are marked
    **[通用场景]** (both domains), **[游戏专用]** (game-domain), or **[通用产品]** (product-domain).
 
-3. **Check for existing concept work**:
-   - Read `design/cdd/game-concept.md` if it exists — game project, resume
-   - Read `design/cdd/product-concept.md` if it exists — general project, resume
-   - Read `design/cdd/game-pillars.md` or `design/cdd/principles.md` if either exists
+3. **Check for existing concept work before resuming**:
+
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
+
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+   - Resume the substantive concept matching the resolved domain and approved
+     scope; a hint or filename does not relabel saved work. Read its applicable
+     `game-pillars.md` or `principles.md` if present.
+   - If no configured domain or substantive concept exists, use Phase 1 to obtain
+     the user's domain choice before domain-specific ideation; do not resume an
+     empty/copied concept as completed work. Conflicts need a scoped decision
+     before resuming; preserve both originals.
 
 4. **Run through ideation phases** interactively, asking the user questions at
    each phase. Do NOT generate everything silently — the goal is **collaborative**

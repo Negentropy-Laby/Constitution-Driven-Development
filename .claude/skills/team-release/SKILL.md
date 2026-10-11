@@ -16,10 +16,34 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before release orchestration:
-- `design/cdd/game-concept.md` -> **[Game]** keep game release coordination: platform builds, certification, player-facing messaging, telemetry, community monitoring, and multiplayer/security sign-off.
-- `design/cdd/product-concept.md` -> **[Product]** coordinate product release: deployment plan, rollback, migrations, API/CLI release notes, monitoring, on-call, security/privacy sign-off, docs, and customer/user communication.
-- If unclear, ask whether this is a game launch/release or a product deployment/release.
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
+
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+- **[Game]** keep game release coordination: platform builds, certification, player-facing messaging, telemetry, community monitoring, and multiplayer/security sign-off.
+- **[Product]** coordinate product release: deployment plan, rollback, migrations, API/CLI release notes, monitoring, on-call, security/privacy sign-off, docs, and customer/user communication.
 
 Do not remove game release examples. Product release orchestration is a parallel branch.
 
@@ -69,6 +93,13 @@ Always provide full context in each agent's prompt (version number, milestone st
 
 ## Pipeline
 
+Use the resolved domain and actual configured surfaces throughout this pipeline.
+Product uses API/CLI/package/deployment owners and user/integrator communication;
+Game keeps its platform/store/player examples. Select applicable migrations,
+rollback, security, privacy, monitoring and delivery checks from actual release
+requirements. Missing required evidence stays Blocked/Pending; no domain or
+role choice waives a release gate or grants deployment/publication authority.
+
 ### Phase 1: Release Planning
 Delegate to **producer**:
 - Confirm all milestone acceptance criteria are met
@@ -88,7 +119,7 @@ Delegate to **release-manager**:
 Delegate in parallel:
 - **qa-lead**: Execute full regression test suite. Test all critical paths. Verify no S1/S2 bugs. Sign off on quality.
 - **devops-engineer**: Build release artifacts for all target platforms. Verify builds are clean and reproducible. Run automated tests in CI.
-- **security-engineer** *(if game has online features, multiplayer, or player data)*: Conduct pre-release security audit. Review authentication, anti-cheat, data privacy compliance. Sign off on security posture.
+- **security-engineer** *(when actual Game/Product scope includes online services, authentication, sensitive data or other required security/privacy checks)*: Conduct the applicable audit and sign off on security posture. Game retains anti-cheat/player-data checks where relevant; Product covers actual API/CLI/package/auth/data boundaries.
 - **network-programmer** *(if game has multiplayer)*: Sign off on netcode stability. Verify lag compensation, reconnect handling, and bandwidth usage under load.
 
 ### Phase 4: Localization, Performance, and Analytics
@@ -123,17 +154,25 @@ Delegate to **release-manager** + **devops-engineer**:
 - Deploy to production
 - Monitor for 48 hours post-release
 
-Delegate to **community-manager** (in parallel with deployment):
+**[Game]** Delegate to **community-manager** (in parallel with authorized deployment):
 - Finalize patch notes using `/patch-notes [version]`
 - Prepare launch announcement (store page updates, social media, community post)
 - Draft known issues post if any S3+ issues shipped
-- Output: all player-facing release communication, ready to publish on deploy confirmation
+- Output: all player-facing release communication, ready for separately authorized publication after deploy confirmation
+
+**[Product]** Delegate applicable user/integrator communication to **release-manager**
+and the configured docs/support owner: API/CLI/package release notes, compatibility
+and migration guidance, known issues, rollout/rollback notices and support handoff.
+Store/community material applies only when that actual Product surface exists.
+Communication is a draft until its recipient/channel and publication effect are
+authorized; deployment approval does not imply communication approval.
 
 ### Phase 7: Post-Release
 - **release-manager**: Generate release report (what shipped, what was deferred, metrics)
 - **producer**: Update milestone tracking, communicate to stakeholders
 - **qa-lead**: Monitor incoming bug reports for regressions
-- **community-manager**: Publish all player-facing communication, monitor community sentiment
+- **[Game] community-manager**: Publish authorized player-facing communication and monitor community sentiment
+- **[Product] release-manager / configured docs/support owner**: Publish authorized user/integrator notices and monitor actual service/package/support feedback
 - **analytics-engineer**: Confirm live dashboards are healthy; alert if any critical events are missing
 - Schedule post-release retrospective if issues occurred
 
