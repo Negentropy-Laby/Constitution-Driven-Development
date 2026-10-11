@@ -144,9 +144,7 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 
-# CDD maintenance tooling and retained local execution records.
-# Keep full working copies; only the explicitly reviewed paths are untracked.
-# Canonical templates, platform skills, project customizations and business files are excluded from this block.
+# Local CDD maintenance paths excluded from template delivery.
 /scripts/generate_gate_required_sections.py
 /scripts/generate_phase_checklists.py
 /scripts/runtime_smoke.py
@@ -171,3 +169,6 @@ $RECYCLE.BIN/
 /.claude/hooks/validate-generated-adapter-change.sh
 /.codex/hooks/validate-generated-adapter-change.sh
 /cdd-manifest.toml
+
+/docs/reference/archive/deletion-preservation-audit.md
+/docs/reference/archive/deletion-preservation-final-audit.md

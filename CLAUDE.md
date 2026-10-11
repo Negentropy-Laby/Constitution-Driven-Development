@@ -86,48 +86,73 @@ has no path-glob equivalent, so consult them manually there.)
 
 ## Source Repository Submission Scope
 
-This section applies only to the actual `Constitution-Driven-Development` Source
-repository as the shared development-template library. Importing these instructions
-into a consuming Game or Product project does not make it a template-source
-repository or apply this Source-only submission restriction.
+This section applies only to the actual CDD Source library. Importing these
+instructions does not apply Source-only submission restrictions to a business
+project's own code, documents or delivery evidence.
 
-本项目提交的内容仅限开发模板。
+“严格分离”“不混入”“仅保留”约束的是 Git 跟踪、暂存、提交及发布的文件内容集合，与本地存放目录无关。
+In these CDD boundaries, "strict separation", "must not mix" and "only retain"
+constrain the content selected for Git tracking, staging, commits and publication,
+not directory layout or local disk presence. Maintenance material may remain
+locally inside or outside either repository. Its presence alone is not a violation
+and must not trigger moving, deleting or relocating logs.
 
-开发模板与维护工具必须严格分离，哪怕是维护用注释也不得写入开发模板文件。
+Before submission or publication, review the actual changed content, Git index
+and intended delivery set. Use precise shared `.gitignore` rules against accidental
+addition of untracked maintenance files; they do not remove tracked/staged content
+or prevent forced addition or separate publication. Already-tracked maintenance
+content needs separately authorized exclusion from tracking/delivery while keeping
+recoverable originals. This rule alone grants no such action.
 
-Necessary instructions explaining template use may accompany the development
-templates. Maintenance tools, checkers, test fixtures and maintenance-process
-artifacts must remain in separate local files and must not be submitted. Do not
-write unrelated comments, maintenance metadata or maintenance-process records into
-development-template files, or substitute other hidden comments for them. Use
-precise exclusions in the shared repository `.gitignore`, not `.git/info/exclude`;
-do not use blanket exclusions for business, template or platform trees. For affected
-already-tracked maintenance files, remove only the explicitly approved Git tracking
-entries while preserving complete local working copies; ignore rules alone do not
-remove tracked entries. Shared template usage must not depend on these local-only
-maintenance files. This restriction is limited to the actual Source repository;
-consumer projects retain their own submission rules and existing approval and safety
-requirements. It grants no commit or deletion authority.
+The Source library submits development templates and necessary template-use
+instructions/support. Exclude template-maintenance tools, checkers, maintenance
+fixtures, maintenance-only annotations (including hidden comments), actual
+maintenance reports/logs and other maintenance-process records from that set.
+Substantive template-use rules and reusable report/test templates remain eligible;
+they are distinct from maintenance notes and actual execution records. Ordinary
+template use must not depend on the local maintenance toolkit.
+
+These boundaries grant no moving, deletion, untracking, history-rewrite, log-path,
+commit, push or publication authority. Existing collaboration, approval and
+safety rules remain controlling. They do not ratify project laws, accept ADRs,
+initialize governance, advance stages or establish execution/qualification evidence.
 
 ## CDD Target Project Separation
 
-A CDD target project retains its business code, project design and production
-documents, business control manifests and genuine QA evidence, preserving historical
-records. Platform-adapter files and portable project-specific configuration needed
-for normal use may be delivered under the project's rules. General CDD agent and
-skill sources remain in the designated external Source repository; do not keep root
-source copies as a second general CDD source. Normal use of templates and installed
-platform adapters must not depend on a local CDD maintenance toolkit.
+“严格分离”“不混入”“仅保留”约束的是 Git 跟踪、暂存、提交及发布的文件内容集合，与本地存放目录无关。
+In these CDD boundaries, "strict separation", "must not mix" and "only retain"
+constrain the content selected for Git tracking, staging, commits and publication,
+not directory layout or local disk presence. Maintenance material may remain
+locally inside or outside either repository. Its presence alone is not a violation
+and must not trigger moving, deleting or relocating logs.
 
-Tools, checkers, maintenance test fixtures, annotations, metadata, host-path records,
-maintenance locks, caches and process materials used only for local CDD template
-maintenance must remain in separate local files, with precise shared `.gitignore`
-exclusions, and must not be submitted with the target project. Do not embed this
-maintenance material in development-template files or replace it with hidden
-comments. This boundary does not classify business build or runtime files, business
-tests, business control manifests or genuine project QA records as local-only CDD
-maintenance. For an import or update, verify the actual external Source and
-independently review the exact delivery allowlist, preserving project customizations
-and recoverable before bytes. Existing collaboration, approval, safety and commit
-requirements remain controlling; this section grants no new execution authority or
-permission to remove files.
+Before submission or publication, review the actual changed content, Git index
+and intended delivery set. Use precise shared `.gitignore` rules against accidental
+addition of untracked maintenance files; they do not remove tracked/staged content
+or prevent forced addition or separate publication. Already-tracked maintenance
+content needs separately authorized exclusion from tracking/delivery while keeping
+recoverable originals. This rule alone grants no such action.
+
+A target project submits its business code and project documents, required CDD
+platform adaptations, portable project-specific configuration and the neutral
+templates, standards, workflow views and reusable `skill_testing/` assets required
+by enabled workflows and their actual reference closure. Review an exact per-file
+delivery allowlist; missing required originals remain pending. Do not submit a
+general CDD source mirror, template-maintenance tools/annotations, tool-only
+metadata, maintenance locks/caches or actual template-maintenance process output.
+The designated CDD Source owns general agent/skill definitions; that ownership
+is independent of the location of any local copy. Local copies alone do not
+establish Source authority or justify an automatic move or deletion.
+
+Business build/runtime files, tests, control manifests, design/production documents
+and genuine business QA, acceptance and historical evidence remain governed by
+the project's own rules. Classify by purpose and delivery role, not words such as
+"maintenance", a hash or selector. Ordinary installed-platform use must work
+without a local CDD maintenance reader, tool or lock. Updates still require the
+actual Source identity, covered write authority, independent review of the exact
+delivery and preservation of project customizations and recoverable before bytes.
+
+These boundaries grant no moving, deletion, untracking, history-rewrite, log-path,
+commit, push or publication authority. Existing collaboration, approval and
+safety rules remain controlling. They do not ratify project laws, accept ADRs,
+initialize governance, advance stages or establish execution/qualification evidence.
