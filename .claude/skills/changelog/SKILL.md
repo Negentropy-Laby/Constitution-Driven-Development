@@ -36,7 +36,11 @@ section or concept does not erase configured TypeScript/Bun API/CLI facts.
   configuration supports `[Product]` paths, including legacy projects without a concept.
 - **Unknown**: insufficient, conflicting or mixed evidence leaves the affected
   domain branch unresolved. Use an existing scoped decision or clarify with the
-  user/configured project lead. Neutral changelog analysis may continue.
+  user/configured project lead. Neutral changelog analysis may continue:
+  gather confirmed commit/version/sprint facts and affected paths in conversation,
+  with unresolved scope listed. Until the domain is resolved, stop before Phase 3
+  Game/Product categorization, domain-specific changelog templates or file output;
+  do not choose Game categories as a fallback.
 
 Record the supporting sections and values. Never silently default to Game.
 Missing or inaccessible required branch inputs leaves the affected check Incomplete;

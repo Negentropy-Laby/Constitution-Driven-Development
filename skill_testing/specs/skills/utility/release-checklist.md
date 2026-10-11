@@ -43,6 +43,8 @@ is managed by `/gate-check`.
 - `production/qa/qa-plan-sprint-008.md` has QA sign-off annotation
 - Changelog entry for this version exists
 - `production/stage.txt` contains `Polish`
+- Current configured release build/tests pass with actual evidence
+- Any project-required release-owner sign-offs are recorded
 
 **Input:** `/release-checklist`
 
@@ -90,6 +92,8 @@ is managed by `/gate-check`.
 **Fixture:**
 - All stories Done, no HIGH/CRITICAL bugs
 - No changelog entry found for the current version/sprint
+- Required QA/sign-offs and current build/test evidence are complete
+- No project rule makes the changelog a required release input
 
 **Input:** `/release-checklist`
 
@@ -114,6 +118,7 @@ is managed by `/gate-check`.
 - `production/releases/release-checklist-2026-03-20.md` exists
 - Previous: 1 story was incomplete, 1 HIGH bug open
 - Current: all stories Done, HIGH bug resolved, but now 1 MEDIUM bug appeared
+- Required QA/sign-offs and current build/test evidence are complete
 
 **Input:** `/release-checklist`
 
@@ -153,6 +158,49 @@ is managed by `/gate-check`.
 
 ---
 
+### Case 6: Legacy Product CLI Only — Surface Applicability
+
+**Fixture:** Populated legacy `Language & Framework` (TypeScript/Bun),
+`Platform & Deployment` (offline CLI package) and Product specialist routing.
+No concept or new `Product Stack` section; no served UI, HTTP server or datastore.
+Required Story/bug/QA/build/test/sign-off evidence is complete.
+
+**Expected:** Product remains resolved. Audit CLI help, exit codes, actual package
+installation/security and required workload evidence. Do not require FPS,
+continuous play, browser interaction, CORS/CSP, API rate limiting, migration,
+service monitoring or staging deployment for absent surfaces. Append the Product
+verdict, rationale and actual owner sign-offs; do not infer missing evidence PASS.
+
+### Case 7: HTTP API and Web UI — Keep Applicable Requirements
+
+**Fixture:** Actual Product configuration and contracts declare an HTTP API with
+a required rate limit and a web UI with required accessibility/CSP. Current
+required rate-limit evidence fails; other required inputs exist.
+
+**Expected:** Keep those API/web checks; report RELEASE BLOCKED with evidence.
+Do not mark the failed required rate limit or missing required UI evidence
+NotApplicable. No graphical checks are required for API-only scope.
+
+### Case 8: Unknown Domain or Missing Required Evidence
+
+**Fixture:** Conflicting substantive Game/Product concept/configuration evidence,
+or resolved Product with missing required QA/build/Story originals.
+
+**Expected:** Conflicting domain yields neutral facts and pending scope, without
+a Game default or domain-specific report. A resolved scope with missing required
+originals yields Incomplete and RELEASE BLOCKED, never RELEASE READY.
+An unexecuted required manual CI/build check cannot become PASS.
+
+### Case 9: Report History, External Ownership and Sign-off Authority
+
+**Fixture:** A same-date checklist exists and current internal checks pass.
+Platform certification/store preparation remains owned by `/launch-checklist`.
+
+**Expected:** Read and preserve the old report, show the current delta and propose
+an exact revision path before an authorized write. Record only actual sign-offs.
+Do not spawn director gates, claim certification from a template, advance a stage
+or deploy/publish on the strength of RELEASE READY.
+
 ## Protocol Compliance
 
 - [ ] Checks sprint story completion status
@@ -169,7 +217,9 @@ is managed by `/gate-check`.
 
 - Build stability verification (no failed CI runs) is listed as a check category
   but relies on external CI system state; the skill notes this as a MANUAL CHECK
-  if CI integration is not configured.
+  if CI integration is not configured. An actual configured local/offline build
+  may supply evidence; an outstanding required manual check is Incomplete and
+  blocks readiness, never an assumed pass.
 - CRITICAL bugs always result in RELEASE BLOCKED regardless of other items;
   this is equivalent to the HIGH severity case in Case 2.
 - Stories with `Status: In Review` (not Done) are treated as incomplete
