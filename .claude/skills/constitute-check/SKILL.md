@@ -133,10 +133,19 @@ location/presence alone is not a finding. `.gitignore` does not exclude tracked
 content. Preserve business QA and required neutral inputs; this audit does not
 authorize moving/deleting files, untracking or changing log locations.
 
-First read the actual project role, sole Source binding, installed paths,
-required neutral inputs and customizations in `framework_contract.md` or the
-project's established portable import configuration. A local manifest or copied
-script alone does not establish that this is the CDD Source library.
+First read `memory_bank/t2_execution/framework_contract.md` when it exists.
+Its project/Source binding section records the actual project role, sole Source,
+installed revision and runtime, exact installed paths, required neutral inputs
+and project-owned customizations. Unknown values remain unconfigured.
+
+If that control-plane file is absent or lacks a binding, use only existing
+project-owned documentation/configuration selected by the project's governing
+instructions and defining those same fields and their owners. Do not invent a
+configuration path/schema, restore a maintenance profile/lock, or create the
+Memory Bank for this audit. Without a documented binding, report its affected
+scope as Unknown/NOT AVAILABLE and continue independent installed-input checks;
+no freshness state write is available. A local manifest or copied script alone
+does not establish that this is the CDD Source library.
 
 For a consumer, directly read the selected installed entries and their actual
 required references. Report missing/unread originals with their affected scope.

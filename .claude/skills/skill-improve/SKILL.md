@@ -164,8 +164,10 @@ platform projections and rollback, or ask once after presenting the concrete
 patch and full effect list. Review every actually changed output and ownership
 conflict. Unexpected or other-owner files stop the affected update until their
 exact treatment is separately authorized. Preserve unrelated content and never
-independently author derived platform files. If the required Source, comparison
-or write coverage is unavailable, retain the candidate and request only the
+independently author derived platform files. Never invent a per-skill generator
+flag, command or API; verify a proposed interface and its complete effect scope
+against the actual authoritative Source before using it. If the required Source,
+comparison or write coverage is unavailable, retain the candidate and request only the
 missing scope. Declined writes mean NO CHANGE.
 
 ---
@@ -210,10 +212,12 @@ still pending (state the retained candidate/live outcome precisely).
 
 For a permitted rollback, first verify each live touched canonical/adapter equals
 this invocation's exact after identity and actual owner-input identities,
-projection rules and complete output scope still match. Other-author changes stop affected restore; never overwrite them or use
+projection rules and complete output scope still match. Other-author changes
+stop affected restore; never overwrite them or use
 `git checkout`. Reuse scoped rollback authority or ask only when absent. Restore
 the exact retained invocation before bytes, and restore only covered deterministic
-platform effects after a fresh complete-output plan with no unrelated drift. Verify restored identities.
+platform effects after a fresh complete-output plan with no unrelated drift.
+Verify restored identities.
 **REVERTED** means the exact covered restore actually succeeded. Preserve failed
 candidate/evidence; rollback does not grant independent approval or completion.
 

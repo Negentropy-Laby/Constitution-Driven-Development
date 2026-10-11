@@ -33,7 +33,8 @@ a separately approved isolated update stage and independent review of the exact
 delivery allowlist. Preserve project customizations, runtime-owned settings,
 business documents and recoverable before bytes; conflicts stop affected updates.
 
-The designated CDD Source owns the canonical-to-platform mapping. Canonical `INSTRUCTIONS.md`, `skills/`, `agents/`, `hooks/` and `rules/`
+The designated CDD Source owns the canonical-to-platform mapping.
+Canonical `INSTRUCTIONS.md`, `skills/`, `agents/`, `hooks/` and `rules/`
 belong to that Source. Source reproduction and generation have separate
 maintenance authority and are not prerequisites for ordinary consumer use.
 Delivered templates, standards, workflow views and reusable `skill_testing/`
@@ -55,8 +56,12 @@ mixed-ownership roots: settings, status-line configuration, hook wiring and
 native command policies remain with their actual owners. Installed adapters
 do not authorize hook activation or overwrite project-specific configuration.
 
-Skills project verbatim to Claude and by platform-specific wording to
-Codex. Agent Markdown projects to Claude; Codex TOML retains `name`,
+Skills project verbatim to Claude. Codex uses the Accepted `runtime_substitute`
+contract's Source-declared literal pairs: blind deterministic substitution, not
+contextual rewriting. ADR-0002 D2's guard rejects a repeated token across
+`and`/`or`/`,` only when the token contains a replacement target; residual
+forbidden source literals also fail. These limits do not imply equivalent native
+capabilities. Agent Markdown projects to Claude; Codex TOML retains `name`,
 `description` and `developer_instructions`, not all operational metadata.
 Read `adapters/README.md` and actual runtime metadata before behavior claims.
 No copied definition establishes autoload, execution or qualification.

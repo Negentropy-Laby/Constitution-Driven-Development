@@ -25,10 +25,10 @@ ownership; general mirrors and maintenance records stay outside Git submission
 and publication scope regardless of their local placement.
 
 This is a delivery-facing summary of the existing Accepted decision, without a
-new choice or acceptance. The complete pre-separation text remains in Git
-revision `2dfbe67e67a01ee70e8da74ab13523c7cd40785a` at this path and as a
-separately retained exact original. The historical implementation and closeout
-record stays recoverable outside the template delivery.
+new choice or acceptance. The complete pre-separation text is available at
+[this immutable Git revision](https://github.com/Negentropy-Laby/Constitution-Driven-Development/blob/2dfbe67e67a01ee70e8da74ab13523c7cd40785a/docs/architecture/adr-0002-runtime-parity-and-adapter-governance.md).
+Its historical implementation and closeout details are outside current template
+delivery; this reference is distinct from the Proposed witness identified below.
 
 ## ADR Dependencies
 
@@ -71,6 +71,16 @@ or qualify a Foundation ADR.
 - **Recorded at (UTC):** 2026-10-11T03:02:04.514716+00:00.
   The delegated decision transcript supplies message identity and response,
   not the original message timestamp; no more precise decision time is inferred.
+
+## Historical acceptance evidence availability
+
+The exact 21,741-byte Proposed original identified above has not been recovered
+from the known retained public ADR copies and these ADR paths' Git history.
+The prior retention statement records the historical acceptance record; it is
+not a current guarantee that those exact bytes are available. The available
+Accepted originals are different revisions and cannot substitute for that
+Proposed witness. Its recorded identity and the user's acceptance decision are
+preserved; full historical acceptance-evidence closure remains incomplete.
 
 ## Context
 

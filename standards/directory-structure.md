@@ -78,7 +78,12 @@ inputs and separate approved maintenance scope. Never recover a consumer's
 missing canonical root by copying installed outputs back into `agents/` or `skills/`.
 
 The layout records ownership, not activation. Skills copy verbatim to
-`.claude/skills/` and use platform-specific wording for `.agents/skills/`.
+`.claude/skills/`; `.agents/skills/` uses Source-declared literal replacement
+pairs under the Accepted `runtime_substitute` contract, not contextual rewriting.
+ADR-0002 D2's guard rejects a repeated token across a short connector
+(`and`/`or`/`,`), only when the token contains a replacement target; residual
+forbidden source literals also fail.
+These projection limits do not promise equivalent runtime capabilities.
 Agent Markdown copies to Claude; Codex TOML retains only `name`, `description`
 and `developer_instructions`, dropping the seven known operational fields in
 `adapters/README.md`. Generated files do not promise equivalent model, tools,

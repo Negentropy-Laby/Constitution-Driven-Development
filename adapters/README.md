@@ -61,7 +61,8 @@ maintenance tools, and it does not authorize a project write or law acceptance.
 A consumer uses its approved installed platform files, necessary neutral support
 and project rules. General root `agents/` and `skills/` mirrors are excluded from
 consumer Git submission/publication. Local presence inside or outside a project
-is allowed and does not establish another Source or authorize moving/deleting files. Read complete installed entries and the actual required references
+is allowed and does not establish another Source or authorize moving/deleting
+files. Read complete installed entries and the actual required references
 for the selected platform; a local maintenance reader, profile or lock is not a
 normal-use prerequisite. Optional diagnostics can verify additional identities
 when provided, but installed-file observations alone do not prove current Source,
@@ -108,17 +109,26 @@ installed inputs remain usable offline; common updates require the sole Source.
 
 A consumer retains portable project differences and the actual selected platform
 paths. Preserve the designated Source authority independently of local placement;
-exclude general source mirrors from consumer Git delivery. Preserve project customizations,
-runtime-owned settings and complete historical originals. Updates require the
-actual Source, exact input identities, scoped authority, independent candidate
-review and readback of the approved delivery. Unresolved identity or ownership
+exclude general source mirrors from consumer Git delivery. Preserve project
+customizations, runtime-owned settings and complete historical originals.
+Updates require the actual Source, exact input identities, scoped authority,
+independent candidate review and readback of the approved delivery.
+Unresolved identity or ownership
 conflicts stop affected updates. Normal installed-file use remains available
 without a maintenance reader or lock and does not establish live freshness.
 
 ## Transforms and actual runtime claims
 
-`skills/` copies verbatim to `.claude/skills/`; `.agents/skills/` uses platform-specific
-wording. Agent Markdown copies to Claude; Codex TOML keeps
+`skills/` copies verbatim to `.claude/skills/`. For `.agents/skills/`, the
+Accepted `runtime_substitute` contract applies the Source-declared literal
+replacement pairs deterministically. It is blind substitution, not a
+context-aware rewrite or a promise of equivalent native capabilities.
+The Accepted post-substitution guard rejects a repeated token across a short
+connector (`and`/`or`/`,`), only when that token contains a replacement target;
+residual forbidden source literals also fail. Preserve these exact conditions
+without broadening the guard. See ADR-0002's D2/D3 contracts.
+
+Agent Markdown copies to Claude; Codex TOML keeps
 `name`, `description` and `developer_instructions`. The seven known dropped
 fields are `tools`, `model`, `maxTurns`, `memory`, `skills`, `disallowedTools`
 and `isolation`. Unknown agent fields block generation; canonical metadata is

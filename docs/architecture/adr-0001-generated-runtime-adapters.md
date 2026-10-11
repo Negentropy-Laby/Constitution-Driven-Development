@@ -1,6 +1,9 @@
 # ADR-0001: Canonical authority sources and generated runtime adapters
 
-- **Status:** Accepted
+## Status
+
+Accepted
+
 - **Date:** 2026-07-10
 - **Baseline:** `main` @ `43082d4`
 
@@ -21,11 +24,11 @@ CDD Source; a target keeps its business documents, configuration and customizati
 without becoming a second general CDD Source.
 
 This delivery-facing summary preserves the Accepted choices and introduces no
-new decision or acceptance. The complete pre-separation text remains in Git
-revision `2dfbe67e67a01ee70e8da74ab13523c7cd40785a` at this path and in the
-separately retained original. Historical implementation recipes and validation
-records remain recoverable and are excluded from template Git submission/publication.
-Their local storage location does not determine compliance.
+new decision or acceptance. The complete pre-separation text is available at
+[this immutable Git revision](https://github.com/Negentropy-Laby/Constitution-Driven-Development/blob/2dfbe67e67a01ee70e8da74ab13523c7cd40785a/docs/architecture/adr-0001-generated-runtime-adapters.md).
+Historical implementation and validation details are outside current template
+Git submission/publication. Their local storage location does not determine
+compliance.
 
 ## Context
 
@@ -92,3 +95,22 @@ Owner inputs never come from their own destination projections. Invalid prefligh
 performs zero writes and zero pruning. Any authorized restore retains exact
 before/after identities, complete output context and unrelated changes; history
 remains recoverable. A change to an Accepted choice requires its own ADR acceptance.
+## Stack Compatibility
+
+| Field | Value |
+|---|---|
+| Language / Runtime | Accepted mapping-parser baseline: Python 3.11, as recorded in Decision 3 |
+| Framework / Libraries | Standard-library TOML parsing; no added dependency under Decision 3 |
+| Surface / Contract | Claude Code and Codex instruction, skill, agent and hook projections; capability differences remain explicit |
+| Knowledge Risk | Not Verified for any current CLI release; this record supplies no current version qualification |
+| References Consulted | This ADR's Decision 3 and 7; ADR-0002's runtime, rule and mixed-ownership contracts |
+| Version-Sensitive APIs / Formats | TOML mapping/agent schemas and runtime frontmatter fields; current native CLI compatibility is Not Verified |
+| Verification Required | Applicable native discovery, metadata and hook behavior against the actual runtime version and installed revision |
+
+## CDD Requirements Addressed
+
+Foundational — no direct Game system or Product module CDD requirement was
+identified in this historical decision. It governs canonical authority ownership,
+complete deterministic projections and directly usable installed adapters for
+CDD workflows. A project-specific CDD/TR mapping is Unknown here; this section
+does not invent requirement IDs or qualify a project's Foundation ADRs.
