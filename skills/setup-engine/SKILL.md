@@ -76,10 +76,20 @@ When guided mode needs an engine, language, framework, or deployment-stack decis
 
 ## 4. Update INSTRUCTIONS.md Technology Stack
 
-Read `INSTRUCTIONS.md` and show the user the proposed Technology Stack changes.
-Ask: "May I write these settings to `INSTRUCTIONS.md`? Writing it also regenerates every runtime root-instruction adapter declared in `cdd-manifest.toml`: `python scripts/sync_adapters.py --write --class root-instructions`."
+Read `INSTRUCTIONS.md` and the actual runtime root-instruction files already
+used by this project. Show the proposed Technology Stack changes together with
+the exact affected root-instruction paths, preserving the CDD source/target
+boundary sections, project customizations and existing approval rules.
+Ask for any missing authority for that complete changeset.
 
-Wait for confirmation before making any edits. After writing `INSTRUCTIONS.md`, run that regeneration command so the runtime files stay in sync.
+After approval, update the canonical project settings and their declared
+root-instruction projections using normal file tools. A declared plain-copy
+projection receives the same complete approved bytes; preserve separately owned
+runtime guidance and compatibility rules. If a projection needs an unknown
+transform or owner decision, leave that projection pending and explain the
+specific missing input. Ordinary target-project setup does not require a local
+maintenance script, checker, profile or lock, and never invokes a source-library
+generator main/write against the target.
 
 Update the Technology Stack section, replacing the `[CHOOSE]` placeholders with the actual values:
 
@@ -176,8 +186,10 @@ docs are optional but can be added later if agents suggest incorrect APIs.
 Run `/setup-engine refresh` to populate full reference docs at any time.
 ```
 
-Do NOT create breaking-changes.md, deprecated-apis.md, etc. — they would
-add context cost with minimal value.
+Do not create the additional reference library merely for a valid LOW-risk baseline.
+A governing requirement, migration or concrete compatibility question can still make
+an applicable reference necessary; establish and Read that original within the
+approved scope. Never use LOW to waive required safety or compatibility checks.
 
 **[通用产品]** For general stacks, create the equivalent file at `docs/reference/<stack>/VERSION.md`:
 
@@ -199,8 +211,9 @@ docs are optional but can be added later if agents suggest incorrect APIs.
 Run `/setup-engine refresh` to populate full reference docs at any time.
 ```
 
-Do NOT create breaking-changes.md, deprecated-apis.md, etc. for LOW RISK — they would
-add context cost with minimal value.
+For a valid LOW-risk Product baseline, do not create the additional library merely
+to fill directories. The same governing requirement and actual compatibility rules
+above apply; a missing required reference leaves its dependent check Incomplete.
 
 ### If BEYOND training data (MEDIUM or HIGH RISK):
 
@@ -244,9 +257,11 @@ Wait for confirmation before writing any files.
 
 ## 8. Update INSTRUCTIONS.md Import
 
-Ask: "May I update the `@` import in `INSTRUCTIONS.md` to point to the new reference? This regenerates every runtime root-instruction adapter declared in `cdd-manifest.toml`: `python scripts/sync_adapters.py --write --class root-instructions`."
-
-Wait for confirmation, then update. After the import edit, run that regeneration command.
+Show the proposed `@` import change and the exact declared root-instruction
+projections affected. Ask for any missing approval for that complete changeset,
+then update it using the normal-file procedure in Section 4. Preserve the CDD
+source/target boundary sections and separately owned project guidance; no local
+maintenance command is a prerequisite.
 
 ```markdown
 ## Version Reference

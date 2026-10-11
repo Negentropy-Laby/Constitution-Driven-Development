@@ -40,7 +40,13 @@ credential-free release evidence.
 - Claude Code invokes CDD skills as `/skill-name`; Codex uses `/skills` to
   browse or `$skill-name` for explicit and non-interactive invocation.
 
-### Validation Model
+### Historical Validation Model
+
+The items below describe the v0.2.0 release contract and its exact historical
+evidence. Local maintenance scripts and Source CI are no longer part of clean
+template delivery. Current installation/upgrade/acceptance follows
+`docs/CUSTOMER-ACCEPTANCE.md` and the target's configured test/QA contract; an old
+run cannot certify newer or uncommitted inputs.
 
 - Template Consistency CI is configured for Ubuntu, macOS, and Windows runners.
 - Windows local hook execution requires Git Bash; Windows toast notifications

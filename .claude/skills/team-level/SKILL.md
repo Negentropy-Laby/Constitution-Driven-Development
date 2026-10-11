@@ -1,6 +1,6 @@
 ---
 name: team-level
-description: "Orchestrate area/workflow creation. Game: level design team for areas and levels. Product: workflow/module area team for onboarding flows, admin sections, dashboards, API resource groups, CLI command groups, or data pipeline stages."
+description: "Orchestrate the implemented Game level/area design workflow. Product area/workflow requests require scope clarification and a separately designed, approved workflow; this skill has no executable Product area pipeline."
 argument-hint: "[level name or area to design]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite
@@ -8,7 +8,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 
 ## User Guide
 
-- When to use: Orchestrate area/workflow creation. Game: level design team for areas and levels. Product: workflow/module area team for onboarding flows, admin sections, dashboards, API resource groups, CLI command groups, or data pipeline stages.
+- When to use: Orchestrate the implemented Game level/area design team. For a Product area/workflow request, clarify its scope with the user or configured project lead and stop; this skill has no executable Product area pipeline. Any such Product workflow must be separately designed and approved before it can be used.
 - Inputs: Command arguments: `/team-level [level name or area to design]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
 - Memory-bank writes: None.
@@ -16,12 +16,36 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before orchestrating the team:
-- `design/cdd/game-concept.md` -> **[Game]** keep the existing level team workflow for area design, pacing, layout, landmarks, encounters, art, accessibility, and playtest checklist.
-- `design/cdd/product-concept.md` -> **[Product]** use this command for workflow/area/module design: onboarding flow, admin section, dashboard area, API resource group, CLI command group, data pipeline stage, or multi-step user journey.
-- If unclear, ask whether the target is a game level/area or a product workflow/module area.
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
 
-Game level guidance stays in place. Product workflow-area guidance is added beside it.
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+- **[Game]** keep the existing level team workflow for area design, pacing, layout, landmarks, encounters, art, accessibility, and playtest checklist.
+- **[Product]** this skill has no executable Product area/workflow pipeline. Clarify the requested area and owner with the user or configured project lead, then stop before the Game team or artifact writes; a Product workflow must be separately designed and approved before that area work can proceed.
+
+The steps and delegation below implement Game level guidance only. Product routing above is a clarification and stop, not an added Product pipeline. If the domain is Unknown or substantive evidence conflicts, clarify the governing domain and scope from explicit project instructions or a confirmed decision; stop affected domain-specific branches until resolved.
 When this skill is invoked:
 
 **Decision Points:** At each step transition, use `AskUserQuestion` to present
@@ -92,6 +116,8 @@ The level-designer should:
 - Design environmental puzzles or navigation challenges
 - Define points of interest and landmarks for wayfinding — these must match the visual landmarks the art-director specified
 - Specify entry/exit points and connections to adjacent areas
+
+Resolve and read each adjacent area actually referenced by the produced layout. A layout without an adjacent reference has no such dependency; an unresolved reference remains Unknown and must use the existing UNRESOLVED-placeholder or pause decision below. Directory presence does not close a real dependency.
 
 **Adjacent area dependency check**: After the layout is produced, check `design/levels/` for each adjacent area referenced by the level-designer. If any referenced area's `.md` file does not exist, surface the gap:
 > "Level references [area-name] as an adjacent area but `design/levels/[area-name].md` does not exist."

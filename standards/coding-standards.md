@@ -60,6 +60,11 @@
 
 All stories must have appropriate test evidence before they can be marked Done:
 
+For configured Product projects, the Location column shows conventions rather
+than mandatory test roots. Read the owning Story's exact Test Evidence, actual
+project runner/discovery configuration and required originals first; valid
+colocated tests keep the same scenarios, real PASS and gate requirements.
+
 | Story Type | Required Evidence | Location | Gate Level |
 |---|---|---|---|
 | **Logic** (formulas, AI, state machines) | Automated unit test — must pass | `tests/unit/[system]/` | BLOCKING |

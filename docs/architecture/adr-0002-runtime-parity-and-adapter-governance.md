@@ -2,7 +2,10 @@
 
 ## Status
 
-Accepted — ratified 2026-07-11. Closeout Phases 3–9 may proceed.
+Accepted — ratified 2026-07-11 for the original decision and closeout scope.
+The D7/D8 delivery amendment below is **Accepted** by the user's separate
+2026-10-11 decision bound to the exact reviewed draft identified below. Writing,
+review, tests and publication alone did not establish that acceptance.
 
 ## Date
 
@@ -30,6 +33,45 @@ documents mixed runtime-root ownership, and adds a semantic-collapse guard.
 | **Enables** | Closeout pass Phases 3–9 |
 | **Blocks** | None |
 | **Ordering Note** | Phases 3+ cannot start until this ADR is Accepted |
+
+## Current applicability and amendment scope
+
+The original closeout ordering and validation claims below retain their
+2026-07-11 historical scope. They are not current freshness evidence, an active
+CI promise, or permission to restore local-only maintenance tools.
+
+D1–D6 and the canonical/projection ownership decision remain Accepted. The
+current delivered template contract uses installed platform adapters plus the
+required neutral inputs; ordinary offline use does not depend on the local Source
+maintenance manifest, scripts or fixtures. Updates use the designated external
+Source and retain target customizations.
+
+The accepted D7/D8 amendment addresses the lifecycle and maintenance-delivery
+conflict explicitly. It does not advance a project phase or waive its Foundation
+ADR requirements. The target project's Technical Setup/Architecture gate still
+requires its actual qualifying decisions; this Source template repair neither
+creates a third Foundation ADR nor counts a fabricated one.
+
+## D7/D8 amendment acceptance
+
+- **Authority:** User decision `Sentinel_05a0a7b6c5c0819181ae4993f6b201c5`,
+  response “批准执行” to the explicit acceptance/publication question
+  `Sentinel_e82e42dfbfc881919fd277d3a43ceb50`.
+- **Scope:** Only the reviewed D7 initialization/evidenced-freshness and D8
+  business-hook/maintenance-delivery amendment, with ADR-0001's applicability
+  explanation. The canonical-to-projection core and original historical scope
+  remain intact; acceptance does not advance a project phase or confer other
+  state, release or publication authority.
+- **Exact reviewed original:** This ADR's Proposed draft, 21741 UTF-8 bytes,
+  SHA-256
+  `2cd0f3ac08f3f0dbfa4da3315b3712f8f302659adccae5cd6b05c09c87fc66fd`.
+  The complete reviewed original is retained as acceptance evidence; this is
+  the pre-acceptance draft identity, not a self-hash of this updated file.
+- **Historical predecessor:** The full 2026-07-11 Accepted decision remains in
+  Git revision `040b2b75179c5e1a317418f61b2074186d97abc0` at this path.
+- **Recorded at (UTC):** 2026-10-11T03:02:04.514716+00:00.
+  The delegated decision transcript supplies message identity and response,
+  not the original message timestamp; no more precise decision time is inferred.
 
 ## Context
 
@@ -163,7 +205,8 @@ as `.claude/**` / `.codex/**`.
 
 The templates `framework_contract.md` and `adapter_state.yaml` are added under
 `templates/memory-bank/t2_execution/` and indexed in `document_map.yaml`. Their
-intended lifecycle is:
+original intended lifecycle was (historical Accepted scope, not evidence that
+initialization performed a comparison):
 
 - `/constitute` initializes them from templates (status: uninitialized → fresh).
 - `/constitute-check` recomputes manifest/source digests, runs or consumes
@@ -178,14 +221,66 @@ Implementation status: the templates and `document_map` index are in place; the
 `/constitute` + `/constitute-check` lifecycle wiring (skill updates) and the
 workflow-consistency memory-bank checks are a follow-up (see milestone notes).
 
+#### Accepted D7 amendment — initialization and evidenced freshness
+
+Initialization copies `adapter_state.yaml` unchanged with deterministic
+`uninitialized` values. It initializes `framework_contract.md` using actual
+project/Source bindings, leaving unknown bindings unconfigured. It does not
+infer `fresh`, fabricate digests, or claim a check ran. See the current `/constitute` workflow and
+`templates/memory-bank/t2_execution/framework_contract.md`.
+
+A fresh/stale determination requires an actual comparison of the current,
+applicable owner/source identity, exact delivery allowlist and installed bytes,
+including project customization ownership. Record the comparison inputs, result,
+time and authority. Writing that record to a state file requires exact approved
+state-write scope; conversation or an independently authorized report does not
+require state-write authority. A local maintenance
+check may supply evidence if actually available and applicable; it is not a
+required delivered dependency or the only valid comparison method.
+
+Without that comparison, live freshness is unavailable. Preserve any recorded
+state and its historical evidence; do not silently replace it, reuse an old
+`fresh` as current evidence, or stamp `stale` merely because maintenance tools
+are absent. `/constitute-check` may report the gap and a draft; it updates state
+only under exact authority. `/cdd-status` only reads `adapter_state.yaml` and
+never owns or recomputes its freshness; its separately authorized roadmap/mirror
+writes remain governed by their own scope.
+
+**Acceptance:** Accepted within the exact D7 scope and reviewed original
+identified above. This supersedes the original initialization-to-fresh choice;
+the original Accepted decision remains recoverable in Git history. Other state
+writes and project advancement still require their own governing authority.
+
 ### D8 — Hook payload compatibility
 
-The generated-file and asset hooks (`validate-generated-adapter-change.sh`,
-`validate-assets.sh`) parse both Claude (`tool_input.file_path`) and Codex
-(`tool_input.command` apply_patch headers, possibly multi-file) payloads, handle
-POSIX/Windows separators and absolute/relative paths, emit JSON advisories for
-Codex `PostToolUse` (plain stdout is ignored), and keep a non-blocking stderr
-fallback for Claude. They cover all generated output classes, not just skills.
+The original Accepted implementation used the generated-file and asset hooks
+(`validate-generated-adapter-change.sh`,
+`validate-assets.sh`) to parse both Claude (`tool_input.file_path`) and Codex
+(`tool_input.command` apply_patch headers, possibly multi-file) payloads. They
+handled POSIX/Windows separators and absolute/relative paths, emitted JSON
+advisories for Codex `PostToolUse` (plain stdout was ignored), and kept a
+non-blocking stderr fallback for Claude. That generated-file implementation
+covered all generated output classes, not just skills.
+
+#### Accepted D8 amendment — business hooks and local maintenance
+
+The delivered business asset hook `validate-assets.sh` remains wired in both
+runtime configurations. Retain its applicable asset checks and payload/path
+compatibility. Normal business hooks and runtime safety configuration are not
+classified as template maintenance merely because they are hooks.
+
+`validate-generated-adapter-change.sh` is a local-only maintenance hook: its
+tracking entry and runtime wiring were retired under the Source delivery boundary.
+The old generated-file check and historical maintenance CI are not prerequisites
+for normal template use and must not be reinstated through this ADR. Other
+delivered hooks remain subject to their actual configuration, applicable inputs
+and runtime trust requirements.
+
+**Acceptance:** Accepted within the exact D8 scope and reviewed original
+identified above. The maintenance-delivery change is separate from the still-valid
+payload compatibility of the retained business hook. The original D8 remains in
+history; the user's explicit decision, not repair/tests/publication, accepts
+this amendment.
 
 ### Runtime capability matrix
 
@@ -195,7 +290,8 @@ fallback for Claude. They cover all generated output classes, not just skills.
 | Nested instructions | Generated nested `CLAUDE.md` | Generated nested `AGENTS.md`; loaded along the startup working-directory chain |
 | Skills | Generated `.claude/skills/` | Generated `.agents/skills/` |
 | Agents | Generated Markdown adapters | Generated TOML adapters with documented metadata loss |
-| Hooks | Generated `.claude/hooks/` plus `settings.json` wiring | Generated `.codex/hooks/` plus `hooks.json` wiring and trust review |
+| Delivered business hooks | Delivered `.claude/hooks/` plus actual `settings.json` wiring, including `validate-assets.sh` | Delivered `.codex/hooks/` plus actual `hooks.json` wiring and trust review, including `validate-assets.sh` |
+| Local maintenance hook (accepted D8 scope) | Generated-file hook retired from delivery and wiring; historical implementation only | Generated-file hook retired from delivery and wiring; historical implementation only |
 | CDD path policies | Native `.claude/rules/` path globs | Canonical `rules/` consulted through guidance; no equivalent path-glob enforcement |
 | Native command rules | Claude permission/settings surface | `.codex/rules/*.rules`; runtime-specific and never generator-owned |
 | Runtime settings | Hand-authored mixed-root files | Hand-authored mixed-root files |
@@ -303,6 +399,11 @@ authorized, reverting that commit is an additional rollback option.
 
 ## Validation Criteria
 
+The entries below record the original closeout baseline and then-configured CI.
+They do not assert a current run or active maintenance workflow. In particular,
+the 322-output result and three-operating-system CI statement are historical;
+current applicability/evidence must be checked separately.
+
 Status legend: `[x]` met · `[~]` partial (see note) · `[ ]` deferred to the follow-up milestone.
 
 - [x] Old P0 source sentences fail generation with `SubstitutionError`; zero
@@ -342,5 +443,3 @@ implement any single game mechanic or product module.
   `learn.chatgpt.com/docs/agent-configuration/rules`,
   `learn.chatgpt.com/docs/hooks`,
   `learn.chatgpt.com/docs/agent-configuration/agents-md`.
-- Plan of record: `C:\Users\WSMAN\.claude\plans\giggly-munching-wreath.md`
-  (session-local).

@@ -16,12 +16,36 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before UI orchestration:
-- `design/cdd/game-concept.md` -> **[Game]** keep game UI/HUD orchestration: player journey, HUD, engine UI specialist, visual design, accessibility, localization, and UI programmer handoff.
-- `design/cdd/product-concept.md` -> **[Product]** coordinate product interaction work: web UI, admin screens, CLI interaction, API consumer journey, component patterns, accessibility, localization, implementation handoff, and QA evidence.
-- If unclear, ask whether the interface is a game UI/HUD or product UI/CLI/API interaction.
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
 
-Game UI workflow remains intact. Product interaction orchestration is added beside it.When this skill is invoked, orchestrate the UI team through a structured pipeline.
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+- **[Game]** keep game UI/HUD orchestration: player journey, HUD, engine UI specialist, visual design, accessibility, localization, and UI programmer handoff.
+- **[Product]** coordinate product interaction work: web UI, admin screens, CLI interaction, API consumer journey, component patterns, accessibility, localization, implementation handoff, and QA evidence.
+
+Game UI workflow remains intact. Product interaction orchestration is added beside it. When this skill is invoked, orchestrate the UI team through a structured pipeline.
 
 **Decision Points:** At each phase transition, use `AskUserQuestion` to present
 the user with the subagent's proposals as selectable options. Write the agent's
@@ -132,6 +156,8 @@ Before implementation begins, spawn the **engine UI specialist** (from `standard
 
 If no engine is configured, skip this step.
 
+When implementation uses an established library, read the actual interaction patterns, including option (a) after its separately approved creation. Explicit option (b) proceeds with new patterns. Keep the initial absent-library warning and user choice visible, do not invent existing patterns, and retain new-pattern documentation plus the final actual library check. Unresolved choice stays Unknown.
+
 Delegate to **ui-programmer**:
 - Implement the UI following the UX spec and visual design spec
 - **Use patterns from `design/ux/interaction-patterns.md`** — do not reinvent patterns that are already specified. If a pattern almost fits but needs modification, note the deviation and flag it for ux-designer review.
@@ -159,6 +185,9 @@ All three review streams must report before proceeding to Phase 5.
 - Confirm UI sounds trigger through the audio event system (no direct audio calls)
 - Test at all supported resolutions and aspect ratios
 - **Verify `design/ux/interaction-patterns.md` is up to date** — if any new patterns were introduced during this feature's implementation, confirm they have been added to the library
+
+Apply HUD budget checks when the actual agreed feature scope includes HUD elements. A confirmed non-HUD surface has no HUD branch; unresolved scope stays Unknown. Actual HUD budget checks and required current visual inputs remain unchanged.
+
 - **Confirm all HUD elements respect the visual budget** defined in `design/ux/hud.md` (element count, screen region allocations, maximum opacity values)
 
 ## Product Interaction Pipeline

@@ -53,9 +53,36 @@ work while blocking only affected dependants.
 
 When this skill is invoked:
 
-**Domain detection.** Read the concept document to determine domain:
-- `design/cdd/game-concept.md` → **[游戏专用]** Game mode
-- `design/cdd/product-concept.md` → **[通用产品]** Product mode
+**Domain detection.**
+
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
+
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+Use **[游戏专用]** Game modes only for resolved Game; use **[通用产品]**
+Product modes only for resolved Product.
 
 ## 1. Parse Arguments & Determine Mode
 
@@ -160,7 +187,16 @@ must satisfy the accessibility tier committed to there.
 
 ### 2h: Input Method (from Project Config)
 
-Read `standards/technical-preferences.md` and extract the `## Input & Platform`
+**[Product]** Read actual surface and input constraints from the owning CDD,
+API/CLI contract, existing surface profile where applicable, and populated
+Product/legacy configuration. CLI argument/stdin/stdout interaction and API
+request/response workflows do not require Game input, gamepad or safe-zone
+fields. For actual web/native UI, retain its configured keyboard, pointer, touch
+and accessibility constraints. Unresolved applicable input constraints need
+clarification; do not use unconfigured Game fields to ask a Product what this
+game targets. Continue with 2i after recording the Product constraints.
+
+**[Game]** Read `standards/technical-preferences.md` and extract the `## Input & Platform`
 section. Store these values for use throughout the skill — they drive the
 Interaction Map and inform accessibility requirements:
 
@@ -200,14 +236,17 @@ Then ask: "Anything else I should read before we start, or shall we proceed?"
 
 Before creating a skeleton, check if the target output file already exists.
 
-Glob `design/ux/[filename].md` (where `[filename]` is the resolved output path from Phase 1).
+Use the exact output path resolved in Phase 1, which already includes its
+directory and `.md` extension. Read that path directly to distinguish an existing
+spec, confirmed absence and an inaccessible file. Do not prepend another directory
+or append another extension; unresolved or inaccessible targets remain Incomplete.
 
 **If the file exists — retrofit mode:**
 - Read the file in full
 - For each expected section, check whether the body has real content (more than a `[To be designed]` placeholder) or is empty/placeholder
 - Present a section status summary to the user:
 
-> "Found existing UX spec at `design/ux/[filename].md`. Here's what's already done:
+> "Found existing UX spec at [the exact output path resolved in Phase 1]. Here's the retained content:
 >
 > | Section | Status |
 > |---------|--------|
@@ -316,7 +355,7 @@ incomplete roles/required dependencies stated:
 Only with separately scoped authority, update `production/session-state/active.md` with:
 - Task: [screen-name] UX spec
 - Status: Complete (or In Review)
-- File: design/ux/[filename].md
+- File: [the exact output path resolved in Phase 1]
 - Sections: [actual substantive sections complete / missing required content]
 - Next: [suggestion]
 
@@ -329,7 +368,7 @@ Before presenting options, state clearly:
 > to have a review verdict."
 
 Then use `AskUserQuestion`:
-- "Run `/ux-review [filename]` now, or do something else first?"
+- "Run `/ux-review [the exact output path resolved in Phase 1]` now, or do something else first?"
   - Options:
     - "Run `/ux-review` now — validate this spec"
     - "Design another screen first, then review all specs together"
@@ -351,11 +390,16 @@ otherwise show the proposed links and obtain authority, or just name them.
 
 If the session is interrupted (compaction, crash, new session):
 
-1. Read `production/session-state/active.md` — it records the current screen
-   and which sections are complete.
-2. Read `design/ux/[filename].md` — sections with real content are done;
-   sections with `[To be designed]` still need work.
-3. Resume from the next incomplete section — no need to re-discuss completed ones.
+1. If `production/session-state/active.md` exists and belongs to this task, Read
+   it for the recorded screen and progress. Otherwise recover the actual screen,
+   output path and scoped approvals from the existing conversation and user decisions.
+   If the target is still ambiguous, clarify it before dependent work. Recovery does
+   not authorize creating or repairing session state.
+2. Read the exact output path resolved in Phase 1. Retain substantive sections;
+   placeholders and unresolved required content still need work. Content presence
+   alone does not establish approval or completion; keep unresolved approvals pending.
+3. Resume within the existing scope from the next incomplete section, preserving
+   approved content and separate review/status authority.
 
 This is why incremental writing matters: every approved section survives any
 disruption.
@@ -423,6 +467,6 @@ readiness. Report incomplete sections, exact evidence and pending review separat
 
 ## Recommended Next Steps
 
-- Run `/ux-review [filename]` to validate this spec before it enters the implementation pipeline
+- Run `/ux-review [the exact output path resolved in Phase 1]` to validate this spec before it enters the implementation pipeline
 - Run `/ux-design [next-screen]` to continue designing remaining screens or flows
 - Run `/gate-check pre-production` once all key screens have approved UX specs

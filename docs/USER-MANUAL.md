@@ -47,20 +47,21 @@ Run `/constitute` to initialize or refresh the memory-bank skeleton. Run
 `memory_bank/t2_execution/current_roadmap.md`.
 
 `/constitute` initializes `framework_contract.md` and an `uninitialized`
-`adapter_state.yaml`. `/constitute-check` performs the live read-only adapter
-check and may record fresh or stale values only after showing the full YAML and
-receiving approval. `/cdd-status` displays that recorded state without
+`adapter_state.yaml`. `/constitute-check` reads actual installed files without a maintenance kit.
+Live Source freshness needs the designated external Source and an available
+authorized checker; unavailable checks preserve the recorded state. A fresh or
+stale state write requires the complete draft and its covered authority. `/cdd-status` displays that recorded state without
 recomputing it or changing phase ordering.
 
 T3 is the audit index layer. Gate decisions, review artifacts, QA validation,
 smoke/team QA sign-off, story closure, sprint/milestone snapshots, and release
-evidence stay in their normal working paths, but approved writes also maintain
-T3 indexes when `memory_bank/` exists.
+evidence stay in their normal working paths. T3 index changes require their own
+covered named effects when `memory_bank/` exists.
 
 Any high-impact workflow that produces a `PASS/FAIL`, `APPROVED/REJECTED`,
 `GO/NO-GO`, `PROCEED/PIVOT/KILL`, `CUT/KEEP/DEFER`, or `RELEASE/HOLD` decision
-should update T1, T0, or a T3 index when the user approves saving the original
-artifact.
+may update only the exact T1, T0 or T3 effects covered by continuing authority.
+Saving an artifact alone does not approve index/state changes or acceptance.
 
 ### Where Do I Look?
 
@@ -86,11 +87,16 @@ Install these tools before using the template:
 - Git.
 - An AI agent runtime — Claude Code (`npm install -g @anthropic-ai/claude-code`),
   Codex, or both. Both runtimes share the same canonical sources.
-- Python 3.11+ (uses the standard-library `tomllib`). Required to run the local
-  validation commands and the `Template Consistency` CI gate.
+- The actual project's configured language/runtime, build and test tools.
+- Python 3.11+ only when separately supplied local maintenance diagnostics are
+  actually available and authorized; it is not a normal-use prerequisite.
 - `jq`, recommended for hook validation (hooks fall back to `grep` when absent).
 
-Clone the template or create a repository from it:
+Clone the designated Source library to inspect its delivered templates.
+For a business target, install its independently reviewed platform/configuration
+allowlist and necessary neutral support from `adapters/README.md`; do not copy
+the Source root `agents/` or `skills/`. Preserve project-specific inputs and
+customizations before import or update.
 
 ```bash
 git clone https://github.com/Negentropy-Laby/Constitution-Driven-Development.git my-cdd-project
@@ -102,9 +108,9 @@ This manual uses slash-prefixed names as logical CDD notation. Claude Code
 invokes skills with that form. In Codex, use `/skills` to browse or `$name`
 syntax for an explicit invocation; for example, start with `$constitute`.
 
-`jq` is optional: hooks fall back to `grep` when it is absent. Python 3.11+ is
-required for the validation commands above and for the CI gate; the core
-collaborative agent workflow in either runtime does not depend on Python.
+`jq` is optional where a configured hook provides a fallback. Core collaborative
+workflows read installed files directly; local maintenance scripts and historical
+Source CI are excluded from the delivered-template prerequisites.
 
 ## First Command
 
@@ -240,8 +246,8 @@ Common generated or maintained artifacts include:
 | `memory_bank/t0_core/amendment_log.md` | `/constitute` amendment workflow |
 | `memory_bank/t1_axioms/tech_context.md` | `/constitute`, `/setup-engine` |
 | `memory_bank/t1_axioms/*` | `/constitute`, architecture, UX, QA, and design workflows |
-| `memory_bank/t2_execution/phase_checklists.md` | `python scripts/generate_phase_checklists.py --write --memory-bank` |
-| `memory_bank/t2_execution/gate_required_artifacts.md` | `python scripts/generate_gate_required_sections.py --write --memory-bank` |
+| `memory_bank/t2_execution/phase_checklists.md` | `/constitute` copies the delivered `docs/PHASE-CHECKLISTS.md` after reading the governing catalog |
+| `memory_bank/t2_execution/gate_required_artifacts.md` | `/constitute` copies the delivered `workflow/generated/gate-required-artifacts.md` |
 | `memory_bank/t2_execution/current_roadmap.md` | `/cdd-status` |
 | `memory_bank/t2_execution/framework_contract.md` | Initialized from its template by `/constitute` |
 | `memory_bank/t2_execution/adapter_state.yaml` | Initialized by `/constitute`; recorded only by approved `/constitute-check`; read by `/cdd-status` |
@@ -260,12 +266,14 @@ Common generated or maintained artifacts include:
 | `memory_bank/t3_archive/skill_testing/improvements/` | `/skill-improve` approved improvement records |
 | `production/review-mode.txt` | `/constitute` |
 | `production/project-roadmap.md` | `/cdd-status` |
-| `docs/PHASE-CHECKLISTS.md` | `python scripts/generate_phase_checklists.py --write` |
+| `docs/PHASE-CHECKLISTS.md` | Delivered catalog-derived view; update its Source owner within authorized scope |
 | `design/ux/surface-profile.md` | Surface-profile template or UX workflow |
 | `production/qa/evidence/` | QA, smoke, manual, and validation evidence workflows |
 
-Generated files should remain consistent with the workflow catalog. If a
-generated document drifts, regenerate it using the script or skill that owns it.
+Delivered views and T2 mirrors must remain consistent with their catalog owner.
+Read complete required originals and use `/constitute` for authorized ordinary
+mirror copies. Changed Source views need scoped Source-authoring review; missing
+inputs remain incomplete rather than triggering an absent local generator.
 
 ## Release And Acceptance
 
@@ -275,29 +283,17 @@ The release path is:
 /release-checklist -> /launch-checklist -> /team-release
 ```
 
-Before publishing a release candidate, run the local validation commands:
+Before publishing a release candidate, perform the applicable delivery checks in
+`docs/CUSTOMER-ACCEPTANCE.md` and the actual project's configured tests, QA and
+release workflows. Preserve the exact revision/input identities and observed
+results; required missing evidence remains unresolved.
 
-```bash
-python scripts/skill_lint.py --self-test
-python -m unittest discover -s tests -p "*_test.py"
-python scripts/skill_lint.py --strict skills
-python scripts/sync_adapters.py --check
-python scripts/sync_adapters.py --check --state-json
-python scripts/runtime_smoke.py --structural
-python scripts/workflow_consistency.py
-git diff --check
-```
-
-Customer acceptance expectations are documented in
-`docs/CUSTOMER-ACCEPTANCE.md`. Immutable release evidence should be recorded on
-the GitHub Release or annotated tag, including the release commit SHA, the
-`Template Consistency` run ID, and successful Ubuntu, macOS, and Windows jobs.
-For `v0.2.0` and later, also record the matching manually triggered
-`Runtime Contract` run ID, successful Claude/Codex jobs, pinned CLI versions,
-validated help surfaces, and the uploaded credential-free artifacts.
-
-Tracked Markdown should describe the evidence contract, not hard-code a future
-run that can only exist after the Markdown is committed.
+Historical Source release records may include `Template Consistency` on Ubuntu,
+macOS and Windows or a credential-free `Runtime Contract` trial. Cite such a
+record only for its matching run ID and `headSha`; those local-only workflows are
+not required files in current template delivery and do not certify a changed
+delivery or live agent behavior. Evidence publication, release acceptance and
+project completion each require their own covered authority.
 
 ## Troubleshooting
 
@@ -305,9 +301,9 @@ run that can only exist after the Markdown is committed.
 |---------|---------------|
 | `/help` suggests a surprising step | Run `/cdd-status` and inspect missing required artifacts. |
 | A gate fails unexpectedly | Read the gate output, then compare it with `workflow/workflow-catalog.yaml` and `docs/PHASE-CHECKLISTS.md`. |
-| Skill lint fails | Run the exact failing `python scripts/skill_lint.py` command locally and fix only the reported skill Markdown issue. |
+| A supplied local diagnostic fails | Inspect its exact output and required inputs; repair the owning source within scope and keep the result separate from project QA. |
 | Workflow consistency fails | Read the reported contract drift and update the source document or generated artifact that owns the contract. |
-| CI fails on one platform | Inspect the failing GitHub Actions job before changing release evidence. |
+| Project CI fails on one platform | Inspect the actual configured job; retain failed results and do not relabel historical evidence. |
 | Existing project docs conflict with implementation | Run `/project-stage-detect` and `/adopt`; do not assume the docs are more current than the code. |
 
 When in doubt, stop at the current phase, run `/help`, then make the smallest

@@ -42,8 +42,9 @@ Use these paths for new and upgraded projects:
 | Smoke evidence | `production/qa/evidence/smoke/` |
 | Release evidence | `production/qa/evidence/release/` |
 
-Do not create new artifacts in retired evidence directories. Move old evidence
-into the matching `production/qa/evidence/` subdirectory when upgrading.
+Do not create new artifacts in retired evidence directories. Preserve historical
+originals and link them from the appropriate QA index; migrate active evidence
+only within an approved recoverable scope.
 
 ## Art Bible Status
 
@@ -57,10 +58,14 @@ SDK/library, and internal headless projects may record it as not applicable.
 
 ## Upgrade Procedure
 
-1. Create a git branch before upgrading.
-2. Copy or merge template-owned files from the new template version.
+1. Record the exact current revision and retain recoverable before bytes. Use a
+   short-lived branch if the project's trunk-based policy calls for one.
+2. Verify the unique designated external Source and independently review the
+   exact platform/configuration and necessary neutral-support delivery allowlist
+   from `adapters/README.md`. Do not copy general root `agents/` or `skills/`.
 3. Preserve project-owned artifacts under `design/`, `docs/architecture/`,
-   `production/`, `prototypes/`, `src/`, and `tests/`.
+   `production/`, `prototypes/`, `src/`, and `tests/`, including actual test roots,
+   valid customizations, production configuration and historical evidence.
 4. Run `/project-stage-detect` to determine the current phase.
 5. Run `/adopt` if the project already has CDDs, ADRs, epics, stories, or
    sprint artifacts.
@@ -74,8 +79,10 @@ decisions, merge the new template structure into it rather than overwriting it.
 
 ### Manifest v2
 
-The adapter manifest (`cdd-manifest.toml`) is version 2. A version-1 manifest is
-rejected with an actionable error pointing here. To migrate:
+The Source adapter manifest (`cdd-manifest.toml`) is version 2. This migration
+applies to the designated Source or separately authorized Source generation;
+an installed target does not recreate canonical roots to satisfy the manifest.
+A version-1 manifest needs these changes before Source rendering:
 
 1. Set `version = 2`.
 2. Declare each runtime:
@@ -91,9 +98,11 @@ rejected with an actionable error pointing here. To migrate:
    `--class all` selector. Rename any `[sources.all]` table before validation.
 5. Path-policy rules moved from `.claude/rules/` to canonical `rules/`. If you
    have **custom or untracked** rule files in `.claude/rules/`, back them up
-   first, merge them into `rules/`, and update `expected_count`. Then run
-   `python scripts/sync_adapters.py --check` and review every `EXTRA` before
-   `--write` — `owns_tree` prunes untracked files and Git cannot recover them.
+   first. Preserve target-owned rules in their approved project location; merge
+   actual Source rules and update `expected_count` only within Source authority.
+   With an available authorized renderer, inspect every added/changed/extra
+   output before rendering in an isolated stage. `owns_tree` may prune extras;
+   unknown or unapproved removal stops the operation, even for untracked files.
 6. Codex's native `.codex/rules/*.rules` command-approval files are unrelated to
    CDD path policies and are never generator-owned; leave them alone.
 7. The generated-file hook was renamed; after upgrading, re-trust changed Codex
@@ -101,16 +110,18 @@ rejected with an actionable error pointing here. To migrate:
 
 ### v0.2 adapter freshness state
 
-1. Run `/constitute` to initialize
-   `memory_bank/t2_execution/framework_contract.md` and the deterministic
-   `adapter_state.yaml` template. Existing project-owned memory files remain in
-   place.
-2. Run `python scripts/sync_adapters.py --check --state-json` and confirm the
-   JSON contains schema version 1, both digests, and expected freshness counts.
-3. Run `/constitute-check`. Review the full YAML draft and approve only the
-   `adapter_state.yaml` write when the live result is correct.
-4. Treat `/cdd-status` as a reader of recorded state, not a live freshness
-   checker or phase blocker.
+1. Read the installed `/constitute` entry and its required neutral originals.
+   Initialize T2 only within covered project-write authority; retain existing
+   project-owned memory files.
+2. Bind `framework_contract.md` to the actual installed paths and unique external
+   Source. `adapter_state.yaml` starts uninitialized; file reads alone are not
+   Source freshness evidence.
+3. Run `/constitute-check`. Ordinary installed-file observations work without
+   maintenance tools. A live Source check requires the actual Source and a
+   separately supplied authorized checker; unavailable checks retain the last
+   recorded state and are reported unavailable, never fresh.
+4. Review the complete state draft and permit only covered writes. `/cdd-status`
+   reads recorded state and does not run generation or impose a new phase gate.
 
 ### Runtime-native skill invocation
 
@@ -136,7 +147,9 @@ and move active stories under their owning epic.
 
 ### Evidence files
 
-Move evidence into the canonical QA evidence schema:
+Create new evidence in the canonical QA evidence schema. Keep historical
+originals recoverable and index their existing paths; any active migration needs
+its own exact approved scope:
 
 ```text
 production/qa/evidence/automated/
@@ -181,20 +194,24 @@ project explicitly opts into a stricter local policy.
 
 ## Validation After Upgrade
 
-Run:
+Run `git diff --check`, then read back every installed path in the approved
+allowlist and its required reference closure. Compare actual bytes and project
+differences with the reviewed Source inputs. Check T0/T2 agreement, installed
+workflow/catalog mirrors, configured language/runtime/testing facts, and preserved
+business/design/QA history.
 
-```powershell
-git diff --check
-python scripts\skill_lint.py --self-test
-python -m unittest discover -s tests -p "*_test.py"
-python scripts\skill_lint.py --strict skills
-python scripts/sync_adapters.py --check
-python scripts\workflow_consistency.py
-```
+In an isolated target, verify initialization, additive adoption, setup and an
+incremental update while retaining project customizations. Run the project's real
+test commands where configured; required failures or unavailable checks remain
+unresolved. Preserve evidence of what actually ran, distinguishing file-level
+simulation from live agent execution.
 
-The strict lint targets the canonical `skills/` source — the generated
-`.claude/skills` tree is produced by `sync_adapters.py` and is not linted
-directly. Errors must be fixed before treating the template upgrade as complete.
+Source generators and maintenance checks are local-only and supplied separately.
+Use them only when available and authorized; their absence is not an ordinary
+installed-use dependency. Do not copy Source trees or maintenance tools into a
+target to make an upgrade appear complete. Sync project documentation after
+meaningful batches or at the user's request, while retaining required decision
+and safety checks; do not add a per-code-baseline synchronization gate.
 
 ## Legacy Migration Notes
 

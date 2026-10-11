@@ -8,8 +8,10 @@ instructions live in `skills/`, `agents/`, `hooks/`, and `INSTRUCTIONS.md`.
 
 The `.agents/` and `.codex/` directories are runtime-facing adapter copies or
 configuration surfaces. The `.agents/skills/`, `.codex/agents/`, `.codex/hooks/`,
-and `AGENTS.md` files are GENERATED from the canonical roots by
-`scripts/sync_adapters.py --write`; do not hand-edit them.
+and `AGENTS.md` files are generated from the canonical roots in the designated
+Source. Source changes use separately supplied authorized rendering; do not
+hand-edit these outputs. An installed target reads its reviewed platform files
+directly, retains project differences and does not need a local maintenance kit.
 
 The Markdown → TOML transform for `.codex/agents/` (`agent_md_to_toml`) retains
 only `name`, `description`, and `developer_instructions`. It intentionally drops

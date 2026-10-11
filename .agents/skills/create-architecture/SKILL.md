@@ -96,7 +96,16 @@ Before anything else, load the full project context in this order:
 
 ### 0a. Technology Context (Critical)
 
-**[游戏专用]** Read the engine reference library completely:
+Read the actual pinned VERSION original first and bind the engine/stack and risk.
+The valid LOW-risk `/setup-engine` baseline requires VERSION; additional references
+are optional unless a governing requirement, migration or concrete compatibility
+question makes them required. For MEDIUM/HIGH risk, Read the full applicable set
+below. An existing relevant reference may be used at any risk level. Do not infer
+LOW from absence; unknown risk, unreadable VERSION or a missing required reference
+leaves the affected technology check Incomplete. LOW does not waive required safety
+or compatibility checks.
+
+**[游戏专用]** Read VERSION and the reference set required by that actual scope:
 
 1. `docs/engine-reference/[engine]/VERSION.md`
    → Extract: engine name, version, LLM cutoff, post-cutoff risk levels
@@ -113,7 +122,7 @@ If no engine is configured, stop and prompt:
 > "No engine is configured. Run `/setup-engine` first. Architecture cannot be
 > written without knowing which engine and version you are targeting."
 
-**[通用产品]** Read the stack reference library completely:
+**[通用产品]** Read VERSION and the reference set required by that actual scope:
 
 1. `docs/reference/[stack]/VERSION.md`
    → Extract: stack name, version, LLM cutoff, post-cutoff risk levels

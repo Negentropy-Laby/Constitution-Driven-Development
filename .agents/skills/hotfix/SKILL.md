@@ -188,14 +188,16 @@ Merge to: release branch AND development branch
 Next: /bug-report verify [BUG-ID] after deploy to confirm resolution
 ```
 
-After presenting deployment or verification evidence, ask:
+When `memory_bank/` exists, present the actual hotfix evidence draft and proposed
+`memory_bank/t0_core/release_state.md` update as distinct path/effects. Reuse existing
+scoped authority; ask only for uncovered effects, naming the actual
+`memory_bank/t3_archive/release_evidence/hotfix-[short-name]-[YYYY-MM-DD].md`
+report path and any state update in the concrete changeset.
 
-> "May I record this hotfix evidence in `memory_bank/t3_archive/release_evidence/hotfix-[short-name]-[YYYY-MM-DD].md`?"
-
-If the user approves and `memory_bank/` exists, write the hotfix evidence file
-and update `memory_bank/t0_core/release_state.md` with the latest hotfix
-summary. If the same evidence filename exists, append `-[NN]` and do not
-overwrite history.
+Write each effect only when it is covered by that authority. Approval for the report
+alone does not authorize the state update; preserve a pending state projection while
+saving an authorized report. If the evidence filename exists, append `-[NN]` and
+include the resolved new path in scope; do not overwrite history.
 
 Hotfix evidence must include severity, branch/commit, QA gate, rollback plan,
 deployment status, monitoring result, and post-incident review link. Do not

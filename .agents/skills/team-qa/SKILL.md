@@ -154,7 +154,7 @@ Using the strategy from Phase 2, produce a structured test plan document.
 The test plan should cover:
 - **Scope**: sprint/feature name, story count, dates
 - **Story Classification Table**: from Phase 2 strategy
-- **Automated Test Requirements**: which stories need test files, expected paths in `tests/`
+- **Automated Test Requirements**: required checks and exact planned paths from the actual test configuration/runner discovery, including valid roots outside `tests/`
 - **Manual QA Scope**: which stories need manual walkthrough and what to validate
 - **Out of Scope**: what is explicitly not being tested this cycle and why
 - **Entry Criteria**: what must be true before QA can begin (smoke check pass, build stable)
@@ -282,6 +282,8 @@ Next step guidance by verdict:
 Reuse covered named sign-off report write authority. Only if missing or materially new ask: "May I write this QA sign-off report to `production/qa/qa-signoff-[sprint]-[date].md`?"
 
 Write when that exact named path/effect is covered by existing or newly obtained authorization; do not re-ask for the same scope.
+
+Update the Memory Bank index only when this run enters its separately named, authorized effect after saving the actual report. Initialized Memory Bank alone is insufficient; read-only and report-only scopes exclude indexing. If the intended effect or initialization is unresolved, retain Unknown. Before indexing, read the saved immutable report and exact input/evidence identities; a proposed output or INFO is insufficient. This effect does not initialize Memory Bank.
 
 When initialized and the separate named index effect is covered, update
 `memory_bank/t3_archive/qa_evidence_index.md`:

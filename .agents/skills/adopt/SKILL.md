@@ -47,6 +47,28 @@ silently auto-pass, or certify runtime behavior from an artifact format.
 
 ---
 
+### Project boundary delivery in full and infra adoption
+
+For `full` and `infra`, read the project's actual governing instructions or
+law index and the complete installed `constitute` entry's "Reusable Project
+Boundary Template". The reusable source is
+`templates/memory-bank/t0_core/basic_law_index.md`; its boundary text is also
+carried inside that installed entry, so a local maintenance kit or copied
+general source tree is not an audit prerequisite.
+
+If the two owner scopes are missing, include an additive merge into the actual
+project-owned instruction file, or into an already-authorized
+`memory_bank/t0_core/basic_law_index.md`, in the migration plan. Preserve business
+code, project design/QA/acceptance documents, histories and existing authorities.
+Deliver approved platform files, portable project-specific configuration and
+neutral templates, standards, workflow views and reusable skill-testing assets
+required by the selected workflows. Review the exact per-file allowlist and its
+required reference closure under `adapters/README.md`; do not omit an actual
+required original because it is neutral. Keep general CDD source trees and
+template-maintenance materials outside the target.
+Plan approval does not authorize that merge, activate Memory Bank or accept laws.
+If the installed boundary text is missing, report that precise delivery gap.
+
 ## Phase 1: Detect Project State
 
 Emit one line before reading: `"Scanning project artifacts..."` — this confirms the
@@ -101,6 +123,12 @@ unverified; this format audit does not execute runtime skills.
 For each artifact type in scope (based on argument mode), check not just that
 the file exists but that it contains the internal structure the template requires.
 
+Audit CDDs in `cdds` or `full`, and infrastructure in `infra` or `full`.
+Other subset modes cover only their actual artifact types; a full audit includes
+all applicable types. If the argument or applicability is unresolved, retain
+Unknown; missing required inputs do not justify skipping their audit. Audit scope
+grants no repair, status or runtime authority.
+
 ### 2a: CDD Format Audit
 
 Resolve DocKind/owners under `design/INSTRUCTIONS.md`. Module CDDs use semantic
@@ -151,28 +179,40 @@ For each ADR file found, check for these critical sections:
 |---|---|
 | `## Status` | **BLOCKING** for relied-on coverage — decision status/acceptance unverified |
 | `## ADR Dependencies` | HIGH — dependency ordering in `/architecture-review` breaks |
-| **[游戏专用]** `## Engine Compatibility` / **[通用产品]** `## Technology Compatibility` | HIGH — post-cutoff API risk is unknown |
+| **[游戏专用]** `## Engine Compatibility` / **[通用产品]** `## Technology Compatibility` or `## Stack Compatibility` | HIGH — post-cutoff API risk is unknown |
 | `## CDD Requirements Addressed` | MEDIUM — traceability matrix loses coverage |
 | `## Performance Implications` | LOW — not pipeline-critical |
+
+Read the actual applicable ADR template and substantive compatibility body.
+Established translated/numbered aliases remain valid when they cover the same
+required domain, pinned-version and contract roles; a heading or placeholder alone
+is not coverage. Preserve the original heading rather than mechanically renaming it.
 
 For each ADR, record: which sections present, which missing, current Status value
 if the Status section exists.
 
 ### 2c: module-index.md Format Audit
 
-If `design/cdd/module-index.md` exists:
+If `design/cdd/module-index.md` exists, read its complete body and the actual
+installed `/map-systems` owner with `templates/module-index.md`. Apply their
+required roles and preserve valid historical formats; an index is not a module CDD.
 
-1. **Parenthetical status values** — Grep for any Status cell containing
-   parentheses: `"Needs Revision ("`, `"In Progress ("`, etc.
-   These break exact-string matching in `/gate-check`, `/create-stories`,
-   and `/architecture-review`. **BLOCKING.**
+1. **Status meaning and downstream use** — read actual row status and provenance.
+   Current workflow labels include `Not Started`, `In Progress`, `In Review`,
+   `Designed`, `Approved` and `Needs Revision`. Owner-defined historical labels
+   such as `In Design` or `Implemented` remain readable observations; they do not
+   establish design approval, passing evidence or stage/Story completion. An
+   unknown label needs owner clarification. If parenthetical notes or a legacy
+   label break a selected downstream workflow's exact comparison, record that
+   affected use as incomplete and propose a separately scoped migration; do not
+   silently rewrite history or infer the required completion state.
 
-2. **Valid status values** — check that Status column values are only from:
-   `Not Started`, `In Progress`, `In Review`, `Designed`, `Approved`, `Needs Revision`
-   Flag any unrecognised values.
-
-3. **Column structure** — check that the table has at minimum: System name,
-   Layer, Priority, Status columns. Missing columns degrade skill functionality.
+2. **Column and semantic roles** — `Module Name`, `System name` or a substantive
+   equivalent identifies the module. Read category, priority and status, plus
+   layer information where the actual generating workflow requires it. `Category`
+   is not automatically a layer; an actual layer may be recorded in the body's
+   category/priority mapping. Missing required roles remain gaps even when all
+   column headings exist. Preserve extra columns and valid owner aliases.
 
 ### 2d: Story Format Audit
 
@@ -490,6 +530,12 @@ Use `AskUserQuestion`:
    not a list of six things to do simultaneously
 6. **Preserve existing bodies/history** — repair named approved gaps only;
    do not silently regenerate CDDs/ADRs/Stories or destroy unique prior content.
+
+Read stack/version context when the selected Product audit evaluates
+infrastructure, applicable ADR compatibility, or a CDD/Story contract that names
+that stack. Resolve the actual stack key from configuration. Do not limit this
+to infrastructure or require it for every Product subset; unresolved applicability
+stays Unknown.
 
 Read actual Product user promise/API/CLI/SDK/data/auth/workflow contracts, surface
 profile and `docs/reference/[stack]/VERSION.md` as applicable. Retain Game Player

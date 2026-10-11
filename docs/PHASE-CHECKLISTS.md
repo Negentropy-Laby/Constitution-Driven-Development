@@ -1,7 +1,7 @@
 # Phase Checklists
 
-> Generated from `workflow/workflow-catalog.yaml` by `scripts/generate_phase_checklists.py`.
-> Do not hand-maintain phase requirements here; update the catalog, then regenerate this file.
+> Derived from `workflow/workflow-catalog.yaml`, the authority for phase requirements.
+> After an approved catalog change, refresh this view and verify every applicable row against the catalog.
 
 Use this as a customer-facing view of what should exist after each phase.
 Domain-specific rows are marked when a step applies only to Game or Product projects.
@@ -33,7 +33,7 @@ Domain-specific rows are marked when a step applies only to Game or Product proj
 | Architecture Review | `/architecture-review` | `docs/architecture/architecture-review-*.md` | game, product |
 | Control Manifest | `/create-control-manifest` | `docs/architecture/control-manifest.md` | game, product |
 | Accessibility Requirements | Manual / template | `design/accessibility-requirements.md` | game, product |
-| Test Framework Baseline | `/test-setup` | Minimum baseline: tests/unit/, tests/integration/, .github/workflows/tests.yml, and at least one example test file. | game, product |
+| Test Framework Baseline | `/test-setup` | Required baseline. Game: tests/unit/, tests/integration/, .github/workflows/tests.yml, and at least one example test file. Product: actual configured runner/discovery roots and test command, the actual CI definition, and at least one runner-discovered runnable example or existing test with recorded PASS evidence; required configuration, test and evidence originals must exist. Conventional tests/ paths and tests.yml are examples, not Product requirements. | game, product |
 
 ## Pre-Production / Pre-Implementation
 

@@ -40,6 +40,13 @@ Sections below are marked **[通用场景]** (both domains), **[游戏专用]** 
 
 ---
 
+No argument runs the Phases 1-5 decomposition workflow and requires the actual
+concept input below. Direct `next` or a named-module invocation enters Phase 6
+without the Phase 1 decomposition read. When decomposition is followed by a
+handoff, its required concept input must already have been read. Resolve an
+unknown invocation before choosing a phase; missing inputs do not establish a
+skip. Handoff, approval and index-completion requirements still apply.
+
 ## Phase 1: Read Concept (Required Context)
 
 Read the concept document and any existing design work. This provides the raw material
@@ -321,7 +328,10 @@ Present the assessment. If REJECT, revise the module set with the user before CD
 
 ### Step 5c: Update Session State
 
-After writing, create `production/session-state/active.md` if it does not exist, then update it with:
+Only when the exact create/update effect at `production/session-state/active.md`
+is covered by scoped authority, write the applicable progress below. Otherwise
+show progress in conversation; saving the module index alone does not authorize
+session state. Present a concrete draft only if this new effect is requested:
 - Task: Systems decomposition
 - Status: Module index created
 - File: design/cdd/module-index.md
@@ -406,12 +416,14 @@ This skill follows the collaborative design principle at every phase:
    - Phase 4: "Priority assignments match your vision?"
    - Phase 5: "May I write the modules index?"
    - Phase 6: "Start designing, pick different, or stop?" then hand off to `/design-system`
-3. **"May I write to [filepath]?"** before every file write
+3. **Scoped writes**: reuse existing authority for named paths/effects; present a
+   concrete draft and obtain approval only for uncovered effects
 4. **Incremental writing**: Update the modules index after each module is designed
 5. **Handoff**: Individual CDD authoring is owned by `/design-system`, which handles
    incremental section writing, cross-referencing, design review, and index updates
-6. **Session state updates**: Write to `production/session-state/active.md` after
-   each milestone (index created, module designed, priorities changed)
+6. **Session state updates**: after a milestone (index created, module designed,
+   priorities changed), update `production/session-state/active.md` only within
+   explicit create/update authority; otherwise retain the progress in conversation
 
 **Never** auto-generate the full modules list and write it without review.
 **Never** start designing a module without user confirmation.
@@ -419,11 +431,15 @@ This skill follows the collaborative design principle at every phase:
 
 ## Context Window Awareness
 
-If context reaches or exceeds 70% at any point, append this notice:
+If context reaches or exceeds 70% at any point, report the actual persistence state:
 
-> **Context is approaching the limit (≥70%).** The modules index is saved to
-> `design/cdd/module-index.md`. Open a fresh Claude Code session to continue
-> designing individual CDDs — run `/map-systems next` to pick up where you left off.
+- Only after an authorized module index write and successful Read-back, name the
+  saved `design/cdd/module-index.md` and suggest a fresh session to continue the
+  established scope, using `/map-systems next` where applicable.
+- Before saving, or after a failed write/read-back, keep the draft and unresolved
+  decisions in conversation and provide a compact recovery summary for the next
+  session. Do not claim the index is saved or create/update files merely because
+  context is low. Recover the existing scope and approvals before dependent work.
 
 ---
 

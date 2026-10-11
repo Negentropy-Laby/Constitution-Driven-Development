@@ -1,7 +1,7 @@
 # Gate Required Artifacts
 
-> Generated from `workflow/workflow-catalog.yaml` by `scripts/generate_gate_required_sections.py`.
-> Do not hand-maintain gate required artifacts in `/gate-check`; update the catalog, then regenerate this file.
+> Derived from `workflow/workflow-catalog.yaml`, the authority for gate requirements.
+> After an approved catalog change, refresh this view and verify every applicable row against the catalog.
 
 Use the section matching the active gate and detected project domain.
 `/gate-check` may add hand-authored Quality / Risk Checks, but normal-progression blockers come from this generated file.
@@ -46,7 +46,7 @@ Use the section matching the active gate and detected project domain.
 - [ ] **Architecture Review** (`/architecture-review`): `docs/architecture/architecture-review-*.md`.
 - [ ] **Control Manifest** (`/create-control-manifest`): `docs/architecture/control-manifest.md`.
 - [ ] **Accessibility Requirements** (Manual / template): `design/accessibility-requirements.md`.
-- [ ] **Test Framework Baseline** (`/test-setup`): Minimum baseline: tests/unit/, tests/integration/, .github/workflows/tests.yml, and at least one example test file.
+- [ ] **Test Framework Baseline** (`/test-setup`): Required baseline. Game: tests/unit/, tests/integration/, .github/workflows/tests.yml, and at least one example test file. Product: actual configured runner/discovery roots and test command, the actual CI definition, and at least one runner-discovered runnable example or existing test with recorded PASS evidence; required configuration, test and evidence originals must exist. Conventional tests/ paths and tests.yml are examples, not Product requirements.
 
 ### Product: Architecture -> Pre-Implementation
 
@@ -56,7 +56,7 @@ Use the section matching the active gate and detected project domain.
 - [ ] **Architecture Review** (`/architecture-review`): `docs/architecture/architecture-review-*.md`.
 - [ ] **Control Manifest** (`/create-control-manifest`): `docs/architecture/control-manifest.md`.
 - [ ] **Accessibility Requirements** (Manual / template): `design/accessibility-requirements.md`.
-- [ ] **Test Framework Baseline** (`/test-setup`): Minimum baseline: tests/unit/, tests/integration/, .github/workflows/tests.yml, and at least one example test file.
+- [ ] **Test Framework Baseline** (`/test-setup`): Required baseline. Game: tests/unit/, tests/integration/, .github/workflows/tests.yml, and at least one example test file. Product: actual configured runner/discovery roots and test command, the actual CI definition, and at least one runner-discovered runnable example or existing test with recorded PASS evidence; required configuration, test and evidence originals must exist. Conventional tests/ paths and tests.yml are examples, not Product requirements.
 
 ## Gate: Pre-Production / Pre-Implementation
 

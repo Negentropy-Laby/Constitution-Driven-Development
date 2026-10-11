@@ -4,8 +4,10 @@
 
 `/constitute-check` is a read-only-by-default constitutional health audit. It
 verifies the memory bank, compares principles against current code and docs,
-and runs the machine-readable adapter freshness check. Its sole write exception
-is an exact `adapter_state.yaml` record after explicit approval.
+and observes actual installed inputs offline. It runs a machine-readable live
+freshness check only when the verified Source/comparison scope and separately
+provided checker are available. Its sole write exception is an applicable exact
+`adapter_state.yaml` record within approval; unavailable checks preserve prior state.
 
 ---
 
@@ -17,7 +19,8 @@ is an exact `adapter_state.yaml` record after explicit approval.
 - [ ] Detects Product via `design/cdd/product-concept.md`
 - [ ] Mentions User Promise, JTBD, target workflows, API/CLI contracts, and product CDDs
 - [ ] Produces health verdicts: HEALTHY / NEEDS ATTENTION / CRITICAL
-- [ ] Runs `python scripts/sync_adapters.py --check --state-json`
+- [ ] Runs `python scripts/sync_adapters.py --check --state-json` in a verified CDD Source-library checkout when the optional checker and diagnostic scope are available
+- [ ] Consumer checks bind actual installed paths, neutral inputs, sole Source and approved customizations; local file presence alone does not establish Source identity
 
 ---
 
@@ -65,7 +68,7 @@ is an exact `adapter_state.yaml` record after explicit approval.
 **Fixture:**
 - Framework contract exists
 - `adapter_state.yaml` has `status: uninitialized`
-- Live state JSON reports `fresh`
+- Applicable live state JSON reports `fresh` for the exact checked owner/inputs; a consumer includes its installed allowlist/customization comparison proof
 
 **Expected behavior:**
 - Reports live `FRESH` and recorded `UNINITIALIZED` separately
@@ -75,7 +78,7 @@ is an exact `adapter_state.yaml` record after explicit approval.
 ### Case 5: Fresh result approved for recording
 
 **Fixture:**
-- Live state JSON is valid and reports `fresh`
+- Live state JSON is valid and reports `fresh` for the verified checked owner/inputs; a consumer includes its installed allowlist/customization comparison proof
 - User explicitly approves the displayed record
 
 **Expected behavior:**
@@ -87,15 +90,47 @@ is an exact `adapter_state.yaml` record after explicit approval.
 
 **Expected behavior:**
 - A valid stale result lists non-zero counts and drift paths and may be recorded as `stale` after approval
-- Missing or invalid JSON preserves the prior state and offers no write
+- Missing or invalid JSON from a check that actually ran reports INVALID, preserves the prior state and offers no write
+- No applicable check because Source/binding/checker is unavailable reports NOT AVAILABLE rather than fabricated fresh/stale evidence
 - Missing framework files route to `/constitute` rather than creating `memory_bank/`
+
+---
+
+### Case 7: Offline consumer with unavailable external Source
+
+**Fixture:**
+- Actual installed platform files, portable sole-Source binding and required neutral inputs exist
+- No local general source trees or maintenance checker
+- External Source is unavailable
+- Existing adapter state is either uninitialized or a historical fresh/stale record
+
+**Expected behavior:**
+- Reads complete selected installed entries and required originals offline
+- Reports live NOT AVAILABLE with the exact Source/comparison limitation
+- Reports UNINITIALIZED or historical UNVERIFIED separately; neither becomes a live freshness result
+- Preserves adapter-state bytes and completes independent constitution/input observations
+- Does not invoke JSON parsing/state writing for a check that never ran, install tools or recreate general sources
+- Variant missing a required reference names that original and affected pending scope; optional/same-name files do not replace it
+
+### Case 8: Source-only freshness is insufficient for a consumer record
+
+**Fixture:**
+- A valid Source-library state JSON reports fresh
+- The consumer installed allowlist/customization comparison has not been verified
+
+**Expected behavior:**
+- Treats Source identity/freshness as a separate observation
+- Consumer live freshness remains NOT AVAILABLE; prior recorded state remains unchanged
+- Does not offer a consumer state write from the Source-only result
+- Only a complete applicable comparison plus exact state-file write authority can record fresh/stale values
 
 ---
 
 ## Protocol Compliance
 
 - [ ] Read-only by default; only the explicitly approved adapter-state record may use Write
-- [ ] Declined or invalid checks produce no writes
+- [ ] Declined, invalid or unavailable checks produce no writes
+- [ ] Source-only results do not certify consumer installed freshness or runtime execution
 - [ ] Reports evidence paths rather than vague status
 - [ ] Keeps Game and Product checks parallel
 - [ ] Recommends `/constitute` for missing constitution and `/project-stage-detect` for deeper audits

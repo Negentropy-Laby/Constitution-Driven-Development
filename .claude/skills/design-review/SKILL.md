@@ -342,6 +342,14 @@ When `memory_bank/` exists, update
 `memory_bank/t3_archive/reviews/review-index.md` only with authority for that
 specific index effect. Log/report approval alone does not grant it.
 
+Update the Memory Bank index only after the report is saved and only with authority
+for that named index effect. Initialization alone, read-only scope and report-only
+scope do not authorize it. If initialization or the intended effect is unresolved,
+retain Unknown and leave the index unchanged. Before an authorized update, read
+the saved immutable report revision and its exact input/evidence identities;
+a proposed report or an INFO result is insufficient. This step does not initialize
+Memory Bank.
+
 - Review Type: `design-review`
 - Source Artifact: `design/cdd/reviews/[doc-name]-review-log.md`
 - Use `Source Artifact` as the dedupe key.
@@ -357,6 +365,12 @@ specific index effect. Log/report approval alone does not grant it.
 
 After optional authorized effects, check actual project state and recommend
 applicable next steps; ask a new decision only when needed.
+
+Build the optional closing choices only when Phase 5 is entered in full or lean
+mode. Solo skips Phase 5, and a read-only or report-only run ending at its assigned
+findings/report does not continue here solely because the analysis depth is full.
+If the intended next step is unresolved, retain Unknown. When offering these
+choices, read the actual project state below.
 
 Before building options, read:
 - `design/cdd/module-index.md` — find any system with Status: In Review or NEEDS REVISION (other than the one just reviewed)

@@ -33,10 +33,41 @@ When this skill is invoked:
    and terminology apply at each phase — sections below are marked
    **[通用场景]** (both domains), **[游戏专用]** (game-domain), or **[通用产品]** (product-domain).
 
-3. **Check for existing concept work**:
-   - Read `design/cdd/game-concept.md` if it exists — game project, resume
-   - Read `design/cdd/product-concept.md` if it exists — general project, resume
-   - Read `design/cdd/game-pillars.md` or `design/cdd/principles.md` if either exists
+3. **Check for existing concept work before resuming**:
+
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
+
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+   - Resume the substantive concept matching the resolved domain and approved
+     scope; a hint or filename does not relabel saved work. Read its applicable
+     `game-pillars.md` or `principles.md` if present.
+   - If no configured domain or substantive concept exists, use Phase 1 to obtain
+     the user's domain choice before domain-specific ideation; do not resume an
+     empty/copied concept as completed work. Conflicts need a scoped decision
+     before resuming; preserve both originals.
 
 4. **Run through ideation phases** interactively, asking the user questions at
    each phase. Do NOT generate everything silently — the goal is **collaborative**
@@ -461,7 +492,11 @@ If [B]: ask which section to revise using `AskUserQuestion`. **游戏专用** op
 
 After revising, show the updated section as a diff or clear before/after, then use `AskUserQuestion` — "Ready to write the updated concept document?"
 Options: `[A] Yes — write it` / `[B] Revise another section`
-Repeat until the user selects [A].
+Repeat until the user selects [A]. With scoped write authority, write only the
+chosen domain's resolved concept path and Read it back. Report a failed write or
+unreadable result as Incomplete and retain the draft in conversation. Only a
+successfully saved, verified concept supports the saved-file summary and COMPLETE
+verdict below; concept content approval does not grant separate legal acceptance.
 
 **Scope consistency rule**: The "Estimated Scope" field must match the full-vision
 timeline from Scope Tiers — not just "Large (9+ months)". Write as "Large (X–Y months,
@@ -522,11 +557,15 @@ Verdict: **COMPLETE** — concept created and handed off for next steps.
 ## Context Window Awareness
 
 This is a multi-phase skill. If context reaches or exceeds 70% during any phase,
-append this notice:
+report the actual persistence state:
 
-> **Context is approaching the limit (≥70%).** The concept document is saved
-> to disk. **游戏专用**: `design/cdd/game-concept.md`. **通用产品**: `design/cdd/product-concept.md`.
-> Open a fresh Claude Code session to continue — progress is not lost.
+- If the approved concept was written and Read back successfully, name its actual
+  saved path: **游戏专用** `design/cdd/game-concept.md` or **通用产品**
+  `design/cdd/product-concept.md`, as applicable. A fresh session can resume from it.
+- If it has not been saved, or the write/read-back failed, say that the draft and
+  unresolved decisions remain in conversation. Provide a compact recovery summary
+  to carry into the next session; do not claim a saved file or automatically write
+  one because context is low. Continue only within the existing authority.
 
 ---
 

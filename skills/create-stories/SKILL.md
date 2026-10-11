@@ -101,6 +101,8 @@ Read in full:
 **ADR existence validation**: After reading the governing ADRs list from the epic, confirm each referenced ADR file exists on disk. Missing required ADRs block only
  their affected drafts before decomposition; independent stories may continue:
 
+Resolve and read each actual required governing ADR from the Epic and affected Story decision disposition. A justified independent CDD-layer/no-adr Story has no ADR dependency, while all other required inputs remain binding. If the governing reference or disposition is unresolved, retain Unknown; missing or Proposed required ADRs keep affected drafts Blocked. Input resolution grants no acceptance or write authority.
+
 > "Epic references [ADR-NNNN: title] but `docs/architecture/[adr-file].md` was not found.
 > Check the filename in the epic's Governing ADRs list, or run `/architecture-decision`
 > to create it. Affected drafts remain Blocked until required governing inputs are present and Accepted."
@@ -119,6 +121,13 @@ required inputs remain visible throughout decomposition and the closing summary.
 ---
 
 ## 3. Classify Stories by Type
+
+Before assigning Product test evidence paths, read the actual project test
+configuration, configured test roots, runner discovery/naming conventions and
+verification commands, including roots outside `tests/`. Choose exact future
+paths for the owning module and required checks; the conventional directories
+below are examples. Unresolved required configuration leaves affected evidence
+planning incomplete, without inventing a runner or changing the project layout.
 
 **Story Type Classification** — assign each story a type based on its acceptance criteria:
 
@@ -248,7 +257,7 @@ Story 003: [title] — Visual/Feel — ADR-NNNN
   Covers: TR-[system]-004
   Evidence required: production/qa/evidence/[slug]-evidence.md
 
-Product example:
+Product example (conventional layout shown; use actual configured paths):
 
 Story 001: [title] — API — ADR-NNNN
   Covers: TR-[system]-001 ([1-line summary of requirement])
@@ -375,13 +384,20 @@ never a claim that qa-lead already authored or reviewed them.*
 - Config/Data: smoke check pass (`production/qa/smoke-*.md`)
 
 **[通用产品] Product evidence**
-- API: contract test in `tests/api/[story-slug]_test.[ext]` — must exist and pass
+**Test configuration**: [actual configured roots, runner discovery/naming rules, verification command and source]
+**Exact evidence paths**: [resolve each required file for this Story; valid roots outside `tests/` are supported]
+
+Planned files are future outputs at Story creation. Before closure, every required
+automated test must exist, be discovered by the configured runner and have matching
+actual PASS evidence. Conventional paths below are examples, not required layouts.
+
+- API: contract test at [exact configured path], e.g. `tests/api/[story-slug]_test.[ext]`
 - CLI: command smoke evidence in `production/qa/evidence/smoke/[story-slug].md`
-- Data/Migration: migration test in `tests/integration/[story-slug]_test.[ext]` — must exist and pass
-- Auth/Permission: permission test in `tests/unit/auth/` or `tests/api/` — must exist and pass
-- Workflow: integration test in `tests/integration/[module]/[story-slug]_test.[ext]` — must exist and pass
+- Data/Migration: migration test at [exact configured path], e.g. `tests/integration/[story-slug]_test.[ext]`
+- Auth/Permission: permission test at [exact configured path] covering the Story's actual role, token or access boundary; e.g. `tests/unit/auth/` or `tests/api/`
+- Workflow: integration test at [exact configured path], e.g. `tests/integration/[module]/[story-slug]_test.[ext]`
 - UI: walkthrough doc or screenshot in `production/qa/evidence/[story-slug]-evidence.md`
-- Integration: integration test or API contract test — must exist and pass
+- Integration: integration test or API contract test at [exact configured path]
 - Ops/Deployment: deployment smoke report in `production/qa/smoke-*.md`
 - Config: config validation test or smoke check report
 

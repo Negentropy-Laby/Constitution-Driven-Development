@@ -18,14 +18,18 @@ allowed-tools: Read, Glob, Grep, Bash, Write
 
 This skill scaffolds the automated testing infrastructure for the project.
 It detects the configured engine (game) or technology stack (product),
-generates the appropriate test runner configuration, creates the standard
-directory layout, and wires up CI/CD so tests run on every push.
+creates missing test runner configuration and CI/CD files after approval.
+For Product, preserve the configured runner, discovery roots and CI definition;
+the conventional layouts below are scaffold examples, not required locations.
 
 Run this once during the Technical Setup phase, before any implementation
 begins. A test framework installed at sprint start costs 30 minutes.
 A test framework installed at sprint four costs 3 sprints.
 
-**Output:** `tests/` directory structure + `.github/workflows/tests.yml` + one runnable example test file
+**Output:** Game: `tests/` directory structure + `.github/workflows/tests.yml` +
+one runnable example test file. Product: the approved actual runner/configuration,
+discovery roots, CI definition and a discovered runnable example or existing test,
+with the exact command and original PASS evidence needed to qualify the baseline.
 
 ---
 
@@ -34,21 +38,19 @@ A test framework installed at sprint four costs 3 sprints.
 **[通用场景]** 1. **Detect domain and technology**:
    - Read `standards/technical-preferences.md`.
    - **[游戏专用]** Extract `Engine:` value. If not configured, stop: "Engine not configured."
-   - **[通用产品]** Extract `Language:` and `Framework:` values. If not configured, stop: "Stack not configured."
+   - **[通用产品]** Read populated `Product Stack` or legacy `Language & Framework` values in their Product context. Resolve actual language/runtime and framework when applicable, together with the configured test runner. Placeholders establish no fact; conflicting values block the affected route. If the stack is not configured, stop: "Stack not configured."
    - If neither is configured, stop: "Technology not configured. Run `/setup-engine` first."
 
 **[通用场景]** 2. **Check for existing test infrastructure**:
-   - Glob `tests/` — does the directory exist?
-   - Glob `tests/unit/` and `tests/integration/` — do subdirectories exist?
-   - Glob `.github/workflows/` — does a CI workflow file exist?
-   - **[游戏专用]** Glob `tests/gdunit4_runner.gd` (Godot), `tests/EditMode/` (Unity), `Source/Tests/` (Unreal).
-   - **[通用产品]** Glob `tests/conftest.py` (Python), `vitest.config.*` (Node), `Cargo.toml` with test profile (Rust), `*_test.go` (Go).
+   - **[游戏专用]** Glob `tests/`, `tests/unit/`, `tests/integration/` and `.github/workflows/` for the existing baseline. Glob `tests/gdunit4_runner.gd` (Godot), `tests/EditMode/` (Unity), `Source/Tests/` (Unreal).
+   - **[通用产品]** Read the actual package/build scripts and runner configuration, including discovery roots, include/exclude patterns, naming and execution commands. Examples include `package.json` scripts, pytest settings, Vitest/Jest/Bun configuration, `Cargo.toml` and Go package tests; a shared language alone does not select a runner.
+   - **[通用产品]** Inspect the configured discovery roots, including colocated tests outside `tests/`, and read the actual CI definition and its test command. `.github/workflows/tests.yml` is one example; an existing differently named workflow or configured CI provider is valid when it runs the required tests.
+   - **[通用产品]** Read any exact Story test/evidence paths and the required originals before searching other tests. Use the configured runner's discovery and execution to establish that the baseline example or existing test is actually included and passes. Missing required originals, excluded tests, FAIL or NotRun prevent a qualified baseline; directory or file presence alone does not qualify it.
 
 **[通用场景]** 3. **Report findings**:
-   - "Technology: [engine or stack]. Test directory: [found / not found]. CI workflow: [found / not found]."
-   - If everything already exists AND `force` argument was not passed:
-     "Test infrastructure appears to be in place. Re-run with `/test-setup force`
-     to regenerate. Proceeding will not overwrite existing test files."
+   - "Technology: [engine or stack]. Runner/discovery roots: [actual paths or gaps]. CI definition: [actual path or gap]."
+   - **[游戏专用]** If the existing baseline files are present AND `force` was not passed, report that the infrastructure is in place and only missing files can be created.
+   - **[通用产品]** An existing baseline needs the required actual configuration, CI definition, discovered test original and recorded PASS from its exact command. If these are verified and `force` was not passed, report the qualified baseline and preserved paths. Otherwise report missing inputs or execution evidence and present a scoped repair plan; do not treat placeholders or NotRun as PASS.
 
 If the `force` argument is passed, skip the "already exists" early-exit and
 proceed — but still do not overwrite files that already exist at a given path.
@@ -58,7 +60,13 @@ Only create files that are missing.
 
 ## Phase 2: Present Plan
 
-Based on the technology detected and the existing state, present a plan:
+Based on the technology detected and the existing state, present a plan.
+For Product, name the exact approved runner/configuration, discovery roots,
+test/README/smoke paths, CI definition and test command to preserve or create.
+Use existing valid tests as the runnable baseline; create an example only if
+needed. Do not introduce a second runner or conventional directories to replace
+working configuration. The layout below is the Game plan and an example for a
+new Product layout chosen during planning, not a required Product file list:
 
 ```
 ## Test Setup Plan — [Engine or Stack]
@@ -90,7 +98,10 @@ Do not proceed without approval.
 
 ## Phase 3: Create Directory Structure
 
-After approval, create the following files:
+After approval, create only the missing files in the named plan. For Product,
+render the README at its approved path with the actual runner, discovery roots,
+naming, commands and CI definition. Substitute those resolved values in the
+example below; do not document directories or a CI workflow that do not exist.
 
 ### `tests/README.md`
 
@@ -98,8 +109,8 @@ After approval, create the following files:
 # Test Infrastructure
 
 **Technology**: [engine or stack name + version]
-**Test Framework**: [Game: GdUnit4 / Unity / UE Automation | Product: pytest / Vitest / cargo / go]
-**CI**: `.github/workflows/tests.yml`
+**Test Framework**: [Game: GdUnit4 / Unity / UE Automation | Product: actual configured runner]
+**CI**: [Game: `.github/workflows/tests.yml` | Product: actual approved CI definition path]
 **Setup date**: [date]
 
 ## Directory Layout
@@ -135,12 +146,12 @@ After approval, create the following files:
 [Product] Product evidence:
 | Story Type | Required Evidence | Location |
 |---|---|---|
-| Logic | Automated unit test | `tests/unit/[module]/` |
-| Integration | Integration test OR API contract test | `tests/integration/[module]/` |
-| UI | Screenshot OR interaction test | `production/qa/evidence/manual/` |
-| CLI | Smoke command output | `production/qa/evidence/smoke/` |
-| API | Contract test | `tests/api/` |
-| Config/Data | Migration test OR smoke check | `production/qa/smoke-*.md` |
+| Logic | Automated unit test — must pass | Exact Story test path discovered by the configured runner |
+| Integration | Integration test OR API contract test — must pass | Exact Story path within actual configured discovery roots |
+| UI | Screenshot OR interaction test | Exact Story evidence path; `production/qa/evidence/manual/` is an example |
+| CLI | Smoke command output — must pass | Exact Story command/result evidence path |
+| API | Contract test — must pass | Exact Story contract test discovered by the configured runner |
+| Config/Data | Migration test OR smoke check — must pass | Exact Story migration/smoke evidence path |
 
 ## CI
 
@@ -150,13 +161,16 @@ A failed test suite blocks merging.
 
 ### Technology-specific template selection
 
-Select exactly one scaffold family from the detected domain and technology.
-Do not write multiple competing CI templates to `.github/workflows/tests.yml`.
+Select exactly one scaffold family from the detected domain and configured runner.
+Do not write competing CI templates or replace an existing runner.
 
 - **[游戏专用]** If an engine is detected, create only the engine scaffold and
   game smoke seed for that engine.
-- **[通用产品]** If a product stack is detected, create only the stack scaffold
-  and product smoke seed for the detected language/framework.
+- **[通用产品]** Preserve the actual configured runner and CI provider. If missing,
+  propose a compatible runner and exact paths in Phase 2 before creating them.
+  The stack templates below apply only when that runner and layout are selected;
+  adapt their discovery and commands to the approved paths. Existing Bun, Jest or
+  other configured runners do not require Vitest because they use TypeScript.
 - **Unknown**: stop and ask the user to run `/setup-engine`; do not guess.
 
 ### Engine-specific files
@@ -414,8 +428,10 @@ Set the `UE_EDITOR_PATH` environment variable on the runner.
 
 ### Product-specific files
 
-**[通用产品]** Product stack scaffold blocks. Create files appropriate to the
-detected stack.
+**[通用产品]** Examples for a new baseline using the selected runner and layout.
+Create only missing approved files; keep existing configuration and tests.
+Resolve discovery paths and CI commands from the plan before writing an example,
+then verify the actual runner discovers and passes it.
 
 #### Python / pytest (`Language: Python`)
 
@@ -472,7 +488,7 @@ jobs:
       - run: pytest -x --tb=short
 ```
 
-#### Node / Vitest / Jest (`Language: TypeScript` or `Language: JavaScript`)
+#### Node / Vitest (TypeScript or JavaScript with Vitest selected)
 
 Create `vitest.config.ts`:
 ```typescript
@@ -497,7 +513,7 @@ describe('example baseline', () => {
 })
 ```
 
-CI template (`Language: TypeScript`):
+CI template (Vitest selected):
 ```yaml
 # .github/workflows/tests.yml
 name: Tests
@@ -575,8 +591,9 @@ jobs:
 
 ## Phase 5: Create Smoke Test Seed
 
-Create `tests/smoke/critical-paths.md`. Write only the variant matching the
-detected domain — never write both game and product smoke seeds to the same file.
+For Game, create `tests/smoke/critical-paths.md`. For Product, use the approved
+smoke-list path already referenced by the project (or name a new path in Phase 2).
+Write only the variant matching the detected domain.
 
 **[游戏专用] Game smoke seed:**
 
@@ -612,7 +629,9 @@ detected domain — never write both game and product smoke seeds to the same fi
 
 **[通用产品]** Product smoke seed:
 
-Create `tests/smoke/critical-paths.md` with product-appropriate entries:
+Create or retain the approved Product smoke-list path with entries for the
+actual project surfaces. `tests/smoke/critical-paths.md` is a layout example,
+not a reason to require a `tests/` tree.
 
 ```markdown
 # Smoke Test: Critical Paths
@@ -656,41 +675,49 @@ Create `tests/smoke/critical-paths.md` with product-appropriate entries:
 
 ## Phase 6: Post-Setup Summary
 
-After writing all files, report:
+After writing the approved missing files, report their actual paths, preserved
+configuration and any unresolved baseline evidence. For Product, include the
+runner/discovery roots, actual CI path and command, exact discovered test path,
+executed command, outcome and original result/evidence path. Distinguish local
+PASS from CI execution; do not claim a remote CI run or stage qualification
+from a workflow definition. Adapt the summary below to the actual files:
 
 ```
 Test infrastructure created for [technology].
 
 Files created:
-- tests/README.md
-- tests/unit/ (directory)
-- tests/integration/ (directory)
-- tests/api/ (directory, for product API contract tests)
-- tests/smoke/critical-paths.md
-- production/qa/evidence/ (canonical evidence schema)
-[technology-specific files]
-- [technology-specific example test file]
-- .github/workflows/tests.yml
+- [actual paths created from the approved plan]
+Files preserved:
+- [existing runner/configuration, tests and CI definition]
+Baseline verification:
+- [exact test command, discovered test path, result and original evidence path]
 
 Next steps:
 1. [Technology-specific setup step: Game — install/configure engine test plugin; Product — run the stack test command locally]
-2. Run the generated example test locally to confirm the harness works.
-3. Replace or extend the example with your first module test when implementation starts: `tests/unit/[first-module]/[module]_test.[ext]`
+2. Confirm the generated example or preserved baseline test with the actual local test command; report the result and remaining gaps.
+3. Replace or extend the example with your first module test when implementation starts: Game uses `tests/unit/[first-module]/[module]_test.[ext]`; Product uses the actual configured runner's discovery/naming and the exact Story test path.
 4. Run `/qa-plan sprint` before your first sprint to classify stories and set
    test evidence requirements
 5. `/smoke-check` before every QA hand-off
 
-Gate note: /gate-check Technical Setup → Pre-Production now requires:
-- tests/ directory with unit/ and integration/ subdirectories
-- .github/workflows/tests.yml
-- At least one example test file
-This `/test-setup` baseline creates the example test; no separate hand-written
-test is required for the setup gate.
+Gate note: /gate-check Technical Setup → Pre-Production requires a test baseline:
+- Game: tests/ directory with unit/ and integration/ subdirectories,
+  .github/workflows/tests.yml, and at least one example test file.
+- Product: the actual configured runner/discovery roots and command, the actual
+  CI definition running those tests, and at least one discovered runnable
+  example or existing test with recorded PASS from the exact command.
+- Product required configuration, test and evidence originals must exist;
+  absent originals, failed discovery, FAIL or NotRun leave the baseline blocked
+  or incomplete. A folder name or an unexecuted example cannot establish PASS.
+An existing valid Product test may supply the baseline; a separate new example
+is not required when it is already discovered and passes.
 `/test-helpers` is an optional enhancement for fixtures, factories, mocks, and
 engine/stack helper libraries after this baseline exists; missing helpers are
 not a gate blocker.
 
-Verdict: **COMPLETE** — test framework scaffolded and CI/CD wired up.
+Verdict: [COMPLETE — the required baseline above is verified / INCOMPLETE or
+BLOCKED — identify the missing configuration, original or execution evidence].
+Creating scaffold files alone does not approve Product progression.
 ```
 
 ---

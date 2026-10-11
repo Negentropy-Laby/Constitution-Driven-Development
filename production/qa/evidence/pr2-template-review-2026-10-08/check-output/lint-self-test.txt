@@ -1,1 +1,0 @@
-SELF-TEST PASSED: broken frontmatter, command refs, bad words, headings, and code fences detected.

@@ -73,8 +73,11 @@ Match the specialist agent to the file type being written.
 
 ## Tests
 
-Tests live in `tests/` — not in `src/`.
-Run `/test-setup` to scaffold the test framework if it doesn't exist yet.
+Use the actual test runner, discovery configuration and declared Story test paths.
+Preserve existing test locations, including Product tests colocated under `src/`;
+a missing `tests/` directory does not establish missing coverage. Read declared
+tests directly and report unread or unresolved discovery as incomplete. For new
+scaffolding, follow `/test-setup` and the configured stack's test policy.
 
 - **Game**: every gameplay system should have unit tests covering its formulas
   and edge cases; UI/HUD changes need screenshots or interaction evidence;

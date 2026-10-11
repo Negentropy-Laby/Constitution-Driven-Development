@@ -207,8 +207,12 @@ Ask: "May I write this to `production/sprints/sprint-[N]-retrospective.md`?" (or
 
 If yes, write the file, creating the directory if needed. Verdict: **COMPLETE** — retrospective saved.
 
-When `memory_bank/` exists and the user approves writing the retrospective, also
-write a T3 snapshot under `memory_bank/t3_archive/sprint_snapshots/`.
+When `memory_bank/` exists, propose the actual T3 snapshot path and contents under
+`memory_bank/t3_archive/sprint_snapshots/` as a separate effect or part of the named
+changeset. Write it only when that snapshot is covered by existing scoped authority
+or the user approves the concrete report-and-snapshot changeset. Approval to save
+the retrospective alone does not authorize the snapshot; an unapproved snapshot
+remains pending while the authorized retrospective can be saved.
 
 - Sprint retrospective path: `memory_bank/t3_archive/sprint_snapshots/sprint-[id]-closeout-[YYYY-MM-DD].md`
 - Milestone retrospective path: `memory_bank/t3_archive/sprint_snapshots/milestone-[name]-closeout-[YYYY-MM-DD].md`

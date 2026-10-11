@@ -483,6 +483,8 @@ When `memory_bank/` exists, update
 `memory_bank/t3_archive/reviews/review-index.md` only if its separate path/effect
 is authorized. A report-only run never updates this index.
 
+Update the Memory Bank index only when this run enters its separately named, authorized effect after saving the actual report. Initialized Memory Bank alone is insufficient; read-only and report-only scopes exclude indexing. If the intended effect or initialization is unresolved, retain Unknown. Before indexing, read the saved immutable report and exact input/evidence identities; a proposed output or INFO is insufficient. This effect does not initialize Memory Bank.
+
 - Review Type: `cross-cdd-review`
 - Source Artifact: `design/cdd/cross-review-[date].md`
 - Use `Source Artifact` as the dedupe key.

@@ -150,6 +150,12 @@ Missing required inputs remain Blocked; independent authorized work may continue
 
 ### Dependency validation
 
+Read the selected Story's Dependencies list and classify which dependencies are
+required. Resolve each actual nonempty required set using the checks below;
+an explicitly empty or non-required list needs no dependency lookup. Unresolved
+classification stays Unknown. An empty glob or Story status text cannot close a
+real named dependency.
+
 After extracting the **Dependencies** list from the story file, validate each:
 
 1. Glob `production/epics/**/*.md` to find each required dependency Story; read
@@ -337,6 +343,11 @@ Test requirements (from coding-standards.md):
 - No random seeds, no time-dependent assertions, no external I/O
 - Test formula bounds, state transitions, schema constraints, API contracts, or
   permission boundaries from the CDD section that owns the story.
+
+The Game Visual/Feel and UI instructions below plan future manual evidence.
+The reminder identifies that obligation; it neither executes the observations nor
+satisfies `/story-done`. Do not infer a pre-existing manual sign-off for Logic or
+Config/Data work merely from the Game domain.
 
 For **Visual/Feel** and game **UI** stories: no automated test is required unless
 the story's Test Evidence section names one. Remind the agent to note what manual

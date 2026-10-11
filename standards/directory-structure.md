@@ -1,8 +1,20 @@
 # Directory Structure
 
+The tree below describes the designated Source-library checkout. An import-mode
+consumer keeps approved platform outputs, necessary neutral support and its
+project-custom inputs; it does not copy general root `agents/` or `skills/`.
+Use the project's reviewed delivery allowlist, actual installed readers and
+portable Source binding. Required neutral inputs are listed in
+`adapters/README.md` and extend through the selected workflow's actual required
+references; do not omit them or copy entire general source trees. Ordinary
+installed-file use needs no maintenance reader, profile or lock. Source-dependent
+updates preserve reviewed project differences and require the sole actual Source.
+When the project uses an import profile, reviewed skill hunks use its declared
+`standards/cdd-overrides/skill-overlays/*.json`, with exact base/result identities.
+
 ```text
 /
-# --- Canonical common sources (hand-authored) ---
+# --- Canonical common sources in the Source library (hand-authored) ---
 ├── INSTRUCTIONS.md              # Canonical root instructions (generated to CLAUDE.md + AGENTS.md)
 ├── cdd-manifest.toml            # Canonical -> generated adapter contract
 ├── skills/                      # Canonical skills (generated into adapter runtimes)
@@ -47,7 +59,8 @@
 └── memory_bank/                 # Project governance brain (created from templates/ by /constitute)
 ```
 
-Generated adapter subtrees are owned by `scripts/sync_adapters.py` — only the
+In the Source-library checkout, generated adapter subtrees are owned by
+`scripts/sync_adapters.py` — only the
 manifest-declared subtrees above are generated, and they must never be hand-edited.
 `.claude/` and `.codex/` are **mixed-ownership** roots: they also contain
 hand-authored runtime config (`settings.json`, `statusline.sh`, `hooks.json`) and,
@@ -58,6 +71,12 @@ through root guidance rather than automatic loading.
 
 ## Discovery and evidence boundaries
 
+In an import-mode project, offline installed Markdown/context reads do not
+require current Source availability, but do not establish Source freshness or
+regeneration/write authority. Source checks and generation require actual Source
+inputs and separate approved maintenance scope. Never recover a consumer's
+missing canonical root by copying installed outputs back into `agents/` or `skills/`.
+
 The layout records ownership, not activation. Skills copy verbatim to
 `.claude/skills/` and use manifest `runtime_substitute` for `.agents/skills/`.
 Agent Markdown copies to Claude; Codex TOML retains only `name`, `description`
@@ -66,8 +85,10 @@ and `developer_instructions`, dropping the seven known operational fields in
 memory, isolation or execution.
 
 The generator source digest covers manifest-declared source classes. Relied-on
-neutral support in `standards/`, `templates/`, `workflow/` and `skill_testing/`
-needs its own exact identity; freshness does not certify linked semantics.
+neutral support in `standards/`, `templates/`, `workflow/`, `skill_testing/`,
+`rules/`, `docs/` and `adapters/` needs its own exact identity; freshness does not
+certify linked semantics. The consumer's T2 framework contract binds installed
+paths and the sole external Source, not absent local general sources or tools.
 Optional `memory_bank/` requires separately authorized initialization. Its T2
 testing mount references canonical `skill_testing/` without another testing tree.
 Read `standards/evidence-lifecycle.md` and actual runtime metadata for evidence,

@@ -16,10 +16,34 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 
 ## Phase 0: Domain Routing
 
-Detect the project domain before running the workflow:
-- `design/cdd/game-concept.md` -> **[Game]** keep the existing art bible workflow: visual identity, shape language, color, character direction, asset standards, and engine-aware constraints.
-- `design/cdd/product-concept.md` -> **[Product]** use this same command as a product brand style guide workflow. Product outputs go to `design/brand/style-guide.md`; they do not use the game art bible path.
-- If both exist, ask which domain to run. If neither exists, ask whether this is a game art bible or a product style guide.
+Read `standards/technical-preferences.md`, existing scoped domain decisions,
+and the substantive bodies of any `design/cdd/game-concept.md` and
+`design/cdd/product-concept.md` before selecting a branch. Filenames, placeholder
+or copied concept text and shared extensions do not establish a domain. Read
+actual configured values in `Product Stack` or the populated legacy
+`Language & Framework`, `Platform & Deployment`, and `Agent Routing` /
+`File Extension Routing`
+sections in their owning domain context; missing new sections or a concept do
+not erase configured legacy Product facts. A placeholder Game concept does not
+override a configured Product.
+
+Resolve Game from consistent substantive Game concept/decision or actual
+configured engine/domain and Game behavior evidence; resolve Product from
+consistent substantive Product concept/decision or actual Product configuration.
+Two substantive concepts, conflicting concept/configuration values or mixed scope
+leave the affected branch **Unknown** until a scoped decision resolves the conflict.
+With no consistent substantive concept/scoped decision or sufficient actual
+configuration evidence, the domain is also Unknown; a valid concept alone can
+establish the domain before stack configuration.
+Record the supporting sections and values. For Unknown, use an existing matching
+scoped decision or clarify with the user/configured project lead before
+domain-specific delegation or writes; resolved configured facts need no new vote.
+Independent neutral reads may continue. Domain selection does not waive required
+branch inputs: read their actual originals and leave missing inputs Incomplete.
+Never silently default to Game.
+
+- **[Game]** keep the existing art bible workflow: visual identity, shape language, color, character direction, asset standards, and engine-aware constraints.
+- **[Product]** use this same command as a product brand style guide workflow. Product outputs go to `design/brand/style-guide.md`; they do not use the game art bible path.
 
 Never delete or replace the game art bible guidance below. Product guidance is an additional branch beside it.
 
@@ -298,7 +322,7 @@ Before presenting next steps, check project state:
 - Does `design/cdd/module-index.md` exist? → map-systems is done, skip that option
 - Does `standards/technical-preferences.md` contain a configured engine (not `[TO BE CONFIGURED]`)? → setup-engine is done, skip that option
 - Does `design/cdd/` contain any `*.md` files? → design-system has been run, skip that option
-- Does `design/cdd/cross-review-*.md` exist? → review-all-gdds is done
+- Locate any saved `design/cdd/cross-review-*.md` records, then read their substantive verdict, reviewed scope and current input identities, required review coverage, and unresolved blockers. File existence only locates evidence. Treat /review-all-gdds as complete only when that evidence establishes an applicable completed review; otherwise keep the review pending and offer it below.
 - Do CDDs exist (check above)? → include /consistency-check option
 
 Use `AskUserQuestion` for next steps. Only include options that are genuinely next based on the state check above:
@@ -307,7 +331,7 @@ Use `AskUserQuestion` for next steps. Only include options that are genuinely ne
 - `[_] Run /map-systems — decompose the concept into systems before writing CDDs` (skip if module-index.md exists)
 - `[_] Run /setup-engine — configure the engine (asset standards may need revisiting after engine is set)` (skip if engine configured)
 - `[_] Run /design-system — start the first CDD` (skip if any CDDs exist)
-- `[_] Run /review-all-gdds — cross-CDD consistency check (required before Technical Setup gate)` (skip if cross-review-*.md exists)
+- `[_] Run /review-all-gdds — cross-CDD consistency check (required before Technical Setup gate)` (skip only after the saved substantive review, required coverage, current input identities, and resolved blockers establish an applicable completed review; file existence alone is insufficient)
 - `[_] Run /asset-spec — generate per-asset visual specs and AI generation prompts from approved CDDs` (include if CDDs exist)
 - `[_] Run /consistency-check — scan existing CDDs against the art bible for visual direction conflicts` (include if CDDs exist)
 - `[_] Run /create-architecture — author the master architecture document (next Technical Setup step)`

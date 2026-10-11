@@ -332,6 +332,14 @@ Memory Bank index/pointer updates need separately named effect authority; report
 approval does not cover them. Review-only invokes no write entrypoint, including
 in memory, and makes no source/session/status edits.
 
+Update the Memory Bank index only after the report is saved and only with authority
+for that named index effect. Initialization alone, read-only scope and report-only
+scope do not authorize it. If initialization or the intended effect is unresolved,
+retain Unknown and leave the index unchanged. Before an authorized update, read
+the saved immutable report revision and its exact input/evidence identities;
+a proposed report or an INFO result is insufficient. This step does not initialize
+Memory Bank.
+
 Review index row:
 
 - Review Type: `code-review`

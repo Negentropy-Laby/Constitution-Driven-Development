@@ -203,8 +203,8 @@ phases:
         command: /test-setup
         required: true
         artifact:
-          note: "Minimum baseline: tests/unit/, tests/integration/, .github/workflows/tests.yml, and at least one example test file."
-        description: "Scaffold the required test framework baseline and CI pipeline before entering Pre-Production. Applies to both game engines and product stacks. Optional helpers are handled by /test-helpers later."
+          note: "Required baseline. Game: tests/unit/, tests/integration/, .github/workflows/tests.yml, and at least one example test file. Product: actual configured runner/discovery roots and test command, the actual CI definition, and at least one runner-discovered runnable example or existing test with recorded PASS evidence; required configuration, test and evidence originals must exist. Conventional tests/ paths and tests.yml are examples, not Product requirements."
+        description: "Establish the required test framework baseline and CI pipeline before entering Pre-Production, preserving existing Product runner, test paths and CI configuration. Verify Product discovery and actual PASS evidence before qualifying the baseline. Optional helpers are handled by /test-helpers later."
 
   pre-production:
     label: "Pre-Production / Pre-Implementation"

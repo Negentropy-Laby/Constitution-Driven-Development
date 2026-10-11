@@ -16,23 +16,18 @@ Game/Product parity contract.
 
 ## Local Checks
 
-Run these before opening a pull request:
+From a clean Source clone, run `git diff --check` and review each changed entry,
+its required references, governing standards and applicable Game/Product
+behavior. Verify the actual delivery allowlist and platform projections against
+the complete canonical inputs. Missing required originals remain incomplete.
 
-```powershell
-git diff --check
-python scripts\skill_lint.py --self-test
-python -m unittest discover -s tests -p "*_test.py"
-python scripts\skill_lint.py --strict skills
-python scripts/sync_adapters.py --check
-python scripts\workflow_consistency.py
-```
-
-`skill_lint.py --strict skills` lints every canonical skill Markdown file —
-`skills/<name>/SKILL.md` plus its on-demand `skills/<name>/references/*.md` —
-and must report `0 error(s)`. Frontmatter checks apply to entrypoints only, so
-reference files are checked for Markdown and command-reference defects without
-needing skill frontmatter. (Template-path warnings remain advisory under the
-existing contract.) These commands mirror the `Template Consistency` CI checks.
+Local generators, linters, maintenance tests and historical Source CI are supplied
+separately and excluded from template delivery. When those tools are actually
+provided and their scope is authorized, use their supported read-only checks and
+retain the results outside the deliverable templates. Do not require a fresh
+clone to execute absent tools, restore their tracking, or use an old CI result
+to certify a new revision. Report static review, fixture checks and live runtime
+trials separately.
 
 ## Pull Request Expectations
 
@@ -40,21 +35,23 @@ existing contract.) These commands mirror the `Template Consistency` CI checks.
 - Include validation commands and results in the PR description.
 - Update examples, quick-start docs, workflow catalog entries, and gate wording
   together when changing phase behavior.
-- Add or update consistency checks when fixing workflow drift.
+- Keep any local consistency-check changes separate from deliverable templates.
 
 ## Skill Changes
 
 When editing a canonical skill package — `skills/<name>/SKILL.md` or its
 on-demand references under `skills/<name>/references/` (never hand-edit the
-generated `.claude/skills` or `.agents/skills` trees directly) — regenerate the
-runtime adapters afterward by running `python scripts/sync_adapters.py --write --class skills`:
+generated `.claude/skills` or `.agents/skills` trees directly) — prepare matching
+runtime adapters in an authorized Source stage using the separately provided
+renderer. Review the full output scope before installation; unavailable rendering
+remains NotRun and does not justify hand-editing generated copies:
 
 - Preserve frontmatter fields and command names.
 - Keep explicit invocation guards where present.
 - Keep Game and Product branches at comparable detail.
 - Avoid broken Markdown markers such as standalone `**` lines or unclosed
   inline code spans.
-- Run strict lint on the edited skill and the full skills directory.
+- Review the edited skill and its required references; use strict lint only when the local diagnostic is provided.
 - Keep package layout to Markdown only: the entrypoint must be the package-root
   `SKILL.md` (nested `SKILL.md` files are rejected by the generator), and
   `references/` holds supporting material that `SKILL.md` links to instead of

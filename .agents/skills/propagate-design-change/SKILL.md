@@ -255,8 +255,8 @@ applies only when neither explicit nor global mode exists.
 - `full` → spawn as normal.
 
 Spawn `technical-director` via Task using **TD-CHANGE-IMPACT**, whose criteria and
-APPROVE/CONCERNS/REJECT interface are defined inline in this Phase 6b of
-`skills/propagate-design-change/SKILL.md`. Shared `standards/director-gates.md`
+APPROVE/CONCERNS/REJECT interface are defined inline in this skill's current
+Phase 6b; no project-root skill copy is required. Shared `standards/director-gates.md`
 supplies mode/authority guidance, not this gate definition.
 
 Pass: the full Design Change Impact Report from Phase 6 (change summary, all affected ADRs with their Still Valid / Needs Review / Likely Superseded classifications, and recommended actions).

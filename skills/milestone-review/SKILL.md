@@ -145,8 +145,12 @@ Ask: "May I write this to `production/milestones/[milestone-name]-review.md`?"
 
 If yes, write the file, creating the directory if needed. Verdict: **COMPLETE** — milestone review saved.
 
-When `memory_bank/` exists and the user approves writing the milestone review,
-also write `memory_bank/t3_archive/sprint_snapshots/milestone-[name]-review-[YYYY-MM-DD].md`.
+When `memory_bank/` exists, propose the actual companion snapshot draft at
+`memory_bank/t3_archive/sprint_snapshots/milestone-[name]-review-[YYYY-MM-DD].md`.
+Write it only when that path/effect is covered by existing scoped authority or the
+user approves the concrete report-and-snapshot changeset. Main review approval alone
+does not authorize the companion; keep an uncovered snapshot pending while saving
+the authorized milestone review.
 
 Include milestone scope, verdict, completed deliverables, open risks, QA/release
 links, and next gate recommendation. If `memory_bank/` does not exist, do not

@@ -496,13 +496,19 @@ the former external game design document template has been folded into this skil
 If the new-file effect is not already authorized, show the skeleton and ask:
 "May I create the skeleton file at `design/cdd/[system-name].md`?"
 
-After writing, update `production/session-state/active.md` only when its exact
-path/effect is authorized; otherwise present the following progress in conversation:
-- Use Glob to check if the file exists.
-- If it **does not exist**: use the **Write** tool to create it. Never attempt Edit on a file that may not exist.
-- If it **already exists**: use the **Edit** tool to update the relevant fields.
+After writing, choose one checkpoint branch from the existing exact path/effect
+authorization for `production/session-state/active.md`:
 
-File content:
+- **Authorized checkpoint write:** only in this branch, use Glob to check whether
+  the checkpoint exists. If it exists, Read it and use Edit for the authorized
+  fields. If it does not exist, use Write only when creation is also covered by
+  the existing scope; never Edit a missing file. If only an existing-file update
+  was authorized, present the creation draft and obtain that new effect first.
+- **No checkpoint write authority:** present the progress below in conversation
+  only. Do not enter the checkpoint Glob/Write/Edit branch or create session
+  state as a side effect of permission to write the CDD.
+
+Progress fields (for either branch):
 - Task: Designing [system-name] CDD
 - Current section: Starting (skeleton created)
 - File: design/cdd/[system-name].md
@@ -709,11 +715,17 @@ Before delegating a section, read the matching domain and module category in [sp
 
 If the session is interrupted (compaction, crash, new session):
 
-1. Read `production/session-state/active.md` — it records the current system and
-   which sections are complete
-2. Read `design/cdd/[system-name].md` — sections with real content are done;
-   sections with placeholders or unresolved required content still need work
-3. Resume from the next incomplete section — no need to re-discuss completed ones
+1. If `production/session-state/active.md` exists and belongs to this task, Read
+   it for the recorded system and progress. Otherwise recover the actual module,
+   CDD path and scoped approvals from the existing conversation and saved project
+   decisions. Clarify an ambiguous target before dependent work; recovery does not
+   authorize creating or repairing session state.
+2. Read the actual module CDD, such as `design/cdd/[system-name].md` after binding
+   the known module name. Retain substantive sections; placeholders and unresolved
+   required content still need work. Content presence alone does not establish
+   approval or completion; keep unresolved approvals pending.
+3. Resume within the existing scope from the next incomplete section, preserving
+   approved content and separate review/status authority.
 
 This is why incremental writing matters: every approved section survives any
 disruption.

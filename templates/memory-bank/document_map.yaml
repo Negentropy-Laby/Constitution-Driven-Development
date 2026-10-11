@@ -1,6 +1,9 @@
 # Memory Bank Document Map
 # Generated or initialized by /constitute. Keep this as the routing map between
 # canonical documents, source documents, mirrors, indexes, and archives.
+# For consumers, retain actual delivered/project-owned entries and bind external
+# CDD Source entries through the framework contract; absent local Source trees
+# and maintenance tools are not normal-use requirements.
 
 # Record extensions are metadata/pointers, not copies of detailed source content.
 # Legacy rows remain readable; report-only excludes index/state updates.
@@ -68,7 +71,9 @@ documents:
     role: index
     owner: /setup-engine
     indexes:
-      - INSTRUCTIONS.md  # canonical; CLAUDE.md and AGENTS.md are generated from it by scripts/sync_adapters.py
+      - INSTRUCTIONS.md  # when this is the project's actual instruction owner
+      - CLAUDE.md        # actual installed project guidance, when applicable
+      - AGENTS.md        # actual installed project guidance, when applicable
       - standards/technical-preferences.md
       - docs/engine-reference/**/VERSION.md
       - docs/reference/**/VERSION.md
@@ -121,26 +126,26 @@ documents:
   docs/PHASE-CHECKLISTS.md:
     tier: T2
     role: mirror
-    owner: scripts/generate_phase_checklists.py
+    owner: delivered workflow view; project-approved ordinary file sync
     source: workflow/workflow-catalog.yaml
 
   workflow/generated/gate-required-artifacts.md:
     tier: T2
     role: mirror
-    owner: scripts/generate_gate_required_sections.py
+    owner: delivered workflow view; project-approved ordinary file sync
     source: workflow/workflow-catalog.yaml
 
   memory_bank/t2_execution/phase_checklists.md:
     tier: T2
     role: mirror
-    owner: scripts/generate_phase_checklists.py --memory-bank
-    source: workflow/workflow-catalog.yaml
+    owner: /constitute; approved ordinary file sync
+    source: docs/PHASE-CHECKLISTS.md
 
   memory_bank/t2_execution/gate_required_artifacts.md:
     tier: T2
     role: mirror
-    owner: scripts/generate_gate_required_sections.py --memory-bank
-    source: workflow/workflow-catalog.yaml
+    owner: /constitute; approved ordinary file sync
+    source: workflow/generated/gate-required-artifacts.md
 
   production/project-roadmap.md:
     tier: T2
@@ -156,9 +161,9 @@ documents:
 
   cdd-manifest.toml:
     tier: T2
-    role: canonical
-    owner: maintainers
-    description: Canonical -> generated adapter contract
+    role: source
+    owner: sole CDD Source bound by memory_bank/t2_execution/framework_contract.md
+    description: Source adapter mapping; not a required local consumer manifest
     generated_outputs:
       - .claude/skills/**
       - .agents/skills/**
@@ -178,9 +183,9 @@ documents:
 
   INSTRUCTIONS.md:
     tier: T2
-    role: canonical
-    owner: maintainers
-    description: Canonical root instructions (generated to CLAUDE.md + AGENTS.md)
+    role: source
+    owner: actual project instruction owner, when present
+    description: Project guidance; installed runtime instructions may be the actual owner
 
   src/INSTRUCTIONS.md:
     tier: T2
@@ -202,21 +207,21 @@ documents:
 
   skills/**:
     tier: T2
-    role: canonical
-    owner: maintainers
-    description: Canonical skills (generated into adapter runtimes)
+    role: source
+    owner: sole CDD Source bound by memory_bank/t2_execution/framework_contract.md
+    description: Canonical skills; external to a consumer
 
   agents/**:
     tier: T2
-    role: canonical
-    owner: maintainers
-    description: Canonical agents
+    role: source
+    owner: sole CDD Source bound by memory_bank/t2_execution/framework_contract.md
+    description: Canonical agents; external to a consumer
 
   hooks/**:
     tier: T2
-    role: canonical
-    owner: maintainers
-    description: Canonical hooks
+    role: source
+    owner: sole CDD Source bound by memory_bank/t2_execution/framework_contract.md
+    description: Canonical hooks; installed runtime hooks have their actual project owner
 
   rules/**:
     tier: T2
@@ -229,7 +234,7 @@ documents:
     role: index
     owner: /constitute
     source: templates/memory-bank/t2_execution/framework_contract.md
-    description: Canonical -> generated adapter contract index
+    description: Actual installed paths, neutral inputs, sole Source and project differences
 
   memory_bank/t2_execution/adapter_state.yaml:
     tier: T2
@@ -237,7 +242,7 @@ documents:
     owner: /constitute-check
     initialized_by: /constitute
     read_by: /cdd-status
-    description: Approved record of adapter freshness and canonical digests
+    description: Approved applicable comparison record; unavailable checks preserve prior state
 
   skill_testing/catalog.yaml:
     tier: T2

@@ -27,16 +27,20 @@ The supported workflow contract is defined by:
   consuming project has created those files.
 - `/skill-test static all` is a skill workflow, not a CI-enforced command unless
   a project adds non-interactive automation for it.
-- Runtime Contract is manually dispatched, makes no model calls, and requires
-  no API keys or other repository secrets.
+- Local maintenance tools and historical Source CI are supplied separately,
+  excluded from template delivery and not ordinary-use requirements.
+- Historical Runtime Contract checks were credential-free CLI trials; their
+  results apply only to their identified inputs and do not prove live agents.
 - Optional interactive Claude/Codex trials use the maintainer's existing local
   login and are not required release evidence.
 
 ## Platform Support
 
-- Template Consistency CI is configured for Ubuntu, macOS, and Windows runners.
-- Credential-free runtime structural smoke runs inside Template Consistency;
-  pinned CLI Runtime Contract is a separate credential-free release gate.
+- Historical Template Consistency records identify Ubuntu, macOS and Windows
+  results for exact Source release commits. Current clean delivery does not
+  include that workflow or the local Runtime Contract workflow.
+- Current acceptance uses `docs/CUSTOMER-ACCEPTANCE.md` and the actual project's
+  configured tests/QA; unavailable live trials remain NotRun.
 - Windows 10/11 local hook execution requires Git Bash on PATH.
 - Hook scripts use POSIX-compatible shell patterns and are smoke-tested through Bash.
 - Windows toast notifications are optional and fall back to plain hook output when unavailable.
@@ -54,6 +58,6 @@ For repository issues, include:
 
 - Your current phase.
 - The command or document you were using.
-- The validation command output, especially `workflow_consistency.py` or
-  `skill_lint.py` results.
+- The actual check output and required input paths; include separately supplied
+  local diagnostic results only when such tools were available and used.
 - Whether the project is Game or Product.

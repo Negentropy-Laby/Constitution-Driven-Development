@@ -107,6 +107,12 @@ For `coverage` or `full` mode: proceed to full-read everything below.
 
 Read all inputs appropriate to the mode:
 
+In no-argument, `full` and `coverage` reviews, read the Design Documents inventory
+below. In `rtm` and other modes, read it when the actual review scope includes that
+inventory; `engine` and other ADR-only scopes do not require it. If applicability
+is undecided, retain Unknown and resolve that scope. A missing required input is
+an incomplete check, not a reason to exclude the inventory.
+
 ### Design Documents
 - All in-scope CDDs in `design/cdd/` — read every file completely
 - `design/cdd/module-index.md` — the authoritative list of systems
@@ -221,9 +227,14 @@ No-ADR coverage removes no Story/test/manifest/global Technical Setup prerequisi
 
 ---
 
-## Phase 3b: Story and Test Linkage (RTM mode only)
+## Phase 3b: Story and Test Linkage (rtm and applicable full mode)
 
 *Skip this phase unless the argument is `rtm` or `full` with stories present.*
+
+Run this phase for `rtm` and for `full` when Stories are actually present. If a
+full run's Story scope is unresolved, retain Unknown and resolve it before skipping
+this phase; missing required files cannot establish a skip. Read the real Story/test
+linkage and decision/evidence sources required below.
 
 This phase extends the Phase 3 matrix to include the story that implements
 each requirement and the test that verifies it — producing the full
@@ -239,11 +250,16 @@ story file:
 
 ### Step 3b-2 — Load test files
 
-Glob `tests/unit/**/*_test.*` and `tests/integration/**/*_test.*`.
-Build an index: system → [test file paths].
+Read the actual configured test runner, include/exclude patterns and discovery
+roots, including colocated tests outside `tests/` where applicable. Discover tests
+using that configuration and build an index: system → [test file paths].
 
-For each test file path from Step 3b-1, confirm via Glob whether the file
-actually exists. Note MISSING if the stated path does not exist.
+For every exact test path declared in Step 3b-1, Read the original directly even
+if discovery or Glob did not return it. Confirm actual absence before recording
+MISSING. An unread, inaccessible or unresolved original leaves the affected link
+INCOMPLETE; an empty Glob or a runner exclusion alone does not prove absence.
+Record whether the actual runner discovers each linked test. File presence or
+runner discovery does not prove execution or PASS.
 
 ### Step 3b-3 — Build the extended RTM
 
@@ -251,8 +267,10 @@ For each TR-ID in the Phase 3 matrix, add:
 - **Story**: the story file path(s) that reference this TR-ID (may be multiple)
 - **Test File**: the test file path stated in the story's Test Evidence section
 - **Test Status**: LINKED / NOT RUN (file exists), PASS/FAIL only from actual
-  identified execution evidence, MISSING, NONE (justified manual evidence type),
-  or NO STORY. Exact test/report identities are required; existence is not PASS.
+  identified execution evidence, MISSING (confirmed absent required original),
+  INCOMPLETE (unread, inaccessible or unresolved original/discovery),
+  NONE (justified manual evidence type), or NO STORY. Exact test/report identities
+  are required; existence is not PASS.
 
 Extended matrix format:
 
@@ -268,7 +286,9 @@ Extended matrix format:
 
 RTM coverage summary:
 - VERIFIED: [N] — justified disposition + Story + exact passing required evidence; count LINKED / NOT RUN separately
-- MISSING test: [N] — story exists but test file not found
+- LINKED / NOT RUN: [N] — exact test original available, execution not established
+- MISSING test: [N] — confirmed absent required test original
+- INCOMPLETE: [N] — required original or runner discovery unread, inaccessible or unresolved
 - NO STORY: [N] — requirements with ADR but no story yet
 - ADR REQUIRED: [N] — significant choices without Accepted scope; cdd-layer/no-adr count separately
 - Full chain verified: [N/total] ([%]); report unknowns without inferring execution from paths
@@ -570,7 +590,7 @@ RTM file format:
 | ADR | Exact governing Accepted scope, or justified CDD/local disposition |
 | Story | Story file that implements this requirement |
 | Test File | Automated test file path |
-| Test Status | LINKED / NOT RUN, actual PASS/FAIL, MISSING, NONE or NO STORY |
+| Test Status | LINKED / NOT RUN, actual PASS/FAIL, confirmed MISSING, INCOMPLETE, justified NONE or NO STORY |
 
 ## Full Traceability Matrix
 
@@ -583,7 +603,9 @@ RTM file format:
 | Status | Count | % |
 |--------|-------|---|
 | VERIFIED — full chain with actual required evidence | [N] | [%] |
-| MISSING test — story exists, no test | [N] | [%] |
+| LINKED / NOT RUN — exact test available, execution not established | [N] | [%] |
+| MISSING test — confirmed absent required test original | [N] | [%] |
+| INCOMPLETE — required original or discovery unread, inaccessible or unresolved | [N] | [%] |
 | NO STORY — ADR exists, not yet implemented | [N] | [%] |
 | ADR REQUIRED — significant choice lacks Accepted scope | [N] | [%] |
 | **Total requirements** | **[N]** | **100%** |
@@ -667,6 +689,14 @@ otherwise report the pending effect without writing.
 When `memory_bank/` exists, update its index/pointer only within separately covered
 effect authority. Report-only approval does not cover this write. Bind entries to
 immutable report revisions and exact reviewed input manifests.
+
+Update the Memory Bank index only after the report is saved and only with authority
+for that named index effect. Initialization alone, read-only scope and report-only
+scope do not authorize it. If initialization or the intended effect is unresolved,
+retain Unknown and leave the index unchanged. Before an authorized update, read
+the saved immutable report revision and its exact input/evidence identities;
+a proposed report or an INFO result is insufficient. This step does not initialize
+Memory Bank.
 
 - Review Type: `architecture-review`
 - Source Artifact: `docs/architecture/architecture-review-[date].md`

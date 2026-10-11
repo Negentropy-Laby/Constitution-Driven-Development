@@ -1,21 +1,12 @@
-# Adapter generation freshness state.
-#
-# Lifecycle:
-#   - /constitute initializes this exact deterministic template as uninitialized.
-#   - /constitute-check runs the state JSON check, reports the live result, and
-#     records fresh or stale values only after explicit approval.
-#   - /cdd-status reads this recorded state but never recomputes or owns it.
-#   - scripts/sync_adapters.py --check is read-only; --write regenerates only
-#     declared adapters. Neither mode writes this state or approves decisions.
-#   - Scoped authority persists; report-only/review-only does not update state.
-#
-# Digests are deterministic:
-#   manifest_digest = sha256(cdd-manifest.toml bytes)
-#   source_digest   = sha256 over sorted, length-framed canonical POSIX paths and
-#                     their length-framed exact file bytes
-#   checked_at      = ISO-8601 UTC, set on an approved /constitute-check update
-#
-# Template values are intentionally uninitialized — do not fabricate live state.
+# Recorded adapter comparison state; ordinary offline use needs no local checker.
+# /constitute copies this deterministic template unchanged as uninitialized.
+# /constitute-check reports installed-file observations and available live
+# comparisons separately. Unavailable/invalid checks preserve this record.
+# A Source-only result does not establish consumer installed-file freshness.
+# Only valid evidence for the actual checked owner/inputs and scoped write
+# authority can record fresh/stale digests, revision, time and actual check.
+# /cdd-status reads historical values without recomputing or owning them.
+# Empty values mean no recorded evidence; do not fabricate live state.
 
 schema_version: 1
 status: uninitialized            # uninitialized | fresh | stale
@@ -24,4 +15,4 @@ manifest_digest: ""
 source_digest: ""
 checked_commit: ""
 checked_at: ""
-check_command: "python scripts/sync_adapters.py --check"
+check_command: ""

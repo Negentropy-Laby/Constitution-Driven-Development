@@ -29,6 +29,8 @@ scope creep.
 
 ## Phase 1: Find the Original Plan
 
+Read the confirmed original feature baseline. For the CDD route below, use the actual governing CDD; if a different matching original design file is chosen, resolve and read that exact original file as the mandatory baseline. Choosing an alternate locator does not make the baseline optional. Missing or unresolved baseline still stops this comparison.
+
 Locate the baseline scope document for the given argument:
 
 - **Feature name** → read `design/cdd/[feature].md` or matching file in `design/`
@@ -135,8 +137,11 @@ After presenting the report, ask:
 
 > "May I write this scope check to `production/scope/scope-check-[target]-[YYYY-MM-DD].md`?"
 
-If the user approves, write the report. If `memory_bank/` exists, also update
-`memory_bank/t3_archive/reviews/review-index.md`.
+Write the report when its named effect is authorized. Update initialized
+`memory_bank/t3_archive/reviews/review-index.md` only when its separate named
+index effect is also authorized.
+
+Update the Memory Bank index only when this run enters its separately named, authorized effect after saving the actual report. Initialized Memory Bank alone is insufficient; read-only and report-only scopes exclude indexing. If the intended effect or initialization is unresolved, retain Unknown. Before indexing, read the saved immutable report and exact input/evidence identities; a proposed output or INFO is insufficient. This effect does not initialize Memory Bank.
 
 Review index row:
 

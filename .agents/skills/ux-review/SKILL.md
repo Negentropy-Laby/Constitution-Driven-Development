@@ -1,7 +1,7 @@
 ---
 name: ux-review
 description: "Validates a UX spec, HUD design, or interaction pattern library for completeness, accessibility compliance, CDD alignment, and implementation readiness. Supports both game projects (player need, HUD, input methods) and product projects (user goal, workflow, API/CLI affordance)."
-argument-hint: "[file-path or 'all' or 'hud' or 'patterns']"
+argument-hint: "[file-path or 'all' or 'hud' or 'api' or 'cli' or 'patterns']"
 user-invocable: true
 allowed-tools: Read, Glob, Grep
 agent: ux-designer
@@ -10,17 +10,17 @@ agent: ux-designer
 ## User Guide
 
 - When to use: Validates a UX spec, HUD design, or interaction pattern library for completeness, accessibility compliance, CDD alignment, and implementation readiness. Supports both game projects (player need, HUD, input methods) and product projects (user goal, workflow, API/CLI affordance).
-- Inputs: Command arguments: `/ux-review [file-path or 'all' or 'hud' or 'patterns']`; project artifacts referenced below; user decisions and approvals before writes.
-- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/t3_archive/reviews/review-index.md`.
+- Inputs: Command arguments: `/ux-review [file-path or 'all' or 'hud' or 'api' or 'cli' or 'patterns']`; actual project artifacts and review scope referenced below.
+- Outputs: Conversation findings and an advisory verdict. This skill does not write files; later persistent saves belong to a separately authorized write-capable workflow.
+- Memory-bank writes: None in this read-only workflow. A later authorized save workflow may own `memory_bank/t3_archive/reviews/review-index.md` as described below.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
 ## Phase 0: Domain Detection
 
-Detect the project domain by checking for concept documents in `design/cdd/`:
-- `design/cdd/game-concept.md` → use `[Game]` paths below
-- `design/cdd/product-concept.md` → use `[Product]` paths below
-- Neither → default to game paths (preserves backward compatibility)
+Resolve the actual project domain and interface from substantive existing concept documents in `design/cdd/` and the configured domain and surface in standards/technical-preferences.md; a filename alone does not establish the domain:
+- `design/cdd/game-concept.md` -> use `[Game]` paths only when its substantive content and the actual configuration establish Game scope.
+- `design/cdd/product-concept.md` -> use `[Product]` paths only when its substantive content and the actual configuration establish Product scope.
+- Missing or conflicting domain/configuration -> keep the domain Unknown and clarify the actual domain, interface, and review scope with the configured project lead or user before selecting domain-specific inputs. Do not default to Game. The hud mode is Game-only; api and cli modes are Product-only. Clarify an incompatible selected mode before reading its domain-specific inputs; neutral conversational findings do not establish domain readiness.
 
 ---
 
@@ -80,9 +80,11 @@ Before validating any spec, load:
 
 ### [Product] Product Context
 
-1. **Technology stack**: Read `standards/technical-preferences.md` and extract
-   `## Language`, `## Framework`, and `## Testing` sections. This drives the
-   API/CLI/Web coverage checks.
+1. **Technology stack and surfaces**: Read `standards/technical-preferences.md`,
+   actual configured fields and the owning CDD/spec surface profile. Resolve
+   Product Stack or valid populated legacy Language & Framework, Platform &
+   Deployment, Agent Routing and Testing sections. Apply API/CLI/Web checks to
+   the actual surfaces; placeholders do not establish a capability.
 2. The accessibility tier committed to in `design/accessibility-requirements.md`
    (if it exists)
 3. The interaction pattern library at `design/ux/interaction-patterns.md` (if
@@ -96,8 +98,14 @@ Before validating any spec, load:
 
 ## Phase 3A: UX Spec Validation Checklist
 
-Run all checks against a `ux-spec.md`-based document. Use the checklist that matches
-the detected domain from Phase 0.
+Run all applicable checks against a `ux-spec.md`-based document. Use the
+checklist that matches the detected domain and actual surface from Phase 0.
+For API-only or CLI-only scope, graphic controls, visual layout, animation,
+audio and browser focus checks apply only if those capabilities actually exist.
+Record each N/A with its substantive CDD/spec/configuration reason and named
+owner; unresolved applicability remains Unknown and prevents affected approval.
+Absence of graphical UI never waives required API/CLI interaction, accessibility,
+auth, error, recovery or contract checks.
 
 ### [Game] Game UX Spec — Completeness (required sections)
 
@@ -133,7 +141,7 @@ the detected domain from Phase 0.
 - [ ] Data Requirements — every displayed/returned data element has a source system and owner
 - [ ] Events Fired — every user action has a corresponding analytics event, state change, or null explanation
 - [ ] Transitions — for API: request lifecycle states; for CLI: progress indicators and signal handling; for Web: route transitions and loading states
-- [ ] Accessibility Requirements — interaction-level requirements present (WCAG level, ARIA labels, keyboard operability)
+- [ ] Accessibility Requirements — requirements for the actual surface: configured WCAG/ARIA/keyboard behavior for visual UI, readable and scriptable CLI output/errors, and clear API error contracts/docs for consumers
 - [ ] Localization Considerations — max character counts for text elements; RTL readiness for web; locale-aware formatting
 - [ ] Acceptance Criteria — at least 5 specific testable criteria with product-appropriate examples (response time, exit codes, breakpoint verification)
 
@@ -200,10 +208,11 @@ the detected domain from Phase 0.
 
 **Accessibility**
 - [ ] Accessibility tier from `accessibility-requirements.md` is matched or exceeded
-- [ ] If Basic tier: no color-only information indicators
-- [ ] If Standard tier+: focus order documented, text contrast ratios specified
-- [ ] If Comprehensive tier+: screen reader announcements for key state changes
-- [ ] Colorblind check: any color-coded elements have non-color alternatives
+- [ ] If Basic tier: no color-only information indicators on any actual visual or CLI output
+- [ ] If Standard tier+ and visual UI exists: focus order documented, text contrast ratios specified
+- [ ] If Comprehensive tier+ and visual UI exists: screen reader announcements for key state changes
+- [ ] Colorblind check: any actual color-coded elements/output have non-color alternatives
+- [ ] API/CLI consumers have the applicable error, output and recovery guidance; absent graphical capabilities use the owner/reason N/A rule above
 
 **CDD Alignment**
 - [ ] Every CDD requirement referenced in the header is addressed in this spec
@@ -269,17 +278,46 @@ Run all checks against a `hud-design.md`-based document. This phase is game-only
 
 ## Phase 3C: Pattern Library Validation Checklist
 
+Resolve the library's actual Game/UI/API/CLI scope from its owning specs, CDDs
+and configuration. Apply every required surface below; a mixed library must
+cover each actual surface. Absent capabilities need a recorded N/A reason and
+named owner. Unknown scope or missing required patterns prevents approval.
+
 - [ ] Pattern catalog index is current (matches actual patterns in document)
-- [ ] All standard control patterns are specified: button variants, toggle,
-  slider, dropdown, list, grid, modal, dialog, toast, tooltip, progress bar,
-  input field, tab bar, scroll
-- [ ] All game-specific patterns needed by current UX specs are present
 - [ ] Each pattern has: When to Use, When NOT to Use, full state specification,
   accessibility spec, implementation notes
-- [ ] Animation Standards table present
-- [ ] Sound Standards table present
-- [ ] No conflicting behaviors between patterns (e.g., "Back" behavior consistent
-  across all navigation patterns)
+- [ ] No conflicting behaviors between patterns (e.g., navigation "Back", API
+  error contracts or CLI exit-code/output behavior remain consistent)
+
+**Game and graphical UI patterns**
+
+- [ ] For Game or actual graphical UI, all required standard control patterns
+  are specified: button variants, toggle, slider, dropdown, list, grid, modal,
+  dialog, toast, tooltip, progress bar, input field, tab bar, scroll
+- [ ] All game-specific patterns needed by current Game UX specs are present
+- [ ] Game Animation Standards and Sound Standards tables are present; actual
+  Product UI animation/audio requirements apply where those capabilities exist
+- [ ] Graphical UI patterns meet configured input, focus, accessibility and
+  localization requirements; absent Product animation/audio uses justified N/A
+
+**API consumer patterns (when present)**
+
+- [ ] Request/response envelopes, methods/parameters, status and error schemas,
+  auth/permission states and consumer recovery are specified for actual contracts
+- [ ] Rate-limit, retry and idempotency patterns are specified where applicable
+- [ ] Docs/examples and accessibility of consumer guidance match those contracts
+
+**CLI patterns (when present)**
+
+- [ ] Commands, flags/defaults, help/examples, stdin/stdout/stderr, machine-readable
+  output and exit codes are specified for actual command contracts
+- [ ] Invalid input/configuration, permission errors, progress/cancellation and
+  recovery behavior are specified where applicable
+- [ ] Required destructive-action confirmation/dry-run behavior is retained;
+  readable output and diagnostics do not rely on color alone
+
+API-only or CLI-only libraries need no invented graphical controls, animations
+or sounds. This applicability rule waives no required contract or safety check.
 
 ---
 
@@ -332,11 +370,15 @@ Run all checks against a `hud-design.md`-based document. This phase is game-only
 
 This skill is READ-ONLY — it never edits or writes files. It reports findings only.
 
-If the user later approves saving this UX review as a persistent artifact through
-another write-capable workflow, record that artifact in
-`memory_bank/t3_archive/reviews/review-index.md` when `memory_bank/` exists.
-Use Review Type `ux-review`, use the saved artifact path as `Source Artifact`,
-and dedupe on `Source Artifact`. Do not create `memory_bank/` from `/ux-review`.
+A later write-capable workflow may save the review only within its named
+path/effect authority. That workflow may also update
+`memory_bank/t3_archive/reviews/review-index.md` when `memory_bank/` exists and the
+index update itself is covered by existing scoped authority or an approved named
+changeset. Approval for the report alone does not authorize the index.
+Use Review Type `ux-review`, the verified saved artifact path as `Source Artifact`,
+and dedupe on `Source Artifact`. `/ux-review` does not invoke that write workflow
+or create `memory_bank/`; deliver findings in conversation until those effects
+are separately authorized.
 
 After delivering the verdict:
 - For **APPROVED**: suggest next steps — **[Game]** `/team-ui` for implementation coordination; **[Product]** hand off to lead-programmer

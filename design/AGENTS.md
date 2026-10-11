@@ -42,7 +42,7 @@ roles. No kind is exempt from full body reading and required reference closure.
 
 - **Module CDD:** `/design-system` module/retrofit/sync output specifies one
   system/module's detailed behavior; use this file's Game/Product semantic eight.
-- **Game Concept:** `skills/brainstorm/SKILL.md`'s Game generation workflow plus
+- **Game Concept:** `/brainstorm`'s Game generation workflow plus
   `templates/game-concept.md` jointly own the required set. Read both actual
   bodies, including workflow-added requirements beyond the template. Require
   meaningful Elevator Pitch, Core
@@ -54,13 +54,13 @@ roles. No kind is exempt from full body reading and required reference closure.
   selected direction, one-line visual rule, supporting principles and design
   philosophy summary, even though the Game template lacks that heading. It need not
   invent module Formulas/Tuning Knobs merely to satisfy Module8.
-- **Product Concept:** `skills/brainstorm/SKILL.md`'s Product generation workflow
+- **Product Concept:** `/brainstorm`'s Product generation workflow
   plus `templates/product-concept.md` jointly own the required set. Read both
   actual bodies and workflow-added requirements; require substantive Core Identity, Discovery
   Brief, User Journey, User Motivation Analysis, Principles, Visual Identity
   Anchor, Target Users, Scope, Risks and Next Steps, including required
   subroles/tables; use its JTBD, MVP/Full Vision and compatibility scope as written.
-- **Quick Spec:** the category and inline format in `skills/quick-design/SKILL.md`
+- **Quick Spec:** the category and inline format in `/quick-design`
   own requirements. Tuning needs Change, Tuning Knob Mapping and Acceptance
   Criteria; Tweak/Addition needs Change Summary, Motivation, Design Delta, New
   Rules/Values, Affected Systems, Acceptance Criteria and CDD Update Required;
@@ -70,7 +70,7 @@ roles. No kind is exempt from full body reading and required reference closure.
   Migration, Acceptance Criteria and CDD/ADR/Docs Update Required, plus that
   category's metadata/source requirements. Read the actual applicable format;
   its lightweight pipeline does not remove required behavior/evidence.
-- **Module Index:** `skills/map-systems/SKILL.md` and `templates/module-index.md`
+- **Module Index:** `/map-systems` and `templates/module-index.md`
   own requirements: Overview, Module Enumeration, Categories, Priority Tiers,
   Dependency Map, Recommended Design Order, Circular Dependencies, High-Risk
   Modules, Progress Tracker and Next Steps with real rows, rationale and source
@@ -79,6 +79,15 @@ roles. No kind is exempt from full body reading and required reference closure.
   set before a completeness verdict. Ask for missing kind/owner information;
   never default to Module8 or pass an unknown kind. Continue independent checks
   while the affected classification/qualification remains incomplete.
+
+Resolve each `/skill-name` owner to the complete installed entry for the actual
+runtime: `.agents/skills/[skill-name]/SKILL.md` for Codex or
+`.claude/skills/[skill-name]/SKILL.md` for Claude Code. In the designated CDD
+Source library, the corresponding canonical entry is `skills/[skill-name]/SKILL.md`.
+A consumer reads its installed owner and necessary neutral templates directly,
+including offline; it does not restore general root `skills/` to satisfy an owner
+route. A missing installed owner or required original leaves the affected review
+incomplete. Source reproduction and common updates require the sole external Source.
 
 These are owner routes, not a second schema or a frozen copy of the templates.
 Read the current generating workflow and template bodies, combine applicable
