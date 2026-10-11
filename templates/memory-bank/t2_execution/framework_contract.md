@@ -24,15 +24,16 @@ leave only their affected workflow pending.
 ## Authority contract
 
 For a consumer, installed platform paths and approved neutral inputs are the
-normal-use readers. General root `skills/` and `agents/` remain in the sole
-external CDD Source; do not recreate them from installed outputs or copy local
-maintenance tools into the project. Common CDD updates require the actual Source,
+normal-use readers. The designated CDD Source owns general root `skills/` and
+`agents/`. Exclude general source mirrors and template-maintenance tools from
+project Git submission/publication; local storage inside or outside the project
+is allowed and grants no Source authority or move/delete/log-path authority.
+Common CDD updates require the actual Source,
 a separately approved isolated update stage and independent review of the exact
 delivery allowlist. Preserve project customizations, runtime-owned settings,
 business documents and recoverable before bytes; conflicts stop affected updates.
 
-For the CDD Source library, `cdd-manifest.toml` maps canonical sources to runtime
-outputs. Canonical `INSTRUCTIONS.md`, `skills/`, `agents/`, `hooks/` and `rules/`
+The designated CDD Source owns the canonical-to-platform mapping. Canonical `INSTRUCTIONS.md`, `skills/`, `agents/`, `hooks/` and `rules/`
 belong to that Source. Source reproduction and generation have separate
 maintenance authority and are not prerequisites for ordinary consumer use.
 Delivered templates, standards, workflow views and reusable `skill_testing/`
@@ -54,7 +55,7 @@ mixed-ownership roots: settings, status-line configuration, hook wiring and
 native command policies remain with their actual owners. Installed adapters
 do not authorize hook activation or overwrite project-specific configuration.
 
-Skills project verbatim to Claude and by the manifest's runtime substitution to
+Skills project verbatim to Claude and by platform-specific wording to
 Codex. Agent Markdown projects to Claude; Codex TOML retains `name`,
 `description` and `developer_instructions`, not all operational metadata.
 Read `adapters/README.md` and actual runtime metadata before behavior claims.

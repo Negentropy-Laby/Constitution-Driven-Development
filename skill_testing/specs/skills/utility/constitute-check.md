@@ -4,9 +4,9 @@
 
 `/constitute-check` is a read-only-by-default constitutional health audit. It
 verifies the memory bank, compares principles against current code and docs,
-and observes actual installed inputs offline. It runs a machine-readable live
-freshness check only when the verified Source/comparison scope and separately
-provided checker are available. Its sole write exception is an applicable exact
+and observes actual installed inputs offline. It establishes live freshness only
+through an actually available authorized read-only comparison with complete valid
+evidence for the verified owner, Source and compared scope. Its sole write exception is an applicable exact
 `adapter_state.yaml` record within approval; unavailable checks preserve prior state.
 
 ---
@@ -14,12 +14,12 @@ provided checker are available. Its sole write exception is an applicable exact
 ## Static Assertions (Structural)
 
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
-- [ ] `allowed-tools` supports the checker and the single approved state-record write
+- [ ] `allowed-tools` supports the applicable read-only comparison and the single approved state-record write
 - [ ] Detects Game via `design/cdd/game-concept.md`
 - [ ] Detects Product via `design/cdd/product-concept.md`
 - [ ] Mentions User Promise, JTBD, target workflows, API/CLI contracts, and product CDDs
 - [ ] Produces health verdicts: HEALTHY / NEEDS ATTENTION / CRITICAL
-- [ ] Runs `python scripts/sync_adapters.py --check --state-json` in a verified CDD Source-library checkout when the optional checker and diagnostic scope are available
+- [ ] Runs an applicable authorized read-only comparison with valid complete schema1 evidence for the verified owner and complete installed/Source scope when the comparison and diagnostic authority are available
 - [ ] Consumer checks bind actual installed paths, neutral inputs, sole Source and approved customizations; local file presence alone does not establish Source identity
 
 ---

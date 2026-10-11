@@ -47,41 +47,59 @@ Missing other skeleton inputs remain separate pending work.
 ```markdown
 ## CDD Source and Target Project Boundaries
 
-These rules apply to two distinct owners: the CDD development-template source
-library and a business project using its installed platform files. Source-library
-submission restrictions do not become restrictions on the business project's
-own code, project documents or delivery evidence.
+These rules distinguish the CDD Source library from a business project using its
+installed platform files; Source-only restrictions do not govern the business
+project's own code, documents or delivery evidence.
+
+“严格分离”“不混入”“仅保留”约束的是 Git 跟踪、暂存、提交及发布的文件内容集合，与本地存放目录无关。
+In these CDD boundaries, "strict separation", "must not mix" and "only retain"
+constrain the content selected for Git tracking, staging, commits and publication,
+not directory layout or local disk presence. Maintenance material may remain
+locally inside or outside either repository. Its presence alone is not a violation
+and must not trigger moving, deleting or relocating logs.
+
+Before submission or publication, review the actual changed content, Git index
+and intended delivery set. Use precise shared `.gitignore` rules against accidental
+addition of untracked maintenance files; they do not remove tracked/staged content
+or prevent forced addition or separate publication. Already-tracked maintenance
+content needs separately authorized exclusion from tracking/delivery while keeping
+recoverable originals. This rule alone grants no such action.
 
 ### CDD source library
 
-Only development templates and necessary template-use instructions belong in
-the CDD source library's submission. Development templates must remain strictly
-separate from maintenance tools, maintenance annotations and process data used
-only to maintain the template library. Keep those materials in separate local
-files with precise shared ignore rules; never embed them in development templates
-or replace them with hidden comments. Template use must not require that local
-maintenance toolkit.
+The Source library submits development templates and necessary template-use
+instructions/support. Exclude template-maintenance tools, checkers, maintenance
+fixtures, maintenance-only annotations (including hidden comments), actual
+maintenance reports/logs and other maintenance-process records from that set.
+Substantive template-use rules and reusable report/test templates remain eligible;
+they are distinct from maintenance notes and actual execution records. Ordinary
+template use must not depend on the local maintenance toolkit.
 
 ### Target business project
 
-Keep business code and project documents separate from the general CDD template
-sources and template-maintenance tools. Deliver approved CDD platform-adapter
-files, portable project-specific configuration, and the neutral templates,
-standards, workflow views and reusable skill-testing assets required by the
-selected workflows. Resolve actual required references into a reviewed per-file
-allowlist; missing required originals remain pending. General CDD source trees,
-including root `agents/` and `skills/`, remain in the designated external source
-library and are not copied into the target as another source.
+A target project submits its business code and project documents, required CDD
+platform adaptations, portable project-specific configuration and the neutral
+templates, standards, workflow views and reusable `skill_testing/` assets required
+by enabled workflows and their actual reference closure. Review an exact per-file
+delivery allowlist; missing required originals remain pending. Do not submit a
+general CDD source mirror, template-maintenance tools/annotations, tool-only
+metadata, maintenance locks/caches or actual template-maintenance process output.
+The designated CDD Source owns general agent/skill definitions; that ownership
+is independent of the location of any local copy. Local copies alone do not
+establish Source authority or justify an automatic move or deletion.
 
-Keep template-maintenance scripts, checkers, annotations, tool-only metadata,
-host-path records, maintenance locks, caches and maintenance-process artifacts
-outside the target's delivery. Ordinary use of installed platform files must
-work without them. The target retains its business build/runtime files, business
-tests, project design and production documents, control manifests and genuine
-QA, acceptance and historical project evidence under its own project rules.
+Business build/runtime files, tests, control manifests, design/production documents
+and genuine business QA, acceptance and historical evidence remain governed by
+the project's own rules. Classify by purpose and delivery role, not words such as
+"maintenance", a hash or selector. Ordinary installed-platform use must work
+without a local CDD maintenance reader, tool or lock. Updates still require the
+actual Source identity, covered write authority, independent review of the exact
+delivery and preservation of project customizations and recoverable before bytes.
 
-These boundaries grant no write, deletion, commit or push authority and do not
-ratify project laws, accept ADRs or establish execution or qualification evidence.
+These boundaries grant no moving, deletion, untracking, history-rewrite, log-path,
+commit, push or publication authority. Existing collaboration, approval and
+safety rules remain controlling. They do not ratify project laws, accept ADRs,
+initialize governance, advance stages or establish execution/qualification evidence.
 ```
 
 ## Phase 1: Silent State Detection
@@ -278,9 +296,10 @@ prerequisite for constitution initialization.
 `memory_bank/t2_execution/current_roadmap.md` is maintained by `/cdd-status`.
 Initialize `framework_contract.md` from its matching delivered template. Bind
 it to the project's actual installed platform paths, reviewed neutral inputs,
-retained customizations and sole external CDD Source locator/revision using
+retained customizations and designated CDD Source identity/revision using
 existing project decisions. Leave unresolved bindings explicitly unconfigured;
-do not invent a Source, copy general root sources, or add maintenance tools.
+do not invent a Source or add general source mirrors/maintenance tools to the
+Git submission or publication set. Local placement does not establish authority.
 Copy `adapter_state.yaml` from its matching template unchanged. It must remain
 exactly `uninitialized`: do not fabricate digests, a commit, a timestamp, a check
 command or a `fresh` result during `/constitute`. After the approved skeleton is

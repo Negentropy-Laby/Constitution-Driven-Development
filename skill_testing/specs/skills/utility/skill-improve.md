@@ -186,7 +186,7 @@ None. `/skill-improve` is a meta-utility skill. No director gates apply.
 - [ ] Rollback reuses scoped authority or requests it if absent; never discards pre-existing changes
 - [ ] Reverts via a pre-write snapshot of the canonical `skills/<name>/SKILL.md`, restoring the exact invocation baseline independently of Git/index state (not `git checkout`)
 - [ ] After approved canonical edit, real whole-class plan checks all output effects;
-  only covered clean scope runs existing `python scripts/sync_adapters.py --write --class skills`
+  only covered clean scope applies the reviewed deterministic platform projection for every covered output
 - [ ] Ends with IMPROVED, NO CHANGE, or REVERTED verdict
 
 ---
@@ -234,9 +234,9 @@ trust boundary, durable format or state ownership without Accepted ADR.
 - [ ] Restore tests use isolated copies; permanent deletion requires separate
   exact object-list authority. Preserve failed candidate/history and disclose omissions.
 
-### Case 8: Whole-class generator scope and guarded rollback
+### Case 8: Complete platform-output scope and guarded rollback
 
-**Fixture:** Named canonical fix/rollback authority; real `--class skills` plan
+**Fixture:** Named canonical fix/rollback authority; real complete platform-output plan
 also changes another owner's adapter or reports EXTRA. Variant has no unrelated
 drift and covered output effects. After application another actor changes canonical
 or one touched adapter; baseline/after bytes and context are retained.
@@ -244,9 +244,9 @@ or one touched adapter; baseline/after bytes and context are retained.
   per-skill CLI/API. Uncovered other-owner drift/EXTRA stops writes, not implicit
   deletion from internally recognized EXTRA. Exact deletion requires independent
   object-list authority.
-- [ ] Covered clean variant uses the existing generator after canonical repair.
+- [ ] Covered clean variant applies the reviewed deterministic projections after canonical repair, validating the complete configured output set.
 - [ ] Rollback requires live==this invocation's exact after for each touched object,
-  matching manifest/generator context; other-actor changes stop affected restore.
+  matching actual owner-input identities, projection rules and complete output scope; other-actor changes stop affected restore.
 - [ ] Restore only retained invocation before bytes; preserve prior user edits,
   failed candidate and evidence, never `git checkout` or unconditional overwrite.
 - [ ] Reduced total FAIL/WARN cannot hide new Required regression/authority gap or

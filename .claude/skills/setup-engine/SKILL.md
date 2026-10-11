@@ -80,6 +80,9 @@ Read `INSTRUCTIONS.md` and the actual runtime root-instruction files already
 used by this project. Show the proposed Technology Stack changes together with
 the exact affected root-instruction paths, preserving the CDD source/target
 boundary sections, project customizations and existing approval rules.
+These boundary sections constrain Git submission/publication content, not local
+directories. Preserve local maintenance files and log locations unless separately
+authorized; their presence alone is not a project compliance gap.
 Ask for any missing authority for that complete changeset.
 
 After approval, update the canonical project settings and their declared
