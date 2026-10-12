@@ -317,7 +317,8 @@ Local maintenance files may stay inside or outside either repository; their
 presence alone does not authorize a move, deletion or log-path change. Retain
 project-specific configuration, reviewed differences, business documents and
 recoverable history. Updates require the actual Source, scoped write authority,
-an independently reviewed exact delivery allowlist and readback of the installed
+independently reviewed update-write paths and required local-input allowlist,
+separately reviewed Git submission candidates and readback of the installed
 result. Source absence or identity/ownership conflicts block affected updates.
 Preserve runtime settings and project customizations; hook activation and changes
 to project state need their own authority.

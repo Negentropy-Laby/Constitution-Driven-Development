@@ -18,8 +18,10 @@ Game/Product parity contract.
 
 From a clean Source clone, run `git diff --check` and review each changed entry,
 its required references, governing standards and applicable Game/Product
-behavior. Verify the actual delivery allowlist and platform projections against
-the complete canonical inputs. Missing required originals remain incomplete.
+behavior. Verify proposed Source Git submission candidates and exact approved
+platform-output write paths against the complete canonical inputs. For a Target
+import/update, review its required local-input allowlist separately from Git
+candidates. Missing required originals remain incomplete.
 
 Local generators, linters, maintenance tests and historical Source CI are supplied
 separately and excluded from template delivery. When those tools are actually

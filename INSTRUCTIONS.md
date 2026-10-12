@@ -143,12 +143,24 @@ commit or publication eligibility. Keep actual required originals locally; missi
 or unread originals leave the affected workflow pending. A fresh target clone may
 need these inputs installed separately before the affected CDD workflow can run.
 Review Target Git candidates separately from the local required-input allowlist.
-Do not submit a
-general CDD source mirror, template-maintenance tools/annotations, tool-only
+Do not submit a general CDD source mirror, template-maintenance tools/annotations, tool-only
 metadata, maintenance locks/caches or actual template-maintenance process output.
 The designated CDD Source owns general agent/skill definitions; that ownership
 is independent of the location of any local copy. Local copies alone do not
 establish Source authority or justify an automatic move or deletion.
+
+**Existing tracked neutral inputs.** When a boundary change affects reusable
+neutral template/standard/workflow/spec originals already tracked under earlier
+guidance, record reconciliation as pending until the applicable governance gate
+closes. Earlier tracking is neither automatically grandfathered as compliant nor
+judged a violation under an unaccepted rule. Keep local originals and Git history.
+After acceptance or a valid scoped exception under existing governance, obtain
+separate exact-path project migration authority before removing reviewed reusable
+originals from Git tracking. Retain their local files, required-reference closure,
+project customizations and recoverable before bytes; review the actual index/diff
+and separately eligible Git candidates. Commit/publication still require their
+own authority. This differs from already-tracked maintenance content and grants
+no untracking, deletion, relocation or migration authority by itself.
 
 Business build/runtime files, tests, control manifests, design/production documents
 and genuine business QA, acceptance and historical evidence remain governed by

@@ -109,8 +109,9 @@ Expected result:
 - Required migration work is scoped without inventing completed evidence.
 - Existing project code, design, configuration, test roots, valid customizations
   and historical evidence are preserved.
-- Import/update uses the unique designated Source, an independently reviewed
-  delivery allowlist and recoverable before bytes.
+- Import/update uses the unique designated Source, reviewed exact update-write
+  paths and required local-input allowlist, separately classified Git submission
+  candidates and recoverable before bytes.
 - Memory Bank initialization, hook activation and project writes need their
   own covered effects; a review does not authorize them.
 

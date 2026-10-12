@@ -35,7 +35,9 @@ whole runtime roots also contain hand-authored/runtime-owned configuration:
 
 Read the installed adapters and their required neutral originals directly.
 Changing canonical definitions and their projections requires covered write
-authority, an exact delivery allowlist and review of the complete result.
+authority, an exact approved canonical-change/platform-output write scope and
+review of the complete canonical inputs and generated result. Consumer updates
+review the required local-input allowlist separately from Target Git candidates.
 
 Do not move canonical workflow catalogs, templates, standards, or skill testing
 assets into adapter runtime trees. Adapter directories may contain wrappers,
@@ -104,14 +106,26 @@ Expand the selected directory entries into exact files and independently review
 the resulting local-input allowlist before import/update. `/constitute` uses its
 listed neutral originals; other scopes need their own smaller required closure.
 These reusable templates/specs are normal-use local-only inputs in a target,
-distinct from CDD
-maintenance scripts, test fixtures and process evidence. Preserve existing
+distinct from CDD maintenance scripts, test fixtures and process evidence. Preserve existing
 project-owned inputs and customizations. Do not deliver general root `agents/`
 or `skills/`, maintenance tools/metadata or an entire Source checkout to fill a
 gap. Missing/unread originals leave the affected workflow pending. Complete
 installed inputs remain usable offline; common updates require the sole Source.
 
 ## Consumer differences and migration order
+
+**Existing tracked neutral inputs.** When a boundary change affects reusable
+neutral template/standard/workflow/spec originals already tracked under earlier
+guidance, record reconciliation as pending until the applicable governance gate
+closes. Earlier tracking is neither automatically grandfathered as compliant nor
+judged a violation under an unaccepted rule. Keep local originals and Git history.
+After acceptance or a valid scoped exception under existing governance, obtain
+separate exact-path project migration authority before removing reviewed reusable
+originals from Git tracking. Retain their local files, required-reference closure,
+project customizations and recoverable before bytes; review the actual index/diff
+and separately eligible Git candidates. Commit/publication still require their
+own authority. This differs from already-tracked maintenance content and grants
+no untracking, deletion, relocation or migration authority by itself.
 
 A consumer retains portable project differences and the actual selected platform
 paths. Preserve the designated Source authority independently of local placement;

@@ -33,9 +33,24 @@ The designated CDD Source owns general root `skills/` and
 project Git submission/publication; local storage inside or outside the project
 is allowed and grants no Source authority or move/delete/log-path authority.
 Common CDD updates require the actual Source,
-a separately approved isolated update stage and independent review of the exact
-delivery allowlist. Preserve project customizations, runtime-owned settings,
-business documents and recoverable before bytes; conflicts stop affected updates.
+a separately approved isolated update stage and independent review of exact
+update-write paths and the required local-input allowlist. Review Git submission
+candidates separately; required reads and approved writes are not Git eligibility.
+Preserve project customizations, runtime-owned settings, business documents and
+recoverable before bytes; conflicts stop affected updates.
+
+**Existing tracked neutral inputs.** When a boundary change affects reusable
+neutral template/standard/workflow/spec originals already tracked under earlier
+guidance, record reconciliation as pending until the applicable governance gate
+closes. Earlier tracking is neither automatically grandfathered as compliant nor
+judged a violation under an unaccepted rule. Keep local originals and Git history.
+After acceptance or a valid scoped exception under existing governance, obtain
+separate exact-path project migration authority before removing reviewed reusable
+originals from Git tracking. Retain their local files, required-reference closure,
+project customizations and recoverable before bytes; review the actual index/diff
+and separately eligible Git candidates. Commit/publication still require their
+own authority. This differs from already-tracked maintenance content and grants
+no untracking, deletion, relocation or migration authority by itself.
 
 The designated CDD Source owns the canonical-to-platform mapping.
 Canonical `INSTRUCTIONS.md`, `skills/`, `agents/`, `hooks/` and `rules/`

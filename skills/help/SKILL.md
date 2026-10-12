@@ -64,7 +64,9 @@ directory. A local maintenance script, import profile or lock is not required.
 Keep this skill's Read/Glob/Grep limits; no command facility is added. Installed
 file observations do not prove current Source reproduction, supported execution
 or completed workflow. An import/update still requires the actual designated
-Source, project authority and independent review of the exact delivery allowlist.
+Source, covered project-write authority and independent review of exact update
+paths and the required local-input allowlist. Review Git submission candidates
+separately; neither required reads nor update-write authority grants Git eligibility.
 
 Compare against the `command:` values in the catalog. Any skill whose actual
 name is absent is an **uncataloged skill** outside the phase-gated workflow.
