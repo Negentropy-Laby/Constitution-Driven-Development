@@ -60,9 +60,11 @@ SDK/library, and internal headless projects may record it as not applicable.
 
 1. Record the exact current revision and retain recoverable before bytes. Use a
    short-lived branch if the project's trunk-based policy calls for one.
-2. Verify the unique designated Source and independently review the
-   exact platform/configuration and necessary neutral-support delivery allowlist
-   from `adapters/README.md`. Do not add general root `agents/` or `skills/`
+2. Verify the sole Source and classify complete skills under `standards/skill-purpose.md`
+   before selecting Git candidates separately from local inputs in `adapters/README.md`.
+   Development-instruction bodies/exclusive references/overlays stay local-only; bespoke/native/full
+   projections and configuration labels give no exception. Reusable templates/specs and generic
+   standards/workflow originals remain local-only in a target. Do not add general root `agents/` or `skills/`
    mirrors to the target Git submission/publication set.
 3. Preserve project-owned artifacts under `design/`, `docs/architecture/`,
    `production/`, `prototypes/`, `src/`, and `tests/`, including actual test roots,
@@ -80,8 +82,21 @@ decisions, merge the new template structure into it rather than overwriting it.
 
 ### Platform adapters and project configuration
 
-A consuming project keeps its approved platform adapters, neutral inputs and
-project-specific configuration. The designated Source owns general CDD definitions;
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
+
+A consuming project keeps its approved platform adapters, required local neutral
+inputs and project-specific configuration. Only required platform adaptations and
+independent portable configuration without development-instruction bodies enter its CDD candidates.
+Qualified product-use skills follow project rules; development-only skills/exclusive
+references/overlays stay local-only even when tailored or projected. Split mixed
+packages. Reusable templates/specs and generic standards/workflow stay local-only.
+The designated Source owns general CDD definitions;
 exclude general source mirrors and template-maintenance tools from target Git
 submission/publication. Local copies may remain inside or outside the repository;
 the boundary does not require moving them or changing log locations. Back up complete project customizations and

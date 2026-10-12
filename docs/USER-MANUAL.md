@@ -93,9 +93,25 @@ Install these tools before using the template:
 - `jq`, recommended for hook validation (hooks fall back to `grep` when absent).
 
 Clone the designated Source library to inspect its delivered templates.
-For a business target, install its independently reviewed platform/configuration
-allowlist and necessary neutral support from `adapters/README.md`; do not copy
-the Source root `agents/` or `skills/`. Preserve project-specific inputs and
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
+
+For a Target, first classify complete skills under `standards/skill-purpose.md`:
+using delivered functions differs from developing this project. Development-only
+bodies/exclusive references/overlays stay local-only, including bespoke projections.
+Split mixed packages; product-use skills may be project product capabilities. Review
+minimal adaptation/independent-configuration Git candidates apart from local inputs
+in `adapters/README.md`; these categories cannot carry development-instruction bodies. Install required
+neutral templates/specs and generic standards/workflow originals as readable
+local-only inputs; do not add them or general Source mirrors to Target Git delivery.
+A fresh Target clone may need those inputs and complete development-instruction packages/references
+installed separately before affected CDD development use.
+Preserve project-specific inputs and
 customizations before import or update.
 
 ```bash

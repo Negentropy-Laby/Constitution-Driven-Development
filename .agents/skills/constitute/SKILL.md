@@ -28,6 +28,14 @@ through discovery.
 
 ---
 
+## Purpose before Project Governance
+
+Read `standards/skill-purpose.md` and identify whether the task uses delivered
+functions or develops/governs this project. This constitution skill and exclusive
+support are local-only Target templates, including tailored/full native copies.
+Route independent product-use tasks through their actual product capabilities
+without forcing CDD initialization.
+
 ## Reusable Project Boundary Template
 
 The reusable source is `templates/memory-bank/t0_core/basic_law_index.md`,
@@ -75,18 +83,58 @@ Substantive template-use rules and reusable report/test templates remain eligibl
 they are distinct from maintenance notes and actual execution records. Ordinary
 template use must not depend on the local maintenance toolkit.
 
+In the actual CDD Source, delivered developer templates and their complete platform
+projections are framework product assets. A Target copy does not gain that Source
+role, and Source-local maintenance tools/procedures do not become product assets.
+
 ### Target business project
 
-A target project submits its business code and project documents, required CDD
-platform adaptations, portable project-specific configuration and the neutral
-templates, standards, workflow views and reusable `skill_testing/` assets required
-by enabled workflows and their actual reference closure. Review an exact per-file
-delivery allowlist; missing required originals remain pending. Do not submit a
-general CDD source mirror, template-maintenance tools/annotations, tool-only
+A target project submits business code, substantive project documents and
+qualified product-use skills under its own rules. Its CDD Git set contains only
+minimal required adaptations and independent portable configuration without
+development-instruction bodies or exclusive support. Reusable CDD development templates,
+generic standards/workflow originals and `skill_testing/` assets remain local-only.
+
+**Classify instruction purpose first.** Apply `standards/skill-purpose.md` to
+skills, agent/role definitions, native configuration containing instructions and
+equivalent templates with their complete reference/support closure. In a Target,
+content used only to develop this project is a local-only template, excluded from
+Git tracking/staging/commits/publication: requirements, design, coding, code review,
+development verification and release/maintenance. This includes independent roles
+and `developer_instructions` bodies without any skill dependency. Project-specific
+names/paths/prompts/overlays, TOML/native loading, platform directories and complete
+projections give no exception. Exclusive development support follows the body.
+Minimal adaptations/configuration must not carry or reconstruct it; independent
+configuration needs real readers independent of development instructions/role packages,
+not merely a native agent loader. Split mixed bodies/dependencies before submission.
+Product-use skills or agents call this project's delivered functions for user tasks
+and may be product capabilities under project rules. Names/fields such as test,
+release or developer_instructions do not decide purpose. Unknown content remains
+pending. Preserve complete required local development inputs separately from Git.
+A required local read or input allowlist does not grant Git tracking, staging,
+commit or publication eligibility. Keep actual required originals locally; missing
+or unread originals leave the affected workflow pending. A fresh target clone may
+need these inputs installed separately before the affected CDD workflow can run.
+Review Target Git candidates separately from the local required-input allowlist.
+Do not submit a general CDD source mirror, template-maintenance tools/annotations, tool-only
 metadata, maintenance locks/caches or actual template-maintenance process output.
-The designated CDD Source owns general agent/skill definitions; that ownership
+The designated CDD Source owns general CDD agent/skill definitions; that ownership
 is independent of the location of any local copy. Local copies alone do not
 establish Source authority or justify an automatic move or deletion.
+
+**Existing tracked neutral inputs.** When a boundary change affects reusable
+neutral template/standard/workflow/spec originals or development-instruction packages
+already tracked under earlier
+guidance, record reconciliation as pending until the applicable governance gate
+closes. Earlier tracking is neither automatically grandfathered as compliant nor
+judged a violation under an unaccepted rule. Keep local originals and Git history.
+After acceptance or a valid scoped exception under existing governance, obtain
+separate exact-path project migration authority before removing reviewed reusable
+originals or development-only skill/support content from Git tracking. Retain their local files, required-reference closure,
+project customizations and recoverable before bytes; review the actual index/diff
+and separately eligible Git candidates. Commit/publication still require their
+own authority. This differs from already-tracked maintenance content and grants
+no untracking, deletion, relocation or migration authority by itself.
 
 Business build/runtime files, tests, control manifests, design/production documents
 and genuine business QA, acceptance and historical evidence remain governed by
@@ -231,14 +279,16 @@ After ratification, create the project memory-bank skeleton from
 `design/`, `docs/`, `workflow/`, `templates/`, `standards/`, or `production/`;
 the memory bank indexes and mirrors those paths.
 
-Before writing, directly read the delivered originals for the listed memory-bank
+Before writing, directly read the actual local originals for the listed memory-bank
 templates, `docs/PHASE-CHECKLISTS.md`,
 `workflow/generated/gate-required-artifacts.md`, and the listed `skill_testing/`
 assets. Include `workflow/workflow-catalog.yaml` and the authority, decision and
-collaboration standards referenced by those contracts. These are necessary
-neutral inputs permitted by the project boundary and `adapters/README.md`.
+collaboration standards referenced by those contracts. These are required local-use
+inputs under `adapters/README.md`, separate from Target Git candidates.
 Resolve further required references for the selected workflow into the reviewed
-per-file delivery allowlist. Missing/unread originals leave the affected files
+per-file local-input allowlist. Reusable templates and skill-testing definitions
+and complete development-instruction packages/exclusive support remain local-only in a target.
+Required installation does not grant Git eligibility. Missing/unread originals leave affected files
 pending; installed skill text or a same-name placeholder is not their substitute.
 
 Create or update these files:

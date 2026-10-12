@@ -33,6 +33,24 @@ tells you what comes next. Works for both game and product projects. It is
 
 ---
 
+## Step 0: Determine Task and Skill Purpose
+
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
+
+Read `standards/skill-purpose.md` and identify the governed project. First distinguish
+using its delivered functions from developing it. For product-use requests, orient
+from real product instructions/capabilities without requiring CDD development
+artifacts. For development, continue catalog routing below; this routing skill is
+a local-only Target development template, even if tailored/native. CDD Source
+distribution is a separate product role. Mixed/unclear tasks need scoped separation
+or clarification; independent work continues.
+
 ## Step 1: Read the Catalog
 
 Read `workflow/workflow-catalog.yaml`. This is the authoritative list of all
@@ -64,7 +82,9 @@ directory. A local maintenance script, import profile or lock is not required.
 Keep this skill's Read/Glob/Grep limits; no command facility is added. Installed
 file observations do not prove current Source reproduction, supported execution
 or completed workflow. An import/update still requires the actual designated
-Source, project authority and independent review of the exact delivery allowlist.
+Source, covered project-write authority and independent review of exact update
+paths and the required local-input allowlist. Review Git submission candidates
+separately; neither required reads nor update-write authority grants Git eligibility.
 
 Compare against the `command:` values in the catalog. Any skill whose actual
 name is absent is an **uncataloged skill** outside the phase-gated workflow.
@@ -262,7 +282,8 @@ step and a few relevant optional or uncataloged definitions. When domain is
 Unknown, keep neutral guidance and mark domain-limited candidates pending.
 
 Before recommending an actionable command, Read its complete installed
-`SKILL.md`. Resolve and directly Read its required original references for the
+`SKILL.md` and classify its whole package, not just the current invocation. Names,
+overlays or test/release labels give no Git exception. Resolve and Read references for the
 applicable branch, inputs, routing and conditions, following their owning paths.
 Use Glob for referenced locators as needed; optional references and future
 outputs do not become required inputs merely because they are mentioned.
