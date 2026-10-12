@@ -20,6 +20,23 @@ continues; analysis is read-only and report-only excludes input/index/state writ
 - Memory-bank writes: None.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
+## Purpose Routing before Contributor Onboarding
+
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
+
+Read `standards/skill-purpose.md`: using delivered functions differs from developing
+this project. Contributor/agent orientation below is development support; its body/
+exclusive references/overlays stay local-only in a Target even if tailored/native.
+Generated project orientation documents follow their own rules. Product-user
+onboarding should use actual delivered instructions/capabilities rather than
+contributor development steps. Mixed skills must split; packaging gives no exception.
+
 ## Phase 0: Domain Routing
 
 Read concept bodies and `standards/technical-preferences.md` domain/capability
@@ -34,7 +51,9 @@ Read actual runtime root guidance and canonical `INSTRUCTIONS.md` where availabl
 and established session context. Missing runtime copies do not imply missing
 governance; disclose source gaps and retain supported partial guidance.
 
-Read the relevant agent definition from `agents/` if a specific role is specified.
+Read the actual selected installed role definition if a role is specified. CDD
+Source may read its canonical owner; a Target must not restore a general agent
+mirror for this lookup. Report missing/unknown observations when unavailable.
 
 ---
 

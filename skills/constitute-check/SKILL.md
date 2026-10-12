@@ -17,6 +17,23 @@ context: |
 - Memory-bank writes: At most `memory_bank/t2_execution/adapter_state.yaml`, and only after showing the exact YAML draft and receiving explicit approval. No other file may be written.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
+## Purpose before Governance Audit
+
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
+
+Read `standards/skill-purpose.md` before domain/audit routing. Identify the actual
+project and whether the request uses its delivered functions or develops/governs
+it. This CDD governance audit is a local-only Target development template; complete
+platform copies, bespoke prompts and exclusive overlays do not change that role.
+Independent product-use tasks use their real capabilities, without requiring a
+Memory Bank. Purpose review and Git eligibility remain separate from freshness.
+
 ## Phase 0: Domain Routing
 
 Detect the project domain before checking constitution compliance:
@@ -132,6 +149,12 @@ files, including ignored session logs, may stay inside or outside the repository
 location/presence alone is not a finding. `.gitignore` does not exclude tracked
 content. Preserve business QA and required neutral inputs; this audit does not
 authorize moving/deleting files, untracking or changing log locations.
+Read `standards/skill-purpose.md` and classify full skill bodies/references first.
+Developer skills/exclusive overlays and references stay local-only even when bespoke
+or fully projected. Split mixed content; verify actual delivered functions/user tasks
+for use claims and real independent readers for configuration. Test/release names,
+paths or overlay labels give no exception. Business code/tests/QA/documents keep
+their own rules. This check does not untrack or change them.
 Check required local inputs and Target Git candidates separately. In a target, reusable
 templates, generic standards/workflow originals and skill-testing definitions stay local-only;
 locally readable ignored inputs are not missing Git deliverables and do not become

@@ -20,12 +20,23 @@ Expected result:
 - A target separately reviews required local inputs and its Git candidates,
   following `adapters/README.md`. Required templates/specs and generic standards/
   workflow originals remain readable local-only inputs. Its CDD Git candidates
-  contain only required platform adaptations and portable project configuration.
+  contain minimal adaptations and independent configuration without development-instruction bodies.
+  Apply `standards/skill-purpose.md` to complete packages: developer skills/exclusive
+  references/overlays stay local-only even when bespoke or fully projected. Split
+  mixed content; qualified product-use skills remain assets under project rules.
   General root `agents/` and `skills/` remain owned by the designated Source and
   are excluded from Target Git submission/publication regardless of local placement.
 - Retain exact before bytes and project customizations for any existing target.
 
 ## 2. Delivery Validation
+
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
 
 Read the installed skill entry and its required references for each reviewed
 workflow. For initialization this includes `templates/memory-bank/`,
@@ -42,7 +53,10 @@ Expected result:
 - Platform entries and required resources correspond to the reviewed Source
   revision and retain approved project differences.
 - T0 boundaries and T2 installed-path/external-Source contracts agree.
-- Required local originals remain readable even when ignored in the Target. Git
+- Purpose review identifies the actual product/function/task, complete bodies/effects
+  and exclusive/shared references. Names, project paths and test/release labels do
+  not prove product-use; independent configuration needs real independent readers.
+- Required local originals and development-instruction packages remain readable even when ignored in the Target. Git
   tracking is not a prerequisite for these reads; a fresh Target clone may need
   their separate local installation before affected workflows can run.
 - Ordinary use and T2 mirror synchronization work from the installed local files

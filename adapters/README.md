@@ -62,8 +62,12 @@ maintenance tools, and it does not authorize a project write or law acceptance.
 
 A consumer uses its approved installed platform files, required local neutral
 inputs and project rules. Its CDD Git candidates contain only required platform
-adaptations and portable project-specific configuration. Reusable templates,
-generic standards/workflow originals and testing definitions remain local-only.
+adaptations and independent portable configuration qualified by actual purpose
+under `standards/skill-purpose.md`. Development-only skill definitions, full native
+projections and exclusive project overlays/references stay local-only templates.
+Adaptations/configuration cannot carry or reconstruct their bodies. Qualified
+product-use skills follow product rules; mixed packages must split. Reusable
+templates, generic standards/workflow originals and testing definitions stay local-only.
 General root `agents/` and `skills/` mirrors are excluded from
 consumer Git submission/publication. Local presence inside or outside a project
 is allowed and does not establish another Source or authorize moving/deleting
@@ -85,6 +89,19 @@ permission to activate hooks.
 
 ## Required local-use inputs and Git submission candidates
 
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
+
+First classify complete instruction/role packages by `standards/skill-purpose.md`. Native
+discovery, customization and full projection do not grant Target Git eligibility.
+Keep complete required development packages in the local-input closure; do not
+truncate them to make Git candidates appear minimal. Review the two sets separately.
+
 Build a reviewed per-file local-input allowlist for the selected runtime and intended
 workflows. Include its installed entries, required relative references, actual
 agent readers and applicable policies; follow required direct/indirect references
@@ -96,7 +113,7 @@ but missing required originals cannot be replaced by similarly named placeholder
 
 | Workflow scope | Necessary neutral inputs |
 |---|---|
-| Shared governance | `standards/evidence-lifecycle.md`, `standards/notes-adr-sync.md`, `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`; actual project instructions, `standards/technical-preferences.md` and applicable `rules/` |
+| Shared governance and skill purpose | `standards/skill-purpose.md`, `standards/evidence-lifecycle.md`, `standards/notes-adr-sync.md`, `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`; actual project instructions, `standards/technical-preferences.md` and applicable `rules/` |
 | Constitution initialization | The actual `templates/memory-bank/` originals listed by `/constitute`, including `framework_contract.md` and unchanged `adapter_state.yaml`; `skill_testing/README.md`, `catalog.yaml`, `quality-rubric.md`, `specs/skills/`, `specs/agents/` and `templates/` |
 | Workflow routing and T2 mirrors | `workflow/workflow-catalog.yaml`, `docs/PHASE-CHECKLISTS.md`, `workflow/generated/gate-required-artifacts.md`; any further required view/policy referenced by the selected workflow |
 | Full CDD adoption and document-kind review | Complete installed `/brainstorm`, `/quick-design`, `/map-systems` and `/design-system` owners; `design/INSTRUCTIONS.md`, `rules/design-docs.md`, `templates/game-concept.md`, `templates/product-concept.md`, `templates/module-index.md`; `/adopt` and selected review entries with their required references, applicable agent readers and `standards/director-gates.md` |
@@ -115,13 +132,14 @@ installed inputs remain usable offline; common updates require the sole Source.
 ## Consumer differences and migration order
 
 **Existing tracked neutral inputs.** When a boundary change affects reusable
-neutral template/standard/workflow/spec originals already tracked under earlier
+neutral template/standard/workflow/spec originals or development-instruction packages
+already tracked under earlier
 guidance, record reconciliation as pending until the applicable governance gate
 closes. Earlier tracking is neither automatically grandfathered as compliant nor
 judged a violation under an unaccepted rule. Keep local originals and Git history.
 After acceptance or a valid scoped exception under existing governance, obtain
 separate exact-path project migration authority before removing reviewed reusable
-originals from Git tracking. Retain their local files, required-reference closure,
+originals or development-only skill/support content from Git tracking. Retain their local files, required-reference closure,
 project customizations and recoverable before bytes; review the actual index/diff
 and separately eligible Git candidates. Commit/publication still require their
 own authority. This differs from already-tracked maintenance content and grants

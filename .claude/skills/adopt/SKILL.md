@@ -47,6 +47,24 @@ silently auto-pass, or certify runtime behavior from an artifact format.
 
 ---
 
+### Skill purpose before adoption
+
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
+
+Read `standards/skill-purpose.md` and identify the governed project/product. This
+adoption workflow develops a Target and is a local-only template there. In relevant
+modes classify product-use/development-only/mixed/unresolved from complete bodies
+and references before Git selection. Bespoke names/prompts/overlays/full projections
+give no exception. Split mixed content; preserve business documents, independent
+configuration and minimal adaptations without developer procedures. Keep required
+local packages complete; this audit grants no migration/untracking.
+
 ### Project boundary delivery in full and infra adoption
 
 For `full` and `infra`, read the project's actual governing instructions or
@@ -62,8 +80,9 @@ project-owned instruction file, or into an already-authorized
 code, project design/QA/acceptance documents, histories and existing authorities.
 Prepare required neutral templates/spec assets for authorized local use, following
 their actual reference closure under `adapters/README.md`. Review Target Git
-candidates separately: required installed platform adaptations, portable
-project-specific configuration and substantive project documents. Required local
+candidates separately: minimal adaptations, independent configuration, substantive
+project documents and qualified product-use skills. None can carry development-instruction bodies
+or exclusive overlays. Required local
 inputs remain readable but do not become Git candidates. Missing/unread required
 originals leave affected use incomplete. Exclude general CDD source mirrors and
 template-maintenance materials from the target Git submission/publication set.

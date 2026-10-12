@@ -47,8 +47,12 @@ Both runtimes share `INSTRUCTIONS.md`, `workflow/`, `templates/`, `standards/`,
 The Source library publishes reusable templates. In a business target, required
 local CDD templates, generic standards/workflow originals and testing definitions
 remain readable local-only inputs; they are excluded from Target Git candidates.
-Only required installed platform adaptations and portable project-specific
-configuration belong to the target's CDD submission set.
+Only minimal required adaptations and independent configuration belong to the
+target's CDD set. Apply [skill purpose](standards/skill-purpose.md): development-only
+skills, bespoke native projections and exclusive references/overlays stay local-only.
+Skills using delivered product functions for user tasks may be product assets under
+project rules; mixed packages must split. CDD Source developer templates and full
+projections are its own framework product assets.
 Codex's native `.codex/rules/*.rules` command-approval policy is unrelated and
 never generator-owned.
 
@@ -295,9 +299,10 @@ draft `memory_bank/t0_core/basic_law_index.md`. It does not need a local
 maintenance toolkit or copies of general root `agents/` or `skills/`.
 The skill still requires approval for project writes and separate ratification.
 
-For imports, include the full installed `constitute` and `adopt` entries in
-the approved platform delivery. Review its Git candidates separately from required
-local template/spec inputs. `adopt full` or `adopt infra` checks the actual
+For imports, include full installed `constitute` and `adopt` entries in the approved
+local-use platform package. These develop/govern a Target and stay local-only there,
+including exclusive support. Review Git candidates separately from the complete
+local package and neutral template/spec inputs. `adopt full` or `adopt infra` checks the actual
 project-owned instructions or existing law index and proposes only an additive,
 approved merge when these boundary rules are missing. Importing them does not
 force Memory Bank creation, replace project rules or exclude normal business
@@ -305,6 +310,14 @@ design, QA, acceptance and historical documents. Use the delivered template
 version; an older Git pin or clone does not acquire unpublished working changes.
 
 ### Using CDD in an existing project
+
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
 
 Read the approved installed platform entries, their required references and the
 project's instructions. Ordinary use works offline without a local maintenance
@@ -574,7 +587,9 @@ For **product projects**, it uses equivalent product-development discipline:
 The Source library is a **template**, not a locked framework. The choices below
 apply to authorized source-authoring changes, not automatic writes in an imported
 project. An import-mode project prepares reviewed project differences with exact
-base/result identities and installs only an approved platform allowlist; common
+base/result identities and installs only an approved local-input allowlist. Classify
+complete instruction/role packages before choosing separate Git candidates; project-specific
+developer overlays gain no exception. Common
 improvements require a separately approved Source changeset. Do not recreate
 root `agents/` or `skills/` mirrors in consumer Git delivery as a customization shortcut:
 

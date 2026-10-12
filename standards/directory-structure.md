@@ -3,9 +3,11 @@
 The tree below describes the designated Source-library checkout. An import-mode
 consumer keeps approved platform outputs, required local neutral inputs and its
 project-custom inputs. Its CDD Git candidates contain only required installed
-platform adaptations and portable project-specific configuration; reusable
-templates, generic standards/workflow originals and testing definitions remain
-local-only. It excludes general root `agents/` or `skills/` mirrors
+minimal adaptations and independent configuration. Apply `standards/skill-purpose.md`:
+development-only bodies/exclusive references/overlays stay local-only even when
+bespoke or fully projected; minimal adaptations/config cannot carry them. Qualified
+product-use skills follow product rules; mixed content must split. Reusable
+templates, generic standards/workflow originals and testing definitions stay local-only. It excludes general root `agents/` or `skills/` mirrors
 from Git submission/publication. This is a content boundary, not a local-directory
 restriction: ignored maintenance files may remain in either repository.
 Use the project's separately reviewed Git candidates and local-input allowlist,
@@ -15,7 +17,8 @@ required references; retain them locally without adding generic templates/specs
 or general source mirrors to Target Git delivery. Ordinary
 installed-file use needs no maintenance reader, profile or lock. Source-dependent
 updates preserve reviewed project differences and require the sole actual Source.
-Retain approved portable project differences in the project's established configuration.
+Retain real independent portable configuration in its established owner; project-
+specific development overlays gain no configuration exception.
 
 ```text
 /
@@ -74,6 +77,14 @@ Copilot). Codex has no path-glob rule equivalent and consults canonical `rules/`
 through root guidance rather than automatic loading.
 
 ## Discovery and evidence boundaries
+
+Apply the purpose rule to skills, independent agent/role definitions, native
+configuration containing instruction bodies and their exclusive references/overlays.
+A Target's development-only role stays local-only even without invoking a skill;
+TOML, developer_instructions fields and native loading give no exception. Real
+product-use agents follow actual product rules. Independent configuration must be
+independent of development instructions/role packages and carry no such body;
+a native loader of developer roles is not an independent configuration consumer.
 
 In an import-mode project, offline installed Markdown/context reads do not
 require current Source availability, but do not establish Source freshness or
