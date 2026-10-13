@@ -131,5 +131,6 @@ introducing an interface, changing ownership, or designing modules together.]
 - [ ] Review and approve this module enumeration
 - [ ] Design MVP-tier modules first (use `/design-system [module-name]`)
 - [ ] Run `/design-review` on each completed CDD
-- [ ] Run `/gate-check pre-production` when MVP modules are designed
-- [ ] Prototype the highest-risk module early (`/prototype [module]`)
+- [ ] Run `/review-all-gdds`, then `/gate-check systems-design` after the required MVP design/review evidence is ready
+- [ ] Continue Technical Setup / Architecture from `workflow/workflow-catalog.yaml`, including `/setup-engine` and its remaining required steps before `/gate-check technical-setup`
+- [ ] Prototype the highest-risk module early when selected (`/prototype [module]`); follow the catalog's Pre-Production / Pre-Implementation requirements before `/gate-check pre-production`

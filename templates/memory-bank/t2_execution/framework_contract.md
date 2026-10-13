@@ -13,8 +13,8 @@ Source comparison, runtime execution and law acceptance remain distinct facts.
 - **Selected runtime:** [actual installed runtime / unconfigured]
 - **Installed CDD paths:** [exact approved local-use files/references; Git eligibility separate]
 - **Required local neutral inputs:** [reviewed per-file local-input allowlist and required closure]
-- **Project customizations:** [existing differences; developer overlays stay local-only]
-- **Instruction purpose:** [existing scoped review: product-use / development-only / mixed / unresolved]
+- **Project customizations:** [existing differences; confirmed CDD overlays stay local-only; project-owned assets retain project rules]
+- **Instruction purpose:** [scoped review first confirms CDD / project-owned / shared / unresolved ownership, then classifies purpose within the CDD collection]
 
 Reuse the project's established portable configuration and decisions. Keep
 unknown bindings unconfigured; do not invent pins or add host-specific paths.
@@ -24,29 +24,51 @@ leave only their affected workflow pending.
 
 ## Authority contract
 
-For a consumer, installed platform paths and approved neutral inputs are the
-normal-use readers. Required local inputs do not gain Target Git eligibility:
-reusable templates, generic standards/workflow originals and testing definitions
-remain local-only. Review CDD candidates separately, retaining minimal required
-adaptations and independent configuration without development-instruction bodies/exclusive support.
-Qualified product-use skills are separate project product assets.
+For a consumer, installed platform paths and complete local CDD inputs are
+normal-use readers. Confirm their ownership before selecting Git candidates.
+Reusable CDD templates, generic standards/workflow originals and testing definitions
+remain local-only; bounded bindings/configuration cannot contain CDD framework
+instruction bodies or exclusive support. Project-owned development and product-use
+skills, native roles, tools, configuration and substantive documents retain their
+project eligibility rules.
 
-**Classify instruction purpose first.** Apply `standards/skill-purpose.md` to
-skills, agent/role definitions, native configuration containing instructions and
-equivalent templates with their complete reference/support closure. In a Target,
-content used only to develop this project is a local-only template, excluded from
-Git tracking/staging/commits/publication: requirements, design, coding, code review,
-development verification and release/maintenance. This includes independent roles
-and `developer_instructions` bodies without any skill dependency. Project-specific
-names/paths/prompts/overlays, TOML/native loading, platform directories and complete
-projections give no exception. Exclusive development support follows the body.
-Minimal adaptations/configuration must not carry or reconstruct it; independent
-configuration needs real readers independent of development instructions/role packages,
-not merely a native agent loader. Split mixed bodies/dependencies before submission.
-Product-use skills or agents call this project's delivered functions for user tasks
-and may be product capabilities under project rules. Names/fields such as test,
-release or developer_instructions do not decide purpose. Unknown content remains
-pending. Preserve complete required local development inputs separately from Git.
+**Confirm asset ownership before instruction purpose.** Apply
+`standards/skill-purpose.md` after establishing actual CDD framework provenance,
+ownership and delivery role for the complete package and its required support.
+Classify purpose only within that confirmed CDD asset collection. Project-owned
+skills, agents/roles, tools, configuration and documents follow their project's
+rules, including development capabilities; development use, native instruction
+fields and skill-directory placement do not make them CDD assets. Renaming or
+tailoring a CDD template does not itself change its ownership. Unresolved ownership
+stays pending only for the affected action.
+
+Confirmed CDD developer templates, full platform projections and exclusive support
+remain local-only in a Target, excluded from Git tracking/staging/commits/delivery/
+publication. Within that CDD collection, inspect complete bodies, conditional
+branches and direct/indirect support; split mixed CDD/project content before
+submission. Native `developer_instructions` fields and standalone roles receive
+the same ownership review even without a skill dependency. Minimal adaptations
+and independent configuration must not carry or reconstruct CDD framework
+instruction bodies or exclusive support; a native loader alone does not qualify
+a copied CDD role as independent configuration. This CDD-related restriction does
+not exclude independently established project-owned development skills or roles.
+Names/fields such as test or release do not decide ownership or purpose.
+
+Git exclusion does not disable authorized local retention, discovery, loading,
+effect or use. Preserve complete required local CDD inputs at usable paths; an
+input allowlist does not grant them Git eligibility. Missing/unread required
+originals leave the affected CDD workflow pending. A fresh Target clone may need
+those inputs provisioned separately. Review Git candidates separately from local
+inputs and update-write scope. Ordinary template use must not depend on a local
+maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
+authorized local maintenance operations remain allowed.
+
+Do not submit a general CDD source mirror, template-maintenance tools/annotations,
+tool-only metadata, maintenance locks/caches or actual template-maintenance output.
+The designated CDD Source owns general CDD definitions independently of local
+storage. Local copies alone do not establish Source authority or authorize moving,
+deleting or changing log paths.
+
 The designated CDD Source owns general root `skills/` and
 `agents/`. Exclude general source mirrors and template-maintenance tools from
 project Git submission/publication; local storage inside or outside the project
@@ -59,14 +81,14 @@ Preserve project customizations, runtime-owned settings, business documents and
 recoverable before bytes; conflicts stop affected updates.
 
 **Existing tracked neutral inputs.** When a boundary change affects reusable
-neutral template/standard/workflow/spec originals or development-instruction packages
+confirmed CDD template/standard/workflow/spec originals or CDD instruction packages
 already tracked under earlier
 guidance, record reconciliation as pending until the applicable governance gate
 closes. Earlier tracking is neither automatically grandfathered as compliant nor
 judged a violation under an unaccepted rule. Keep local originals and Git history.
 After acceptance or a valid scoped exception under existing governance, obtain
 separate exact-path project migration authority before removing reviewed reusable
-originals or development-only skill/support content from Git tracking. Retain their local files, required-reference closure,
+originals or CDD development-template/support content from Git tracking. Retain their local files, required-reference closure,
 project customizations and recoverable before bytes; review the actual index/diff
 and separately eligible Git candidates. Commit/publication still require their
 own authority. This differs from already-tracked maintenance content and grants
@@ -79,7 +101,7 @@ maintenance authority and are not prerequisites for ordinary consumer use.
 Locally installed templates, generic standards, workflow views and reusable
 `skill_testing/` assets are neutral local-use inputs excluded from Target Git
 submission/publication, not another general skill/agent source tree. A fresh
-Target checkout may need neutral originals and complete local-only development
+Target checkout may need neutral originals and complete local-only CDD
 packages/references installed separately for affected use.
 
 ## Installed platform ownership

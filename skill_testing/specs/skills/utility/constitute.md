@@ -9,6 +9,34 @@ questions, writes T0/T1 memory bank files, and routes the user to the next
 workflow step. It initializes the framework contract and deterministic
 uninitialized adapter-state template without fabricating freshness evidence.
 
+## Fixture and evidence contract
+
+The cases below describe isolated fixture inputs. Apply the complete current
+`/skill-test` owner and `standards/evidence-lifecycle.md`: spec reasoning,
+static structure checks, fixture execution and independent review are separate
+results. An expected result or fixture description is not a recorded runtime PASS.
+
+Before execution, bind the selected runtime entries, actual governing project
+instructions, configuration and required direct/indirect input bytes. Use
+`standards/technical-preferences.md` as the canonical preference path.
+Read substantive bodies; missing/unread required originals leave the affected
+check pending. Optional, example, future-output and inapplicable references are
+not required inputs merely because their paths appear in an instruction.
+
+Establish actual CDD provenance, ownership and Source/Target delivery role before
+classifying purpose. Source developer templates and complete projections are
+framework product assets. In a Target, confirmed CDD packages/support remain
+local-only but readable ignored inputs may be discovered, loaded and used within
+authority. Project-owned development skills, native roles, tools and documents
+retain project rules. A maintenance toolkit is optional for ordinary use.
+
+Reasoning/review-only runs invoke no write entrypoint. Any expected writer action
+runs only in an isolated fixture with the exact named paths/effects approved.
+Reuse matching authority without repeated per-file/section questions; report-only
+covers its assigned new report and excludes inputs/indexes/state. Law/ADR acceptance,
+evidence publication, runtime qualification and Story/stage completion remain
+separate. Preserve before bytes and disclose unavailable checks.
+
 ---
 
 ## Static Assertions (Structural)
@@ -31,14 +59,24 @@ uninitialized adapter-state template without fabricating freshness evidence.
 - No concept docs
 - No source code
 - No memory bank
+- User answers domain `A game`, then starting point `A) Starting fresh`.
+- `production/review-mode.txt` already contains `lean`; no review-mode write
+  is needed. The user has not supplied a clear spec or requested legislation.
 
 **Input:** `/constitute`
 
 **Expected behavior:**
 - Asks domain first and accepts "game"
-- Routes to `/brainstorm` before deriving principles
+- For the selected A route, recommends `/brainstorm open` before deriving principles
 - Explains that the user should return to `/constitute` after concept creation
-- Does not write game-specific laws before a concept exists
+- Does not derive/write game laws in this A-route run; no constitution writes
+  occur before discovery.
+- Counterexample within this case: a fresh user instead selects `C) Clear spec`,
+  supplies a concrete game specification, then selects `Formalize your constitution
+  first`. With exact draft/skeleton write scope and actual required local originals,
+  Phase 3 may draft Proposed laws before a formal concept document exists. It
+  separately verifies ratification and uses Phase 3f to hand off to `/brainstorm`.
+  The absence of a concept alone must not reject this legitimate route.
 
 ### Case 2: Fresh product project
 
@@ -46,21 +84,28 @@ uninitialized adapter-state template without fabricating freshness evidence.
 - No concept docs
 - No source code
 - No memory bank
+- User answers domain `A general product`, then `A) Starting fresh`.
+- Review mode is already `lean`; there is no populated Product stack or clear spec.
 
 **Input:** `/constitute`
 
 **Expected behavior:**
 - Asks domain first and accepts "general product"
 - Uses product examples such as web app, CLI, API, library, mobile app, or data pipeline
-- Routes to `/brainstorm` product mode or `/setup-engine` stack setup depending on user state
+- For this A-route fixture, recommends `/brainstorm open` with Product examples;
+  later stack setup follows the selected route and current catalog, not a mandatory
+  engine step for an unconfigured Product.
 - Does not mention game engine as mandatory
 
 ### Case 3: Existing project with product concept
 
 **Fixture:**
-- `design/cdd/product-concept.md` exists
-- `src/` has source files
-- No `memory_bank/t0_core/basic_law_index.md`
+- `design/cdd/product-concept.md` has substantive User Promise, JTBD, principles,
+  target CLI workflow, scope and technology context; `src/cli/` contains that work.
+- No `memory_bank/t0_core/basic_law_index.md` or production tracking exists.
+- User chooses `Derive constitution now`, then approves the displayed exact
+  T0/T1/skeleton paths/effects. Required originals and Source-binding project facts
+  are readable; law acceptance is absent and remains separately pending.
 
 **Input:** `/constitute`
 
@@ -73,9 +118,13 @@ uninitialized adapter-state template without fabricating freshness evidence.
 ### Case 4: Existing game project
 
 **Fixture:**
-- `design/cdd/game-concept.md` exists
-- Game CDDs and `src/gameplay/` exist
-- No constitution exists
+- `design/cdd/game-concept.md` has substantive Player Fantasy, Game pillars,
+  core loop, target platform and scope; combat/movement module CDDs and matching
+  `src/gameplay/` bodies exist. Actual engine preferences are Godot 4 + GDScript.
+- No constitution or production tracking exists.
+- User chooses `Derive constitution now`; displayed exact T0/T1/skeleton write
+  paths/effects are approved. Required originals are readable; draft permission
+  alone grants no law acceptance.
 
 **Input:** `/constitute`
 
@@ -88,7 +137,14 @@ uninitialized adapter-state template without fabricating freshness evidence.
 ### Case 5: Adapter governance initialization
 
 **Fixture:**
-- Constitution ratification or derivation is approved
+- Constitution derivation and the displayed exact skeleton-write paths/effects
+  are approved; any ratification is a separately verified exact law-set decision.
+- The actual `templates/memory-bank/` originals listed by Phase 3e.1,
+  `docs/PHASE-CHECKLISTS.md`, `workflow/generated/gate-required-artifacts.md`,
+  workflow catalog and required `skill_testing/` bodies are complete/readable.
+- Project-owned binding evidence supplies actual selected installed paths,
+  required neutral-input closure, portable sole Source identity and retained
+  customizations; unresolved facts are explicitly unconfigured.
 - No existing `memory_bank/t2_execution/adapter_state.yaml`
 
 **Expected behavior:**
@@ -117,7 +173,11 @@ uninitialized adapter-state template without fabricating freshness evidence.
 ### Case 7: Consumer initialization from delivered neutral originals
 
 **Fixture:**
-- Selected installed entries and required neutral originals are delivered
+- Selected installed entries and the Phase 3e.1 per-file neutral original set are
+  delivered at usable owner paths, including complete required direct/indirect
+  reference closure. Actual project/root configuration declares installed paths,
+  portable sole Source binding and retained customizations. Exact skeleton-write
+  scope is approved; unresolved values remain explicitly unconfigured.
 - No local general `agents/` or `skills/` source trees and no maintenance scripts
 - External Source is temporarily unavailable
 - Variant: a required workflow view or listed skeleton original is missing while a similarly named placeholder exists
@@ -134,7 +194,8 @@ uninitialized adapter-state template without fabricating freshness evidence.
 ## Protocol Compliance
 
 - [ ] Reads before asking for writes
-- [ ] Asks before creating or updating files
+- [ ] Reuses matching named write authority; only missing/new paths/effects ask
+  after a concrete draft or path-and-effect summary
 - [ ] Keeps Game and Product routing inside the same command
 - [ ] Does not reference any deleted onboarding command as an active command
 - [ ] Produces clear next steps after constitution work

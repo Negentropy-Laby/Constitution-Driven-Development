@@ -19,20 +19,51 @@ context: |
 
 ## Purpose before Governance Audit
 
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+**Confirm asset ownership before instruction purpose.** Apply
+`standards/skill-purpose.md` after establishing actual CDD framework provenance,
+ownership and delivery role for the complete package and its required support.
+Classify purpose only within that confirmed CDD asset collection. Project-owned
+skills, agents/roles, tools, configuration and documents follow their project's
+rules, including development capabilities; development use, native instruction
+fields and skill-directory placement do not make them CDD assets. Renaming or
+tailoring a CDD template does not itself change its ownership. Unresolved ownership
+stays pending only for the affected action.
 
-Read `standards/skill-purpose.md` before domain/audit routing. Identify the actual
-project and whether the request uses its delivered functions or develops/governs
-it. This CDD governance audit is a local-only Target development template; complete
-platform copies, bespoke prompts and exclusive overlays do not change that role.
-Independent product-use tasks use their real capabilities, without requiring a
-Memory Bank. Purpose review and Git eligibility remain separate from freshness.
+Confirmed CDD developer templates, full platform projections and exclusive support
+remain local-only in a Target, excluded from Git tracking/staging/commits/delivery/
+publication. Within that CDD collection, inspect complete bodies, conditional
+branches and direct/indirect support; split mixed CDD/project content before
+submission. Native `developer_instructions` fields and standalone roles receive
+the same ownership review even without a skill dependency. Minimal adaptations
+and independent configuration must not carry or reconstruct CDD framework
+instruction bodies or exclusive support; a native loader alone does not qualify
+a copied CDD role as independent configuration. This CDD-related restriction does
+not exclude independently established project-owned development skills or roles.
+Names/fields such as test or release do not decide ownership or purpose.
+
+Git exclusion does not disable authorized local retention, discovery, loading,
+effect or use. Preserve complete required local CDD inputs at usable paths; an
+input allowlist does not grant them Git eligibility. Missing/unread required
+originals leave the affected CDD workflow pending. A fresh Target clone may need
+those inputs provisioned separately. Review Git candidates separately from local
+inputs and update-write scope. Ordinary template use must not depend on a local
+maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
+authorized local maintenance operations remain allowed.
+
+Do not submit a general CDD source mirror, template-maintenance tools/annotations,
+tool-only metadata, maintenance locks/caches or actual template-maintenance output.
+The designated CDD Source owns general CDD definitions independently of local
+storage. Local copies alone do not establish Source authority or authorize moving,
+deleting or changing log paths.
+
+Identify the actual project and whether the request uses its delivered functions
+or develops/governs it before domain/audit routing. This CDD governance audit is a
+local-only Target development template; complete platform copies, bespoke prompts
+and exclusive framework overlays do not change its CDD ownership. Source delivers
+its templates/projections as framework product assets. Independent product-use
+tasks use their real capabilities, without requiring a Memory Bank. Ownership/
+purpose review and Git eligibility remain separate from freshness and authorized
+local use.
 
 ## Phase 0: Domain Routing
 
@@ -56,6 +87,19 @@ not a full 4-gate CDD audit. For a complete project scan, use
 `/project-stage-detect`.
 
 ---
+
+## Step 0: Parse Audit Scope
+
+Accept exactly one mode: no argument (all-law summary), `full` (all-law verbose),
+or one positive displayed principle number `N` or `#N`. Reject `0`, negatives,
+decimals, arbitrary tokens and combinations such as `full 2`; show this usage
+and record invalid selection without silently switching to all laws.
+
+Parsing sets requested scope but does not skip global checks. Continue read-only
+T0-T3, required-input, tech-context and adapter observations even for invalid,
+missing or ambiguous selectors. If the constitution is absent, Step 1 still
+reports that original missing, recommends `/constitute` and stops. No selector
+itself authorizes a write or offers an adapter-state record.
 
 ## Step 1: Verify Constitution Exists
 
@@ -107,6 +151,20 @@ Read `memory_bank/t0_core/basic_law_index.md` and extract:
 - All laws/ principles (Support IDs: BL-02 through BL-06)
 - Each law's current-state requirement
 
+Build the selector map from substantive displayed `Law N`/`Principle N` headings
+and each entry's actual Support ID. Core Thesis BL-01, unnumbered boundary text,
+BL suffixes and list positions do not supply principle numbers. In the normal
+fixture, Law 2 maps to BL-03; if only Laws 1 and 3 exist, `3` still maps to Law 3 /
+BL-04 rather than the second entry becoming Law 2.
+
+Default and `full` assess all applicable laws. Numeric focus assesses only its
+unique matching law. No match reports `NOT FOUND`; duplicate displayed numbers
+report `AMBIGUOUS` with actual candidates and no arbitrary selection. Invalid,
+no-match or ambiguous requests assess no principle alignment. Label unselected
+laws `NotAssessed`, preserving existing evidence/history; do not infer ALIGNED
+or all-law HEALTHY from focused/unresolved scope. Global findings and severity
+remain visible in every mode.
+
 Read `memory_bank/t0_core/active_context.md` and extract:
 - Current working state (State A-E)
 - Module status summaries
@@ -144,21 +202,24 @@ Read T3 indexes when present:
 ## Step 3: Adapter Freshness Check
 
 For the submission boundary, inspect actual diffs, the Git index and intended
-publication contents under the governing Source/Target rules. Local maintenance
-files, including ignored session logs, may stay inside or outside the repository;
-location/presence alone is not a finding. `.gitignore` does not exclude tracked
-content. Preserve business QA and required neutral inputs; this audit does not
-authorize moving/deleting files, untracking or changing log locations.
-Read `standards/skill-purpose.md` and classify full skill bodies/references first.
-Developer skills/exclusive overlays and references stay local-only even when bespoke
-or fully projected. Split mixed content; verify actual delivered functions/user tasks
-for use claims and real independent readers for configuration. Test/release names,
-paths or overlay labels give no exception. Business code/tests/QA/documents keep
-their own rules. This check does not untrack or change them.
-Check required local inputs and Target Git candidates separately. In a target, reusable
-templates, generic standards/workflow originals and skill-testing definitions stay local-only;
-locally readable ignored inputs are not missing Git deliverables and do not become
-Git candidates merely because a workflow requires them.
+delivery/publication contents under the governing Source/Target rules. Establish
+CDD framework provenance, ownership and delivery role before classifying complete
+CDD bodies and required support. Project-owned development skills, independent
+roles, tools, documents, configuration, business code/tests/QA retain project rules;
+a CDD reference does not change their ownership. Split mixed CDD/project content
+per its actual parts and support. Required local inputs and Target Git candidates
+are separate: confirmed CDD templates, generic standards/workflow originals,
+skill-testing definitions and maintenance tools stay outside Target Git but may
+remain locally and be discovered, loaded, take effect and be used under existing
+authorization. Locally readable ignored inputs are not missing Git deliverables
+and gain no Git eligibility merely because a workflow requires them. Optional
+authorized maintenance is allowed; ordinary installed-input use needs no toolkit.
+Ignore rules are not runtime loading controls and do not remove tracked/staged
+content. Existing tracked CDD reconciliation needs its governance gate, separate
+exact-path tracking-only migration authority and preservation of local originals,
+required closure, customizations, recoverable before bytes and Git history.
+Location/presence alone is not a finding. This audit does not authorize moving/
+deleting files, untracking or changing log locations.
 
 First read `memory_bank/t2_execution/framework_contract.md` when it exists.
 Its project/Source binding section records the actual project role, sole Source,
@@ -227,7 +288,8 @@ the two digests are the authoritative identity of the checked inputs.
 
 ### Optional approved state record
 
-Only for a valid live result covering the actual checked owner/inputs, prepare
+Only for default/full or a resolved numeric scope, and a valid live result
+covering the actual checked owner/inputs, prepare
 the complete YAML draft with this field order and actual live values. Use its
 actual portable check description; do not store host-specific paths in a target
 project. No unavailable or Source-only consumer check is recordable:
@@ -256,11 +318,13 @@ skill; when the control plane or `framework_contract.md` is missing, recommend
 
 ## Step 4: Alignment Check
 
-For each constitutional principle, check alignment with the codebase:
+Check alignment only for principles selected at Step 2. Unselected principles
+remain NotAssessed; invalid/no-match/ambiguous scope runs no alignment scan.
+Continue independent global health and tech-context checks in every mode:
 
 ### 3a: Principle → Code Alignment
 
-For each law in `basic_law_index.md`, perform a quick alignment scan:
+For each selected law in `basic_law_index.md`, perform a quick alignment scan:
 
 1. Read the law's current-state requirement
 2. Check whether the codebase respects it
@@ -327,6 +391,8 @@ Keep it concise. Use this format:
 **Core thesis:** [from BL-01, one line]
 **Constitution established:** [date from active_context.md or file timestamp]
 **Current phase:** [from current_state.md or production/stage.txt]
+**Principle scope:** [all / Law N and actual Support ID / invalid / not found / ambiguous]
+**Alignment coverage:** [assessed / total; unselected NotAssessed]
 
 ### T0 Current Truth
 - Laws: [present/missing/stale]
@@ -352,7 +418,7 @@ Keep it concise. Use this format:
 - QA evidence index: [present/missing/not applicable yet]
 - Release evidence: [present/missing/not applicable yet]
 
-### Principles (N/M aligned)
+### Principles ([aligned]/[assessed] aligned; [unselected] NotAssessed)
 - [Support ID]: ALIGNED — [brief evidence]
 - [Support ID]: ALIGNED — [brief evidence]
 - [Support ID]: CONCERN — [what's wrong, suggestion]
@@ -372,7 +438,8 @@ Keep it concise. Use this format:
 2. [Secondary action]
 
 ---
-**Overall:** [HEALTHY / NEEDS ATTENTION / CRITICAL]
+**Global T0-T3/input health:** [HEALTHY / NEEDS ATTENTION / CRITICAL]
+**Overall:** [HEALTHY / NEEDS ATTENTION / CRITICAL / PARTIAL — actual alignment scope]
 ```
 
 **Severity levels:**
@@ -380,8 +447,13 @@ Keep it concise. Use this format:
 - **NEEDS ATTENTION**: Old T0/T1-only memory bank, stale/uninitialized/outdated adapter state, 1-2 CONCERNs, or missing recommended T1/T2/T3 indexes
 - **CRITICAL**: Missing `basic_law_index.md`, missing required T0/T1 files, 3+ CONCERNs, or stale constitution
 
-If verbosity argument is `full`, add a detailed per-law analysis section with
-the specific evidence found for each alignment check.
+Numeric focus shows the displayed number/actual ID, selected evidence and
+unselected NotAssessed entries. Global required-input gaps keep their severity,
+including CRITICAL, regardless of selected alignment. If global observations
+have no concerns but laws remain unassessed, report Overall PARTIAL for alignment
+scope; never certify all-law HEALTHY. Invalid/no-match/ambiguous selection retains
+its unresolved finding and cannot offer a state write. `full` adds detail for
+all assessed laws; default summarizes all. Neither mode waives a global gap.
 
 ---
 

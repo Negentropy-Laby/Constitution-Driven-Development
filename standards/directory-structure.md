@@ -1,24 +1,29 @@
 # Directory Structure
 
 The tree below describes the designated Source-library checkout. An import-mode
-consumer keeps approved platform outputs, required local neutral inputs and its
-project-custom inputs. Its CDD Git candidates contain only required installed
-minimal adaptations and independent configuration. Apply `standards/skill-purpose.md`:
-development-only bodies/exclusive references/overlays stay local-only even when
-bespoke or fully projected; minimal adaptations/config cannot carry them. Qualified
-product-use skills follow product rules; mixed content must split. Reusable
-templates, generic standards/workflow originals and testing definitions stay local-only. It excludes general root `agents/` or `skills/` mirrors
-from Git submission/publication. This is a content boundary, not a local-directory
-restriction: ignored maintenance files may remain in either repository.
-Use the project's separately reviewed Git candidates and local-input allowlist,
-actual installed readers and portable Source binding. Required neutral inputs are
-listed in `adapters/README.md` and extend through the selected workflow's actual
-required references; retain them locally without adding generic templates/specs
-or general source mirrors to Target Git delivery. Ordinary
-installed-file use needs no maintenance reader, profile or lock. Source-dependent
-updates preserve reviewed project differences and require the sole actual Source.
-Retain real independent portable configuration in its established owner; project-
-specific development overlays gain no configuration exception.
+consumer keeps its approved platform outputs, complete local CDD inputs and
+project-owned assets. Confirm provenance, ownership and delivery role first under
+`standards/skill-purpose.md`; classify purpose only within the confirmed CDD
+framework collection. Project-owned skills, roles, tools, configuration and
+documents follow project rules even when they support project development.
+Directories and native schemas do not establish CDD ownership.
+
+Confirmed CDD templates, full projections, generic standards/workflow originals,
+testing definitions and exclusive support remain outside Target Git delivery.
+The bounded CDD-related eligible set contains minimal required bindings and
+independent portable configuration without CDD instruction bodies or exclusive
+support. Renaming/tailoring a CDD copy does not itself change ownership; shared
+CDD/project content needs a substantive split. General CDD source mirrors are
+excluded from Target Git, not banned from local storage or use.
+
+This is a content boundary, not a local-directory restriction. Complete local CDD
+inputs and maintenance material may remain inside or outside the repository and
+be discovered, loaded, take effect and be used under existing authorization. Ignore
+rules are not runtime loading controls. Review exact local-input and Git candidate
+sets separately; missing required originals leave affected CDD work pending.
+Ordinary use needs no maintenance toolkit, reader, profile, lock or live Source.
+Optional authorized maintenance may run; Source-dependent updates preserve
+project differences and require actual Source identity and scoped authority.
 
 ```text
 /
@@ -78,13 +83,19 @@ through root guidance rather than automatic loading.
 
 ## Discovery and evidence boundaries
 
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+Confirm actual CDD framework provenance, ownership and delivery role before
+applying instruction-purpose rules to the confirmed CDD package and support.
+Project-owned skills, independent/native roles, tools, configuration and documents
+retain project rules, including development capabilities. Development purpose,
+TOML/native instruction fields and platform directories do not make them CDD assets.
+
+Confirmed CDD framework templates and exclusive references/overlays remain local-only
+in a Target even when tailored or fully projected. Minimal bindings and independent
+configuration must not carry or reconstruct CDD instruction bodies/support; a native
+loader alone cannot qualify a copied CDD role body. These CDD-related limits do not
+exclude independently established project-owned development roles. Git exclusion
+preserves authorized local discovery/loading/effect/use; missing actual required
+local inputs, not ignore membership, leaves affected CDD work pending.
 
 In an import-mode project, offline installed Markdown/context reads do not
 require current Source availability, but do not establish Source freshness or

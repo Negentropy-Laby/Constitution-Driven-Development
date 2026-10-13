@@ -128,12 +128,16 @@ user's job?"]
 
 ## Next Steps
 
-1. `/constitute` — establish governing constitution
-2. `/design-review design/cdd/product-concept.md` — validate completeness
+1. `/constitute` — resolve pending governing principles, reusing exact accepted scope
+2. `/design-review design/cdd/product-concept.md`, then `/gate-check concept`
 3. `/map-systems` — decompose into modules with dependencies
-4. `/design-system [module]` — author per-module specs
-5. `/create-architecture` — master architecture blueprint
-6. `/gate-check` — validate readiness before implementation
+4. `/design-system [module]` and per-module `/design-review`, then `/review-all-gdds` and `/gate-check systems-design`
+5. `/setup-engine`, then `/create-architecture` — configure the Product stack and architecture
+6. Complete the remaining Technical Setup / Architecture requirements from `workflow/workflow-catalog.yaml`, including Foundation ADRs, before `/gate-check technical-setup`
+7. Follow Pre-Implementation UX, prototype, epics/stories, sprint/readiness and workflow validation requirements before `/gate-check pre-production`
+
+The catalog owns current order, required/optional flags and surface applicability.
+Recommendations do not execute commands, accept laws/ADRs or advance project state.
 
 ---
 

@@ -472,6 +472,8 @@ After any mode completes, offer contextual follow-up:
 - After `audit`: "Start with the critical-priority gaps. Use the spec template at
   `skill_testing/templates/skill-test-spec.md` to create new specs."
 
+Select host/model validation under `standards/evidence-lifecycle.md`, section "Validation scope and model-based evaluation". Static/spec reasoning is a distinct claim from model-behavior evaluation and host integration execution.
+
 ## Evidence write boundary
 
 All four analyses invoke no write entrypoint. For the optional paths above,

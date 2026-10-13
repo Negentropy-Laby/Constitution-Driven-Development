@@ -22,6 +22,8 @@ decision contracts in `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
 Report-only excludes inputs/indexes/state; review-only invokes no write entrypoint.
 Escalate material new scope/choices and continue unaffected authorized work.
 
+Template evaluation model selection follows [Validation scope and model-based evaluation](evidence-lifecycle.md#validation-scope-and-model-based-evaluation); role assignment and evaluation-model selection are separate.
+
 ## Model Tier Assignment
 
 > **Claude Code-specific.** The model IDs and `model:` frontmatter below apply to

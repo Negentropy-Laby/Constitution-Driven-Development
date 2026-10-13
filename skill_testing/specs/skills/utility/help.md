@@ -3,7 +3,8 @@
 ## Skill Summary
 
 `/help` analyzes what has been done and what comes next in the project workflow.
-It runs on the Haiku model (read-only, formatting task) and reads `production/stage.txt`,
+Its canonical Claude metadata requests Haiku; actual runtime model support is
+observed or disclosed unverified. It reads `production/stage.txt`,
 the active sprint file, and recent session state to produce a concise situational
 guidance summary. The skill optionally accepts a context query (e.g., `/help testing`)
 to surface relevant skills for a specific topic.
@@ -11,6 +12,34 @@ to surface relevant skills for a specific topic.
 The output is always informational — no files are written and no director gates
 are invoked. The verdict is always HELP COMPLETE. The skill serves as a workflow
 navigator, giving one primary recommendation with relevant optional/coming-up guidance.
+
+## Fixture and evidence contract
+
+The cases below describe isolated fixture inputs. Apply the complete current
+`/skill-test` owner and `standards/evidence-lifecycle.md`: spec reasoning,
+static structure checks, fixture execution and independent review are separate
+results. An expected result or fixture description is not a recorded runtime PASS.
+
+Before execution, bind the selected runtime entries, actual governing project
+instructions, configuration and required direct/indirect input bytes. Use
+`standards/technical-preferences.md` as the canonical preference path.
+Read substantive bodies; missing/unread required originals leave the affected
+check pending. Optional, example, future-output and inapplicable references are
+not required inputs merely because their paths appear in an instruction.
+
+Establish actual CDD provenance, ownership and Source/Target delivery role before
+classifying purpose. Source developer templates and complete projections are
+framework product assets. In a Target, confirmed CDD packages/support remain
+local-only but readable ignored inputs may be discovered, loaded and used within
+authority. Project-owned development skills, native roles, tools and documents
+retain project rules. A maintenance toolkit is optional for ordinary use.
+
+Reasoning/review-only runs invoke no write entrypoint. Any expected writer action
+runs only in an isolated fixture with the exact named paths/effects approved.
+Reuse matching authority without repeated per-file/section questions; report-only
+covers its assigned new report and excludes inputs/indexes/state. Law/ADR acceptance,
+evidence publication, runtime qualification and Story/stage completion remain
+separate. Preserve before bytes and disclose unavailable checks.
 
 ---
 
@@ -34,26 +63,68 @@ None. `/help` is a read-only navigation skill. No director gates apply.
 
 ## Test Cases
 
+### Shared navigation fixture inputs
+
+The selected runtime is Codex. Supply the actual catalog, root/ownership/evidence/
+decision/domain guidance, complete selected installed skill entries and the required
+direct/indirect originals for the recommendations in each fixture. Enumerate actual
+frontmatter, then completely read relevant candidate bodies; no full-tree pre-read
+or maintenance toolkit is required. Readable ignored CDD inputs remain usable and
+project-owned uncataloged capabilities remain project-owned. Missing required
+bodies/inputs leave the affected recommendation pending, without installing tools
+or substituting an unrelated installed command.
+
+The catalog is authoritative for phase order, required/optional status and domain
+applicability. A declared stage and YAML/Markdown status are observations, not
+qualified completion. These default/topic invocations are read-only and cover no
+report/state/index write, gate invocation or automatic next-skill execution.
+
 ### Case 1: Happy Path — Production stage with active sprint
 
 **Fixture:**
 - `production/stage.txt` contains `Production`
-- `production/sprints/sprint-004.md` exists with in-progress stories
-- `production/session-state/active.md` has a recent checkpoint
+- Consistent actual root/configuration evidence selects Game with Godot 4.3 +
+  GDScript. Governance supports independent Production advice; optional Memory
+  Bank absence does not force initialization.
+- `production/sprint-status.yaml` is absent deliberately, exercising Markdown
+  fallback. The sole active `production/sprints/sprint-004.md` body contains:
+  ```markdown
+  # Sprint 004
+  Status: Active
+  ## Tasks
+  | ID | Task | Story | Status |
+  |---|---|---|---|
+  | S4-001 | Combat hitbox | production/epics/combat/story-001-hitbox.md | In Progress |
+  | S4-002 | Movement dash | production/epics/movement/story-002-dash.md | In Progress |
+  | S4-003 | Stamina HUD | production/epics/stamina/story-003-hud.md | Ready for Dev |
+  ```
+- Linked Story bodies have matching actual status/governing AC/context and
+  retained identities. Execution/closure remains unqualified where NotRun.
+- `production/session-state/active.md` identifies the active combat hitbox task.
+- Preferred-YAML variant instead adds an actual owner-format projection with
+  `sprint: 6`, two linked rows (`in-progress`, `ready-for-dev`), goal/dates,
+  generated/updated fields, priority, owner, estimate, blocker and completed
+  fields. The older Markdown body remains sprint 004 with three stories, so the
+  source preference cannot pass by reporting its stale number/count.
 
 **Input:** `/help`
 
 **Expected behavior:**
 1. Skill reads stage.txt and active sprint
-2. Skill identifies current sprint number and in-progress story count
-3. Skill outputs: current stage, sprint summary, and 3 suggested next skills
-   (e.g., `/sprint-status`, `/dev-story`, `/story-done`)
+2. With absent YAML, skill reads the full active Markdown/linked Story bodies and
+   reports sprint 004, 3 total stories and 2 In Progress. With the preferred-YAML
+   variant it reports sprint 6, 2 total and 1 In Progress from that projection,
+   disclosing conflicting older Markdown without treating either as closure proof.
+3. Skill outputs current stage, sprint summary and one primary relevant command
+   with secondary optional/coming-up guidance from completely read inputs
 4. Suggestions are ranked by relevance to current sprint state
 5. Verdict is HELP COMPLETE
 
 **Assertions:**
 - [ ] Current stage is shown (Production)
-- [ ] Active sprint number and story count are mentioned
+- [ ] Actual active sprint number, total story count and In Progress count are
+  reported from the read source: Markdown 004/3/2 without YAML; YAML 6/2/1 when
+  present. File-name discovery or session snippets alone do not satisfy this.
 - [ ] One primary recommendation is clear; optional/coming-up advice is relevant
 - [ ] Suggestions are appropriate for Production stage
 - [ ] Verdict is HELP COMPLETE
@@ -66,19 +137,29 @@ None. `/help` is a read-only navigation skill. No director gates apply.
 **Fixture:**
 - `production/stage.txt` contains `Concept`
 - No sprint files, no GDD files
-- `technical-preferences.md` is configured (engine selected)
+- `standards/technical-preferences.md` has actual Godot 4.3/GDScript Game values;
+  no concept or law set exists. The actual catalog and relevant installed owners
+  are complete/readable; setup alone does not qualify Concept completion.
 
 **Input:** `/help`
 
 **Expected behavior:**
 1. Skill reads stage.txt — detects Concept stage
-2. Skill outputs the Concept-stage workflow: brainstorm → map-systems → design-system
-3. Suggested skills are: `/brainstorm`, `/map-systems` (if concept exists)
-4. Current progress is noted: "Engine configured, concept not yet created"
+2. Skill reads the current catalog and presents its selected Game Concept steps
+   in order with their required/optional status, including constitution, concept
+   creation and concept review. The current first required gap is primary.
+3. `/brainstorm` is relevant discovery/concept guidance after the selected
+   `/constitute` route; `/map-systems` and `/design-system` belong to later
+   Systems Design, after the actual Concept boundary, rather than a fabricated
+   fixed three-command Concept sequence.
+4. Current observations are "Engine configured, concept not yet created";
+   neither the engine values nor an absent optional Memory Bank imply qualification.
 
 **Assertions:**
 - [ ] Stage is identified as Concept
-- [ ] Workflow path shows the expected sequence for this stage
+- [ ] Workflow path follows the actual catalog order, required/optional flags
+  and selected domain; later Systems Design steps are labelled coming up, not
+  substituted for missing Concept constitution/review requirements
 - [ ] Suggestions do not include Production-stage skills (e.g., `/dev-story`)
 - [ ] Verdict is HELP COMPLETE
 
@@ -89,16 +170,23 @@ None. `/help` is a read-only navigation skill. No director gates apply.
 **Fixture:**
 - No `production/stage.txt`
 - No sprint files
-- `technical-preferences.md` has placeholders
+- `standards/technical-preferences.md` has placeholders; neither concept,
+  substantive source/Story work nor accepted project law evidence establishes a
+  concrete domain or qualified phase. Required neutral guidance is readable.
+- An advisory candidate such as Concept does not establish the Unknown declared/
+  qualified stage or resolve Game/Product applicability.
 
 **Input:** `/help`
 
 **Expected behavior:**
 1. Skill cannot determine stage from stage.txt
-2. Skill runs project-stage-detect logic to infer stage from artifacts
+2. Skill applies read-only project-stage-detect indicators as advisory reasoning,
+   without invoking another skill or inferring qualification from absent artifacts
 3. If stage cannot be inferred: outputs the full workflow overview from
    Concept through Release as a reference map
-4. Primary suggestion is `/constitute` to establish project governance and begin configuration
+4. Neutral primary suggestion is `/constitute` for the fresh governance request
+   or `/project-stage-detect` for unresolved phase; domain-limited actions remain
+   pending. The reference overview does not accept laws or advance a phase.
 
 **Assertions:**
 - [ ] Skill does not crash when stage.txt is absent
@@ -112,20 +200,32 @@ None. `/help` is a read-only navigation skill. No director gates apply.
 
 **Fixture:**
 - `production/stage.txt` contains `Production`
-- Active sprint has a story with `Status: In Review`
+- Use Case 1 substantive Game/context and sprint inputs; the active combat Story
+  has actual `Status: In Review`, testable combat AC and pending test execution.
+- Complete relevant installed definitions and required branch inputs for
+  `/qa-plan`, `/smoke-check`, `/regression-suite`, `/test-setup` and
+  `/test-evidence-review` are readable. At least three are suitable to this actual
+  testing task; their full instructions and required input bodies must be read.
+- Limited-candidate variant leaves only two suitable complete-read candidates;
+  unavailable required originals are named and affected advice stays pending.
+  Installation or an unrelated available skill cannot replace topical relevance.
 
 **Input:** `/help testing`
 
 **Expected behavior:**
 1. Skill reads context query: "testing"
-2. Skill surfaces skills relevant to testing: `/qa-plan`, `/smoke-check`,
-   `/regression-suite`, `/test-setup`, `/test-evidence-review`
+2. Skill surfaces the suitable completely read testing candidates above: one
+   primary recommendation and relevant secondary choices, at least three when
+   those suitable complete inputs are available; disclose a smaller actual set
+   in the limited-candidate variant rather than padding or installing.
 3. Output is focused on testing workflow, not general sprint navigation
 4. Currently in-review story is highlighted as a testing candidate
 
 **Assertions:**
 - [ ] Context query is acknowledged in output ("Help topic: testing")
-- [ ] At least 3 testing-relevant skills are listed
+- [ ] At least 3 suitable testing-relevant, complete-read commands are listed
+  for the base fixture, with one primary; the limited-candidate variant discloses
+  its actual supported count/gaps without padding, unrelated replacements or install
 - [ ] General sprint skills (e.g., `/sprint-plan`) are not the primary suggestions
 - [ ] Verdict is HELP COMPLETE
 
@@ -134,7 +234,8 @@ None. `/help` is a read-only navigation skill. No director gates apply.
 ### Case 5: Director Gate Check — No gate; help is read-only navigation
 
 **Fixture:**
-- Any project state
+- Use Case 1 complete navigation inputs, actual selected scope and read-only
+  invocation; missing unrelated optional state is disclosed.
 
 **Input:** `/help`
 
@@ -154,7 +255,9 @@ None. `/help` is a read-only navigation skill. No director gates apply.
 
 ## Protocol Compliance
 
-- [ ] Reads stage, sprint, and session state before generating suggestions
+- [ ] Reads actual available stage, selected sprint/Story and session bodies
+  before suggestions, using YAML first and complete Markdown fallback when absent;
+  missing/ambiguous required sources are disclosed, not fabricated from snippets
 - [ ] Suggestions are specific to the current project state (not generic)
 - [ ] Context query (if provided) narrows the suggestion set
 - [ ] Does not write any files

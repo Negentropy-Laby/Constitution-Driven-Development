@@ -49,21 +49,54 @@ silently auto-pass, or certify runtime behavior from an artifact format.
 
 ### Skill purpose before adoption
 
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+**Confirm asset ownership before instruction purpose.** Apply
+`standards/skill-purpose.md` after establishing actual CDD framework provenance,
+ownership and delivery role for the complete package and its required support.
+Classify purpose only within that confirmed CDD asset collection. Project-owned
+skills, agents/roles, tools, configuration and documents follow their project's
+rules, including development capabilities; development use, native instruction
+fields and skill-directory placement do not make them CDD assets. Renaming or
+tailoring a CDD template does not itself change its ownership. Unresolved ownership
+stays pending only for the affected action.
 
-Read `standards/skill-purpose.md` and identify the governed project/product. This
-adoption workflow develops a Target and is a local-only template there. In relevant
-modes classify product-use/development-only/mixed/unresolved from complete bodies
-and references before Git selection. Bespoke names/prompts/overlays/full projections
-give no exception. Split mixed content; preserve business documents, independent
-configuration and minimal adaptations without developer procedures. Keep required
-local packages complete; this audit grants no migration/untracking.
+Confirmed CDD developer templates, full platform projections and exclusive support
+remain local-only in a Target, excluded from Git tracking/staging/commits/delivery/
+publication. Within that CDD collection, inspect complete bodies, conditional
+branches and direct/indirect support; split mixed CDD/project content before
+submission. Native `developer_instructions` fields and standalone roles receive
+the same ownership review even without a skill dependency. Minimal adaptations
+and independent configuration must not carry or reconstruct CDD framework
+instruction bodies or exclusive support; a native loader alone does not qualify
+a copied CDD role as independent configuration. This CDD-related restriction does
+not exclude independently established project-owned development skills or roles.
+Names/fields such as test or release do not decide ownership or purpose.
+
+Git exclusion does not disable authorized local retention, discovery, loading,
+effect or use. Preserve complete required local CDD inputs at usable paths; an
+input allowlist does not grant them Git eligibility. Missing/unread required
+originals leave the affected CDD workflow pending. A fresh Target clone may need
+those inputs provisioned separately. Review Git candidates separately from local
+inputs and update-write scope. Ordinary template use must not depend on a local
+maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
+authorized local maintenance operations remain allowed.
+
+Do not submit a general CDD source mirror, template-maintenance tools/annotations,
+tool-only metadata, maintenance locks/caches or actual template-maintenance output.
+The designated CDD Source owns general CDD definitions independently of local
+storage. Local copies alone do not establish Source authority or authorize moving,
+deleting or changing log paths.
+
+Identify the governed project/product and the user's task. This CDD adoption
+workflow is a local-only Target template; Source delivery is a separate framework
+product role. In relevant modes classify product-use/development-only/mixed/
+unresolved only within confirmed CDD packages, using complete bodies and references
+before Git selection. Preserve project-owned development skills, independent roles,
+tools, configuration and documents under project rules. Split confirmed CDD content
+and exclusive support from project-owned candidates; tailoring does not change CDD
+ownership. Keep required local packages complete. Existing tracked CDD reconciliation
+needs its governance gate and separate exact-path tracking-only migration authority,
+with local originals, reference closure, customizations and Git history preserved.
+This audit grants no migration/untracking.
 
 ### Project boundary delivery in full and infra adoption
 
@@ -80,12 +113,16 @@ project-owned instruction file, or into an already-authorized
 code, project design/QA/acceptance documents, histories and existing authorities.
 Prepare required neutral templates/spec assets for authorized local use, following
 their actual reference closure under `adapters/README.md`. Review Target Git
-candidates separately: minimal adaptations, independent configuration, substantive
-project documents and qualified product-use skills. None can carry development-instruction bodies
-or exclusive overlays. Required local
-inputs remain readable but do not become Git candidates. Missing/unread required
-originals leave affected use incomplete. Exclude general CDD source mirrors and
-template-maintenance materials from the target Git submission/publication set.
+candidates separately. Project-owned skills/roles, including development
+capabilities, tools, configuration and substantive documents follow project rules.
+Within the CDD-related candidate set, minimal adaptations and independent portable
+configuration must not carry/reconstruct CDD framework instruction bodies or
+exclusive support. Confirmed CDD templates and required local inputs remain usable
+for authorized discovery, loading, effect and use but do not gain Git eligibility
+from being required. Missing/unread required originals leave affected use
+incomplete. Exclude general CDD source mirrors and template-maintenance materials
+from Target Git tracking/staging/commits/delivery/publication; ignore rules do not
+control runtime loading.
 Local presence inside or outside the project is allowed; it does not justify
 a move, deletion, log-path change or untracking. Review actual diffs/index and
 delivery contents; ignore rules alone do not exclude already-tracked material.
@@ -153,6 +190,11 @@ Unknown; missing required inputs do not justify skipping their audit. Audit scop
 grants no repair, status or runtime authority.
 
 ### 2a: CDD Format Audit
+
+Enter this subsection only for `cdds` or `full` with actual CDDs to audit.
+Other subset modes do not enter it. Unknown mode or applicability stays
+Unknown; a missing required owner in a selected CDD audit remains incomplete
+and must not be used to infer that the audit is inapplicable.
 
 Resolve DocKind/owners under `design/INSTRUCTIONS.md`. Module CDDs use semantic
 eight in `rules/design-docs.md`; concept/index/support documents use their own
@@ -250,6 +292,17 @@ For each story file found:
 - Preserve in-progress/done Story content/history. Audit required evidence and
   authority separately; never regenerate or grant completion from format alone.
 
+### Per-artifact Format Tallies
+
+Record each in-scope CDD, ADR and Story as format-compliant, with gaps, or
+unverified, naming missing roles/inputs. Count each document once even with
+multiple severity findings; report issue counts separately. Totals reconcile to
+the actual selected inventory. A missing/unread required body cannot enter the
+compliant count; an unaudited subset is NotAudited rather than zero. Valid
+CDD/no-ADR dispositions and actually unassigned TR-IDs follow their owners;
+do not manufacture ADRs/TR-IDs. Format tallies do not certify executed AC,
+Story closure, runtime qualification or project completion.
+
 ### 2e: Infrastructure Audit
 
 | Artifact | Path | Impact if missing |
@@ -280,8 +333,9 @@ Organise every gap found across all audits into four severity tiers:
 
 **BLOCKING** — An actual required contract/decision/evidence gap blocks its
 dependent workflow or qualification; name the owner and affected scope.
-Examples: ADR missing Status field, module-index parenthetical status values,
-technology stack not configured when ADRs exist.
+Examples: a relied-on ADR missing Status, a module-index value that actually
+blocks the selected downstream comparison, or missing required technology context.
+A valid owner-defined alias or parenthetical note alone is not a blocking gap.
 
 **HIGH** — Will cause stories to be generated with missing safety checks, or
 infrastructure bootstrapping will fail.
@@ -295,9 +349,10 @@ sprint-status.yaml missing.
 **LOW** — Retroactive improvements that are nice-to-have but not urgent.
 Examples: Stories missing Manifest Version stamps, CDDs missing Open Questions section.
 
-Count totals per tier. If zero BLOCKING and zero HIGH gaps: report that the project
-meets the selected format checks with only advisory gaps; runtime/project
-qualification remains separately unverified.
+Count actual issues per tier and disclose unverified inputs separately. Only
+a complete applicable audit with zero BLOCKING/HIGH findings may report no such
+gaps in its selected format scope; qualification remains separately unverified.
+Unread required inputs do not manufacture a zero-gap result.
 
 ---
 
@@ -316,9 +371,10 @@ For each gap, produce a plan entry with:
 - A time estimate (rough: 5 min / 30 min / 1 session)
 - A checkbox `- [ ]` for tracking
 
-**Special case — module-index parenthetical status values:**
-This is always the first item if present. Show the exact values that need changing
-and the exact replacement text. Offer to fix this immediately before writing the plan.
+**Special case — module-index values blocking the selected workflow:**
+Include only the actual affected comparison found in Phase 2c. Keep valid aliases
+and historical notes; propose precise scoped treatment and retain before bytes.
+Order by actual severity/dependency, without automatic label migration.
 
 **Special case — ADRs missing Status field:**
 For each affected ADR, the fix is:
@@ -353,9 +409,11 @@ Present a compact summary before writing:
 ## Adoption Audit Summary
 Phase detected: [phase]
 Domain / engine or stack: [evidence-backed; configured / NOT CONFIGURED]
-CDDs audited: [N] ([X] fully compliant, [Y] with gaps)
-ADRs audited: [N] ([X] fully compliant, [Y] with gaps)
-Stories audited: [N]
+CDDs audited: [N] ([X] format-compliant, [Y] with gaps, [Z] unverified)
+ADRs audited: [N] ([X] format-compliant, [Y] with gaps, [Z] unverified)
+Stories audited: [N] ([X] format-compliant, [Y] with gaps, [Z] unverified)
+Unaudited artifact types: [actual subset / none]
+Unverified required inputs: [paths and affected scope / none]
 
 Gap counts:
   BLOCKING: [N] — template skills will malfunction without these fixes
@@ -391,7 +449,21 @@ fenced markdown block. Then request only missing write authority; matching named
 
 ## Phase 6: Write the Adoption Plan
 
-If approved, write `docs/adoption-plan-[date].md` with this structure:
+Reuse matching plan-only authority; missing/new authority follows Phase 5. Render
+only actions for actual Phase 4 gaps. Omit empty action groups and number remaining
+steps consecutively. With zero BLOCKING findings, omit the whole blocking-repair
+action section; the audit summary still reports `BLOCKING: 0`. Apply the same rule
+to HIGH/MEDIUM/LOW and infrastructure: valid existing registry/manifest/sprint/stage
+artifacts never become fictitious bootstrap tasks. Unverified inputs remain pending
+checks, not compliant facts.
+
+Include one concrete primary recommendation and reason for every completed audit.
+For a complete zero-gap audit, recommend `/project-stage-detect` for a broader
+health/qualification check after reading applicable installed inputs. If these
+are unavailable, report the specific input to resolve first. A recommendation
+executes no repair, gate or state change.
+
+If approved, write `docs/adoption-plan-[date].md` using this conditional structure:
 
 ```markdown
 # Adoption Plan
@@ -406,52 +478,18 @@ Re-run `/adopt` anytime to check remaining gaps.
 
 ---
 
-## Step 1: Fix Blocking Gaps
+## Audit Summary
 
-[One sub-section per blocking gap with problem, fix command, time estimate, checkbox]
+[Actual per-artifact format tallies, severity counts and unverified input paths]
 
----
+## Recommended Next Action
 
-## Step 2: Fix High-Priority Gaps
+[One concrete primary command/input action, reason, scope and limits]
 
-[One sub-section per high gap]
+## Step [N]: [Nonempty action group, in Phase 4 order]
 
----
-
-## Step 3: Bootstrap Infrastructure
-
-### 3a. Register existing requirements (creates tr-registry.yaml)
-Run `/architecture-review` — even if ADRs already exist, this run bootstraps
-the TR registry from your existing CDDs and ADRs.
-**Time**: 1 session (review can be long for large codebases)
-- [ ] tr-registry.yaml created
-
-### 3b. Create control manifest
-Run `/create-control-manifest`
-**Time**: 30 min
-- [ ] docs/architecture/control-manifest.md created
-
-### 3c. Create sprint tracking file
-Run `/sprint-plan update`
-**Time**: 5 min (if sprint plan already exists as markdown)
-- [ ] production/sprint-status.yaml created
-
-### 3d. Verify proposed project transition
-Run `/gate-check [current-phase]`
-**Time**: 5 min
-- [ ] Required transition evidence/authority verified; only covered stage effects written
-
----
-
-## Step 4: Medium-Priority Gaps
-
-[One sub-section per medium gap]
-
----
-
-## Step 5: Optional Improvements
-
-[One sub-section per low gap]
+[Actual gap, owning path, fix command/manual steps, estimate and checkbox]
+[Repeat only for actual actions; omit this section entirely if none]
 
 ---
 
@@ -465,8 +503,9 @@ audits cannot certify qualified Story/project state.
 
 ## Re-run
 
-Run `/adopt` again after completing Step 3 to verify all blocking and high gaps
-are resolved. The new run will reflect the current state of the project.
+Run `/adopt` again after completing applicable actions to recheck selected format
+scope. A zero-gap audit needs no invented repair step; its broader health check
+remains a separate invocation.
 ```
 
 ---
@@ -501,11 +540,14 @@ Create the `production/` directory if it does not exist.
 
 ## Phase 7: Offer First Action
 
-After writing the plan, don't stop there. Pick the single highest-priority gap
-and offer to handle it immediately using `AskUserQuestion`. Choose the first
-branch that applies:
+After the completed audit, whether the plan was saved or declined, name one
+primary next action and explain why. Select actual gaps by severity and Phase 4
+dependencies; the branches below are examples within that order. Read the selected
+installed command/required inputs before an actionable recommendation. Unavailable
+inputs remain explicit pending work. Use `AskUserQuestion` for unresolved follow-up
+choices; no repair is auto-run.
 
-**If there are parenthetical status values in module-index.md:**
+**If a module-index value is the highest-priority confirmed blocking gap:**
 Use `AskUserQuestion`:
 - "The most urgent fix is `module-index.md` — [N] rows have parenthetical status
   values (e.g. `Needs Revision (see notes)`) that break /gate-check,
@@ -532,13 +574,16 @@ Use `AskUserQuestion`:
   - "Do all [N] CDDs one by one"
   - "I'll handle CDDs myself"
 
-**If no BLOCKING or HIGH gaps exist:**
-Use `AskUserQuestion`:
-- "No blocking gaps in the audited format scope. Runtime/project qualification is
-  separate. What next?"
-  - "Walk me through the medium-priority improvements"
-  - "Run /project-stage-detect for a broader health check"
-  - "Done — I'll work through the plan at my own pace"
+**If only MEDIUM/LOW gaps remain:**
+Name the first actual gap, its path and concrete owning command/manual action
+as the primary recommendation. Optional alternatives stay secondary; do not
+replace this with a generic invitation to review improvements.
+
+**If the complete audit has no gaps:**
+Recommend `/project-stage-detect` as the single primary next action for a broader
+health check, explain its distinct scope and offer it as a follow-up choice. No
+blocking-repair section, bootstrap task or gate invocation is generated. The
+user may instead finish with the report.
 
 ---
 

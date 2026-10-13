@@ -3,16 +3,45 @@
 ## Skill Summary
 
 `/adopt` audits an existing project's artifacts — GDDs, ADRs, stories, infrastructure
-files, and `technical-preferences.md` — for format compliance with the template's
+files, and `standards/technical-preferences.md` — for format compliance with the template's
 skill pipeline. It classifies every gap by severity (BLOCKING / HIGH / MEDIUM / LOW),
 composes a numbered, ordered migration plan, and writes it to `docs/adoption-plan-[date].md`
-after explicit user approval via `AskUserQuestion`.
+within exact named plan-write authority; missing/new scope uses `AskUserQuestion`
+after the concrete preview.
 
 This skill is distinct from `/project-stage-detect` (which checks what exists).
 `/adopt` checks selected substantive format/owner compatibility; this is not
 runtime execution or qualification proof.
 
 No director gates apply. The skill does NOT invoke any director agents.
+
+## Fixture and evidence contract
+
+The cases below describe isolated fixture inputs. Apply the complete current
+`/skill-test` owner and `standards/evidence-lifecycle.md`: spec reasoning,
+static structure checks, fixture execution and independent review are separate
+results. An expected result or fixture description is not a recorded runtime PASS.
+
+Before execution, bind the selected runtime entries, actual governing project
+instructions, configuration and required direct/indirect input bytes. Use
+`standards/technical-preferences.md` as the canonical preference path.
+Read substantive bodies; missing/unread required originals leave the affected
+check pending. Optional, example, future-output and inapplicable references are
+not required inputs merely because their paths appear in an instruction.
+
+Establish actual CDD provenance, ownership and Source/Target delivery role before
+classifying purpose. Source developer templates and complete projections are
+framework product assets. In a Target, confirmed CDD packages/support remain
+local-only but readable ignored inputs may be discovered, loaded and used within
+authority. Project-owned development skills, native roles, tools and documents
+retain project rules. A maintenance toolkit is optional for ordinary use.
+
+Reasoning/review-only runs invoke no write entrypoint. Any expected writer action
+runs only in an isolated fixture with the exact named paths/effects approved.
+Reuse matching authority without repeated per-file/section questions; report-only
+covers its assigned new report and excludes inputs/indexes/state. Law/ADR acceptance,
+evidence publication, runtime qualification and Story/stage completion remain
+separate. Preserve before bytes and disclose unavailable checks.
 
 ---
 
@@ -36,15 +65,59 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 
 ## Test Cases
 
+### Shared full-audit fixture inputs
+
+Cases 1-3 and 5 use an isolated Game Target whose project-owned root instructions
+contain the actual accepted Source/Target boundary text and declare Godot 4.3 +
+GDScript, PC/keyboard input and existing review mode `lean`. This fixture
+governance is an input assumption, not acceptance of the real Source or any Target.
+The selected runtime is Codex. Its complete installed `adopt`, `constitute`,
+`brainstorm`, `quick-design`, `map-systems` and `design-system` entries, applicable
+owner/reference/policy bodies and actual runtime-definition metadata are readable.
+The expanded input list binds the real portable sole Source identity/revision,
+installed paths and approved customizations through existing project configuration;
+it does not claim autoload, skill execution, Source freshness or project qualification.
+
+Unless a case explicitly removes an input, provide substantive bodies for
+`design/INSTRUCTIONS.md`, `rules/design-docs.md`, applicable document templates,
+the shared authority/evidence/decision standards, `adapters/README.md` and required
+direct/indirect references. Provide these project inputs with their actual roles:
+
+| Input | Required fixture content/role |
+|---|---|
+| `standards/technical-preferences.md` | Actual Game engine/language/rendering/physics, naming, budgets and routing values; no applicable placeholders. Forbidden Patterns/Allowed Libraries explicitly state none configured, not speculative dependencies. |
+| `docs/engine-reference/godot/VERSION.md` | User-confirmed 4.3 pin and substantive applicable compatibility basis; reference presence is not installed-engine proof. |
+| `docs/architecture/tr-registry.yaml` | Complete readable registry resolving every TR-ID actually assigned in this fixture; none fabricated for unassigned requirements. |
+| `docs/architecture/control-manifest.md` | Substantive rules, actual `Manifest Version:`, relied-on decision links and raw-byte identity metadata. |
+| `docs/architecture/architecture-traceability.md` | Actual requirements/decision mappings consistent with the registry and manifest. |
+| `production/sprint-status.yaml` | Valid owner-format projection with zero stories in Case 1; actual five Story rows in Case 3. YAML status is declared, not independent closure proof. |
+| `production/stage.txt` | Declared `Technical Setup`; qualified transition remains unverified. |
+
+No module index is present, so module-index format checks are N/A with the actual
+absence noted; this does not waive required inputs to any selected owner. Story
+counts are zero in Cases 1-2. Every supplied module/ADR has substantive applicable
+sections and status/acceptance/evidence metadata, except the exact defects stated
+by each case. Required manifest identities are computed from retained fixture bytes,
+not guessed digest literals. Missing required originals invalidate only their
+affected claim; this baseline must be materialized and read before asserting zero gaps.
+There is no required live Source comparison or maintenance toolkit for this audit.
+
+All these invocations approve only the displayed `docs/adoption-plan-[date].md`
+create effect. The date is fixed by the fixture clock and no plan exists at that
+path. Repairs, review-mode setup, state/index updates, acceptance and publication
+are excluded; a follow-up recommendation does not execute a repair.
+
 ### Case 1: Happy Path — All GDDs compliant, no gaps, COMPLIANT
 
 **Fixture:**
-- `design/cdd/` contains 3 GDD files; each has all 8 required sections with content
-- `docs/architecture/adr-0001.md` exists with `## Status`, `## Engine Compatibility`,
-  and all other required sections
-- `production/stage.txt` exists
-- `docs/architecture/tr-registry.yaml` and `docs/architecture/control-manifest.md` exist
-- Engine configured in `technical-preferences.md`
+- Use the shared full-audit inputs above with no declared defects.
+- `design/cdd/combat.md`, `movement.md` and `stamina.md` are three module CDDs,
+  each substantively covering the Game semantic eight and a valid Status field.
+- `docs/architecture/adr-0001.md` has all actual applicable sections, including
+  Status, Acceptance Record, Engine Compatibility, ADR Dependencies, CDD
+  Requirements Addressed and Performance Implications. Its exact fixture choice
+  and Accepted scope have verifiable fixture authority; no additional Foundation
+  gate/three-ADR qualification is claimed by this one-ADR format audit.
 
 **Input:** `/adopt`
 
@@ -57,23 +130,33 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 6. Phase 3: zero BLOCKING, zero HIGH, zero MEDIUM, zero LOW gaps
 7. Summary reports no blocking gaps in the audited format scope; runtime/project
    qualification remains separately unverified.
-8. Uses `AskUserQuestion` to ask about writing the plan; user selects write
+8. Shows the concrete plan path/effect and reuses its matching fixture authority;
+   the no-prior-authority variant uses `AskUserQuestion`, then user selects write
 9. Adoption plan is written to `docs/adoption-plan-[date].md`
-10. Phase 7 offers next action: no blocking gaps, offers options for next steps
+10. Phase 7 gives one specific primary next action for this zero-gap format audit
+    (for example `/project-stage-detect`), with optional alternatives secondary;
+    required bodies/inputs are checked before an actionable recommendation
 
 **Assertions:**
-- [ ] Skill reads silently before presenting any output
+- [ ] After the single initial scanning line, skill reads the complete selected
+  artifact/input scope silently before audit findings, counts or recommendations
 - [ ] "Scanning project artifacts..." appears before the silent read phase
-- [ ] Gap counts show 0 BLOCKING, 0 HIGH, 0 MEDIUM (or only LOW)
+- [ ] With the complete zero-defect fixture, gap counts show 0 BLOCKING, 0 HIGH,
+  0 MEDIUM and 0 LOW; qualification/runtime remain separately unverified
 - [ ] Existing named plan authority continues; absent scope uses `AskUserQuestion` before writing
 - [ ] Adoption plan file is written to `docs/adoption-plan-[date].md`
-- [ ] Phase 7 offers a specific next action (not just a list)
+- [ ] Phase 7 names one specific primary next action; optional choices remain
+  secondary and no next skill is auto-run
 
 ---
 
 ### Case 2: Non-Compliant Documents — GDDs missing sections, NEEDS MIGRATION
 
 **Fixture:**
+- Start from the shared full-audit baseline, replace the three modules with the
+  two below, remove only the declared required inputs/sections, and retain other
+  complete bodies and identities. The missing ADR Status blocks relied-on scope;
+  the existing root governance is not re-ratified by this audit.
 - `design/cdd/` contains 2 GDD files:
   - `combat.md` — missing `## Acceptance Criteria` and `## Formulas` sections
   - `movement.md` — all 8 sections present
@@ -114,17 +197,24 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 ### Case 3: Mixed State — Some docs compliant, some not, partial report
 
 **Fixture:**
+- Use the shared baseline with four module bodies, three ADRs and five Stories.
+  All supplied manifest/required-reference identities are complete; local Story
+  details use valid named CDD/no-ADR dispositions where no material ADR is required.
 - 4 GDD files: 2 fully compliant, 2 with gaps (one missing Tuning Knobs, one missing Edge Cases)
 - ADRs: 3 files — 2 compliant, 1 missing `## ADR Dependencies`
-- Stories: 5 files — 3 have TR-ID references, 2 do not
-- Infrastructure: all critical files present; `technical-preferences.md` fully configured
+- Stories: 5 substantive files — 3 have registry-resolved assigned TR-IDs,
+  2 omit required TR-ID references. All retain status, governing AC, decision
+  disposition, manifest identities and history; unexecuted AC remains NotRun.
+- Infrastructure: all critical files present; `standards/technical-preferences.md` fully configured
 
 **Input:** `/adopt`
 
 **Expected behavior:**
 1. Skill audits all artifact types
-2. Audit summary shows totals: "4 GDDs (2 fully compliant, 2 with gaps); 3 ADRs
-   (2 fully compliant, 1 with gaps); 5 stories (3 with TR-IDs, 2 without)"
+2. Audit summary shows format totals: "4 GDDs (2 fully compliant, 2 with gaps);
+   3 ADRs (2 fully compliant, 1 with gaps); 5 Stories (3 format-compliant,
+   2 with gaps — missing required TR-ID references)". These tallies do not certify
+   runtime AC, Story closure or project qualification.
 3. Gap classification:
    - No BLOCKING gaps
    - HIGH: 1 ADR missing `## ADR Dependencies`
@@ -136,9 +226,11 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 6. `AskUserQuestion` to write plan; writes after approval
 
 **Assertions:**
-- [ ] Per-artifact compliance tallies are shown (N compliant, M with gaps)
+- [ ] Per-artifact format tallies are shown for CDDs (2/2), ADRs (2/1) and
+  Stories (3/2), with the actual missing roles; tallies do not imply qualification
 - [ ] Existing bodies/history preserved; absent required fields do not auto-pass
-- [ ] No BLOCKING gaps results in no BLOCKING section in migration plan
+- [ ] With 0 BLOCKING gaps, migration plan has no BLOCKING action section or
+  fake blocking task; the audit summary still reports BLOCKING: 0
 - [ ] HIGH gap precedes MEDIUM gaps in plan ordering
 - [ ] Missing/new scope is requested before writing; matching named authority continues
 
@@ -150,7 +242,7 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 - Repository has no files in `design/cdd/`, `docs/architecture/`, `production/epics/`
 - `production/stage.txt` does not exist
 - `src/` directory does not exist or has fewer than 10 files
-- No game-concept.md, no module-index.md
+- Neither substantive Game nor Product concept exists; no module-index.md
 
 **Input:** `/adopt`
 
@@ -174,7 +266,8 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 ### Case 5: Director Gate Check — No gate; adopt is a utility audit skill
 
 **Fixture:**
-- Project with a mix of compliant and non-compliant GDDs
+- Use Case 2 complete baseline and declared defects. The audit completes and
+  the named plan-only write is approved; no repair or review-mode write is covered.
 
 **Input:** `/adopt`
 
@@ -199,7 +292,8 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 - [ ] Reuses exact named plan authority; requests absent/new effects after concrete scope
 - [ ] Adoption plan written to `docs/adoption-plan-[date].md` — not to any other path
 - [ ] Migration plan items ordered: BLOCKING first, HIGH second, MEDIUM third, LOW last
-- [ ] Phase 7 always offers a single specific next action (not a generic list)
+- [ ] After a completed audit, Phase 7 offers one specific primary next action
+  with optional choices secondary; the fresh-project stop remains the Case 4 route
 - [ ] Preserves existing bodies/history and repairs only named approved gaps
 - [ ] Does not invoke director gates at any point
 
@@ -210,10 +304,13 @@ None. `/adopt` is a brownfield audit utility. No director gates apply.
 - The `cdds`, `adrs`, `stories`, and `infra` argument modes narrow the audit scope;
   each follows the same pattern as the full audit but limited to that artifact type.
   Not separately fixture-tested here.
-- The module-index.md parenthetical status value check (BLOCKING) is a special case
-  that triggers an immediate fix offer before writing the plan; not separately tested.
-- The review-mode.txt prompt (Phase 6b) runs after plan writing if `production/review-mode.txt`
-  does not exist; not separately tested here.
+- The module-index.md status check follows its actual owner and downstream
+  comparison. Valid historical labels or parenthetical notes are not inherently
+  BLOCKING. Phase 7 offers immediate help only for the highest-priority actual
+  BLOCKING gap; repair still needs its own scoped authority. Not separately tested.
+- The review-mode.txt prompt (Phase 6b) runs after plan writing only when review-mode
+  setup is in the requested scope and `production/review-mode.txt` is absent.
+  A preference selection alone does not authorize its write. Not separately tested.
 
 ## Domain, owner and effect counterexamples
 

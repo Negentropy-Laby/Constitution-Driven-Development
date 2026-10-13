@@ -44,6 +44,40 @@ Record `full`/`lean`/`solo` mode and required/completed/skipped/unavailable gate
 Skipped gates do not establish approval or independence. Review requirements
 follow the selected workflow; this document adds no unconditional routine gate.
 
+## Validation scope and model-based evaluation
+
+Select validation from the affected behavior, owning contract and authorized scope.
+Routine changes do not require running the Codex and Claude Code CLIs after every
+edit. Arrange host CLI tests when the change affects that host's integration behavior
+or the user explicitly requests them; they are not a universal completion gate.
+Template, documentation and checker changes still receive the static, consistency,
+regression and independent review checks applicable to their affected contracts and
+selected workflow. This rule does not disable either host or waive applicable
+business API/CLI, project QA or integration requirements.
+
+For template instruction clarity, executability and robustness evaluation, prefer
+an available smaller model as the primary evaluator. Confirm the concrete available
+model/configuration when that evaluation is actually authorized; do not prescribe a
+vendor/model here or change an author/reviewer's assigned model as a side effect.
+Record the exact evaluated inputs and fixture identity, model ID and version,
+configuration (including relevant tool/permission/context settings), actual host or
+evaluation-harness version, and predetermined judgment criteria. Disclose unknown
+metadata. An advanced model may assist diagnosis, but its ability to compensate for
+instruction gaps does not prove that the template is sufficiently clear or robust
+for a smaller model.
+
+Keep model-behavior evaluation separate from host integration validation, including
+instruction discovery/loading, paths, permissions and tool mapping. Model scores
+cannot substitute for applicable integration evidence. Static/spec instruction
+reasoning and file-level readback do not prove native loading or model execution.
+
+Record host tests as NotApplicable when outside the affected scope, ExcludedByUser
+when explicitly excluded, or NotRun when applicable and planned but not executed.
+Preserve the actual reason and limit related claims; never label an unexecuted test
+PASS. An unrelated host login/environment gap does not block other authorized work.
+Future applicable host tests remain allowed under their own scope; a current
+exclusion is not a permanent prohibition.
+
 ## Identity and preservation
 
 Working records are editable. Published revisions preserve immutable original

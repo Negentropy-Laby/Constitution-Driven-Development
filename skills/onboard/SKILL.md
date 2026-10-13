@@ -22,20 +22,51 @@ continues; analysis is read-only and report-only excludes input/index/state writ
 
 ## Purpose Routing before Contributor Onboarding
 
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+**Confirm asset ownership before instruction purpose.** Apply
+`standards/skill-purpose.md` after establishing actual CDD framework provenance,
+ownership and delivery role for the complete package and its required support.
+Classify purpose only within that confirmed CDD asset collection. Project-owned
+skills, agents/roles, tools, configuration and documents follow their project's
+rules, including development capabilities; development use, native instruction
+fields and skill-directory placement do not make them CDD assets. Renaming or
+tailoring a CDD template does not itself change its ownership. Unresolved ownership
+stays pending only for the affected action.
 
-Read `standards/skill-purpose.md`: using delivered functions differs from developing
-this project. Contributor/agent orientation below is development support; its body/
-exclusive references/overlays stay local-only in a Target even if tailored/native.
-Generated project orientation documents follow their own rules. Product-user
-onboarding should use actual delivered instructions/capabilities rather than
-contributor development steps. Mixed skills must split; packaging gives no exception.
+Confirmed CDD developer templates, full platform projections and exclusive support
+remain local-only in a Target, excluded from Git tracking/staging/commits/delivery/
+publication. Within that CDD collection, inspect complete bodies, conditional
+branches and direct/indirect support; split mixed CDD/project content before
+submission. Native `developer_instructions` fields and standalone roles receive
+the same ownership review even without a skill dependency. Minimal adaptations
+and independent configuration must not carry or reconstruct CDD framework
+instruction bodies or exclusive support; a native loader alone does not qualify
+a copied CDD role as independent configuration. This CDD-related restriction does
+not exclude independently established project-owned development skills or roles.
+Names/fields such as test or release do not decide ownership or purpose.
+
+Git exclusion does not disable authorized local retention, discovery, loading,
+effect or use. Preserve complete required local CDD inputs at usable paths; an
+input allowlist does not grant them Git eligibility. Missing/unread required
+originals leave the affected CDD workflow pending. A fresh Target clone may need
+those inputs provisioned separately. Review Git candidates separately from local
+inputs and update-write scope. Ordinary template use must not depend on a local
+maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
+authorized local maintenance operations remain allowed.
+
+Do not submit a general CDD source mirror, template-maintenance tools/annotations,
+tool-only metadata, maintenance locks/caches or actual template-maintenance output.
+The designated CDD Source owns general CDD definitions independently of local
+storage. Local copies alone do not establish Source authority or authorize moving,
+deleting or changing log paths.
+
+Distinguish using delivered functions from developing the actual project.
+Contributor/agent orientation below is CDD framework development support; its body/
+exclusive framework references/overlays stay local-only in a Target even if tailored/
+native. Source delivers its templates/full projections as framework product assets.
+Project-owned contributor skills, native roles and generated orientation documents
+retain project rules. Product-user onboarding uses actual delivered instructions/
+capabilities. Inspect shared/mixed ownership per part; split confirmed CDD content
+and exclusive support from project-owned candidates before submission.
 
 ## Phase 0: Domain Routing
 
@@ -52,8 +83,38 @@ and established session context. Missing runtime copies do not imply missing
 governance; disclose source gaps and retain supported partial guidance.
 
 Read the actual selected installed role definition if a role is specified. CDD
-Source may read its canonical owner; a Target must not restore a general agent
-mirror for this lookup. Report missing/unknown observations when unavailable.
+Source may read its canonical owner; a Target reads its complete authorized local
+role inputs, including ignored CDD inputs, without requiring a general CDD Source
+mirror or maintenance toolkit. Project-owned roles retain project rules. This lookup
+grants no import/copy or runtime-activation authority. Report missing/unknown
+observations when unavailable; ignore status alone does not make a readable role
+unavailable.
+
+### Phase 1a: Establish Configuration and Freshness
+
+Assess actual applicable configuration bodies, including populated legacy aliases,
+after the reads above. **Configured** means actual applicable values are present;
+a valid N/A choice is not an unset placeholder. **NotConfigured** means the
+successfully read applicable configuration is explicitly unset or retains its
+unconfigured choice/placeholders. Missing, inaccessible, insufficient or conflicting
+configuration stays **Unknown**, with the affected gap disclosed.
+
+Confirm a fresh project only when direct checks show NotConfigured plus reusable
+root defaults without accepted project laws, substantive concepts/business source,
+ADRs, sprints or active project commitments. A missing runtime root copy or optional
+Memory Bank alone does not establish fresh or absent governance: use available
+canonical root guidance and approved governing alternatives. An established legacy
+project with usable configuration/context remains an established project. If required
+governing sources are unavailable, affected orientation remains BLOCKED while
+supported observations continue.
+
+For confirmed fresh + NotConfigured, state **This project has not been configured yet** and provide minimal orientation. Recommend `/constitute` as the primary next
+action after reading its complete installed entry and required references for the
+actual fresh branch. Explain only that entry's actual Starting Fresh handoff and
+catalog route (brainstorm, then return for principles, with stack setup when
+applicable); do not invent a fixed initialize/setup/brainstorm sequence. Missing
+required recommendation inputs stay disclosed and pending. This recommendation
+runs no skill, initializes no governance and activates nothing.
 
 ---
 
@@ -78,8 +139,11 @@ Read recent changes (git log if available) to understand current momentum.
 # Onboarding: [Role/Area]
 
 ## Project Summary
-[Game vision/player experience or Product user promise/workflow; state declared,
-observed/candidate and verified qualification separately]
+[Game vision/player experience or Product user promise/workflow; report
+Configured/NotConfigured/Unknown from actual applicable configuration, observed
+engine/stack values and domain. State declared phase, observed/candidate work and
+verified qualification separately. For confirmed fresh + NotConfigured, say the
+project has not been configured yet; disclose source gaps without inventing values.]
 
 ## Your Role
 [What this role does on this project, key responsibilities, who you report to]
@@ -142,6 +206,13 @@ and save outcome; it does not certify project/Story/runtime qualification.
 Unavailable required sources leave affected orientation BLOCKED with useful
 partial guidance retained; do not call the missing result complete.
 
+For confirmed fresh + NotConfigured, the primary recommendation is `/constitute`
+under Phase 1a's complete-read check; it is a recommendation, not an invocation.
+For established projects, offer relevant next actions from the observed context:
+
 - Share the onboarding doc with the new contributor before their first session.
-- Run `/sprint-status` to show the new contributor current progress.
-- Run `/help` if the contributor needs guidance on what to work on next.
+- Use `/sprint-status` for an actual current sprint.
+- Use `/help` if the contributor needs guidance on what to work on next.
+
+Unknown configuration/freshness retains supported neutral guidance and its source
+gaps; it does not become NotConfigured or trigger initialization.

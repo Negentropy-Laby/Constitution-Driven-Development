@@ -93,24 +93,41 @@ Install these tools before using the template:
 - `jq`, recommended for hook validation (hooks fall back to `grep` when absent).
 
 Clone the designated Source library to inspect its delivered templates.
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+**Confirm asset ownership before instruction purpose.** First establish actual CDD
+framework provenance, ownership and delivery role for the complete package and its
+required support. Apply instruction-purpose classification only within that confirmed
+CDD asset collection. Project-owned skills, agents/roles, tools, configuration and
+documents follow their project's rules; development use, native instruction fields
+and skill-directory placement do not make them CDD assets. Renaming or tailoring a
+CDD template does not itself change its ownership. Unresolved ownership stays pending.
 
-For a Target, first classify complete skills under `standards/skill-purpose.md`:
-using delivered functions differs from developing this project. Development-only
-bodies/exclusive references/overlays stay local-only, including bespoke projections.
-Split mixed packages; product-use skills may be project product capabilities. Review
-minimal adaptation/independent-configuration Git candidates apart from local inputs
-in `adapters/README.md`; these categories cannot carry development-instruction bodies. Install required
-neutral templates/specs and generic standards/workflow originals as readable
-local-only inputs; do not add them or general Source mirrors to Target Git delivery.
-A fresh Target clone may need those inputs and complete development-instruction packages/references
-installed separately before affected CDD development use.
+**Target Git separation preserves authorized local use.** CDD framework assets and
+maintenance tools are excluded from Target Git tracking, staging, commits and delivery/
+publication contents. This does not prohibit their authorized local retention,
+discovery, loading, effect or use. Keep complete required inputs at usable paths.
+Ordinary template use must not depend on the local maintenance toolkit. Ignore and
+runtime loading are separate; existing tracked content requires separately authorized,
+recoverable tracking-only migration that leaves local files and required references intact.
+
+Within confirmed CDD packages, independent portable configuration must neither carry
+nor reconstruct CDD instruction bodies or exclusive support, and must have substantive
+readers independent of those packages. A native loader alone does not qualify.
+
+For a Target, classify complete confirmed CDD packages under `standards/skill-purpose.md`:
+using delivered functions differs from developing the project within that collection.
+CDD development instruction bodies, projections and exclusive references/overlays
+remain outside Target Git, including tailored copies. Project-owned development
+skills, roles, tools, configuration and documents retain project rules; separate
+confirmed CDD content/support from project-owned candidates in mixed packages.
+Review minimal CDD bindings and independent-configuration Git candidates apart from
+local inputs in `adapters/README.md`; those candidates must neither carry nor
+reconstruct CDD instruction bodies or exclusive support. Install required CDD
+templates/specs and generic standards/workflow originals as usable local inputs;
+do not add them or general CDD Source mirrors to Target Git delivery. Authorized
+local discovery, loading, effect and use remain allowed independently of ignore rules.
+A fresh Target clone may need complete required CDD packages/references installed
+separately before affected workflows can run. Source developer templates and full
+projections remain Source framework product assets; a Target copy gains no Source authority.
 Preserve project-specific inputs and
 customizations before import or update.
 
