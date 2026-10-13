@@ -44,21 +44,25 @@ declared runtime targets:
 
 Both runtimes share `INSTRUCTIONS.md`, `workflow/`, `templates/`, `standards/`,
 `skill_testing/`, and nested `src/`/`design/`/`docs/` `INSTRUCTIONS.md` guidance.
-The Source library publishes reusable templates. In a business target, required
-local CDD templates, generic standards/workflow originals and testing definitions
-remain readable local-only inputs; they are excluded from Target Git candidates.
-Only minimal required adaptations and independent configuration belong to the
-target's CDD set. Apply [skill purpose](standards/skill-purpose.md): development-only
-skills, bespoke native projections and exclusive references/overlays stay local-only.
-Skills using delivered product functions for user tasks may be product assets under
-project rules; mixed packages must split. CDD Source developer templates and full
-projections are its own framework product assets.
+The Source library delivers its developer templates and complete projections as
+framework product assets. A Target first establishes actual CDD provenance,
+ownership and delivery role, then applies [skill purpose](standards/skill-purpose.md)
+only within that confirmed CDD asset collection. Project-owned skills, agents/roles,
+tools, configuration and documents follow project rules even when used for development.
+Required CDD templates, projections, generic standards/workflow originals and testing
+definitions remain usable local inputs, excluded from Target Git tracking, staging,
+commits and delivery/publication. They may be retained, discovered, loaded, take
+effect and be used locally under existing authorization. Minimal required bindings
+and independent portable configuration are CDD-related Git candidates only when
+they neither carry nor reconstruct CDD instruction bodies or exclusive support.
+Renaming or tailoring CDD content does not change its ownership; split confirmed
+CDD content/support from project-owned candidates in mixed packages.
 Codex's native `.codex/rules/*.rules` command-approval policy is unrelated and
 never generator-owned.
 
 An import-mode consumer uses its approved installed platform files directly and
-keeps necessary support and project customizations. General `agents/` and `skills/`
-are owned by the designated Source library; the consumer excludes a general
+keeps necessary support and project customizations. General CDD `agents/` and `skills/`
+definitions are owned by the designated Source library; the consumer excludes a general
 source mirror from its Git submission/publication set. Local placement is allowed
 inside or outside the project and does not confer Source authority. Read installed entries and their required references to use
 them; a local maintenance kit, import profile or lock is not a normal-use gate.
@@ -300,8 +304,9 @@ maintenance toolkit or copies of general root `agents/` or `skills/`.
 The skill still requires approval for project writes and separate ratification.
 
 For imports, include full installed `constitute` and `adopt` entries in the approved
-local-use platform package. These develop/govern a Target and stay local-only there,
-including exclusive support. Review Git candidates separately from the complete
+local-use platform package. These CDD framework entries and exclusive support remain
+available for authorized local use and outside Target Git tracking, staging, commits
+and delivery/publication. Review Git candidates separately from the complete
 local package and neutral template/spec inputs. `adopt full` or `adopt infra` checks the actual
 project-owned instructions or existing law index and proposes only an additive,
 approved merge when these boundary rules are missing. Importing them does not
@@ -311,21 +316,34 @@ version; an older Git pin or clone does not acquire unpublished working changes.
 
 ### Using CDD in an existing project
 
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+**Confirm asset ownership before instruction purpose.** First establish actual CDD
+framework provenance, ownership and delivery role for the complete package and its
+required support. Apply instruction-purpose classification only within that confirmed
+CDD asset collection. Project-owned skills, agents/roles, tools, configuration and
+documents follow their project's rules; development use, native instruction fields
+and skill-directory placement do not make them CDD assets. Renaming or tailoring a
+CDD template does not itself change its ownership. Unresolved ownership stays pending.
+
+**Target Git separation preserves authorized local use.** CDD framework assets and
+maintenance tools are excluded from Target Git tracking, staging, commits and delivery/
+publication contents. This does not prohibit their authorized local retention,
+discovery, loading, effect or use. Keep complete required inputs at usable paths.
+Ordinary template use must not depend on the local maintenance toolkit. Ignore and
+runtime loading are separate; existing tracked content requires separately authorized,
+recoverable tracking-only migration that leaves local files and required references intact.
+
+Within confirmed CDD packages, independent portable configuration must neither carry
+nor reconstruct CDD instruction bodies or exclusive support, and must have substantive
+readers independent of those packages. A native loader alone does not qualify.
 
 Read the approved installed platform entries, their required references and the
 project's instructions. Ordinary use works offline without a local maintenance
 reader, profile or lock. Missing required installed originals leave the affected
 work incomplete; installation alone does not prove loading, execution or freshness.
 
-The designated CDD Source owns general definitions independently of local storage.
-CDD separation rules concern Git submission/publication content, not directories.
+The designated CDD Source owns general CDD definitions independently of local storage.
+CDD separation concerns Target Git tracking, staging, commits and delivery/publication
+content; it preserves authorized local retention, discovery, loading, effect and use.
 Local maintenance files may stay inside or outside either repository; their
 presence alone does not authorize a move, deletion or log-path change. Retain
 project-specific configuration, reviewed differences, business documents and

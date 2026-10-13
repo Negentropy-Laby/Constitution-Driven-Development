@@ -60,15 +60,20 @@ SDK/library, and internal headless projects may record it as not applicable.
 
 1. Record the exact current revision and retain recoverable before bytes. Use a
    short-lived branch if the project's trunk-based policy calls for one.
-2. Verify the sole Source and classify complete skills under `standards/skill-purpose.md`
-   before selecting Git candidates separately from local inputs in `adapters/README.md`.
-   Development-instruction bodies/exclusive references/overlays stay local-only; bespoke/native/full
-   projections and configuration labels give no exception. Reusable templates/specs and generic
-   standards/workflow originals remain local-only in a target. Do not add general root `agents/` or `skills/`
-   mirrors to the target Git submission/publication set.
+2. Verify the sole CDD Source and establish actual provenance, ownership and delivery
+   role for complete packages and their required support. Apply `standards/skill-purpose.md`
+   only within the confirmed CDD asset collection, then select Git candidates separately
+   from local inputs in `adapters/README.md`. Project-owned development skills, roles,
+   tools, configuration and documents remain governed by project rules. CDD instruction
+   bodies, projections, exclusive references/overlays, reusable templates/specs and
+   generic standards/workflow originals stay outside Target Git tracking, staging,
+   commits and delivery/publication while remaining available for authorized local use.
+   Renaming, tailoring or native packaging does not change CDD ownership. Do not add
+   general CDD `agents/` or `skills/` mirrors to the Target Git delivery set.
 3. Preserve project-owned artifacts under `design/`, `docs/architecture/`,
    `production/`, `prototypes/`, `src/`, and `tests/`, including actual test roots,
-   valid customizations, production configuration and historical evidence.
+   valid customizations, production configuration and historical evidence. Preserve
+   project-owned skills, roles, tools and configuration wherever they are stored.
 4. Run `/project-stage-detect` to determine the current phase.
 5. Run `/adopt` if the project already has CDDs, ADRs, epics, stories, or
    sprint artifacts.
@@ -82,25 +87,50 @@ decisions, merge the new template structure into it rather than overwriting it.
 
 ### Platform adapters and project configuration
 
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+**Confirm asset ownership before instruction purpose.** First establish actual CDD
+framework provenance, ownership and delivery role for the complete package and its
+required support. Apply instruction-purpose classification only within that confirmed
+CDD asset collection. Project-owned skills, agents/roles, tools, configuration and
+documents follow their project's rules; development use, native instruction fields
+and skill-directory placement do not make them CDD assets. Renaming or tailoring a
+CDD template does not itself change its ownership. Unresolved ownership stays pending.
 
-A consuming project keeps its approved platform adapters, required local neutral
-inputs and project-specific configuration. Only required platform adaptations and
-independent portable configuration without development-instruction bodies enter its CDD candidates.
-Qualified product-use skills follow project rules; development-only skills/exclusive
-references/overlays stay local-only even when tailored or projected. Split mixed
-packages. Reusable templates/specs and generic standards/workflow stay local-only.
-The designated Source owns general CDD definitions;
-exclude general source mirrors and template-maintenance tools from target Git
-submission/publication. Local copies may remain inside or outside the repository;
-the boundary does not require moving them or changing log locations. Back up complete project customizations and
+**Target Git separation preserves authorized local use.** CDD framework assets and
+maintenance tools are excluded from Target Git tracking, staging, commits and delivery/
+publication contents. This does not prohibit their authorized local retention,
+discovery, loading, effect or use. Keep complete required inputs at usable paths.
+Ordinary template use must not depend on the local maintenance toolkit. Ignore and
+runtime loading are separate; existing tracked content requires separately authorized,
+recoverable tracking-only migration that leaves local files and required references intact.
+
+Within confirmed CDD packages, independent portable configuration must neither carry
+nor reconstruct CDD instruction bodies or exclusive support, and must have substantive
+readers independent of those packages. A native loader alone does not qualify.
+
+A consuming project keeps its approved platform adapters, required local CDD inputs
+and project-owned configuration. Only minimal required bindings and independent
+portable configuration that neither carry nor reconstruct CDD instruction bodies or
+exclusive support enter its CDD-related Git candidates. Project-owned development
+skills, roles and product-use capabilities retain project rules. Within confirmed
+CDD packages, development instruction bodies and exclusive support remain excluded
+from Target Git even when tailored or projected; split them from project-owned
+candidates in mixed packages. Required CDD templates/specs and generic standards/
+workflow originals remain available locally. The designated Source delivers its
+developer templates and complete projections as framework product assets, excluding
+maintenance tools and records; a Target copy gains no Source authority. General CDD
+source mirrors and template-maintenance tools stay outside Target Git delivery.
+Local copies may remain inside or outside the repository and be discovered, loaded,
+take effect and be used under existing authorization. The boundary does not require
+moving them or changing log locations. Back up complete project customizations and
 review the exact changed delivery before applying an authorized update.
+
+Ignore rules prevent accidental addition of untracked content; they do not remove
+tracked/staged content or prevent forced addition or separate publication. Existing
+tracked CDD content needs the applicable governance gate and separate exact-path,
+recoverable tracking-only migration authority. Preserve actual local files, required
+references, project customizations, before bytes and Git history. Project-owned
+assets must not be selected for CDD untracking solely because they support development.
+An upgrade supplies no automatic untracking, move/delete, commit or publication authority.
 
 Preserve target-owned policies and runtime settings. Codex native
 `.codex/rules/*.rules` command-approval files are independent of CDD path policies.

@@ -17,26 +17,46 @@ Expected result:
 - The Source-library checkout opens without missing submodules or bootstrap steps.
 - Git and the selected AI agent runtime are available. Python is needed only
   for separately supplied, authorized local maintenance diagnostics.
-- A target separately reviews required local inputs and its Git candidates,
-  following `adapters/README.md`. Required templates/specs and generic standards/
-  workflow originals remain readable local-only inputs. Its CDD Git candidates
-  contain minimal adaptations and independent configuration without development-instruction bodies.
-  Apply `standards/skill-purpose.md` to complete packages: developer skills/exclusive
-  references/overlays stay local-only even when bespoke or fully projected. Split
-  mixed content; qualified product-use skills remain assets under project rules.
-  General root `agents/` and `skills/` remain owned by the designated Source and
-  are excluded from Target Git submission/publication regardless of local placement.
-- Retain exact before bytes and project customizations for any existing target.
+- A Target establishes actual CDD provenance, ownership and delivery role for complete
+  packages and support before applying `standards/skill-purpose.md` within that
+  confirmed collection. Project-owned development skills, roles, tools, configuration
+  and documents retain project rules. Review required local inputs separately from
+  Git candidates, following `adapters/README.md`. Required CDD templates/specs,
+  generic standards/workflow originals, instruction bodies, complete projections
+  and exclusive support stay outside Target Git tracking, staging, commits and
+  delivery/publication while remaining available for authorized local use. Minimal
+  CDD bindings and independent configuration must neither carry nor reconstruct
+  framework instruction bodies or exclusive support. Renaming or tailoring CDD
+  content does not change its ownership; split confirmed CDD content/support from
+  project-owned candidates in mixed packages. General CDD `agents/` and `skills/`
+  definitions remain owned by the designated Source regardless of local placement.
+  Source developer templates and complete projections remain its framework product assets.
+- Retain exact before bytes and project customizations for any existing Target.
+  Ignore does not remove existing tracking; any tracked CDD migration needs the
+  applicable governance gate and separate exact-path, recoverable tracking-only
+  authority that preserves local files, required references and Git history.
 
 ## 2. Delivery Validation
 
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+**Confirm asset ownership before instruction purpose.** First establish actual CDD
+framework provenance, ownership and delivery role for the complete package and its
+required support. Apply instruction-purpose classification only within that confirmed
+CDD asset collection. Project-owned skills, agents/roles, tools, configuration and
+documents follow their project's rules; development use, native instruction fields
+and skill-directory placement do not make them CDD assets. Renaming or tailoring a
+CDD template does not itself change its ownership. Unresolved ownership stays pending.
+
+**Target Git separation preserves authorized local use.** CDD framework assets and
+maintenance tools are excluded from Target Git tracking, staging, commits and delivery/
+publication contents. This does not prohibit their authorized local retention,
+discovery, loading, effect or use. Keep complete required inputs at usable paths.
+Ordinary template use must not depend on the local maintenance toolkit. Ignore and
+runtime loading are separate; existing tracked content requires separately authorized,
+recoverable tracking-only migration that leaves local files and required references intact.
+
+Within confirmed CDD packages, independent portable configuration must neither carry
+nor reconstruct CDD instruction bodies or exclusive support, and must have substantive
+readers independent of those packages. A native loader alone does not qualify.
 
 Read the installed skill entry and its required references for each reviewed
 workflow. For initialization this includes `templates/memory-bank/`,
@@ -53,12 +73,18 @@ Expected result:
 - Platform entries and required resources correspond to the reviewed Source
   revision and retain approved project differences.
 - T0 boundaries and T2 installed-path/external-Source contracts agree.
-- Purpose review identifies the actual product/function/task, complete bodies/effects
-  and exclusive/shared references. Names, project paths and test/release labels do
-  not prove product-use; independent configuration needs real independent readers.
-- Required local originals and development-instruction packages remain readable even when ignored in the Target. Git
-  tracking is not a prerequisite for these reads; a fresh Target clone may need
-  their separate local installation before affected workflows can run.
+- Ownership review establishes actual provenance, ownership and delivery role before
+  purpose review within the confirmed CDD collection. That review covers the actual
+  product/function/task, complete bodies/effects and exclusive/shared references.
+  Names, project paths and test/release labels alone establish neither CDD ownership
+  nor product-use; CDD-related independent configuration needs substantive readers
+  independent of framework instruction packages. Project-owned development assets
+  are not classified as CDD merely because of their development use.
+- Required local CDD originals and instruction packages remain complete and usable
+  even when ignored in the Target. Git tracking is not a prerequisite for authorized
+  retention, discovery, loading, effect or use; ignore rules are not runtime controls.
+  A fresh Target clone may need their separate local installation before affected
+  workflows can run.
 - Ordinary use and T2 mirror synchronization work from the installed local files
   without maintenance scripts, credentials, local locks or host-path records.
 - `git diff --check` reports no whitespace errors.

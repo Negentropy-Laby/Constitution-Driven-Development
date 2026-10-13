@@ -16,23 +16,39 @@ Game/Product parity contract.
 
 ## Local Checks
 
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+**Confirm asset ownership before instruction purpose.** First establish actual CDD
+framework provenance, ownership and delivery role for the complete package and its
+required support. Apply instruction-purpose classification only within that confirmed
+CDD asset collection. Project-owned skills, agents/roles, tools, configuration and
+documents follow their project's rules; development use, native instruction fields
+and skill-directory placement do not make them CDD assets. Renaming or tailoring a
+CDD template does not itself change its ownership. Unresolved ownership stays pending.
+
+**Target Git separation preserves authorized local use.** CDD framework assets and
+maintenance tools are excluded from Target Git tracking, staging, commits and delivery/
+publication contents. This does not prohibit their authorized local retention,
+discovery, loading, effect or use. Keep complete required inputs at usable paths.
+Ordinary template use must not depend on the local maintenance toolkit. Ignore and
+runtime loading are separate; existing tracked content requires separately authorized,
+recoverable tracking-only migration that leaves local files and required references intact.
+
+Within confirmed CDD packages, independent portable configuration must neither carry
+nor reconstruct CDD instruction bodies or exclusive support, and must have substantive
+readers independent of those packages. A native loader alone does not qualify.
 
 From a clean Source clone, run `git diff --check` and review each changed entry,
 its required references, governing standards and applicable Game/Product
 behavior. Verify proposed Source Git submission candidates and exact approved
 platform-output write paths against the complete canonical inputs. For a Target
 import/update, review its required local-input allowlist separately from Git
-candidates. Apply `standards/skill-purpose.md` to whole instruction/role packages: Source product
-templates stay Source assets; Target development-instruction bodies/support stay local-only even
-with bespoke overlays/full native projections. Use skills, minimal adaptations and
-independent configuration need their actual delivery role. Missing originals stay incomplete.
+candidates. Apply `standards/skill-purpose.md` only to whole packages and support
+confirmed as CDD by actual provenance, ownership and delivery role. Source developer
+templates and complete projections remain framework product assets. In a Target,
+CDD instruction bodies, projections and exclusive support remain outside Git delivery
+while retaining authorized local use, even when tailored. Project-owned development
+skills, roles, tools, configuration and documents follow project rules. Minimal CDD
+bindings and independent configuration must neither carry nor reconstruct framework
+instruction bodies or exclusive support. Missing required originals stay incomplete.
 
 Local generators, linters, maintenance tests and historical Source CI are supplied
 separately and excluded from template delivery. When those tools are actually

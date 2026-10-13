@@ -306,11 +306,13 @@ the combat-crafting loop engaging for 30+ minute sessions"]
 
 ## Next Steps
 
-- [ ] Get concept approval from creative-director
-- [ ] Fill in INSTRUCTIONS.md technology stack based on engine choice (`/setup-engine`)
-- [ ] Create game pillars document (`/design-review` to validate)
-- [ ] Decompose concept into systems (`/map-systems` — maps dependencies, assigns priorities, guides per-system CDD writing)
-- [ ] Create first architecture decision record (`/architecture-decision`)
-- [ ] Prototype core loop (`/prototype [core-mechanic]`)
-- [ ] Validate core loop with playtest (`/playtest-report`)
-- [ ] Plan first milestone (`/sprint-plan new`)
+- [ ] Resolve any pending governing principles with `/constitute`, reusing the exact accepted scope
+- [ ] Validate the concept and Game pillars with `/design-review`, then run `/gate-check concept`
+- [ ] Decompose the concept with `/map-systems` (dependencies, priorities and per-system CDD order)
+- [ ] Author MVP CDDs with `/design-system [system]`, review each, then run `/review-all-gdds` and `/gate-check systems-design`
+- [ ] Continue Technical Setup with `/setup-engine`, `/create-architecture` and the remaining catalog requirements, including Foundation ADRs, before `/gate-check technical-setup`
+- [ ] Follow the catalog's Pre-Production sequence: UX, core-loop prototype, epics/stories, sprint/readiness, then the required playtest before `/gate-check pre-production`
+
+Read `workflow/workflow-catalog.yaml` for current order, required/optional flags
+and actual domain applicability. Recommendations do not run a skill, accept a
+law/ADR or advance a phase; an early optional experiment does not skip its gate.

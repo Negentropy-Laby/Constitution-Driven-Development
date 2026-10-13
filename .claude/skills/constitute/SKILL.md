@@ -30,11 +30,50 @@ through discovery.
 
 ## Purpose before Project Governance
 
-Read `standards/skill-purpose.md` and identify whether the task uses delivered
-functions or develops/governs this project. This constitution skill and exclusive
-support are local-only Target templates, including tailored/full native copies.
-Route independent product-use tasks through their actual product capabilities
-without forcing CDD initialization.
+**Confirm asset ownership before instruction purpose.** Apply
+`standards/skill-purpose.md` after establishing actual CDD framework provenance,
+ownership and delivery role for the complete package and its required support.
+Classify purpose only within that confirmed CDD asset collection. Project-owned
+skills, agents/roles, tools, configuration and documents follow their project's
+rules, including development capabilities; development use, native instruction
+fields and skill-directory placement do not make them CDD assets. Renaming or
+tailoring a CDD template does not itself change its ownership. Unresolved ownership
+stays pending only for the affected action.
+
+Confirmed CDD developer templates, full platform projections and exclusive support
+remain local-only in a Target, excluded from Git tracking/staging/commits/delivery/
+publication. Within that CDD collection, inspect complete bodies, conditional
+branches and direct/indirect support; split mixed CDD/project content before
+submission. Native `developer_instructions` fields and standalone roles receive
+the same ownership review even without a skill dependency. Minimal adaptations
+and independent configuration must not carry or reconstruct CDD framework
+instruction bodies or exclusive support; a native loader alone does not qualify
+a copied CDD role as independent configuration. This CDD-related restriction does
+not exclude independently established project-owned development skills or roles.
+Names/fields such as test or release do not decide ownership or purpose.
+
+Git exclusion does not disable authorized local retention, discovery, loading,
+effect or use. Preserve complete required local CDD inputs at usable paths; an
+input allowlist does not grant them Git eligibility. Missing/unread required
+originals leave the affected CDD workflow pending. A fresh Target clone may need
+those inputs provisioned separately. Review Git candidates separately from local
+inputs and update-write scope. Ordinary template use must not depend on a local
+maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
+authorized local maintenance operations remain allowed.
+
+Do not submit a general CDD source mirror, template-maintenance tools/annotations,
+tool-only metadata, maintenance locks/caches or actual template-maintenance output.
+The designated CDD Source owns general CDD definitions independently of local
+storage. Local copies alone do not establish Source authority or authorize moving,
+deleting or changing log paths.
+
+Identify whether the task uses delivered functions or develops/governs the actual
+project. This CDD constitution skill and its exclusive framework support are
+local-only Target inputs, including tailored/full native copies; the designated
+Source delivers them as framework product assets. Project documents produced
+under their own authority retain their project ownership. Route independent
+product-use tasks through their actual product capabilities without forcing CDD
+initialization.
 
 ## Reusable Project Boundary Template
 
@@ -61,10 +100,13 @@ project's own code, documents or delivery evidence.
 
 “严格分离”“不混入”“仅保留”约束的是 Git 跟踪、暂存、提交及发布的文件内容集合，与本地存放目录无关。
 In these CDD boundaries, "strict separation", "must not mix" and "only retain"
-constrain the content selected for Git tracking, staging, commits and publication,
-not directory layout or local disk presence. Maintenance material may remain
-locally inside or outside either repository. Its presence alone is not a violation
-and must not trigger moving, deleting or relocating logs.
+constrain the content selected for Git tracking, staging, commits and delivery/
+publication, not directory layout or local disk presence. CDD templates, platform
+projections and maintenance material may remain inside or outside either repository
+and be discovered, loaded, take effect and be used under existing authorization.
+Git exclusion and ignore rules are not runtime loading controls. Local presence
+alone is not a violation and must not trigger moving, deleting or relocating logs.
+不进入 Git 并不禁止经授权的本地保留、发现、加载、生效和使用。
 
 Before submission or publication, review the actual changed content, Git index
 and intended delivery set. Use precise shared `.gitignore` rules against accidental
@@ -89,48 +131,59 @@ role, and Source-local maintenance tools/procedures do not become product assets
 
 ### Target business project
 
-A target project submits business code, substantive project documents and
-qualified product-use skills under its own rules. Its CDD Git set contains only
-minimal required adaptations and independent portable configuration without
-development-instruction bodies or exclusive support. Reusable CDD development templates,
+A target project submits project-owned skills, agents/roles, tools, configuration,
+business code, substantive documents, tests and QA/history under its own rules,
+including its development capabilities. Its CDD-related Git set contains only
+minimal required adaptations and independent portable configuration without CDD
+framework instruction bodies or exclusive support. Confirmed reusable CDD templates,
 generic standards/workflow originals and `skill_testing/` assets remain local-only.
 
-**Classify instruction purpose first.** Apply `standards/skill-purpose.md` to
-skills, agent/role definitions, native configuration containing instructions and
-equivalent templates with their complete reference/support closure. In a Target,
-content used only to develop this project is a local-only template, excluded from
-Git tracking/staging/commits/publication: requirements, design, coding, code review,
-development verification and release/maintenance. This includes independent roles
-and `developer_instructions` bodies without any skill dependency. Project-specific
-names/paths/prompts/overlays, TOML/native loading, platform directories and complete
-projections give no exception. Exclusive development support follows the body.
-Minimal adaptations/configuration must not carry or reconstruct it; independent
-configuration needs real readers independent of development instructions/role packages,
-not merely a native agent loader. Split mixed bodies/dependencies before submission.
-Product-use skills or agents call this project's delivered functions for user tasks
-and may be product capabilities under project rules. Names/fields such as test,
-release or developer_instructions do not decide purpose. Unknown content remains
-pending. Preserve complete required local development inputs separately from Git.
-A required local read or input allowlist does not grant Git tracking, staging,
-commit or publication eligibility. Keep actual required originals locally; missing
-or unread originals leave the affected workflow pending. A fresh target clone may
-need these inputs installed separately before the affected CDD workflow can run.
-Review Target Git candidates separately from the local required-input allowlist.
-Do not submit a general CDD source mirror, template-maintenance tools/annotations, tool-only
-metadata, maintenance locks/caches or actual template-maintenance process output.
-The designated CDD Source owns general CDD agent/skill definitions; that ownership
-is independent of the location of any local copy. Local copies alone do not
-establish Source authority or justify an automatic move or deletion.
+**Confirm asset ownership before instruction purpose.** Apply
+`standards/skill-purpose.md` after establishing actual CDD framework provenance,
+ownership and delivery role for the complete package and its required support.
+Classify purpose only within that confirmed CDD asset collection. Project-owned
+skills, agents/roles, tools, configuration and documents follow their project's
+rules, including development capabilities; development use, native instruction
+fields and skill-directory placement do not make them CDD assets. Renaming or
+tailoring a CDD template does not itself change its ownership. Unresolved ownership
+stays pending only for the affected action.
+
+Confirmed CDD developer templates, full platform projections and exclusive support
+remain local-only in a Target, excluded from Git tracking/staging/commits/delivery/
+publication. Within that CDD collection, inspect complete bodies, conditional
+branches and direct/indirect support; split mixed CDD/project content before
+submission. Native `developer_instructions` fields and standalone roles receive
+the same ownership review even without a skill dependency. Minimal adaptations
+and independent configuration must not carry or reconstruct CDD framework
+instruction bodies or exclusive support; a native loader alone does not qualify
+a copied CDD role as independent configuration. This CDD-related restriction does
+not exclude independently established project-owned development skills or roles.
+Names/fields such as test or release do not decide ownership or purpose.
+
+Git exclusion does not disable authorized local retention, discovery, loading,
+effect or use. Preserve complete required local CDD inputs at usable paths; an
+input allowlist does not grant them Git eligibility. Missing/unread required
+originals leave the affected CDD workflow pending. A fresh Target clone may need
+those inputs provisioned separately. Review Git candidates separately from local
+inputs and update-write scope. Ordinary template use must not depend on a local
+maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
+authorized local maintenance operations remain allowed.
+
+Do not submit a general CDD source mirror, template-maintenance tools/annotations,
+tool-only metadata, maintenance locks/caches or actual template-maintenance output.
+The designated CDD Source owns general CDD definitions independently of local
+storage. Local copies alone do not establish Source authority or authorize moving,
+deleting or changing log paths.
 
 **Existing tracked neutral inputs.** When a boundary change affects reusable
-neutral template/standard/workflow/spec originals or development-instruction packages
+confirmed CDD template/standard/workflow/spec originals or CDD instruction packages
 already tracked under earlier
 guidance, record reconciliation as pending until the applicable governance gate
 closes. Earlier tracking is neither automatically grandfathered as compliant nor
 judged a violation under an unaccepted rule. Keep local originals and Git history.
 After acceptance or a valid scoped exception under existing governance, obtain
 separate exact-path project migration authority before removing reviewed reusable
-originals or development-only skill/support content from Git tracking. Retain their local files, required-reference closure,
+originals or CDD development-template/support content from Git tracking. Retain their local files, required-reference closure,
 project customizations and recoverable before bytes; review the actual index/diff
 and separately eligible Git candidates. Commit/publication still require their
 own authority. This differs from already-tracked maintenance content and grants
@@ -286,10 +339,14 @@ assets. Include `workflow/workflow-catalog.yaml` and the authority, decision and
 collaboration standards referenced by those contracts. These are required local-use
 inputs under `adapters/README.md`, separate from Target Git candidates.
 Resolve further required references for the selected workflow into the reviewed
-per-file local-input allowlist. Reusable templates and skill-testing definitions
-and complete development-instruction packages/exclusive support remain local-only in a target.
-Required installation does not grant Git eligibility. Missing/unread originals leave affected files
-pending; installed skill text or a same-name placeholder is not their substitute.
+per-file local-input allowlist. Confirmed reusable CDD templates, skill-testing
+definitions and complete CDD instruction packages/exclusive framework support
+remain outside Target Git. Keep them complete at usable local paths for authorized
+discovery, loading, effect and use, even when ignored. Project-owned inputs retain
+their own project rules; development use or a CDD reference does not change their
+ownership. Required local installation does not grant CDD Git eligibility.
+Missing/unread originals leave affected files pending; installed skill text or a
+same-name placeholder is not their substitute.
 
 Create or update these files:
 
@@ -345,11 +402,13 @@ leave its mirror pending. Local template-maintenance scripts are not a
 prerequisite for constitution initialization.
 `memory_bank/t2_execution/current_roadmap.md` is maintained by `/cdd-status`.
 Initialize `framework_contract.md` from its matching delivered template. Bind
-it to the project's actual installed platform paths, reviewed neutral inputs,
-retained customizations and designated CDD Source identity/revision using
-existing project decisions. Leave unresolved bindings explicitly unconfigured;
-do not invent a Source or add general source mirrors/maintenance tools to the
-Git submission or publication set. Local placement does not establish authority.
+it to the project's actual installed platform paths, reviewed local CDD inputs,
+retained project-owned customizations and designated CDD Source identity/revision
+using existing project decisions. Confirm provenance, ownership and delivery role
+before classifying the CDD inputs. Leave unresolved bindings explicitly
+unconfigured; do not invent a Source or add general CDD source mirrors/maintenance
+tools to the Git submission or publication set. Local placement does not establish
+authority, and Git exclusion does not disable authorized local use.
 Copy `adapter_state.yaml` from its matching template unchanged. It must remain
 exactly `uninitialized`: do not fabricate digests, a commit, a timestamp, a check
 command or a `fresh` result during `/constitute`. After the approved skeleton is
@@ -627,14 +686,21 @@ After writing, flag any downstream impacts:
 
 ## Phase 7: Pipeline and Hand Off
 
-Show the user the full journey ahead based on their detected stage and domain.
+Show the journey for the actual selected stage and domain. Read
+`workflow/workflow-catalog.yaml` for current step order, domain applicability,
+required/optional/required_when flags and phase boundaries. The condensed paths
+below do not promote optional commands into blockers or replace current catalog
+requirements. Preserve the selected Starting Fresh route: route A may brainstorm
+first and return for principles; unresolved constitution work is still required
+before the Concept boundary. A declaration or artifact count is not qualification,
+and these recommendations execute no command or transition.
 
 ### Stage 0 (Empty) Pipeline
 
 **[游戏专用] Game Pipeline:**
 
 **Concept Phase:**
-`/brainstorm` → `/constitute` → `/design-review` → `/gate-check concept`
+`/constitute` → `/brainstorm` (concept document; exploration optional) → `/design-review` → `/gate-check concept`
 
 **Systems Design Phase:**
 `/map-systems` → `/design-system [system]` → `/design-review` → `/review-all-gdds` → `/gate-check systems-design`
@@ -644,13 +710,13 @@ Show the user the full journey ahead based on their detected stage and domain.
 Then create `design/accessibility-requirements.md` from `templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
 
 **Pre-Production Phase:**
-`/ux-design` → `/ux-review` → `/prototype` → `/playtest-report` → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`
+`/ux-design` → `/ux-review` → `/prototype` → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/playtest-report` → `/gate-check pre-production`
 
 **Production Phase:**
-`/dev-story` (repeat) → `/story-done` → `/code-review` → `/sprint-status`
+`/dev-story` (repeat) → `/code-review` (optional) → `/story-done` → `/sprint-status`
 
 **Polish Phase:**
-`/perf-profile` → `/balance-check` → `/team-polish`
+`/perf-profile` (optional) → `/balance-check` (optional) → `/playtest-report` (three cumulative Game sessions) → `/team-polish` → `/gate-check polish`
 
 **Release Phase:**
 `/release-checklist` → `/launch-checklist` → `/team-release`
@@ -661,7 +727,7 @@ Then create `design/accessibility-requirements.md` from `templates/accessibility
 **[通用产品] Product Pipeline:**
 
 **Concept Phase:**
-`/brainstorm` → `/constitute` → `/design-review` → `/gate-check concept`
+`/constitute` → `/brainstorm` (concept document; exploration optional) → `/design-review` → `/gate-check concept`
 
 **Specification Phase:**
 `/map-systems` → `/design-system [module]` → `/design-review` → `/review-all-gdds` → `/gate-check systems-design`
@@ -671,13 +737,16 @@ Then create `design/accessibility-requirements.md` from `templates/accessibility
 Then create `design/accessibility-requirements.md` from `templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
 
 **Pre-Implementation Phase:**
-`/ux-design` → `/ux-review` → `/prototype` → `/playtest-report` (Product workflow validation) → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/gate-check pre-production`
+`/ux-design` → `/ux-review` → `/prototype` → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/playtest-report` (Product workflow validation) → `/gate-check pre-production`
 
 **Implementation Phase:**
-`/story-readiness` → implement → `/story-done` → `/code-review` → `/sprint-status`
+`/story-readiness` → implement → `/code-review` (optional) → `/story-done` → `/sprint-status`
 
 **Verification Phase:**
-`/qa-plan` → `/smoke-check` → `/gate-check`
+`/playtest-report` (three cumulative Product validation sessions) → `/team-polish` → `/gate-check polish`
+
+`/qa-plan` is an optional Production aid; `/smoke-check` is used when the owning
+verification scope calls for it, rather than a replacement for catalog requirements.
 
 **Release Phase:**
 `/release-checklist` → `/launch-checklist` → `/team-release`

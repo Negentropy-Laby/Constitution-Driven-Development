@@ -502,7 +502,12 @@ verdict below; concept content approval does not grant separate legal acceptance
 timeline from Scope Tiers — not just "Large (9+ months)". Write as "Large (X–Y months,
 solo)" or "Large (X–Y months, team of N)".
 
-6. **Suggest next steps** (in order). List ALL steps — do not abbreviate:
+6. **Suggest next steps** through normal entry to Production / Implementation.
+   Read `workflow/workflow-catalog.yaml` for current order, required/optional flags
+   and domain/surface applicability. Preserve covered law/ADR acceptance and
+   qualify each phase through its required gate; recommendations never execute
+   commands or advance state. List all applicable steps below, then use the
+   catalog for later phases. Optional early experiments do not skip boundaries:
 
    **[游戏专用]** Game pipeline:
    1. "Run `/constitute` — derive your constitution from this concept (if you haven't already). It reads your concept doc, extracts core thesis and principles, and writes them to the memory bank."
@@ -520,10 +525,15 @@ solo)" or "Large (X–Y months, team of N)".
    13. "Run `/architecture-decision (×N)` — record technical decisions"
    14. "Run `/architecture-review` — validate traceability and technology compatibility"
    15. "Run `/create-control-manifest` — extract implementation rules from accepted ADRs"
-   16. "Run `/test-setup` — establish the required test baseline"
-   17. "Run `/prototype [core-mechanic]` — validate the core loop before full implementation"
-   18. "Run `/playtest-report` after the prototype to validate the core hypothesis"
-   19. "If validated, plan the first sprint with `/sprint-plan new` and run `/story-readiness`"
+   16. "Prepare `design/accessibility-requirements.md` from its actual template within the covered setup scope"
+   17. "Run `/test-setup` — establish the required test baseline"
+   18. "Run `/gate-check technical-setup` before normal entry to Pre-Production"
+   19. "Run `/ux-design` and `/ux-review` for applicable Game interaction work"
+   20. "Run `/prototype [core-mechanic]` — validate the core loop before full implementation"
+   21. "Run `/create-epics`, then `/create-stories` for the planned modules"
+   22. "Plan the first sprint with `/sprint-plan new`, then run `/story-readiness`"
+   23. "Run `/playtest-report` for the required core-hypothesis validation"
+   24. "Run `/gate-check pre-production` before normal entry to Production"
 
    **[通用产品]** Product pipeline:
    1. "Run `/constitute` — derive your constitution from this concept (if you haven't already)"
@@ -540,10 +550,15 @@ solo)" or "Large (X–Y months, team of N)".
    12. "Run `/architecture-decision (×N)` — record technical decisions"
    13. "Run `/architecture-review` — validate traceability and technology compatibility"
    14. "Run `/create-control-manifest` — extract implementation rules from accepted ADRs"
-   15. "Run `/test-setup` — establish the required test baseline"
-   16. "Run `/prototype [core-interaction]` — validate the core user journey before full implementation"
-   17. "Run user testing sessions after the prototype to validate the core hypothesis"
-   18. "If validated, plan the first sprint with `/sprint-plan new` and run `/story-readiness`"
+   15. "Prepare `design/accessibility-requirements.md` from its actual template within the covered setup scope"
+   16. "Run `/test-setup` — establish the required test baseline"
+   17. "Run `/gate-check technical-setup` before normal entry to Pre-Implementation"
+   18. "Run `/ux-design` and `/ux-review`, including applicable Product surface/interaction requirements"
+   19. "Run `/prototype [core-interaction]` — validate the core user journey before full implementation"
+   20. "Run `/create-epics`, then `/create-stories` for the planned modules"
+   21. "Plan the first sprint with `/sprint-plan new`, then run `/story-readiness`"
+   22. "Run `/playtest-report` for the required Product user/workflow validation"
+   23. "Run `/gate-check pre-production` before normal entry to Implementation"
 
 7. **Output a summary** with the chosen concept's elevator pitch, principles,
    primary audience, biggest risk, and file path.

@@ -77,6 +77,8 @@ colocated tests keep the same scenarios, real PASS and gate requirements.
 | **Migration/Data Pipeline** | Apply/rollback or dry-run verification with fixtures | `tests/migration/` or `tests/data/` | BLOCKING |
 | **Web/App Workflow** (critical user path) | E2E or interaction evidence + accessibility check | `tests/e2e/` or `production/qa/evidence/` | BLOCKING |
 
+Select host/model validation under [Validation scope and model-based evaluation](evidence-lifecycle.md#validation-scope-and-model-based-evaluation).
+
 ## Automated Test Rules
 
 - **Naming**: Follow the configured language/framework's discovery and naming

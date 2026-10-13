@@ -27,5 +27,33 @@ files are unrelated command-approval policy, never generated, and never owned by
 the generator; CDD path policies live in canonical `rules/` and Codex consults
 them through root guidance rather than automatic path-glob loading.
 
-Do not add canonical workflow catalogs, document templates, shared standards, or
-skill testing specs under `.agents/` or `.codex/`.
+These developer templates and complete projections are CDD Source framework product
+assets. A Target copy keeps its CDD ownership and does not gain Source authority.
+Apply `standards/skill-purpose.md` after establishing actual provenance, ownership
+and delivery role; project-owned runtime skills, roles, tools, configuration and
+documents retain project rules, including their development use.
+
+**Confirm asset ownership before instruction purpose.** First establish actual CDD
+framework provenance, ownership and delivery role for the complete package and its
+required support. Apply instruction-purpose classification only within that confirmed
+CDD asset collection. Project-owned skills, agents/roles, tools, configuration and
+documents follow their project's rules; development use, native instruction fields
+and skill-directory placement do not make them CDD assets. Renaming or tailoring a
+CDD template does not itself change its ownership. Unresolved ownership stays pending.
+
+**Target Git separation preserves authorized local use.** CDD framework assets and
+maintenance tools are excluded from Target Git tracking, staging, commits and delivery/
+publication contents. This does not prohibit their authorized local retention,
+discovery, loading, effect or use. Keep complete required inputs at usable paths.
+Ordinary template use must not depend on the local maintenance toolkit. Ignore and
+runtime loading are separate; existing tracked content requires separately authorized,
+recoverable tracking-only migration that leaves local files and required references intact.
+
+Within confirmed CDD packages, independent portable configuration must neither carry
+nor reconstruct CDD instruction bodies or exclusive support, and must have substantive
+readers independent of those packages. A native loader alone does not qualify.
+
+Keep canonical CDD workflow catalogs, document templates, shared standards and
+skill testing specs in their declared neutral roots when preparing Source projections.
+This Source layout does not prohibit authorized local Target copies or project-owned
+assets in runtime directories.

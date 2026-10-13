@@ -14,6 +14,52 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebSearch, WebFetch, Task, A
 - Memory-bank writes: `memory_bank/t1_axioms/tech_context.md`.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
 
+## Asset Ownership and Local Use before Technology Setup
+
+**Confirm asset ownership before instruction purpose.** Apply
+`standards/skill-purpose.md` after establishing actual CDD framework provenance,
+ownership and delivery role for the complete package and its required support.
+Classify purpose only within that confirmed CDD asset collection. Project-owned
+skills, agents/roles, tools, configuration and documents follow their project's
+rules, including development capabilities; development use, native instruction
+fields and skill-directory placement do not make them CDD assets. Renaming or
+tailoring a CDD template does not itself change its ownership. Unresolved ownership
+stays pending only for the affected action.
+
+Confirmed CDD developer templates, full platform projections and exclusive support
+remain local-only in a Target, excluded from Git tracking/staging/commits/delivery/
+publication. Within that CDD collection, inspect complete bodies, conditional
+branches and direct/indirect support; split mixed CDD/project content before
+submission. Native `developer_instructions` fields and standalone roles receive
+the same ownership review even without a skill dependency. Minimal adaptations
+and independent configuration must not carry or reconstruct CDD framework
+instruction bodies or exclusive support; a native loader alone does not qualify
+a copied CDD role as independent configuration. This CDD-related restriction does
+not exclude independently established project-owned development skills or roles.
+Names/fields such as test or release do not decide ownership or purpose.
+
+Git exclusion does not disable authorized local retention, discovery, loading,
+effect or use. Preserve complete required local CDD inputs at usable paths; an
+input allowlist does not grant them Git eligibility. Missing/unread required
+originals leave the affected CDD workflow pending. A fresh Target clone may need
+those inputs provisioned separately. Review Git candidates separately from local
+inputs and update-write scope. Ordinary template use must not depend on a local
+maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
+authorized local maintenance operations remain allowed.
+
+Do not submit a general CDD source mirror, template-maintenance tools/annotations,
+tool-only metadata, maintenance locks/caches or actual template-maintenance output.
+The designated CDD Source owns general CDD definitions independently of local
+storage. Local copies alone do not establish Source authority or authorize moving,
+deleting or changing log paths.
+
+This CDD technology-setup skill and its exclusive framework support remain local
+Target inputs; Source delivers its templates/full projections as framework product
+assets. Project-owned specialist roles, tools, configuration and generated technical
+documents follow project rules even when they support development. This boundary
+changes no runtime discovery/loading configuration and grants no import, untracking,
+move/delete or state authority.
+
 When this skill is invoked:
 
 ## 1. Parse Arguments
@@ -35,9 +81,52 @@ Sections below are marked **[通用场景]** (both domains), **[游戏专用]** 
 
 ---
 
+## 1a. Existing Configuration and Section Scope
+
+Before guided selection, read the actual `standards/technical-preferences.md`
+and project settings. Resolve populated Game fields or valid Product aliases
+under the preference owner; placeholders do not establish configuration. Report
+the configured engine/stack and language, or exact incomplete/conflicting fields.
+
+For an already configured project with no explicit reconfiguration choice, use
+`AskUserQuestion` to offer: reconfigure all; reconfigure specific sections; or
+keep the configuration and stop. Section choices include Engine/Language or
+Language & Framework, Naming Conventions, Specialists/Agent Routing, Performance
+Budgets, Input & Platform/Platform & Deployment, and Testing. Reuse a supplied
+section choice and matching authority without asking again.
+
+For **section-only reconfiguration**:
+1. Resolve each selected heading and its exact byte range through the next heading
+   of the same or higher level, excluding headings inside fenced examples. Keep
+   nested content such as File Extension Routing with its owning section. Missing
+   or duplicate target headings require clarification before a write.
+2. Read the complete existing file and relevant preference/reference branch.
+   Gather only decisions needed for selected sections. A Performance Budgets
+   request does not restart engine, version, language, platform or testing selection.
+3. Retain recoverable before bytes for this file and any other named output; show
+   the selected-section draft/diff and exact paths/effects. Default templates do
+   not reset configured values, custom prose, comments or unrelated sections.
+4. Reuse exact section-write authority or request only missing/new scope. If a
+   choice needs dependent routing, root, version or other changes, explain those
+   effects and obtain their scope before expanding. Do not silently add them.
+5. Patch only approved section ranges. Preserve all bytes outside those ranges,
+   including heading order, whitespace and project additions. A declined or pending
+   write changes no bytes. Do not recreate the file from the full default template.
+6. Read back the result and compare preserved prefix, inter-section spans and
+   suffix against before bytes; verify every other output is unchanged. A
+   mismatch leaves INCOMPLETE and must not be called COMPLETE.
+7. Skip Sections 3-4, 6-9 and 11b unless their specific effects belong to the
+   approved changeset. Budgets-only writes no root instructions/projections,
+   version references, specialist definitions or T1 mirror. Proceed to Section 12
+   with the selected scope and readback result.
+
+Initial setup and explicitly selected full reconfiguration continue below,
+preserving project customizations and writing only covered paths/effects.
+
 ## 2. Guided Mode (No Arguments)
 
-If no stack is specified, run an interactive selection process.
+For initial setup or selected full reconfiguration, if no stack is specified,
+run interactive selection. Section-only requests use Section 1a.
 
 ### [通用场景] Check for existing concept
 
@@ -80,9 +169,14 @@ Read `INSTRUCTIONS.md` and the actual runtime root-instruction files already
 used by this project. Show the proposed Technology Stack changes together with
 the exact affected root-instruction paths, preserving the CDD source/target
 boundary sections, project customizations and existing approval rules.
-These boundary sections constrain Git submission/publication content, not local
-directories. Preserve local maintenance files and log locations unless separately
-authorized; their presence alone is not a project compliance gap.
+These boundary sections constrain the Target Git tracking/staging/commit/delivery/
+publication set for confirmed CDD assets. They preserve authorized local retention,
+discovery, loading, effect and use; ignore rules are not runtime loading controls.
+Project-owned development skills/roles, tools, configuration and documents retain
+project rules. Preserve local CDD inputs, maintenance files and log locations;
+optional authorized maintenance is allowed and ordinary setup must not require
+that toolkit. Their presence alone is not a compliance gap, and this setup grants
+no migration/untracking or relocation authority.
 Ask for any missing authority for that complete changeset.
 
 After approval, update the canonical project settings and their declared
@@ -144,7 +238,7 @@ Record the choice. It determines the INSTRUCTIONS.md template, naming convention
 
 ## 5. Populate Technical Preferences
 
-Read [technology preference templates](references/technical-preferences.md) after the stack is selected. Load the shared sections plus only the chosen engine/language/framework branch. Preserve its collaborative approval boundary before writing project instructions.
+Read [technology preference templates](references/technical-preferences.md) after the stack is selected. Load the shared sections plus only the chosen engine/language/framework branch. Preserve its collaborative approval boundary before writing project instructions. For section-only work, apply only relevant guidance within Section 1a; remaining defaults are not additional write effects. Preserve configured values and project additions outside approved ranges.
 
 ## 6. Determine Knowledge Gap
 
@@ -411,8 +505,9 @@ Next steps:
 
 ## 11b. Sync T1 Technical Context
 
-After the user approves the technology configuration writes, if `memory_bank/`
-exists, update `memory_bank/t1_axioms/tech_context.md`.
+Only when the exact changeset also covers `memory_bank/t1_axioms/tech_context.md`,
+and `memory_bank/` exists, update that T1 mirror. Preference-write approval alone
+does not cover this separate output; section-only scope follows Section 1a.
 
 Do not create `memory_bank/` from `/setup-engine`. If it does not exist, keep
 the normal writes and tell the user to run `/constitute` to establish the
@@ -436,6 +531,14 @@ the detailed working sources.
 ---
 
 ## 12. Output Summary
+
+For section-only work, report `Section Reconfiguration: COMPLETE / INCOMPLETE`,
+selected sections, actual changed paths, readback comparison and pending dependent
+effects. COMPLETE means the approved edit and byte-preservation checks succeeded;
+it does not claim full stack setup or stage qualification. Use full summaries below
+only for their full setup scope. Do not label skipped/unexecuted outputs updated
+or verified. Recommend the next action for the actual current workflow without
+automatically advancing or running it.
 
 **[游戏专用]** Game summary:
 ```

@@ -1,7 +1,7 @@
 ---
 name: help
 description: "Analyzes what is done and the users query and offers advice on what to do next. Use if user says what should I do next or what do I do now or I'm stuck or I don't know what to do"
-argument-hint: "[optional: what you just finished, e.g. 'finished design-review' or 'stuck on ADRs']"
+argument-hint: "[optional: task, topic or query, e.g. 'testing', 'finished design-review' or 'stuck on ADRs']"
 user-invocable: true
 allowed-tools: Read, Glob, Grep
 context: |
@@ -17,7 +17,7 @@ continues; analysis is read-only and report-only excludes input/index/state writ
 ## User Guide
 
 - When to use: Analyzes what is done and the users query and offers advice on what to do next. Use if user says what should I do next or what do I do now or I'm stuck or I don't know what to do
-- Inputs: Command arguments: `/help [optional: what you just finished, e.g. 'finished design-review' or 'stuck on ADRs']`; project artifacts referenced below; user decisions and approvals before writes.
+- Inputs: Command arguments: `/help [optional: task, topic or query, e.g. 'testing', 'finished design-review' or 'stuck on ADRs']`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
 - Memory-bank writes: None — read-only; reads `memory_bank/t0_core/basic_law_index.md` when present.
 - Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
@@ -35,21 +35,56 @@ tells you what comes next. Works for both game and product projects. It is
 
 ## Step 0: Determine Task and Skill Purpose
 
-Apply the purpose rule to skills, independent agent/role definitions, native
-configuration containing instruction bodies and their exclusive references/overlays.
-A Target's development-only role stays local-only even without invoking a skill;
-TOML, developer_instructions fields and native loading give no exception. Real
-product-use agents follow actual product rules. Independent configuration must be
-independent of development instructions/role packages and carry no such body;
-a native loader of developer roles is not an independent configuration consumer.
+**Confirm asset ownership before instruction purpose.** Apply
+`standards/skill-purpose.md` after establishing actual CDD framework provenance,
+ownership and delivery role for the complete package and its required support.
+Classify purpose only within that confirmed CDD asset collection. Project-owned
+skills, agents/roles, tools, configuration and documents follow their project's
+rules, including development capabilities; development use, native instruction
+fields and skill-directory placement do not make them CDD assets. Renaming or
+tailoring a CDD template does not itself change its ownership. Unresolved ownership
+stays pending only for the affected action.
 
-Read `standards/skill-purpose.md` and identify the governed project. First distinguish
-using its delivered functions from developing it. For product-use requests, orient
-from real product instructions/capabilities without requiring CDD development
-artifacts. For development, continue catalog routing below; this routing skill is
-a local-only Target development template, even if tailored/native. CDD Source
-distribution is a separate product role. Mixed/unclear tasks need scoped separation
-or clarification; independent work continues.
+Confirmed CDD developer templates, full platform projections and exclusive support
+remain local-only in a Target, excluded from Git tracking/staging/commits/delivery/
+publication. Within that CDD collection, inspect complete bodies, conditional
+branches and direct/indirect support; split mixed CDD/project content before
+submission. Native `developer_instructions` fields and standalone roles receive
+the same ownership review even without a skill dependency. Minimal adaptations
+and independent configuration must not carry or reconstruct CDD framework
+instruction bodies or exclusive support; a native loader alone does not qualify
+a copied CDD role as independent configuration. This CDD-related restriction does
+not exclude independently established project-owned development skills or roles.
+Names/fields such as test or release do not decide ownership or purpose.
+
+Git exclusion does not disable authorized local retention, discovery, loading,
+effect or use. Preserve complete required local CDD inputs at usable paths; an
+input allowlist does not grant them Git eligibility. Missing/unread required
+originals leave the affected CDD workflow pending. A fresh Target clone may need
+those inputs provisioned separately. Review Git candidates separately from local
+inputs and update-write scope. Ordinary template use must not depend on a local
+maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
+authorized local maintenance operations remain allowed.
+
+Do not submit a general CDD source mirror, template-maintenance tools/annotations,
+tool-only metadata, maintenance locks/caches or actual template-maintenance output.
+The designated CDD Source owns general CDD definitions independently of local
+storage. Local copies alone do not establish Source authority or authorize moving,
+deleting or changing log paths.
+
+Identify the governed project and distinguish using its delivered functions from
+developing it. For product-use requests, orient from real product instructions/
+capabilities without requiring CDD development artifacts. For development, continue
+catalog routing below; this CDD routing skill is a local-only Target framework
+template, even if tailored/native. Source delivery of its templates/full projections
+is a separate framework product role. Project-owned development skills and roles
+retain project rules. Mixed/unclear tasks need scoped separation or clarification;
+independent work continues.
+
+For development guidance, parse any argument as the user's task, topic or natural
+query, including a topic such as "testing". Echo it briefly as **Help topic:**
+[query] and use it to focus the recommendations. A claim such as "finished
+design-review" locates evidence to recheck; it does not establish completion.
 
 ## Step 1: Read the Catalog
 
@@ -89,7 +124,10 @@ separately; neither required reads nor update-write authority grants Git eligibi
 Compare against the `command:` values in the catalog. Any skill whose actual
 name is absent is an **uncataloged skill** outside the phase-gated workflow.
 Report its selected platform and installed path; a definition alone does not
-qualify runtime invocation.
+qualify runtime invocation. Catalog membership does not establish CDD ownership;
+uncataloged project-owned skills retain their project rules and can be legitimate
+development or product capabilities. Git exclusion does not hide otherwise
+readable authorized local definitions from this lookup.
 
 Collect these for the output in Step 8 — show them as a footer block:
 
@@ -171,8 +209,30 @@ Check in this order:
    - `docs/architecture/adr-*.md` exists → `technical-setup`
    - `design/cdd/module-index.md` exists → `systems-design`
    - `design/cdd/game-concept.md` or `design/cdd/product-concept.md` exists → `concept`
-   - `memory_bank/t0_core/basic_law_index.md` exists → `concept` (constitution established, no domain artifacts yet)
-   - Nothing → `concept` (fresh project — suggest `/constitute`)
+   - Read substantive accepted laws in `memory_bank/t0_core/basic_law_index.md`
+     when present → candidate `concept` if no domain artifacts exist; a copied
+     template alone does not establish a constitution
+   - Confirmed fresh project → advisory candidate `concept`, with `/constitute`
+     as the initial governance recommendation after the input check in Step 6b
+
+Treat the observations above as candidates, not as proof that a phase or earlier
+work is qualified. Read the relied-on bodies; absent locators, filenames and
+unreadable inputs alone do not establish a phase. Confirm fresh only from direct
+checks of actual root guidance/configuration and relevant project locators showing
+unconfigured placeholders and no substantive concept, accepted project laws,
+business source, ADRs, sprints or active commitments. Missing runtime copies or an
+optional Memory Bank alone do not establish fresh. Inaccessible, conflicting or
+insufficient evidence leaves the affected phase or freshness Unknown.
+
+If a consistent declared or evidence-backed candidate phase cannot be inferred,
+or domain remains Unknown, present a concise overview of the phases and key steps
+from the catalog in their actual order. A fresh advisory Concept candidate does
+not resolve Unknown declared/qualified stage or Game/Product domain. Show shared
+steps neutrally and mark domain-limited branches applicability pending. Recommend
+one safe primary action: `/constitute` for confirmed fresh/requested governance,
+or `/project-stage-detect` for unresolved phase, only after Step 6b's complete-read
+check. If its required inputs are unavailable, disclose the gap and give supported
+neutral guidance. This overview changes no catalog, declared stage or qualification.
 
 ---
 
@@ -185,6 +245,37 @@ Read `production/session-state/active.md` if it exists. Extract:
 
 This tells you what the user just finished or is stuck on — use it to personalize
 the output.
+
+## Step 4b: Read Actual Sprint Context
+
+When sprint context is applicable, Read the full body of
+`production/sprint-status.yaml` if present. A valid applicable projection is the
+preferred source for the recorded sprint number, goal/dates and story status
+summary. Read its actual `sprint`, `goal` and `stories` rows, including each row's
+ID, linked file and status; do not substitute frontmatter, a filename, a session
+snippet or a template/example for the body.
+
+Locate the active/current Markdown sprint from actual user/session/project
+pointers and body status. Read that full sprint body when present, including its
+sprint number, goal and task/story rows. If no authoritative current pointer
+exists, use the most recently modified sprint only as a fallback candidate and
+disclose that selection basis. When YAML is absent, this actual Markdown body is
+the fallback source for the recorded sprint number and counts. Read linked Story
+bodies for the relied-on rows, status and recommendation context.
+
+When both sources exist, keep valid applicable YAML as the preferred recorded
+summary and disclose conflicting Markdown sprint numbers/statuses or linked Story
+context. Malformed, inaccessible or inapplicable YAML is a source gap, not an
+absence; supported Markdown observations may still be shown with their source,
+without silently repairing or overriding the unresolved conflict. A missing or
+unreadable Markdown body likewise remains disclosed.
+
+Count actual distinct task/story rows once and report the total plus recorded
+status counts, including In Progress. Do not double-count repeated/carry-over rows
+or count headings, placeholders and prose status words as stories. Unknown/missing
+statuses stay separate. State the source and selection basis; recorded Done/status
+counts are observations, not verified closure. Step 5 still checks owning evidence
+before using completed checkmarks or qualified counts.
 
 ---
 
@@ -232,20 +323,22 @@ it incomplete:
 - Never silently skip `design/ux/interaction-patterns.md` for API, CLI,
   SDK/library, UI, admin, operator, or docs-driven consumer surfaces.
 
-### Special case: production phase — read `sprint-status.yaml`
+### Special case: production phase — use the read sprint bodies
 
-When the current phase is `production`, check for `production/sprint-status.yaml`
-before doing any glob-based story checks. If it exists, read it directly:
+Apply Step 4b before glob-based story completion checks. From the preferred valid
+YAML, or the actual Markdown/linked Story fallback when YAML is absent:
 
-- Stories with `status: in-progress` → surface as "currently active"
-- Stories with `status: ready-for-dev` → surface as "next up"
-- Stories with `status: done` → recorded done; verify exact owning closure
-  evidence before counting qualified complete
-- Stories with `status: blocked` → surface as blocker with the `blocker` field
+- Recorded `in-progress` / In Progress → surface as "currently active"
+- Recorded `ready-for-dev` / Ready for Dev → surface as "next up"
+- Recorded `done` / Done → recorded done; verify exact owning closure evidence
+  before counting qualified complete
+- Recorded `blocked` / Blocked → surface as blocker with its actual blocker details
+- Other or unknown statuses → retain their recorded meaning or disclose Unknown
 
-This gives precise per-story status without markdown scanning. Skip the glob
-artifact check for `implement`/`story-done` locators; YAML is a status projection,
-not independent closure or execution proof.
+Use actual status fields/rows rather than prose keyword matches. Skip the glob
+artifact-presence check for `implement`/`story-done` locators when actual status
+bodies are available; neither YAML nor Markdown replaces owning closure or
+execution evidence. Preserve source gaps and conflicts from Step 4b.
 
 ### Special case: `repeatable: true` (non-production)
 
@@ -276,15 +369,23 @@ qualified progress from ambiguous evidence. Identify the affected recheck.
 ## Step 6b: Read the Selected Instructions
 
 Use the actual domain, current phase, catalog `applies_to` and step order, and the
-user's task to filter the frontmatter list. Description matches identify
-candidates; they do not establish applicability. Prioritize one primary next
-step and a few relevant optional or uncataloged definitions. When domain is
-Unknown, keep neutral guidance and mark domain-limited candidates pending.
+user's task/topic to filter the frontmatter list. Topic queries may identify useful
+cross-phase or uncataloged candidates without changing the current phase.
+Description matches identify candidates; they do not establish applicability.
+Prioritize one primary next step and useful optional alternatives that meet the
+actual task. Include other supported relevant choices when available; impose no
+fixed command quota. If only fewer suitable entries and complete inputs are
+available, show that actual set and disclose gaps rather than padding it with
+unrelated commands. When domain is Unknown, keep neutral guidance and mark
+domain-limited candidates pending.
 
 Before recommending an actionable command, Read its complete installed
-`SKILL.md` and classify its whole package, not just the current invocation. Names,
-overlays or test/release labels give no Git exception. Resolve and Read references for the
-applicable branch, inputs, routing and conditions, following their owning paths.
+`SKILL.md` and establish its actual provenance, ownership and delivery role. Within
+confirmed CDD packages, classify the whole body/support, not just the current
+invocation; names, overlays or test/release labels do not change CDD ownership or
+Git eligibility. Project-owned instructions remain governed by their project rules.
+Resolve and Read references for the applicable branch, inputs, routing and
+conditions, following their owning paths.
 Use Glob for referenced locators as needed; optional references and future
 outputs do not become required inputs merely because they are mentioned.
 There is no full-body pre-read of every installed skill or every reference tree.
@@ -311,6 +412,12 @@ If `active.md` shows an active task or epic:
 ## Step 8: Present Output
 
 Keep it **short and direct**. This is a quick orientation, not a report.
+Acknowledge an argument with **Help topic:** [query]. When sprint context exists,
+show the actual sprint number and goal, total story/task count, In Progress count
+and other relevant recorded counts from Step 4b; identify the YAML/Markdown source
+and any fallback/conflict. Label recorded status separately from verified closure.
+For unresolved phase/domain, use Step 3's compact catalog overview with pending
+branches instead of implying a concrete qualified phase; keep one primary action.
 
 ```
 ## Where You Are: [Phase Label]
