@@ -8,6 +8,10 @@
   manufactured ADR; other readiness/evidence gates and the global Technical Setup
   minimum of three Foundation ADRs in `workflow/workflow-catalog.yaml` still apply.
 - All public methods must be unit-testable (dependency injection over singletons)
+- For submission review, content migration/replacement, history rewriting or
+  branch cleanup, follow [Content Comparison and History
+  Retention](coordination-rules.md#content-comparison-and-history-retention)
+  before drawing a replacement or loss conclusion.
 - Commits must reference the relevant design document or task ID
 - **Game**: gameplay values must be data-driven (external config), never
   hardcoded. Player-facing behavior should trace to CDD acceptance criteria,

@@ -1,6 +1,6 @@
 ---
 name: smoke-check
-description: "Run the critical path smoke test gate before QA hand-off. Executes the automated test suite, verifies core functionality, and produces a PASS/FAIL report. Supports both game and product projects. A failed smoke check means the build is not ready for QA."
+description: "Run critical path smoke checks for game or product projects and report actual results. Use as a QA hand-off gate when required by the owning AC/DoD, current phase, or explicitly sourced strict QA scope; otherwise use as optional follow-up."
 argument-hint: "[sprint | quick | --platform pc|console|mobile|web|api|cli|all]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Write, AskUserQuestion
@@ -45,7 +45,7 @@ conversation fallback without initialization, publication or activation.
 
 ## User Guide
 
-- When to use: Run the critical path smoke test gate before QA hand-off. Executes the automated test suite, verifies core functionality, and produces a PASS/FAIL report. Supports both game and product projects. A failed smoke check means the build is not ready for QA.
+- When to use: Run critical path smoke checks for game or product projects and report actual results. Use as a QA hand-off gate when required by the owning AC/DoD, current phase, or explicitly sourced strict QA scope; otherwise use as optional follow-up.
 - Inputs: Command arguments: `/smoke-check [sprint | quick | --platform pc|console|mobile|web|api|cli|all]`; project artifacts referenced below; user decisions and approvals before writes.
 - Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
 - Memory-bank writes: Only when Memory Bank is initialized and each named write effect is covered: `memory_bank/t3_archive/qa_evidence_index.md`.
@@ -53,13 +53,14 @@ conversation fallback without initialization, publication or activation.
 
 # Smoke Check
 
-This skill is the gate between "implementation done" and "ready for QA
-hand-off". It runs the automated test suite, checks for test coverage gaps,
-batch-verifies critical paths with the developer, and produces a PASS/FAIL
-report.
+Run critical path smoke checks within the selected scope. This skill runs
+configured automated checks, checks for test coverage gaps, collects actual
+critical-path observations from the developer, and produces a report.
 
-The rule is simple: **a build that fails smoke check does not go to QA.**
-Handing a broken build to QA wastes their time and demoralises the team.
+Smoke checks gate QA hand-off only when required by the owning AC/DoD, current
+phase, or explicitly sourced strict QA scope. Otherwise they are optional
+follow-up. Required failures and incomplete checks prevent qualified hand-off
+for the affected scope; retain their actual outcomes.
 
 **Output:** `production/qa/smoke-[date].md`
 

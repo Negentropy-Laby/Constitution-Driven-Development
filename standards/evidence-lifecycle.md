@@ -98,6 +98,32 @@ manufacture missing originals, historical IDs, approvals or dates. Exact
 reconstruction requires retained bytes matching the full original digest;
 describe approximate reconstruction separately.
 
+### Git objects and evidence preservation
+
+Apply [Content Comparison and History
+Retention](coordination-rules.md#content-comparison-and-history-retention) when
+assessing content replacement or history retention. Content SHA-256 binds exact
+bytes; a Git SHA identifies a Git object. Hashes and content mappings cannot
+replace recoverable original bytes. Preserve required originals and the minimum
+necessary dependency closure for actual current and historical evidence
+consumers. Recording an old Git SHA alone does not require permanent retention
+of its entire branch or history.
+
+If an actual evidence consumer needs old Git objects, retain the necessary
+readable object closure, including required ancestry, or use an alternative
+recovery path approved by the owner, compliant with applicable contracts and
+verified usable. Do not rewrite frozen references to manufacture a replacement.
+Old reports retain their original SHA, complete-input bindings and approval
+scope; new comparison records do not turn them into new destination tests or
+independent reviews. Evidence reuse still requires the applicable input,
+environment, scope and authority checks.
+
+Content replacement does not waive original-byte preservation, specific
+contracts, Accepted decisions or explicit retention requirements. Assess
+retention and recovery separately from deletion authority, worktree occupancy
+and safe execution; this rule grants no deletion or history-rewrite permission.
+Unresolved preservation or reference needs block only the dependent operation.
+
 ### Minimum evidence closure
 
 Declare scope/exclusions and retain the smallest complete dependency set that

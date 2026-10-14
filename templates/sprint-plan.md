@@ -61,7 +61,8 @@
 
 - [ ] All Must Have tasks completed and passing acceptance criteria
 - [ ] No S1 or S2 bugs in delivered features
-- [ ] Code reviewed and merged to develop
+- [ ] Code reviewed; actual integration target `[branch/ref]` and required integration state `[per project policy]` verified under matching authority
+  (This checklist grants no merge or ref-changing authority.)
 - [ ] Design documents updated for any deviations from spec
 - [ ] Test cases written and executed for all new features
 - [ ] Asset naming and format standards met

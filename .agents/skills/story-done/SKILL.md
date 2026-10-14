@@ -248,7 +248,7 @@ that exact path with its owner before closure and verify the same required check
 | **Auth/Permission** | Permission test at the exact Story-bound configured path — must exist and pass | BLOCKING |
 | **Workflow** | Integration test at the exact Story-bound configured path — must exist and pass | BLOCKING |
 | **UI** | Walkthrough doc OR screenshot in `production/qa/evidence/` | ADVISORY |
-| **Integration** | Integration test OR API contract test | BLOCKING |
+| **Integration** | Integration test OR API contract test OR documented playtest, as selected by the AC/DoD owner | BLOCKING |
 | **Ops/Deployment** | Deployment smoke in `production/qa/smoke-*.md` | BLOCKING |
 | **Config** | Config validation test OR smoke check | ADVISORY |
 
@@ -279,11 +279,17 @@ that exact path with its owner before closure and verify the same required check
   missing required evidence or incomplete required checks are **BLOCKING**.
 - **UI**: check `production/qa/evidence/` for walkthrough or screenshot evidence,
   or an interaction test named in the story. If none found, flag **ADVISORY**.
-- **Integration**: read the exact Test Evidence path first, then search actual
-  configured roots/discovered paths for required service, webhook, queue or
-  contract coverage (`tests/integration/` and `tests/api/` are examples). Verify
-  actual matching PASS; missing required evidence or incomplete required checks
-  are **BLOCKING**.
+- **Integration**: read the AC/DoD owner's selected method and exact Test Evidence
+  paths first. For integration or API contract tests, search actual configured
+  roots/discovered paths for required service, webhook, queue or contract
+  coverage (`tests/integration/` and `tests/api/` are examples). For a documented
+  playtest (Product user/workflow session), read the original record and verify
+  observer, steps, exact build/input identity, time, actual results and required
+  sign-offs against every required AC, including required retry/timeout/error
+  cases. Preserve explicitly sourced stricter automated or combined obligations;
+  manual evidence cannot replace those required tests. Verify actual matching
+  PASS for the selected method; missing required evidence or incomplete required
+  checks remain **BLOCKING**.
 For Ops/Deployment, resolve the actual conventional smoke report, confirmed CI evidence or exact Story-named deployment artifact used by this review. Read its original source and verify the required matching PASS deployment evidence; no route bypasses that requirement. Unresolved source selection remains Unknown.
 
 - **Ops/Deployment**: check for `production/qa/smoke-*.md`, CI evidence, or a

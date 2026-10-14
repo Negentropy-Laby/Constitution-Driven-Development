@@ -177,7 +177,7 @@ field is missing or ambiguous, draft classification from actual AC/owner/surface
 | **Auth/Permission** | Criteria reference login/logout flows, role-based access, token handling, session management, permission gates | Permission test — verify allowed user gets 200, denied user gets 403/401 |
 | **Workflow** | Criteria involve multiple steps, state transitions, integration between 2+ services/modules, event/queue processing | Integration test — simulate full workflow end-to-end, verify each transition |
 | **UI** | Criteria reference screens, components, forms, accessibility, responsive layout, user interaction flows | Manual step-through OR automated UI test (storybook/playwright/cypress) |
-| **Integration** | Criteria involve external service calls, third-party APIs, webhooks, message queues | Integration test with mocks/sandbox — verify retry logic, timeout handling, error propagation |
+| **Integration** | Criteria involve external service calls, third-party APIs, webhooks, message queues | Integration test OR documented playtest per AC/DoD owner — verify retry logic, timeout handling, error propagation |
 | **Ops/Deployment** | Criteria reference CI/CD config, deployment steps, monitoring, alerting, infrastructure-as-code | Deployment test — dry-run deploy, verify health checks, verify rollback |
 | **Config** | Changes are limited to configuration values, environment variables, feature flags — no new code logic is involved | Spot-check config values in target environment |
 
@@ -197,6 +197,16 @@ how tests will be allocated.
 
 Assemble the full QA plan document. Use the template that matches the detected domain.
 
+Select each check from the actual Story AC, governing DoD and evidence owner under
+`standards/coding-standards.md` and `standards/evidence-lifecycle.md`. Record the
+owner path/section, applicable criteria, chosen method and required/advisory scope.
+Integration uses an integration test OR documented playtest; UI uses a manual
+walkthrough OR interaction test. Type labels alone do not require both methods or
+a test file for a manual method. Preserve stricter applicable obligations only with
+their explicit policy/decision source, authority and exact checks/scope; a selected
+alternative must still cover every required AC. Unresolved required methods remain
+pending and do not establish execution, review or completion.
+
 ### [Game] Game QA Plan Template
 
 ````markdown
@@ -211,12 +221,17 @@ Assemble the full QA plan document. Use the template that matches the detected d
 
 ## Test Summary
 
+**Evidence selection**: [Story AC/DoD owner path/section, criteria, chosen automated/manual method, required/advisory scope, and explicit source/authority for any stricter requirement]
+Integration: integration test OR documented playtest. UI: manual walkthrough OR
+interaction test. Preserve stricter owner requirements with their named basis;
+classification alone does not require both methods.
+
 | Story | Type | Automated Test Required | Manual Verification Required |
 |-------|------|------------------------|------------------------------|
 | [story title] | Logic | Unit test — `tests/unit/[system]/` | None |
-| [story title] | Integration | Integration test — `tests/integration/[system]/` | Smoke check |
+| [story title] | Integration | Integration test when selected — `tests/integration/[system]/` | Documented playtest as alternative; smoke only if required |
 | [story title] | Visual/Feel | None (not automatable) | Screenshot + lead sign-off |
-| [story title] | UI | Interaction walkthrough | Manual step-through |
+| [story title] | UI | Interaction test when selected | Manual walkthrough as alternative |
 | [story title] | Config/Data | Data validation test | Spot-check in-game values |
 
 ---
@@ -224,7 +239,8 @@ Assemble the full QA plan document. Use the template that matches the detected d
 ## Automated Tests Required
 
 ### [Story Title] — [Type]
-**Test file path**: `tests/[unit|integration]/[system]/[story-slug]_test.[ext]`
+**Test file path (only for the selected automated method)**: `tests/[unit|integration]/[system]/[story-slug]_test.[ext]`
+**Alternative evidence**: [documented playtest or UI walkthrough path when selected; observed results and required sign-offs]
 **What to test**:
 - [Specific formula or rule from the CDD Formulas section]
 - [Each named state transition or decision branch]
@@ -246,6 +262,10 @@ criteria directly. Review the CDD Formulas section before writing tests.*
 
 ## Manual QA Checklist
 
+Include only criteria whose selected method requires manual verification. A UI
+interaction test does not also require a walkthrough unless the explicit owner
+requires both; preserve that stricter obligation and its basis.
+
 ### [Story Title] — [Type]
 **Verification method**: [Screenshot + designer sign-off | Playtest session |
 Manual step-through | Comparison against reference footage]
@@ -256,7 +276,7 @@ notes | side-by-side comparison]
 Checklist:
 - [ ] [Specific observable condition — concrete and falsifiable]
 - [ ] [Another condition]
-- [ ] [Every acceptance criterion translated into a manual check item]
+- [ ] [Every AC assigned to manual verification translated into an observable manual check item]
 
 *If any criterion uses subjective language ("feels", "looks", "seems"), it must
 be supplemented with a specific benchmark or a playtest protocol note.*
@@ -265,7 +285,7 @@ be supplemented with a specific benchmark or a playtest protocol note.*
 
 ## Smoke Test Scope
 
-Critical paths to verify before any QA hand-off for this sprint:
+Candidate critical paths: select applicable checks from the actual AC/DoD/current phase or explicitly sourced strict QA scope. Record the required scope and authority; this list alone does not create a hand-off gate:
 
 1. Game launches to main menu without crash
 2. New game / new session can be started
@@ -274,8 +294,7 @@ Critical paths to verify before any QA hand-off for this sprint:
 5. Save / load cycle completes without data loss (if save system exists)
 6. Performance is within budget on target hardware (no new frame spikes)
 
-*Smoke tests are verified by the developer via `/smoke-check`. Reference this
-list when running that skill.*
+*Use `/smoke-check` within the selected required/strict scope and authorized execution effects; otherwise recommend optional follow-up. Planning is not execution evidence.*
 
 ---
 
@@ -300,9 +319,9 @@ A story is DONE when ALL of the following are true:
 
 - [ ] All acceptance criteria verified — via automated test result OR documented
       manual evidence (screenshot, video, or playtest notes with sign-off)
-- [ ] Test file exists at the specified path for all Logic and Integration stories
-- [ ] Manual evidence document exists for all Visual/Feel and UI stories
-- [ ] Required AC/evidence actually passes; `/smoke-check` required only in selected smoke/strict scope, otherwise recommended follow-up
+- [ ] Required Logic unit tests pass; Integration test OR documented playtest passes as selected by the owning AC/DoD
+- [ ] Required Visual/Feel screenshots and sign-offs are complete; UI manual walkthrough OR interaction test passes as selected
+- [ ] Required AC/evidence actually passes; smoke checks pass within the selected required/strict scope, otherwise remain optional follow-up
 - [ ] No regressions introduced
 - [ ] Required review completed under actual selected workflow/input/independence; mode skip stays explicitly skipped
 - [ ] Story file updated to `Status: Complete` (via `/story-done`)
@@ -322,6 +341,11 @@ A story is DONE when ALL of the following are true:
 
 ## Test Summary
 
+**Evidence selection**: [Story AC/DoD owner path/section, criteria, chosen automated/manual method, required/advisory scope, and explicit source/authority for any stricter requirement]
+Integration: integration test OR documented playtest. UI: manual walkthrough OR
+interaction test. Preserve stricter owner requirements with their named basis;
+classification alone does not require both methods.
+
 | Story | Type | Test Approach | Required Evidence |
 |-------|------|---------------|-------------------|
 | [story title] | API | Contract test — `tests/contract/[system]/` | Automated test passing |
@@ -330,7 +354,7 @@ A story is DONE when ALL of the following are true:
 | [story title] | Auth/Permission | Permission test — `tests/auth/` | 200/403 response log |
 | [story title] | Workflow | Integration test — `tests/integration/[system]/` | End-to-end trace |
 | [story title] | UI | Manual OR E2E — `tests/e2e/` or manual walkthrough | Screenshot or test log |
-| [story title] | Integration | Integration test with sandbox — `tests/integration/[system]/` | Mock responses + error cases |
+| [story title] | Integration | Integration test with sandbox when selected — `tests/integration/[system]/` | Automated observations OR documented playtest per AC/DoD owner, including retry/timeout/error cases |
 | [story title] | Ops/Deployment | Dry-run deploy — CI pipeline | Deploy log + health check |
 | [story title] | Config | Spot-check | Config diff + env log |
 
@@ -364,6 +388,10 @@ criteria directly. Review the CDD Data Model section before writing tests.*
 
 ## Manual QA Checklist
 
+Include only criteria whose selected method requires manual verification. A UI
+interaction test does not also require a walkthrough unless the explicit owner
+requires both; preserve that stricter obligation and its basis.
+
 ### [Story Title] — [Type]
 **Verification method**: [Manual step-through | Comparison against spec |
 Accessibility audit | Exploratory testing | CLI walkthrough]
@@ -374,7 +402,7 @@ accessibility report | side-by-side comparison]
 Checklist:
 - [ ] [Specific observable condition — concrete and falsifiable]
 - [ ] [Another condition]
-- [ ] [Every acceptance criterion translated into a manual check item]
+- [ ] [Every AC assigned to manual verification translated into an observable manual check item]
 
 *If any criterion uses subjective language ("easy to use", "looks right", "feels
 fast"), it must be supplemented with a specific benchmark (e.g., "user completes
@@ -384,7 +412,7 @@ task in <30s", "page renders in <200ms p95").*
 
 ## Smoke Test Scope
 
-Critical paths to verify before any QA hand-off for this sprint:
+Candidate critical paths: select applicable checks from the actual AC/DoD/current phase or explicitly sourced strict QA scope. Record the required scope and authority; this list alone does not create a hand-off gate:
 
 **[Product]**
 1. Application starts without crash (server / CLI entry point / app launch)
@@ -394,8 +422,7 @@ Critical paths to verify before any QA hand-off for this sprint:
 5. Database migration runs forward and reverse without error (if migrations exist)
 6. Performance is within budget (p95 latency, error rate, memory)
 
-*Smoke tests are verified by the developer via `/smoke-check`. Reference this
-list when running that skill.*
+*Use `/smoke-check` within the selected required/strict scope and authorized execution effects; otherwise recommend optional follow-up. Planning is not execution evidence.*
 
 ---
 
@@ -421,8 +448,8 @@ A story is DONE when ALL of the following are true:
 - [ ] All acceptance criteria verified — via automated test result OR documented
       manual evidence (screenshot, CLI output log, or user testing notes with sign-off)
 - [ ] Test file exists at the specified path for all API, Data/Migration, Auth, and Workflow stories
-- [ ] Manual evidence document exists for all UI and CLI stories
-- [ ] Required AC/evidence actually passes; `/smoke-check` required only in selected smoke/strict scope, otherwise recommended follow-up
+- [ ] UI manual walkthrough OR interaction test passes per its AC/DoD owner; CLI evidence uses its required output/exit-code method, with manual documentation only when selected
+- [ ] Required AC/evidence actually passes; smoke checks pass within the selected required/strict scope, otherwise remain optional follow-up
 - [ ] No regressions introduced (existing test suite passes)
 - [ ] Required review completed under actual selected workflow/input/independence; mode skip stays explicitly skipped
 - [ ] Story file updated to `Status: Complete` (via `/story-done`)
@@ -456,8 +483,8 @@ After writing:
 
 Next steps:
 - Share this plan with the team before sprint implementation begins
-- **[Game]** Run `/smoke-check sprint` after all stories are implemented to gate QA hand-off
-- **[Product]** Run `/smoke-check sprint` after all stories are implemented to gate QA hand-off
+- **[Game]** Run `/smoke-check sprint` when required by the selected AC/DoD/current phase or explicitly sourced strict scope and execution is authorized; otherwise recommend it as optional follow-up
+- **[Product]** Run `/smoke-check sprint` when required by the selected AC/DoD/current phase or explicitly sourced strict scope and execution is authorized; otherwise recommend it as optional follow-up
 - For test-requiring stories, create the test files at the listed paths
   before marking stories done — `/story-done` checks for them"
 
@@ -466,10 +493,12 @@ Next steps:
 ## Collaborative Protocol
 
 - **Use named plan-write authority**: Phase 5 reuses covered existing authorization; only missing authority or materially new paths/effects require a write question. Content agreement and drafting alone do not authorize writing.
-- **Classify conservatively**: **[Game]** when a story is ambiguous between Logic and
-  Integration, classify it as Integration — it requires both unit and
-  integration tests. **[Product]** when ambiguous between API and Workflow, classify
-  as Workflow — it requires end-to-end verification.
+- **Classify from actual criteria**: retain mixed/secondary types where useful, but
+  a Logic/Integration label does not itself require both unit and integration
+  tests. Choose methods covering the actual AC/DoD owner; Integration test OR
+  documented playtest and UI walkthrough OR interaction test remain alternatives.
+  API/Workflow and stricter combined obligations retain their explicit governing
+  source, authority and exact scope. Missing required method decisions stay pending.
 - **Do not invent test cases** beyond what acceptance criteria and CDD content
   support. If critical content is absent from the CDD, flag it rather than guessing.
 - Additional Game playtest/Product user testing is optional unless actual Story/DoD/catalog/current phase or selected QA scope requires it. Required behavior stays unverified until actual evidence; plan drafting does not satisfy it.
