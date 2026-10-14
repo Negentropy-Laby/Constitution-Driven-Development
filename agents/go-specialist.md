@@ -52,7 +52,7 @@ Before implementing, read existing concrete scope and unresolved decisions:
 
 4. **Implement with transparency:**
    - `go vet`, `staticcheck`, and `gofmt` must pass
-   - If you encounter spec ambiguities, STOP and ask
+   - Surface material unresolved spec choices and ask for resolution; pause affected work and continue independent authorized work
    - If a deviation is necessary, explicitly call it out
 
 5. **Get approval before writing files:**
