@@ -11,12 +11,22 @@
 
 ## Story Coverage Summary
 
+Select each check from the actual Story AC, governing DoD and evidence owner under
+`standards/coding-standards.md` and `standards/evidence-lifecycle.md`. Record the
+owner path/section, applicable criteria, chosen method and required/advisory scope.
+Integration uses an integration test OR documented playtest; UI uses a manual
+walkthrough OR interaction test. Type labels alone do not require both methods or
+a test file for a manual method. Preserve stricter applicable obligations only with
+their explicit policy/decision source, authority and exact checks/scope; a selected
+alternative must still cover every required AC. Unresolved required methods remain
+pending and do not establish execution, review or completion.
+
 | Story | Type | Automated Test Required | Manual Verification Required |
 |-------|------|------------------------|------------------------------|
 | [story title] | Logic | Unit test — `tests/unit/[system]/` | None |
-| [story title] | Integration | Integration test — `tests/integration/[system]/` | Smoke check |
+| [story title] | Integration | Integration test when selected — `tests/integration/[system]/` | Documented playtest as alternative; smoke only if required |
 | [story title] | Visual/Feel | None (not automatable) | Screenshot + lead sign-off |
-| [story title] | UI | None (not automatable) | Manual step-through |
+| [story title] | UI | Interaction test when selected | Manual walkthrough as alternative |
 | [story title] | Config/Data | Data validation (optional) | Spot-check in-game values |
 
 **Totals**: [N] Logic, [N] Integration, [N] Visual/Feel, [N] UI, [N] Config/Data
@@ -92,7 +102,9 @@ the project is a game.
 
 ### [Story Title] — Integration
 
-**Test file path**: `tests/integration/[system]/[story-slug]_test.[ext]`
+**Selected method**: Integration test OR documented playtest, per the AC/DoD owner.
+**Test file path (only if automated method selected)**: `tests/integration/[system]/[story-slug]_test.[ext]`
+**Documented playtest (if selected)**: [actual evidence path, observations and required sign-offs]
 
 **What to test**:
 - [Cross-system interaction — e.g., "applying buff updates CharacterStats and triggers UI refresh"]
@@ -101,6 +113,10 @@ the project is a game.
 ---
 
 ## Manual QA Checklist
+
+Populate this section only for criteria whose selected AC/DoD method requires
+manual verification. A selected UI interaction test does not also require a manual
+walkthrough unless an explicitly sourced owner obligation requires both.
 
 ### [Story Title] — Visual/Feel
 
@@ -113,16 +129,16 @@ the project is a game.
 
 ### [Story Title] — UI
 
-**Verification method**: Manual step-through
+**Verification method**: Manual walkthrough OR interaction test, as selected by the AC/DoD owner
 **Evidence file**: `production/qa/evidence/[story-slug]-evidence.md`
 
-- [ ] [Every acceptance criterion translated into a manual check item]
+- [ ] [Each required AC mapped to its selected walkthrough step or interaction-test observation]
 
 ---
 
 ## Smoke Test Scope
 
-Critical paths to verify before QA hand-off (run via `/smoke-check`):
+Candidate critical paths for the selected required/strict smoke scope; cite its owner before treating any as a QA hand-off gate (use `/smoke-check` only within execution scope):
 
 1. Game launches to main menu without crash
 2. New game / session can be started
@@ -131,7 +147,7 @@ Critical paths to verify before QA hand-off (run via `/smoke-check`):
 5. Save / load cycle completes without data loss (if save system exists)
 6. Performance is within budget on target hardware
 
-Product critical paths to verify before QA hand-off:
+Product candidates under the same selected required/strict smoke scope:
 
 1. API/CLI/web entrypoint starts without crash or missing configuration
 2. New user or first-run workflow completes
@@ -170,9 +186,9 @@ If no product validation sessions are required: *No product validation required 
 A story is DONE when ALL of the following are true:
 
 - [ ] All acceptance criteria verified — automated test result OR documented manual evidence
-- [ ] Test file exists for all Logic and Integration stories and passes
-- [ ] Manual evidence document exists for all Visual/Feel and UI stories
-- [ ] Smoke check passes (run `/smoke-check sprint` before QA hand-off)
+- [ ] Required Logic unit tests pass; Integration test OR documented playtest passes as selected by the owning AC/DoD
+- [ ] Required Visual/Feel screenshots and sign-offs are complete; UI manual walkthrough OR interaction test passes as selected
+- [ ] Required AC/evidence actually passes; smoke checks pass within the selected required/strict scope, otherwise remain optional follow-up
 - [ ] No regressions introduced — previous sprint's features still pass
 - [ ] Code reviewed (via `/code-review` or documented peer review)
 - [ ] Story file updated to `Status: Complete` via `/story-done`
