@@ -24,6 +24,79 @@ Escalate material new scope/choices and continue unaffected authorized work.
 
 Template evaluation model selection follows [Validation scope and model-based evaluation](evidence-lifecycle.md#validation-scope-and-model-based-evaluation); role assignment and evaluation-model selection are separate.
 
+## Content Comparison and History Retention
+
+Submission review, content migration or replacement, history rewriting and
+branch cleanup require a comparison of actual content and necessary context.
+Identify each candidate, destination, relevant baselines and assessed scope,
+including exclusions. Review the affected content and dependencies; this does
+not require re-reviewing the whole repository each time.
+
+### Comparison scope and method
+
+Compare relevant patches, blobs and trees, including file modes, renames and
+binary changes. Assess functional semantics, interfaces, data, configuration,
+tests, assets and dependencies needed to interpret the result. A Git SHA
+identifies an object; ancestry establishes reachability. Neither those facts nor
+matching titles alone prove that content is unique, lost or fully replaced.
+`patch-id` and `range-diff` assist comparison but do not decide semantic
+equivalence or completeness.
+
+Align relevant baselines for rebase, squash, cherry-pick, merge or revision
+comparisons, and record one-to-many or many-to-one content mappings when
+applicable. Exclude upstream differences only after proving they are unrelated
+to the assessed content. Evaluate differences affecting semantics,
+compatibility, dependencies or evidence applicability. Assess the currently
+effective result, including conflict resolutions and later reverts, rather than
+only the original patch or merge point.
+
+### Disposition and evidence
+
+Classify each relevant part of a candidate as:
+
+- **Migrated:** the destination contains the effective content within the
+  assessed scope.
+- **Superseded or abandoned with evidence:** an evidenced successor correction
+  or justified abandonment covers the content; cite the reason, supporting
+  evidence and applicable decision authority.
+- **Effective but not migrated:** valid content or unfinished work remains
+  outside the destination.
+- **Unknown:** the available content, context or authority does not support a
+  conclusion.
+
+A candidate may contain several dispositions. Unknown content must not be
+described as fully replaced. For every candidate, report content correspondence,
+unique effective differences, unfinished work, actual evidence uses and recovery
+needs, and scope limitations. Keep these findings in the existing owning review,
+Story or decision record; no new global history ledger is required.
+
+Matching patches, partial content or final trees do not automatically transfer
+tests, independent reviews, approvals or acceptance bound to complete inputs.
+Reuse must satisfy the applicable input, environment, scope and authority
+requirements. Preserve old reports' original SHA and input bindings. A new
+comparison record does not constitute a fresh test run or independent review of
+the destination.
+
+### Retention and execution authority
+
+Retain branches or objects according to unique effective changes, unfinished
+work, actual current and historical evidence consumers, necessary short-term
+rollback and owner requirements. There is no universal duty to retain every old
+SHA permanently or archive all history. Specific contracts, Accepted decisions
+and explicit retention requirements remain controlling. The instruction to "Keep
+local originals and Git history" for **Existing tracked neutral inputs** remains
+scoped to that migration; this rule neither expands nor cancels it. Apply
+[evidence
+preservation](evidence-lifecycle.md#git-objects-and-evidence-preservation) to
+required originals and their minimum necessary closure.
+
+A content-replacement conclusion is separate from deletion authority, worktree
+occupancy, retention duties and safe execution. This standard grants no
+permission to delete, rewrite history, reset, rebase, cherry-pick, force-push or
+purge. Resolve those facts under the actual scoped authorization before
+dependent operations; unresolved issues block only the operations that depend on
+them.
+
 ## Model Tier Assignment
 
 > **Claude Code-specific.** The model IDs and `model:` frontmatter below apply to
