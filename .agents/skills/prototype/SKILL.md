@@ -262,6 +262,16 @@ prototype code stays isolated and is never promoted into production code.
 
 ## Phase 7: Review
 
+Bind read-only review to the saved immutable report revision and its complete input/
+evidence identities. Preserve those original bytes and the independent review as
+separate records. The reviewer reports findings without modifying REPORT.md.
+If correction is needed, an authorized writer creates a new report revision (for
+example `REPORT-r[revision].md`) retaining the original report/input bindings.
+Required independent review binds that corrected revision; writer checks are not
+independent review. Update a current-report pointer or Memory Bank index only when
+its exact path/effect is separately covered by existing or newly obtained authority.
+Report permission or review findings alone do not grant that pointer/index write.
+
 **[Game] — Creative Director Review**
 
 **Review mode check** — apply before spawning CD-PLAYTEST:
@@ -273,7 +283,7 @@ Spawn `creative-director` via Task using gate **CD-PLAYTEST** (`standards/direct
 
 Pass: the full REPORT.md content, the original design question, game pillars and core fantasy from `design/cdd/game-concept.md` (if it exists).
 
-The creative director evaluates the prototype result against the game's creative vision and pillars, then confirms, modifies, or overrides the prototyper's PROCEED / PIVOT / KILL recommendation. Their verdict is final. Update the REPORT.md `Recommendation` section if the creative director's verdict differs from the prototyper's.
+The creative director evaluates the prototype result against the game's creative vision and pillars, then confirms, modifies, or overrides the prototyper's PROCEED / PIVOT / KILL recommendation. Record their verdict in the separate review result. If it differs from the prototyper's recommendation, use the authorized new-revision and independent-review process above; never overwrite the reviewed report.
 
 **[Product] — Lead Programmer Review**
 
@@ -284,13 +294,13 @@ The creative director evaluates the prototype result against the game's creative
 
 Spawn `lead-programmer` via Task. Pass: the full REPORT.md content, the original design question, product principles from `design/cdd/product-concept.md` (if it exists), and technology stack from `standards/technical-preferences.md`.
 
-The lead programmer evaluates the prototype result against the product's architecture and technology constraints, then confirms, modifies, or overrides the prototyper's PROCEED / PIVOT / KILL recommendation. Their verdict is final. Update the REPORT.md `Recommendation` section if the lead programmer's verdict differs from the prototyper's.
+The lead programmer evaluates the prototype result against the product's architecture and technology constraints, then confirms, modifies, or overrides the prototyper's PROCEED / PIVOT / KILL recommendation. Record their verdict in the separate review result. If it differs from the prototyper's recommendation, use the authorized new-revision and independent-review process above; never overwrite the reviewed report.
 
 ---
 
 ## Phase 8: Summary and Next Steps
 
-Output a summary to the user: the core question, the result, the prototyper's initial recommendation, and the reviewer's final decision. Link to the full report at `prototypes/[concept-name]/REPORT.md`.
+Output a summary to the user: the core question, the result, the prototyper's initial recommendation, and the reviewer's final decision. Link to the exact report revision and its separate review; distinguish the original report from any corrected revision and any authorized current pointer.
 
 **[Game]** If **PROCEED**: run `/design-system` to begin the production CDD for this mechanic, or `/architecture-decision` to record key technical decisions before implementation.
 
