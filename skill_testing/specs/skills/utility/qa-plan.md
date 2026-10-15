@@ -276,6 +276,77 @@ contradictory Game concept/configuration.
 
 **Case Verdict:** PASS / FAIL / PARTIAL
 
+## Generated Acceptance Family Counterexamples
+
+Owners: Phase 4 Game and Product templates, `templates/test-plan.md`, and the
+existing `skills/test-evidence-review/SKILL.md` AC/setup/stimulus/oracle/result
+mapping. Use the canonical legal `sprint`, `feature: system-name` or `story: path`
+interface for these cases; no new CLI selector, generator or output is required.
+Case PASS/FAIL/PARTIAL means instruction reasoning unless actual execution is
+separately recorded.
+
+### Case 10 (A08): Omitted, duplicated or replaced same-count member
+
+**Fixture:** Selected family F owns shared rule R and exact stable member IDs
+a/b/c, including exception b and its fixed safety vector. Bad plans replace b with
+duplicate c or different d while retaining three rows; another omits the exception.
+The legal control preserves a/b/c and exception/vector meaning.
+**Input:** `/qa-plan feature: movement`, paired Product `feature: permissions`.
+**Assertions:**
+- [ ] Exact IDs/rules/exclusions/exceptions are checked; count/hash agreement cannot certify membership.
+- [ ] Missing/replaced member or omitted exception remains a named unverified criterion.
+- [ ] The control retains complete membership and existing AC/setup/stimulus/oracle/result linkage.
+
+### Case 11 (A09): Generator and expected result share the same defect
+
+**Fixture:** A generator and expected-result path both omit nullable/default
+behavior. All outputs agree with the same bug. A control supplies an independent
+governing expected outcome and necessary known-result fixed regression vectors.
+**Input:** `/qa-plan story: production/epics/example/story-001.md`.
+**Assertions:**
+- [ ] Self-agreement cannot be the sole oracle; name its source and independent vectors.
+- [ ] Without an independent oracle/vector the affected assertion remains unverified, never runtime PASS.
+- [ ] The control defines a valid oracle; execution still requires actual implementation observations.
+
+### Case 12 (A10): Earlier guard masks the intended rule
+
+**Fixture:** Intended guard is a domain permission/state constraint, but malformed
+schema/missing auth rejects the input first. The control uses a valid baseline
+that reaches the target, with a single intended per-member delta and known outcome.
+**Input:** Selected Game or Product feature QA plan.
+**Assertions:**
+- [ ] Plan records baseline/input context, delta/order and expected first guard/reachability.
+- [ ] An earlier rejection leaves the target assertion unverified; generic rejection is insufficient coverage.
+- [ ] The legal control targets the actual rule without weakening any earlier mandatory guard.
+
+### Case 13 (A11): Definition/materialization cannot become runtime qualification
+
+**Fixture:** Every declared family member is materialized; static/model reasoning
+passes, but tests against the actual implementation have not run. Other variants
+have runtime FAIL, Blocked or Pending, and a justified actually inapplicable layer.
+**Input:** `/qa-plan sprint`.
+**Assertions:**
+- [ ] Definition, materialization, static/model and runtime layers/statuses stay distinct.
+- [ ] Absent runtime remains NotRun/Pending/Blocked as found; other actual failures are not recolored.
+- [ ] N/A has a real applicability reason; plan-operation COMPLETE means authorized plan saving only, never Story/QA completion.
+- [ ] Planning writes no QA evidence index, runtime result or state as a side effect.
+
+### Case 14 (A16): Optional family and justified real catalog control
+
+**Fixture:** A selected generated family has exact members, exceptions, legal
+baseline/deltas and independent oracle/guard. A real existing consumer justifies
+a persistent catalog; another AC is an ordinary finite single case with no generator.
+**Input:** Paired Game and Product QA plans plus standalone test-plan use.
+**Assertions:**
+- [ ] All three templates expose exactly the same five family columns and conditional guidance.
+- [ ] No generator/family section is forced onto the ordinary singleton; its selected evidence method remains valid.
+- [ ] A real catalog can remain when justified under Section H; no blanket file-type/JSON prohibition.
+- [ ] Family definitions do not replace necessary fixed vectors or actual implementation observations.
+
+**Observation requirements:** Record actual output fields and observed plan-write
+scope; runtime and model/host behavior remain NotRun when not executed. These cases
+do not repair unrelated legacy fixture selectors or infer native loading from copies.
+
 ## Coverage Notes
 
 - The case where `standards/coding-standards.md` is missing (skill cannot assign test types)

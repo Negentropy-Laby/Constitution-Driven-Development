@@ -258,3 +258,57 @@ the configured value, producing a real governing public-contract mismatch.
   real unrelated contract gaps remain findings under their own actual evidence.
 - [ ] The true mismatching variant preserves Target and reports affected gaps
   without silently changing helper/source/CDD inputs under review-only authority.
+
+## Repeated Acceptance Representation Cases
+
+These assertions belong to Section H in `references/section-guidance.md` and the
+standalone `templates/constitution-design-document.md`. The existing parent skill
+loads that guidance for both Game and Product. They add no gate or writer effect.
+Static/spec reasoning is distinct from future model/host/runtime execution.
+
+### Case 7 (A08): Exact members and exceptions survive compact representation
+
+**Fixture:** Shared rule R has stable members a/b/c and an explicit safety
+exception for b with a known regression vector. Paired bad candidates retain a
+count of three but use a/c/c or a/c/d; another drops b's exception. A control keeps
+one shared-rule owner, exact a/b/c membership, exception and concrete safety vector,
+deriving only redundant expansion on demand.
+**Input:** `/design-system movement`, paired Product permission-module authoring.
+**Expected behavior:** Assess Section H semantic completeness and give the existing
+qa-lead its member/rule/exception/vector/consumer context.
+**Assertions:**
+- [ ] Same count, a digest or smaller file cannot prove the missing/replaced member covered.
+- [ ] Exception loss is a named gap; unique owner and stable complete membership remain explicit.
+- [ ] The valid compact control retains input/context, guard, outcome/oracle and layer; no permanent expansion is required.
+- [ ] Game rule/formula and Product contract examples and the existing qa-lead delegation are preserved.
+
+### Case 8 (A09/A10): Independent oracle and reachable target guard
+
+**Fixture:** A family and its expected results share generator logic omitting
+nullable/default behavior. The intended business guard is unreachable because
+the proposed input is rejected earlier by schema/auth. The control has a legal
+baseline, a single intended delta, known fixed independent result and a reachable
+expected first guard.
+**Input:** Existing Section H authoring route for the selected Game or Product module.
+**Assertions:**
+- [ ] Preserve necessary fixed safety/history vectors and each case's oracle source; generator self-agreement is insufficient.
+- [ ] The missing rule/exception/vector remains a gap; do not claim coverage from generated size.
+- [ ] Input/context, valid baseline/delta, target/expected first guard and applicable layer remain reviewable.
+- [ ] The control may establish a testable definition; implementation execution is a separate claim.
+
+### Case 9 (A16): Actual consumer may justify a persistent machine catalog
+
+**Fixture:** A real existing Game loader or Product validator consumes a stable
+machine catalog. Its owner shows the concrete failure of the existing document/
+tests and a smaller representation cannot satisfy that consumer. A paired
+proposal names no consumer and merely expands derivable repetition.
+**Input:** Section H authoring within its existing named document scope.
+**Assertions:**
+- [ ] The justified catalog, including JSON, may be retained with its consumer/need/alternative rationale.
+- [ ] The unsupported expansion is questioned by semantic need and usability; there is no blanket JSON ban.
+- [ ] Neither byte reduction nor member count replaces rule/member/exception/regression coverage.
+- [ ] Source entrypoint and existing gate/authority contracts are unchanged; no DOC5 or project-specific pruning is inferred.
+
+**Observation requirements:** On execution, record actual Section H output and
+qa-lead input, exact before/after identities and zero excluded writes. A written
+case or instruction-reasoning PASS is not a model execution or native host PASS.
