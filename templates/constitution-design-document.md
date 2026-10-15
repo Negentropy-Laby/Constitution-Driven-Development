@@ -211,6 +211,20 @@ system's behaviour anywhere in this document, it must appear here.]
 - [ ] Performance: System update completes within [X]ms
 - [ ] No hardcoded values in implementation
 
+For repeated/generated criteria, identify one shared-rule owner path/section,
+complete member IDs or a finite membership rule, necessary exceptions and concrete
+regression vectors. Preserve input/context, valid baseline and per-member delta,
+target/expected first guard, oracle source and validation layer.
+Do not use the generator's own output as its sole expected oracle. Coupled
+generator/expected logic needs independent known-result vectors; without them
+the affected assertion remains unverified. If an earlier guard intercepts a
+case, its intended target assertion remains unverified.
+State the actual consumer, the need existing documents/tests cannot satisfy and
+why a smaller alternative is insufficient before adding a long-lived machine
+catalog (including JSON when justified). Derive repeated data on demand where
+sufficient. Semantic coverage and reviewer usability govern representation;
+counts, reduced bytes or generated definitions do not establish runtime PASS.
+
 ## Open Questions
 
 [Anything not yet decided. Each question should have an owner and deadline.]

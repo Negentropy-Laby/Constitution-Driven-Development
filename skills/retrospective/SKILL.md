@@ -8,6 +8,12 @@ context: |
   !git log --oneline --since="2 weeks ago" 2>/dev/null
 ---
 
+Read and apply `standards/evidence-lifecycle.md`, `standards/coordination-rules.md`
+and `standards/notes-adr-sync.md` for scoped authority, exact evidence and decision
+ownership. Review-only invokes no write entrypoint. Report-only writes only its
+named report, excluding inputs, indexes, snapshots and state. Saving a report or
+recommending an action does not authorize executing it.
+
 ## User Guide
 
 - When to use: Generates a sprint or milestone retrospective by analyzing completed work, velocity, blockers, and patterns. Produces actionable insights for the next iteration.
@@ -183,10 +189,20 @@ tasks? What adjustment should we apply?]
 
 ### Action Items for Next Iteration
 
-| # | Action | Owner | Priority | Deadline |
-|---|--------|-------|----------|----------|
-| 1 | [Specific, measurable action] | [Who] | [High/Med/Low] | [When] |
-| 2 | [Another action] | [Who] | [Priority] | [When] |
+| # | Action | Proposed owner path / section | Responsible owner | Priority | Due date / phase | Observable acceptance or counterexample | Status |
+|---|---|---|---|---|---|---|---|
+| 1 | [Specific, measurable action] | [existing owner path/section, or unresolved] | [Who] | [High/Med/Low] | [When] | [input/action and observable expected result] | [Open/In Progress/Done] |
+| 2 | [Another action] | [existing owner path/section, or unresolved] | [Who] | [Priority] | [When] | [acceptance or falsifying counterexample] | [Open/In Progress/Done] |
+
+Name the existing paragraph/template/tool owner that would change, the responsible
+owner and due date/phase, and an observable acceptance or counterexample. A
+retrospective recommendation does not authorize that edit or create a new owner.
+For auxiliary work, define an objective- and risk-based stop/simplify condition
+when useful: the signal to stop repeating, new diagnosis needed for a retry, a
+smaller route preserving the same delivery assertion and mandatory constraints,
+and the original evidence that must remain. Use the existing task/report to
+record it. Do not impose a universal second-failure threshold or skip a real
+delivery defect, security requirement or governing verification gate.
 
 ### Process Improvements
 - [Specific change to how we work, with expected benefit]
@@ -203,9 +219,17 @@ the single most important thing to change going forward?]
 
 Present the retrospective and top findings to the user (completion rate, velocity trend, top blocker, most important action item).
 
-Ask: "May I write this to `production/sprints/sprint-[N]-retrospective.md`?" (or the milestone path if applicable)
+Reuse existing named report path/create-or-update authority. Only if it is
+missing or materially new, show the concrete draft and effects, then ask:
+"May I write this to `production/sprints/sprint-[N]-retrospective.md`?"
+(or the resolved milestone path if applicable). Existing-file updates preserve
+recoverable prior revisions and follow the same exact authority.
 
-If yes, write the file, creating the directory if needed. Verdict: **COMPLETE** — retrospective saved.
+When saving the report, do not execute proposed action items or update any
+input/index/state. Those effects need their own named authority and applicable
+decision/review requirements.
+
+When the report effect is covered, write the file, creating its directory if needed. Verdict: **COMPLETE** — the authorized retrospective was saved; this completes no sprint, action item, QA check or stage.
 
 When `memory_bank/` exists, propose the actual T3 snapshot path and contents under
 `memory_bank/t3_archive/sprint_snapshots/` as a separate effect or part of the named
@@ -218,11 +242,9 @@ remains pending while the authorized retrospective can be saved.
 - Milestone retrospective path: `memory_bank/t3_archive/sprint_snapshots/milestone-[name]-closeout-[YYYY-MM-DD].md`
 - Include completed work, carryover, QA/release links, top blockers, and action
   items.
-- If `memory_bank/` does not exist, do not create it from `/retrospective`; keep
-  the existing retrospective behavior and say: "Run `/constitute` to establish
-  the memory_bank governance control plane."
+- If optional `memory_bank/` does not exist, retain the authorized report/conversation fallback and disclose absent optional snapshots; do not initialize it.
 
-If no, stop here. Verdict: **BLOCKED** — user declined write.
+If report writing is declined, stop that write. Verdict: **BLOCKED** — user declined the report write. Independent conversational findings remain available.
 
 ---
 
@@ -236,6 +258,6 @@ If no, stop here. Verdict: **BLOCKED** — user declined write.
 - Be honest and specific. Vague retrospectives ("communication could be better") produce vague improvements. Use data and examples.
 - Focus on systemic issues, not individual blame.
 - Limit action items to 3-5. More than that dilutes focus.
-- Every action item must have an owner and a deadline.
+- Every action item names its proposed existing owner path/section, responsible owner, due date/phase and observable acceptance or counterexample, retaining priority and actual status. Unresolved owners stay explicit, not invented.
 - Check whether previous action items were completed. Recurring unaddressed items are a process smell.
 - If this is a milestone retrospective, also evaluate whether the milestone goals were achieved and what that means for the overall project timeline.

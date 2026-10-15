@@ -8,8 +8,10 @@ It reads sprint files and session logs to compile observations, then produces
 a retrospective document. No director gates are used — retrospectives are
 team self-reflection artifacts. The skill asks "May I write to
 `production/retrospectives/retro-sprint-NNN.md`?" before persisting.
-Verdict is always COMPLETE (retrospective is structured output, not a pass/fail
-assessment).
+COMPLETE describes only a successfully saved authorized retrospective; it does
+not certify sprint/action/QA completion. Missing-data stop or declined report
+writing can be BLOCKED. Existing named report authority continues; recommendations,
+snapshot/index effects and action execution remain separate.
 
 ---
 
@@ -20,7 +22,7 @@ Verified automatically by `/skill-test static` — no fixture needed.
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keyword: COMPLETE
-- [ ] Contains "May I write" language (skill writes retrospective document)
+- [ ] Applies named report authority and asks "May I write" only for missing/materially new effects
 - [ ] Has a next-step handoff (what to do after retrospective is written)
 
 ---
@@ -54,7 +56,7 @@ None. Retrospectives are team self-reflection documents; no gates are invoked.
 - [ ] Retrospective contains all three categories (went well / didn't / actions)
 - [ ] Blocked and deferred stories appear in the "what didn't" section
 - [ ] At least one action item is generated from the blocked story
-- [ ] Skill asks "May I write" before writing file
+- [ ] Skill checks exact report authority before writing, reusing covered scope or asking only when missing/materially new
 - [ ] Verdict is COMPLETE after successful write
 
 ---
@@ -79,7 +81,7 @@ None. Retrospectives are team self-reflection documents; no gates are invoked.
 - [ ] Skill does not crash or produce an empty document when sprint file is absent
 - [ ] User is prompted to provide manual input
 - [ ] Manual input is formatted into the three-category structure
-- [ ] "May I write" prompt still appears before file write
+- [ ] Report writing still requires its exact effect authority; covered scope is reused
 
 ---
 
@@ -145,7 +147,7 @@ None. Retrospectives are team self-reflection documents; no gates are invoked.
 **Assertions:**
 - [ ] No director gate is invoked regardless of review mode
 - [ ] Output does not contain any gate invocation or gate result notation
-- [ ] Skill proceeds directly from compilation to "May I write" prompt
+- [ ] Skill proceeds from compilation to report-authority resolution without a director gate
 - [ ] Review mode file content is irrelevant to this skill's behavior
 
 ---
@@ -153,12 +155,63 @@ None. Retrospectives are team self-reflection documents; no gates are invoked.
 ## Protocol Compliance
 
 - [ ] Always shows retrospective draft before asking to write
-- [ ] Always asks "May I write" before writing retrospective file
+- [ ] Reuses covered named report authority; asks only for missing/materially new report effects
 - [ ] No director gates are invoked
-- [ ] Verdict is always COMPLETE (not a pass/fail skill)
+- [ ] COMPLETE is only the authorized successful report-save operation; stop/declined-write branches may be BLOCKED
 - [ ] Checks prior retrospective for unresolved action items
 
 ---
+
+## Action Quality, Stop Conditions and Authority Counterexamples
+
+Owners: Phase 4 Action Items for Next Iteration, Phase 5 and Guidelines;
+`templates/post-mortem.md`; shared evidence/decision contracts. Assertions evaluate
+written instructions unless actual model/tool/host observations are separately
+recorded. These cases do not broaden the skill's CLI or add a director gate.
+
+### Case 6 (A15): Vague repeated action versus verifiable existing-owner change
+
+**Fixture:** Three retrospectives repeat "improve validation" with no proposed
+owner paragraph, responsible person, due date/phase or observable outcome. The
+control proposes an existing QA template's AC paragraph, owner QA lead, next-sprint
+planning date and a same-count replaced-member counterexample that must be
+reported unverified. Historical action priority/status and unresolved follow-up exist.
+**Input:** `/retrospective sprint-005`.
+**Expected behavior:** Produce a bounded 3–5-action recommendation set with
+concrete owner/change/acceptance context, preserving history and unresolved facts.
+**Assertions:**
+- [ ] Inline and standalone tables retain the same eight fields, including priority and actual status.
+- [ ] Vague actions are insufficient; identify missing owner/section/person/date/observable acceptance rather than marking them Done.
+- [ ] The concrete control is an actionable proposal, not permission to perform its edit or create another owner.
+- [ ] Previous action follow-up stays distinct; history/status is retained and unresolved owners are not invented.
+
+### Case 7 (A15): Auxiliary retry requires diagnosis and proportionate stop rule
+
+**Fixture:** Auxiliary validation fails twice on the same artifact. Variant A has
+no new diagnosis and a smaller route satisfying the same delivery assertion and
+mandatory constraints. B has a new diagnosis and a truly necessary retry.
+C has a real security/AC defect or governing verification gate still failing.
+**Input:** `/retrospective milestone-alpha`.
+**Assertions:**
+- [ ] Set a useful objective/risk-based stop/simplify signal in the existing task/report; record diagnosis needed for retry, sufficient smaller route and evidence to retain.
+- [ ] No automatic universal second-failure cutoff, endless identical retry or automatic end to the main delivery.
+- [ ] B may recommend the necessary diagnosed retry with its basis and acceptance; execution requires separate covered authority.
+- [ ] C retains the real failing/unexecuted gate; simplification or risk acceptance cannot recolor it PASS or authorize bypass.
+- [ ] Original failed evidence remains, rather than overwriting it with a success claim.
+
+### Case 8 (A12): Saving retrospective is not action, snapshot or index authority
+
+**Fixture:** A authorizes only a new named retrospective report with initialized
+Memory Bank. B is review-only and supplies an in-memory writer receiver. C also
+covers the named T3 snapshot effect. D has no optional Memory Bank.
+**Input:** `/retrospective sprint-005` under each authority variant.
+**Assertions:**
+- [ ] A may save its report and report operation COMPLETE; action/input/index/snapshot/state writes/callbacks are zero.
+- [ ] B invokes no writer, even in memory; unchanged disk alone cannot prove zero calls.
+- [ ] C can write only its covered report/snapshot effects with actual evidence; this grants no action execution or sprint/stage completion.
+- [ ] D uses authorized report/conversation fallback without initialization.
+- [ ] Existing exact authority persists without repeated questions; materially new effects ask after concrete draft.
+- [ ] Declined report writing or a no-data stop is BLOCKED; successful report saving is never a product/test verdict.
 
 ## Coverage Notes
 

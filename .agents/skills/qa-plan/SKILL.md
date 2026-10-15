@@ -236,6 +236,25 @@ classification alone does not require both methods.
 
 ---
 
+## Generated Acceptance Families (when selected)
+
+Complete only when a selected AC uses a generated family; an ordinary finite
+single case keeps its selected method without introducing a generator.
+
+| AC / family | Finite members and stable IDs | Valid baseline and per-member delta | Oracle source and target guard | Validation layer and actual execution status |
+|---|---|---|---|---|
+| [owner AC / family; shared-rule owner] | [finite rule/index; exclusions and exceptions] | [input/context; change and order] | [independent known result or governing rule; reachability and expected first guard] | [definition/materialization/static/model/runtime; actual PASS/FAIL/NotRun/Blocked/Pending or justified N/A] |
+
+Use the existing `skills/test-evidence-review/SKILL.md` AC/setup/stimulus/oracle/result
+mapping. Check exact membership and semantics, not count alone. Keep a legal
+baseline and change the intended condition; if an earlier guard intercepts it,
+the target assertion remains unverified. Preserve explicit exceptions and
+necessary fixed vectors. Do not use the generator's own output as its sole
+expected oracle; coupled generator/expected logic needs independent known-result
+vectors or leaves the affected assertion unverified.
+Planning a family or materializing all members is not execution against the
+implementation. Missing runtime evidence stays NotRun/Pending/Blocked as found.
+
 ## Automated Tests Required
 
 ### [Story Title] — [Type]
@@ -359,6 +378,25 @@ classification alone does not require both methods.
 | [story title] | Config | Spot-check | Config diff + env log |
 
 ---
+
+## Generated Acceptance Families (when selected)
+
+Complete only when a selected AC uses a generated family; an ordinary finite
+single case keeps its selected method without introducing a generator.
+
+| AC / family | Finite members and stable IDs | Valid baseline and per-member delta | Oracle source and target guard | Validation layer and actual execution status |
+|---|---|---|---|---|
+| [owner AC / family; shared-rule owner] | [finite rule/index; exclusions and exceptions] | [input/context; change and order] | [independent known result or governing rule; reachability and expected first guard] | [definition/materialization/static/model/runtime; actual PASS/FAIL/NotRun/Blocked/Pending or justified N/A] |
+
+Use the existing `skills/test-evidence-review/SKILL.md` AC/setup/stimulus/oracle/result
+mapping. Check exact membership and semantics, not count alone. Keep a legal
+baseline and change the intended condition; if an earlier guard intercepts it,
+the target assertion remains unverified. Preserve explicit exceptions and
+necessary fixed vectors. Do not use the generator's own output as its sole
+expected oracle; coupled generator/expected logic needs independent known-result
+vectors or leaves the affected assertion unverified.
+Planning a family or materializing all members is not execution against the
+implementation. Missing runtime evidence stays NotRun/Pending/Blocked as found.
 
 ## Automated Tests Required
 

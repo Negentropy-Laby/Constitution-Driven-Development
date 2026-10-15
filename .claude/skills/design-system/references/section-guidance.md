@@ -388,7 +388,29 @@ of truth. If this module's configuration affects downstream modules, note the co
 formula/data structure from Section D. Do NOT write "the system works as designed" —
 every criterion must be independently verifiable by a QA tester without reading the CDD.
 
-**Agent delegation (MANDATORY)**: Spawn `qa-lead` via Task before finalising acceptance criteria. Provide: the completed CDD sections C, D, E, and ask them to validate that the criteria are independently testable and cover all core rules and formulas. Surface any gaps or untestable criteria to the user.
+For a repeated or generated acceptance set, keep one authoritative definition of
+shared rules with its owner path/section, an unambiguous complete member index or
+finite membership rule with stable IDs, necessary exceptions, and concrete
+regression vectors for safety, historical defects and behavior that cannot be
+reliably derived.
+Preserve each case's input/context, target guard, expected outcome, oracle source
+and applicable validation layer. Record a valid baseline and per-member change
+where needed to reach the expected first guard. Shared rules may derive repeated
+data on demand; completeness does not require permanently storing every expanded
+object or model trace.
+Do not use the generator's own output as its sole expected oracle. Coupled
+generator/expected logic needs independent known-result vectors; without them
+the affected assertion remains unverified. If an earlier guard intercepts a
+case, its intended target assertion remains unverified.
+A proposed long-lived machine catalog must name its actual consumer, the specific
+need the existing document/tests cannot satisfy, and why a smaller representation
+is insufficient. A useful proven consumer may justify such a catalog, including JSON.
+Review representation by semantic coverage and reviewer usability, not by file
+type, byte reduction, line count or member count alone. Do not remove case meaning
+to make the artifact smaller. Definition, materialization, static/model checks
+and execution against the real implementation remain separate claims.
+
+**Agent delegation (MANDATORY)**: Spawn `qa-lead` via Task before finalising acceptance criteria. Provide: the completed CDD sections C, D, E, shared-rule owner and complete member IDs/rule, exceptions, necessary fixed vectors, target guards/oracles/layers and any actual catalog consumer/smaller-alternative rationale. Ask them to validate independent testability, independent oracles and target-guard reachability, exact membership and semantic coverage of all core rules and formulas, including exceptions. Surface any gaps or untestable criteria to the user.
 
 **Questions to ask**:
 - What's the minimum set of tests that prove this works?
