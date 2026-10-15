@@ -30,6 +30,20 @@
 | S[N]-001 | | | | None | | Not Started |
 | S[N]-002 | | | | S[N]-001 | | Not Started |
 
+### Blocking Prerequisite Rationale
+Complete one row for each prerequisite claimed to block the current delivery.
+
+| Task / prerequisite | Delivery and actual consumer | Concrete failure if omitted | Applicable mandatory basis | Smaller sufficient alternative and disposition |
+|---|---|---|---|---|
+| [ID] | [artifact/outcome and consumer path] | [specific failure] | [owner path/section, or no mandatory basis claimed] | [reuse/cut/defer/keep, reason] |
+
+Do not promote auxiliary work to Must Have merely because this plan chooses to
+call it. Compare the existing path and smaller sufficient alternative. Preserve
+actual mandatory requirements; unresolved required applicability blocks only
+dependent claims/work. Review necessity before implementation completeness using
+the existing full/lean/solo feasibility review, without a new gate. Record
+Keep, Cut, Defer or Resolve with its basis for each disputed prerequisite.
+
 ### Should Have
 
 | ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria | Status |
@@ -53,6 +67,8 @@
 |------|------------|--------|-----------|-------|
 
 ## External Dependencies
+
+Reference the Blocking Prerequisite Rationale row for each claimed blocker.
 
 | Dependency | Status | Impact if Delayed | Contingency |
 |-----------|--------|------------------|-------------|

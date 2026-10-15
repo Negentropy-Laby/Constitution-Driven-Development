@@ -125,6 +125,13 @@ For `new`:
 | ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
 |----|------|-------------|-----------|-------------|-------------------|
 
+### Blocking Prerequisite Rationale
+Complete one row for each prerequisite claimed to block the current delivery.
+
+| Task / prerequisite | Delivery and actual consumer | Concrete failure if omitted | Applicable mandatory basis | Smaller sufficient alternative and disposition |
+|---|---|---|---|---|
+| [ID] | [artifact/outcome and consumer path] | [specific failure] | [owner path/section, or no mandatory basis claimed] | [reuse/cut/defer/keep, reason] |
+
 ### Should Have
 | ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
 |----|------|-------------|-----------|-------------|-------------------|
@@ -142,7 +149,7 @@ For `new`:
 |------|------------|--------|------------|
 
 ## Dependencies on External Factors
-- [List any external dependencies]
+- [List any external dependencies; reference the rationale row for each claimed blocking dependency]
 
 ## Definition of Done for this Sprint
 - [ ] All Must Have tasks completed
@@ -155,6 +162,18 @@ For `new`:
 - [ ] Design documents updated for any deviations
 - [ ] Code reviewed and merged
 ```
+
+For `new` and `update`, complete Blocking Prerequisite Rationale for claimed
+blocking work, including external dependencies. Do not promote auxiliary work
+to Must Have merely because the proposed plan chooses to call it. Compare the
+existing path and smaller sufficient alternatives before declaring a dependency
+necessary; a tool introduced solely to validate itself is not thereby P0.
+Preserve actual mandatory requirements; Unknown required applicability blocks
+only dependent claims/work. Compare relevant content and dependency impacts
+under `standards/coordination-rules.md`: an unrelated SHA change alone is not
+evidence invalidation, while an actual affected input/behavior change needs review.
+This rationale applies to current claimed blockers, not retroactive blanket
+judgments of historical plans.
 
 For `status`:
 
@@ -244,7 +263,15 @@ For `update`, read YAML plus actual Story/closure inputs. Carry done only with e
 
 Before finalising the sprint plan, spawn `producer` via Task using gate **PR-SPRINT** (`standards/director-gates.md`).
 
-Pass: proposed story list (titles, estimates, dependencies), total team capacity in hours/days, any carryover from the previous sprint, milestone constraints and deadline.
+Review necessity before implementation completeness in this existing feasibility
+review. For every disputed prerequisite record Keep, Cut, Defer or Resolve with
+its basis. Reuse the current full/lean/solo review pattern; add no new gate.
+The author supplies the rationale even when lean/solo legally skips PR-SPRINT.
+
+Pass: proposed story list (titles, estimates, dependencies), Blocking Prerequisite
+Rationale (actual consumer, omission failure, mandatory basis, smaller alternative
+and disposition), total team capacity in hours/days, any carryover from the
+previous sprint, milestone constraints and deadline.
 
 Present the producer's assessment. If UNREALISTIC, revise the story selection (defer stories to Should Have or Nice to Have) before asking for write approval. If CONCERNS, surface them and let the user decide whether to adjust.
 

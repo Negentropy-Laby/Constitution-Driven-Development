@@ -299,12 +299,69 @@ introduces a materially new effect. Current input identities are supplied.
 
 **Case Verdict:** PASS / FAIL / PARTIAL
 
+## Blocking Prerequisite Counterexamples
+
+These cases exercise the existing plan operation; they add no gate, mandatory
+generator or retroactive rule for every historical task. Case PASS/FAIL/PARTIAL
+is a spec result, not sprint/Story/runtime qualification.
+
+### Case 9 (A05): Auxiliary tool cycle and necessary prerequisite control
+
+**Owner:** Phase 2 Blocking Prerequisite Rationale and Phase 4 PR-SPRINT inputs.
+**Fixture:** A document task is labelled P0/Must Have because a proposed tool will
+validate it; the tool's only consumer is that chosen validation route. A direct
+check suffices. The control has a required auth check with a real protected
+consumer and concrete unauthorized-access failure; no smaller route satisfies it.
+**Input:** `/sprint-plan new --review full`, paired `update --review lean` and `new --review solo`.
+**Expected behavior:** Review necessity before implementation completeness, compare
+existing/smaller routes and send rationale into existing full-mode PR-SPRINT.
+**Assertions:**
+- [ ] Skill and standalone template use the same five rationale fields for each claimed blocker, including external dependencies.
+- [ ] Self-chosen tool use alone cannot establish P0; record Cut/Defer/Resolve with consumer/failure/basis/alternative evidence.
+- [ ] Necessary control remains Keep with its governing basis; no real mandatory check is waived.
+- [ ] Lean/solo still provide author rationale while recording their existing legal gate skips; no new reviewer/gate.
+- [ ] Ordinary nonblocking tasks do not require the extra table row.
+
+### Case 10 (A03/A06): Cancellation and required gate states
+
+**Owner:** QA policy, Phases 2, 3 and 5.
+**Fixture:** One required permission check is removed and one auxiliary tool task
+added (unchanged count). Separate required checks are FAIL/NotRun/Blocked/Pending;
+risk acceptance and a smaller proposal are offered.
+**Input:** `/sprint-plan update`.
+**Assertions:**
+- [ ] Addition/removal impacts and real mandatory basis remain visible; net count cannot justify the removal.
+- [ ] Rationale does not turn real failed/unexecuted gates PASS/N/A/done.
+- [ ] Saving the authorized plan may finish the planning operation only; YAML retains actual unqualified/blocked state and covered effect limits.
+- [ ] Unknown required applicability blocks only dependent claims/work, not independent planning or optional-context fallback.
+
+### Case 11 (A07): Relevant input change versus unrelated commit
+
+**Owner:** Phase 2 necessity guidance and `standards/coordination-rules.md`.
+**Fixture:** Variant A changes main SHA through unrelated content only. B changes
+a relied-on input or behavior affecting prerequisite/evidence applicability.
+**Input:** `/sprint-plan update`.
+**Assertions:**
+- [ ] A compares actual relevant content and necessary context without SHA-only invalidation or automatic evidence transfer.
+- [ ] B records actual affected dependency/verification needs; exact hashes alone do not prove semantic completeness.
+
+### Case 12 (A13): Status return and all review/save modes
+
+**Owner:** Phases 0, 2, 3, 4 and 5 Final Covered Writes.
+**Fixture:** Valid full/lean/solo modes, actual current sprint data and separate
+plan-only vs plan-plus-YAML authorization. Each mode is paired with new/update/status.
+**Input:** `/sprint-plan status --review full` and the new/update mode matrix.
+**Assertions:**
+- [ ] Status produces conversation output and returns before prerequisite drafting, PR-SPRINT, QA orchestration or any writer invocation.
+- [ ] Full new/update uses existing PR-SPRINT with necessity inputs before covered writes; lean/solo keep their legal skip.
+- [ ] Plan and YAML remain drafts until selected review and QA-scope handling; plan-only authority never writes YAML.
+- [ ] No duplicate approval request for covered effects and no extra gate from the new table.
+
 ## Coverage Notes
 
 - The case where no milestone file exists is not explicitly tested; behavior
   follows the BLOCKED pattern with a suggestion to run `/gate-check` for
   milestone progression.
-- Solo mode behavior is equivalent to lean (gate skipped, user approval
-  required) and is not separately tested.
+- Case 12 covers solo alongside lean/full as written-instruction checks; actual mode execution must be reported separately.
 - Parallel story selection algorithms are not tested here; those are unit
   concerns for the sprint-plan subagent.
