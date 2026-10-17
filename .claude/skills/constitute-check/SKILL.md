@@ -226,6 +226,22 @@ Its project/Source binding section records the actual project role, sole Source,
 installed revision and runtime, exact installed paths, required neutral inputs
 and project-owned customizations. Unknown values remain unconfigured.
 
+When this audit includes import/update or layout reconciliation, read the
+existing scoped plan/report and apply `standards/directory-structure.md`, section
+"Consumer layout resolution for imports and updates". Bind the latest applicable
+Source inputs and compare actual installed paths, active readers/references,
+discovery/configuration and generation/comparison chain with the resolved tree
+and mapping. Internal agreement between legacy inputs and their own adapters
+does not prove current alignment. Do not treat a planned destination as installed
+or automatically retain an old path as a customization exemption.
+Distinguish historical identifiers with actual recoverable originals/witnesses
+from current dependencies: do not fail mere historical path text or silently
+waive a stale live reader. Local copy presence alone is not a layout violation.
+Unresolved layout/ownership/conflicts leave affected alignment pending; only valid
+applicable comparison evidence can establish fresh/stale. Unselected layout
+alignment is NotAssessed; ordinary offline installed-input observations still
+work and do not imply a Source update or new global gate.
+
 If that control-plane file is absent or lacks a binding, use only existing
 project-owned documentation/configuration selected by the project's governing
 instructions and defining those same fields and their owners. Do not invent a

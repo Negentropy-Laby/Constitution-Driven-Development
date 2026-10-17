@@ -191,6 +191,45 @@ separate. Preserve before bytes and disclose unavailable checks.
 
 ---
 
+### Case 8: Framework import resolves layout before affected skeleton bindings
+
+**Fixture:**
+- A Product invocation explicitly includes CDD import/update in addition to
+  constitution initialization. Complete required originals and the verified latest
+  applicable Source inputs are available, and exact skeleton/installation effects
+  are authorized; law ratification remains a separate decision.
+- An older binding points at legacy platform locations. The applicable current
+  consumer contract resolves different runtime-installed locations.
+
+**Expected behavior:**
+- Reads the single layout owner in `standards/directory-structure.md` and prepares
+  the resolved consumer tree and old-to-new mapping before affected writes.
+- Preserves substantive content and valid changes through the mapping rather than
+  freezing legacy paths or copying the Source tree. Canonical edits/projections
+  follow actual Source-stage authority, not direct adapter editing.
+- Binds observed installed paths/completed effects separately from planned or
+  unresolved paths in `framework_contract.md`; no proposed pin becomes installed fact.
+- Copies the deterministic adapter state unchanged; import, writing and structural
+  agreement do not establish freshness, law acceptance or project qualification.
+
+### Case 9: Missing update resolution does not disable independent offline use
+
+**Fixture:**
+- Start from Case 7's complete delivered initialization inputs.
+- Variant A adds a requested framework update but the latest Source or an affected
+  destination/ownership decision cannot be verified. Variant B requests ordinary
+  offline skeleton initialization only, with no framework update or migration.
+
+**Expected behavior:**
+- A records the exact unresolved input/decision and pending affected update;
+  it neither guesses a final layout nor invokes dependent installation/retirement.
+- B retains Case 7's authorized offline behavior with installed inputs; it does
+  not require a maintenance toolkit/live Source or certify unassessed latest alignment.
+- Local copy presence alone triggers neither a physical-directory ban nor an old
+  layout exemption. Independent effects proceed only within their actual authority.
+
+---
+
 ## Protocol Compliance
 
 - [ ] Reads before asking for writes
@@ -202,3 +241,5 @@ separate. Preserve before bytes and disclose unavailable checks.
 - [ ] Never fabricates adapter freshness evidence
 - [ ] Concept/content/write approval does not accept laws; exact ratification is independently verified
 - [ ] Required neutral originals remain necessary; unavailable Source alone does not block complete offline installed inputs
+- [ ] Selected framework import/update resolves the consumer tree/mapping before
+  affected writes; actual installed bindings and proposed destinations stay distinct

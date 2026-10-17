@@ -284,8 +284,101 @@ are excluded; a follow-up recommendation does not execute a repair.
 
 ---
 
+### Case 6: Internally consistent legacy installation disagrees with current consumer paths
+
+**Fixture:**
+- Select `infra` for an actual CDD update. Retain the complete applicable input
+  closure and verify the designated latest Source/input identities.
+- The selected runtime is Codex. The applicable consumer contract supplies
+  `.agents/skills/[name]/SKILL.md`; the old installation instead binds and reads
+  its copies at `legacy-adapters/[name]/SKILL.md`. A retained local comparison
+  proves only that those legacy copies agree with each other.
+- The existing Source/Target boundary, substantive project documents and valid
+  user changes are preserved. Only the concrete adoption-plan write is authorized.
+
+**Expected behavior:**
+- [ ] Reads the layout owner in `standards/directory-structure.md` and resolves
+  the target from current applicable consumer contracts, not the old successful check.
+- [ ] Reports the old-path/new-reader mismatch and affected update as unresolved
+  until its mapping and verification close; it does not certify latest alignment.
+- [ ] Plan contains the target tree and per-item Source/owner, old/new paths,
+  action/reason, live readers, deterministic generation/configuration effects,
+  local-input/Git separation, authority, recovery and verification.
+- [ ] Writes only the named plan; does not install, move, edit projections, alter
+  state or invoke a director gate. Unrelated format findings remain separately valid.
+
+### Case 7: Preserving content while changing its required path
+
+**Fixture:**
+- Use Case 6's selected update scope and actual Source evidence.
+- The owning consumer contract and exact project scope resolve a substantive
+  module from `legacy-design/imports.md` to `design/cdd/imports.md`.
+- The original contains a valid user-authored edge case absent from the generic
+  template. Current registry/configuration references use the old path. Retained
+  original bytes and complete identities are available; no move is authorized yet.
+
+**Expected behavior:**
+- [ ] Plans the required destination without discarding the unique edge case or
+  treating its old location as immutable. Source-tree copying/mechanical renaming
+  is not accepted as a substitute for this content/reader mapping.
+- [ ] Names affected active readers and required generation/comparison checks.
+  Template-copy permission or plan approval is not move/retirement authority.
+- [ ] Preserves valid decisions and records any actual conflict for its owner;
+  updating the template does not accept laws/ADRs or complete a Story.
+
+### Case 8: Historical path witness differs from an active dependency
+
+**Fixture:**
+- The selected layout reconciliation has a resolved target and verified latest
+  applicable Source. An immutable prior report names `legacy-design/imports.md`.
+- Its original bytes, full identity and original-path recovery witness exist.
+  Current registry/configuration readers use `design/cdd/imports.md`.
+- Variant: one current reader still requires the retired path and cannot resolve it.
+
+**Expected behavior:**
+- [ ] Preserves the report and its historical path text; it does not rewrite
+  frozen evidence to simulate migration or count that text as a live reader.
+- [ ] Verifies the current reference closure separately. The variant leaves its
+  affected migration/retirement pending; a history witness cannot satisfy a live input.
+
+### Case 9: Genuine contract gaps and local copies are not guessed violations
+
+**Fixture:**
+- A selected import/update verifies its sole Source but encounters an unresolved
+  ownership/destination choice not fixed by the applicable consumer contract.
+- The Source example tree contains `src/`; the consumer has real product packages
+  elsewhere. A separately authorized local `cdd-skills/` copy is present.
+
+**Expected behavior:**
+- [ ] Lists the exact governing clauses, ambiguous item, affected action and
+  responsible decision needed. Independent complete audit work continues.
+- [ ] Does not invent a mandatory `src/` move, copy the Source tree as the target,
+  or declare a blanket physical `cdd-skills/` ban from its name/presence.
+- [ ] Does not infer that allowed local retention exempts active installation paths
+  from the resolved latest contract. Unselected layout in format-only scope remains
+  NotAssessed; offline use still works with complete installed inputs.
+
+### Case 10: Old-path retirement requires completed dependencies and recovery
+
+**Fixture:**
+- A selected migration plan resolves the target and includes a proposed old-path
+  retirement. Variant A has a stale active reader; B has an unrun applicable check;
+  C has a hash but no recoverable original; D has complete passing evidence but
+  plan-only authority. Evaluate the variants separately.
+
+**Expected behavior:**
+- [ ] A/B/C retain their precise dependency/verification/recovery limitation;
+  D still has no execution authority. No variant silently retires the path.
+- [ ] A digest alone is not recovery; proposed output is not completed migration.
+  No delete/untrack/commit/publication or stage transition is inferred.
+
+---
+
 ## Protocol Compliance
 
+- [ ] Selected import/update/layout migration applies the single layout owner in
+  `standards/directory-structure.md` and plans its resolved tree/mapping before
+  affected actions; format-only scope neither certifies layout nor requires live Source
 - [ ] Emits "Scanning project artifacts..." before silent read phase
 - [ ] Reads all artifacts silently before presenting any results
 - [ ] Shows Adoption Audit Summary and Gap Preview before asking to write

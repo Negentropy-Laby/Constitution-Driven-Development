@@ -219,11 +219,69 @@ Examples and fixture acceptance records apply only to the isolated fixture.
 
 ---
 
+### Case 9: Legacy self-consistency does not certify the latest resolved layout
+
+**Fixture:**
+- Select import/update layout reconciliation. Its plan binds the verified latest
+  applicable Source, actual consumer role/runtime and resolved target/mapping.
+- Legacy canonical copies and their own adapters match byte-for-byte, but actual
+  installed locations/readers disagree with the current applicable consumer contract.
+- Variant A has a complete valid consumer comparison proving that mismatch;
+  variant B has only the old self-check and no applicable current comparison.
+- No adapter-state write is authorized.
+
+**Expected behavior:**
+- Reads the layout owner, plan, installed files and actual affected reader closure;
+  no old-path customization label overrides the resolved current contract.
+- A reports STALE only from its complete valid comparison; B reports NOT AVAILABLE
+  for latest freshness and retains the mismatch/pending layout observation separately.
+- Neither variant reports latest alignment from internal consistency, writes state,
+  repairs inputs, moves files or promotes any project/Story status.
+
+### Case 10: Preserved historical paths and broken active readers remain separate
+
+**Fixture:**
+- The selected reconciliation's resolved current paths and required live references
+  are verified. A frozen prior report preserves an old path, original bytes/full
+  identity and a usable recovery witness. No live reader requires that old path.
+- Variant adds a current runtime/discovery/configuration reader that still needs
+  the old path; its required original cannot be read there.
+
+**Expected behavior:**
+- The base does not fail layout merely for historical path text or rewrite the
+  report. Historical evidence is checked within its actual preserved scope.
+- The variant identifies the stale active reader and affected pending alignment;
+  a historical witness or a similarly named file does not close its live dependency.
+- Neither textual path counts nor a successful old check establish complete
+  freshness, retirement authority or native runtime execution.
+
+### Case 11: Unresolved target and permitted local retention
+
+**Fixture:**
+- Selected layout reconciliation lacks a resolved owner/destination for one item.
+  The Source example tree alone cannot decide it. A local `cdd-skills/` copy exists
+  within retention authority, with complete otherwise usable installed inputs.
+- Variant is an ordinary offline audit with layout reconciliation unselected.
+
+**Expected behavior:**
+- Reports the affected layout decision pending, cites the actual conflicting or
+  incomplete contracts and leaves proposed bindings unconfigured. Independent
+  constitution/installed-input checks continue; no repair or new global gate runs.
+- Does not guess `src/`, impose a directory-name ban or grant a legacy layout
+  exemption from local-storage permission. No invalid/unavailable comparison can
+  offer a state write.
+- The ordinary variant reports layout NotAssessed and unavailable live freshness
+  separately, preserving complete offline use and the historical state record.
+
+---
+
 ## Protocol Compliance
 
 - [ ] Read-only by default; only the explicitly approved adapter-state record may use Write
 - [ ] Declined, invalid or unavailable checks produce no writes
 - [ ] Source-only results do not certify consumer installed freshness or runtime execution
+- [ ] Scoped layout reconciliation verifies the resolved latest target and current
+  readers; legacy self-consistency and historical path text cannot substitute
 - [ ] Reports evidence paths rather than vague status
 - [ ] Keeps Game and Product checks parallel
 - [ ] Recommends `/constitute` for missing constitution and `/project-stage-detect` for deeper audits

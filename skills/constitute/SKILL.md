@@ -332,6 +332,15 @@ After ratification, create the project memory-bank skeleton from
 `design/`, `docs/`, `workflow/`, `templates/`, `standards/`, or `production/`;
 the memory bank indexes and mirrors those paths.
 
+If the invocation also includes framework import/update or layout migration,
+first apply `standards/directory-structure.md`, section "Consumer layout
+resolution for imports and updates". Resolve the latest applicable consumer
+target tree and old-to-new mapping before affected writes; an old binding or
+retained customization is not an automatic destination exemption. Keep ambiguous
+destinations pending for their responsible authority. Ordinary initialization
+from complete delivered originals remains available offline; it does not imply
+a Source update, migration or current Source freshness.
+
 Before writing, directly read the actual local originals for the listed memory-bank
 templates, `docs/PHASE-CHECKLISTS.md`,
 `workflow/generated/gate-required-artifacts.md`, and the listed `skill_testing/`
@@ -409,6 +418,10 @@ before classifying the CDD inputs. Leave unresolved bindings explicitly
 unconfigured; do not invent a Source or add general CDD source mirrors/maintenance
 tools to the Git submission or publication set. Local placement does not establish
 authority, and Git exclusion does not disable authorized local use.
+When layout work is selected, bind the existing plan/report containing its
+governing contracts, resolved target tree and mapping. Distinguish observed
+installed paths and completed effects from planned or unresolved destinations;
+do not record a proposed revision/layout as already installed.
 Copy `adapter_state.yaml` from its matching template unchanged. It must remain
 exactly `uninitialized`: do not fabricate digests, a commit, a timestamp, a check
 command or a `fresh` result during `/constitute`. After the approved skeleton is

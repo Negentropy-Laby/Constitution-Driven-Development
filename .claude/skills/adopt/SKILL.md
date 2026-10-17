@@ -129,6 +129,16 @@ delivery contents; ignore rules alone do not exclude already-tracked material.
 Plan approval does not authorize that merge, activate Memory Bank or accept laws.
 If the installed boundary text is missing, report that precise delivery gap.
 
+When requested `full` or `infra` scope includes CDD import/update or layout
+migration, read `standards/directory-structure.md`, section "Consumer layout
+resolution for imports and updates", before resolving the plan or proposing
+affected writes. Bind the verified latest applicable Source inputs and resolve
+the consumer tree/mapping under that owner. Missing Source or conflicting
+requirements leave only the affected layout action pending; do not freeze an old
+path as a customization exemption. A standalone artifact-format audit is not an
+implicit framework update: complete installed inputs remain usable offline, with
+unselected layout alignment NotAssessed and live freshness separately unavailable.
+
 ## Phase 1: Detect Project State
 
 Emit one line before reading: `"Scanning project artifacts..."` — this confirms the
@@ -358,6 +368,17 @@ Unread required inputs do not manufacture a zero-gap result.
 
 ## Phase 4: Build the Migration Plan
 
+For a selected import/update/layout migration, first form the target-tree and
+old-to-new mapping sections owned by the layout contract above. Resolve actual
+role/ownership, required consumer readers and current Source requirements before
+the ordered repair actions. Separate substantive preservation from old location
+retention, history-only references from active dependencies, and mapping/write
+authority from plan-only permission. Record unresolved destinations with their
+responsible authority and affected actions; do not invent a Source-shaped target
+or call an internally consistent old installation aligned. Classify actual gaps
+by the existing severity/impact rules, without adding a director or phase gate.
+Ordinary format-only audits omit these layout sections and do not invent work.
+
 Compose a numbered, ordered action plan. Ordering rules:
 1. BLOCKING gaps first (must fix before any pipeline skill runs reliably)
 2. HIGH gaps next, infrastructure before CDD/ADR content (bootstrapping needs correct formats)
@@ -481,6 +502,27 @@ Re-run `/adopt` anytime to check remaining gaps.
 ## Audit Summary
 
 [Actual per-artifact format tallies, severity counts and unverified input paths]
+
+## Resolved Consumer Layout [only for selected import/update/layout migration]
+
+[Apply standards/directory-structure.md, Consumer layout resolution for imports
+and updates. Record the actual Source identity, verified latest applicable
+revision and exact input identities; project role, runtime/workflow scope,
+governing consumer contracts and unresolved choices. Show the complete resolved
+target tree. A partial or unresolved tree is labeled pending, never the final
+installed result. Omit this section for a standalone artifact-format audit.]
+
+## Path and Ownership Mapping [same selected scope only]
+
+| Source/input identity and owner | Old path | Target path | Action and reason | Active readers/references and generation/configuration effects | Local-input / Git-candidate disposition | Write authority, before bytes and recovery | Verification / unresolved owner |
+|---|---|---|---|---|---|---|---|
+| [actual input and provenance] | [actual old path or absent] | [resolved path or pending] | [import / generate / retain / migrate / archive / exclude / unresolved; reason] | [actual affected dependencies and deterministic outputs] | [separate decisions, not inferred from required reads] | [covered effects and recoverable original-byte witness] | [required check, actual result or pending decision] |
+
+[Preserve content and valid changes through the mapping. History-only path
+identifiers stay distinguished from current dependencies. Retire old paths only
+after migrated live readers, passed applicable checks and verified recovery within
+authority. Plan-only approval does not execute the mapping. Omit this section
+when no import/update/layout migration was selected.]
 
 ## Recommended Next Action
 

@@ -25,6 +25,66 @@ Ordinary use needs no maintenance toolkit, reader, profile, lock or live Source.
 Optional authorized maintenance may run; Source-dependent updates preserve
 project differences and require actual Source identity and scoped authority.
 
+## Consumer layout resolution for imports and updates
+
+This section owns layout resolution for CDD imports, updates and migrations.
+The consumer's final structure is determined by the verified latest templates
+from its designated CDD Source and their applicable consumer contracts. The old
+layout is a migration starting point, not an authority that constrains the final
+structure. Existing names, locations, copies and customizations do not
+automatically exempt an installation from current requirements.
+
+保护业务内容、有效改动和历史证据，不等于保护旧路径；旧布局不得反向约束最新版适用规范决定的终态。
+
+Before any affected installation or migration write:
+
+1. Verify the designated Source identity and latest applicable input revision,
+   including exact identities for relied-on uncommitted inputs. Establish actual
+   Source/consumer role, asset provenance, ownership and delivery role, selected
+   runtime and intended workflows. Distinguish the Source example tree below
+   from the consumer's installed platform paths and required neutral inputs.
+2. Resolve the final consumer tree from those current contracts. Apply project
+   choices only where the applicable contract permits a choice. Do not copy the
+   entire Source tree or mechanically rename directories to manufacture
+   compliance. Real gaps, ambiguous ownership and conflicts with governing
+   decisions require the responsible authority's resolution; do not guess a
+   mandatory layout, invent an exemption or accept a decision through migration.
+   Continue independent work while the affected destination remains unresolved.
+3. Present the resolved tree and an old-to-new mapping in the existing scoped
+   adoption/migration plan or report. Identify Source inputs, old and destination
+   paths, owners, required references/readers, generation and configuration
+   effects, covered write authority, recoverable before bytes and verification.
+   Classify each affected item as import, generate, retain, migrate, archive,
+   exclude or unresolved, with reasons. Review required local inputs separately
+   from Git/delivery candidates. A partial tree or unresolved row is not a final
+   conforming installation; plan-only authority still grants no repair.
+
+Preserve substantive business content, valid user changes, valid decisions and
+required historical evidence through the reviewed mapping, rather than treating
+their old paths as immutable. The local-storage permission above remains valid;
+it is not an exemption from resolving current installation paths and active
+dependencies. A local copy's presence alone still warrants no move or deletion,
+and this contract introduces no blanket ban on a directory name.
+
+Execute only covered mapping effects. Follow `adapters/README.md` for Source-stage
+generation and review deterministic platform outputs with their canonical inputs;
+never repair a consumer by independently editing generated instructions. Verify
+the resulting tree, current references, discovery/runtime configuration, required
+offline input closure, generation/comparison chain and applicable project checks
+against the resolved target. Internal consistency of an obsolete layout does not
+establish alignment with current Source requirements.
+
+Historical evidence may retain old path identifiers with recoverable originals
+and the witnesses required by `standards/evidence-lifecycle.md`; do not rewrite
+frozen history or treat a historical path as a current reader/dependency. Retire
+an old path only within covered authority after its active dependencies have
+migrated, applicable verification has passed and recovery material is verified.
+Unresolved references or preservation needs block only the dependent retirement.
+This rule grants no deletion, untracking, commit, publication, law/ADR acceptance
+or stage/Story completion authority and creates no global director gate.
+
+## Source-library example tree
+
 ```text
 /
 # --- Canonical common sources in the Source library (hand-authored) ---

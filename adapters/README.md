@@ -116,7 +116,13 @@ closure; do not truncate them to make Git candidates appear minimal. Preserve
 project-owned portions and review local-input and Git candidate sets separately.
 
 Build a reviewed per-file local-input allowlist for the selected runtime and intended
-workflows. Include its installed entries, required relative references, actual
+workflows. For import/update, first apply the layout-resolution owner in
+`standards/directory-structure.md`, section "Consumer layout resolution for imports
+and updates". Bind the allowlist to the resolved consumer tree and old-to-new
+mapping, including actual readers, generation/configuration effects, authority,
+recovery and unresolved destinations; an old layout's self-consistency is not
+current alignment. Keep that plan with its existing scoped owner, not a new
+mandatory manifest or lock. Include its installed entries, required relative references, actual
 agent readers and applicable policies; follow required direct/indirect references
 to closure. Keep necessary neutral originals locally at their owner paths. This
 readable-input set is separate from Target Git candidates; a required CDD
