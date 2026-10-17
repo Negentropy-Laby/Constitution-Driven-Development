@@ -220,7 +220,7 @@ Before checking each selected type, Read its applicable checklist section:
 
 | Audit mode | Required sections before the corresponding audit |
 |---|---|
-| `full` | All applicable 2a-2f sections below; missing required owners remain incomplete |
+| `full` | Applicable 2a-2c sections in [CDD/ADR Checklists](references/audit-checklists.md), 2d-2f in [Story/Infrastructure Checklists](references/story-infra-checklists.md), plus the installed boundary owner above; missing required owners remain incomplete |
 | `cdds` | 2a CDD and 2c actual module-index owners in [CDD/ADR Checklists](references/audit-checklists.md) |
 | `adrs` | 2b ADR in [CDD/ADR Checklists](references/audit-checklists.md) |
 | `stories` | 2d Story in [Story/Infrastructure Checklists](references/story-infra-checklists.md) |

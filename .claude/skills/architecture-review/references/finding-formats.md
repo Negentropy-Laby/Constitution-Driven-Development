@@ -1,6 +1,8 @@
 # Architecture Finding Formats
 
-## Phase 4: Dependency-order display
+## Phase 4: Cross-ADR findings
+
+### Dependency-order display
 
 5. **Output recommended implementation order**:
    ```
@@ -15,7 +17,7 @@
      5. ADR-0004: [title] (requires ADR-0002, ADR-0005)
    ```
 
-## Phase 4: Conflicts
+### Conflicts
 
 For each conflict found:
 

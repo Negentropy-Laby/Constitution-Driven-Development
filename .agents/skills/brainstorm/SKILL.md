@@ -368,7 +368,7 @@ Present the assessment to the user. If UNREALISTIC, offer to adjust the MVP defi
 
 ---
 
-4. **Generate the concept document**.
+5. **Generate the concept document**.
 
    - **游戏专用**: Template `templates/game-concept.md` → write `design/cdd/game-concept.md`
    - **通用产品**: Template `templates/product-concept.md` → write `design/cdd/product-concept.md`
@@ -379,7 +379,7 @@ Present the assessment to the user. If UNREALISTIC, offer to adjust the MVP defi
    Fill in ALL sections from the ideation conversation. **游戏专用**: including the
    MDA analysis, player motivation profile, and flow state design sections.
 
-5. Use `AskUserQuestion` for write approval:
+6. Use `AskUserQuestion` for write approval:
 - Prompt: "Concept is ready. May I write it?"
 - Options: `[A] Yes — write it` / `[B] Not yet — revise a section first`
 
@@ -397,11 +397,11 @@ verdict below; concept content approval does not grant separate legal acceptance
 timeline from Scope Tiers — not just "Large (9+ months)". Write as "Large (X–Y months,
 solo)" or "Large (X–Y months, team of N)".
 
-6. **Suggest next steps** using the Recommended Next Steps section below.
+7. **Suggest next steps** using the Recommended Next Steps section below.
    Read the actual catalog before recommending the current full route; do not
    run commands, ratify laws/ADRs or advance state from a recommendation.
 
-7. **Output a summary** with the chosen concept's elevator pitch, principles,
+8. **Output a summary** with the chosen concept's elevator pitch, principles,
    primary audience, biggest risk, and file path.
    - **游戏专用**: include engine recommendation in the summary.
    - **通用产品**: include tech stack recommendation in the summary.

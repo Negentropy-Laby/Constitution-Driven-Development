@@ -389,7 +389,7 @@ List each intended effect separately:
 5. Initialized `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`, only
    with its covered pointer effect. Completion Verdict: COMPLETE,
    COMPLETE WITH NOTES, or BLOCKED. Use `Story Path` as the dedupe key for authorized
-   current pointers; retain historical closure links. Legacy RISKS follows Phase 6.
+   current pointers; retain historical closure links. Legacy RISKS follows the entry verdict definitions above.
 
 Story-write approval authorizes none of the other paths/effects. Report-only cannot
 set Complete/done or alter any input/index/state. With partial authority perform

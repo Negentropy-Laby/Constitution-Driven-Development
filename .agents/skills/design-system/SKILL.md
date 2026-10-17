@@ -402,8 +402,6 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
    Present the draft before requesting a new approval; covered incremental
    sections proceed without repeating the same authorization.
 
-****
-
 7. **Write**: Use Edit to fill the placeholder or apply the named scoped revision
    to an existing body; preserve other content and examples.
    **CRITICAL**: Always include the section heading in the `old_string` to ensure
@@ -531,7 +529,7 @@ separately authorized effect (or show the concrete draft and obtain authority):
 If this exact effect is not covered, ask: "May I update the module index at
 `design/cdd/module-index.md`?"
 
-### 5d: Update Session State
+### 5e: Update Session State
 
 If its path/effect is authorized, update `production/session-state/active.md` with:
 - Task: [system-name] CDD
@@ -540,7 +538,7 @@ If its path/effect is authorized, update `production/session-state/active.md` wi
 - Sections: [actual substantive roles complete / incomplete roles and reasons]
 - Next: [suggest next system from design order]
 
-### 5e: Suggest Next Steps
+### 5f: Suggest Next Steps
 
 Use `AskUserQuestion`:
 - "What's next?"

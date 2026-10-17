@@ -60,10 +60,12 @@ that exact path with its owner before closure and verify the same required check
   manual evidence cannot replace those required tests. Verify actual matching
   PASS for the selected method; missing required evidence or incomplete required
   checks remain **BLOCKING**.
-For Ops/Deployment, resolve the actual conventional smoke report, confirmed CI evidence or exact Story-named deployment artifact used by this review. Read its original source and verify the required matching PASS deployment evidence; no route bypasses that requirement. Unresolved source selection remains Unknown.
-
 - **Ops/Deployment**: check for `production/qa/smoke-*.md`, CI evidence, or a
   deployment smoke artifact named in the story. If none found, flag **BLOCKING**.
+  Resolve the actual conventional smoke report, confirmed CI evidence or exact
+  Story-named deployment artifact used by this review. Read its original source
+  and verify the required matching PASS deployment evidence; no route bypasses
+  that requirement. Unresolved source selection remains Unknown.
 - **Config**: check for a config validation test, smoke report, or evidence doc
   covering the changed environment variable, feature flag, or setting. If none
   found, flag **ADVISORY**.

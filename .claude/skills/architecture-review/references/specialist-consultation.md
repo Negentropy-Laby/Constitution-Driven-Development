@@ -1,8 +1,6 @@
 # Technology Specialist Consultation
 
-### Technology Specialist Consultation
-
-After completing the audit above, spawn the appropriate specialist via Task for a domain-expert second opinion:
+After completing the Phase 5 audit, spawn the appropriate specialist via Task for a domain-expert second opinion:
 
 **[游戏专用]** **Engine Specialist Consultation**:
 - Read `standards/technical-preferences.md` `Engine Specialists` section to get the primary specialist

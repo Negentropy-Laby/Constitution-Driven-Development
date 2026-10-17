@@ -255,7 +255,7 @@ exists when:
   (e.g. both Combat ADR and Character ADR claim to own the health value)
 
 For each conflict, show both exact ADR claims, type, impact and resolution
-options using the Phase 4 conflict format below.
+options using the Phase 4 Conflicts format in the finding reference.
 
 ### ADR Dependency Ordering
 
@@ -324,7 +324,7 @@ Across all ADRs, check for technology consistency.
 - List ADRs missing the Technology Compatibility section
 
 Present technology/version, compatibility-section coverage, deprecated/stale
-references and API conflicts using the Phase 5 finding format below.
+references and API conflicts using the Phase 5 format in the finding reference.
 
 ---
 
@@ -364,7 +364,7 @@ Specific cases to check:
    behavior that assumes the deprecated API's behaviour.
 
 For each conflict, record the CDD, assumption, verified reality/owner and
-required revision using the Phase 5b finding format below.
+required revision using the Phase 5b format in the finding reference.
 
 If no revision flags are found, write: "No CDD revision flags — all CDD assumptions
 are consistent with verified technology behaviour."

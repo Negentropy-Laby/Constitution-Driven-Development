@@ -85,3 +85,12 @@ remains NotRun and does not justify hand-editing generated copies:
   `SKILL.md` (nested `SKILL.md` files are rejected by the generator), and
   `references/` holds supporting material that `SKILL.md` links to instead of
   duplicating prose. Every `*.md` in a package is mirrored to both runtimes.
+- Keep each delivered entrypoint's consumer body below 28,000 UTF-16 code units
+  and at most 7,000 estimated tokens. Measure the exact body returned by the
+  consumer's frontmatter parser, including its remaining whitespace and fenced
+  content; use JavaScript `body.length` and `Math.round(body.length / 4)`.
+  Check canonical and generated runtime entries separately. This is this
+  project's compatibility budget for the reviewed consumer, not a universal
+  hard limit for every host or an actual tokenizer count. Move long details into
+  conditionally required package references with explicit read timing and
+  incomplete handling, preserving the controlling rules in the entrypoint.
