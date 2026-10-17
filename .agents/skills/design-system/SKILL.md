@@ -48,6 +48,25 @@ value and explicit overrides separately. A private helper's default argument is
 not evidence of a different public default when the caller passes its own value;
 do not invent a Target mismatch from that default alone.
 
+## Conditional reading and route completion
+
+Package links are relative to this entry. Read only the selected route and current
+phase/domain/section, before its dependent work; a link is not a completed read.
+Missing, unread or truncated required content leaves the affected step INCOMPLETE.
+For long guidance, locate the matching heading then read its entire applicable
+section in consecutive bounded chunks (at most 8,000 UTF-16 units per result).
+Keep `section-guidance.md` and `specialist-routing.md` conditional; do not preload
+every section or every specialist row. Ship their complete originals with the
+installed package for offline use.
+
+The dispatcher is exclusive: sync reports and returns; retrofit retains the
+original and skips the new-file skeleton; only new modules enter Phase 3. Resolve
+domain from actual bodies/configuration under `standards/technical-preferences.md`;
+filenames/placeholders cannot override facts, and conflicting scope remains Unknown.
+Read `design/INSTRUCTIONS.md` for DocKind/owners and module semantic eight/aliases.
+Preserve independent review, exact-input evidence and separate index/registry/state
+authority; neither drafting nor a gate verdict establishes acceptance/completion.
+
 ## User Guide
 
 - When to use: Guided, section-by-section CDD authoring for a single module. Gathers context from existing docs, walks through each required section collaboratively, cross-references dependencies, and writes incrementally to file. Supports both game and general product domains.
@@ -96,37 +115,14 @@ errors. Give legal usage/correction, then stop before spawn/write/verdict.
 Accept documented `--review full|lean|solo` only; reject unknown explicit flags
 before any default/route selection. Preserve existing valid invocations.
 
-**Detect synchronization mode:** `/design-system sync <scope>` reconciles
-implementation-first changes with existing CDDs as one bounded batch. Existing
-module/`retrofit`/CDD-path invocations remain supported. Resolve the user's scope
-to actual paths/effects before writing: implementation inputs, affected CDD
-sections, Notes/ADRs, registry/traceability/module-index effects if authorized,
-exclusions, writer and required independent reviewer.
-
-1. Collect a fixed source commit and exact committed/staged/unstaged diffs plus
-   full hashes/sizes/original-path identities for untracked, ignored and external
-   relied-on inputs. A commit or `HEAD` alone is not the working-tree baseline.
-   Retain recoverable before/after bytes for changed documents and evidence.
-2. Read affected source, tests, governing CDDs, Accepted ADRs and their required
-   indirect attachments to the minimum closure. Record unresolved or unknown
-   paths without writing them. Do not read sensitive settings for discovery.
-3. Map actual bodies to the resolved document kind's owner set in
-   `design/INSTRUCTIONS.md` (semantic eight for module CDDs), including existing aliases. Separate As-Is behavior from Target requirements; show
-   mismatches and evidence. Preserve unaffected content and original Game examples.
-4. Classify decisions under `standards/notes-adr-sync.md`. Resolve material
-   `adr-required`/`conflict` choices before affected implementation proceeds;
-   documentation synchronization does not accept an ADR.
-5. Show concrete old/new sections and the complete named path/effect list when
-   approval is missing. Continue within existing approved batch scope; ask only
-   unresolved material choices/new effects. Apply incremental edits; never
-   replace existing files with new skeletons.
-6. Read back exact resulting bytes and required closure. Record author self-checks
-   separately from independent review. Bind a non-writing reviewer's required
-   semantic review to the exact manifest/inputs; any repair changes the baseline
-   and requires fresh review of affected inputs. Missing required review stays
-   incomplete. Batch completion reports written paths, findings, dispositions,
-   verification limits and remaining owners; no implicit Story/phase/publication
-   completion or index/session updates.
+**Detect synchronization mode:** For `sync <scope>` only, before collecting
+the batch baseline or drafting changes, Read
+[Existing-Document Synchronization](references/sync-workflow.md). Resolve exact
+paths/effects, fixed commit plus all working changes and required evidence closure;
+map each actual DocKind to its owners/aliases. Preserve As-Is versus Target and
+unaffected bodies, classify all meaningful choices and obtain required exact-input
+independent semantic review. Missing required evidence/review stays incomplete.
+Apply only named effects; synchronization accepts no ADR or completion/state change.
 
 After sync steps 1–6, report the batch result and **return from the skill**.
 This independent route may reuse applicable Phase 2 reads and Phase 5 readback/
@@ -134,44 +130,16 @@ selected-mode validation for its bound existing files; it never falls through
 to retrofit detection, module-name normalization, new skeleton creation or the
 new-module section cycle below.
 
-**Detect retrofit mode (dispatcher selected retrofit only):**
-If the argument starts with `retrofit` or the argument is a file path to an
-existing `.md` file in `design/cdd/`, enter **retrofit mode**:
-
-1. Read the existing CDD file.
-2. Verify from workflow/provenance and the full body that the existing target
-   is a **module CDD** under `design/INSTRUCTIONS.md`'s kind routing before any
-   retrofit edit. For Concept, Module Index, Quick Spec or another non-module
-   kind, report its actual owner route (/brainstorm, /map-systems, /quick-design
-   or the resolved owner), show legal module retrofit usage and return without
-   edits. Unknown kind requests clarification, never defaults to Module8.
-   For a verified Game/Product module, map its substantive bodies to the semantic
-   eight roles, retaining existing headings/aliases. The separate sync batch
-   route may handle multiple kinds through their own resolved owner sets.
-3. Identify missing/placeholder/unresolved roles through actual content and
-   required evidence, not heading presence or single-line/length heuristics.
-4. Present to the user before doing anything:
-   ```
-   ## Retrofit: [System Name]
-   File: design/cdd/[filename].md
-
-   Sections already written (preserved unless explicitly in the requested update):
-   ✓ [section name]
-   ✓ [section name]
-
-   Missing or incomplete sections (will be authored):
-   ✗ [section name] — missing
-   ✗ [section name] — placeholder only
-   ```
-5. If authority is absent, show the named missing/selected sections and ask:
-   "May I fill these gaps or revise these selected sections at [path]?" Reuse
-   existing scope; preserve all other content.
-6. Within approved scope, proceed to **Phase 2**; skip the existing-file
-   skeleton in **Phase 3** and author only named missing/incomplete or explicitly
-   selected substantive sections in **Phase 4**.
-7. Preserve existing section content outside the authorized change. Fill
-   placeholders or edit specifically approved substantive sections in place;
-   never recreate a retrofit file as a skeleton.
+**Detect retrofit mode (dispatcher selected retrofit only):** Before assessing
+or editing the existing file, Read
+[Retrofit an Existing Module CDD](references/retrofit-workflow.md). Read the full
+original and establish module DocKind under `design/INSTRUCTIONS.md`; Concept,
+Module Index, Quick Spec and other non-module kinds route to their actual owner
+and return without edits. Unknown kind never defaults to Module8. For a verified
+Game/Product module, map substantive semantic eight/valid aliases, show missing
+or selected sections and reuse/obtain their exact write scope. Preserve all other
+original content; skip Phase 3, edit named gaps/selected bodies in place in Phase 4,
+and never create a replacement skeleton.
 
 Only when the dispatcher selected **new module**, normalize the system name to
 kebab-case for its filename (e.g., "combat system" becomes `combat-system`).
@@ -231,23 +199,11 @@ For each dependency CDD that exists, extract and hold in context:
 
 ### 2d: Present Context Summary
 
-Before starting design work, present a brief summary to the user:
-
-> **Designing: [System Name]**
-> - Priority: [from index] | Layer: [from index]
-> - Depends on: [list, noting which have CDDs vs. undesigned]
-> - Depended on by: [list, noting which have CDDs vs. undesigned]
-> - Existing decisions to respect: [key constraints from dependency CDDs]
-> - Pillar alignment: [which pillar(s) this system primarily serves]
-> - **Known cross-system facts (from registry):**
->   - [entity_name]: [attribute]=[value], [attribute]=[value] (owned by [source CDD])
->   - [item_name]: [attribute]=[value], [attribute]=[value] (owned by [source CDD])
->   - [formula_name]: variables=[list], output=[min–max] (owned by [source CDD])
->   - [constant_name]: [value] [unit] (owned by [source CDD])
->   *(These values are locked — if this CDD needs different values, surface
->   the conflict before writing. Do not silently use different numbers.)*
->
-> If no registry entries are relevant: omit the "Known cross-system facts" section.
+Before presenting context, Read Phase 2d in
+[Context and Registry Formats](references/context-registry-formats.md). Show
+priority/layer, dependencies, existing constraints, pillar/principle alignment and
+relevant registry facts with their owners. Registered values are locked: surface
+conflicts before writing; omit that subsection only when no entries are relevant.
 
 If any upstream dependencies are undesigned, warn:
 > "[dependency] doesn't have a CDD yet. We'll need to make assumptions about
@@ -256,117 +212,14 @@ If any upstream dependencies are undesigned, warn:
 
 ### 2e: Technical Feasibility Pre-Check
 
-Before asking the user to begin designing, load technology context and surface
-any constraints or knowledge gaps that will shape the design. Use the detected
-domain from Phase 2.
-
-**[游戏专用] Step 1 — Determine the engine domain for this system:**
-Map the system's category (from `module-index.md`) to an engine domain:
-
-| System Category | Engine Domain |
-|----------------|--------------|
-| Combat, physics, collision | Physics |
-| Rendering, visual effects, shaders | Rendering |
-| UI, HUD, menus | UI |
-| Audio, sound, music | Audio |
-| AI, pathfinding, behavior trees | Navigation / Scripting |
-| Animation, IK, rigs | Animation |
-| Networking, multiplayer, sync | Networking |
-| Input, controls, keybinding | Input |
-| Save/load, persistence, data | Core |
-| Dialogue, quests, narrative | Scripting |
-
-**[通用产品] Step 1 — Determine the stack domain for this module:**
-Map the module's category (from `module-index.md`) to a stack domain:
-
-| Module Category | Stack Domain |
-|----------------|--------------|
-| Foundation/Infrastructure, config, logging, error handling | Framework / Runtime |
-| API, web services, request handling | API Design / Framework |
-| Data models, schemas, storage | Data Storage / ORM |
-| Auth, permissions, security | Auth / Security |
-| UI, frontend, user-facing interfaces | Frontend / UI |
-| CLI, tooling, developer-facing | CLI / Distribution |
-| Data pipelines, ETL, analytics | Data Pipeline / Analytics |
-| Integration, webhooks, third-party APIs | Integration / Messaging |
-| Performance, caching, optimization | Performance / Caching |
-
-**[游戏专用] Step 2 — Read engine context (if available):**
-- Read `standards/technical-preferences.md` to identify the engine and version
-- If engine is configured, read `docs/engine-reference/[engine]/VERSION.md`
-- Read `docs/engine-reference/[engine]/modules/[domain].md` if it exists
-- Read `docs/engine-reference/[engine]/breaking-changes.md` for domain-relevant entries
-- Glob `docs/architecture/adr-*.md` and read any ADRs whose domain matches
-  (check the Engine Compatibility table's "Domain" field)
-
-**[通用产品] Step 2 — Read stack context (if available):**
-- Read `standards/technical-preferences.md` to identify the language, framework,
-  runtime, database, and pinned versions
-- If stack reference docs are configured, read `docs/reference/[stack]/VERSION.md`
-- Read `docs/reference/[stack]/modules/[domain].md` if it exists
-- Read `docs/reference/[stack]/breaking-changes.md` for domain-relevant entries
-- Glob `docs/architecture/adr-*.md` and read any ADRs whose domain matches
-  (check the Technology Compatibility table's "Domain" field)
-
-**Step 3 — Present the Feasibility Brief:**
-
-**[游戏专用]** If engine reference docs exist, present before starting design:
-
-```
-## Technical Feasibility Brief: [System Name]
-Engine: [name + version]
-Domain: [domain]
-
-### Known Engine Capabilities (verified for [version])
-- [capability relevant to this system]
-- [capability 2]
-
-### Engine Constraints That Will Shape This Design
-- [constraint from engine-reference or existing ADR]
-
-### Knowledge Gaps (verify before committing to these)
-- [post-cutoff feature this design might rely on — mark HIGH/MEDIUM risk]
-
-### Existing ADRs That Constrain This System
-- ADR-XXXX: [decision summary] — means [implication for this CDD]
-  (or "None yet")
-```
-
-**[通用产品]** If stack reference docs exist, present before starting design:
-
-```
-## Technical Feasibility Brief: [Module Name]
-Stack: [language] + [framework/runtime] [version]
-Domain: [domain]
-
-### Known Stack Capabilities (verified for [version])
-- [capability relevant to this module]
-- [capability 2]
-
-### Stack Constraints That Will Shape This Design
-- [constraint from stack reference or existing ADR]
-
-### Knowledge Gaps (verify before committing to these)
-- [post-cutoff framework/API behavior this design might rely on — mark HIGH/MEDIUM risk]
-
-### Existing ADRs That Constrain This Module
-- ADR-XXXX: [decision summary] — means [implication for this CDD]
-  (or "None yet")
-```
-
-**[游戏专用]** If no engine reference docs exist (engine not yet configured), show a short note:
-> "No engine configured yet — skipping technical feasibility check. Run
-> `/setup-engine` before moving to architecture if you haven't already."
-
-**[通用产品]** If no stack reference docs exist (stack not yet configured), show a short note:
-> "No technology stack configured yet — skipping technical feasibility check. Run
-> `/setup-engine` before moving to architecture if you haven't already."
-
-**Step 4 — Ask before proceeding:**
-
-Use `AskUserQuestion`:
-- "Any constraints to add before we begin, or shall we proceed with these noted?"
-  - Options: "Proceed with these noted", "Add a constraint first", "I need to check the technology docs — pause here"
+Before beginning design in new/retrofit routes (or when applicable to a sync
+batch), Read the matching Game/Product mapping, context, brief and shared
+proceed/pause question in [Technical Feasibility Pre-Check](references/feasibility-precheck.md).
+Read actual configuration, relevant pinned-version originals and constraining ADRs;
+present verified capabilities, constraints and HIGH/MEDIUM knowledge gaps before
+designing. An actually unconfigured engine/stack permits the specified skip note;
+a missing configured reference leaves affected verification incomplete. The brief
+does not accept a technical decision or prove installed/runtime capabilities.
 
 ---
 
@@ -630,16 +483,9 @@ For each candidate, check if it already exists in `design/registry/entities.yaml
 Grep pattern="  - name: [candidate_name]" path="design/registry/entities.yaml"
 ```
 
-Present a summary:
-```
-Registry candidates from this CDD:
-  NEW (not yet registered):
-    - [entity_name] [entity]: [attribute]=[value], [attribute]=[value]
-    - [item_name] [item]: [attribute]=[value], [attribute]=[value]
-    - [formula_name] [formula]: variables=[list], output=[min–max]
-   ALREADY REGISTERED (referenced_by update proposed):
-    - [constant_name] [constant]: value=[N] ← matches registry ✅
-```
+Before presenting registry candidates, Read Phase 5b in
+[Context and Registry Formats](references/context-registry-formats.md). Distinguish
+new facts from matching entries proposed only for `referenced_by` updates.
 
 If the named registry effect is not covered, show the concrete entries and ask:
 "May I update `design/registry/entities.yaml` with these [N] new entries

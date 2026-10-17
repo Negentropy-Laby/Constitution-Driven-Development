@@ -429,3 +429,20 @@ empty/invalid review-mode; source definitions and adapter copies exist.
 - [ ] Scoped named plan authority continues without repeated requests.
 - [ ] Zero high/blocking format gaps and adapter presence do not prove runtime
   execution, qualification, acceptance, publication or completion.
+
+## Progressive Loading Contract Cases
+
+These are semantic/spec fixtures, not recorded host or model executions.
+
+For full, cdds, adrs, stories and infra, resolve the mode table before reading
+the applicable sections in `references/audit-checklists.md` and
+`references/story-infra-checklists.md`; unrelated subsets are not forced into
+every run. Full/infra retains the complete installed constitute boundary owner.
+Read summary/plan formats in `references/adoption-plan-format.md` before their
+rendering. Missing/unread owners are not compliant or zero-gap. A complete
+zero-gap audit has no invented bootstrap/repair tasks and one concrete primary
+recommendation. Selected import/update/layout plans resolve latest actual Source,
+complete target tree and mapping; standalone format audits work offline from
+complete installed inputs, leave unselected layout NotAssessed and perform no
+implicit update. Plan authority never repairs inputs, writes review mode/state,
+accepts law/ADRs or certifies executed AC/runtime completion.
