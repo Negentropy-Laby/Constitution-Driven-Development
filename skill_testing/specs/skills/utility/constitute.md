@@ -243,3 +243,35 @@ separate. Preserve before bytes and disclose unavailable checks.
 - [ ] Required neutral originals remain necessary; unavailable Source alone does not block complete offline installed inputs
 - [ ] Selected framework import/update resolves the consumer tree/mapping before
   affected writes; actual installed bindings and proposed destinations stay distinct
+
+## Progressive Loading Contract Cases
+
+These are semantic/spec fixtures, not recorded host or model executions.
+
+Verify the full Reusable Project Boundary Template remains inline and unchanged
+for installed `/adopt full` and `/adopt infra` readers. Detect actual stage first,
+read only its stage-routing section in bounded consecutive chunks, and select
+interactive, derivation, audit, amendment or browse behavior before loading its
+references. Read `references/interactive-legislation.md` before manual drafts or
+its no-concept handoff; `references/derivation-workflow.md` before source-based
+derivation; `references/amendment-workflow.md` before amendment comparison/proposal;
+and `references/initialization-inputs.md` before naming/authorizing/writing selected
+skeleton effects. Linking is not reading. Missing/unread/truncated required inputs
+leave the affected step incomplete; do not force all references into browse-only
+runs. Exact Proposed/Accepted/amended/superseded authority, Support IDs, version
+history and separate writes/ratification/review/publication/completion remain in
+the entry. Adapter state copies unchanged as uninitialized; layout plans/newest
+Source requirements do not masquerade as installed or fresh state. Standalone
+offline initialization uses complete delivered neutral originals without a live
+Source or maintenance kit; explicitly selected import/update/layout still needs
+its actual latest Source/tree/mapping resolution. Read catalog before materializing
+all applicable pipeline steps/gates; recommendations execute no transitions.
+
+### Standalone alignment report reader
+
+Enter only Phase 5 alignment auditing over an existing constitution and its actual
+CDD/ADR/code scope. Before output, read only Step 4d of the installed
+`references/derivation-workflow.md` for version/Draft status, Principles, Gaps and
+ALIGNED/NEEDS ATTENTION. Do not load or execute the other derivation/write steps.
+Missing/unread report format leaves that output incomplete; an additive missing
+boundary proposal never becomes an audit-side law-index repair or ratification.

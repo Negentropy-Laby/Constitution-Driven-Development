@@ -6,13 +6,67 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, AskUserQuestion
 ---
 
+## Authority, required reading and terminal facts
+
+Read and apply `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
+`standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md`. Reuse named
+authority across sections/roles/recovery; show the exact draft/paths/effects for
+material new scope. Content agreement, file writes, law/ADR acceptance, required
+independent review, publication and completion remain separate. Review-only
+invokes no write entrypoint; report-only covers only its new assigned report,
+excluding laws, initialization, indexes and stage/state. Each other effect needs
+its own covered scope. No automatic governance decisions or Memory Bank activation.
+
+Detect actual stage first and apply the matching existing stage-routing section
+before later workflows. Resolve domain from actual bodies/configuration under
+`standards/technical-preferences.md`; filenames or copied placeholders cannot
+override evidence. Unknown blocks only dependent domain work; neutral discovery
+and browsing remain possible. A stage label, file count or concept agreement
+proves no qualification or ratification.
+
+References are relative to this installed package. Read the selected stage, branch
+and phase before its dependent questions/proposals/effects; linking is not reading.
+Missing, unread or truncated required material leaves affected steps INCOMPLETE.
+Read long applicable sections in consecutive bounded chunks (at most 8,000 UTF-16
+units per result), including the full selected Stage 0 section when needed.
+Do not load all initialization/derivation/amendment references for a browse-only
+route. Ship complete package references and selected required neutral originals
+for offline use; no maintenance kit/live Source substitute or prerequisite.
+
+Keep the Reusable Project Boundary Template inline below: `/adopt full` and
+`/adopt infra` read this installed section without requiring Source access.
+New interactive/derived laws stay Proposed unless exact text/revision, Support IDs
+and legal action have verified acceptance authority. Preserve actual version and
+sign-off history. Initial `adapter_state.yaml` remains unchanged/uninitialized;
+latest layout plans and approved writes are not installed/freshness evidence.
+Bind the designated CDD Source identity/revision; unresolved facts stay unconfigured.
+
+## Principle Lifecycle Reference
+
+All laws in `basic_law_index.md` must have a `Status` field:
+
+| Status | Meaning | When to use |
+|--------|---------|-------------|
+| `Proposed` | Drafted, not yet ratified | New interactive or derived laws before exact acceptance authority is verified |
+| `Accepted` | In effect | After exact ratification (Phase 3e), including independently verified ratification for Phase 4 derived laws |
+| `Accepted (amended [date])` | In effect, text changed | After amendment (Phase 6) |
+| `Superseded by BL-XX ([date])` | Replaced by another law | When a new law makes this one obsolete |
+| `Deprecated ([date])` | Intentionally removed | When a principle is no longer relevant with no replacement |
+
+---
+
 ## User Guide
 
-- When to use: Constitution Driven Development project governance — establishes, derives, updates, or amends governing principles at any project stage. Reads existing artifacts to derive a constitution, audits alignment, tracks versions, and supports formal amendment workflow. Domain-agnostic, stage-aware unified onboarding entry.
-- Inputs: Command arguments: `/constitute`; project artifacts referenced below; user decisions and approvals before writes.
-- Outputs: Primary artifacts, reports, or conversation guidance described below; write files only after user approval.
-- Memory-bank writes: `memory_bank/document_map.yaml`, `memory_bank/README.md`, `memory_bank/t0_core/*`, `memory_bank/t1_axioms/knowledge_graph.md`, `memory_bank/t2_execution/*`, and `memory_bank/t3_archive/*` skeleton/index files described below.
-- Next steps: Follow the workflow hand-off or next-step guidance below; recommendations do not auto-run and require explicit user command/approval.
+- When to use: Establish, derive, audit or amend Game/Product project governance
+  at the actual detected stage through the unified `/constitute` entry.
+- Inputs: Existing project artifacts, decisions, scoped write authority and any
+  separately verified ratification; no command arguments are required.
+- Outputs: The selected route's proposals, reports and covered project documents.
+- Memory-bank writes: Only selected authorized T0/T1/T2/T3, document-map/README
+  and skeleton/index effects listed in the initialization reference; each path
+  remains separately scoped. Review mode is its own `production/review-mode.txt` effect.
+- Next steps: Use Phase 7's actual catalog and stage route; recommendations do
+  not auto-run commands, ratify laws or advance state.
 
 # Constitution Legislation — Stage-Aware Project Governance
 
@@ -30,42 +84,13 @@ through discovery.
 
 ## Purpose before Project Governance
 
-**Confirm asset ownership before instruction purpose.** Apply
-`standards/skill-purpose.md` after establishing actual CDD framework provenance,
-ownership and delivery role for the complete package and its required support.
-Classify purpose only within that confirmed CDD asset collection. Project-owned
-skills, agents/roles, tools, configuration and documents follow their project's
-rules, including development capabilities; development use, native instruction
-fields and skill-directory placement do not make them CDD assets. Renaming or
-tailoring a CDD template does not itself change its ownership. Unresolved ownership
-stays pending only for the affected action.
-
-Confirmed CDD developer templates, full platform projections and exclusive support
-remain local-only in a Target, excluded from Git tracking/staging/commits/delivery/
-publication. Within that CDD collection, inspect complete bodies, conditional
-branches and direct/indirect support; split mixed CDD/project content before
-submission. Native `developer_instructions` fields and standalone roles receive
-the same ownership review even without a skill dependency. Minimal adaptations
-and independent configuration must not carry or reconstruct CDD framework
-instruction bodies or exclusive support; a native loader alone does not qualify
-a copied CDD role as independent configuration. This CDD-related restriction does
-not exclude independently established project-owned development skills or roles.
-Names/fields such as test or release do not decide ownership or purpose.
-
-Git exclusion does not disable authorized local retention, discovery, loading,
-effect or use. Preserve complete required local CDD inputs at usable paths; an
-input allowlist does not grant them Git eligibility. Missing/unread required
-originals leave the affected CDD workflow pending. A fresh Target clone may need
-those inputs provisioned separately. Review Git candidates separately from local
-inputs and update-write scope. Ordinary template use must not depend on a local
-maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
-authorized local maintenance operations remain allowed.
-
-Do not submit a general CDD source mirror, template-maintenance tools/annotations,
-tool-only metadata, maintenance locks/caches or actual template-maintenance output.
-The designated CDD Source owns general CDD definitions independently of local
-storage. Local copies alone do not establish Source authority or authorize moving,
-deleting or changing log paths.
+Confirm actual CDD provenance, ownership and Source/Target delivery role before
+instruction purpose. Read `standards/skill-purpose.md` for the complete package
+and required support; apply the full inline Reusable Project Boundary Template
+below. Names, directory placement or development use alone do not decide CDD
+ownership. Unresolved ownership stays pending only for its affected action.
+Preserve project-owned development capabilities, complete authorized local inputs
+and their independent Git/delivery review; this routing grants no migration.
 
 Identify whether the task uses delivered functions or develops/governs the actual
 project. This CDD constitution skill and its exclusive framework support are
@@ -249,244 +274,72 @@ After Phase 1 determines the current stage, read only the matching stage section
 
 ## Phase 3: Interactive Legislation (from scratch)
 
-This phase is entered when the user wants to define a constitution manually
-with no concept doc to derive from.
+Enter only through the selected stage's manual/formalize route. Before the
+questions/drafts, Read [Interactive Legislation](references/interactive-legislation.md)
+through Phase 3e. Reuse an established domain; ask only if unresolved. Gather
+Project Name, Core Thesis (BL-01) and Anti-Thesis, then 3-5 falsifiable principles
+with tension, current-state requirement and design test (BL-02 through BL-06).
 
-### Phase 3a: Domain + Core Thesis
+New laws are Proposed. Keep the full inline boundary separate from numbered laws.
+Covered draft writes use `memory_bank/t0_core/active_context.md` at 0.1 (Draft),
+`memory_bank/t0_core/basic_law_index.md` and selected T1 context paths. Review-mode
+choice/persistence is a separate effect at `production/review-mode.txt`.
 
-**Domain question — only ask if not already established.** If the user arrived
-from Stage 0 (Question 1 was already answered) or the domain was detected from
-a concept doc, skip this. Only ask when entering Phase 3 from Stage 1 "Start
-from scratch" where no domain context exists.
-
-If domain is unknown, use `AskUserQuestion`:
-- **Prompt**: "What kind of project is this?"
-- **Options**:
-  - `A game` — 2D/3D interactive experience (any genre, any engine)
-  - `A general product` — web app, CLI tool, API, library, mobile app, data pipeline
-
-Record the domain. Then: "We'll start with one sentence: **what is this project, and what is it NOT?**"
-
-Guide the user to produce: Project Name, Core Thesis (BL-01), Anti-Thesis.
-
-Present the draft. Once approved, write `memory_bank/t0_core/active_context.md`
-with `Constitution Version: 0.1 (Draft)`.
-
-### Phase 3b: Core Principles (3-5)
-
-"Now the most important part: the **non-negotiable principles** that govern
-every decision."
-
-Explain the criteria: 3-5 max, must be falsifiable, must create tension, must
-apply to all aspects, each needs a design test.
-
-Use `AskUserQuestion` to present draft principles. Each law gets:
-- Support ID (BL-02 through BL-06)
-- Status: `Proposed`
-- The principle statement
-- Current-state requirement
-- A design test
-
-Include the reusable source/target boundary section in the draft. Once approved,
-write `memory_bank/t0_core/basic_law_index.md`. Keep that fixed section separate
-from the numbered laws; all new project laws start as `Status: Proposed`.
-
-### Phase 3c: Technology & Constraints
-
-Ask for broad technology preferences. Detailed configuration is deferred to
-`/setup-engine`. Write `memory_bank/t1_axioms/tech_context.md`,
-`system_patterns.md`, `behavior_context.md` at a high level.
-
-### Phase 3d: Review Mode
-
-Check `production/review-mode.txt`. If not set, use `AskUserQuestion`:
-Full / Lean (recommended) / Solo. Write choice to file.
-
-### Phase 3e: Ratification
-
-Before finalizing, present the complete constitution for ratification:
-
-```
-## Constitution Ratification
-Version: 1.0
-All laws are currently Status: Proposed.
-
-To take effect, they must be ratified (Status: Accepted).
-```
-
-Use `AskUserQuestion`:
-- **Prompt**: "The constitution is drafted. Ratify it?"
-- **Options**:
-  - `Ratify — all laws become Accepted` — Write version 1.0 with all laws Accepted. Record sign-off.
-  - `Revise first` — I want to edit before ratifying.
-  - `Leave as Draft` — Write as version 0.1 (Draft). Ratify later.
-
-If "Ratify": update all law statuses to `Accepted ([date])`.
-Write version 1.0 to `active_context.md` with changelog entry and sign-off.
-Write `memory_bank/README.md`.
+Present the exact complete constitution for explicit Ratify / Revise first /
+Leave as Draft choices. Only verified ratification of that precise law set grants
+Accepted statuses, version 1.0, actual sign-off/changelog and separately covered
+README/context writes. Draft/content/write approval is not ratification. A draft
+remains 0.1 (Draft)/Proposed until that authority exists.
 
 ### Phase 3e.1: Memory Bank Control Plane Skeleton
 
-After ratification, create the project memory-bank skeleton from
-`templates/memory-bank/`. Do not move detailed work files out of
-`design/`, `docs/`, `workflow/`, `templates/`, `standards/`, or `production/`;
-the memory bank indexes and mirrors those paths.
+Before naming, authorizing or writing any skeleton effects, Read the complete
+selected initialization checklist and operations in
+[Memory Bank Initialization](references/initialization-inputs.md). It owns every
+T0-T3 output path, neutral original, mirror and mount operation. Interactive
+initialization follows ratification; Phase 4 also uses it for separately authorized
+derived skeletons without accepting Proposed laws.
 
-If the invocation also includes framework import/update or layout migration,
-first apply `standards/directory-structure.md`, section "Consumer layout
-resolution for imports and updates". Resolve the latest applicable consumer
-target tree and old-to-new mapping before affected writes; an old binding or
-retained customization is not an automatic destination exemption. Keep ambiguous
-destinations pending for their responsible authority. Ordinary initialization
-from complete delivered originals remains available offline; it does not imply
-a Source update, migration or current Source freshness.
+Read actual delivered `templates/memory-bank/` originals, `docs/PHASE-CHECKLISTS.md`,
+`workflow/generated/gate-required-artifacts.md`, catalog, listed `skill_testing/`
+assets and required indirect owners before dependent writes. Missing/unread or
+placeholder substitutes leave affected files pending. Preserve project-owned
+content/customizations, recoverable before bytes and complete local-use closure;
+required CDD inputs remain separate from Target Git candidates. Ordinary offline
+initialization does not require a maintenance kit or live Source.
 
-Before writing, directly read the actual local originals for the listed memory-bank
-templates, `docs/PHASE-CHECKLISTS.md`,
-`workflow/generated/gate-required-artifacts.md`, and the listed `skill_testing/`
-assets. Include `workflow/workflow-catalog.yaml` and the authority, decision and
-collaboration standards referenced by those contracts. These are required local-use
-inputs under `adapters/README.md`, separate from Target Git candidates.
-Resolve further required references for the selected workflow into the reviewed
-per-file local-input allowlist. Confirmed reusable CDD templates, skill-testing
-definitions and complete CDD instruction packages/exclusive framework support
-remain outside Target Git. Keep them complete at usable local paths for authorized
-discovery, loading, effect and use, even when ignored. Project-owned inputs retain
-their own project rules; development use or a CDD reference does not change their
-ownership. Required local installation does not grant CDD Git eligibility.
-Missing/unread originals leave affected files pending; installed skill text or a
-same-name placeholder is not their substitute.
+Only when import/update/layout migration is selected, apply
+`standards/directory-structure.md`'s consumer layout owner first: verify latest
+applicable Source inputs, resolve the complete consumer tree/old-new mapping and
+keep ambiguous destinations pending before affected writes. Old paths or an
+internally consistent installation do not prove current alignment. Bind actual
+observed installed paths/effects separately from proposed/unresolved destinations
+in `memory_bank/t2_execution/framework_contract.md`.
 
-Create or update these files:
-
-- `memory_bank/document_map.yaml`
-- `memory_bank/t0_core/current_state.md`
-- `memory_bank/t0_core/release_state.md`
-- `memory_bank/t0_core/amendment_log.md`
-- `memory_bank/t1_axioms/architecture_context.md`
-- `memory_bank/t1_axioms/ux_accessibility_context.md`
-- `memory_bank/t1_axioms/qa_context.md`
-- `memory_bank/t1_axioms/knowledge_graph.md`
-- `memory_bank/t1_axioms/module_support_map.yaml`
-- `memory_bank/t2_execution/README.md`
-- `memory_bank/t2_execution/workflow_contract.md`
-- `memory_bank/t2_execution/phase_checklists.md`
-- `memory_bank/t2_execution/gate_required_artifacts.md`
-- `memory_bank/t2_execution/current_roadmap.md`
-- `memory_bank/t2_execution/framework_contract.md`
-- `memory_bank/t2_execution/adapter_state.yaml`
-- `memory_bank/t2_execution/skill_testing/README.md`
-- `skill_testing/catalog.yaml`
-- `skill_testing/quality-rubric.md`
-- `skill_testing/specs/skills/`
-- `skill_testing/specs/agents/`
-- `skill_testing/templates/`
-- `memory_bank/t3_archive/README.md`
-- `memory_bank/t3_archive/qa_evidence_index.md`
-- `memory_bank/t3_archive/release_evidence/README.md`
-- `memory_bank/t3_archive/gate_runs/README.md`
-- `memory_bank/t3_archive/reviews/README.md`
-- `memory_bank/t3_archive/reviews/review-index.md`
-- `memory_bank/t3_archive/sprint_snapshots/README.md`
-- `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`
-- `memory_bank/t3_archive/amendments/README.md`
-- `memory_bank/t3_archive/skill_testing/README.md`
-- `memory_bank/t3_archive/skill_testing/coverage-index.yaml`
-- `memory_bank/t3_archive/skill_testing/results/static/README.md`
-- `memory_bank/t3_archive/skill_testing/results/spec/README.md`
-- `memory_bank/t3_archive/skill_testing/results/category/README.md`
-- `memory_bank/t3_archive/skill_testing/results/audit/README.md`
-- `memory_bank/t3_archive/skill_testing/improvements/README.md`
-
-Canonical knowledge graph path is `memory_bank/t1_axioms/knowledge_graph.md`.
-If an older project has `memory_bank/t0_core/knowledge_graph.md`, treat it as a deprecated compatibility pointer and migrate future updates to the T1 path.
-
-`memory_bank/t2_execution/phase_checklists.md` and
-`memory_bank/t2_execution/gate_required_artifacts.md` are derived mirrors of
-`docs/PHASE-CHECKLISTS.md` and `workflow/generated/gate-required-artifacts.md`,
-respectively. Populate the approved mirrors from those delivered workflow views
-using normal file tools, preserving project customizations and the authoritative
-views. If a required view is unavailable, report that exact missing input and
-leave its mirror pending. Local template-maintenance scripts are not a
-prerequisite for constitution initialization.
-`memory_bank/t2_execution/current_roadmap.md` is maintained by `/cdd-status`.
-Initialize `framework_contract.md` from its matching delivered template. Bind
-it to the project's actual installed platform paths, reviewed local CDD inputs,
-retained project-owned customizations and designated CDD Source identity/revision
-using existing project decisions. Confirm provenance, ownership and delivery role
-before classifying the CDD inputs. Leave unresolved bindings explicitly
-unconfigured; do not invent a Source or add general CDD source mirrors/maintenance
-tools to the Git submission or publication set. Local placement does not establish
-authority, and Git exclusion does not disable authorized local use.
-When layout work is selected, bind the existing plan/report containing its
-governing contracts, resolved target tree and mapping. Distinguish observed
-installed paths and completed effects from planned or unresolved destinations;
-do not record a proposed revision/layout as already installed.
 Copy `adapter_state.yaml` from its matching template unchanged. It must remain
-exactly `uninitialized`: do not fabricate digests, a commit, a timestamp, a check
-command or a `fresh` result during `/constitute`. After the approved skeleton is
-written, recommend `/constitute-check` for installed-file observations and any
-available, authorized Source comparison. An unavailable Source/check leaves live
-freshness unavailable and the recorded state unchanged; offline use of complete
-installed inputs remains possible.
-`skill_testing/` defines cross-project CDD skill and agent test standards.
-`memory_bank/t2_execution/skill_testing/README.md` records the project-memory
-mount contract for those canonical assets. `memory_bank/t3_archive/skill_testing/`
-records approved `/skill-test` runs and `/skill-improve` evidence.
+exactly `uninitialized`: no fabricated digests, commit, timestamp, check command
+or fresh result. Leave unresolved bindings explicitly unconfigured. Use ordinary
+file tools for delivered mirrors and leave a missing view's mirror pending;
+maintenance scripts are not a prerequisite for constitution initialization.
+Recommend `/constitute-check` only after actual covered writes/readback; unavailable
+Source/checks preserve state and leave live freshness unavailable.
 
 ### Phase 3f: Handoff After Interactive Legislation
 
-Constitution written from scratch. Now route to the correct next step.
-This is the handoff for Path C "Formalize first" — the user has a clear spec
-but no concept doc yet. Note this explicitly:
-
-> "Your constitution is established. Your concept isn't yet formalized as a
-> document. Run `/brainstorm [your spec]` to produce `design/cdd/game-concept.md`
-> (or `product-concept.md`) — it will validate your principles against a
-> structured concept. Then return to `/constitute` to update."
-
-This is a unique state: constitution exists, but no concept doc. Stage 1a
-assumes a concept doc already exists, so do NOT use Stage 1a routing here.
-Instead, route directly to `/brainstorm`:
-
-- Phase 3d Review Mode (if not already set from Phase 3d)
-- Handoff: "Type `/brainstorm [your spec]` to begin."
-- After `/brainstorm` completes, return to `/constitute`. It will detect the
-  existing constitution AND the new concept doc, and offer to update via
-  Stage 5 → `Revise from source` (Phase 6 amendment workflow). The revision
-  will compare the new concept doc against the existing principles and
-  propose amendments for any changes.
-
----
+Before the handoff, Read Phase 3f in
+[Interactive Legislation](references/interactive-legislation.md). For clear-spec
+formalization with no concept, route directly to `/brainstorm [your spec]` to
+create the Game/Product concept, then return to `/constitute`. Do not use Stage
+1a routing that assumes an existing concept. The return with an existing
+constitution and new concept uses Stage 5 Revise from source -> Phase 6 amendment.
 
 ## Phase 4: Auto-Derivation Workflow (from existing artifacts)
 
-### Step 4a: Read Source Artifacts Silently
-
-Read all available artifacts. Build a complete picture.
-
-### Step 4b: Extract and Present Section by Section
-
-For each constitutional element, extract from the best available source:
-
-| Element | Primary Source | Fallback |
-|---------|---------------|----------|
-| Core thesis | Concept doc → elevator pitch | — |
-| Principles | Concept doc → pillars/principles | — |
-| Anti-thesis | Concept doc → anti-pillars/anti-principles | — |
-| Domain | Concept doc content | Ask user |
-| Tech context | technical-preferences.md | Concept doc platform section |
-| System patterns | ADRs → architecture decisions | — |
-| Behavior context | CDDs → implicit conventions | — |
-
-Present each section with `AskUserQuestion`:
-- **Prompt**: "[Section name] derived from your project."
-- **Options**:
-  - `Approve — write as-is`
-  - `Edit — I want to refine this`
-  - `Skip this section`
-
-### Step 4c: Write Approved Sections
+Before collecting/deriving source sections, Read
+[Constitution Derivation Workflow](references/derivation-workflow.md). Read actual
+concept/CDD/ADR/configuration bodies for the chosen stage and extract each element
+from its named owner; show/edit/skip each proposed section within the actual scope.
+Keep these legal and version controls in force for every derived section:
 
 Include the reusable source/target boundary section in the law-index draft
 submitted for approval. Its inclusion does not make it an already-approved
@@ -502,32 +355,6 @@ Phase 3e to present the exact law set for explicit ratification. Reuse verified
 matching ratification authority without asking again; missing acceptance stays
 pending, never inferred from concept approval or a successful file write.
 
-Also create the T0-T3 memory-bank control plane skeleton listed in Phase 3e.1.
-For derived projects, populate `document_map.yaml`, `current_state.md`,
-`workflow_contract.md`, and T1 index files from the source artifacts when
-evidence exists; otherwise leave template placeholders with clear `missing` or
-`not started` status.
-
-### Step 4d: Alignment Report (if CDDs or ADRs exist)
-
-Generate:
-```
-## Constitution Alignment Report
-Constitution Version: [actual version and Draft/ratified status]
-
-### Principles
-✓ [Law 1]: [name] — supported by ADR-0001, ADR-0003
-⚠ [Law 2]: [name] — no ADR coverage found
-⚠ [Law 3]: [name] — CDD [module].md may conflict
-
-### Gaps
-1. [gap + suggested fix]
-
-Overall: ALIGNED / NEEDS ATTENTION
-```
-
-### Step 4e: Write Version and Sign-Off
-
 Write the actual version/status to `active_context.md`: use version 0.1 (Draft)
 while initial derived laws remain Proposed; version 1.0 requires the separately
 verified ratification above. Append the derivation source entry:
@@ -536,50 +363,28 @@ Record content/write approval separately from exact law-acceptance sign-off.
 Only a verified ratification records its actual authority, scope and date; do not
 manufacture sign-off or reuse a concept approval as the acceptance record.
 
-### Step 4f: Review Mode and Stage-Aware Handoff
+Before any included skeleton writes, read and apply Phase 3e.1's full checklist.
+Populate maps/current state/workflow/T1 indexes only from actual evidence; otherwise
+retain clear missing/not-started placeholders.
 
-Report whether the constitution is a Proposed draft or a ratified law set.
-Then set review mode within its write authority and route to the correct next
-phase based on the detected stage. A draft does not satisfy a gate requiring
-Accepted laws.
-
-**Review Mode**: Check `production/review-mode.txt`. If not set, use
-`AskUserQuestion`: Full / Lean (recommended) / Solo. Write choice.
-
-**Stage-aware handoff** — the next steps differ by stage:
-
-| Stage | Detected Artifacts | Next Steps |
-|-------|-------------------|------------|
-| **1. Concept** | Concept doc exists, module index missing | `/design-review` on concept → `/gate-check concept` → `/map-systems` |
-| **2a. Mapped** | Module index exists, MVP CDDs incomplete | `/map-systems next` or `/design-system [module]` → `/design-review` |
-| **2b. Designed** | Module index + MVP CDDs exist | `/review-all-gdds` → `/gate-check systems-design` → `/setup-engine` |
-| **3. Architected** | ADRs exist | `/gate-check` to validate current phase. Next incomplete phase from pipeline. |
-| **4a. Source only** | Source code exists, no production artifacts | "You have source code but no production tracking. Run `/project-stage-detect` to assess your current phase, or `/gate-check` if you know where you are." |
-| **4b. Implemented** | Source + production artifacts exist | `/gate-check` to validate current phase. Next incomplete phase from pipeline. |
-
-Show the full pipeline from Phase 7 for context, then use `AskUserQuestion`:
-- **Prompt**: "Constitution established. Which step would you like to start with?"
-- **Options**: 3-4 concrete next steps from the stage-appropriate list above.
-  Include `Something else — I'll tell you`.
-
-When confirmed: "Type `[skill command]` to begin."
-
----
+Report Draft versus ratified status explicitly. A draft cannot satisfy a gate
+requiring Accepted laws. Review-mode persistence has its own path/effect authority.
+Use the stage-aware handoff in the reference and the current catalog in Phase 7;
+recommendations execute no command or transition.
 
 ## Phase 5: Alignment Report (standalone audit)
 
-When invoked on a project with an existing constitution and CDDs/ADRs/code,
-generate this report. Already integrated into Stage 3-4 routing. If the reusable
-source/target boundary section is missing from the actual governing instructions
-or law index, report an additive merge proposal; an audit does not write it.
+For a standalone alignment audit over an existing constitution and CDDs/ADRs/code,
+before reporting Read only Step 4d in
+[Constitution Derivation Workflow](references/derivation-workflow.md). Use its
+actual version/Draft status, Principles, Gaps and ALIGNED/NEEDS ATTENTION format;
+this does not select the derivation/write route. Stage 3-4 audits use the same
+report. A missing inline source/target boundary in actual governing instructions
+or law index is an additive merge proposal; the audit does not write it.
 
 ---
 
 ## Phase 6: Amendment Workflow
-
-This is the formal process for changing an existing constitution.
-
-### Step 6a: Determine Amendment Trigger
 
 Amendments are triggered when:
 - User selects "Amend constitution" (Stage 5)
@@ -588,241 +393,68 @@ Amendments are triggered when:
 - `/constitute-check` flags stale principles
 - User explicitly requests amendment
 
-### Step 6b: Load and Compare
+Before comparing or proposing changes, Read
+[Constitution Amendment Workflow](references/amendment-workflow.md). Read the
+current law index/active context and changed source originals, then show exact
+changed/new/deprecated drafts, Support IDs, rationale, old/new impacts and unchanged
+principles. User review of each precise legal action is separate from file writes;
+reuse only verified exact matching authority. Rejected changes retain the binding
+prior law. Missing acceptance keeps a Proposed amendment without changing it.
 
-1. Read current constitution (`basic_law_index.md` + `active_context.md`)
-2. Read changed source artifacts (concept doc, CDDs, ADRs — whatever triggered this)
-3. Compute what changed:
-   - **New content in concept doc** → candidate new principles
-   - **Changed content in concept doc** → candidate principle amendments
-   - **Removed content in concept doc** → candidate principle deprecation
-   - **New CDDs** → principles may need scope expansion
-   - **New ADRs** → may formalize previously implicit principles
-
-### Step 6c: Present Amendment Proposal
-
-Present the proposed changes as a structured diff:
-
-```
-## Proposed Constitutional Amendment
-Current Version: 1.2
-Proposed Version: 1.3
-
-### Changed Principles
-Law 2 (BL-03): "API-first design" → "API-first design with OpenAPI spec"
-  Reason: concept doc now specifies OpenAPI requirement
-  Impact: ADR-0005 (API framework choice) needs review
-  Status: Accepted → Accepted (amended)
-
-### New Principles
-Law 6 (BL-08): "Observability by default" — all services must expose metrics
-  Source: derived from new CDD monitoring-module.md
-  Design test: if choosing between a logging library and a metrics library, this
-    principle says choose the one that provides both structured logs AND metrics
-  Status: Proposed
-
-### Deprecated Principles
-Law 4 (BL-05): "Monolith-first" → Superseded by Law 6
-  Reason: project has grown beyond monolith scale; observability requires
-    service-level instrumentation
-  Status: Accepted → Superseded by BL-08
-
-### Principles Unchanged
-Law 1 (BL-02): [name] — no change
-Law 3 (BL-04): [name] — no change
-Law 5 (BL-07): [name] — no change
-```
-
-### Step 6d: User Review Each Change
-
-Present each changed/new/deprecated principle's exact draft and Support ID.
-Verify separate authority to accept/amend/supersede that precise law revision;
-content agreement or permission to write alone leaves acceptance pending.
-The following choice requests that explicit law action, separately from its
-file-write scope. Reuse matching existing authority when verified.
-Present each principle individually using `AskUserQuestion`:
-- **Prompt**: "Amendment: [change description]. Approve this change?"
-- **Options**:
-  - `Approve — apply this amendment`
-  - `Revise — I want to edit this amendment`
-  - `Reject — keep the current version for this principle`
-
-### Step 6e: Write Amended Constitution
-
-Only apply accepted-law status changes when Step 6d verified the exact legal
-action and the file-write effects are covered; otherwise retain a Proposed
-amendment without altering the binding prior law.
-
-1. Update `basic_law_index.md`:
-   - Changed laws: update text, keep Support ID, set Status to `Accepted (amended [date])`
-   - New laws: add with new Support ID, Status `Accepted ([date])`
-   - Deprecated laws: set Status to `Superseded by BL-XX ([date])` or `Deprecated ([date])`
-2. Bump version in `active_context.md`
-3. Append changelog entry
-4. Record sign-off
-5. Update `memory_bank/t0_core/amendment_log.md`
-6. Write `memory_bank/t3_archive/amendments/amendment-v[version]-[YYYY-MM-DD].md`
-   as the detailed amendment evidence. If the same filename exists, use
-   `amendment-v[version]-[YYYY-MM-DD]-[NN].md` and do not overwrite history.
-
-The T3 amendment evidence must include: version, date, trigger, changed
-principles, rationale, rejected alternatives, approval/sign-off, impacted T1/T2/T3 files, and follow-up checks.
-
-### Step 6f: Changelog and Sign-Off
-
-Append to `active_context.md`:
-
-```
-## Constitution Changelog
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.2 | 2026-05-01 | [user] + AI | Amended Law 2 (BL-03): API-first → API-first with OpenAPI. Added Law 6 (BL-08): Observability by default. Superseded Law 4 (BL-05) → BL-08. |
-
-## Amendment Sign-Off
-This amendment was approved on 2026-05-01.
-Changes reviewed and accepted:
-  - BL-03: amended (API-first with OpenAPI spec)
-  - BL-05: superseded by BL-08
-  - BL-08: added as Accepted
-Amendment session: /constitute (triggered by concept doc update)
-```
-
-### Step 6g: Impact Warnings
-
-After writing, flag any downstream impacts:
-
-> "Amendment complete. The following artifacts may need review:
-> - ADR-0005: references Law 2 — verify the amended principle is still compatible
-> - monitoring-module.md: new CDD — run `/design-review` to validate"
-
----
+Only with both exact acceptance/amend/supersede authority and covered write effects:
+retain changed laws' Support IDs, assign new IDs to new laws, record actual
+Accepted/amended/superseded/deprecated status and preserve prior versions/history.
+Name each law-index, active-context version/changelog/sign-off, amendment-log and
+T3 amendment-evidence effect in the authorized changeset. Use the reference's
+unique version/date/suffix evidence naming rather than overwriting prior records.
+Record trigger, rationale, rejected alternatives, approval, impacted T1/T2/T3 files
+and follow-up checks. Read back actual effects before reporting completion and
+surface downstream review impacts; no implicit dependent repair or publication.
 
 ## Phase 7: Pipeline and Hand Off
 
-Show the journey for the actual selected stage and domain. Read
-`workflow/workflow-catalog.yaml` for current step order, domain applicability,
-required/optional/required_when flags and phase boundaries. The condensed paths
-below do not promote optional commands into blockers or replace current catalog
-requirements. Preserve the selected Starting Fresh route: route A may brainstorm
-first and return for principles; unresolved constitution work is still required
-before the Concept boundary. A declaration or artifact count is not qualification,
-and these recommendations execute no command or transition.
+Show the journey for the actual selected stage and resolved domain. Read
+`workflow/workflow-catalog.yaml` for the current complete order, applicability,
+required/optional/required_when flags and phase boundaries. The navigation below
+does not replace that body or promote optional steps into blockers. Missing/unread
+catalog leaves route recommendations incomplete. Present all applicable steps:
 
-### Stage 0 (Empty) Pipeline
+Materialize the catalog's complete applicable steps and artifacts for Concept,
+Systems Design / Specification, Technical Setup / Architecture, Pre-Production /
+Pre-Implementation, Production / Implementation, Polish / Verification and
+Release. Show each required gate and surface condition with the actual commands;
+do not substitute a remembered abbreviated pipeline. Include accessibility from
+`templates/accessibility-requirements.md`, configured test baseline, applicable
+UX/surface work and actual implementation/readiness/closure steps as owned there.
+Preserve three cumulative Game playtests or Product validation sessions in the
+Polish/Verification scope. Release communications `/changelog` and `/patch-notes`
+remain optional; `/hotfix` is emergency-only.
 
-**[游戏专用] Game Pipeline:**
+`/qa-plan` is optional by default; `/smoke-check` follows its actual owning scope,
+not a replacement for catalog evidence. Apply actual explicitly selected strict
+obligations without inventing them from review mode.
 
-**Concept Phase:**
-`/constitute` → `/brainstorm` (concept document; exploration optional) → `/design-review` → `/gate-check concept`
+- **Stage 0**: preserve the chosen Starting Fresh route. A may `/brainstorm` first
+  and return for principles; constitution work remains required before the Concept
+  boundary. Clear-spec formalization uses Phase 3f, not a route assuming a concept.
+- **Stage 1**: concept review -> Concept gate -> `/map-systems`, then Systems
+  Design / Specification.
+- **Stage 2a**: `/map-systems next` or `/design-system` for incomplete MVP CDDs,
+  then `/design-review` and remaining Systems Design work.
+- **Stage 2 (Designed)**: without ADRs, `/review-all-gdds` -> Systems Design gate
+  -> `/setup-engine`; with ADRs, use the next applicable architecture step.
+- **Stages 3-5**: highlight the next actually incomplete phase; show the complete
+  catalog route for context. Declared phase, counts and existing files are not
+  qualified completion or permission to skip gates.
 
-**Systems Design Phase:**
-`/map-systems` → `/design-system [system]` → `/design-review` → `/review-all-gdds` → `/gate-check systems-design`
+Use `AskUserQuestion` with 3-4 concrete stage-appropriate next steps and
+`Something else`. When confirmed, say "Type `[skill command]` to begin."
+Recommendations execute no command, legal acceptance or transition.
 
-**Technical Setup Phase:**
-`/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest`
-Then create `design/accessibility-requirements.md` from `templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
-
-**Pre-Production Phase:**
-`/ux-design` → `/ux-review` → `/prototype` → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/playtest-report` → `/gate-check pre-production`
-
-**Production Phase:**
-`/dev-story` (repeat) → `/code-review` (optional) → `/story-done` → `/sprint-status`
-
-**Polish Phase:**
-`/perf-profile` (optional) → `/balance-check` (optional) → `/playtest-report` (three cumulative Game sessions) → `/team-polish` → `/gate-check polish`
-
-**Release Phase:**
-`/release-checklist` → `/launch-checklist` → `/team-release`
-
-`/changelog` and `/patch-notes` are optional release communication artifacts.
-`/hotfix` is emergency-only after release or incident discovery.
-
-**[通用产品] Product Pipeline:**
-
-**Concept Phase:**
-`/constitute` → `/brainstorm` (concept document; exploration optional) → `/design-review` → `/gate-check concept`
-
-**Specification Phase:**
-`/map-systems` → `/design-system [module]` → `/design-review` → `/review-all-gdds` → `/gate-check systems-design`
-
-**Architecture Phase:**
-`/setup-engine` → `/create-architecture` → `/architecture-decision (×N)` → `/architecture-review` → `/create-control-manifest`
-Then create `design/accessibility-requirements.md` from `templates/accessibility-requirements.md` → `/test-setup` → `/gate-check technical-setup`
-
-**Pre-Implementation Phase:**
-`/ux-design` → `/ux-review` → `/prototype` → `/create-epics` → `/create-stories` → `/sprint-plan` → `/story-readiness` → `/playtest-report` (Product workflow validation) → `/gate-check pre-production`
-
-**Implementation Phase:**
-`/story-readiness` → implement → `/code-review` (optional) → `/story-done` → `/sprint-status`
-
-**Verification Phase:**
-`/playtest-report` (three cumulative Product validation sessions) → `/team-polish` → `/gate-check polish`
-
-`/qa-plan` is an optional Production aid; `/smoke-check` is used when the owning
-verification scope calls for it, rather than a replacement for catalog requirements.
-
-**Release Phase:**
-`/release-checklist` → `/launch-checklist` → `/team-release`
-
-`/changelog` and `/patch-notes` are optional release communication artifacts.
-`/hotfix` is emergency-only after release or incident discovery.
-
-### Stage 1 Pipeline (Concept only, after /brainstorm)
-
-The user has a concept doc from `/brainstorm` but no module index.
-
-**[游戏专用] Game:**
-`/design-review` (on concept) → `/gate-check concept` → `/map-systems`
-Then continue with Systems Design phase from Stage 0 pipeline.
-
-**[通用产品] Product:**
-`/design-review` (on concept) → `/gate-check concept` → `/map-systems`
-Then continue with Specification phase from Stage 0 pipeline.
-
-### Stage 2a Pipeline (Module index exists, MVP CDDs incomplete)
-
-The user has a module index. Continue Systems Design / Specification.
-
-**[游戏专用] Game:**
-`/map-systems next` → `/design-system [system]` → `/design-review`
-Then continue with Systems Design phase.
-
-**[通用产品] Product:**
-`/map-systems next` → `/design-system [module]` → `/design-review`
-Then continue with Specification phase.
-
-### Stage 2 Pipeline (Designed — module index + CDDs exist)
-
-The user has CDDs. Next steps depend on whether architecture work has begun:
-If no ADRs: run `/review-all-gdds` → `/gate-check systems-design` → `/setup-engine`
-If some ADRs exist: continue with next architecture step from Stage 0 pipeline.
-
-### Stage 3-5 Pipeline
-
-Skip to the next incomplete phase based on what's detected. Show the full
-Stage 0 pipeline for context and highlight which phase the user should
-enter at.
-
-Use `AskUserQuestion`: "Which step would you like to start with?"
-Show 3-4 concrete next steps. Include `Something else — I'll tell you`.
-
-When confirmed: "Type `[skill command]` to begin."
-
-Verdict: **COMPLETE**
-
----
-
-## Principle Lifecycle Reference
-
-All laws in `basic_law_index.md` must have a `Status` field:
-
-| Status | Meaning | When to use |
-|--------|---------|-------------|
-| `Proposed` | Drafted, not yet ratified | New interactive or derived laws before exact acceptance authority is verified |
-| `Accepted` | In effect | After exact ratification (Phase 3e), including independently verified ratification for Phase 4 derived laws |
-| `Accepted (amended [date])` | In effect, text changed | After amendment (Phase 6) |
-| `Superseded by BL-XX ([date])` | Replaced by another law | When a new law makes this one obsolete |
-| `Deprecated ([date])` | Intentionally removed | When a principle is no longer relevant with no replacement |
+Verdict: **COMPLETE** only for the actually handled selected route and its
+required reads/checks/authorized effects. Report incomplete or pending portions
+precisely; a completed draft/browse/handoff does not establish Accepted laws,
+installed updates, fresh adapters, publication or a qualified project stage.
 
 ---
 
@@ -836,3 +468,6 @@ All laws in `basic_law_index.md` must have a `Status` field:
 6. **Record sign-off** — every ratification or amendment records who approved it and when
 7. **Flag impacts** — after amendments, note what downstream artifacts need review
 8. **No auto-execution** — recommend next skill, don't run it without asking
+
+Next steps: use the selected stage's actual catalog handoff in Phase 7; unresolved
+required inputs/actions remain explicit before any later `/gate-check`.
