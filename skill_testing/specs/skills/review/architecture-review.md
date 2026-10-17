@@ -199,3 +199,19 @@ owner requirements under `design/INSTRUCTIONS.md`.
   remain incomplete until resolved; no silent Game fallback.
 - Separate global Technical Setup min-three Foundation ADR rule remains in force;
   local no-ADR classifications neither waive it nor justify fabricated ADRs.
+
+## Progressive Loading Contract Cases
+
+These are semantic/spec fixtures, not recorded host or model executions.
+
+Exercise full, coverage, consistency, compatibility, engine, direct path,
+single-cdd and rtm. Read selected Phase 1/3b evidence-loading sections before
+collection/linkage; full/coverage still read the complete required inventories.
+Read specialist consultation instructions for applicable compatibility scope,
+finding/report formats before presenting the selected results and the RTM format
+before display/save. Do not force unrelated formats into every mode.
+Missing/unread required files remain incomplete; an author's self-check,
+consultation or fresh window is not automatic independent review. Preserve stable
+TR-IDs, all six dispositions, exact Accepted scope and actual PASS evidence.
+Report, registry, RTM/index, log, session and T3 writes retain separate authority.
+Verify each package-relative link from both installed platform packages offline.

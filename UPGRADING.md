@@ -70,18 +70,29 @@ SDK/library, and internal headless projects may record it as not applicable.
    commits and delivery/publication while remaining available for authorized local use.
    Renaming, tailoring or native packaging does not change CDD ownership. Do not add
    general CDD `agents/` or `skills/` mirrors to the Target Git delivery set.
-3. Preserve project-owned artifacts under `design/`, `docs/architecture/`,
+3. Apply [Consumer layout resolution for imports and updates](standards/directory-structure.md#consumer-layout-resolution-for-imports-and-updates).
+   Resolve the latest applicable consumer target tree and old-to-new mapping
+   before installation or migration. Record the actual Source revision/input
+   identities, owners, selected runtime/workflows, active readers, generation and
+   configuration effects, write scope, recovery and unresolved decisions in the
+   scoped plan. Do not turn a previous layout or a Source example tree into the
+   target contract.
+4. Preserve project-owned artifacts under `design/`, `docs/architecture/`,
    `production/`, `prototypes/`, `src/`, and `tests/`, including actual test roots,
    valid customizations, production configuration and historical evidence. Preserve
-   project-owned skills, roles, tools and configuration wherever they are stored.
-4. Run `/project-stage-detect` to determine the current phase.
-5. Run `/adopt` if the project already has CDDs, ADRs, epics, stories, or
+   project-owned skills, roles, tools and configuration through the reviewed
+   mapping; content preservation does not freeze their existing locations.
+5. Run `/project-stage-detect` to determine the current phase.
+6. Run `/adopt` if the project already has CDDs, ADRs, epics, stories, or
    sprint artifacts.
-6. Run `/help` to get the next required step from the workflow catalog.
-7. Run `/gate-check` for the detected phase before normal advancement.
+7. Run `/help` to get the next required step from the workflow catalog.
+8. Run `/gate-check` for the detected phase before normal advancement.
 
 Prefer additive migration over replacement. If a local file has project
 decisions, merge the new template structure into it rather than overwriting it.
+This preference preserves content; it does not override a required destination
+or grandfather an obsolete installation. Resolve affected conflicts through the
+layout contract before dependent writes.
 
 ## Common Migration Fixes
 
@@ -228,6 +239,13 @@ allowlist and its required reference closure. Compare actual bytes and project
 differences with the reviewed Source inputs. Check T0/T2 agreement, installed
 workflow/catalog mirrors, configured language/runtime/testing facts, and preserved
 business/design/QA history.
+
+Apply the layout contract above to compare the actual tree and every mapping row
+with the resolved target. Verify current readers, discovery/configuration and
+generation/comparison paths after migration. Distinguish retained historical path
+identifiers from current dependencies; do not rewrite old evidence to conceal a
+broken live reference. Record remaining drift and preservation/retirement needs
+before claiming alignment or updating an applicable baseline/freshness record.
 
 In an isolated target, verify initialization, additive adoption, setup and an
 incremental update while retaining project customizations. Run the project's real

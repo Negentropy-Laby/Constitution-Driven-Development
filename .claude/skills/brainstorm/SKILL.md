@@ -6,6 +6,24 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, WebSearch, Task, AskUserQuestion
 ---
 
+## Required reading and completion controls
+
+Read and apply `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`,
+`standards/evidence-lifecycle.md` and `standards/notes-adr-sync.md` for actual
+scoped authority. Agreement on a concept/principle set does not ratify project law,
+accept ADRs or authorize unlisted writes. Reuse matching named write authority;
+new effects require their concrete draft/path summary and approval.
+
+References are package-relative and shipped with this entry. Read only the
+sections required by the current phase/domain, before that phase's work. A link
+or previous summary is not a read. Missing, unread or truncated required material
+leaves that affected step INCOMPLETE; retain the draft and report the gap.
+Read long sections in bounded consecutive chunks until complete.
+
+COMPLETE requires the approved resolved concept file to be written and Read back.
+Failed writing/readback remains Incomplete; context pressure grants no write scope.
+Resolve conflicting domain evidence as Unknown before domain-specific work.
+
 ## User Guide
 
 - When to use: Guided concept ideation — from zero idea to a structured concept document. Supports both game and general product domains. Uses professional ideation techniques, user psychology frameworks, and structured creative exploration.
@@ -108,37 +126,10 @@ Bundle these into a single multi-tab `AskUserQuestion` with these exact tab labe
 
 Use exactly these tab names — do not rename or duplicate them.
 
-**[游戏专用]** Game projects:
-
-**Emotional anchors**:
-- What's a moment in a game that genuinely moved you, thrilled you, or made
-  you lose track of time? What specifically created that feeling?
-- Is there a fantasy or power trip you've always wanted in a game but never
-  quite found?
-
-**Taste profile**:
-- What 3 games have you spent the most time with? What kept you coming back?
-  *(Ask this as plain text — the user must be able to type specific game names freely.
-  Do NOT put this in an AskUserQuestion with preset options.)*
-- Are there genres you love? Genres you avoid? Why?
-- Do you prefer games that challenge you, relax you, tell you stories,
-  or let you express yourself? *(Use `AskUserQuestion` for this — constrained choice.)*
-
-**[通用产品]** General product projects:
-
-**Frustration anchors**:
-- What's a moment using a tool, app, or service where you thought "this should
-  be so much better than this"? What specifically frustrated you?
-- Is there a capability or workflow you've always wanted from a tool but never
-  quite found?
-
-**Usage profile**:
-- What 3 products or tools do you use most heavily? What keeps you loyal?
-  *(Ask this as plain text — the user must be able to type specific product names freely.
-  Do NOT put this in an AskUserQuestion with preset options.)*
-- Are there product categories you love? Categories you avoid? Why?
-- Do you prefer tools that make you efficient, help you create, connect you to
-  others, or give you insight? *(Use `AskUserQuestion` for this — constrained choice.)*
+Before domain-specific discovery questions, Read the Phase 1 section for the
+resolved Game or Product domain in [Domain Question Banks](references/domain-questions.md).
+Use its emotional/frustration anchors and taste/usage profile conversationally;
+specific game/product names remain free text.
 
 **Synthesize** the answers into a brief — 3-5 sentences summarizing what you
 learned. Read it back and confirm it captures their intent.
@@ -155,42 +146,10 @@ learned. Read it back and confirm it captures their intent.
 Using the discovery brief as a foundation, generate **3 distinct concepts**
 that each take a different creative direction.
 
-**[通用场景]** Both domains use the **Mashup Method**:
-
-Combine two unexpected elements. The tension between the two creates the unique hook.
-
-- **游戏专用**: [Genre A] + [Theme B] (e.g., "farming sim + cosmic horror",
-  "roguelike + dating sim", "city builder + real-time combat")
-- **通用产品**: [Domain A] + [Capability B] (e.g., "spreadsheet + real-time chat",
-  "task manager + habit tracker", "note-taking + knowledge graph")
-
-**[游戏专用]** Two additional game-specific techniques:
-
-**Technique: Verb-First Design**
-Start with the core player verb (build, fight, explore, solve, survive,
-create, manage, discover) and build outward from there. The verb IS the game.
-
-**Technique: Experience-First Design (MDA Backward)**
-Start from the desired player emotion (the MDA aesthetic goal: sensation,
-fantasy, narrative, challenge, fellowship, discovery, expression, submission)
-and work backward to the dynamics and mechanics that produce it.
-
-**[通用产品]** Two additional product-specific techniques:
-
-**Technique: Action-First Design**
-Start with the core user action (create, manage, discover, communicate, analyze,
-automate, connect, protect) and build outward from there. The action IS the product.
-
-**Technique: Problem-First Design (JTBD backward)**
-Start from the user's deepest pain point or unmet need and work backward to the
-features and interactions that resolve it. "What job is the user hiring this
-product to do? What are they firing?"
-
-JTBD forces to consider:
-- **Push** (what's pushing them away from the current solution? — frustration, cost, complexity)
-- **Pull** (what's pulling them toward a new solution? — simplicity, speed, integration)
-- **Anxiety** (what worries them about switching? — data loss, learning curve, downtime)
-- **Habit** (what keeps them with the current solution? — muscle memory, ecosystem lock-in)
+Before generating concepts, Read Phase 2 in
+[Ideation Techniques](references/ideation-techniques.md): apply Mashup plus the
+resolved domain's verb/MDA or action/JTBD techniques, preserving three distinct
+directions and their risks.
 
 **[通用场景]** For each concept, present:
 
@@ -249,54 +208,10 @@ After capturing answers, analyze what makes the core experience satisfying:
 - **游戏专用**: Audio feedback, visual juice, timing satisfaction, tactical depth?
 - **通用产品**: Responsiveness, visual clarity, feedback quality, friction removal?
 
-**[游戏专用]** Core Loop Design:
-
-**30-Second Loop** (moment-to-moment):
-- What structures each moment of play?
-- Where does "one more turn" / "one more run" psychology kick in?
-
-**5-Minute Loop** (short-term goals):
-- What choices does the player make at this level?
-- How do micro-actions chain into completions?
-
-**Session Loop** (30-120 minutes):
-- What does a complete play session look like?
-- Where are the natural stopping points?
-- What's the "hook" that makes them think about the game when not playing?
-
-**Progression Loop** (days/weeks):
-- How does the player grow? (Power? Knowledge? Options? Story?)
-- What's the long-term goal? When is the game "done"?
-
-**[通用产品]** User Journey Design:
-
-**Micro-Interaction** (seconds):
-- What does the user do in the first few seconds of opening the product?
-- What single action happens most frequently?
-
-**Task Completion** (minutes):
-- What structures micro-interactions into completed tasks?
-- Where does "let me just do one more thing" psychology kick in?
-
-**Workflow** (hours):
-- What does a complete use session look like? Natural stopping points?
-- What's the "hook" that makes them think about the product when not using it?
-
-**Relationship** (days/weeks/months):
-- How does the user grow? (Efficiency? Knowledge? Network? Output quality?)
-- What's the long-term value? When does the product become indispensable?
-
-**[通用场景]** User Motivation Analysis (based on Self-Determination Theory):
-
-- **Autonomy**: How much meaningful choice does the user have?
-  - **游戏专用**: Can the player approach challenges their own way?
-  - **通用产品**: Can the user shape the product to their workflow, or does the product dictate it?
-- **Competence**: How does the user feel their skill growing?
-  - **游戏专用**: Is mastery visible and rewarded?
-  - **通用产品**: Is there a visible trajectory from novice to power user?
-- **Relatedness**: How does the user feel connected?
-  - **游戏专用**: To characters, other players, or the world?
-  - **通用产品**: To collaborators, a community, or the work itself?
+Before developing the chosen experience, Read Phase 3 in
+[Ideation Techniques](references/ideation-techniques.md). Cover the four Game loop
+scales or four Product journey scales and autonomy, competence and relatedness
+with the domain-specific questions there.
 
 ---
 
@@ -381,30 +296,10 @@ If creative-director returns CONCERNS or REJECT, resolve before visual selection
 
 Validate who this is actually for.
 
-**[游戏专用]** Player Type Validation:
-
-Using the Bartle taxonomy and Quantic Foundry motivation model:
-- **Primary player type**: Who will LOVE this game? (Achievers, Explorers,
-  Socializers, Competitors, Creators, Storytellers)
-- **Secondary appeal**: Who else might enjoy it?
-- **Who is this NOT for**: Being clear about who won't like this game is as
-  important as knowing who will
-- **Market validation**: Are there successful games that serve a similar
-  player type? What can we learn from their audience size?
-
-**[通用产品]** User Validation:
-
-Using user persona and Jobs-to-be-Done frameworks:
-- **Primary user**: Who will LOVE this product? Describe concretely — not
-  "developers" but the specific person, context, and frustration.
-- **The Job they're hiring for** (JTBD): "When [situation], I want to [motivation],
-  so I can [outcome]."
-- **Secondary appeal**: Who else might find value?
-- **Who is this NOT for**: Prevents building for the wrong user.
-- **Switching trigger**: What event or frustration would make the target user
-  switch from their current solution to this product?
-- **Market validation**: Successful products serving a similar user? What do their
-  users complain about most?
+Before audience validation, Read the Phase 5 section for the resolved domain in
+[Domain Question Banks](references/domain-questions.md). Validate primary/secondary
+audience, exclusions and market fit; Game uses player motivations, Product uses
+personas, JTBD and switching triggers.
 
 ---
 
@@ -473,7 +368,7 @@ Present the assessment to the user. If UNREALISTIC, offer to adjust the MVP defi
 
 ---
 
-4. **Generate the concept document**.
+5. **Generate the concept document**.
 
    - **游戏专用**: Template `templates/game-concept.md` → write `design/cdd/game-concept.md`
    - **通用产品**: Template `templates/product-concept.md` → write `design/cdd/product-concept.md`
@@ -484,7 +379,7 @@ Present the assessment to the user. If UNREALISTIC, offer to adjust the MVP defi
    Fill in ALL sections from the ideation conversation. **游戏专用**: including the
    MDA analysis, player motivation profile, and flow state design sections.
 
-5. Use `AskUserQuestion` for write approval:
+6. Use `AskUserQuestion` for write approval:
 - Prompt: "Concept is ready. May I write it?"
 - Options: `[A] Yes — write it` / `[B] Not yet — revise a section first`
 
@@ -502,65 +397,11 @@ verdict below; concept content approval does not grant separate legal acceptance
 timeline from Scope Tiers — not just "Large (9+ months)". Write as "Large (X–Y months,
 solo)" or "Large (X–Y months, team of N)".
 
-6. **Suggest next steps** through normal entry to Production / Implementation.
-   Read `workflow/workflow-catalog.yaml` for current order, required/optional flags
-   and domain/surface applicability. Preserve covered law/ADR acceptance and
-   qualify each phase through its required gate; recommendations never execute
-   commands or advance state. List all applicable steps below, then use the
-   catalog for later phases. Optional early experiments do not skip boundaries:
+7. **Suggest next steps** using the Recommended Next Steps section below.
+   Read the actual catalog before recommending the current full route; do not
+   run commands, ratify laws/ADRs or advance state from a recommendation.
 
-   **[游戏专用]** Game pipeline:
-   1. "Run `/constitute` — derive your constitution from this concept (if you haven't already). It reads your concept doc, extracts core thesis and principles, and writes them to the memory bank."
-   2. "Run `/design-review design/cdd/game-concept.md` to validate the Concept gate artifact"
-   3. "Run `/gate-check concept` — normal advancement to Systems Design starts here"
-   4. "Optional: run `/art-bible` to expand visual identity before CDDs"
-   5. "Refine pillars with `creative-director` agent"
-   6. "Run `/map-systems` — decompose into systems with dependencies"
-   7. "Run `/design-system` — per-system CDDs"
-   8. "Run `/design-review design/cdd/[system].md` after each CDD"
-   9. "Run `/review-all-gdds` — holistic cross-CDD review before architecture"
-   10. "Run `/gate-check systems-design` — validates module-index, MVP CDDs, design-review, and cross-review"
-   11. "Run `/setup-engine` — required Technical Setup step for engine/version/specialist routing"
-   12. "Run `/create-architecture` — master architecture blueprint"
-   13. "Run `/architecture-decision (×N)` — record technical decisions"
-   14. "Run `/architecture-review` — validate traceability and technology compatibility"
-   15. "Run `/create-control-manifest` — extract implementation rules from accepted ADRs"
-   16. "Prepare `design/accessibility-requirements.md` from its actual template within the covered setup scope"
-   17. "Run `/test-setup` — establish the required test baseline"
-   18. "Run `/gate-check technical-setup` before normal entry to Pre-Production"
-   19. "Run `/ux-design` and `/ux-review` for applicable Game interaction work"
-   20. "Run `/prototype [core-mechanic]` — validate the core loop before full implementation"
-   21. "Run `/create-epics`, then `/create-stories` for the planned modules"
-   22. "Plan the first sprint with `/sprint-plan new`, then run `/story-readiness`"
-   23. "Run `/playtest-report` for the required core-hypothesis validation"
-   24. "Run `/gate-check pre-production` before normal entry to Production"
-
-   **[通用产品]** Product pipeline:
-   1. "Run `/constitute` — derive your constitution from this concept (if you haven't already)"
-   2. "Run `/design-review design/cdd/product-concept.md` to validate the Concept gate artifact"
-   3. "Run `/gate-check concept` — normal advancement to Specification starts here"
-   4. "Refine principles with `creative-director` agent"
-   5. "Run `/map-systems` — decompose into modules with dependencies"
-   6. "Run `/design-system [module]` — per-module specs"
-   7. "Run `/design-review design/cdd/[module].md` after each CDD"
-   8. "Run `/review-all-gdds` — holistic cross-CDD review before architecture"
-   9. "Run `/gate-check systems-design` — validates module-index, MVP CDDs, design-review, and cross-review"
-   10. "Run `/setup-engine [framework]` — required Architecture step for stack/version/specialist routing"
-   11. "Run `/create-architecture` — master architecture blueprint"
-   12. "Run `/architecture-decision (×N)` — record technical decisions"
-   13. "Run `/architecture-review` — validate traceability and technology compatibility"
-   14. "Run `/create-control-manifest` — extract implementation rules from accepted ADRs"
-   15. "Prepare `design/accessibility-requirements.md` from its actual template within the covered setup scope"
-   16. "Run `/test-setup` — establish the required test baseline"
-   17. "Run `/gate-check technical-setup` before normal entry to Pre-Implementation"
-   18. "Run `/ux-design` and `/ux-review`, including applicable Product surface/interaction requirements"
-   19. "Run `/prototype [core-interaction]` — validate the core user journey before full implementation"
-   20. "Run `/create-epics`, then `/create-stories` for the planned modules"
-   21. "Plan the first sprint with `/sprint-plan new`, then run `/story-readiness`"
-   22. "Run `/playtest-report` for the required Product user/workflow validation"
-   23. "Run `/gate-check pre-production` before normal entry to Implementation"
-
-7. **Output a summary** with the chosen concept's elevator pitch, principles,
+8. **Output a summary** with the chosen concept's elevator pitch, principles,
    primary audience, biggest risk, and file path.
    - **游戏专用**: include engine recommendation in the summary.
    - **通用产品**: include tech stack recommendation in the summary.
@@ -586,34 +427,28 @@ report the actual persistence state:
 
 ## Recommended Next Steps
 
-**[游戏专用]** After the game concept is written:
-1. `/constitute` — derive your constitution from this concept
-2. `/design-review design/cdd/game-concept.md` — validate concept completeness
-3. `/gate-check concept` — normal advancement to Systems Design
-4. `/map-systems` — decompose into systems
-5. `/design-system [first-system]` — per-system CDDs
-6. `/design-review design/cdd/[system].md` — validate each completed CDD
-7. `/review-all-gdds` — holistic cross-CDD review before architecture
-8. `/gate-check systems-design` — validate module-index, MVP CDDs, design-review, and cross-review
-9. `/setup-engine` — configure the engine in Technical Setup
-10. `/create-architecture` — master architecture blueprint
-11. `/architecture-decision (×N)` — record technical decisions
-12. `/architecture-review` — validate traceability and compatibility
-13. `/create-control-manifest` — extract implementation rules from accepted ADRs
-14. `/test-setup` — create the required test baseline
+After a saved, read-back concept, Read `workflow/workflow-catalog.yaml` and use
+its current order, required/optional flags and domain/surface conditions. Missing
+or unread catalog leaves the route incomplete; the groups below are navigation,
+not a substitute for its actual steps or gates. Present every applicable step
+through normal entry to Game Production / Product Implementation:
 
-**[通用产品]** After the product concept is written:
-1. `/constitute` — derive your constitution from this concept
-2. `/design-review design/cdd/product-concept.md` — validate concept completeness
-3. `/gate-check concept` — normal advancement to Specification
-4. `/map-systems` — decompose into modules
-5. `/design-system [first-module]` — per-module specs
-6. `/design-review design/cdd/[module].md` — validate each completed CDD
-7. `/review-all-gdds` — holistic cross-CDD review before architecture
-8. `/gate-check systems-design` — validate module-index, MVP CDDs, design-review, and cross-review
-9. `/setup-engine [framework]` — configure the technology stack in Architecture
-10. `/create-architecture` — master architecture blueprint
-11. `/architecture-decision (×N)` — record technical decisions
-12. `/architecture-review` — validate traceability and compatibility
-13. `/create-control-manifest` — extract implementation rules from accepted ADRs
-14. `/test-setup` — create the required test baseline
+1. **Concept**: `/constitute` if needed, `/design-review` on the resolved concept,
+   then `/gate-check concept`. Preserve existing legal acceptance; concept
+   agreement is not ratification. Optionally expand the Game visual anchor with
+   `/art-bible` before CDDs, or the Product brand/style branch when applicable;
+   refine pillars/principles with `creative-director` when useful.
+2. **Systems Design / Specification**: `/map-systems`, `/design-system` per module,
+   `/design-review` per CDD, `/review-all-gdds`, `/gate-check systems-design`.
+3. **Technical Setup / Architecture**: `/setup-engine` for the engine or framework,
+   `/create-architecture`, `/architecture-decision` for required choices,
+   `/architecture-review`, `/create-control-manifest`, accessibility requirements
+   from their actual template, `/test-setup`, `/gate-check technical-setup`.
+4. **Pre-Production / Pre-Implementation**: applicable `/ux-design` and `/ux-review`
+   (including Product surface/interaction requirements), `/prototype` for the core
+   Game loop or Product journey, `/create-epics`, `/create-stories`, `/sprint-plan new`,
+   `/story-readiness`, required `/playtest-report` validation, then
+   `/gate-check pre-production`. Optional early experiments skip no boundary.
+
+Qualify each phase with its required gate and exact evidence/acceptance scope.
+Use the catalog for later phases too; suggestions never imply execution or completion.

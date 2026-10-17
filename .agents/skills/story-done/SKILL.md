@@ -43,6 +43,31 @@ new revision with prior evidence preserved; index effects need their own covered
 scope and historical links. Optional Memory Bank absence uses Story/report/
 conversation fallback without initialization, publication or activation.
 
+## Required reading and closure controls
+
+Package-relative references are installed with this entry. Read only the matching
+domain/type and current report/handoff section before its dependent work. A link
+is not reading; missing, unread or truncated required content leaves the affected
+check INCOMPLETE and cannot support completion. Complete long applicable sections
+in consecutive bounded chunks (at most 8,000 UTF-16 units per result).
+
+Required ACs need adequate actual PASS individually. COVERED is not execution.
+Optional versus explicitly selected strict QA, required independent review and
+all named closure effects remain separate; a skipped gate or risk acceptance
+cannot turn FAIL/NotRun/Blocked/Pending/Unknown into PASS or either completion.
+
+**Verdict definitions:**
+- **COMPLETE**: every required AC/check has adequate actual PASS evidence; required
+  decisions/reviews and relevant completion authority are satisfied, no blocking deviations.
+- **COMPLETE WITH NOTES**: the same required conditions pass, with only permitted
+  advisory actions and owner/due phase.
+- **BLOCKED**: any required FAIL/NotRun/Blocked/Pending/Unknown or missing required
+  decision/review/authority; unresolved required deviations must be resolved.
+
+Legacy `COMPLETE WITH RISKS` aliases COMPLETE WITH NOTES only after verifying those
+same required facts. Preserve the original historical record. Otherwise project
+BLOCKED with actual findings, never normalize risk acceptance into completion.
+
 ## User Guide
 
 - When to use: End-of-story completion review. Reads the story file, verifies each acceptance criterion against the implementation, checks for CDD/ADR deviations, prompts code review, updates story status to Complete, and surfaces the next ready story from the sprint.
@@ -221,105 +246,14 @@ type exists in both domains (`UI`, `Integration`), resolve actual governing owne
 surface or ask. Keywords cannot determine required applicability; unresolved scope
 remains Unknown.
 
-**[游戏专用]** Game evidence table:
-| Story Type | Required Evidence | Gate Level |
-|---|---|---|
-| **Logic** | Automated unit test in `tests/unit/[system]/` — must exist and pass | BLOCKING |
-| **Integration** | Integration test in `tests/integration/[system]/` OR playtest/session log doc | BLOCKING |
-| **Visual/Feel** | Screenshot + sign-off in `production/qa/evidence/` | ADVISORY |
-| **UI** | Manual walkthrough doc OR interaction test in `production/qa/evidence/` | ADVISORY |
-| **Config/Data** | Smoke check pass report in `production/qa/smoke-*.md` | ADVISORY |
-
-**[通用产品]** Product evidence table:
-
-Resolve automated evidence from the Story's exact paths and actual configured test
-roots, naming and runner discovery, including tests outside `tests/`. Read required
-originals and verify matching actual PASS results for the named ACs and inputs.
-Conventional directories are discovery examples, not prerequisites. A missing
-required original remains visible; fallback discovery does not waive it or erase
-a failure. Where the owning workflow permits an alternate location, reconcile
-that exact path with its owner before closure and verify the same required checks.
-
-| Story Type | Required Evidence | Gate Level |
-|---|---|---|
-| **API** | Contract test at the exact Story-bound configured path — must exist and pass | BLOCKING |
-| **CLI** | Smoke command output in `production/qa/evidence/smoke/` — `--help` + core command | ADVISORY |
-| **Data/Migration** | Migration test against fresh instance at the exact Story-bound configured path — must exist and pass | BLOCKING |
-| **Auth/Permission** | Permission test at the exact Story-bound configured path — must exist and pass | BLOCKING |
-| **Workflow** | Integration test at the exact Story-bound configured path — must exist and pass | BLOCKING |
-| **UI** | Walkthrough doc OR screenshot in `production/qa/evidence/` | ADVISORY |
-| **Integration** | Integration test OR API contract test OR documented playtest, as selected by the AC/DoD owner | BLOCKING |
-| **Ops/Deployment** | Deployment smoke in `production/qa/smoke-*.md` | BLOCKING |
-| **Config** | Config validation test OR smoke check | ADVISORY |
-
-**Product evidence checks:**
-
-- **API**: read the Story's exact Test Evidence path first, then search actual
-  configured roots/discovered paths for contract tests covering its endpoint,
-  schema and TR-ID (`tests/api/` is an example). Verify actual matching PASS;
-  missing required evidence or incomplete required checks are **BLOCKING**.
-- **CLI**: check `production/qa/evidence/smoke/`, `production/qa/evidence/manual/`, or
-  `production/qa/smoke-*.md` for command output covering `--help` and the core
-  command path. If none found, flag **ADVISORY**.
-- **Data/Migration**: read the exact Test Evidence path first, then search
-  actual configured roots/discovered paths for migration or fresh-instance tests
-  (`tests/integration/` is an example). Verify actual matching PASS; missing
-  required evidence or incomplete required checks are **BLOCKING**.
-- **Auth/Permission**: first read the Story's exact Test Evidence files and
-  actual test configuration. Verify the configured runner discovers those files,
-  that their behavioral assertions cover the required role, token and access
-  boundaries (including required allow/deny and invalid/expired cases), and that
-  matching actual execution passes. Search actual configured roots/discovered
-  paths for additional candidates only as needed; `tests/unit/auth/` and
-  `tests/api/` are conventional examples. Missing required evidence, failed tests
-  or incomplete required boundary coverage/execution remain **BLOCKING**.
-- **Workflow**: read the exact Test Evidence path first, then search actual
-  configured roots/discovered paths for required workflow coverage
-  (`tests/integration/[module]/` is an example). Verify actual matching PASS;
-  missing required evidence or incomplete required checks are **BLOCKING**.
-- **UI**: check `production/qa/evidence/` for walkthrough or screenshot evidence,
-  or an interaction test named in the story. If none found, flag **ADVISORY**.
-- **Integration**: read the AC/DoD owner's selected method and exact Test Evidence
-  paths first. For integration or API contract tests, search actual configured
-  roots/discovered paths for required service, webhook, queue or contract
-  coverage (`tests/integration/` and `tests/api/` are examples). For a documented
-  playtest (Product user/workflow session), read the original record and verify
-  observer, steps, exact build/input identity, time, actual results and required
-  sign-offs against every required AC, including required retry/timeout/error
-  cases. Preserve explicitly sourced stricter automated or combined obligations;
-  manual evidence cannot replace those required tests. Verify actual matching
-  PASS for the selected method; missing required evidence or incomplete required
-  checks remain **BLOCKING**.
-For Ops/Deployment, resolve the actual conventional smoke report, confirmed CI evidence or exact Story-named deployment artifact used by this review. Read its original source and verify the required matching PASS deployment evidence; no route bypasses that requirement. Unresolved source selection remains Unknown.
-
-- **Ops/Deployment**: check for `production/qa/smoke-*.md`, CI evidence, or a
-  deployment smoke artifact named in the story. If none found, flag **BLOCKING**.
-- **Config**: check for a config validation test, smoke report, or evidence doc
-  covering the changed environment variable, feature flag, or setting. If none
-  found, flag **ADVISORY**.
-
-**For game Logic stories**: first read the story's **Test Evidence** section to extract the
-exact required file path. Use `Glob` to check that exact path. If the exact path is not
-found, also search `tests/unit/[system]/` broadly (the file may have been placed at a
-slightly different location). If no test file is found at either location:
-- Flag as **BLOCKING**: "Logic story has no unit test file. Story requires it at
-  `[exact-path-from-Test-Evidence-section]`. Create and run the test before marking
-  this story Complete."
-
-**For game Integration stories**: read the story's **Test Evidence** section for the exact
-required path. Use `Glob` to check that exact path first, then search
-`tests/integration/[system]/` broadly, then check `production/session-logs/`,
-`production/qa/evidence/playtests/`, and `production/qa/evidence/` for a playtest or session
-log record referencing this story.
-If none found: flag as **BLOCKING** (same rule as Logic).
-
-**For game Visual/Feel and game UI stories**: glob `production/qa/evidence/` for a file
-referencing this story. If none: flag as **ADVISORY** —
-"No manual test evidence found. Create `production/qa/evidence/[story-slug]-evidence.md`
-using the test-evidence template and obtain sign-off before final closure."
-
-**For game Config/Data stories**: check for any `production/qa/smoke-*.md` file.
-If none: flag as **ADVISORY** — "No smoke check report found. Run `/smoke-check`."
+Before evaluating type-specific evidence, Read the matching Story Type row and
+its detailed checks in [Game Test Evidence](references/test-evidence-game.md) or
+[Product Test Evidence](references/test-evidence-product.md). Load the resolved
+domain and actual type only; shared UI/Integration names do not decide domain.
+Read exact Story evidence originals and actual configured runner/discovery first;
+fallback search does not waive missing required originals, coverage, actual PASS
+or sign-off. Preserve Game unit/integration/playtest/visual/smoke and Product
+API/CLI/data/auth/workflow/UI/integration/deployment/config distinctions.
 
 **If no Story Type is set**: flag as **ADVISORY** —
 "Story Type not declared. Add one domain-appropriate value: Game
@@ -422,52 +356,12 @@ No files requires actual applicability: a documented non-code Story may be N/A; 
 
 Before updating any files, present the full report:
 
-```markdown
-## Story Done: [Story Name]
-**Story**: [file path]
-**Date**: [today]
+Before presenting the full report, Read Phase 6 in
+[Story Completion and Handoff Formats](references/completion-formats.md).
+Show every AC's actual outcome, traceability, evidence, deviations and scope
+before the verdict. A format example or COVERED row cannot establish executed PASS.
 
-### Acceptance Criteria: [X/Y passing]
-- [x] [Criterion 1] — auto-verified (test passes)
-- [x] [Criterion 2] — confirmed
-- [ ] [Criterion 3] — FAILS: [reason]
-- [?] [Criterion 4] — DEFERRED: requires playtest/user test/deployment session
-
-### Test-Criterion Traceability
-| Criterion | Test | Status |
-|-----------|------|--------|
-| AC-1: [text] | [test file::test name] | COVERED |
-| AC-2: [text] | Manual confirmation | COVERED |
-| AC-3: [text] | — | UNTESTED |
-
-### Test Evidence
-**Story Type**: [Game: Logic | Integration | Visual/Feel | UI | Config/Data] OR [Product: API | CLI | Data/Migration | Auth/Permission | Workflow | UI | Integration | Ops/Deployment | Config] OR [Not declared]
-**Required evidence**: [domain-specific required evidence from the game/product table]
-**Evidence found**: [YES — `[path]` | NO — BLOCKING | NO — ADVISORY]
-
-### Deviations
-[NONE] OR:
-- BLOCKING: [description] — [CDD/ADR reference]
-- ADVISORY: [description] — user accepted / flagged for tech debt
-
-### Scope
-[All changes within stated scope] OR:
-- Extra files touched: [list] — [note whether valid or scope creep]
-
-### Verdict: COMPLETE / COMPLETE WITH NOTES / BLOCKED
-```
-
-**Verdict definitions:**
-- **COMPLETE**: every required AC/check has adequate actual PASS evidence; required
-  decisions/reviews and relevant completion authority are satisfied, no blocking deviations.
-- **COMPLETE WITH NOTES**: the same required conditions pass, with only permitted
-  advisory actions and owner/due phase.
-- **BLOCKED**: any required FAIL/NotRun/Blocked/Pending/Unknown or missing required
-  decision/review/authority; unresolved required deviations must be resolved.
-
-Legacy `COMPLETE WITH RISKS` aliases COMPLETE WITH NOTES only after verifying those
-same required facts. Preserve the original historical record. Otherwise project
-BLOCKED with actual findings, never normalize risk acceptance into completion.
+Apply the verdict definitions in the entry controls above.
 
 If the verdict is **BLOCKED**: do not proceed to Phase 7. List what must be
 fixed. Offer to help fix the blocking items.
@@ -495,7 +389,7 @@ List each intended effect separately:
 5. Initialized `memory_bank/t3_archive/sprint_snapshots/story-closure-index.md`, only
    with its covered pointer effect. Completion Verdict: COMPLETE,
    COMPLETE WITH NOTES, or BLOCKED. Use `Story Path` as the dedupe key for authorized
-   current pointers; retain historical closure links. Legacy RISKS follows Phase 6.
+   current pointers; retain historical closure links. Legacy RISKS follows the entry verdict definitions above.
 
 Story-write approval authorizes none of the other paths/effects. Report-only cannot
 set Complete/done or alter any input/index/state. With partial authority perform
@@ -527,15 +421,9 @@ After completion, help the developer keep momentum:
 
 Present:
 
-```
-### Next Up
-The following stories are ready to pick up:
-1. [Story name] — [1-line description] — Est: [X hrs]
-2. [Story name] — [1-line description] — Est: [X hrs]
-
-Run `/story-readiness [path]` to confirm a story is implementation-ready
-before starting.
-```
+Before presenting next-ready candidates, Read the Phase 8 Next ready stories
+format in [Story Completion and Handoff Formats](references/completion-formats.md).
+Name actual paths and recommend `/story-readiness` before implementation.
 
 List Draft/backlog candidates separately as "Needs readiness review" with their
 actual paths and unresolved requirements. Surfacing recommendations writes no
@@ -544,13 +432,9 @@ Story, sprint or session state.
 If every in-scope Must Have has an exact eligible closure (not merely a Complete
 label), surface current selected QA follow-up:
 
-```
-### Sprint Close-Out Sequence
-Every required Must Have closure condition passes.
-1. `/smoke-check sprint` — recommended critical-path evidence collection
-2. `/team-qa sprint` — optional default orchestration when useful
-3. `/gate-check` — assess actual transition, no automatic advancement
-```
+Before presenting that eligible sprint close-out sequence, Read the Phase 8
+Sprint close-out format in
+[Story Completion and Handoff Formats](references/completion-formats.md).
 
 Explicitly selected strict obligations remain required for their named scope;
 NotRun/Blocked/Pending cannot be represented as passing. Optional orchestration

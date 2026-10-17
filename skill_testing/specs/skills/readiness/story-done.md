@@ -359,3 +359,19 @@ introduces a materially new effect. Current input identities are supplied.
   coverage deferred.
 - Sprint/session/T3 projections each need covered named paths/effects and exact eligible closure; no implicit authority from Story writing.
 - Stories with multiple TR-IDs or multiple ADRs are not explicitly tested.
+
+## Progressive Loading Contract Cases
+
+These are semantic/spec fixtures, not recorded host or model executions.
+
+Use paired Game/Product Story Types, including shared UI/Integration names.
+Read the actual domain/type row and details in `references/test-evidence-game.md`
+or `references/test-evidence-product.md` before evidence verification. Preserve
+exact Story paths, configured runner/discovery, actual behavioral assertions,
+selected manual/automated evidence and stricter owner requirements. Every required
+AC needs actual PASS; COVERED and a file path do not prove execution. Missing,
+unread or truncated required material keeps closure BLOCKED. Read only the
+matching completion/next-story/eligible close-out section of
+`references/completion-formats.md`. Optional/strict QA, required independence,
+COMPLETE/COMPLETE WITH NOTES/BLOCKED and every separate closure write authority
+remain unchanged; risk acceptance cannot promote failed or unexecuted checks.

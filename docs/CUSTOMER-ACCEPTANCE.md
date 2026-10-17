@@ -152,6 +152,19 @@ Expected result:
 - Import/update uses the unique designated Source, reviewed exact update-write
   paths and required local-input allowlist, separately classified Git submission
   candidates and recoverable before bytes.
+- Apply `standards/directory-structure.md`, section "Consumer layout resolution
+  for imports and updates": the plan identifies the verified latest applicable
+  Source inputs, resolved consumer tree and reasoned old-to-new mapping. An old
+  layout receives no automatic exemption merely because its internal checks pass.
+- Compare the resulting installation with that target, including current readers,
+  discovery/configuration, required offline references and generation/comparison
+  chain. Preserve substantive contents and valid changes through migration;
+  preserving them does not require preserving their old paths.
+- Historical evidence retains its actual old-path identity and recovery witness
+  without masquerading as an active dependency. Covered old-path retirement waits
+  for migrated active dependencies, passed applicable checks and verified recovery.
+  Unresolved layout/ownership/conflicts remain pending for their affected scope;
+  neither guesses nor copied Source trees establish conformance.
 - Memory Bank initialization, hook activation and project writes need their
   own covered effects; a review does not authorize them.
 

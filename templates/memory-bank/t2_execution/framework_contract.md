@@ -15,12 +15,20 @@ Source comparison, runtime execution and law acceptance remain distinct facts.
 - **Required local neutral inputs:** [reviewed per-file local-input allowlist and required closure]
 - **Project customizations:** [existing differences; confirmed CDD overlays stay local-only; project-owned assets retain project rules]
 - **Instruction purpose:** [scoped review first confirms CDD / project-owned / shared / unresolved ownership, then classifies purpose within the CDD collection]
+- **Consumer layout and migration:** [existing scoped plan/report and exact governing inputs; resolved target tree and old-to-new mapping when import/update/layout migration is selected; distinguish observed installed paths, planned effects and unresolved destinations; otherwise NotAssessed]
 
 Reuse the project's established portable configuration and decisions. Keep
 unknown bindings unconfigured; do not invent pins or add host-specific paths.
 An unavailable Source does not prevent authorized offline use of complete
 installed entries and their required inputs. Missing required installed originals
 leave only their affected workflow pending.
+
+Layout resolution is owned by `standards/directory-structure.md`, section
+"Consumer layout resolution for imports and updates". This binding records its
+actual result and preservation/reference witnesses, not a second layout policy.
+Retained local copies do not exempt an old installation from that contract.
+Do not infer completed migration or alignment from a proposed tree, unchanged
+legacy binding, historical path identifier or internal adapter consistency.
 
 ## Authority contract
 

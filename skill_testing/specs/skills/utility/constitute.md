@@ -191,6 +191,45 @@ separate. Preserve before bytes and disclose unavailable checks.
 
 ---
 
+### Case 8: Framework import resolves layout before affected skeleton bindings
+
+**Fixture:**
+- A Product invocation explicitly includes CDD import/update in addition to
+  constitution initialization. Complete required originals and the verified latest
+  applicable Source inputs are available, and exact skeleton/installation effects
+  are authorized; law ratification remains a separate decision.
+- An older binding points at legacy platform locations. The applicable current
+  consumer contract resolves different runtime-installed locations.
+
+**Expected behavior:**
+- Reads the single layout owner in `standards/directory-structure.md` and prepares
+  the resolved consumer tree and old-to-new mapping before affected writes.
+- Preserves substantive content and valid changes through the mapping rather than
+  freezing legacy paths or copying the Source tree. Canonical edits/projections
+  follow actual Source-stage authority, not direct adapter editing.
+- Binds observed installed paths/completed effects separately from planned or
+  unresolved paths in `framework_contract.md`; no proposed pin becomes installed fact.
+- Copies the deterministic adapter state unchanged; import, writing and structural
+  agreement do not establish freshness, law acceptance or project qualification.
+
+### Case 9: Missing update resolution does not disable independent offline use
+
+**Fixture:**
+- Start from Case 7's complete delivered initialization inputs.
+- Variant A adds a requested framework update but the latest Source or an affected
+  destination/ownership decision cannot be verified. Variant B requests ordinary
+  offline skeleton initialization only, with no framework update or migration.
+
+**Expected behavior:**
+- A records the exact unresolved input/decision and pending affected update;
+  it neither guesses a final layout nor invokes dependent installation/retirement.
+- B retains Case 7's authorized offline behavior with installed inputs; it does
+  not require a maintenance toolkit/live Source or certify unassessed latest alignment.
+- Local copy presence alone triggers neither a physical-directory ban nor an old
+  layout exemption. Independent effects proceed only within their actual authority.
+
+---
+
 ## Protocol Compliance
 
 - [ ] Reads before asking for writes
@@ -202,3 +241,37 @@ separate. Preserve before bytes and disclose unavailable checks.
 - [ ] Never fabricates adapter freshness evidence
 - [ ] Concept/content/write approval does not accept laws; exact ratification is independently verified
 - [ ] Required neutral originals remain necessary; unavailable Source alone does not block complete offline installed inputs
+- [ ] Selected framework import/update resolves the consumer tree/mapping before
+  affected writes; actual installed bindings and proposed destinations stay distinct
+
+## Progressive Loading Contract Cases
+
+These are semantic/spec fixtures, not recorded host or model executions.
+
+Verify the full Reusable Project Boundary Template remains inline and unchanged
+for installed `/adopt full` and `/adopt infra` readers. Detect actual stage first,
+read only its stage-routing section in bounded consecutive chunks, and select
+interactive, derivation, audit, amendment or browse behavior before loading its
+references. Read `references/interactive-legislation.md` before manual drafts or
+its no-concept handoff; `references/derivation-workflow.md` before source-based
+derivation; `references/amendment-workflow.md` before amendment comparison/proposal;
+and `references/initialization-inputs.md` before naming/authorizing/writing selected
+skeleton effects. Linking is not reading. Missing/unread/truncated required inputs
+leave the affected step incomplete; do not force all references into browse-only
+runs. Exact Proposed/Accepted/amended/superseded authority, Support IDs, version
+history and separate writes/ratification/review/publication/completion remain in
+the entry. Adapter state copies unchanged as uninitialized; layout plans/newest
+Source requirements do not masquerade as installed or fresh state. Standalone
+offline initialization uses complete delivered neutral originals without a live
+Source or maintenance kit; explicitly selected import/update/layout still needs
+its actual latest Source/tree/mapping resolution. Read catalog before materializing
+all applicable pipeline steps/gates; recommendations execute no transitions.
+
+### Standalone alignment report reader
+
+Enter only Phase 5 alignment auditing over an existing constitution and its actual
+CDD/ADR/code scope. Before output, read only Step 4d of the installed
+`references/derivation-workflow.md` for version/Draft status, Principles, Gaps and
+ALIGNED/NEEDS ATTENTION. Do not load or execute the other derivation/write steps.
+Missing/unread report format leaves that output incomplete; an additive missing
+boundary proposal never becomes an audit-side law-index repair or ratification.

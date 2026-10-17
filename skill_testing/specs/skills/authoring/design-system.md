@@ -312,3 +312,18 @@ proposal names no consumer and merely expands derivable repetition.
 **Observation requirements:** On execution, record actual Section H output and
 qa-lead input, exact before/after identities and zero excluded writes. A written
 case or instruction-reasoning PASS is not a model execution or native host PASS.
+
+## Progressive Loading Contract Cases
+
+These are semantic/spec fixtures, not recorded host or model executions.
+
+Exercise sync, existing-file retrofit and new-module routes separately. Read
+`references/sync-workflow.md` only for sync and return after its bounded batch;
+read `references/retrofit-workflow.md` only for retrofit, establish module kind,
+preserve unaffected original bodies and skip Phase 3. New modules retain the
+complete inline Game/Product skeletons. Non-module retrofit routes to its actual
+owner without edits; Unknown kind is not Module8. Read applicable feasibility,
+context and registry format sections before their phases; existing section and
+specialist guidance remains conditional. Missing/unread/truncated required input
+or independent review leaves the affected result incomplete. Chunk long existing
+guidance without claiming its first 8,000-unit result is the complete section.

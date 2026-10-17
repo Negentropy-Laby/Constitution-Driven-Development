@@ -47,6 +47,19 @@ Absent, conflicting or ambiguous concept/domain evidence means Unknown. Continue
 domain-independent checks; resolve the domain before applying its Game/Product
 rules. Do not silently default to Game.
 
+## Progressive reading and review controls
+
+Resolve reference paths relative to this package; read only those required by
+the selected mode/phase. Referencing is not reading. Missing, unread or truncated
+required material makes the affected step INCOMPLETE; complete consecutive
+bounded reads before depending on it. Ship these references with either platform
+entry and keep required neutral owners available locally for offline use.
+
+An author's self-check, specialist consultation or new conversation/window alone
+does not establish independent review. Where the selected workflow requires it,
+use a separate reviewer of the exact bound inputs, without repair; unavailable
+required review remains incomplete. No automatic acceptance or scope reduction.
+
 ## User Guide
 
 - When to use: Validates completeness and consistency of the project architecture against all CDDs. Builds a traceability matrix recording each CDD technical requirement's justified disposition and exact governing owner, identifies coverage gaps, detects cross-ADR conflicts, verifies technology compatibility consistency across all decisions, and produces a PASS/CONCERNS/FAIL verdict. Supports both game and general product domains.
@@ -85,65 +98,13 @@ Sections below are marked **[通用场景]**, **[游戏专用]**, or **[通用�
 
 ## Phase 1: Load Everything
 
-### Phase 1a — L0: Summary Scan (fast, low tokens)
-
-Before reading any full document, use Grep to extract `## Summary` sections
-from all CDDs and ADRs:
-
-```
-Grep pattern="## Summary" glob="design/cdd/*.md" output_mode="content" -A 4
-Grep pattern="## Summary" glob="docs/architecture/adr-*.md" output_mode="content" -A 3
-```
-
-For `single-cdd [path]` mode: use the target CDD's summary to identify which
-ADRs reference the same system (Grep ADRs for the system name), then full-read
-only those ADRs. Skip full-reading unrelated CDDs entirely.
-
-For `engine` mode: only full-read ADRs — CDDs are not needed for engine checks.
-
-For `coverage` or `full` mode: proceed to full-read everything below.
-
-### Phase 1b — L1/L2: Full Document Load
-
-Read all inputs appropriate to the mode:
-
-In no-argument, `full` and `coverage` reviews, read the Design Documents inventory
-below. In `rtm` and other modes, read it when the actual review scope includes that
-inventory; `engine` and other ADR-only scopes do not require it. If applicability
-is undecided, retain Unknown and resolve that scope. A missing required input is
-an incomplete check, not a reason to exclude the inventory.
-
-### Design Documents
-- All in-scope CDDs in `design/cdd/` — read every file completely
-- `design/cdd/module-index.md` — the authoritative list of systems
-
-### Architecture Documents
-- All in-scope ADRs in `docs/architecture/` — read every file completely
-- `docs/architecture/architecture.md` if it exists
-
-### Technology Reference
-
-**[游戏专用]** Engine reference:
-- `docs/engine-reference/[engine]/VERSION.md`
-- `docs/engine-reference/[engine]/breaking-changes.md`
-- `docs/engine-reference/[engine]/deprecated-apis.md`
-- All files in `docs/engine-reference/[engine]/modules/`
-
-**[通用产品]** Stack reference:
-- `docs/reference/[stack]/VERSION.md`
-- `docs/reference/[stack]/breaking-changes.md`
-- `docs/reference/[stack]/deprecated-apis.md`
-- All files in `docs/reference/[stack]/modules/`
-
-### Project Standards
-- `standards/technical-preferences.md`
-
-Report a count: "Loaded [N] CDDs, [M] ADRs, technology: [name + version]."
-
-**Also read `docs/consistency-failures.md`** if it exists. Extract entries with
-Domain matching the systems under review (Architecture, Engine, or any CDD domain
-being covered). Surface recurring patterns as a "Known conflict-prone areas" note
-at the top of the Phase 4 conflict detection output.
+Read [Mode-Specific Evidence Loading](references/evidence-loading.md) before
+collecting inputs for the selected mode. L0 summaries locate scope; they never
+replace complete bodies required by that mode. Full/no-argument and coverage
+retain every in-scope CDD, module-index, ADR and applicable technology/standards
+input; direct-path and single-cdd retain their actual dependency closure. Resolve
+uncertain applicability before skipping an inventory. Missing required originals
+leave affected checks incomplete, never a narrowed passing review.
 
 ---
 
@@ -240,26 +201,11 @@ This phase extends the Phase 3 matrix to include the story that implements
 each requirement and the test that verifies it — producing the full
 Requirements Traceability Matrix (RTM).
 
-### Step 3b-1 — Load stories
-
-Glob `production/epics/**/*.md` (excluding EPIC.md index files). For each
-story file:
-- Extract `TR-ID` from the story's Context section
-- Extract story file path, title, Status
-- Extract `## Test Evidence` section — the stated test file path
-
-### Step 3b-2 — Load test files
-
-Read the actual configured test runner, include/exclude patterns and discovery
-roots, including colocated tests outside `tests/` where applicable. Discover tests
-using that configuration and build an index: system → [test file paths].
-
-For every exact test path declared in Step 3b-1, Read the original directly even
-if discovery or Glob did not return it. Confirm actual absence before recording
-MISSING. An unread, inaccessible or unresolved original leaves the affected link
-INCOMPLETE; an empty Glob or a runner exclusion alone does not prove absence.
-Record whether the actual runner discovers each linked test. File presence or
-runner discovery does not prove execution or PASS.
+Before linking Stories/tests, Read Phase 3b in
+[Mode-Specific Evidence Loading](references/evidence-loading.md). Load actual
+Stories, test evidence and configured runner/discovery; directly Read each declared
+test original even when discovery excludes it. Confirm absence before MISSING;
+unread/inaccessible/unresolved inputs are INCOMPLETE, and discovery is not PASS.
 
 ### Step 3b-3 — Build the extended RTM
 
@@ -272,17 +218,10 @@ For each TR-ID in the Phase 3 matrix, add:
   NONE (justified manual evidence type), or NO STORY. Exact test/report identities
   are required; existence is not PASS.
 
-Extended matrix format:
-
-```
-## Requirements Traceability Matrix (RTM)
-
-| TR-ID | CDD | Requirement | ADR | Story | Test File | Test Status |
-|-------|-----|-------------|-----|-------|-----------|-------------|
-| TR-combat-001 | combat.md | Hitbox < 1 frame | ADR-0003 | story-001-hitbox.md | tests/unit/combat/hitbox_test.gd | LINKED / NOT RUN |
-| TR-combat-002 | combat.md | Combo window | — | story-002-combo.md | — | NONE (Visual/Feel) |
-| TR-inventory-001 | inventory.md | Persistent storage | ADR-0005 | — | — | NO STORY |
-```
+Before presenting the extended matrix, Read the Phase 3b display in
+[Extended RTM Formats](references/rtm-format.md). Show the full requirement,
+disposition, Story, exact test and actual-status chain, retaining justified
+manual NONE and unimplemented NO STORY cases.
 
 RTM coverage summary:
 - VERIFIED: [N] — justified disposition + Story + exact passing required evidence; count LINKED / NOT RUN separately
@@ -296,6 +235,9 @@ RTM coverage summary:
 ---
 
 ## Phase 4: Cross-ADR Conflict Detection
+
+Before presenting these findings, Read the Phase 4 section of
+[Architecture Finding Formats](references/finding-formats.md).
 
 Compare every ADR against every other ADR to detect contradictions. A conflict
 exists when:
@@ -312,18 +254,8 @@ exists when:
 - **State management conflict**: Two ADRs define authority over the same game state
   (e.g. both Combat ADR and Character ADR claim to own the health value)
 
-For each conflict found:
-
-```
-## Conflict: [ADR-NNNN] vs [ADR-MMMM]
-Type: [Data ownership / Integration / Performance / Dependency / Pattern / State]
-ADR-NNNN claims: [...]
-ADR-MMMM claims: [...]
-Impact: [What breaks if both are implemented as written]
-Resolution options:
-  1. [Option A]
-  2. [Option B]
-```
+For each conflict, show both exact ADR claims, type, impact and resolution
+options using the Phase 4 Conflicts format in the finding reference.
 
 ### ADR Dependency Ordering
 
@@ -344,22 +276,17 @@ After conflict detection, analyse the dependency graph across all ADRs:
    🔴 DEPENDENCY CYCLE: ADR-0003 → ADR-0006 → ADR-0003
       This cycle must be broken before either can be implemented.
    ```
-5. **Output recommended implementation order**:
-   ```
-   ### Recommended ADR Implementation Order (topologically sorted)
-   Foundation (no dependencies):
-     1. ADR-0001: [title]
-     2. ADR-0003: [title]
-   Depends on Foundation:
-     3. ADR-0002: [title] (requires ADR-0001)
-     4. ADR-0005: [title] (requires ADR-0003)
-   Feature layer:
-     5. ADR-0004: [title] (requires ADR-0002, ADR-0005)
-   ```
+5. **Output recommended implementation order**: show the topological Foundation,
+   dependent and Feature layers with their prerequisite IDs, using the Phase 4
+   dependency-order display in the finding reference. Preserve unresolved/cyclic
+   dependencies as findings rather than silently ordering them away.
 
 ---
 
 ## Phase 5: Technology Compatibility Cross-Check
+
+Before presenting these findings, Read the Phase 5 section of
+[Architecture Finding Formats](references/finding-formats.md).
 
 Across all ADRs, check for technology consistency.
 
@@ -396,49 +323,27 @@ Across all ADRs, check for technology consistency.
 ### Missing Compatibility Sections
 - List ADRs missing the Technology Compatibility section
 
-Output format:
-```
-### Technology Audit Results
-Technology: [name + version]
-ADRs with Technology Compatibility section: X / Y total
-
-Deprecated API References:
-  - ADR-0002: uses [deprecated API] — deprecated since [version]
-
-Stale Version References:
-  - ADR-0001: written for [older version] — current project version is [version]
-
-Post-Cutoff API Conflicts:
-  - ADR-0004 and ADR-0007 both use [API] with incompatible assumptions
-```
+Present technology/version, compatibility-section coverage, deprecated/stale
+references and API conflicts using the Phase 5 format in the finding reference.
 
 ---
 
 ### Technology Specialist Consultation
 
-After completing the audit above, spawn the appropriate specialist via Task for a domain-expert second opinion:
-
-**[游戏专用]** **Engine Specialist Consultation**:
-- Read `standards/technical-preferences.md` `Engine Specialists` section to get the primary specialist
-- If no engine is configured, skip this consultation
-- Spawn `subagent_type: [primary specialist]` with: all ADRs that contain engine-specific decisions or `Post-Cutoff APIs Used` fields, the engine reference docs, and the Phase 5 audit findings. Ask them to:
-  1. Confirm or challenge each audit finding — specialists may know of engine nuances not captured in the reference docs
-  2. Identify engine-specific anti-patterns in the ADRs that the audit may have missed (e.g., using the wrong Godot node type, Unity component coupling, Unreal subsystem misuse)
-  3. Flag ADRs that make assumptions about engine behaviour that differ from the actual pinned version
-
-**[通用产品]** **Language Specialist Consultation**:
-- Read `standards/technical-preferences.md` to determine the primary language specialist
-- If no stack is configured, skip this consultation
-- Spawn the language specialist with: all ADRs that contain stack-specific decisions or `Post-Cutoff APIs Used` fields, the stack reference docs, and the Phase 5 audit findings. Ask them to:
-  1. Confirm or challenge each audit finding
-  2. Identify stack-specific anti-patterns in the ADRs (e.g., N+1 queries, blocking I/O in async context, missing connection pooling)
-  3. Flag ADRs that make assumptions about framework behaviour that differ from the actual pinned version
-
-Incorporate additional findings under `### Specialist Findings` in the Phase 5 output. These feed into the final verdict — specialist-identified issues carry the same weight as audit-identified issues.
+When Phase 5 compatibility auditing applies, Read
+[Technology Specialist Consultation](references/specialist-consultation.md)
+before resolving the configured Game engine or Product language specialist and
+issuing that consultation. An actually unconfigured engine/stack permits the
+specified skip; an unavailable configured consultation stays incomplete. Include
+specialist findings with the same weight as audit findings. Consultation or a new
+window alone does not establish independent review of the exact changeset.
 
 ---
 
 ## Phase 5b: Design Revision Flags (Architecture → CDD Feedback)
+
+Before presenting these findings, Read the Phase 5b section of
+[Architecture Finding Formats](references/finding-formats.md).
 
 For each **HIGH RISK technology finding** from Phase 5, check whether any CDD
 makes an assumption that verified technology behaviour contradicts.
@@ -458,17 +363,8 @@ Specific cases to check:
    check whether any CDD contains mechanics, workflows, data contracts, or module
    behavior that assumes the deprecated API's behaviour.
 
-For each conflict found, record it in the CDD Revision Flags table:
-
-```
-### CDD Revision Flags (Architecture → Design Feedback)
-These CDD assumptions conflict with verified technology behaviour or accepted ADRs.
-The CDD should be revised before its module enters implementation.
-
-| CDD | Assumption | Reality (from ADR/technology-reference) | Action |
-|-----|-----------|--------------------------------------|--------|
-| reporting.md | "Run large exports in the request/response path" | Framework request timeout is capped — ADR-0003 | Revise CDD |
-```
+For each conflict, record the CDD, assumption, verified reality/owner and
+required revision using the Phase 5b format in the finding reference.
 
 If no revision flags are found, write: "No CDD revision flags — all CDD assumptions
 are consistent with verified technology behaviour."
@@ -496,63 +392,18 @@ If `docs/architecture/architecture.md` exists, validate it against CDDs:
 
 ## Phase 7: Output the Review Report
 
-```
-## Architecture Review Report
-Date: [date]
-Technology: [name + version]
-CDDs Reviewed: [N]
-ADRs Reviewed: [M]
+Before presenting the report, Read Phase 7 in
+[Review and Traceability Report Formats](references/report-formats.md).
+Present the complete findings/disposition matrix, per-area results, counts,
+blocking dependencies and required/advisory actions before the verdict:
 
----
+- **PASS**: Every in-scope requirement/choice has current justified disposition
+  and evidence; no unresolved required decision/conflict; technology consistent.
+- **CONCERNS**: Only permitted advisory repairs remain with owner/due phase.
+- **FAIL**: Required `adr-required`/`conflict` or incomplete required evidence;
+  name affected dependencies and continue independent checks.
 
-### Traceability Summary
-Total requirements: [N]
-Dispositions: covered [N], cdd-layer [N], no-adr [N], documentation-update [N],
-              adr-required [N], conflict [N]
-Incomplete required inputs/evidence: [actual list]
-Permitted advisory actions: [owner/due phase]
-Affected blocked scope: [paths/dependencies; independent checks may continue]
-
-### Required Decision Gaps (adr-required; missing link alone is not a gap)
-For each gap:
-  ❌ TR-[id]: [CDD] → [module] → [requirement]
-     Suggested ADR: "/architecture-decision [suggested title]"
-     Domain: [domain]
-     Technology Risk: [LOW/MEDIUM/HIGH]
-
-### Cross-ADR Conflicts
-[List all conflicts from Phase 4]
-
-### ADR Dependency Order
-[Topologically sorted implementation order from Phase 4 — dependency ordering section]
-[Unresolved dependencies and cycles if any]
-
-### CDD Revision Flags
-[CDD assumptions that conflict with verified technology behaviour — from Phase 5b]
-[Or: "None — all CDD assumptions consistent with verified technology behaviour"]
-
-### Technology Compatibility Issues
-[List all issues from Phase 5]
-
-### Architecture Document Coverage
-[List missing systems and orphaned architecture from Phase 6]
-
----
-
-### Verdict: [PASS / CONCERNS / FAIL]
-
-PASS: Every in-scope requirement/choice has current justified disposition/evidence,
-      no required unresolved decision/conflict, technology consistent
-CONCERNS: Only permitted advisory repairs remain with owner/due phase
-FAIL: Required adr-required/conflict or incomplete required evidence;
-      name affected dependencies and continue independent checks
-
-### Blocking Issues (must resolve before PASS)
-[List items that must be resolved — FAIL verdict only]
-
-### Required ADRs
-[Prioritised list of ADRs to create, most foundational first]
-```
+Neither a summary scan nor a report format reduces the complete selected review.
 
 ---
 
@@ -572,63 +423,10 @@ For `rtm` mode, reuse existing exact matrix effect authority. Only for uncovered
 effects additionally ask: "May I write the full Requirements Traceability
 Matrix to `docs/architecture/requirements-traceability.md`?"
 
-RTM file format:
-
-```markdown
-# Requirements Traceability Matrix (RTM)
-
-> Last Updated: [date]
-> Mode: /architecture-review rtm
-> Coverage: [N]% full chain verified (CDD → justified disposition → Story → actual evidence)
-
-## How to read this matrix
-
-| Column | Meaning |
-|--------|---------|
-| TR-ID | Stable requirement ID from tr-registry.yaml |
-| CDD | Source design document |
-| ADR | Exact governing Accepted scope, or justified CDD/local disposition |
-| Story | Story file that implements this requirement |
-| Test File | Automated test file path |
-| Test Status | LINKED / NOT RUN, actual PASS/FAIL, confirmed MISSING, INCOMPLETE, justified NONE or NO STORY |
-
-## Full Traceability Matrix
-
-| TR-ID | CDD | Requirement | ADR | Story | Test File | Status |
-|-------|-----|-------------|-----|-------|-----------|--------|
-[Full matrix rows from Phase 3b]
-
-## Coverage Summary
-
-| Status | Count | % |
-|--------|-------|---|
-| VERIFIED — full chain with actual required evidence | [N] | [%] |
-| LINKED / NOT RUN — exact test available, execution not established | [N] | [%] |
-| MISSING test — confirmed absent required test original | [N] | [%] |
-| INCOMPLETE — required original or discovery unread, inaccessible or unresolved | [N] | [%] |
-| NO STORY — ADR exists, not yet implemented | [N] | [%] |
-| ADR REQUIRED — significant choice lacks Accepted scope | [N] | [%] |
-| **Total requirements** | **[N]** | **100%** |
-
-## Uncovered Requirements (Priority Fix List)
-
-Requirements where the full chain is broken, prioritised by layer:
-
-### Foundation layer gaps
-[list with suggested action per gap]
-
-### Core layer gaps
-[list]
-
-### Feature / Presentation layer gaps
-[list — lower priority]
-
-## History
-
-| Date | Full Chain % | Notes |
-|------|-------------|-------|
-| [date] | [%] | Initial RTM |
-```
+Before the authorized RTM write, Read the Phase 8 saved format in
+[Extended RTM Formats](references/rtm-format.md). Preserve full matrix, status
+counts/denominator, layer-prioritized gaps and history. Paths/coverage do not
+establish execution or PASS.
 
 ### TR Registry Update
 
@@ -655,14 +453,8 @@ Only within separately authorized log-append scope, add identified 🔴 CONFLICT
 entries to `docs/consistency-failures.md` if it exists. Report approval does not
 permit the log effect; otherwise retain action/owner in the report:
 
-```markdown
-### [YYYY-MM-DD] — /architecture-review — 🔴 CONFLICT
-**Domain**: Architecture / [specific domain e.g. State Ownership, Performance]
-**Documents involved**: [ADR-NNNN] vs [ADR-MMMM]
-**What happened**: [specific conflict — what each ADR claims]
-**Resolution**: [how it was or should be resolved]
-**Pattern**: [generalised lesson for future ADR authors in this domain]
-```
+Before an authorized log append, Read the Reflexion log entry in
+[Optional Closure Write Formats](references/closure-formats.md).
 
 Only append CONFLICT entries — do not log GAP entries (missing ADRs are expected
 before the architecture is complete). Do not create the file if missing — only
@@ -673,13 +465,8 @@ append when it already exists.
 Only within its authorized path/append effect, update
 `production/session-state/active.md`; otherwise give the summary in conversation:
 
-    ## Session Extract — /architecture-review [date]
-    - Verdict: [PASS / CONCERNS / FAIL]
-    - Requirements: [N] total — [X] covered, [Y] partial, [Z] gaps
-    - New TR-IDs registered: [N, or "None"]
-    - CDD revision flags: [comma-separated CDD names, or "None"]
-    - Top ADR gaps: [top 3 gap titles from the report, or "None"]
-    - Report: docs/architecture/architecture-review-[date].md
+Before an authorized session update, Read the Session extract in
+[Optional Closure Write Formats](references/closure-formats.md).
 
 Create `active.md` only if creation is authorized. Confirm actual writes only;
 otherwise report the pending effect without writing.
@@ -707,28 +494,10 @@ Memory Bank.
   `/architecture-review`; keep the existing report behavior and say:
   "Run `/constitute` to establish the memory_bank governance control plane."
 
-The traceability index format:
-
-```markdown
-# Architecture Traceability Index
-Last Updated: [date]
-Engine: [name + version]
-
-## Coverage Summary
-- Total requirements: [N]
-- Covered: [X] ([%])
-- Partial: [Y]
-- Gaps: [Z]
-
-## Full Matrix
-[Complete traceability matrix from Phase 3]
-
-## Known Gaps
-[All ❌ items with suggested ADRs]
-
-## Superseded Requirements
-[Requirements whose CDD was changed after the ADR was written]
-```
+Before an authorized traceability-index write, Read the Phase 8 index format in
+[Review and Traceability Report Formats](references/report-formats.md). Include
+the complete Phase 3 matrix, coverage, known gaps and superseded requirements.
+Read back each actual approved write; record pending/failed effects separately.
 
 ---
 

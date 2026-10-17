@@ -12,6 +12,23 @@ authority, exact evidence and decision ownership. Existing named authority
 continues; analysis is read-only and report-only excludes input/index/state writes.
 
 
+## Reading, scope and acceptance controls
+
+References ship with this package and resolve relative to this entry. Read the
+matching mode/phase sections before their work; links and summaries do not count
+as reads. Missing, unread or truncated required content leaves affected checks
+INCOMPLETE, outside the compliant count. Complete long sections in consecutive
+bounded chunks (at most 8,000 UTF-16 units per result); do not force all references
+into every subset mode.
+
+Standalone format audits use complete installed entries and neutral originals
+offline. Only explicitly selected import/update/layout migration resolves the
+latest applicable actual Source, complete consumer target tree and old/new mapping
+under `standards/directory-structure.md`; unselected alignment is NotAssessed.
+A plan is advisory: its authority covers no repair, review-mode persistence,
+law/ADR acceptance, Story/stage completion or other state write. Zero real gaps
+produce no invented tasks; unread required inputs never become zero-gap evidence.
+
 ## User Guide
 
 - When to use: Brownfield onboarding — audits existing project artifacts for template format compliance (not just existence), classifies gaps by impact, and produces a numbered migration plan. Run this when joining an in-progress project or upgrading from an older template version. Distinct from /project-stage-detect (which checks what exists) — this checks whether what exists will actually work with the template's skills.
@@ -129,6 +146,16 @@ delivery contents; ignore rules alone do not exclude already-tracked material.
 Plan approval does not authorize that merge, activate Memory Bank or accept laws.
 If the installed boundary text is missing, report that precise delivery gap.
 
+When requested `full` or `infra` scope includes CDD import/update or layout
+migration, read `standards/directory-structure.md`, section "Consumer layout
+resolution for imports and updates", before resolving the plan or proposing
+affected writes. Bind the verified latest applicable Source inputs and resolve
+the consumer tree/mapping under that owner. Missing Source or conflicting
+requirements leave only the affected layout action pending; do not freeze an old
+path as a customization exemption. A standalone artifact-format audit is not an
+implicit framework update: complete installed inputs remain usable offline, with
+unselected layout alignment NotAssessed and live freshness separately unavailable.
+
 ## Phase 1: Detect Project State
 
 Emit one line before reading: `"Scanning project artifacts..."` — this confirms the
@@ -189,108 +216,21 @@ all applicable types. If the argument or applicability is unresolved, retain
 Unknown; missing required inputs do not justify skipping their audit. Audit scope
 grants no repair, status or runtime authority.
 
-### 2a: CDD Format Audit
+Before checking each selected type, Read its applicable checklist section:
 
-Enter this subsection only for `cdds` or `full` with actual CDDs to audit.
-Other subset modes do not enter it. Unknown mode or applicability stays
-Unknown; a missing required owner in a selected CDD audit remains incomplete
-and must not be used to infer that the audit is inapplicable.
-
-Resolve DocKind/owners under `design/INSTRUCTIONS.md`. Module CDDs use semantic
-eight in `rules/design-docs.md`; concept/index/support documents use their own
-contract. Read substantive bodies and valid historical aliases. Heading scans
-locate content, not compliance. Preserved Game/Product heading examples follow:
-
-**[游戏专用]** Game CDD sections:
-
-| Required Section | Heading pattern to look for |
+| Audit mode | Required sections before the corresponding audit |
 |---|---|
-| Overview | `## Overview` |
-| Player Fantasy | `## Player Fantasy` |
-| Detailed Rules / Design | `## Detailed` or `## Core Rules` or `## Detailed Design` |
-| Formulas | `## Formulas` or `## Formula` |
-| Edge Cases | `## Edge Cases` |
-| Dependencies | `## Dependencies` or `## Depends` |
-| Tuning Knobs | `## Tuning` |
-| Acceptance Criteria | `## Acceptance` |
+| `full` | Applicable 2a-2c sections in [CDD/ADR Checklists](references/audit-checklists.md), 2d-2f in [Story/Infrastructure Checklists](references/story-infra-checklists.md), plus the installed boundary owner above; missing required owners remain incomplete |
+| `cdds` | 2a CDD and 2c actual module-index owners in [CDD/ADR Checklists](references/audit-checklists.md) |
+| `adrs` | 2b ADR in [CDD/ADR Checklists](references/audit-checklists.md) |
+| `stories` | 2d Story in [Story/Infrastructure Checklists](references/story-infra-checklists.md) |
+| `infra` | 2e infrastructure and 2f preferences in [Story/Infrastructure Checklists](references/story-infra-checklists.md), plus the installed boundary owner above |
 
-**[通用产品]** Product CDD sections:
-
-| Required Section | Heading pattern to look for |
-|---|---|
-| Overview | `## Overview` |
-| User Promise / JTBD | `## User Promise` or `## User Promise / JTBD` |
-| Detailed Behavior | `## Detailed Behavior`, `## Detailed Design` or `## Core Specification` |
-| Contracts / Data Model | `## Contracts / Data Model`, `## Data Model` or `## Data` |
-| Edge Cases | `## Edge Cases` |
-| Dependencies | `## Dependencies` or `## Depends` |
-| Configuration Knobs | `## Configuration Knobs` or `## Configuration` |
-| Acceptance Criteria | `## Acceptance` |
-
-For each CDD, record:
-- Which sections are present
-- Which sections are missing
-- Whether it has any content in present sections or just placeholder text
-  (`[To be designed]` or equivalent)
-
-Also check: does each CDD have a `**Status**:` field in its header block?
-Valid values: `In Design`, `Designed`, `In Review`, `Approved`, `Needs Revision`.
-
-### 2b: ADR Format Audit
-
-For each ADR file found, check for these critical sections:
-
-| Section | Impact if missing |
-|---|---|
-| `## Status` | **BLOCKING** for relied-on coverage — decision status/acceptance unverified |
-| `## ADR Dependencies` | HIGH — dependency ordering in `/architecture-review` breaks |
-| **[游戏专用]** `## Engine Compatibility` / **[通用产品]** `## Technology Compatibility` or `## Stack Compatibility` | HIGH — post-cutoff API risk is unknown |
-| `## CDD Requirements Addressed` | MEDIUM — traceability matrix loses coverage |
-| `## Performance Implications` | LOW — not pipeline-critical |
-
-Read the actual applicable ADR template and substantive compatibility body.
-Established translated/numbered aliases remain valid when they cover the same
-required domain, pinned-version and contract roles; a heading or placeholder alone
-is not coverage. Preserve the original heading rather than mechanically renaming it.
-
-For each ADR, record: which sections present, which missing, current Status value
-if the Status section exists.
-
-### 2c: module-index.md Format Audit
-
-If `design/cdd/module-index.md` exists, read its complete body and the actual
-installed `/map-systems` owner with `templates/module-index.md`. Apply their
-required roles and preserve valid historical formats; an index is not a module CDD.
-
-1. **Status meaning and downstream use** — read actual row status and provenance.
-   Current workflow labels include `Not Started`, `In Progress`, `In Review`,
-   `Designed`, `Approved` and `Needs Revision`. Owner-defined historical labels
-   such as `In Design` or `Implemented` remain readable observations; they do not
-   establish design approval, passing evidence or stage/Story completion. An
-   unknown label needs owner clarification. If parenthetical notes or a legacy
-   label break a selected downstream workflow's exact comparison, record that
-   affected use as incomplete and propose a separately scoped migration; do not
-   silently rewrite history or infer the required completion state.
-
-2. **Column and semantic roles** — `Module Name`, `System name` or a substantive
-   equivalent identifies the module. Read category, priority and status, plus
-   layer information where the actual generating workflow requires it. `Category`
-   is not automatically a layer; an actual layer may be recorded in the body's
-   category/priority mapping. Missing required roles remain gaps even when all
-   column headings exist. Preserve extra columns and valid owner aliases.
-
-### 2d: Story Format Audit
-
-For each story file found:
-
-- Read actual governing requirements/AC, status and linked decisions, not patterns
-  alone. Resolve assigned TR-IDs against the registry without manufacturing IDs.
-- Bind manifest raw bytes/full digest/size; absent legacy identity needs current
-  LegacyRecheck, not auto-pass from dates or missing fields.
-- Apply `standards/notes-adr-sync.md`: Accepted ADR where required, named
-  `cdd-layer` or justified `no-adr` where valid. Not every Story needs an ADR.
-- Preserve in-progress/done Story content/history. Audit required evidence and
-  authority separately; never regenerate or grant completion from format alone.
+Read only the selected sections/domain and their actual required originals.
+Resolve DocKind through `design/INSTRUCTIONS.md`: module semantic eight retains
+substantive aliases; Concept, Module Index and other kinds use their actual owners.
+Neither headings nor status labels establish approval; retain history and exact
+evidence. Missing/unread required bodies cannot be excluded to manufacture compliance.
 
 ### Per-artifact Format Tallies
 
@@ -303,27 +243,6 @@ CDD/no-ADR dispositions and actually unassigned TR-IDs follow their owners;
 do not manufacture ADRs/TR-IDs. Format tallies do not certify executed AC,
 Story closure, runtime qualification or project completion.
 
-### 2e: Infrastructure Audit
-
-| Artifact | Path | Impact if missing |
-|---|---|---|
-| TR registry | `docs/architecture/tr-registry.yaml` | HIGH — no stable requirement IDs |
-| Control manifest | `docs/architecture/control-manifest.md` | HIGH — no layer rules for stories |
-| Manifest version stamp | In manifest header: `Manifest Version:` | MEDIUM — staleness checks blind |
-| Sprint status | `production/sprint-status.yaml` | MEDIUM — `/sprint-status` falls back to markdown |
-| Stage file | `production/stage.txt` | MEDIUM — phase auto-detect unreliable |
-| **[游戏专用]** Engine reference | `docs/engine-reference/[engine]/VERSION.md` | HIGH — ADR engine checks blind |
-| **[通用产品]** Stack reference | `docs/reference/[stack]/VERSION.md` | HIGH — ADR stack checks blind |
-| Architecture traceability | `docs/architecture/architecture-traceability.md` | MEDIUM — no persistent matrix |
-
-### 2f: Technical Preferences Audit
-
-Read `standards/technical-preferences.md`. Check each field for `[TO BE CONFIGURED]`:
-- **[游戏专用]** Engine, Language, Rendering, Physics → HIGH if unconfigured (ADR skills fail)
-- **[通用产品]** Language, Framework, Runtime, Database → HIGH if unconfigured (ADR skills fail)
-- Naming conventions → MEDIUM
-- Performance budgets → MEDIUM
-- Forbidden Patterns, Allowed Libraries → LOW (starts empty by design)
 
 ---
 
@@ -357,6 +276,17 @@ Unread required inputs do not manufacture a zero-gap result.
 ---
 
 ## Phase 4: Build the Migration Plan
+
+For a selected import/update/layout migration, first form the target-tree and
+old-to-new mapping sections owned by the layout contract above. Resolve actual
+role/ownership, required consumer readers and current Source requirements before
+the ordered repair actions. Separate substantive preservation from old location
+retention, history-only references from active dependencies, and mapping/write
+authority from plan-only permission. Record unresolved destinations with their
+responsible authority and affected actions; do not invent a Source-shaped target
+or call an internally consistent old installation aligned. Classify actual gaps
+by the existing severity/impact rules, without adding a director or phase gate.
+Ordinary format-only audits omit these layout sections and do not invent work.
 
 Compose a numbered, ordered action plan. Ordering rules:
 1. BLOCKING gaps first (must fix before any pipeline skill runs reliably)
@@ -405,24 +335,10 @@ after checking actual owners and authority, in this sequence:
 
 Present a compact summary before writing:
 
-```
-## Adoption Audit Summary
-Phase detected: [phase]
-Domain / engine or stack: [evidence-backed; configured / NOT CONFIGURED]
-CDDs audited: [N] ([X] format-compliant, [Y] with gaps, [Z] unverified)
-ADRs audited: [N] ([X] format-compliant, [Y] with gaps, [Z] unverified)
-Stories audited: [N] ([X] format-compliant, [Y] with gaps, [Z] unverified)
-Unaudited artifact types: [actual subset / none]
-Unverified required inputs: [paths and affected scope / none]
-
-Gap counts:
-  BLOCKING: [N] — template skills will malfunction without these fixes
-  HIGH:     [N] — unsafe to run /create-stories or /story-readiness
-  MEDIUM:   [N] — quality degradation
-  LOW:      [N] — optional improvements
-
-Estimated remediation: [X blocking items × ~Y min each = roughly Z hours]
-```
+Before presenting the summary, Read Phase 5 in
+[Adoption Summary and Plan Formats](references/adoption-plan-format.md). Show
+actual per-artifact tallies, unverified paths, subset exclusions and severity
+counts; format compliance never certifies runtime execution/acceptance.
 
 Before asking to write, show a **Gap Preview**:
 - List every BLOCKING gap as a one-line bullet describing the actual problem
@@ -463,50 +379,14 @@ health/qualification check after reading applicable installed inputs. If these
 are unavailable, report the specific input to resolve first. A recommendation
 executes no repair, gate or state change.
 
-If approved, write `docs/adoption-plan-[date].md` using this conditional structure:
+Before previewing or writing the plan, Read the Phase 6 conditional structure in
+[Adoption Summary and Plan Formats](references/adoption-plan-format.md).
+If approved, write only `docs/adoption-plan-[date].md` in that format:
 
-```markdown
-# Adoption Plan
-
-> **Generated**: [date]
-> **Project phase**: [phase]
-> **Domain / Engine or Stack**: [actual source + configured reference; installed state unverified]
-> **Template version**: v0.2.0
-
-Work through these steps in order. Check off each item as you complete it.
-Re-run `/adopt` anytime to check remaining gaps.
-
----
-
-## Audit Summary
-
-[Actual per-artifact format tallies, severity counts and unverified input paths]
-
-## Recommended Next Action
-
-[One concrete primary command/input action, reason, scope and limits]
-
-## Step [N]: [Nonempty action group, in Phase 4 order]
-
-[Actual gap, owning path, fix command/manual steps, estimate and checkbox]
-[Repeat only for actual actions; omit this section entirely if none]
-
----
-
-## What to Expect from Existing Stories
-
-Preserve existing bodies and historical status. Missing legacy TR/manifest fields
-need current owning-workflow recheck, not automatic PASS or regeneration. Format
-audits cannot certify qualified Story/project state.
-
----
-
-## Re-run
-
-Run `/adopt` again after completing applicable actions to recheck selected format
-scope. A zero-gap audit needs no invented repair step; its broader health check
-remains a separate invocation.
-```
+Keep audit summary, one concrete primary recommendation, only nonempty actual
+action groups and the existing-Story/re-run guidance. Include complete resolved
+consumer tree and path/ownership mapping only when import/update/layout migration
+was selected; pending Source/destinations never masquerade as installed alignment.
 
 ---
 

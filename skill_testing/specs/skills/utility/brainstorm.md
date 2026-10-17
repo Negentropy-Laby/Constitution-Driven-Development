@@ -8,9 +8,9 @@ a structured `design/cdd/game-concept.md` document. The skill is collaborative �
 it asks questions before proposing options and iterates until the user approves
 a concept direction.
 
-In `full` review mode, four director gates spawn in parallel after the concept
-is drafted: CD-PILLARS (creative-director), AD-CONCEPT-VISUAL (art-director),
-TD-FEASIBILITY (technical-director), and PR-SCOPE (producer). In `lean` mode,
+In `full` review mode, CD-PILLARS and AD-CONCEPT-VISUAL run in parallel
+after principle agreement. TD-FEASIBILITY runs after technical risks and before
+scope tiers; PR-SCOPE runs after tiers, before writing the concept. In `lean` mode,
 all 4 inline gates are skipped (lean mode only runs PHASE-GATEs, and brainstorm
 has none). In `solo` mode, all gates are skipped. The skill asks "May I write"
 before writing `design/cdd/game-concept.md`.
@@ -33,8 +33,8 @@ Verified automatically by `/skill-test static` — no fixture needed.
 
 ## Director Gate Checks
 
-In `full` mode: CD-PILLARS, AD-CONCEPT-VISUAL, TD-FEASIBILITY, and PR-SCOPE
-spawn in parallel after the concept draft is approved by the user.
+In `full` mode: CD-PILLARS and AD-CONCEPT-VISUAL run in parallel at Phase 4;
+TD-FEASIBILITY precedes scope tiers and PR-SCOPE follows them in Phase 6.
 
 In `lean` mode: all 4 inline gates are skipped (brainstorm has no PHASE-GATEs,
 so lean mode skips everything). Output notes all 4 as: "[GATE-ID] skipped — lean mode".
@@ -49,7 +49,7 @@ In `solo` mode: all 4 gates are skipped. Output notes all 4 as: "[GATE-ID] skipp
 
 **Fixture:**
 - No existing `design/cdd/game-concept.md`
-- `production/session-state/review-mode.txt` contains `full`
+- `production/review-mode.txt` contains `full`
 
 **Input:** `/brainstorm`
 
@@ -58,14 +58,14 @@ In `solo` mode: all 4 gates are skipped. Output notes all 4 as: "[GATE-ID] skipp
 2. Skill presents 3 concept options with pros/cons each
 3. User selects one concept
 4. Skill elaborates the chosen concept into a structured draft
-5. All 4 director gates spawn in parallel: CD-PILLARS, AD-CONCEPT-VISUAL, TD-FEASIBILITY, PR-SCOPE
+5. CD-PILLARS + AD-CONCEPT-VISUAL run in parallel after principle agreement; TD-FEASIBILITY precedes scope tiers and PR-SCOPE follows them
 6. All 4 return APPROVED
 7. Skill asks "May I write `design/cdd/game-concept.md`?"
 8. Concept written after approval
 
 **Assertions:**
 - [ ] Exactly 3 concept options are presented (not 1, not 5+)
-- [ ] All 4 director gates spawn in parallel (not sequentially)
+- [ ] Only the independent CD-PILLARS/AD-CONCEPT-VISUAL pair runs in parallel; TD-FEASIBILITY and PR-SCOPE respect their scope-tier dependency
 - [ ] All 4 gates complete before the "May I write" ask
 - [ ] "May I write `design/cdd/game-concept.md`?" is asked before writing
 - [ ] Concept file is NOT written without user approval
@@ -77,7 +77,7 @@ In `solo` mode: all 4 gates are skipped. Output notes all 4 as: "[GATE-ID] skipp
 
 **Fixture:**
 - Concept draft is complete
-- `production/session-state/review-mode.txt` contains `full`
+- `production/review-mode.txt` contains `full`
 - CD-PILLARS gate returns REJECT: "The concept has no identifiable creative pillar"
 
 **Input:** `/brainstorm`
@@ -101,7 +101,7 @@ In `solo` mode: all 4 gates are skipped. Output notes all 4 as: "[GATE-ID] skipp
 
 **Fixture:**
 - No existing game concept
-- `production/session-state/review-mode.txt` contains `lean`
+- `production/review-mode.txt` contains `lean`
 
 **Input:** `/brainstorm`
 
@@ -124,7 +124,7 @@ In `solo` mode: all 4 gates are skipped. Output notes all 4 as: "[GATE-ID] skipp
 
 **Fixture:**
 - No existing game concept
-- `production/session-state/review-mode.txt` contains `solo`
+- `production/review-mode.txt` contains `solo`
 
 **Input:** `/brainstorm`
 
@@ -147,7 +147,7 @@ In `solo` mode: all 4 gates are skipped. Output notes all 4 as: "[GATE-ID] skipp
 
 **Fixture:**
 - Concept draft is complete
-- `production/session-state/review-mode.txt` contains `full`
+- `production/review-mode.txt` contains `full`
 - PR-SCOPE gate returns CONCERNS: "The concept scope would require 18+ months for a solo developer"
 
 **Input:** `/brainstorm`
@@ -171,7 +171,7 @@ In `solo` mode: all 4 gates are skipped. Output notes all 4 as: "[GATE-ID] skipp
 
 - [ ] Presents 2-4 concept options with pros/cons before user commits
 - [ ] User confirms concept direction before director gates are invoked
-- [ ] All 4 director gates spawn in parallel in full mode
+- [ ] Full-mode director gates follow Phase 4 parallel pair and Phase 6 feasibility/scope order
 - [ ] All 4 gates skipped in lean AND solo mode — each noted by name
 - [ ] "May I write `design/cdd/game-concept.md`?" asked before writing
 - [ ] Ends with next-step handoff: `/map-systems`
@@ -180,10 +180,26 @@ In `solo` mode: all 4 gates are skipped. Output notes all 4 as: "[GATE-ID] skipp
 
 ## Coverage Notes
 
-- AD-CONCEPT-VISUAL gate (art director feasibility) is grouped with the other
-  3 gates in the parallel spawn — not independently fixture-tested.
+- AD-CONCEPT-VISUAL gate (art director feasibility) is paired with
+  CD-PILLARS in the Phase 4 parallel spawn — not independently fixture-tested.
 - The iterative concept refinement loop (user rejects all options, skill
   generates new ones) is not fixture-tested — it follows the same pattern as
   the option selection phase.
 - The game-concept.md document structure (required sections) is defined in the
   skill body and not re-enumerated in test assertions.
+
+## Progressive Loading Contract Cases
+
+These are semantic/spec fixtures, not recorded host or model executions.
+
+Use paired Game/Product fixtures with the domain unresolved, then resolved.
+Before discovery/audience work read only the matching Phase 1/5 sections in
+`references/domain-questions.md`; before generation/experience work read the
+matching Phase 2/3 sections in `references/ideation-techniques.md`. Missing,
+unread or truncated required sections keep affected work incomplete. A link is
+not reading. Preserve all questions/examples and three distinct concepts.
+Read the actual local `workflow/workflow-catalog.yaml` for recommendations through
+normal Production/Implementation entry; no remembered duplicate pipeline, silent
+command execution, legal acceptance or phase advancement. A failed concept write
+or readback cannot produce COMPLETE. Run offline with installed references and
+necessary neutral originals, without a live Source or maintenance toolkit.
