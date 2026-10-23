@@ -34,6 +34,11 @@ whole runtime roots also contain hand-authored/runtime-owned configuration:
 | `.codex/` | Mixed: generated agents/hooks; hand-authored hooks.json and runtime-owned native command rules/config |
 
 Read the installed adapters and their required neutral originals directly.
+Ordinary Target imports do not require an additional complete copy of Source-root
+`agents/` or `skills/`. Follow [Ordinary Target installation](../standards/directory-structure.md#ordinary-target-installation)
+for the selected runtime's paths and required-input closure. Keep complete required
+originals locally; optional authorized Source copies remain allowed. Installation
+need and Target Git eligibility are separate decisions.
 Changing canonical definitions and their projections requires covered write
 authority, an exact approved canonical-change/platform-output write scope and
 review of the complete canonical inputs and generated result. Consumer updates
@@ -143,9 +148,12 @@ the resulting local-input allowlist before import/update. `/constitute` uses its
 listed neutral originals; other scopes need their own smaller required closure.
 These reusable templates/specs are normal-use local-only inputs in a target,
 distinct from CDD maintenance scripts, test fixtures and process evidence. Preserve existing
-project-owned inputs and customizations. Do not deliver general root `agents/`
-or `skills/`, maintenance tools/metadata or an entire Source checkout to fill a
-gap. Missing/unread originals leave the affected workflow pending. Complete
+project-owned inputs and customizations. Exclude general root `agents/` or
+`skills/` mirrors, maintenance tools/metadata and entire Source checkouts from
+Target Git delivery; this does not prohibit authorized local copies. Resolve a
+missing required input at its actual owner path rather than requiring a general
+source mirror as the installation fix. Missing/unread originals leave the
+affected workflow pending. Complete
 installed inputs remain usable offline; common updates require the sole Source.
 
 ## Consumer differences and migration order

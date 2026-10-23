@@ -263,10 +263,15 @@ Normal template and installed-platform use does not require Python or a local ma
 
 ### Setup
 
-These steps use a Source-library checkout's installed platform files. In a
-consumer project, use its approved installed files and project instructions;
-do not add general root `agents/` or `skills/` mirrors to consumer Git delivery. An optional maintenance
-profile may describe import/update work, but is not needed for ordinary use.
+These steps use a Source-library checkout's installed platform files. For an
+ordinary Target import, use the selected platform's complete installed packages,
+project instructions and required neutral originals; no additional complete copy
+of Source-root `agents/` or `skills/` is required. See
+[Ordinary Target installation](standards/directory-structure.md#ordinary-target-installation)
+for platform paths and input requirements. Authorized local copies remain allowed;
+exclude confirmed CDD source mirrors and full platform packages from Target Git
+delivery while preserving project-owned skills, roles and configuration. An optional
+maintenance profile may describe import/update work, but is not needed for ordinary use.
 
 1. **Clone the Source library**:
    ```bash
@@ -315,6 +320,12 @@ design, QA, acceptance and historical documents. Use the delivered template
 version; an older Git pin or clone does not acquire unpublished working changes.
 
 ### Using CDD in an existing project
+
+Use the [ordinary Target installation rules](standards/directory-structure.md#ordinary-target-installation).
+The selected platform supplies the agent and skill definitions; an extra complete
+root `agents/` or `skills/` copy is not a normal import requirement. Required
+local originals and references must still be complete and readable, including
+when Git ignores them. Installation need does not determine Git eligibility.
 
 **Confirm asset ownership before instruction purpose.** First establish actual CDD
 framework provenance, ownership and delivery role for the complete package and its

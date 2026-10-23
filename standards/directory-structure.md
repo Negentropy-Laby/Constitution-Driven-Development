@@ -36,6 +36,46 @@ automatically exempt an installation from current requirements.
 
 保护业务内容、有效改动和历史证据，不等于保护旧路径；旧布局不得反向约束最新版适用规范决定的终态。
 
+### Ordinary Target installation
+
+Ordinary Target use requires complete installed agent/skill packages for the
+selected runtime and all required local inputs. It does not require an additional
+complete copy of the Source-root `agents/` or `skills/` trees. This does not waive
+required originals, prohibit authorized local copies or change Git eligibility.
+Source development, reproduction, generation and explicitly selected checks of
+canonical originals retain their own input and authorization requirements. Resolve
+consumer installation paths under `standards/directory-structure.md`, section
+"Consumer layout resolution for imports and updates".
+
+Resolve the selected platform's installed readers as follows; these are the skill
+and agent locations, not a complete installation manifest:
+
+| Selected runtime | Installed skills | Installed agents |
+|---|---|---|
+| Codex | `.agents/skills/` | `.codex/agents/` |
+| Claude Code | `.claude/skills/` | `.claude/agents/` |
+| Both | Both skill trees above | Both agent trees above |
+
+Include the corresponding root/per-directory instructions, required configuration,
+approved hook wiring and complete required neutral originals under
+`adapters/README.md`. Retain project-owned configuration and skills/roles under
+their own rules; never replace a mixed-ownership platform root wholesale. Select
+the actual runtime for each invocation when both packages are installed. Resolve
+required references through the reviewed installed-path mapping, including usable
+authorized inputs outside the repository; do not infer a second root source tree
+from a skill name or from the duty to preserve neutral originals.
+
+Trace applicable direct and indirect dependencies. Missing installed entries or
+required originals leave only affected work Pending/Incomplete; a full Source
+copy or a same-name placeholder is not a substitute for resolving the missing
+input. An already-available complete input need not be copied again solely because
+a new Target clone was created. Existing local Source copies are allowed and
+grant no move, deletion, untracking or Source authority. Review local installation
+needs separately from Git tracking/staging/commit/publication eligibility; do not
+blanket-ignore project-owned content in similarly named directories.
+
+### Import and update resolution steps
+
 Before any affected installation or migration write:
 
 1. Verify the designated Source identity and latest applicable input revision,

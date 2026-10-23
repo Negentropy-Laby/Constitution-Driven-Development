@@ -48,6 +48,8 @@ separate. Preserve before bytes and disclose unavailable checks.
 - [ ] Uses `AskUserQuestion` for domain and starting-point decisions
 - [ ] Provides next-step routing for game and product projects
 - [ ] Initializes `framework_contract.md` and `adapter_state.yaml` from templates
+- [ ] Ordinary Target use requires complete selected platform packages/inputs,
+  without requiring whole Source-root `agents/` and `skills/` copies
 
 ---
 
@@ -178,15 +180,26 @@ separate. Preserve before bytes and disclose unavailable checks.
   reference closure. Actual project/root configuration declares installed paths,
   portable sole Source binding and retained customizations. Exact skeleton-write
   scope is approved; unresolved values remain explicitly unconfigured.
+- Run separately with complete Codex entries in `.agents/skills/` and native roles
+  in `.codex/agents/`, and Claude entries/roles in `.claude/skills/` and
+  `.claude/agents/`. Include each runtime's actual root instructions, required
+  configuration/support and neutral inputs; those directories alone are not a
+  complete installation manifest.
 - No local general `agents/` or `skills/` source trees and no maintenance scripts
 - External Source is temporarily unavailable
-- Variant: a required workflow view or listed skeleton original is missing while a similarly named placeholder exists
+- Variants: remove a required workflow view, a listed skeleton original, or a
+  required indirect reference in turn; a similarly named placeholder exists.
+  Keep unrelated required inputs and their authorized operations available.
 
 **Expected behavior:**
-- Complete delivered originals support authorized offline skeleton initialization
+- Each single-platform variant supports authorized offline skeleton initialization
+  from its installed entries and complete required originals; neither variant
+  requires the other platform or extra whole root `agents/` and `skills/` copies.
 - T2 mirrors use actual delivered `docs/PHASE-CHECKLISTS.md` and `workflow/generated/gate-required-artifacts.md` inputs through ordinary file tools
 - Adapter state remains exactly the deterministic uninitialized template; Source freshness is unavailable
-- The variant identifies the exact missing/unread original and leaves its affected output pending; a placeholder does not satisfy it
+- Each missing-input variant identifies the exact original and dependent output,
+  leaving only that work Pending; a placeholder does not satisfy the input and
+  unrelated authorized work can continue. No whole Source copy is a fallback.
 - Keeps approved project customizations and recoverable before bytes; never recreates general CDD source trees or installs a maintenance kit to proceed
 
 ---
@@ -227,6 +240,45 @@ separate. Preserve before bytes and disclose unavailable checks.
   not require a maintenance toolkit/live Source or certify unassessed latest alignment.
 - Local copy presence alone triggers neither a physical-directory ban nor an old
   layout exemption. Independent effects proceed only within their actual authority.
+
+### Case 10: Readable local inputs remain usable across Git and ownership boundaries
+
+**Fixture:**
+- Use either complete installed-input variant from Case 7. Its confirmed CDD
+  packages and required neutral originals are ignored by Git but directly readable.
+- Variant A retains an authorized local Source copy inside the Target; variant B
+  has independently established project-owned development `agents/` and `skills/`
+  with substantive ownership/delivery evidence. Neither changes the selected
+  installed CDD entry or its required input closure.
+
+**Expected behavior:**
+- Reads the required ignored originals directly; an ignore-aware listing omission
+  is not absence or permission to manufacture a substitute.
+- Keeps complete local CDD inputs available without granting them Target Git
+  eligibility; not requiring an extra Source mirror does not prohibit retention.
+- Local Source presence alone triggers no move, deletion or log-path change.
+  Project-owned same-name directories keep project rules rather than being
+  automatically classified as CDD or added to blanket ignore rules.
+- No untracking, migration, acceptance or runtime/freshness claim follows from
+  either directory presence or successful ordinary file reads.
+
+### Case 11: Explicit Source work retains its own canonical input requirements
+
+**Fixture:**
+- Ordinary Target initialization has Case 7's complete installed input closure.
+- A separate selected operation explicitly requests Source development,
+  generation or a canonical-original check. Its actual owner requires named
+  canonical `agents/` or `skills/` originals and applicable Source authority.
+- Variant removes one required canonical original for that selected operation.
+
+**Expected behavior:**
+- Applies the no-extra-whole-copy rule to ordinary Target use, without treating
+  it as a ban or waiver of genuine canonical inputs for explicitly selected work.
+- Identifies the actual Source operation's required originals and authority;
+  absent input leaves only that operation Pending. Target initialization remains
+  independent when its own required inputs and exact write scope are complete.
+- Does not infer Source ownership/authority from local copies or invoke Source
+  generation/repair merely by reading the boundary rule during `/constitute`.
 
 ---
 
