@@ -32,6 +32,15 @@ Ordinary template use must not depend on the local maintenance toolkit. Ignore a
 runtime loading are separate; existing tracked content requires separately authorized,
 recoverable tracking-only migration that leaves local files and required references intact.
 
+Ordinary Target use requires complete installed agent/skill packages for the
+selected runtime and all required local inputs. It does not require an additional
+complete copy of the Source-root `agents/` or `skills/` trees. This does not waive
+required originals, prohibit authorized local copies or change Git eligibility.
+Source development, reproduction, generation and explicitly selected checks of
+canonical originals retain their own input and authorization requirements. Resolve
+consumer installation paths under `standards/directory-structure.md`, section
+"Consumer layout resolution for imports and updates".
+
 Within confirmed CDD packages, independent portable configuration must neither carry
 nor reconstruct CDD instruction bodies or exclusive support, and must have substantive
 readers independent of those packages. A native loader alone does not qualify.

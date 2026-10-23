@@ -43,12 +43,10 @@ selected runtime and all required local inputs. It does not require an additiona
 complete copy of the Source-root `agents/` or `skills/` trees. This does not waive
 required originals, prohibit authorized local copies or change Git eligibility.
 Source development, reproduction, generation and explicitly selected checks of
-canonical originals retain their own input and authorization requirements. Resolve
-consumer installation paths under `standards/directory-structure.md`, section
-"Consumer layout resolution for imports and updates".
+canonical originals retain their own input and authorization requirements.
 
-Resolve the selected platform's installed readers as follows; these are the skill
-and agent locations, not a complete installation manifest:
+Resolve the selected platform's installed skill and agent paths as follows;
+these locations are not a complete installation manifest:
 
 | Selected runtime | Installed skills | Installed agents |
 |---|---|---|
@@ -61,7 +59,7 @@ approved hook wiring and complete required neutral originals under
 `adapters/README.md`. Retain project-owned configuration and skills/roles under
 their own rules; never replace a mixed-ownership platform root wholesale. Select
 the actual runtime for each invocation when both packages are installed. Resolve
-required references through the reviewed installed-path mapping, including usable
+required references through the reviewed installation mapping, including usable
 authorized inputs outside the repository; do not infer a second root source tree
 from a skill name or from the duty to preserve neutral originals.
 
