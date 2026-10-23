@@ -70,7 +70,13 @@ SDK/library, and internal headless projects may record it as not applicable.
    commits and delivery/publication while remaining available for authorized local use.
    Renaming, tailoring or native packaging does not change CDD ownership. Do not add
    general CDD `agents/` or `skills/` mirrors to the Target Git delivery set.
-3. Apply [Consumer layout resolution for imports and updates](standards/directory-structure.md#consumer-layout-resolution-for-imports-and-updates).
+3. Apply [Consumer layout resolution for imports and updates](standards/directory-structure.md#consumer-layout-resolution-for-imports-and-updates),
+   including its ordinary Target installation rules. The selected platform's
+   complete agent/skill packages and required neutral inputs are the normal-use
+   installation; an extra complete Source-root `agents/` or `skills/` copy is not
+   required. This neither waives required originals nor prohibits authorized local
+   copies. Missing dependencies leave only affected work Pending; project-owned
+   skills, roles and configuration keep their own rules and Git eligibility.
    Resolve the latest applicable consumer target tree and old-to-new mapping
    before installation or migration. Record the actual Source revision/input
    identities, owners, selected runtime/workflows, active readers, generation and

@@ -60,8 +60,25 @@ single case keeps its selected method without introducing a generator.
 |---|---|---|---|---|
 | [owner AC / family; shared-rule owner] | [finite rule/index; exclusions and exceptions] | [input/context; change and order] | [independent known result or governing rule; reachability and expected first guard] | [definition/materialization/static/model/runtime; actual PASS/FAIL/NotRun/Blocked/Pending or justified N/A] |
 
-Use the existing `skills/test-evidence-review/SKILL.md` AC/setup/stimulus/oracle/result
-mapping. Check exact membership and semantics, not count alone. Keep a legal
+For this selected family, resolve `/test-evidence-review` to its complete
+installed entry for the runtime selected for this plan, using the
+reviewed installation mapping under `standards/directory-structure.md`. Read
+its "Assertion and edge-case coverage" section and use its
+AC/setup/stimulus/oracle/result mapping. In the generated plan, replace the
+following placeholder with the actual installed file and section. If the actual
+runtime or its installation mapping is unresolved, keep this reference Pending
+until that context is supplied; do not guess a platform:
+
+**Evidence mapping source:** [resolved installed entry path, with explicit project
+root or configured local-input base; section "Assertion and edge-case coverage"]
+
+Do not resolve that path relative to the QA report directory, silently select the
+other installed runtime, or require a Source-root `skills/` mirror. If the entry
+or its required references are missing/unread, identify the exact gap and leave
+the dependent family planning Pending/Incomplete; continue unaffected planning.
+An ordinary finite single case does not introduce this conditional dependency.
+
+Check exact membership and semantics, not count alone. Keep a legal
 baseline and change the intended condition; if an earlier guard intercepts it,
 the target assertion remains unverified. Preserve explicit exceptions and
 necessary fixed vectors. Do not use the generator's own output as its sole

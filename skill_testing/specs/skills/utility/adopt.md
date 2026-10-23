@@ -372,6 +372,51 @@ are excluded; a follow-up recommendation does not execute a repair.
 - [ ] A digest alone is not recovery; proposed output is not completed migration.
   No delete/untrack/commit/publication or stage transition is inferred.
 
+### Case 11: Platform installation is sufficient without a second canonical tree
+
+**Fixture:**
+- Use the complete applicable shared format-audit inputs with no import/update
+  requested; run `/adopt infra` and the corresponding `/adopt full` scope.
+- Run separately for Codex (`.agents/skills/`, `.codex/agents/`) and Claude
+  (`.claude/skills/`, `.claude/agents/`). Supply the selected runtime's full
+  installed skill packages, actual instructions/configuration and required neutral
+  originals/reference closure, including the installed `/constitute` boundary.
+- Root Source `agents/` and `skills/` directories are absent. The external Source
+  is unavailable; only the named adoption-plan write is authorized.
+- Missing-input variant removes one required indirect original from the selected
+  scope while leaving unrelated audit inputs readable.
+
+**Expected behavior:**
+- [ ] Reads the applicable installed entries and neutral owners directly; no gap
+  or plan item requires extra whole Source-root `agents/` or `skills/` copies.
+- [ ] Does not require the other platform, a live Source or maintenance tools for
+  this complete offline audit; installed directories alone do not waive support.
+- [ ] The variant names the missing original and dependent check as Pending;
+  unrelated findings continue. A placeholder or full Source-copy recommendation
+  cannot replace resolving that actual required input.
+- [ ] Writes only the authorized plan; file readability/layout agreement alone
+  is not host discovery, runtime qualification or completed adoption/migration.
+
+### Case 12: Local copies, Git exclusions and project-owned same-name assets
+
+**Fixture:**
+- Use Case 11's complete installed-input scope with confirmed CDD packages and
+  required originals locally ignored by Git but readable through direct paths.
+- Retain an authorized local CDD Source copy and independent project-owned
+  development skills/roles at same-name `skills/` and `agents/` paths in separate
+  variants. Actual ownership and intended Git delivery sets are supplied.
+
+**Expected behavior:**
+- [ ] Reads required ignored bytes; an ignore-aware discovery omission alone
+  cannot be reported as a missing original or disabled local use.
+- [ ] Keeps local availability separate from Target Git eligibility. Complete CDD
+  packages remain local-only; project-owned development assets retain project rules.
+- [ ] Neither whole-directory copying nor moving/deleting retained copies is a
+  universal import task. Names/presence cannot justify blanket ignore, untracking,
+  relocation or a finding that local CDD retention itself violates the boundary.
+- [ ] Any genuine mixed-ownership/content issue is scoped to its actual candidate
+  and dependent action, with no repair, acceptance or publication from plan authority.
+
 ---
 
 ## Protocol Compliance

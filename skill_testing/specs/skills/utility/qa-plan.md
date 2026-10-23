@@ -279,8 +279,11 @@ contradictory Game concept/configuration.
 ## Generated Acceptance Family Counterexamples
 
 Owners: Phase 4 Game and Product templates, `templates/test-plan.md`, and the
-existing `skills/test-evidence-review/SKILL.md` AC/setup/stimulus/oracle/result
-mapping. Use the canonical legal `sprint`, `feature: system-name` or `story: path`
+selected platform's installed `/test-evidence-review` section "Assertion and
+edge-case coverage" for the AC/setup/stimulus/oracle/result mapping. Resolve its
+actual installed path from the invocation's runtime and project configuration;
+Source-root `skills/` is not an ordinary Target dependency. Use the canonical
+legal `sprint`, `feature: system-name` or `story: path`
 interface for these cases; no new CLI selector, generator or output is required.
 Case PASS/FAIL/PARTIAL means instruction reasoning unless actual execution is
 separately recorded.
@@ -336,12 +339,90 @@ have runtime FAIL, Blocked or Pending, and a justified actually inapplicable lay
 **Fixture:** A selected generated family has exact members, exceptions, legal
 baseline/deltas and independent oracle/guard. A real existing consumer justifies
 a persistent catalog; another AC is an ordinary finite single case with no generator.
+Run the finite-only control separately with `/test-evidence-review` absent and
+no independently selected requirement for that skill; keep its actual planning
+inputs complete. This absence is not applied to the selected-family fixture.
 **Input:** Paired Game and Product QA plans plus standalone test-plan use.
 **Assertions:**
 - [ ] All three templates expose exactly the same five family columns and conditional guidance.
 - [ ] No generator/family section is forced onto the ordinary singleton; its selected evidence method remains valid.
+- [ ] The finite-only control introduces no family-only skill dependency, whole
+  root `skills/` copy or installation task merely to populate an unused section.
 - [ ] A real catalog can remain when justified under Section H; no blanket file-type/JSON prohibition.
 - [ ] Family definitions do not replace necessary fixed vectors or actual implementation observations.
+
+### Case 15: Single-platform generated-family review without root Source copies
+
+**Fixture:**
+- Run the cross-product of Game and Product with each selected runtime below.
+  Install complete `qa-plan` and `test-evidence-review` packages plus their actual
+  required configuration, root instructions and direct/indirect neutral inputs.
+  Retain actual Story/CDD/QA policy bodies and exact plan-write authority.
+- Neither root Source `skills/` nor `agents/` exists. No live Source or local
+  maintenance toolkit is available. The plan destination is under `production/qa/`.
+- Select an actual generated family with member IDs, an exception, valid baseline,
+  independent oracle and fixed safety vectors as in Cases 10-14.
+- Repeat these reference checks when using `templates/test-plan.md` directly.
+  Supply the plan's selected runtime and reviewed installation mapping. A separate
+  variant leaves that context unresolved; only the dependent reference/family
+  planning remains Pending until supplied, without guessing a platform.
+
+| Selected runtime | Installed evidence-review owner |
+|---|---|
+| Codex | `.agents/skills/test-evidence-review/SKILL.md` |
+| Claude | `.claude/skills/test-evidence-review/SKILL.md` |
+
+**Input:** Game `/qa-plan feature: movement`; Product `/qa-plan feature: permissions`.
+
+**Assertions:**
+- [ ] For all four variants, resolves and reads the selected installed owner's
+  "Assertion and edge-case coverage" section without requiring a root mirror.
+- [ ] The generated plan records the actual resolved installation path and section
+  with an explicit path base or resolvable link; reading it from `production/qa/`
+  cannot accidentally target a report-relative `skills/` or sibling directory.
+- [ ] The two domain templates retain complete member-to-AC/setup/stimulus/oracle/
+  result mapping, exceptions, independent evidence and execution-state distinctions.
+- [ ] No general Source copy, reverse-generation, new tool or maintenance fixture is
+  introduced to satisfy the reference; a readable file is not native loading proof.
+
+### Case 16: Both platforms installed, selected runtime owns the reference
+
+**Fixture:**
+- Both platform variants from Case 15 are installed with recorded, distinguishable
+  authorized package identities and complete required inputs. Root `skills/`
+  remains absent. The invocation's actual runtime/configuration selects Codex,
+  then selects Claude in a separate run; directory ordering is unchanged.
+
+**Input:** The paired Game and Product feature invocations from Case 15.
+
+**Assertions:**
+- [ ] Each run reads and records the owner for its selected runtime, not the first
+  discovered path or an arbitrary other platform copy. Both retained packages
+  remain available; no forced consolidation or copying into root `skills/`.
+- [ ] The selected body's actual content/identity supports the mapping; equal names,
+  similar headings or existence of the other platform does not substitute for reading.
+
+### Case 17: Missing or unread installed guidance scopes only dependent work
+
+**Fixture:**
+- Begin with each Game/Product and runtime combination from Case 15. Independently
+  remove the selected installed evidence-review entry, make its required section
+  unread, or remove a required indirect original of that selected branch.
+- Keep an ordinary finite-case planning branch complete. An unrelated other-platform
+  copy or a same-name placeholder is present, without a resolved replacement binding.
+- Ignored-input control restores the actual required installed bodies and originals
+  while excluding them from Git; direct reads still succeed.
+
+**Assertions:**
+- [ ] Names the actual absent/unread input and dependent generated-family work as
+  Pending/incomplete; no assumed mapping, fabricated read or whole root `skills/`
+  copy substitutes for the missing selected owner/reference.
+- [ ] Unrelated finite-case planning may continue within existing authority; its
+  completion cannot be promoted to complete family coverage or runtime PASS.
+- [ ] The ignored-input control reads the actual bytes and uses the selected owner;
+  Git exclusion alone neither blocks local use nor grants Target Git eligibility.
+- [ ] Source availability or the other platform's existence does not silently resolve
+  a missing required input; any valid replacement must have an actual owner binding.
 
 **Observation requirements:** Record actual output fields and observed plan-write
 scope; runtime and model/host behavior remain NotRun when not executed. These cases

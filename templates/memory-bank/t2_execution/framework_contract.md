@@ -71,6 +71,15 @@ inputs and update-write scope. Ordinary template use must not depend on a local
 maintenance toolkit, reader, lock, live Source or Source ADR reader; optional
 authorized local maintenance operations remain allowed.
 
+Ordinary Target use requires complete installed agent/skill packages for the
+selected runtime and all required local inputs. It does not require an additional
+complete copy of the Source-root `agents/` or `skills/` trees. This does not waive
+required originals, prohibit authorized local copies or change Git eligibility.
+Source development, reproduction, generation and explicitly selected checks of
+canonical originals retain their own input and authorization requirements. Resolve
+consumer installation paths under `standards/directory-structure.md`, section
+"Consumer layout resolution for imports and updates".
+
 Do not submit a general CDD source mirror, template-maintenance tools/annotations,
 tool-only metadata, maintenance locks/caches or actual template-maintenance output.
 The designated CDD Source owns general CDD definitions independently of local

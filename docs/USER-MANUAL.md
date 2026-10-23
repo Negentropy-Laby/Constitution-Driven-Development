@@ -93,6 +93,14 @@ Install these tools before using the template:
 - `jq`, recommended for hook validation (hooks fall back to `grep` when absent).
 
 Clone the designated Source library to inspect its delivered templates.
+For ordinary Target imports, follow
+[Ordinary Target installation](../standards/directory-structure.md#ordinary-target-installation):
+use complete selected-platform agent/skill packages and all required local inputs.
+An additional complete copy of Source-root `agents/` or `skills/` is not required.
+Required neutral originals and indirect references must remain complete/readable;
+missing inputs leave only affected work Pending. Authorized local Source copies
+remain allowed, independently of Git eligibility. Project-owned skills, roles
+and configuration keep their own rules.
 **Confirm asset ownership before instruction purpose.** First establish actual CDD
 framework provenance, ownership and delivery role for the complete package and its
 required support. Apply instruction-purpose classification only within that confirmed
